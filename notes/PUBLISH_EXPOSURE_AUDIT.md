@@ -31,7 +31,7 @@ llm_wiki_eligible: "true"
 | 受限目录文件数 | 257 |
 | forks / watchers / stars | 0 / 0 / 0 |
 | 处置 | 建立私有备份后，由所有者删除旧仓库并重建同名空公开仓库 |
-| 当前状态 | 私有工作仓库已创建；旧公开仓库删除待所有者执行 |
+| 当前状态 | 旧公开仓库已于 2026-06-11 删除；同名空公开仓库已重建并完成首次版权闸门发布 |
 
 “受限目录”统计包括 `caute_ru_markdown/`、`existing_translations/`、`dialectical_logic/`、`idols_ideals/` 等包含正文、译文、图片或 PDF 的路径。旧提交内的具体文件是否最终具备再分发资格，不能从其公开状态反推；现行政策在许可证据不足时统一拒绝公开导出。
 
@@ -42,6 +42,27 @@ llm_wiki_eligible: "true"
 - 旧公开仓库删除前不得再向其推送。
 - 权利与项目状态说明必须保留“曾公开”事实。
 - 删除重建完成后，在本文件补记删除和新仓创建日期、新仓首次公开提交及远端树校验结果。
+
+## 删除与重建记录（2026-06-11 回填）
+
+| 项目 | 结果 |
+|---|---|
+| 旧公开仓库删除 | 2026-06-11，由所有者人工执行 |
+| 新公开仓库创建时间 | 2026-06-11T15:39:31Z（GitHub API `createdAt`） |
+| 新仓库名称 | `Ilyenkov-cn`（GitHub 显示名；Git URL 大小写不敏感，nested origin 配置为 `git@github.com:hoshF/ilyenkov-cn.git`） |
+| 创建时状态 | `PUBLIC`，空仓库（`isEmpty: true`，无默认分支） |
+| 首次公开提交 | `f17c1e1c233e7b89b67b802474ecacb633a966bf`（根提交，普通 push 创建 `main`） |
+| 首次发布内容 | 79 个文件，全部为代码、说明、元数据和审计文档；获准再分发正文为 0 |
+| 发布流水线 | `scripts/publish_public.sh "publish: initialize rights-gated public repository"`，Schema、manifest、18 项测试全部通过 |
+
+远端树校验结果：
+
+- `git diff --exit-code HEAD origin/main` 空差异，公开工作树 `status --porcelain` 为空。
+- `git ls-remote origin` 显示 `refs/heads/main` 与本地 HEAD 同为 `f17c1e1c233e7b89b67b802474ecacb633a966bf`；提交对象内容寻址保证远端树与本地导出逐字一致。
+- GitHub API：远端提交总数为 1；递归树 blob 计数 79，与本地导出 `included=79` 一致。
+- 旧暴露 HEAD `3cc661b0baae7b9c279a9792a1bc4ad88f6ebe8c` 在新仓库查询返回 422 `No commit found`，不可达。
+
+第三方缓存、下载、副本或存档仍可能存在；“曾公开”事实不因删除重建而消除。
 
 ## 旧公开提交完整路径清单
 

@@ -4019,8 +4019,8 @@
       "path": "notes/PUBLISH_EXPOSURE_AUDIT.md",
       "included": true,
       "reason": "project_file",
-      "bytes": 29242,
-      "sha256": "053a9bd3e94ffaa395de0374808081a228b07f5fc5934d995bea00ab061499f0"
+      "bytes": 30781,
+      "sha256": "4464392256ac7c803aa36d1e006b57ebbf1ed02869f4045df96e0ef6acd2577d"
     },
     {
       "path": "notes/READING_NOTES.md",
@@ -4033,8 +4033,8 @@
       "path": "notes/REPOSITORY_STATUS_FOR_CLAUDE.md",
       "included": true,
       "reason": "project_file",
-      "bytes": 16806,
-      "sha256": "277273031acb3e0d346cee8bd74a3b3d2b409462cf9dec9aa326aaf23c83d8c7"
+      "bytes": 17603,
+      "sha256": "c4e466c5967ad91ac946f0d17a7a1b6edb9173e3adae27a221a803ec4a5f6ae2"
     },
     {
       "path": "notes/STYLE_GUIDE.md",

@@ -24,7 +24,7 @@ gbrain_source: "project-markdown"
 origin  git@github.com:hoshF/ilyenkov-cn-private.git
 ```
 
-父 `origin` 已通过 GitHub 验证为私有仓库。旧公开仓库 `hoshF/ilyenkov-cn` 仍存在，等待所有者人工删除并重建为空 PUBLIC 仓库；在此之前不得向它推送。
+父 `origin` 已通过 GitHub 验证为私有仓库。旧公开仓库 `hoshF/ilyenkov-cn` 已于 2026-06-11 由所有者删除并重建为同名空 PUBLIC 仓库（GitHub 显示名 `Ilyenkov-cn`）；首次版权闸门发布已完成，公开 `main` HEAD 为 `f17c1e1c233e7b89b67b802474ecacb633a966bf`。删除与重建细节见 [`PUBLISH_EXPOSURE_AUDIT.md`](PUBLISH_EXPOSURE_AUDIT.md)。
 
 ## 2. 最重要结论
 
@@ -32,7 +32,7 @@ origin  git@github.com:hoshF/ilyenkov-cn-private.git
 2. 13 份历史报纸文本已由所有者确认逐篇对照原图人工校勘，现为 `author_original` 核心语料，同时保留 OCR provenance；图片和正文均不得公开再分发。
 3. 15 部超过 500 KB 的长文本已按真实标题边界切为 337 个章节文件，全部可由 manifest 与快照逐字重建。
 4. 凯德洛夫三部 RoyalLib HTML 著作已切为 54 章；6 个 PDF/DjVu 源扫描件只保存、不处理、不进入 GBrain。
-5. 公开导出当前包含 76 个代码、说明和审计文件，排除 757 个受控文件；当前没有任何正文获准再分发。
+5. 公开导出当前包含 79 个代码、说明和审计文件，排除 757 个受控文件；当前没有任何正文获准再分发。首次公开发布已于 2026-06-11 完成并通过远端树校验。
 6. GBrain 当前有 652 个活动页面、337 个切章页面、13 个报纸页面；embedding 100%，stale 为 0，未出现 `embed_skip: oversized`。
 7. 默认关系抽取不是哲学语义推断；本轮处理 373 个正文页面后仍为 0 条链接、0 条时间线，详见 [`EXTRACTION_DIAGNOSIS.md`](EXTRACTION_DIAGNOSIS.md)。
 8. 相关受限内容曾经公开，删除旧仓库不能保证第三方缓存或副本消失。完整事实见 [`PUBLISH_EXPOSURE_AUDIT.md`](PUBLISH_EXPOSURE_AUDIT.md)。
@@ -230,14 +230,14 @@ chapter_pages=337
 - 工作树：`dist/public/`
 - `dist/public/.git` 是 separate-git-dir 指针文件。
 - 父仓库忽略整个 `dist/`。
-- 当前尚未配置 nested `origin`，因为旧公开仓库仍未由所有者删除重建。
+- nested `origin` 已配置为 `git@github.com:hoshF/ilyenkov-cn.git`，指向 2026-06-11 重建的公开仓库；首次公开提交 `f17c1e1c233e7b89b67b802474ecacb633a966bf` 已普通推送并通过远端树校验。
 
 `scripts/export_public.py` 使用临时构建目录更新公开工作树并保留 `.git` 指针。正文只有 `redistribution_approved: "true"` 才可导出；扫描件按 source scan manifest 判定，字段缺失默认拒绝。语料目录 README、图片、快照、PDF/DjVu 和未批准章节不能绕过闸门。
 
-当前导出结果（加入本轮诊断与交接文档后）：
+当前导出结果（首次公开发布时）：
 
 ```text
-included=78
+included=79
 excluded=757
 source_scans_in_export=0
 snapshots_in_export=0
@@ -327,7 +327,7 @@ Spinoza 来源审计：`issues=0`。
 - 本文更新前已验证的私有远端 HEAD：`14d9230`
 - 父 remote：私有 `hoshF/ilyenkov-cn-private`
 - 第二轮提交已按发布、OCR、切章和子项目拆分，并已普通推送到私有远端。
-- `dist/` 为忽略目录，本地公开工作树没有 nested origin，也没有公开提交。
+- `dist/` 为忽略目录；公开工作树 nested `origin` 指向重建的公开仓库，公开 `main` HEAD 为 `f17c1e1c233e7b89b67b802474ecacb633a966bf`。
 
 关键第二轮提交：
 
@@ -341,22 +341,22 @@ b07b636 corpus: split Spinoza and Maidansky longforms
 14d9230 gbrain: diagnose extraction and refresh status
 ```
 
-## 12. 尚未完成及人工前置条件
+## 12. 公开发布闭环完成记录
 
-唯一阻止公开发布闭环的外部条件：所有者尚未删除旧 `hoshF/ilyenkov-cn` 并重建同名空 PUBLIC 仓库。
+2026-06-11，所有者删除旧 `hoshF/ilyenkov-cn` 并重建同名空 PUBLIC 仓库后，以下步骤已全部完成：
 
-所有者完成后应继续：
+1. `dist/public` nested `origin` 已配置为新建公开仓库。
+2. `scripts/publish_public.sh "publish: initialize rights-gated public repository"` 已执行，全部校验和 18 项测试通过。
+3. 首次 push 为普通 push；远端提交总数 1，旧暴露 HEAD `3cc661b0…` 在新仓库不可达。
+4. 远端 `main` 与本地公开 HEAD 同为 `f17c1e1c233e7b89b67b802474ecacb633a966bf`，远端 blob 计数 79 与本地导出一致。
+5. `PUBLISH_EXPOSURE_AUDIT.md` 已回填删除日期、新建日期、首次公开提交和远端树验证结果。
+6. 最终审计文档已普通提交并推送私有仓库。
 
-1. 在 `dist/public` 配置 nested `origin` 为新建公开仓库。
-2. 运行 `scripts/publish_public.sh "publish: initialize rights-gated public repository"`。
-3. 确认首次 push 是普通 push，远端没有旧 HEAD 或受限正文。
-4. 比较远端树与本地导出文件和 SHA，要求完全一致。
-5. 回填 `PUBLISH_EXPOSURE_AUDIT.md` 的删除日期、新建日期、首次公开提交和远端树验证结果。
-6. 将最终审计文档普通提交并推送私有仓库。
+后续公开发布一律通过 `scripts/publish_public.sh` 执行，不直接操作公开仓库。
 
 ## 13. 禁止事项
 
-- 不向旧公开仓库推送。
+- 不绕过 `scripts/publish_public.sh` 向公开仓库推送。
 - 不 force push、不重写公开历史、不绕过测试。
 - 不执行新的 OCR 或模型图片转录。
 - 不从扫描 PDF/DjVu 的文本层生成正文。
@@ -367,4 +367,4 @@ b07b636 corpus: split Spinoza and Maidansky longforms
 
 ## 14. 给 Claude 的最短摘要
 
-这是一个私有研究工作仓库。13 份历史报纸 OCR 已人工对图校勘并归入作者核心层；15 部超大作品已无损切为 337 章；GBrain 有 652 页、embedding 与 extraction stale 均为 0；扫描件、快照和公开导出副本均未进入索引。公开导出目前只有 78 个代码/说明/审计文件，没有获准正文。旧公开仓库曾暴露受限内容，仍等待所有者人工删除并重建同名空公开仓库，完成前不得公开 push。
+这是一个私有研究工作仓库。13 份历史报纸 OCR 已人工对图校勘并归入作者核心层；15 部超大作品已无损切为 337 章；GBrain 有 652 页、embedding 与 extraction stale 均为 0；扫描件、快照和公开导出副本均未进入索引。公开导出目前只有 79 个代码/说明/审计文件，没有获准正文。旧公开仓库曾暴露受限内容，已于 2026-06-11 删除并重建为同名空公开仓库；首次版权闸门发布（提交 `f17c1e1c…`，79 个文件、无正文）已完成并通过远端树校验。后续公开发布只通过 `scripts/publish_public.sh`。
