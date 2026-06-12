@@ -10,7 +10,7 @@ gbrain_source: "project-markdown"
 ---
 # 伊里因科夫中文学习与翻译资料库
 
-![伊里因科夫项目图片](assets/images/ilyenkov-blog4.jpg)
+![伊里因科夫肖像](assets/images/ilyenkov-portrait.jpg)
 
 本项目尝试为中文读者整理埃瓦尔德·瓦西里耶维奇·伊里因科夫（Э.В. Ильенков）相关资料，包括俄文原文 Markdown、已有中文译本 PDF、阅读笔记、术语表和后续翻译工作框架。
 

@@ -1,9 +1,9 @@
 {
   "schema_version": 2,
-  "policy": "Corpus, source binaries, non-Markdown text, and media assets require explicit redistribution approval; local tool configuration is never exported; project code and documentation use the static project-file rule.",
+  "policy": "Corpus, source binaries, non-Markdown text, and media assets require explicit redistribution approval; project assets are approved only through metadata/public_assets_manifest.json with matching bytes and SHA-256; local tool configuration is never exported; project code and documentation use the static project-file rule.",
   "audit_convention": "PUBLIC_EXPORT_AUDIT.json is generated together with the export and does not list itself; the export tree and the public git tree must equal the included paths plus this audit file.",
-  "included": 78,
-  "excluded": 758,
+  "included": 80,
+  "excluded": 757,
   "files": [
     {
       "path": ".DS_Store",
@@ -16,8 +16,8 @@
       "path": ".claude/settings.local.json",
       "included": false,
       "reason": "local_configuration",
-      "bytes": 185,
-      "sha256": "ae3f60731753660d39ca9dd93fd4261020c4fb8c185494f092b691640302007d"
+      "bytes": 410,
+      "sha256": "910fe79acafa03e2703d108286fb245381be05f46abaa5225392265eb30791a6"
     },
     {
       "path": ".gitignore",
@@ -44,8 +44,8 @@
       "path": "README.md",
       "included": true,
       "reason": "project_file",
-      "bytes": 7390,
-      "sha256": "d3c41ce65ecace03d21baa3cf9dc1477b5533a16ade4e7797627063fab521ca7"
+      "bytes": 7387,
+      "sha256": "c47072789bfcd01897a50d629094a1ca45352f2fc915e5765da02c15c9986b0c"
     },
     {
       "path": "RESOLVER.md",
@@ -62,11 +62,11 @@
       "sha256": "737d1f33390ab3a8fb47d2981fd10c752345f5015420afc6fe1998690ef1753d"
     },
     {
-      "path": "assets/images/ilyenkov-blog4.jpg",
-      "included": false,
-      "reason": "asset_without_redistribution_approval",
-      "bytes": 38689,
-      "sha256": "5f18eb55a69f748e3f529d1129891126840424fe50cf93d5750bf625128d1454"
+      "path": "assets/images/ilyenkov-portrait.jpg",
+      "included": true,
+      "reason": "asset_manifest_approved",
+      "bytes": 1752912,
+      "sha256": "96c28ba8915116ec7bbb18746ed7d32e80432a477814d1c1dd705943fdfc5d24"
     },
     {
       "path": "caute_ru_markdown/README.md",
@@ -3975,6 +3975,13 @@
       "sha256": "7081c110b3c72c24b4b5d926d59add3c9d950642720c3b15306c12b05239cd66"
     },
     {
+      "path": "metadata/public_assets_manifest.json",
+      "included": true,
+      "reason": "project_file",
+      "bytes": 845,
+      "sha256": "6258e17ae70f0cd057228d53365c546549de2183fa6fa009e966b427943d5e00"
+    },
+    {
       "path": "notes/CORPUS_GAPS.md",
       "included": true,
       "reason": "project_file",
@@ -4062,8 +4069,8 @@
       "path": "scripts/export_public.py",
       "included": true,
       "reason": "project_file",
-      "bytes": 12392,
-      "sha256": "70da20e099529515f385569c839fbe26869434cc2c3b3e3a297d756167082bcd"
+      "bytes": 14419,
+      "sha256": "97c9461d1c17518f70f55a4b6858e66e62db84f169db364023c58dacfb29e164"
     },
     {
       "path": "scripts/prepare_gbrain_markdown.py",
@@ -5805,8 +5812,8 @@
       "path": "tests/test_export_public.py",
       "included": true,
       "reason": "project_file",
-      "bytes": 8385,
-      "sha256": "3ef00be7963f5184d64fb23d147f36f4c9f0cdc4e71da2a214c8fb7694b37c38"
+      "bytes": 12763,
+      "sha256": "2cb5149c27ae5842aa960040a395a797fe3d34fb61dd82c0c5fa6dcaee88d22a"
     },
     {
       "path": "tests/test_prepare_gbrain_markdown.py",

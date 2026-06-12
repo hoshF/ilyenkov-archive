@@ -80,6 +80,37 @@ def source_scan_approvals(root: Path) -> dict[str, bool]:
     return approvals
 
 
+def project_asset_approvals(root: Path) -> dict[str, bool]:
+    """Approvals for non-corpus project assets, bound to exact bytes and SHA-256."""
+    manifest_path = root / "metadata" / "public_assets_manifest.json"
+    approvals: dict[str, bool] = {}
+    if not manifest_path.is_file():
+        return approvals
+    required = {
+        "local_path", "bytes", "sha256", "source_license",
+        "redistribution_approved", "rights_review_status", "approved_by", "approved_date",
+    }
+    data = json.loads(manifest_path.read_text(encoding="utf-8"))
+    for item in data.get("items", []):
+        missing = sorted(required - item.keys())
+        if missing:
+            raise ValueError(f"{manifest_path}: public asset entry missing {missing}")
+        local_path = str(item["local_path"])
+        if local_path.startswith(CORPUS_ASSET_PREFIXES):
+            raise ValueError(f"{manifest_path}: corpus assets cannot be approved here: {local_path}")
+        file_path = root / local_path
+        if not file_path.is_file():
+            raise ValueError(f"{manifest_path}: missing public asset {local_path}")
+        if file_path.suffix.lower() not in CONTROLLED_ASSET_SUFFIXES:
+            raise ValueError(f"{manifest_path}: not a controlled asset: {local_path}")
+        if file_path.stat().st_size != int(item["bytes"]):
+            raise ValueError(f"{manifest_path}: byte count mismatch for {local_path}")
+        if sha256(file_path) != str(item["sha256"]):
+            raise ValueError(f"{manifest_path}: SHA-256 mismatch for {local_path}")
+        approvals[local_path] = str(item["redistribution_approved"]).lower() == "true"
+    return approvals
+
+
 def markdown_approval(path: Path, root: Path) -> tuple[bool, str] | None:
     text = path.read_text(encoding="utf-8")
     metadata = parse_front_matter(text)
@@ -98,7 +129,12 @@ def is_local_configuration(rel_parts: tuple[str, ...]) -> bool:
     return name in LOCAL_CONFIGURATION_NAMES or name == ".env" or name.startswith(".env.")
 
 
-def export_decision(path: Path, root: Path, scan_approvals: dict[str, bool]) -> tuple[bool, str]:
+def export_decision(
+    path: Path,
+    root: Path,
+    scan_approvals: dict[str, bool],
+    asset_approvals: dict[str, bool] | None = None,
+) -> tuple[bool, str]:
     rel = path.relative_to(root).as_posix()
     if path.name in REPOSITORY_METADATA_NAMES:
         return False, "repository_metadata"
@@ -118,7 +154,8 @@ def export_decision(path: Path, root: Path, scan_approvals: dict[str, bool]) -> 
     if path.suffix.lower() in CONTROLLED_TEXT_SUFFIXES:
         return False, "text_without_redistribution_approval"
     if path.suffix.lower() in CONTROLLED_ASSET_SUFFIXES:
-        return False, "asset_without_redistribution_approval"
+        approved = bool(asset_approvals) and asset_approvals.get(rel, False)
+        return approved, "asset_manifest_approved" if approved else "asset_without_redistribution_approval"
     return True, "project_file"
 
 
@@ -134,6 +171,7 @@ def source_files(root: Path) -> list[Path]:
 
 def build_export(root: Path, output: Path, *, write: bool = True) -> dict:
     scan_approvals = source_scan_approvals(root)
+    asset_approvals = project_asset_approvals(root)
     records: list[dict[str, object]] = []
     staging = output.parent / f".{output.name}-build"
     if write:
@@ -142,7 +180,7 @@ def build_export(root: Path, output: Path, *, write: bool = True) -> dict:
         staging.mkdir(parents=True)
 
     for path in source_files(root):
-        approved, reason = export_decision(path, root, scan_approvals)
+        approved, reason = export_decision(path, root, scan_approvals, asset_approvals)
         rel = path.relative_to(root)
         record = {
             "path": rel.as_posix(),
@@ -159,7 +197,7 @@ def build_export(root: Path, output: Path, *, write: bool = True) -> dict:
 
     audit = {
         "schema_version": 2,
-        "policy": "Corpus, source binaries, non-Markdown text, and media assets require explicit redistribution approval; local tool configuration is never exported; project code and documentation use the static project-file rule.",
+        "policy": "Corpus, source binaries, non-Markdown text, and media assets require explicit redistribution approval; project assets are approved only through metadata/public_assets_manifest.json with matching bytes and SHA-256; local tool configuration is never exported; project code and documentation use the static project-file rule.",
         "audit_convention": "PUBLIC_EXPORT_AUDIT.json is generated together with the export and does not list itself; the export tree and the public git tree must equal the included paths plus this audit file.",
         "included": sum(1 for item in records if item["included"]),
         "excluded": sum(1 for item in records if not item["included"]),

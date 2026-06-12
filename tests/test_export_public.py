@@ -1,4 +1,5 @@
 import importlib.util
+import json
 import tempfile
 import unittest
 from pathlib import Path
@@ -115,6 +116,95 @@ class ExportPublicTests(unittest.TestCase):
                 MODULE.export_decision(path, root, {}),
                 (False, "corpus_markdown_without_redistribution_approval"),
             )
+
+    def test_manifest_approved_asset_is_included(self):
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            path = root / "assets/images/portrait.jpg"
+            path.parent.mkdir(parents=True)
+            path.write_bytes(b"image")
+            self.assertEqual(
+                MODULE.export_decision(path, root, {}, {"assets/images/portrait.jpg": True}),
+                (True, "asset_manifest_approved"),
+            )
+
+    def test_asset_manifest_sha256_mismatch_raises(self):
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            path = root / "assets/images/portrait.jpg"
+            path.parent.mkdir(parents=True)
+            path.write_bytes(b"image")
+            manifest = root / "metadata/public_assets_manifest.json"
+            manifest.parent.mkdir(parents=True)
+            manifest.write_text(json.dumps({"items": [{
+                "local_path": "assets/images/portrait.jpg",
+                "bytes": 5,
+                "sha256": "0" * 64,
+                "source_license": "not_stated",
+                "redistribution_approved": "true",
+                "rights_review_status": "owner_reviewed",
+                "approved_by": "owner",
+                "approved_date": "2026-06-12",
+            }]}), encoding="utf-8")
+            with self.assertRaises(ValueError):
+                MODULE.project_asset_approvals(root)
+
+    def test_corpus_asset_cannot_be_approved_via_manifest(self):
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            path = root / "caute_ru_markdown/ilyenkov_md/newspaper/images/scan.jpg"
+            path.parent.mkdir(parents=True)
+            path.write_bytes(b"image")
+            manifest = root / "metadata/public_assets_manifest.json"
+            manifest.parent.mkdir(parents=True)
+            manifest.write_text(json.dumps({"items": [{
+                "local_path": "caute_ru_markdown/ilyenkov_md/newspaper/images/scan.jpg",
+                "bytes": 5,
+                "sha256": MODULE.sha256(path),
+                "source_license": "not_stated",
+                "redistribution_approved": "true",
+                "rights_review_status": "owner_reviewed",
+                "approved_by": "owner",
+                "approved_date": "2026-06-12",
+            }]}), encoding="utf-8")
+            with self.assertRaises(ValueError):
+                MODULE.project_asset_approvals(root)
+            self.assertEqual(
+                MODULE.export_decision(path, root, {}, {path.relative_to(root).as_posix(): True}),
+                (False, "corpus_asset_without_redistribution_approval"),
+            )
+
+    def test_build_exports_manifest_approved_asset(self):
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            approved = root / "assets/images/portrait.jpg"
+            approved.parent.mkdir(parents=True)
+            approved.write_bytes(b"approved-image")
+            unlisted = root / "assets/images/other.jpg"
+            unlisted.write_bytes(b"unlisted-image")
+            manifest = root / "metadata/public_assets_manifest.json"
+            manifest.parent.mkdir(parents=True)
+            manifest.write_text(json.dumps({"items": [{
+                "local_path": "assets/images/portrait.jpg",
+                "bytes": approved.stat().st_size,
+                "sha256": MODULE.sha256(approved),
+                "source_license": "not_stated",
+                "redistribution_approved": "true",
+                "rights_review_status": "owner_reviewed",
+                "approved_by": "owner",
+                "approved_date": "2026-06-12",
+            }]}), encoding="utf-8")
+            output = root / "dist/public"
+            output.mkdir(parents=True)
+
+            audit = MODULE.build_export(root, output)
+
+            self.assertTrue((output / "assets/images/portrait.jpg").is_file())
+            self.assertFalse((output / "assets/images/other.jpg").exists())
+            reasons = {item["path"]: item["reason"] for item in audit["files"]}
+            self.assertEqual(reasons["assets/images/portrait.jpg"], "asset_manifest_approved")
+            self.assertEqual(reasons["assets/images/other.jpg"], "asset_without_redistribution_approval")
+            MODULE.verify_export_tree(audit, root, output)
 
     def test_build_preserves_git_pointer_and_exports_all_approved_markdown(self):
         with tempfile.TemporaryDirectory() as directory:

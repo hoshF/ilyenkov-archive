@@ -1,0 +1,18 @@
+{
+  "schema_version": 1,
+  "policy": "Project assets listed here may enter the public export only when redistribution_approved is true and the working-tree file matches the recorded bytes and SHA-256. Corpus assets are never eligible through this manifest.",
+  "items": [
+    {
+      "local_path": "assets/images/ilyenkov-portrait.jpg",
+      "title": "Portrait of E. V. Ilyenkov",
+      "bytes": 1752912,
+      "sha256": "96c28ba8915116ec7bbb18746ed7d32e80432a477814d1c1dd705943fdfc5d24",
+      "source_license": "not_stated",
+      "rights_review_status": "owner_reviewed",
+      "redistribution_approved": "true",
+      "approved_by": "repository owner",
+      "approved_date": "2026-06-12",
+      "review_note": "Owner provided the image and asserted it is free of copyright restrictions; approved for use in the public README."
+    }
+  ]
+}
