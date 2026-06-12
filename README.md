@@ -28,7 +28,7 @@ GitHub 仓库：<https://github.com/hoshF/Ilyenkov-cn>
 - 讨论术语译法，例如 `идеальное`、`деятельность`、`мышление`、`всеобщее`。
 - 提交小范围、可追溯、已经人工检查过的译文修订。
 
-更详细的参与方式见 [CONTRIBUTING.md](CONTRIBUTING.md)。
+更详细的参与方式见 [CONTRIBUTING.md](CONTRIBUTING.md)。协作规则、决策方式和成员结构见 [GOVERNANCE.md](GOVERNANCE.md)。半正式讨论（术语、版本考证、翻译认领）在仓库的 [Discussions](https://github.com/hoshF/Ilyenkov-cn/discussions) 进行。
 
 ## 当前内容
 

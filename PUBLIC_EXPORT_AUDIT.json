@@ -2,7 +2,7 @@
   "schema_version": 2,
   "policy": "Corpus, source binaries, non-Markdown text, and media assets require explicit redistribution approval; project assets are approved only through metadata/public_assets_manifest.json with matching bytes and SHA-256; local tool configuration is never exported; project code and documentation use the static project-file rule.",
   "audit_convention": "PUBLIC_EXPORT_AUDIT.json is generated together with the export and does not list itself; the export tree and the public git tree must equal the included paths plus this audit file.",
-  "included": 80,
+  "included": 85,
   "excluded": 757,
   "files": [
     {
@@ -30,8 +30,15 @@
       "path": "CONTRIBUTING.md",
       "included": true,
       "reason": "project_file",
-      "bytes": 2605,
-      "sha256": "d94f34a520bfb615d660158edcd42a8f1b742bf11595dfbc69c1cfa4b4ece70d"
+      "bytes": 2870,
+      "sha256": "da812b57ae6466f998645e44618d2d8e58588887fea6cf44b95e5c32a87ca876"
+    },
+    {
+      "path": "GOVERNANCE.md",
+      "included": true,
+      "reason": "project_file",
+      "bytes": 4761,
+      "sha256": "5e747975388e1074cfe7cffe38f69426f65b7ed68066a3a6ba35f8d7b18e6e0c"
     },
     {
       "path": "LLM_WIKI.md",
@@ -44,8 +51,8 @@
       "path": "README.md",
       "included": true,
       "reason": "project_file",
-      "bytes": 7387,
-      "sha256": "c47072789bfcd01897a50d629094a1ca45352f2fc915e5765da02c15c9986b0c"
+      "bytes": 7609,
+      "sha256": "a323f8553936f726b9838382baa72d6c275e3b0fd422b52cfc45360c5663ca8c"
     },
     {
       "path": "RESOLVER.md",
@@ -4057,6 +4064,34 @@
       "reason": "project_file",
       "bytes": 1671,
       "sha256": "931df5143807bf37fad1e02bc735afe5a1ca1cfa8652c142c1fd4679be94e3a4"
+    },
+    {
+      "path": "notes/community/DISCUSSIONS.md",
+      "included": true,
+      "reason": "project_file",
+      "bytes": 4157,
+      "sha256": "bf891fa5a738b0f946cf60df449ecac52e8ebba6c3f72dc6430dbcfdc33f6f36"
+    },
+    {
+      "path": "notes/community/RECRUITMENT_POST.md",
+      "included": true,
+      "reason": "project_file",
+      "bytes": 2914,
+      "sha256": "b05409738f900467e4d55cb31b647719cfc3fee5c6e1cb874a5ed1bc12ea265d"
+    },
+    {
+      "path": "notes/contributors/README.md",
+      "included": true,
+      "reason": "project_file",
+      "bytes": 1729,
+      "sha256": "1ed2429f2e18291df74e9326be16cfbf1672dd2403f7330757ab0197d9cf82b1"
+    },
+    {
+      "path": "notes/journal/README.md",
+      "included": true,
+      "reason": "project_file",
+      "bytes": 1210,
+      "sha256": "18a870ff5e4955c4ad696f329624dec3ee6fe4f83400aecd2c8a46f61b988caf"
     },
     {
       "path": "notes/苏联哲学人物简介_AI参考.md",

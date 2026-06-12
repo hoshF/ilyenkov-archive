@@ -12,6 +12,8 @@ gbrain_source: "project-markdown"
 
 感谢你愿意帮助整理伊里因科夫中文学习资料库。这个项目还在早期阶段，最需要的是可靠来源、细致校对和可以追溯的小步改进。
 
+协作规则、决策方式、术语定版流程和署名约定见 [GOVERNANCE.md](GOVERNANCE.md)。讨论入口：术语、版本考证和翻译认领请用仓库 [Discussions](https://github.com/hoshF/Ilyenkov-cn/discussions)，具体问题报告请用 issue。
+
 ## 可以贡献什么
 
 - 补充俄文原文、出版信息、中文译本来源和版本说明。
