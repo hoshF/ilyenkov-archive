@@ -1,8 +1,9 @@
 {
-  "schema_version": 1,
-  "policy": "Corpus, source binaries, non-Markdown text, and media assets require explicit redistribution approval; project code and documentation use the static project-file rule.",
-  "included": 79,
-  "excluded": 757,
+  "schema_version": 2,
+  "policy": "Corpus, source binaries, non-Markdown text, and media assets require explicit redistribution approval; local tool configuration is never exported; project code and documentation use the static project-file rule.",
+  "audit_convention": "PUBLIC_EXPORT_AUDIT.json is generated together with the export and does not list itself; the export tree and the public git tree must equal the included paths plus this audit file.",
+  "included": 78,
+  "excluded": 758,
   "files": [
     {
       "path": ".DS_Store",
@@ -13,8 +14,8 @@
     },
     {
       "path": ".claude/settings.local.json",
-      "included": true,
-      "reason": "project_file",
+      "included": false,
+      "reason": "local_configuration",
       "bytes": 185,
       "sha256": "ae3f60731753660d39ca9dd93fd4261020c4fb8c185494f092b691640302007d"
     },
@@ -44,7 +45,7 @@
       "included": true,
       "reason": "project_file",
       "bytes": 7390,
-      "sha256": "26d5f47d956400f77c1cda9a8064969dd10c09a98e15e28a60ff1fff1371e10a"
+      "sha256": "d3c41ce65ecace03d21baa3cf9dc1477b5533a16ade4e7797627063fab521ca7"
     },
     {
       "path": "RESOLVER.md",
@@ -4019,8 +4020,8 @@
       "path": "notes/PUBLISH_EXPOSURE_AUDIT.md",
       "included": true,
       "reason": "project_file",
-      "bytes": 30781,
-      "sha256": "4464392256ac7c803aa36d1e006b57ebbf1ed02869f4045df96e0ef6acd2577d"
+      "bytes": 31161,
+      "sha256": "c4e8d7a84dcfd6f207572c3fb10bcd2b12657d2170c82bc2016c05885935daa8"
     },
     {
       "path": "notes/READING_NOTES.md",
@@ -4033,8 +4034,8 @@
       "path": "notes/REPOSITORY_STATUS_FOR_CLAUDE.md",
       "included": true,
       "reason": "project_file",
-      "bytes": 17603,
-      "sha256": "c4e466c5967ad91ac946f0d17a7a1b6edb9173e3adae27a221a803ec4a5f6ae2"
+      "bytes": 17683,
+      "sha256": "f2e0b39e048d909bc5e02711784a5fd35fdd0badb77c88e67c10807ac11163b2"
     },
     {
       "path": "notes/STYLE_GUIDE.md",
@@ -4061,8 +4062,8 @@
       "path": "scripts/export_public.py",
       "included": true,
       "reason": "project_file",
-      "bytes": 10448,
-      "sha256": "7e63a30bcbc0a1faa31271368049ec369c497c138d973769e074ed9ea9265e44"
+      "bytes": 12392,
+      "sha256": "70da20e099529515f385569c839fbe26869434cc2c3b3e3a297d756167082bcd"
     },
     {
       "path": "scripts/prepare_gbrain_markdown.py",
@@ -4076,7 +4077,7 @@
       "included": true,
       "reason": "project_file",
       "bytes": 2103,
-      "sha256": "239fc7b60bb9c14fa61be7b2a47ba6fd3ffb87518236573c6563893e560f2413"
+      "sha256": "bedf763601d95fa1c46a6b7b4ef7e3d751e2f017f975a67b0e7fee501ba162bb"
     },
     {
       "path": "scripts/run_gbrain_without_dist.sh",
@@ -5804,8 +5805,8 @@
       "path": "tests/test_export_public.py",
       "included": true,
       "reason": "project_file",
-      "bytes": 5670,
-      "sha256": "b56bb27c42062d1d296e5a11165da65dff47d10ddd83f3e090f636177dc11abd"
+      "bytes": 8385,
+      "sha256": "3ef00be7963f5184d64fb23d147f36f4c9f0cdc4e71da2a214c8fb7694b37c38"
     },
     {
       "path": "tests/test_prepare_gbrain_markdown.py",

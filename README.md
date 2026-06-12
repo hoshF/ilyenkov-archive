@@ -16,7 +16,7 @@ gbrain_source: "project-markdown"
 
 项目仍处于初级阶段，主要用于个人学习、文本校对、资料保存和公开交流。这里的内容不代表正式完整译本，也不保证已经完成充分校订；如果这些材料能帮助后来者进入伊里因科夫的思想、比较版本、修正错误或继续翻译，那这个仓库就已经有了意义。
 
-GitHub 仓库：<https://github.com/hoshF/ilyenkov-cn>
+GitHub 仓库：<https://github.com/hoshF/Ilyenkov-cn>
 
 ## 可以如何参与
 

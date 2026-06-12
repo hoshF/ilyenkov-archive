@@ -7,6 +7,7 @@ import argparse
 import hashlib
 import json
 import shutil
+import subprocess
 import sys
 from pathlib import Path
 
@@ -25,6 +26,8 @@ CONTROLLED_ASSET_SUFFIXES = {
     ".avi", ".m4v", ".mkv", ".mov", ".mp4", ".webm",
 }
 REPOSITORY_METADATA_NAMES = {".DS_Store", "Thumbs.db"}
+LOCAL_CONFIGURATION_DIRS = {".claude", ".codex", ".cursor", ".idea", ".obsidian", ".vscode"}
+LOCAL_CONFIGURATION_NAMES = {".envrc", ".mcp.json", "settings.local.json"}
 CORPUS_ASSET_PREFIXES = (
     "caute_ru_markdown/ilyenkov_md/",
     "caute_ru_markdown/maidansky_md/",
@@ -88,10 +91,19 @@ def markdown_approval(path: Path, root: Path) -> tuple[bool, str] | None:
     return approved, reason
 
 
+def is_local_configuration(rel_parts: tuple[str, ...]) -> bool:
+    name = rel_parts[-1]
+    if LOCAL_CONFIGURATION_DIRS.intersection(rel_parts[:-1]):
+        return True
+    return name in LOCAL_CONFIGURATION_NAMES or name == ".env" or name.startswith(".env.")
+
+
 def export_decision(path: Path, root: Path, scan_approvals: dict[str, bool]) -> tuple[bool, str]:
     rel = path.relative_to(root).as_posix()
     if path.name in REPOSITORY_METADATA_NAMES:
         return False, "repository_metadata"
+    if is_local_configuration(path.relative_to(root).parts):
+        return False, "local_configuration"
     if path.suffix.lower() == ".md":
         approval = markdown_approval(path, root)
         if approval is not None:
@@ -146,8 +158,9 @@ def build_export(root: Path, output: Path, *, write: bool = True) -> dict:
             shutil.copy2(path, target)
 
     audit = {
-        "schema_version": 1,
-        "policy": "Corpus, source binaries, non-Markdown text, and media assets require explicit redistribution approval; project code and documentation use the static project-file rule.",
+        "schema_version": 2,
+        "policy": "Corpus, source binaries, non-Markdown text, and media assets require explicit redistribution approval; local tool configuration is never exported; project code and documentation use the static project-file rule.",
+        "audit_convention": "PUBLIC_EXPORT_AUDIT.json is generated together with the export and does not list itself; the export tree and the public git tree must equal the included paths plus this audit file.",
         "included": sum(1 for item in records if item["included"]),
         "excluded": sum(1 for item in records if not item["included"]),
         "files": records,
@@ -202,10 +215,13 @@ def verify_export_tree(audit: dict, root: Path, output: Path) -> None:
         raise ValueError(f"public export SHA-256 mismatch: {mismatched}")
     forbidden = [
         path for path in actual
-        if "source_scans/" in path or path.endswith(".snapshot")
+        if "source_scans/" in path
+        or path.endswith(".snapshot")
+        or is_local_configuration(tuple(path.split("/")))
     ]
     if forbidden:
         raise ValueError(f"forbidden source material in public export: {forbidden}")
+    verify_git_publishability(output, sorted(set(actual) | {"PUBLIC_EXPORT_AUDIT.json"}))
     approved_markdown = {
         path.relative_to(root).as_posix()
         for path in source_files(root)
@@ -214,6 +230,29 @@ def verify_export_tree(audit: dict, root: Path, output: Path) -> None:
     }
     if not approved_markdown.issubset(actual):
         raise ValueError(f"approved Markdown missing from public export: {sorted(approved_markdown - set(actual))}")
+
+
+def verify_git_publishability(output: Path, tree_paths: list[str]) -> None:
+    """Reject export files that any gitignore (project, local, or machine-global)
+    would silently drop from the publish step's `git add -A`."""
+    if not (output / ".git").exists():
+        return
+    probe = subprocess.run(
+        ["git", "-C", str(output), "rev-parse", "--git-dir"],
+        capture_output=True, text=True,
+    )
+    if probe.returncode != 0:
+        return
+    result = subprocess.run(
+        ["git", "-C", str(output), "check-ignore", "--stdin"],
+        input="".join(f"{path}\n" for path in tree_paths),
+        capture_output=True, text=True,
+    )
+    if result.returncode == 0:
+        ignored = sorted(filter(None, result.stdout.splitlines()))
+        raise ValueError(f"public export files are git-ignored and would be dropped from publishing: {ignored}")
+    if result.returncode != 1:
+        raise ValueError(f"git check-ignore failed: {result.stderr.strip()}")
 
 
 def main() -> int:

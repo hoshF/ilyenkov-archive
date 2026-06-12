@@ -21,7 +21,7 @@ gbrain_source: "project-markdown"
 当前父仓库 remote：
 
 ```text
-origin  git@github.com:hoshF/ilyenkov-cn-private.git
+origin  git@github.com:hoshF/Ilyenkov-cn-private.git
 ```
 
 父 `origin` 已通过 GitHub 验证为私有仓库。旧公开仓库 `hoshF/ilyenkov-cn` 已于 2026-06-11 由所有者删除并重建为同名空 PUBLIC 仓库（GitHub 显示名 `Ilyenkov-cn`）；首次版权闸门发布已完成，公开 `main` HEAD 为 `f17c1e1c233e7b89b67b802474ecacb633a966bf`。删除与重建细节见 [`PUBLISH_EXPOSURE_AUDIT.md`](PUBLISH_EXPOSURE_AUDIT.md)。
@@ -219,7 +219,7 @@ chapter_pages=337
 
 ### 8.2 私有父仓库
 
-- 私有仓库：`hoshF/ilyenkov-cn-private`。
+- 私有仓库：`hoshF/Ilyenkov-cn-private`（2026-06-12 由 `ilyenkov-cn-private` 改名，旧 URL 由 GitHub 重定向）。
 - 父 `origin` 只指向该私有仓库。
 - 第一轮和第二轮提交均已普通推送，并通过远端 `main` HEAD 核对完成私有异地备份。
 - 不得把父工作树 remote 改回旧公开仓库。
@@ -230,7 +230,7 @@ chapter_pages=337
 - 工作树：`dist/public/`
 - `dist/public/.git` 是 separate-git-dir 指针文件。
 - 父仓库忽略整个 `dist/`。
-- nested `origin` 已配置为 `git@github.com:hoshF/ilyenkov-cn.git`，指向 2026-06-11 重建的公开仓库；首次公开提交 `f17c1e1c233e7b89b67b802474ecacb633a966bf` 已普通推送并通过远端树校验。
+- nested `origin` 已配置为 `git@github.com:hoshF/Ilyenkov-cn.git`，指向 2026-06-11 重建的公开仓库；首次公开提交 `f17c1e1c233e7b89b67b802474ecacb633a966bf` 已普通推送并通过远端树校验。
 
 `scripts/export_public.py` 使用临时构建目录更新公开工作树并保留 `.git` 指针。正文只有 `redistribution_approved: "true"` 才可导出；扫描件按 source scan manifest 判定，字段缺失默认拒绝。语料目录 README、图片、快照、PDF/DjVu 和未批准章节不能绕过闸门。
 
@@ -325,7 +325,7 @@ Spinoza 来源审计：`issues=0`。
 
 - 分支：`main`
 - 本文更新前已验证的私有远端 HEAD：`14d9230`
-- 父 remote：私有 `hoshF/ilyenkov-cn-private`
+- 父 remote：私有 `hoshF/Ilyenkov-cn-private`
 - 第二轮提交已按发布、OCR、切章和子项目拆分，并已普通推送到私有远端。
 - `dist/` 为忽略目录；公开工作树 nested `origin` 指向重建的公开仓库，公开 `main` HEAD 为 `f17c1e1c233e7b89b67b802474ecacb633a966bf`。
 

@@ -83,6 +83,28 @@ class ExportPublicTests(unittest.TestCase):
                 (False, "repository_metadata"),
             )
 
+    def test_claude_settings_are_excluded_as_local_configuration(self):
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            path = root / ".claude/settings.local.json"
+            path.parent.mkdir(parents=True)
+            path.write_text('{"permissions": {}}\n', encoding="utf-8")
+            self.assertEqual(
+                MODULE.export_decision(path, root, {}),
+                (False, "local_configuration"),
+            )
+
+    def test_nested_local_configuration_markdown_is_excluded(self):
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            path = root / "notes/.claude/commands/translate.md"
+            path.parent.mkdir(parents=True)
+            path.write_text("# command\n", encoding="utf-8")
+            self.assertEqual(
+                MODULE.export_decision(path, root, {}),
+                (False, "local_configuration"),
+            )
+
     def test_corpus_readme_does_not_bypass_rights_gate(self):
         with tempfile.TemporaryDirectory() as directory:
             root = Path(directory)
@@ -122,6 +144,43 @@ class ExportPublicTests(unittest.TestCase):
             self.assertFalse((output / rejected.relative_to(root)).exists())
             self.assertFalse((output / "stale.txt").exists())
             MODULE.verify_export_tree(audit, root, output)
+
+    def test_build_never_exports_claude_paths_and_audit_matches_tree(self):
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            settings = root / ".claude/settings.local.json"
+            settings.parent.mkdir(parents=True)
+            settings.write_text('{"permissions": {}}\n', encoding="utf-8")
+            nested = root / "notes/.claude/commands/translate.md"
+            nested.parent.mkdir(parents=True)
+            nested.write_text("# command\n", encoding="utf-8")
+            (root / "README.md").write_text("---\ncreated: 2026-06-11\n---\n# Readme\n", encoding="utf-8")
+            output = root / "dist/public"
+            output.mkdir(parents=True)
+
+            audit = MODULE.build_export(root, output)
+
+            included = {item["path"] for item in audit["files"] if item["included"]}
+            for path in included:
+                self.assertNotIn(".claude", Path(path).parts)
+            claude_records = [
+                item for item in audit["files"] if ".claude" in Path(item["path"]).parts
+            ]
+            self.assertEqual(len(claude_records), 2)
+            for item in claude_records:
+                self.assertFalse(item["included"])
+                self.assertEqual(item["reason"], "local_configuration")
+
+            actual = {
+                path.relative_to(output).as_posix()
+                for path in output.rglob("*")
+                if path.is_file() and path.name != ".git"
+            }
+            for path in actual:
+                self.assertNotIn(".claude", Path(path).parts)
+            self.assertIn("PUBLIC_EXPORT_AUDIT.json", actual)
+            actual.remove("PUBLIC_EXPORT_AUDIT.json")
+            self.assertEqual(actual, included)
 
 
 if __name__ == "__main__":

@@ -62,6 +62,8 @@ llm_wiki_eligible: "true"
 - GitHub API：远端提交总数为 1；递归树 blob 计数 79，与本地导出 `included=79` 一致。
 - 旧暴露 HEAD `3cc661b0baae7b9c279a9792a1bc4ad88f6ebe8c` 在新仓库查询返回 422 `No commit found`，不可达。
 
+2026-06-12 追记：私有仓库由 `ilyenkov-cn-private` 改名为 `Ilyenkov-cn-private`；父仓库与 `dist/public` 的 `origin` URL 以及 `scripts/publish_public.sh` 中的仓库名统一为规范大小写（`hoshF/Ilyenkov-cn-private`、`hoshF/Ilyenkov-cn`），消除 push 时的仓库重定向提示。上表记录的小写 URL 为 2026-06-11 配置时的历史事实。
+
 第三方缓存、下载、副本或存档仍可能存在；“曾公开”事实不因删除重建而消除。
 
 ## 旧公开提交完整路径清单

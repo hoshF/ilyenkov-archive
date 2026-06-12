@@ -8,8 +8,8 @@ fi
 
 ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 PUBLIC_WORKTREE="$ROOT/dist/public"
-PRIVATE_REPO="hoshF/ilyenkov-cn-private"
-PUBLIC_REPO="hoshF/ilyenkov-cn"
+PRIVATE_REPO="hoshF/Ilyenkov-cn-private"
+PUBLIC_REPO="hoshF/Ilyenkov-cn"
 
 cd "$ROOT"
 python3 scripts/prepare_gbrain_markdown.py --check
