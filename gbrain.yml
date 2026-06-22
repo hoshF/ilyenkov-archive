@@ -3,12 +3,17 @@ schema:
 
 storage:
   db_tracked:
+    # COLLECTIONS-AUTO:BEGIN
     - caute_ru_markdown/
+    - maidansky_markdown/
     - spinoza_markdown/
     - kedrov_markdown/
+    - oizerman_markdown/
+    - kopnin_markdown/
     - notes/
     - translation_workspace/
     - dialectical_logic/
     - idols_ideals/
     - existing_translations/
+    # COLLECTIONS-AUTO:END
   db_only: []

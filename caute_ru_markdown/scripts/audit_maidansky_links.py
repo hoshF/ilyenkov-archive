@@ -58,7 +58,7 @@ def should_ignore_link(link_url: str, title: str, page_url: str, covered: set[st
     parsed = urlparse(link_url)
     path = parsed.path
     suffix = Path(path).suffix.lower()
-    if parsed.netloc != "caute.ru":
+    if parsed.netloc not in common.SOURCE_HOSTS:
         return True
     if link_url == page_url or link_url in covered:
         return True

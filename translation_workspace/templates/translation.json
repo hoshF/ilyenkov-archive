@@ -1,0 +1,11 @@
+{
+  "schema_version": 1,
+  "author_id": "author-id",
+  "work_id": "work-id",
+  "source_path": "author_markdown/author_md/work.md",
+  "source_url": "not_stated",
+  "source_version": "待核验版本",
+  "source_sha256": "0000000000000000000000000000000000000000000000000000000000000000",
+  "target_language": "zh",
+  "status": "planned"
+}

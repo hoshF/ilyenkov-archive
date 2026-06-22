@@ -1,0 +1,27 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "human_verification_manifest.schema.json",
+  "title": "Full Work Human Verification Manifest",
+  "type": "object",
+  "required": [
+    "schema_version",
+    "verification_status",
+    "reviewer",
+    "verification_date",
+    "verified_scan_pages",
+    "source_scan_sha256",
+    "final_markdown",
+    "final_markdown_sha256"
+  ],
+  "properties": {
+    "schema_version": { "const": 1 },
+    "verification_status": { "const": "human_verified" },
+    "reviewer": { "type": "string", "minLength": 1 },
+    "verification_date": { "type": "string" },
+    "verified_scan_pages": { "type": "array", "items": { "type": "string" } },
+    "source_scan_sha256": { "type": "string", "pattern": "^[0-9a-f]{64}$" },
+    "final_markdown": { "type": "string" },
+    "final_markdown_sha256": { "type": "string", "pattern": "^[0-9a-f]{64}$" }
+  },
+  "additionalProperties": false
+}

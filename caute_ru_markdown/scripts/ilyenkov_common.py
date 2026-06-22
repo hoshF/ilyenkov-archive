@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Shared helpers for converting caute.ru Ilyenkov HTML pages to Markdown."""
+"""Shared helpers for converting filorus.ru Ilyenkov HTML pages to Markdown."""
 
 from __future__ import annotations
 
@@ -17,8 +17,9 @@ from urllib.parse import urldefrag, urljoin, urlparse
 from urllib.request import Request, urlopen
 
 
-TEXTS_URL = "http://caute.ru/ilyenkov/texts.html"
-SITE_ROOT = "http://caute.ru"
+TEXTS_URL = "http://filorus.ru/ilyenkov/texts.html"
+SITE_ROOT = "http://filorus.ru"
+SOURCE_HOSTS = {"filorus.ru", "caute.ru"}
 USER_AGENT = "Codex local markdown converter (+https://openai.com/)"
 
 

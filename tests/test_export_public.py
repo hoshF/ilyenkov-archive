@@ -63,6 +63,73 @@ class ExportPublicTests(unittest.TestCase):
                 (False, "asset_without_redistribution_approval"),
             )
 
+    def test_any_file_under_source_scans_is_excluded(self):
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            for rel in ("oizerman_markdown/source_scans/klex/book.zip",
+                        "oizerman_markdown/source_scans/klex/scan.djvu",
+                        "kedrov_markdown/source_scans/ia/x.pdf"):
+                p = root / rel
+                p.parent.mkdir(parents=True, exist_ok=True)
+                p.write_bytes(b"x")
+                self.assertEqual(MODULE.export_decision(p, root, {}), (False, "source_scan_directory"))
+
+    def test_large_scan_requires_explicit_storage_review(self):
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            author = root / "author_markdown"
+            scan = author / "source_scans/book.pdf"
+            scan.parent.mkdir(parents=True)
+            scan.write_bytes(b"x" * 101)
+            metadata = author / "metadata"
+            metadata.mkdir()
+            registry = root / "metadata"
+            registry.mkdir()
+            (registry / "collections.json").write_text(json.dumps({
+                "schema_version": 1,
+                "project": {"large_binary_threshold_bytes": 100},
+                "people": [{"id": "author"}],
+                "collections": [{
+                    "id": "author-texts",
+                    "person_id": "author",
+                    "root": "author_markdown",
+                    "layout": "legacy",
+                    "scan_manifest": "author_markdown/metadata/source_scans_manifest.json",
+                    "corpus_paths": [],
+                    "scan_paths": ["author_markdown/source_scans/"],
+                    "bibliography_paths": [],
+                }],
+            }), encoding="utf-8")
+            item = {
+                "title": "Book",
+                "author": "Author",
+                "publication_year": "2000",
+                "source_url": "https://example.test",
+                "download_date": "2026-06-21",
+                "pages": 1,
+                "bytes": 101,
+                "sha256": MODULE.sha256(scan),
+                "source_format": "pdf",
+                "source_license": "not_stated",
+                "redistribution_approved": "false",
+                "rights_review_status": "unreviewed",
+                "text_status": "source_scan_unprocessed",
+                "local_path": "source_scans/book.pdf",
+            }
+            manifest = metadata / "source_scans_manifest.json"
+            manifest.write_text(json.dumps({"items": [item]}), encoding="utf-8")
+            with self.assertRaisesRegex(ValueError, "large file requires explicit review"):
+                MODULE.source_scan_approvals(root)
+            item["large_file_review"] = {
+                "reviewed": True,
+                "reason": "重要版本",
+                "storage_decision": "git",
+            }
+            manifest.write_text(json.dumps({"items": [item]}), encoding="utf-8")
+            self.assertEqual(MODULE.source_scan_approvals(root), {
+                "author_markdown/source_scans/book.pdf": False
+            })
+
     def test_unapproved_tex_body_is_excluded(self):
         with tempfile.TemporaryDirectory() as directory:
             root = Path(directory)

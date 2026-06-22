@@ -1,0 +1,174 @@
+{
+  "schema_version": 1,
+  "generated_at": "2026-06-16",
+  "author": "Копнин Павел Васильевич",
+  "author_variants": ["П. В. Копнин", "Копнин П. В.", "Павел Васильевич Копнин", "P. V. Kopnin", "Pavel Kopnin"],
+  "life": "1922—1971",
+  "policy": "Bibliographic master table. No copyrighted full text is stored here; source scans are registered separately in source_scans_manifest.json. All works in copyright (author d. 1971); redistribution not approved. English co-authored translations are listed separately and are not Kopnin's primary Russian texts.",
+  "works": [
+    {
+      "id": "dialektika-logika-nauka-1973",
+      "title_ru": "Диалектика, логика, наука",
+      "title_zh": "辩证法·逻辑·科学",
+      "year": "1973", "place_publisher": "Москва: Наука, 463 с.",
+      "responsibility": "selected_works_vol2",
+      "note": "哲学文选第二卷，收 29 篇。",
+      "collection_status": "scan_downloaded"
+    },
+    {
+      "id": "filosofskie-idei-lenina-i-logika-1969",
+      "title_ru": "Философские идеи В.И. Ленина и логика",
+      "title_zh": "列宁的哲学思想与逻辑",
+      "year": "1969", "place_publisher": "Москва: Наука, 484 с.",
+      "responsibility": "monograph",
+      "collection_status": "scan_downloaded"
+    },
+    {
+      "id": "gnoseologicheskie-i-logicheskie-osnovy-nauki-1974",
+      "title_ru": "Гносеологические и логические основы науки",
+      "title_zh": "科学的认识论与逻辑基础",
+      "year": "1974", "place_publisher": "Москва: Мысль, 568 с.",
+      "responsibility": "monograph",
+      "note": "含《Введение в марксистскую гносеологию》(1966) 与《Логические основы науки》(1968) 合订，故二者已被本卷覆盖。",
+      "collection_status": "scan_downloaded"
+    },
+    {
+      "id": "gipoteza-i-ee-rol-v-poznanii-1958",
+      "title_ru": "Гипотеза и ее роль в познании",
+      "title_zh": "假说及其在认识中的作用",
+      "year": "1958", "place_publisher": "Москва, 1958 (брошюра)",
+      "responsibility": "booklet",
+      "collection_status": "scan_downloaded"
+    },
+    {
+      "id": "dialektika-kak-logika-i-teoriya-poznaniya-1973",
+      "title_ru": "Диалектика как логика и теория познания. Опыт логико-гносеологического исследования",
+      "title_zh": "作为逻辑和认识论的辩证法",
+      "year": "1973", "place_publisher": "Москва: Наука, 1973 (монография)",
+      "responsibility": "monograph",
+      "note": "重要专著。Klex/phantastike 仅提供 .doc 文本(非扫描件)，twirpx 扫描需积分，marxistphilosophy.org HTML 已 404；未入库扫描件。",
+      "collection_status": "scan_not_found_text_only"
+    },
+    {
+      "id": "vvedenie-v-marksistskuyu-gnoseologiyu-1966",
+      "title_ru": "Введение в марксистскую гносеологию",
+      "title_zh": "马克思主义认识论导论",
+      "year": "1966", "place_publisher": "Киев, 1966",
+      "responsibility": "monograph",
+      "note": "已含于 1974 年《Гносеологические и логические основы науки》合订本(已入库)。",
+      "collection_status": "covered_by_1974_volume"
+    },
+    {
+      "id": "logicheskie-osnovy-nauki-1968",
+      "title_ru": "Логические основы науки",
+      "title_zh": "科学的逻辑基础",
+      "year": "1968", "place_publisher": "Киев, 1968",
+      "responsibility": "monograph",
+      "note": "已含于 1974 年合订本(已入库)。",
+      "collection_status": "covered_by_1974_volume"
+    },
+    {
+      "id": "dialektika-kak-logika-1961",
+      "title_ru": "Диалектика как логика",
+      "title_zh": "作为逻辑的辩证法",
+      "year": "1961", "place_publisher": "Киев, 1961",
+      "responsibility": "monograph",
+      "collection_status": "gap_no_free_fulltext"
+    },
+    {
+      "id": "gipoteza-i-poznanie-deystvitelnosti-1962",
+      "title_ru": "Гипотеза и познание действительности",
+      "title_zh": "假说与对现实的认识",
+      "year": "1962", "place_publisher": "Киев, 1962",
+      "responsibility": "monograph",
+      "collection_status": "gap_no_free_fulltext"
+    },
+    {
+      "id": "ideya-kak-forma-myshleniya-1963",
+      "title_ru": "Идея как форма мышления",
+      "title_zh": "作为思维形式的观念",
+      "year": "1963", "place_publisher": "Киев, 1963",
+      "responsibility": "monograph",
+      "collection_status": "gap_no_free_fulltext"
+    },
+    {
+      "id": "teoriya-poznaniya-i-kibernetika-1964",
+      "title_ru": "Теория познания и кибернетика",
+      "title_zh": "认识论与控制论",
+      "year": "1964", "place_publisher": "Киев, 1964 (на укр. яз.)",
+      "responsibility": "monograph",
+      "collection_status": "gap_no_free_fulltext"
+    },
+    {
+      "id": "rol-lenina-v-razvitii-filosofii-1970",
+      "title_ru": "Роль В.И. Ленина в развитии философии",
+      "title_zh": "列宁在哲学发展中的作用",
+      "year": "1970", "place_publisher": "not_stated",
+      "responsibility": "monograph",
+      "collection_status": "gap_no_free_fulltext"
+    },
+    {
+      "id": "engels-i-sovremennye-problemy-filosofii-marksizma-1971",
+      "title_ru": "Ф. Энгельс и современные проблемы философии марксизма",
+      "title_zh": "恩格斯与马克思主义哲学的当代问题",
+      "year": "1971", "place_publisher": "not_stated",
+      "responsibility": "monograph",
+      "collection_status": "gap_no_free_fulltext"
+    },
+    {
+      "id": "lenin-i-materialisticheskaya-dialektika-1969",
+      "title_ru": "В.И. Ленин и материалистическая диалектика",
+      "title_zh": "列宁与唯物辩证法",
+      "year": "1969", "place_publisher": "not_stated",
+      "responsibility": "monograph_or_collective",
+      "collection_status": "gap_no_free_fulltext"
+    },
+    {
+      "id": "logika-nauchnogo-issledovaniya-1965",
+      "title_ru": "Логика научного исследования",
+      "title_zh": "科学研究的逻辑",
+      "year": "1965", "place_publisher": "not_stated",
+      "responsibility": "co_authored",
+      "collection_status": "gap_no_free_fulltext"
+    },
+    {
+      "id": "problemy-myshleniya-v-sovremennoy-nauke-1964",
+      "title_ru": "Проблемы мышления в современной науке",
+      "title_zh": "当代科学中的思维问题",
+      "year": "1964", "place_publisher": "Москва, 1964",
+      "responsibility": "editor",
+      "collection_status": "gap_no_free_fulltext"
+    },
+    {
+      "id": "problemy-dialektiki-kak-logiki-i-teorii-poznaniya-1982",
+      "title_ru": "Проблемы диалектики как логики и теории познания",
+      "title_zh": "作为逻辑和认识论的辩证法问题",
+      "year": "1982", "place_publisher": "Избранные философские работы, 1982",
+      "responsibility": "posthumous_selected",
+      "collection_status": "gap_no_free_fulltext"
+    },
+    {
+      "id": "izbrannye-filosofskie-trudy-tom-1",
+      "title_ru": "Избранные философские труды. Том 1",
+      "title_zh": "哲学文选 第一卷",
+      "year": "not_stated", "place_publisher": "Москва: Наука",
+      "responsibility": "selected_works_vol1",
+      "note": "两卷本文选第一卷未定位到免费全文(第二卷=Диалектика, логика, наука，已入库)。",
+      "collection_status": "gap_no_free_fulltext"
+    }
+  ],
+  "english_coauthored_translations": [
+    {
+      "title": "Themes in Soviet Marxist Philosophy (1975) — 'Dialectical Logic' (Kopnin et al.)",
+      "note": "百科条目英译，科普宁为合著者之一。",
+      "source_url": "https://www.bannedthought.net/MLM-Theory/Diamat/SovietPhilosophy/ThemesInSovietMarxistPhilosophy-EncyclopediaArticles-1975-OCR.pdf",
+      "format": "pdf", "reachable": true, "collection_status": "not_downloaded_secondary"
+    },
+    {
+      "title": "The Fundamentals of Marxist-Leninist Philosophy (Progress, 1982)",
+      "note": "Konstantinov 主编教科书，科普宁为合著者之一。",
+      "source_url": "https://archive.org/details/tfomlp",
+      "format": "djvu/pdf/epub", "reachable": true, "collection_status": "not_downloaded_secondary"
+    }
+  ]
+}

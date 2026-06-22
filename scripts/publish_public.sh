@@ -12,9 +12,12 @@ PRIVATE_REPO="hoshF/Ilyenkov-cn-private"
 PUBLIC_REPO="hoshF/Ilyenkov-cn"
 
 cd "$ROOT"
+python3 scripts/manage_collections.py check
+python3 scripts/check_project_docs.py
 python3 scripts/prepare_gbrain_markdown.py --check
 python3 scripts/verify_corpus_manifests.py
 python3 scripts/split_longform_markdown.py --check
+python3 scripts/update_agents_guide.py --check
 python3 -m unittest discover -s tests
 python3 scripts/export_public.py
 python3 scripts/export_public.py --verify

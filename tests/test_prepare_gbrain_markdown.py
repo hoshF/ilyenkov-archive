@@ -27,6 +27,16 @@ class PrepareGbrainMarkdownTests(unittest.TestCase):
             errors = MODULE.validate_file(path, path.read_text(), root)
             self.assertTrue(any("missing text_role" in error for error in errors))
 
+    def test_root_readme_does_not_require_front_matter(self):
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            path = root / "README.md"
+            text = "# Project\n"
+            path.write_text(text, encoding="utf-8")
+
+            self.assertEqual(MODULE.validate_file(path, text, root), [])
+            self.assertEqual(MODULE.prepare_file(path, text, root), text)
+
     def test_invalid_role_is_rejected(self):
         with tempfile.TemporaryDirectory() as directory:
             root = Path(directory)

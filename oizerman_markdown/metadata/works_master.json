@@ -1,0 +1,575 @@
+{
+  "schema_version": 1,
+  "generated_at": "2026-06-21",
+  "author": "Ойзерман Теодор Ильич",
+  "author_variants": [
+    "Т. И. Ойзерман",
+    "Ойзерман Т. И.",
+    "Теодор Ильич Ойзерман",
+    "T. I. Oizerman",
+    "Teodor Oizerman"
+  ],
+  "life": "1914—2017",
+  "policy": "Bibliographic master table. Years/publishers cross-checked against the IPHRAS official bibliography where noted. No copyrighted full text is stored here; source scans are registered separately in source_scans_manifest.json. All works in copyright; redistribution not approved.",
+  "bibliography_source": "bibliography/iphras_official_bibliography.pdf",
+  "izbrannye_trudy_2014": {
+    "title_ru": "Избранные труды: в 5 томах",
+    "place": "Москва",
+    "publisher": "Наука",
+    "year": "2014",
+    "note": "五卷本选集，由此前代表作改编重排；各卷主体为下列已出版专著。早期单行本与本选集不应视为同一数字文件。",
+    "volumes": {
+      "1": "Возникновение марксизма",
+      "2": "Марксизм и утопизм",
+      "3": "Оправдание ревизионизма",
+      "4": "Кант и Гегель",
+      "5": "Метафилософия. Амбивалентность философии"
+    }
+  },
+  "works": [
+    {
+      "id": "vozniknovenie-marksizma",
+      "title_ru": "Возникновение марксизма",
+      "title_translit": "Vozniknovenie marksizma",
+      "title_zh": "马克思主义的产生",
+      "group": "marxism_formation",
+      "responsibility": "monograph",
+      "coauthors": [],
+      "years": [
+        "2011"
+      ],
+      "edition_notes": "多个时期版本；2011 年改编版；收入 2014 五卷本第 1 卷。",
+      "izbrannye_trudy_volume": "1",
+      "verified_against_bibliography": true,
+      "known_sources": [
+        {
+          "site": "klex.ru",
+          "url": "https://www.klex.ru/ts6",
+          "label": "Избранные труды. Том 1",
+          "formats": [
+            "zip",
+            "djv",
+            "online"
+          ],
+          "verified": false
+        },
+        {
+          "site": "klex.ru",
+          "url": "https://www.klex.ru/hav",
+          "label": "单行本 Возникновение марксизма",
+          "formats": [],
+          "verified": false
+        }
+      ],
+      "collection_status": "scan_downloaded"
+    },
+    {
+      "id": "formirovanie-filosofii-marksizma",
+      "title_ru": "Формирование философии марксизма",
+      "title_translit": "Formirovanie filosofii marksizma",
+      "title_zh": "马克思主义哲学的形成",
+      "group": "marxism_formation",
+      "responsibility": "monograph",
+      "coauthors": [],
+      "years": [
+        "1962"
+      ],
+      "edition_notes": "早期重要著作，多版。",
+      "izbrannye_trudy_volume": null,
+      "verified_against_bibliography": true,
+      "known_sources": [],
+      "collection_status": "bibliography_only"
+    },
+    {
+      "id": "razvitie-marksistskoy-teorii-1848",
+      "title_ru": "Развитие марксистской теории на опыте революции 1848 года",
+      "title_translit": "Razvitie marksistskoy teorii na opyte revolyutsii 1848 goda",
+      "title_zh": "马克思主义理论在1848年革命经验基础上的发展",
+      "group": "marxism_formation",
+      "responsibility": "monograph",
+      "coauthors": [],
+      "years": [],
+      "edition_notes": "",
+      "izbrannye_trudy_volume": null,
+      "verified_against_bibliography": false,
+      "known_sources": [
+        {
+          "site": "koob.ru",
+          "url": "https://www.koob.ru/ojzerman/razvitiye_marksistskoy_teorii",
+          "label": "作品页",
+          "formats": [],
+          "verified": false
+        }
+      ],
+      "collection_status": "scan_downloaded"
+    },
+    {
+      "id": "marksistsko-leninskoe-ponimanie-svobody",
+      "title_ru": "Марксистско-ленинское понимание свободы",
+      "title_translit": "Marksistsko-leninskoe ponimanie svobody",
+      "title_zh": "马克思列宁主义对自由的理解",
+      "group": "marxism_formation",
+      "responsibility": "monograph",
+      "coauthors": [],
+      "years": [],
+      "edition_notes": "早期马克思主义哲学研究。",
+      "izbrannye_trudy_volume": null,
+      "verified_against_bibliography": false,
+      "known_sources": [],
+      "collection_status": "bibliography_only"
+    },
+    {
+      "id": "problemy-istoriko-filosofskoy-nauki",
+      "title_ru": "Проблемы историко-философской науки",
+      "title_translit": "Problemy istoriko-filosofskoy nauki",
+      "title_zh": "哲学史科学的问题",
+      "group": "history_of_philosophy_theory",
+      "responsibility": "monograph",
+      "coauthors": [],
+      "years": [
+        "1969",
+        "1982"
+      ],
+      "edition_notes": "初版 1969，第二版 1982。",
+      "izbrannye_trudy_volume": null,
+      "verified_against_bibliography": true,
+      "known_sources": [
+        {
+          "site": "koob.ru",
+          "url": "https://www.koob.ru/ojzerman/problemy_istor_filosof_nauki",
+          "label": "作品页",
+          "formats": [],
+          "verified": false
+        }
+      ],
+      "collection_status": "scan_downloaded"
+    },
+    {
+      "id": "glavnye-filosofskie-napravleniya",
+      "title_ru": "Главные философские направления: Теоретический анализ историко-философского процесса",
+      "title_translit": "Glavnye filosofskie napravleniya",
+      "title_zh": "主要哲学流派：哲学史过程的理论分析",
+      "group": "history_of_philosophy_theory",
+      "responsibility": "monograph",
+      "coauthors": [],
+      "years": [
+        "1971",
+        "1984"
+      ],
+      "edition_notes": "初版 1971，修订版 1984。",
+      "izbrannye_trudy_volume": null,
+      "verified_against_bibliography": true,
+      "known_sources": [
+        {
+          "site": "koob.ru",
+          "url": "https://www.koob.ru/ojzerman/glavnie_filosofskie_napravleniya",
+          "label": "作品页",
+          "formats": [],
+          "verified": false
+        }
+      ],
+      "collection_status": "scan_downloaded"
+    },
+    {
+      "id": "dialekticheskiy-materializm-i-istoriya-filosofii",
+      "title_ru": "Диалектический материализм и история философии",
+      "title_translit": "Dialekticheskiy materializm i istoriya filosofii",
+      "title_zh": "辩证唯物主义与哲学史",
+      "group": "history_of_philosophy_theory",
+      "responsibility": "monograph",
+      "coauthors": [],
+      "years": [],
+      "edition_notes": "",
+      "izbrannye_trudy_volume": null,
+      "verified_against_bibliography": false,
+      "known_sources": [],
+      "collection_status": "scan_downloaded"
+    },
+    {
+      "id": "osnovy-teorii-istoriko-filosofskogo-processa",
+      "title_ru": "Основы теории историко-философского процесса",
+      "title_translit": "Osnovy teorii istoriko-filosofskogo processa",
+      "title_zh": "哲学史过程理论基础",
+      "group": "history_of_philosophy_theory",
+      "responsibility": "co_authored",
+      "coauthors": [
+        "А. С. Богомолов"
+      ],
+      "years": [],
+      "edition_notes": "与 А. С. Богомолов 合著。",
+      "izbrannye_trudy_volume": null,
+      "verified_against_bibliography": false,
+      "known_sources": [],
+      "collection_status": "bibliography_only"
+    },
+    {
+      "id": "filosofiya-kak-istoriya-filosofii",
+      "title_ru": "Философия как история философии",
+      "title_translit": "Filosofiya kak istoriya filosofii",
+      "title_zh": "哲学作为哲学史",
+      "group": "history_of_philosophy_theory",
+      "responsibility": "monograph",
+      "coauthors": [],
+      "years": [
+        "1999"
+      ],
+      "edition_notes": "晚期哲学史研究总结之一。 Klex/Koob 仅提供未校验 .doc 文本（koob.ru），未找到 DjVu/PDF 扫描件；.doc 未入库。",
+      "izbrannye_trudy_volume": null,
+      "verified_against_bibliography": true,
+      "known_sources": [
+        {
+          "site": "koob.ru",
+          "url": "https://www.koob.ru/ojzerman/filosofiya_kak_istoriya_filosofii",
+          "label": "作品页",
+          "formats": [],
+          "verified": false
+        }
+      ],
+      "collection_status": "scan_not_found_text_only"
+    },
+    {
+      "id": "kant-i-gegel",
+      "title_ru": "Кант и Гегель: опыт сравнительного исследования",
+      "title_translit": "Kant i Gegel: opyt sravnitelnogo issledovaniya",
+      "title_zh": "康德与黑格尔：比较研究尝试",
+      "group": "german_classical_philosophy",
+      "responsibility": "monograph",
+      "coauthors": [],
+      "years": [
+        "2008"
+      ],
+      "edition_notes": "2008 年出版；收入 2014 五卷本第 4 卷。",
+      "izbrannye_trudy_volume": "4",
+      "verified_against_bibliography": true,
+      "known_sources": [
+        {
+          "site": "klex.ru",
+          "url": "https://www.klex.ru/author/ojzerman/",
+          "label": "作者页列出",
+          "formats": [],
+          "verified": false
+        }
+      ],
+      "collection_status": "scan_downloaded"
+    },
+    {
+      "id": "teoriya-poznaniya-kanta",
+      "title_ru": "Теория познания Канта",
+      "title_translit": "Teoriya poznaniya Kanta",
+      "title_zh": "康德的认识论",
+      "group": "german_classical_philosophy",
+      "responsibility": "co_authored",
+      "coauthors": [
+        "И. С. Нарский"
+      ],
+      "years": [],
+      "edition_notes": "与 И. С. Нарский 合著。",
+      "izbrannye_trudy_volume": null,
+      "verified_against_bibliography": false,
+      "known_sources": [
+        {
+          "site": "klex.ru",
+          "url": "https://www.klex.ru/author/ojzerman/",
+          "label": "作者页列出",
+          "formats": [],
+          "verified": false
+        }
+      ],
+      "collection_status": "scan_downloaded"
+    },
+    {
+      "id": "istoriko-filosofskoe-uchenie-gegelya",
+      "title_ru": "Историко-философское учение Гегеля",
+      "title_translit": "Istoriko-filosofskoe uchenie Gegelya",
+      "title_zh": "黑格尔的哲学史学说",
+      "group": "german_classical_philosophy",
+      "responsibility": "monograph",
+      "coauthors": [],
+      "years": [],
+      "edition_notes": "篇幅较短。",
+      "izbrannye_trudy_volume": null,
+      "verified_against_bibliography": false,
+      "known_sources": [],
+      "collection_status": "scan_downloaded"
+    },
+    {
+      "id": "filosofiya-kanta-i-sovremennost",
+      "title_ru": "Философия Канта и современность",
+      "title_translit": "Filosofiya Kanta i sovremennost",
+      "title_zh": "康德哲学与现代",
+      "group": "german_classical_philosophy",
+      "responsibility": "edited_volume",
+      "coauthors": [],
+      "years": [],
+      "edition_notes": "奥伊泽尔曼主编或主持的康德研究文集；需区分个人专著、主编文集与其单篇文章。",
+      "izbrannye_trudy_volume": null,
+      "verified_against_bibliography": false,
+      "known_sources": [],
+      "collection_status": "scan_downloaded"
+    },
+    {
+      "id": "istoriya-dialektiki-nemetskaya-klassicheskaya-filosofiya",
+      "title_ru": "История диалектики. Немецкая классическая философия",
+      "title_translit": "Istoriya dialektiki. Nemetskaya klassicheskaya filosofiya",
+      "title_zh": "辩证法史：德国古典哲学",
+      "group": "german_classical_philosophy",
+      "responsibility": "collective_work",
+      "coauthors": [],
+      "years": [],
+      "edition_notes": "集体著作，奥伊泽尔曼任责任编辑或重要编者，非严格个人专著。",
+      "izbrannye_trudy_volume": null,
+      "verified_against_bibliography": false,
+      "known_sources": [
+        {
+          "site": "klex.ru",
+          "url": "https://www.klex.ru/author/ojzerman/",
+          "label": "作者页列出",
+          "formats": [],
+          "verified": false
+        }
+      ],
+      "collection_status": "scan_downloaded"
+    },
+    {
+      "id": "marksizm-i-utopizm",
+      "title_ru": "Марксизм и утопизм",
+      "title_translit": "Marksizm i utopizm",
+      "title_zh": "马克思主义与乌托邦主义",
+      "group": "marxism_reflection",
+      "responsibility": "monograph",
+      "coauthors": [],
+      "years": [
+        "2003"
+      ],
+      "edition_notes": "另有 1998 年两卷本前身；2003 年单卷本；收入 2014 五卷本第 2 卷。",
+      "izbrannye_trudy_volume": "2",
+      "verified_against_bibliography": true,
+      "known_sources": [
+        {
+          "site": "klex.ru",
+          "url": "https://www.klex.ru/author/ojzerman/",
+          "label": "作者页列五卷本第 2 卷",
+          "formats": [],
+          "verified": false
+        }
+      ],
+      "collection_status": "scan_downloaded"
+    },
+    {
+      "id": "opravdanie-revizionizma",
+      "title_ru": "Оправдание ревизионизма",
+      "title_translit": "Opravdanie revizionizma",
+      "title_zh": "为修正主义辩护",
+      "group": "marxism_reflection",
+      "responsibility": "monograph",
+      "coauthors": [],
+      "years": [
+        "2005"
+      ],
+      "edition_notes": "2005 年出版，晚年争议著作；收入 2014 五卷本第 3 卷。",
+      "izbrannye_trudy_volume": "3",
+      "verified_against_bibliography": true,
+      "known_sources": [
+        {
+          "site": "klex.ru",
+          "url": "https://www.klex.ru/author/ojzerman/",
+          "label": "作者页列五卷本第 3 卷",
+          "formats": [],
+          "verified": false
+        }
+      ],
+      "collection_status": "scan_downloaded"
+    },
+    {
+      "id": "nauchno-filosofskoe-mirovozzrenie-marksizma",
+      "title_ru": "Научно-философское мировоззрение марксизма",
+      "title_translit": "Nauchno-filosofskoe mirovozzrenie marksizma",
+      "title_zh": "马克思主义的科学哲学世界观",
+      "group": "marxism_reflection",
+      "responsibility": "monograph",
+      "coauthors": [],
+      "years": [],
+      "edition_notes": "后期对马克思主义哲学性质的总结。",
+      "izbrannye_trudy_volume": null,
+      "verified_against_bibliography": false,
+      "known_sources": [],
+      "collection_status": "bibliography_only"
+    },
+    {
+      "id": "metafilosofiya",
+      "title_ru": "Метафилософия: теория историко-философского процесса",
+      "title_translit": "Metafilosofiya: teoriya istoriko-filosofskogo processa",
+      "title_zh": "元哲学：哲学史过程理论",
+      "group": "metaphilosophy_late",
+      "responsibility": "monograph",
+      "coauthors": [],
+      "years": [
+        "2009"
+      ],
+      "edition_notes": "单行本 2009（书目确认全称含副题）；与《Амбивалентность философии》共同构成 2014 五卷本第 5 卷。",
+      "izbrannye_trudy_volume": "5",
+      "verified_against_bibliography": true,
+      "known_sources": [],
+      "collection_status": "scan_downloaded"
+    },
+    {
+      "id": "ambivalentnost-filosofii",
+      "title_ru": "Амбивалентность философии",
+      "title_translit": "Ambivalentnost filosofii",
+      "title_zh": "哲学的双重性",
+      "group": "metaphilosophy_late",
+      "responsibility": "monograph",
+      "coauthors": [],
+      "years": [
+        "2011"
+      ],
+      "edition_notes": "2011 年出版；与《Метафилософия》共同构成 2014 五卷本第 5 卷。",
+      "izbrannye_trudy_volume": "5",
+      "verified_against_bibliography": true,
+      "known_sources": [],
+      "collection_status": "scan_downloaded"
+    },
+    {
+      "id": "razmyshleniya-izrecheniya",
+      "title_ru": "Размышления. Изречения",
+      "title_translit": "Razmyshleniya. Izrecheniya",
+      "title_zh": "思考·格言",
+      "group": "metaphilosophy_late",
+      "responsibility": "monograph",
+      "coauthors": [],
+      "years": [
+        "2012"
+      ],
+      "edition_notes": "晚年思想札记与格言（书目记 2012 年；袖珍本）。",
+      "izbrannye_trudy_volume": null,
+      "verified_against_bibliography": true,
+      "known_sources": [],
+      "collection_status": "bibliography_only"
+    },
+    {
+      "id": "problemy-sotsialno-politicheskie-i-filosofskie-ocherki",
+      "title_ru": "Проблемы. Социально-политические и философские очерки",
+      "title_translit": "Problemy. Sotsialno-politicheskie i filosofskie ocherki",
+      "title_zh": "问题：社会政治与哲学论稿",
+      "group": "metaphilosophy_late",
+      "responsibility": "essay_collection",
+      "coauthors": [],
+      "years": [],
+      "edition_notes": "晚年社会政治与哲学评论文集。",
+      "izbrannye_trudy_volume": null,
+      "verified_against_bibliography": false,
+      "known_sources": [],
+      "collection_status": "bibliography_only"
+    },
+    {
+      "id": "filosofiya-epokhi-rannikh-burzhuaznykh-revolyutsiy",
+      "title_ru": "Философия эпохи ранних буржуазных революций",
+      "title_translit": "Filosofiya epokhi rannikh burzhuaznykh revolyutsiy",
+      "title_zh": "早期资产阶级革命时代的哲学",
+      "group": "history_of_philosophy_theory",
+      "responsibility": "edited_or_collective",
+      "coauthors": [],
+      "years": [],
+      "edition_notes": "Koob 列有作品页；责任形式待核验。",
+      "izbrannye_trudy_volume": null,
+      "verified_against_bibliography": false,
+      "known_sources": [
+        {
+          "site": "koob.ru",
+          "url": "https://www.koob.ru/ojzerman/filosofiya_revolyutsiy",
+          "label": "作品页",
+          "formats": [],
+          "verified": false
+        }
+      ],
+      "collection_status": "scan_downloaded"
+    },
+    {
+      "id": "kratkiy-ocherk-istorii-filosofii",
+      "title_ru": "Краткий очерк истории философии",
+      "title_translit": "Kratkiy ocherk istorii filosofii",
+      "title_zh": "哲学史简明纲要",
+      "group": "history_of_philosophy_theory",
+      "responsibility": "edited_or_collective",
+      "coauthors": [],
+      "years": [],
+      "edition_notes": "多版可能；常为集体编著，责任形式待核验。",
+      "izbrannye_trudy_volume": null,
+      "verified_against_bibliography": false,
+      "known_sources": [
+        {
+          "site": "koob.ru",
+          "url": "https://www.koob.ru/ojzerman/kratkiy_ocherk",
+          "label": "作品页",
+          "formats": [],
+          "verified": false
+        }
+      ],
+      "collection_status": "scan_downloaded"
+    },
+    {
+      "id": "teoriya-poznaniya-v-4-tomakh",
+      "title_ru": "Теория познания: в 4 томах",
+      "title_translit": "Teoriya poznaniya: v 4 tomakh",
+      "title_zh": "认识论（四卷本）",
+      "group": "epistemology",
+      "responsibility": "co_edited_multivolume",
+      "coauthors": [
+        "В. А. Лекторский"
+      ],
+      "years": [
+        "1991",
+        "1993",
+        "1995"
+      ],
+      "edition_notes": "奥伊泽尔曼与 В. А. Лекторский 共同主编的集体著作，不是二人合著专著。第 1、2 卷出版于 1991 年，第 3 卷出版于 1993 年，第 4 卷出版于 1995 年。奥伊泽尔曼另为第 1、2 卷撰写章节。",
+      "izbrannye_trudy_volume": null,
+      "verified_against_bibliography": true,
+      "known_sources": [
+        {
+          "site": "klex.ru",
+          "url": "https://www.klex.ru/los",
+          "label": "第 1 卷；页面关联第 2—4 卷",
+          "formats": [
+            "pdf",
+            "zip"
+          ],
+          "verified": true
+        }
+      ],
+      "volumes": [
+        {
+          "volume": "1",
+          "title_ru": "Домарксистская теория познания",
+          "year": "1991",
+          "collection_status": "scan_downloaded"
+        },
+        {
+          "volume": "2",
+          "title_ru": "Социально-культурная природа познания",
+          "year": "1991",
+          "collection_status": "scan_downloaded"
+        },
+        {
+          "volume": "3",
+          "title_ru": "Познание как исторический процесс",
+          "year": "1993",
+          "collection_status": "scan_downloaded"
+        },
+        {
+          "volume": "4",
+          "title_ru": "Познание социальной реальности",
+          "year": "1995",
+          "collection_status": "scan_downloaded"
+        }
+      ],
+      "collection_status": "scan_downloaded"
+    }
+  ],
+  "needs_verification": [
+    {
+      "title_ru": "Марксизм и современность",
+      "reason": "题名可能出现于论文、文集或讨论；不可仅凭题名判定为个人专著，须核验作者、出版社与出版年。"
+    }
+  ]
+}

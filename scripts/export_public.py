@@ -13,11 +13,15 @@ from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 from prepare_gbrain_markdown import is_corpus_markdown, parse_front_matter
+from collection_registry import corpus_asset_paths, load_registry, scan_manifest_paths
 
 
 ROOT = Path(__file__).resolve().parents[1]
 DEFAULT_OUTPUT = ROOT / "dist" / "public"
-SKIP_PARTS = {".git", ".obsidian", ".codex", ".fulltext", "node_modules", "__pycache__", "cache", "dist"}
+SKIP_PARTS = {
+    ".git", ".obsidian", ".codex", ".fulltext", "node_modules", "__pycache__",
+    "cache", "digitization", "dist",
+}
 CONTROLLED_BINARY_SUFFIXES = {".pdf", ".djvu", ".djv", ".epub"}
 CONTROLLED_TEXT_SUFFIXES = {".tex", ".txt", ".html", ".htm", ".xhtml", ".fb2", ".rtf"}
 CONTROLLED_ASSET_SUFFIXES = {
@@ -28,14 +32,6 @@ CONTROLLED_ASSET_SUFFIXES = {
 REPOSITORY_METADATA_NAMES = {".DS_Store", "Thumbs.db"}
 LOCAL_CONFIGURATION_DIRS = {".claude", ".codex", ".cursor", ".idea", ".obsidian", ".vscode"}
 LOCAL_CONFIGURATION_NAMES = {".envrc", ".mcp.json", "settings.local.json"}
-CORPUS_ASSET_PREFIXES = (
-    "caute_ru_markdown/ilyenkov_md/",
-    "caute_ru_markdown/maidansky_md/",
-    "spinoza_markdown/spinoza_md/",
-    "kedrov_markdown/kedrov_md/",
-)
-
-
 def sha256(path: Path) -> str:
     digest = hashlib.sha256()
     with path.open("rb") as handle:
@@ -46,12 +42,15 @@ def sha256(path: Path) -> str:
 
 def source_scan_approvals(root: Path) -> dict[str, bool]:
     approvals: dict[str, bool] = {}
+    threshold = int(load_registry(root).get("project", {}).get(
+        "large_binary_threshold_bytes", 75 * 1024 * 1024
+    ))
     required = {
         "title", "author", "publication_year", "source_url", "download_date",
         "pages", "bytes", "sha256", "source_format", "source_license",
         "redistribution_approved", "rights_review_status", "text_status", "local_path",
     }
-    for manifest_path in root.glob("*_markdown/metadata/source_scans_manifest.json"):
+    for manifest_path in scan_manifest_paths(root):
         data = json.loads(manifest_path.read_text(encoding="utf-8"))
         author_root = manifest_path.parents[1]
         for item in data.get("items", []):
@@ -66,6 +65,12 @@ def source_scan_approvals(root: Path) -> dict[str, bool]:
                 raise ValueError(f"{manifest_path}: byte count mismatch for {local_path}")
             if sha256(file_path) != str(item["sha256"]):
                 raise ValueError(f"{manifest_path}: SHA-256 mismatch for {local_path}")
+            if file_path.stat().st_size > threshold:
+                review = item.get("large_file_review", {})
+                if review.get("reviewed") is not True:
+                    raise ValueError(f"{manifest_path}: large file requires explicit review: {local_path}")
+                if not review.get("reason") or not review.get("storage_decision"):
+                    raise ValueError(f"{manifest_path}: incomplete large file review: {local_path}")
             expected_suffix = "." + str(item["source_format"]).lower()
             if file_path.suffix.lower() != expected_suffix:
                 raise ValueError(f"{manifest_path}: source format mismatch for {local_path}")
@@ -96,7 +101,7 @@ def project_asset_approvals(root: Path) -> dict[str, bool]:
         if missing:
             raise ValueError(f"{manifest_path}: public asset entry missing {missing}")
         local_path = str(item["local_path"])
-        if local_path.startswith(CORPUS_ASSET_PREFIXES):
+        if local_path.startswith(corpus_asset_paths(root)):
             raise ValueError(f"{manifest_path}: corpus assets cannot be approved here: {local_path}")
         file_path = root / local_path
         if not file_path.is_file():
@@ -140,16 +145,18 @@ def export_decision(
         return False, "repository_metadata"
     if is_local_configuration(path.relative_to(root).parts):
         return False, "local_configuration"
+    if "source_scans" in path.relative_to(root).parts:
+        return False, "source_scan_directory"
     if path.suffix.lower() == ".md":
         approval = markdown_approval(path, root)
         if approval is not None:
             return approval
-        if rel.startswith(CORPUS_ASSET_PREFIXES):
+        if rel.startswith(corpus_asset_paths(root)):
             return False, "corpus_markdown_without_redistribution_approval"
     if path.suffix.lower() in CONTROLLED_BINARY_SUFFIXES:
         approved = scan_approvals.get(rel, False)
         return approved, "scan_manifest_approved" if approved else "binary_without_redistribution_approval"
-    if rel.startswith(CORPUS_ASSET_PREFIXES) and path.suffix.lower() != ".md":
+    if rel.startswith(corpus_asset_paths(root)) and path.suffix.lower() != ".md":
         return False, "corpus_asset_without_redistribution_approval"
     if path.suffix.lower() in CONTROLLED_TEXT_SUFFIXES:
         return False, "text_without_redistribution_approval"
@@ -254,6 +261,7 @@ def verify_export_tree(audit: dict, root: Path, output: Path) -> None:
     forbidden = [
         path for path in actual
         if "source_scans/" in path
+        or "/digitization/" in f"/{path}"
         or path.endswith(".snapshot")
         or path.startswith(".fulltext/")
         or is_local_configuration(tuple(path.split("/")))

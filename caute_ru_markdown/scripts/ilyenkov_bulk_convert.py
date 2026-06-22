@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Analyze and bulk-convert caute.ru Ilyenkov HTML texts to Markdown."""
+"""Analyze and bulk-convert filorus.ru Ilyenkov HTML texts to Markdown."""
 
 from __future__ import annotations
 
@@ -25,9 +25,9 @@ STATE_PATH = ROOT / "metadata" / "ilyenkov_bulk_state.json"
 OUTPUT_ROOT = ROOT / "ilyenkov_md"
 
 ALREADY_DONE = {
-    "http://caute.ru/ilyenkov/texts/dmx/index.html": "ilyenkov_md/already-done/dialectics_abstract_concrete_capital_ilyenkov_ru.md",
-    "http://caute.ru/ilyenkov/texts/dla/index.html": "ilyenkov_md/already-done/dialectical_logic_ilyenkov_ru.md",
-    "http://caute.ru/ilyenkov/texts/leninacl.html": "ilyenkov_md/already-done/lenin_and_dialectical_logic_ilyenkov_rosenthal_ru.md",
+    "http://filorus.ru/ilyenkov/texts/dmx/index.html": "ilyenkov_md/already-done/dialectics_abstract_concrete_capital_ilyenkov_ru.md",
+    "http://filorus.ru/ilyenkov/texts/dla/index.html": "ilyenkov_md/already-done/dialectical_logic_ilyenkov_ru.md",
+    "http://filorus.ru/ilyenkov/texts/leninact.html": "ilyenkov_md/already-done/lenin_and_dialectical_logic_ilyenkov_rosenthal_ru.md",
 }
 
 EXCLUDED_SECTIONS = {
@@ -116,7 +116,7 @@ def useful_child_links(index_url: str, index_html: str) -> list[dict[str, str]]:
             continue
         if url in ALREADY_DONE:
             continue
-        if urlparse(url).netloc != "caute.ru":
+        if urlparse(url).netloc not in common.SOURCE_HOSTS:
             continue
         if not (path.startswith("/ilyenkov/texts/") or path.startswith("/ilyenkov/tra/") or path.startswith("/am/text/")):
             continue
@@ -352,7 +352,7 @@ def print_manifest_summary(manifest: dict) -> None:
 
 
 def main() -> int:
-    parser = argparse.ArgumentParser(description="Analyze and bulk-convert caute.ru Ilyenkov texts to Markdown.")
+    parser = argparse.ArgumentParser(description="Analyze and bulk-convert filorus.ru Ilyenkov texts to Markdown.")
     parser.add_argument("--resume", action="store_true", help="Skip completed items whose output hash still matches state")
     parser.add_argument("--force", action="store_true", help="Re-convert even completed or duplicate items")
     parser.add_argument("--only", help="Convert only one manifest item id")

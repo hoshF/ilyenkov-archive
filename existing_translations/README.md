@@ -33,5 +33,4 @@ gbrain_source: "project-markdown"
 
 ## 来源说明
 
-俄文原文和大量整理资料主要来自 [caute.ru](http://caute.ru/)。外部已有中文 PDF 的具体流传来源、版本质量和版权状态需要后续继续核查。
-
+俄文原文和大量整理资料历史上来自 `caute.ru`，当前推荐引用入口为 [filorus.ru/ilyenkov](http://filorus.ru/ilyenkov/) (at the website by Andrey Maidansky)。外部已有中文 PDF 的具体流传来源、版本质量和版权状态需要后续继续核查。

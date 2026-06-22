@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""OCR newspaper photocopy images from caute.ru into Markdown."""
+"""OCR newspaper photocopy images from the historical caute/filorus archive into Markdown."""
 
 from __future__ import annotations
 
@@ -27,9 +27,9 @@ WORK_DIR = ROOT.parent / "work" / "newspaper_ocr"
 TESSDATA_DIR = ROOT.parent / "work" / "tessdata"
 RUS_TESSDATA_URL = "https://github.com/tesseract-ocr/tessdata_fast/raw/main/rus.traineddata"
 SKIP_AS_CLEAN_MD_EXISTS = {
-    "http://caute.ru/ilyenkov/gra/kp081267.jpg": "outputs/ilyenkov_md/dialogi-i-intervyu/dialogi-i-intervyu-muzhestvo-mysli.md",
-    "http://caute.ru/ilyenkov/gra/kp161276.jpg": "outputs/ilyenkov_md/dialogi-i-intervyu/dialogi-i-intervyu-solo-dlya-aleshi.md",
-    "http://caute.ru/ilyenkov/gra/oa151177.jpg": "outputs/ilyenkov_md/dialogi-i-intervyu/dialogi-i-intervyu-pravo-na-tvorchestvo.md",
+    "http://filorus.ru/ilyenkov/gra/kp081267.jpg": "outputs/ilyenkov_md/dialogi-i-intervyu/dialogi-i-intervyu-muzhestvo-mysli.md",
+    "http://filorus.ru/ilyenkov/gra/kp161276.jpg": "outputs/ilyenkov_md/dialogi-i-intervyu/dialogi-i-intervyu-solo-dlya-aleshi.md",
+    "http://filorus.ru/ilyenkov/gra/oa151177.jpg": "outputs/ilyenkov_md/dialogi-i-intervyu/dialogi-i-intervyu-pravo-na-tvorchestvo.md",
 }
 
 
@@ -168,7 +168,7 @@ def print_summary(items: list[dict]) -> None:
 
 
 def main() -> int:
-    parser = argparse.ArgumentParser(description="OCR caute.ru newspaper photocopy images into Markdown.")
+    parser = argparse.ArgumentParser(description="OCR historical caute/filorus newspaper photocopy images into Markdown.")
     parser.add_argument("--resume", action="store_true", help="Skip completed OCR outputs whose hash still matches state")
     parser.add_argument("--force", action="store_true", help="Re-download and re-OCR items")
     parser.add_argument("--limit", type=int, help="Process only first N items")

@@ -1,7 +1,7 @@
 ---
 title: "哲学文本来源、OCR 准入与发布政策"
 created: "2026-06-11"
-updated: "2026-06-11"
+updated: "2026-06-21"
 type: "project"
 tags: ["source-policy", "markdown", "source-scan", "ocr-gate", "copyright"]
 language: "zh"
@@ -40,8 +40,9 @@ directive_2_supplement_sha256: "0b669a0096597fba9a9910a1c986099a209b6087c3f4ad60
 1. OCR 来源本身不再构成永久拒绝理由，文本质量和校验记录决定能否准入。
 2. 项目所有者明确启动文本处理前，不对任何源扫描件执行 OCR，也不使用 PDF 文本层、DjVuTXT、DjVu XML、ABBYY XML 或 hOCR 生成正文。
 3. 未通过项目校验流程的 OCR 文本不得进入正文目录或 GBrain 检索层；只保存源扫描件并标记 `source_scan_unprocessed`。
-4. `ocr_unverified` 只用于未经人工校勘确认的隔离文本，不得进入核心层。逐篇对照来源图、由项目所有者确认并具有完整 manifest 的作者文本可以使用 `author_original` 进入核心层，同时必须保留 OCR provenance。
-5. 将来的标准流程须保留双引擎原始结果、自动 diff、高风险页人工复核、结构 diff、引擎版本和 prompt 哈希。该流程当前不实施。
+4. `ocr_unverified` 只用于未经完整人工校勘确认的隔离文本，`core_corpus_eligible` 与 `llm_wiki_eligible` 均须为 `false`，不得进入核心层或 GBrain。
+5. 作者原语言 OCR 文本在逐页对照全部来源图、由项目所有者确认并具有完整可验证 manifest 后，可以使用 `author_original` 进入核心层和 GBrain，同时必须保留 OCR provenance。
+6. 正式处理设计见 [扫描本数字化流程](SCAN_DIGITIZATION_WORKFLOW.md)。该流程已批准但尚未激活；首次处理新的整书 OCR 前，还必须实现通用人工校验 manifest、Schema 和机器验证。
 
 ### 历史人工校验例外
 
@@ -55,7 +56,7 @@ directive_2_supplement_sha256: "0b669a0096597fba9a9910a1c986099a209b6087c3f4ad60
 - `llm_wiki_eligible: "true"`；
 - 校验范围和文件哈希见 `caute_ru_markdown/metadata/ilyenkov_newspaper_human_verification_manifest.json`。
 
-可靠性来自人工逐篇校勘和项目所有者确认，而不是 OCR 初稿本身。这是有明确校验记录的历史特例，不授权继续运行旧 OCR 脚本或新增同类文件。
+可靠性来自人工逐篇校勘和项目所有者确认，而不是 OCR 初稿本身。这是当前机器验证支持的历史实例，不授权继续运行旧 OCR 脚本。新的整书 OCR 必须先按正式数字化流程建立通用验证能力。
 
 ## 源扫描件
 

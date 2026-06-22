@@ -1,0 +1,36 @@
+#!/usr/bin/env bash
+# Refresh generated collection files and AGENTS.md before each commit,
+# then re-stage tracked generated files.
+#
+# Enable once per clone:  git config core.hooksPath .githooks
+#
+# The hook never blocks a commit: if the refresh script is missing or errors,
+# it warns and lets the commit proceed.
+set -u
+
+repo_root="$(git rev-parse --show-toplevel 2>/dev/null)" || exit 0
+collection_script="$repo_root/scripts/manage_collections.py"
+agents_script="$repo_root/scripts/update_agents_guide.py"
+
+if [ -f "$collection_script" ]; then
+    if python3 "$collection_script" sync >/dev/null 2>&1; then
+        git add "$repo_root/gbrain.yml" "$repo_root/COLLECTION_STATUS.md" 2>/dev/null || true
+    else
+        echo "pre-commit: manage_collections.py sync failed; committing without collection refresh" >&2
+    fi
+fi
+
+if [ -f "$agents_script" ] && python3 "$agents_script" >/dev/null 2>&1; then
+    # Only re-stage if AGENTS.md is already part of the tree (it always is once committed).
+    git add "$repo_root/AGENTS.md" 2>/dev/null || true
+else
+    echo "pre-commit: update_agents_guide.py failed; committing without refreshing AGENTS.md" >&2
+fi
+
+docs_script="$repo_root/scripts/check_project_docs.py"
+if [ -f "$docs_script" ] && ! python3 "$docs_script" >/dev/null; then
+    echo "pre-commit: project documentation check failed" >&2
+    exit 1
+fi
+
+exit 0

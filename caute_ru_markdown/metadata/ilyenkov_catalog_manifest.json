@@ -1,8 +1,8 @@
 {
   "already_done": {
-    "http://caute.ru/ilyenkov/texts/dla/index.html": "outputs/dialectical_logic_ilyenkov_ru.md",
-    "http://caute.ru/ilyenkov/texts/dmx/index.html": "outputs/dialectics_abstract_concrete_capital_ilyenkov_ru.md",
-    "http://caute.ru/ilyenkov/texts/leninacl.html": "outputs/lenin_and_dialectical_logic_ilyenkov_rosenthal_ru.md"
+    "http://filorus.ru/ilyenkov/texts/dla/index.html": "outputs/dialectical_logic_ilyenkov_ru.md",
+    "http://filorus.ru/ilyenkov/texts/dmx/index.html": "outputs/dialectics_abstract_concrete_capital_ilyenkov_ru.md",
+    "http://filorus.ru/ilyenkov/texts/leninact.html": "outputs/lenin_and_dialectical_logic_ilyenkov_rosenthal_ru.md"
   },
   "excluded_sections": [
     "Военная публицистика",
@@ -32,7 +32,7 @@
       "output_path": "ilyenkov_md/already-done/dialectics_abstract_concrete_capital_ilyenkov_ru.md",
       "section": "Книги",
       "title": "Диалектика абстрактного и конкретного в «Капитале» К. Маркса",
-      "url": "http://caute.ru/ilyenkov/texts/dmx/index.html",
+      "url": "http://filorus.ru/ilyenkov/texts/dmx/index.html",
       "work_manifest": "ilyenkov_md/already-done/dialectics_abstract_concrete_capital_ilyenkov_ru/work_manifest.json",
       "year": "1960"
     },
@@ -55,47 +55,47 @@
       "children": [
         {
           "title": "Идеалы и интегралы",
-          "url": "http://caute.ru/ilyenkov/texts/iddl/01.html"
+          "url": "http://filorus.ru/ilyenkov/texts/iddl/01.html"
         },
         {
           "title": "Тайна Черного Ящика. Научно-фантастическая прелюдия",
-          "url": "http://caute.ru/ilyenkov/texts/iddl/02.html"
+          "url": "http://filorus.ru/ilyenkov/texts/iddl/02.html"
         },
         {
           "title": "Сказка — ложь, да в ней — намек...",
-          "url": "http://caute.ru/ilyenkov/texts/iddl/03.html"
+          "url": "http://filorus.ru/ilyenkov/texts/iddl/03.html"
         },
         {
           "title": "Так кто же кого создал?",
-          "url": "http://caute.ru/ilyenkov/texts/iddl/04.html"
+          "url": "http://filorus.ru/ilyenkov/texts/iddl/04.html"
         },
         {
           "title": "Земные злоключения прекрасного идеала",
-          "url": "http://caute.ru/ilyenkov/texts/iddl/05.html"
+          "url": "http://filorus.ru/ilyenkov/texts/iddl/05.html"
         },
         {
           "title": "Идеал и «природа человека»",
-          "url": "http://caute.ru/ilyenkov/texts/iddl/06.html"
+          "url": "http://filorus.ru/ilyenkov/texts/iddl/06.html"
         },
         {
           "title": "Идеал и логика",
-          "url": "http://caute.ru/ilyenkov/texts/iddl/07.html"
+          "url": "http://filorus.ru/ilyenkov/texts/iddl/07.html"
         },
         {
           "title": "«Не идеал, а действительное движение...»",
-          "url": "http://caute.ru/ilyenkov/texts/iddl/08.html"
+          "url": "http://filorus.ru/ilyenkov/texts/iddl/08.html"
         },
         {
           "title": "Школа должна учить мыслить!",
-          "url": "http://caute.ru/ilyenkov/texts/iddl/09.html"
+          "url": "http://filorus.ru/ilyenkov/texts/iddl/09.html"
         },
         {
           "title": "Что на свете всего труднее?",
-          "url": "http://caute.ru/ilyenkov/texts/iddl/10.html"
+          "url": "http://filorus.ru/ilyenkov/texts/iddl/10.html"
         },
         {
           "title": "И, наконец, мораль...",
-          "url": "http://caute.ru/ilyenkov/texts/iddl/11.html"
+          "url": "http://filorus.ru/ilyenkov/texts/iddl/11.html"
         }
       ],
       "covered_by": "",
@@ -107,7 +107,7 @@
       "output_path": "ilyenkov_md/knigi/knigi-ob-idolah-i-idealah.md",
       "section": "Книги",
       "title": "Об идолах и идеалах",
-      "url": "http://caute.ru/ilyenkov/texts/iddl/index.html",
+      "url": "http://filorus.ru/ilyenkov/texts/iddl/index.html",
       "work_manifest": "ilyenkov_md/knigi/knigi-ob-idolah-i-idealah/work_manifest.json",
       "year": "1968"
     },
@@ -121,7 +121,7 @@
       "output_path": "outputs/lenin_and_dialectical_logic_ilyenkov_rosenthal_ru.md",
       "section": "Книги",
       "title": "В.И. Ленин и актуальные проблемы диалектической логики",
-      "url": "http://caute.ru/ilyenkov/texts/leninacl.html",
+      "url": "http://filorus.ru/ilyenkov/texts/leninact.html",
       "year": "1969"
     },
     {
@@ -147,7 +147,7 @@
       "output_path": "ilyenkov_md/already-done/dialectical_logic_ilyenkov_ru.md",
       "section": "Книги",
       "title": "Диалектическая логика. Очерки истории и теории",
-      "url": "http://caute.ru/ilyenkov/texts/dla/index.html",
+      "url": "http://filorus.ru/ilyenkov/texts/dla/index.html",
       "work_manifest": "ilyenkov_md/already-done/dialectical_logic_ilyenkov_ru/work_manifest.json",
       "year": "1974"
     },
@@ -155,15 +155,15 @@
       "children": [
         {
           "title": "I. Философия и молодость",
-          "url": "http://caute.ru/ilyenkov/texts/ums/i.html"
+          "url": "http://filorus.ru/ilyenkov/texts/ums/i.html"
         },
         {
           "title": "II. Откуда берется ум?",
-          "url": "http://caute.ru/ilyenkov/texts/ums/ii.html"
+          "url": "http://filorus.ru/ilyenkov/texts/ums/ii.html"
         },
         {
           "title": "III. Учиться мыслить!",
-          "url": "http://caute.ru/ilyenkov/texts/ums/iii.html"
+          "url": "http://filorus.ru/ilyenkov/texts/ums/iii.html"
         }
       ],
       "covered_by": "",
@@ -175,34 +175,34 @@
       "output_path": "ilyenkov_md/knigi/knigi-uchites-myslit-smolodu.md",
       "section": "Книги",
       "title": "Учитесь мыслить смолоду",
-      "url": "http://caute.ru/ilyenkov/texts/ums/index.html",
+      "url": "http://filorus.ru/ilyenkov/texts/ums/index.html",
       "year": "1977"
     },
     {
       "children": [
         {
           "title": "К читателю",
-          "url": "http://caute.ru/ilyenkov/texts/len/naum.html"
+          "url": "http://filorus.ru/ilyenkov/texts/len/naum.html"
         },
         {
           "title": "Введение",
-          "url": "http://caute.ru/ilyenkov/texts/len/intro.html"
+          "url": "http://filorus.ru/ilyenkov/texts/len/intro.html"
         },
         {
           "title": "I. Марксизм против махизма как философии мертвой реакции",
-          "url": "http://caute.ru/ilyenkov/texts/len/i.html"
+          "url": "http://filorus.ru/ilyenkov/texts/len/i.html"
         },
         {
           "title": "II. Позитивная программа русского позитивизма",
-          "url": "http://caute.ru/ilyenkov/texts/len/ii.html"
+          "url": "http://filorus.ru/ilyenkov/texts/len/ii.html"
         },
         {
           "title": "III. Диалектика — логика революции. Философия и естествознание",
-          "url": "http://caute.ru/ilyenkov/texts/len/iii.html"
+          "url": "http://filorus.ru/ilyenkov/texts/len/iii.html"
         },
         {
           "title": "Заключение",
-          "url": "http://caute.ru/ilyenkov/texts/len/final.html"
+          "url": "http://filorus.ru/ilyenkov/texts/len/final.html"
         }
       ],
       "covered_by": "",
@@ -214,7 +214,7 @@
       "output_path": "ilyenkov_md/knigi/knigi-leninskaya-dialektika-i-metafizika-pozitivizma.md",
       "section": "Книги",
       "title": "Ленинская диалектика и метафизика позитивизма",
-      "url": "http://caute.ru/ilyenkov/texts/len/index.html",
+      "url": "http://filorus.ru/ilyenkov/texts/len/index.html",
       "year": "1980"
     },
     {
@@ -244,79 +244,79 @@
       "children": [
         {
           "title": "К оценке аутентичности второго издания «Диалектической логики»",
-          "url": "http://caute.ru/am/text/duodl.html"
+          "url": "http://filorus.ru/am/text/duodl.html"
         },
         {
           "title": "Введение",
-          "url": "http://caute.ru/ilyenkov/texts/dl/intro.html"
+          "url": "http://filorus.ru/ilyenkov/texts/dl/intro.html"
         },
         {
           "title": "Очерк 1. О предмете логики",
-          "url": "http://caute.ru/ilyenkov/texts/dl/01.html"
+          "url": "http://filorus.ru/ilyenkov/texts/dl/01.html"
         },
         {
           "title": "Очерк 2. Мышление как атрибут субстанции",
-          "url": "http://caute.ru/ilyenkov/texts/dl/02.html"
+          "url": "http://filorus.ru/ilyenkov/texts/dl/02.html"
         },
         {
           "title": "Очерк 3. Логика и диалектика",
-          "url": "http://caute.ru/ilyenkov/texts/dl/03.html"
+          "url": "http://filorus.ru/ilyenkov/texts/dl/03.html"
         },
         {
           "title": "Очерк 4. Принцип построения логики. Дуализм или монизм?",
-          "url": "http://caute.ru/ilyenkov/texts/dl/04.html"
+          "url": "http://filorus.ru/ilyenkov/texts/dl/04.html"
         },
         {
           "title": "Очерк 5. Диалектика как логика",
-          "url": "http://caute.ru/ilyenkov/texts/dl/05.html"
+          "url": "http://filorus.ru/ilyenkov/texts/dl/05.html"
         },
         {
           "title": "Очерк 6. Еще раз о принципе построения логики. Идеализм или материализм?",
-          "url": "http://caute.ru/ilyenkov/texts/dl/06.html"
+          "url": "http://filorus.ru/ilyenkov/texts/dl/06.html"
         },
         {
           "title": "Очерк 7. К вопросу о диалектико-материалистической критике объективного идеализма",
-          "url": "http://caute.ru/ilyenkov/texts/dl/07.html"
+          "url": "http://filorus.ru/ilyenkov/texts/dl/07.html"
         },
         {
           "title": "Очерк 8. Материалистическое понимание мышления",
-          "url": "http://caute.ru/ilyenkov/texts/dl/08.html"
+          "url": "http://filorus.ru/ilyenkov/texts/dl/08.html"
         },
         {
           "title": "Очерк 9. О совпадении логики с диалектикой и теорией познания материализма",
-          "url": "http://caute.ru/ilyenkov/texts/dl/09.html"
+          "url": "http://filorus.ru/ilyenkov/texts/dl/09.html"
         },
         {
           "title": "Очерк 10. Логика «Капитала»",
-          "url": "http://caute.ru/ilyenkov/texts/dl/10.html"
+          "url": "http://filorus.ru/ilyenkov/texts/dl/10.html"
         },
         {
           "title": "Очерк 11. Абстрактное и конкретное в диалектической логике",
-          "url": "http://caute.ru/ilyenkov/texts/dl/11.html"
+          "url": "http://filorus.ru/ilyenkov/texts/dl/11.html"
         },
         {
           "title": "Очерк 12. Диалектическая взаимосвязь логического и исторического",
-          "url": "http://caute.ru/ilyenkov/texts/dl/12.html"
+          "url": "http://filorus.ru/ilyenkov/texts/dl/12.html"
         },
         {
           "title": "Очерк 13. Противоречие как категория диалектической логики",
-          "url": "http://caute.ru/ilyenkov/texts/dl/13.html"
+          "url": "http://filorus.ru/ilyenkov/texts/dl/13.html"
         },
         {
           "title": "Очерк 14. Проблема всеобщего в диалектике",
-          "url": "http://caute.ru/ilyenkov/texts/dl/14.html"
+          "url": "http://filorus.ru/ilyenkov/texts/dl/14.html"
         },
         {
           "title": "Очерк 15. Материализм воинствующий — значит диалектический",
-          "url": "http://caute.ru/ilyenkov/texts/dl/15.html"
+          "url": "http://filorus.ru/ilyenkov/texts/dl/15.html"
         },
         {
           "title": "Очерк 16. Диалектика и мировоззрение",
-          "url": "http://caute.ru/ilyenkov/texts/dl/16.html"
+          "url": "http://filorus.ru/ilyenkov/texts/dl/16.html"
         },
         {
           "title": "Заключение",
-          "url": "http://caute.ru/ilyenkov/texts/dl/final.html"
+          "url": "http://filorus.ru/ilyenkov/texts/dl/final.html"
         }
       ],
       "covered_by": "",
@@ -328,7 +328,7 @@
       "output_path": "ilyenkov_md/knigi/knigi-dialekticheskaya-logika-ocherki-istorii-i-teorii-2.md",
       "section": "Книги",
       "title": "Диалектическая логика. Очерки истории и теории",
-      "url": "http://caute.ru/ilyenkov/texts/dl/index.html",
+      "url": "http://filorus.ru/ilyenkov/texts/dl/index.html",
       "work_manifest": "ilyenkov_md/knigi/knigi-dialekticheskaya-logika-ocherki-istorii-i-teorii-2/work_manifest.json",
       "year": "1984"
     },
@@ -352,51 +352,51 @@
       "children": [
         {
           "title": "Мих. Лифшиц. Памяти Эвальда Ильенкова",
-          "url": "http://caute.ru/ilyenkov/texts/iki/lifshits.html"
+          "url": "http://filorus.ru/ilyenkov/texts/iki/lifshits.html"
         },
         {
           "title": "Диалектика идеального",
-          "url": "http://caute.ru/ilyenkov/texts/iki/dialideal.html"
+          "url": "http://filorus.ru/ilyenkov/texts/iki/dialideal.html"
         },
         {
           "title": "Гегель и герменевтика",
-          "url": "http://caute.ru/ilyenkov/texts/iki/hgherm.html"
+          "url": "http://filorus.ru/ilyenkov/texts/iki/hgherm.html"
         },
         {
           "title": "Проблема идеала в философии",
-          "url": "http://caute.ru/ilyenkov/texts/iki/ideal.html"
+          "url": "http://filorus.ru/ilyenkov/texts/iki/ideal.html"
         },
         {
           "title": "Гуманизм и наука",
-          "url": "http://caute.ru/ilyenkov/texts/iki/humsci.html"
+          "url": "http://filorus.ru/ilyenkov/texts/iki/humsci.html"
         },
         {
           "title": "Пройдена ли таблица умножения",
-          "url": "http://caute.ru/ilyenkov/texts/iki/tabmult.html"
+          "url": "http://filorus.ru/ilyenkov/texts/iki/tabmult.html"
         },
         {
           "title": "О «специфике» искусства",
-          "url": "http://caute.ru/ilyenkov/texts/iki/ars.html"
+          "url": "http://filorus.ru/ilyenkov/texts/iki/ars.html"
         },
         {
           "title": "Об эстетической природе фантазии",
-          "url": "http://caute.ru/ilyenkov/texts/iki/phantasia.html"
+          "url": "http://filorus.ru/ilyenkov/texts/iki/phantasia.html"
         },
         {
           "title": "Почему мне это не нравится",
-          "url": "http://caute.ru/ilyenkov/texts/noamo.html"
+          "url": "http://filorus.ru/ilyenkov/texts/noamo.html"
         },
         {
           "title": "Что там, в Зазеркалье?",
-          "url": "http://caute.ru/ilyenkov/texts/iki/metadisk.html"
+          "url": "http://filorus.ru/ilyenkov/texts/iki/metadisk.html"
         },
         {
           "title": "Гегелевская концепция красоты и истины",
-          "url": "http://caute.ru/ilyenkov/texts/iki/beuver.html"
+          "url": "http://filorus.ru/ilyenkov/texts/iki/beuver.html"
         },
         {
           "title": "Приложение. Заметки о Вагнере",
-          "url": "http://caute.ru/ilyenkov/texts/iki/vagner.html"
+          "url": "http://filorus.ru/ilyenkov/texts/iki/vagner.html"
         }
       ],
       "covered_by": "",
@@ -408,7 +408,7 @@
       "output_path": "ilyenkov_md/knigi/knigi-iskusstvo-i-kommunisticheskii-ideal.md",
       "section": "Книги",
       "title": "Искусство и коммунистический идеал",
-      "url": "http://caute.ru/ilyenkov/texts/iki/index.html",
+      "url": "http://filorus.ru/ilyenkov/texts/iki/index.html",
       "work_manifest": "ilyenkov_md/knigi/knigi-iskusstvo-i-kommunisticheskii-ideal/work_manifest.json",
       "year": "1984"
     },
@@ -451,127 +451,127 @@
       "children": [
         {
           "title": "Философия и молодость",
-          "url": "http://caute.ru/ilyenkov/texts/ums/i.html"
+          "url": "http://filorus.ru/ilyenkov/texts/ums/i.html"
         },
         {
           "title": "Откуда берется ум?",
-          "url": "http://caute.ru/ilyenkov/texts/ums/ii.html"
+          "url": "http://filorus.ru/ilyenkov/texts/ums/ii.html"
         },
         {
           "title": "Учиться мыслить!",
-          "url": "http://caute.ru/ilyenkov/texts/ums/iii.html"
+          "url": "http://filorus.ru/ilyenkov/texts/ums/iii.html"
         },
         {
           "title": "Античная диалектика как форма мысли",
-          "url": "http://caute.ru/ilyenkov/texts/phc/antdia.html"
+          "url": "http://filorus.ru/ilyenkov/texts/phc/antdia.html"
         },
         {
           "title": "Опередивший свое время",
-          "url": "http://caute.ru/ilyenkov/texts/phc/tempus.html"
+          "url": "http://filorus.ru/ilyenkov/texts/phc/tempus.html"
         },
         {
           "title": "Фихте и «свобода воли»",
-          "url": "http://caute.ru/ilyenkov/texts/phc/fichtela.html"
+          "url": "http://filorus.ru/ilyenkov/texts/phc/fichtela.html"
         },
         {
           "title": "Вершина, конец и новая жизнь диалектики (Гегель и конец старой философии)",
-          "url": "http://caute.ru/ilyenkov/texts/phc/hegfin.html"
+          "url": "http://filorus.ru/ilyenkov/texts/phc/hegfin.html"
         },
         {
           "title": "Гегель и «отчуждение»",
-          "url": "http://caute.ru/ilyenkov/texts/phc/hgentfr.html"
+          "url": "http://filorus.ru/ilyenkov/texts/phc/hgentfr.html"
         },
         {
           "title": "Философский подвиг",
-          "url": "http://caute.ru/ilyenkov/texts/phc/feuerbach.html"
+          "url": "http://filorus.ru/ilyenkov/texts/phc/feuerbach.html"
         },
         {
           "title": "Маркс и западный мир",
-          "url": "http://caute.ru/ilyenkov/texts/phc/marxww.html"
+          "url": "http://filorus.ru/ilyenkov/texts/phc/marxww.html"
         },
         {
           "title": "О «сущности человека» и «гуманизме» в понимании Адама Шаффа (О книге А. Шаффа «Марксизм и человеческий индивид»)",
-          "url": "http://caute.ru/ilyenkov/texts/phc/schaff.html"
+          "url": "http://filorus.ru/ilyenkov/texts/phc/schaff.html"
         },
         {
           "title": "Противоречия мнимые и реальные",
-          "url": "http://caute.ru/ilyenkov/texts/phc/medavar.html"
+          "url": "http://filorus.ru/ilyenkov/texts/phc/medavar.html"
         },
         {
           "title": "Идеал",
-          "url": "http://caute.ru/ilyenkov/texts/enc/idealfe.html"
+          "url": "http://filorus.ru/ilyenkov/texts/enc/idealfe.html"
         },
         {
           "title": "Материалистическое понимание мышления как предмета логики",
-          "url": "http://caute.ru/ilyenkov/texts/dl/08.html"
+          "url": "http://filorus.ru/ilyenkov/texts/dl/08.html"
         },
         {
           "title": "Диалектика идеального",
-          "url": "http://caute.ru/ilyenkov/texts/dialideal.html"
+          "url": "http://filorus.ru/ilyenkov/texts/dialideal.html"
         },
         {
           "title": "Соображения по вопросу об отношении мышления и языка",
-          "url": "http://caute.ru/ilyenkov/texts/phc/lingva.html"
+          "url": "http://filorus.ru/ilyenkov/texts/phc/lingva.html"
         },
         {
           "title": "Диалектика абстрактного и конкретного",
-          "url": "http://caute.ru/ilyenkov/texts/daik.html"
+          "url": "http://filorus.ru/ilyenkov/texts/daik.html"
         },
         {
           "title": "Логическое и историческое",
-          "url": "http://caute.ru/ilyenkov/texts/loghis.html"
+          "url": "http://filorus.ru/ilyenkov/texts/loghis.html"
         },
         {
           "title": "Проблема противоречия в логике",
-          "url": "http://caute.ru/ilyenkov/texts/phc/ctradica.html"
+          "url": "http://filorus.ru/ilyenkov/texts/phc/ctradica.html"
         },
         {
           "title": "О всеобщем",
-          "url": "http://caute.ru/ilyenkov/texts/phc/commune.html"
+          "url": "http://filorus.ru/ilyenkov/texts/phc/commune.html"
         },
         {
           "title": "Субстанция",
-          "url": "http://caute.ru/ilyenkov/texts/enc/substantia.html"
+          "url": "http://filorus.ru/ilyenkov/texts/enc/substantia.html"
         },
         {
           "title": "Диалектика и мировоззрение",
-          "url": "http://caute.ru/ilyenkov/texts/phc/diamir.html"
+          "url": "http://filorus.ru/ilyenkov/texts/phc/diamir.html"
         },
         {
           "title": "О роли классического наследства в развитии категорий материалистической диалектики",
-          "url": "http://caute.ru/ilyenkov/texts/phc/classics.html"
+          "url": "http://filorus.ru/ilyenkov/texts/phc/classics.html"
         },
         {
           "title": "Несомненное и сомнительное в размышлениях Э. Майра",
-          "url": "http://caute.ru/ilyenkov/texts/phc/mayr.html"
+          "url": "http://filorus.ru/ilyenkov/texts/phc/mayr.html"
         },
         {
           "title": "Гегель и проблема способностей",
-          "url": "http://caute.ru/ilyenkov/texts/phc/hgpotn.html"
+          "url": "http://filorus.ru/ilyenkov/texts/phc/hgpotn.html"
         },
         {
           "title": "Деятельность и знание",
-          "url": "http://caute.ru/ilyenkov/texts/phc/actcog.html"
+          "url": "http://filorus.ru/ilyenkov/texts/phc/actcog.html"
         },
         {
           "title": "Что же такое личность?",
-          "url": "http://caute.ru/ilyenkov/texts/phc/personaa.html"
+          "url": "http://filorus.ru/ilyenkov/texts/phc/personaa.html"
         },
         {
           "title": "Космология духа",
-          "url": "http://caute.ru/ilyenkov/texts/phc/cosmologia.html"
+          "url": "http://filorus.ru/ilyenkov/texts/phc/cosmologia.html"
         },
         {
           "title": "Письма Г.Е. Шилову",
-          "url": "http://caute.ru/ilyenkov/texts/phc/shilov.html"
+          "url": "http://filorus.ru/ilyenkov/texts/phc/shilov.html"
         },
         {
           "title": "Письмо А.В. Суворову",
-          "url": "http://caute.ru/ilyenkov/texts/phc/suvorov.html"
+          "url": "http://filorus.ru/ilyenkov/texts/phc/suvorov.html"
         },
         {
           "title": "Письмо в Институт марксизма-ленинизма",
-          "url": "http://caute.ru/ilyenkov/texts/phc/imel.html"
+          "url": "http://filorus.ru/ilyenkov/texts/phc/imel.html"
         }
       ],
       "covered_by": "",
@@ -583,7 +583,7 @@
       "output_path": "ilyenkov_md/knigi/knigi-filosofiya-i-kultura.md",
       "section": "Книги",
       "title": "Философия и культура",
-      "url": "http://caute.ru/ilyenkov/texts/phc/index.html",
+      "url": "http://filorus.ru/ilyenkov/texts/phc/index.html",
       "work_manifest": "ilyenkov_md/knigi/knigi-filosofiya-i-kultura/work_manifest.json",
       "year": "1991"
     },
@@ -636,167 +636,167 @@
       "children": [
         {
           "title": "Предисловие автора [к немецкому изданию]",
-          "url": "http://caute.ru/ilyenkov/texts/daik/intrd.html"
+          "url": "http://filorus.ru/ilyenkov/texts/daik/intrd.html"
         },
         {
           "title": "Предисловие",
-          "url": "http://caute.ru/ilyenkov/texts/daik/intr.html"
+          "url": "http://filorus.ru/ilyenkov/texts/daik/intr.html"
         },
         {
           "title": "Часть первая. Категории абстрактного и конкретного как категории диалектической логики",
-          "url": "http://caute.ru/ilyenkov/texts/daik/1_1.html"
+          "url": "http://filorus.ru/ilyenkov/texts/daik/1_1.html"
         },
         {
           "title": "Термин «конкретное» и его историческая судьба. (Метафизический способ мышления и эмпиризм)",
-          "url": "http://caute.ru/ilyenkov/texts/daik/1_2.html"
+          "url": "http://filorus.ru/ilyenkov/texts/daik/1_2.html"
         },
         {
           "title": "Термин «конкретное» и его историческая судьба. (Pационализм)",
-          "url": "http://caute.ru/ilyenkov/texts/daik/1_3.html"
+          "url": "http://filorus.ru/ilyenkov/texts/daik/1_3.html"
         },
         {
           "title": "Муки рождения диалектики. Кант",
-          "url": "http://caute.ru/ilyenkov/texts/daik/1_4.html"
+          "url": "http://filorus.ru/ilyenkov/texts/daik/1_4.html"
         },
         {
           "title": "Проблема конкретного в идеалистической диалектике Гегеля",
-          "url": "http://caute.ru/ilyenkov/texts/daik/1_5.html"
+          "url": "http://filorus.ru/ilyenkov/texts/daik/1_5.html"
         },
         {
           "title": "Слово и абстракция как форма сознания",
-          "url": "http://caute.ru/ilyenkov/texts/daik/1_6.html"
+          "url": "http://filorus.ru/ilyenkov/texts/daik/1_6.html"
         },
         {
           "title": "Механизм сознания и абстракция",
-          "url": "http://caute.ru/ilyenkov/texts/daik/1_7.html"
+          "url": "http://filorus.ru/ilyenkov/texts/daik/1_7.html"
         },
         {
           "title": "Чувственность и сознание",
-          "url": "http://caute.ru/ilyenkov/texts/daik/1_8.html"
+          "url": "http://filorus.ru/ilyenkov/texts/daik/1_8.html"
         },
         {
           "title": "Чувственность, абстракция и общественный труд",
-          "url": "http://caute.ru/ilyenkov/texts/daik/1_9.html"
+          "url": "http://filorus.ru/ilyenkov/texts/daik/1_9.html"
         },
         {
           "title": "«Рассудок» и «разум»",
-          "url": "http://caute.ru/ilyenkov/texts/daik/1_10.html"
+          "url": "http://filorus.ru/ilyenkov/texts/daik/1_10.html"
         },
         {
           "title": "Глава 2. Абстракции мышления — понятия",
-          "url": "http://caute.ru/ilyenkov/texts/daik/2_1.html"
+          "url": "http://filorus.ru/ilyenkov/texts/daik/2_1.html"
         },
         {
           "title": "Об отношении представления к понятию",
-          "url": "http://caute.ru/ilyenkov/texts/daik/2_2.html"
+          "url": "http://filorus.ru/ilyenkov/texts/daik/2_2.html"
         },
         {
           "title": "История понятия «человек» и уроки этой истории",
-          "url": "http://caute.ru/ilyenkov/texts/daik/2_3.html"
+          "url": "http://filorus.ru/ilyenkov/texts/daik/2_3.html"
         },
         {
           "title": "Конкретное и диалектика общего — единичного",
-          "url": "http://caute.ru/ilyenkov/texts/daik/2_4.html"
+          "url": "http://filorus.ru/ilyenkov/texts/daik/2_4.html"
         },
         {
           "title": "Конкретное единство как единство противоположностей",
-          "url": "http://caute.ru/ilyenkov/texts/daik/2_5.html"
+          "url": "http://filorus.ru/ilyenkov/texts/daik/2_5.html"
         },
         {
           "title": "Абстракция и анализ",
-          "url": "http://caute.ru/ilyenkov/texts/daik/2_6.html"
+          "url": "http://filorus.ru/ilyenkov/texts/daik/2_6.html"
         },
         {
           "title": "Глава 3. Совпадение абстрактного и конкретного — закон мышления",
-          "url": "http://caute.ru/ilyenkov/texts/daik/3_1.html"
+          "url": "http://filorus.ru/ilyenkov/texts/daik/3_1.html"
         },
         {
           "title": "Диалектическое и эклектически-эмпирическое понимание «всесторонности рассмотрения»",
-          "url": "http://caute.ru/ilyenkov/texts/daik/3_2.html"
+          "url": "http://filorus.ru/ilyenkov/texts/daik/3_2.html"
         },
         {
           "title": "Спиралевидный характер конкретности в действительности и в ее теоретическом отражении",
-          "url": "http://caute.ru/ilyenkov/texts/daik/3_3.html"
+          "url": "http://filorus.ru/ilyenkov/texts/daik/3_3.html"
         },
         {
           "title": "Относительная самостоятельность как объективный прообраз «абстрактного»",
-          "url": "http://caute.ru/ilyenkov/texts/daik/3_4.html"
+          "url": "http://filorus.ru/ilyenkov/texts/daik/3_4.html"
         },
         {
           "title": "Конкретная абстракция (понятие) и практика",
-          "url": "http://caute.ru/ilyenkov/texts/daik/3_5.html"
+          "url": "http://filorus.ru/ilyenkov/texts/daik/3_5.html"
         },
         {
           "title": "Часть вторая. Восхождение от абстрактного к конкретному как логическая форма, соответствующая диалектике",
-          "url": "http://caute.ru/ilyenkov/texts/daik/4_1.html"
+          "url": "http://filorus.ru/ilyenkov/texts/daik/4_1.html"
         },
         {
           "title": "Взгляд Маркса на процесс научного развития",
-          "url": "http://caute.ru/ilyenkov/texts/daik/4_2.html"
+          "url": "http://filorus.ru/ilyenkov/texts/daik/4_2.html"
         },
         {
           "title": "Материалистическое обоснование способа восхождения от абстрактного к конкретному у Маркса",
-          "url": "http://caute.ru/ilyenkov/texts/daik/4_3.html"
+          "url": "http://filorus.ru/ilyenkov/texts/daik/4_3.html"
         },
         {
           "title": "«Индукция» Адама Смита и «дедукция» Давида Рикардо. Точка зрения Локка и точка зрения Спинозы в политической экономии",
-          "url": "http://caute.ru/ilyenkov/texts/daik/4_4.html"
+          "url": "http://filorus.ru/ilyenkov/texts/daik/4_4.html"
         },
         {
           "title": "«Дедукция» и проблема историзма",
-          "url": "http://caute.ru/ilyenkov/texts/daik/4_5.html"
+          "url": "http://filorus.ru/ilyenkov/texts/daik/4_5.html"
         },
         {
           "title": "Глава 5. Логическое развитие и конкретный историзм",
-          "url": "http://caute.ru/ilyenkov/texts/daik/5_1.html"
+          "url": "http://filorus.ru/ilyenkov/texts/daik/5_1.html"
         },
         {
           "title": "Логическое развитие или выражение конкретного историзма в исследовании",
-          "url": "http://caute.ru/ilyenkov/texts/daik/5_2.html"
+          "url": "http://filorus.ru/ilyenkov/texts/daik/5_2.html"
         },
         {
           "title": "Абстрактный и конкретный историзм",
-          "url": "http://caute.ru/ilyenkov/texts/daik/5_3.html"
+          "url": "http://filorus.ru/ilyenkov/texts/daik/5_3.html"
         },
         {
           "title": "Глава 6. Способ восхождения от абстрактного к конкретному в «Капитале» К. Маркса",
-          "url": "http://caute.ru/ilyenkov/texts/daik/6_1.html"
+          "url": "http://filorus.ru/ilyenkov/texts/daik/6_1.html"
         },
         {
           "title": "Противоречие как факт научного развития",
-          "url": "http://caute.ru/ilyenkov/texts/daik/6_2.html"
+          "url": "http://filorus.ru/ilyenkov/texts/daik/6_2.html"
         },
         {
           "title": "Противоречия трудовой теории стоимости и их диалектическое разрешение у Маркса",
-          "url": "http://caute.ru/ilyenkov/texts/daik/6_3.html"
+          "url": "http://filorus.ru/ilyenkov/texts/daik/6_3.html"
         },
         {
           "title": "Конкретное как противоречие в его развитии",
-          "url": "http://caute.ru/ilyenkov/texts/daik/6_4.html"
+          "url": "http://filorus.ru/ilyenkov/texts/daik/6_4.html"
         },
         {
           "title": "I. Понимание абстрактного и конкретного в диалектике и формальной логике",
-          "url": "http://caute.ru/ilyenkov/texts/daik/absconcr.html"
+          "url": "http://filorus.ru/ilyenkov/texts/daik/absconcr.html"
         },
         {
           "title": "II.1. [Ответ Я.А. Кронроду («Капитал» К. Маркса и проблема стоимости)]",
-          "url": "http://caute.ru/ilyenkov/texts/daik/reskron.html"
+          "url": "http://filorus.ru/ilyenkov/texts/daik/reskron.html"
         },
         {
           "title": "II.2. К выступлению у экономистов 24.11.65",
-          "url": "http://caute.ru/ilyenkov/texts/daik/econ.html"
+          "url": "http://filorus.ru/ilyenkov/texts/daik/econ.html"
         },
         {
           "title": "II.3. К вопросу о товарном производстве",
-          "url": "http://caute.ru/ilyenkov/texts/daik/merx.html"
+          "url": "http://filorus.ru/ilyenkov/texts/daik/merx.html"
         },
         {
           "title": "II.4. К разговору о Марксе",
-          "url": "http://caute.ru/ilyenkov/texts/daik/marx.html"
+          "url": "http://filorus.ru/ilyenkov/texts/daik/marx.html"
         },
         {
           "title": "II.5. О переводе термина «Wert» (ценность, достоинство, стоимость, значение)",
-          "url": "http://caute.ru/ilyenkov/texts/daik/wert.html"
+          "url": "http://filorus.ru/ilyenkov/texts/daik/wert.html"
         }
       ],
       "covered_by": "",
@@ -808,7 +808,7 @@
       "output_path": "ilyenkov_md/knigi/knigi-dialektika-abstraktnogo-i-konkretnogo-v-nauchno-teoreticheskom-myshlenii.md",
       "section": "Книги",
       "title": "Диалектика абстрактного и конкретного в научно-теоретическом мышлении",
-      "url": "http://caute.ru/ilyenkov/texts/daik/index.html",
+      "url": "http://filorus.ru/ilyenkov/texts/daik/index.html",
       "work_manifest": "ilyenkov_md/knigi/knigi-dialektika-abstraktnogo-i-konkretnogo-v-nauchno-teoreticheskom-myshlenii/work_manifest.json",
       "year": "1997"
     },
@@ -816,35 +816,35 @@
       "children": [
         {
           "title": "Школа должна учить мыслить!",
-          "url": "http://caute.ru/ilyenkov/texts/sch/schola.html"
+          "url": "http://filorus.ru/ilyenkov/texts/sch/schola.html"
         },
         {
           "title": "К дискуссии о школьном образовании",
-          "url": "http://caute.ru/ilyenkov/texts/sch/discus.html"
+          "url": "http://filorus.ru/ilyenkov/texts/sch/discus.html"
         },
         {
           "title": "О природе способности",
-          "url": "http://caute.ru/ilyenkov/texts/sch/potent.html"
+          "url": "http://filorus.ru/ilyenkov/texts/sch/potent.html"
         },
         {
           "title": "Биологическое и социальное в человеке",
-          "url": "http://caute.ru/ilyenkov/texts/sch/biosoc.html"
+          "url": "http://filorus.ru/ilyenkov/texts/sch/biosoc.html"
         },
         {
           "title": "К вопросу о понятии «деятельность» и его значении для педагогики",
-          "url": "http://caute.ru/ilyenkov/texts/sch/actus.html"
+          "url": "http://filorus.ru/ilyenkov/texts/sch/actus.html"
         },
         {
           "title": "Знание и мышление",
-          "url": "http://caute.ru/ilyenkov/texts/sch/scientia.html"
+          "url": "http://filorus.ru/ilyenkov/texts/sch/scientia.html"
         },
         {
           "title": "К беседе об эстетическом воспитании",
-          "url": "http://caute.ru/ilyenkov/texts/sch/aest.html"
+          "url": "http://filorus.ru/ilyenkov/texts/sch/aest.html"
         },
         {
           "title": "К разговору о Мещерякове",
-          "url": "http://caute.ru/ilyenkov/texts/sch/mess.html"
+          "url": "http://filorus.ru/ilyenkov/texts/sch/mess.html"
         }
       ],
       "covered_by": "",
@@ -856,7 +856,7 @@
       "output_path": "ilyenkov_md/knigi/knigi-shkola-dolzhna-uchit-myslit.md",
       "section": "Книги",
       "title": "Школа должна учить мыслить",
-      "url": "http://caute.ru/ilyenkov/texts/sch/index.html",
+      "url": "http://filorus.ru/ilyenkov/texts/sch/index.html",
       "year": "2002"
     },
     {
@@ -869,7 +869,7 @@
       "output_path": "ilyenkov_md/glavy-i-stati-v-knigah/glavy-i-stati-v-knigah-o-roli-protivorechiya-v-poznanii.md",
       "section": "Главы и статьи в книгах",
       "title": "О роли противоречия в познании",
-      "url": "http://caute.ru/ilyenkov/texts/ctradic.html",
+      "url": "http://filorus.ru/ilyenkov/texts/ctradic.html",
       "year": "1958"
     },
     {
@@ -882,7 +882,7 @@
       "output_path": "",
       "section": "Главы и статьи в книгах",
       "title": "О «специфике» искусства",
-      "url": "http://caute.ru/ilyenkov/texts/iki/ars.html",
+      "url": "http://filorus.ru/ilyenkov/texts/iki/ars.html",
       "year": "1960"
     },
     {
@@ -895,7 +895,7 @@
       "output_path": "ilyenkov_md/glavy-i-stati-v-knigah/glavy-i-stati-v-knigah-logicheskoe-i-istoricheskoe.md",
       "section": "Главы и статьи в книгах",
       "title": "Логическое и историческое",
-      "url": "http://caute.ru/ilyenkov/texts/loghi.html",
+      "url": "http://filorus.ru/ilyenkov/texts/loghi.html",
       "year": "1960"
     },
     {
@@ -908,7 +908,7 @@
       "output_path": "",
       "section": "Главы и статьи в книгах",
       "title": "Понимание абстрактного и конкретного в диалектике и формальной логике",
-      "url": "http://caute.ru/ilyenkov/texts/daik/absconcr.html",
+      "url": "http://filorus.ru/ilyenkov/texts/daik/absconcr.html",
       "year": "1962"
     },
     {
@@ -921,7 +921,7 @@
       "output_path": "ilyenkov_md/glavy-i-stati-v-knigah/glavy-i-stati-v-knigah-vopros-o-tozhdestve-myshleniya-i-bytiya-v-domarksistskoi-filosofii.md",
       "section": "Главы и статьи в книгах",
       "title": "Вопрос о тождестве мышления и бытия в домарксистской философии",
-      "url": "http://caute.ru/ilyenkov/texts/idemb.html",
+      "url": "http://filorus.ru/ilyenkov/texts/idemb.html",
       "year": "1964"
     },
     {
@@ -934,7 +934,7 @@
       "output_path": "",
       "section": "Главы и статьи в книгах",
       "title": "Об эстетической природе фантазии",
-      "url": "http://caute.ru/ilyenkov/texts/iki/phantasia.html",
+      "url": "http://filorus.ru/ilyenkov/texts/iki/phantasia.html",
       "year": "1964"
     },
     {
@@ -947,7 +947,7 @@
       "output_path": "ilyenkov_md/glavy-i-stati-v-knigah/glavy-i-stati-v-knigah-k-otsenke-gegelevskoi-kontseptsii-otnosheniya-istiny-k-krasote.md",
       "section": "Главы и статьи в книгах",
       "title": "К оценке гегелевской концепции отношения истины к красоте",
-      "url": "http://caute.ru/ilyenkov/texts/hgverb.html",
+      "url": "http://filorus.ru/ilyenkov/texts/hgverb.html",
       "year": "1966"
     },
     {
@@ -960,7 +960,7 @@
       "output_path": "",
       "section": "Главы и статьи в книгах",
       "title": "О роли классического наследства в развитии категорий материалистической диалектики",
-      "url": "http://caute.ru/ilyenkov/texts/phc/classics.html",
+      "url": "http://filorus.ru/ilyenkov/texts/phc/classics.html",
       "year": "1966"
     },
     {
@@ -973,7 +973,7 @@
       "output_path": "ilyenkov_md/glavy-i-stati-v-knigah/glavy-i-stati-v-knigah-mashina-i-chelovek-kibernetika-i-filosofiya.md",
       "section": "Главы и статьи в книгах",
       "title": "Машина и человек, кибернетика и философия",
-      "url": "http://caute.ru/ilyenkov/texts/machomo.html",
+      "url": "http://filorus.ru/ilyenkov/texts/machomo.html",
       "year": "1966"
     },
     {
@@ -986,7 +986,7 @@
       "output_path": "ilyenkov_md/glavy-i-stati-v-knigah/glavy-i-stati-v-knigah-ob-esteticheskoi-prirode-fantazii-2.md",
       "section": "Главы и статьи в книгах",
       "title": "Об эстетической природе фантазии",
-      "url": "http://caute.ru/ilyenkov/texts/phanta.html",
+      "url": "http://filorus.ru/ilyenkov/texts/phanta.html",
       "year": "1967"
     },
     {
@@ -999,7 +999,7 @@
       "output_path": "ilyenkov_md/glavy-i-stati-v-knigah/glavy-i-stati-v-knigah-ponyatie-abstraktnogo-idealnogo-obekta.md",
       "section": "Главы и статьи в книгах",
       "title": "Понятие «абстрактного» («идеального») объекта",
-      "url": "http://caute.ru/ilyenkov/texts/abstobj.html",
+      "url": "http://filorus.ru/ilyenkov/texts/abstobj.html",
       "year": "1968"
     },
     {
@@ -1012,7 +1012,7 @@
       "output_path": "ilyenkov_md/glavy-i-stati-v-knigah/glavy-i-stati-v-knigah-problema-abstraktnogo-i-konkretnogo-v-svete-kapitala-marksa.md",
       "section": "Главы и статьи в книгах",
       "title": "Проблема абстрактного и конкретного в свете «Капитала» Маркса",
-      "url": "http://caute.ru/ilyenkov/texts/pakmx.html",
+      "url": "http://filorus.ru/ilyenkov/texts/pakmx.html",
       "year": "1968"
     },
     {
@@ -1025,7 +1025,7 @@
       "output_path": "ilyenkov_md/glavy-i-stati-v-knigah/glavy-i-stati-v-knigah-dumat-myslit.md",
       "section": "Главы и статьи в книгах",
       "title": "Думать, мыслить...",
-      "url": "http://caute.ru/ilyenkov/texts/cogitare.html",
+      "url": "http://filorus.ru/ilyenkov/texts/cogitare.html",
       "year": "1968"
     },
     {
@@ -1038,7 +1038,7 @@
       "output_path": "",
       "section": "Главы и статьи в книгах",
       "title": "Почему мне это не нравится",
-      "url": "http://caute.ru/ilyenkov/texts/noamo.html",
+      "url": "http://filorus.ru/ilyenkov/texts/noamo.html",
       "year": "1968"
     },
     {
@@ -1051,7 +1051,7 @@
       "output_path": "",
       "section": "Главы и статьи в книгах",
       "title": "Что там, в Зазеркалье?",
-      "url": "http://caute.ru/ilyenkov/texts/iki/metadisk.html",
+      "url": "http://filorus.ru/ilyenkov/texts/iki/metadisk.html",
       "year": "1969"
     },
     {
@@ -1064,7 +1064,7 @@
       "output_path": "",
       "section": "Главы и статьи в книгах",
       "title": "Логическое и историческое",
-      "url": "http://caute.ru/ilyenkov/texts/loghis.html",
+      "url": "http://filorus.ru/ilyenkov/texts/loghis.html",
       "year": "1971"
     },
     {
@@ -1077,7 +1077,7 @@
       "output_path": "",
       "section": "Главы и статьи в книгах",
       "title": "Диалектика абстрактного и конкретного",
-      "url": "http://caute.ru/ilyenkov/texts/daik.html",
+      "url": "http://filorus.ru/ilyenkov/texts/daik.html",
       "year": "1971"
     },
     {
@@ -1090,7 +1090,7 @@
       "output_path": "",
       "section": "Главы и статьи в книгах",
       "title": "Гуманизм и наука",
-      "url": "http://caute.ru/ilyenkov/texts/iki/humsci.html",
+      "url": "http://filorus.ru/ilyenkov/texts/iki/humsci.html",
       "year": "1971"
     },
     {
@@ -1103,7 +1103,7 @@
       "output_path": "ilyenkov_md/glavy-i-stati-v-knigah/glavy-i-stati-v-knigah-gegel-i-problema-predmeta-logiki.md",
       "section": "Главы и статьи в книгах",
       "title": "Гегель и проблема предмета логики",
-      "url": "http://caute.ru/ilyenkov/texts/hglogic.html",
+      "url": "http://filorus.ru/ilyenkov/texts/hglogic.html",
       "year": "1973"
     },
     {
@@ -1116,7 +1116,7 @@
       "output_path": "ilyenkov_md/glavy-i-stati-v-knigah/glavy-i-stati-v-knigah-o-vseobschem.md",
       "section": "Главы и статьи в книгах",
       "title": "О всеобщем",
-      "url": "http://caute.ru/ilyenkov/texts/commune.html",
+      "url": "http://filorus.ru/ilyenkov/texts/commune.html",
       "year": "1973"
     },
     {
@@ -1129,7 +1129,7 @@
       "output_path": "ilyenkov_md/glavy-i-stati-v-knigah/glavy-i-stati-v-knigah-myshlenie-i-yazyk-u-gegelya-1974.md",
       "section": "Главы и статьи в книгах",
       "title": "Мышление и язык у Гегеля (1974)",
-      "url": "http://caute.ru/ilyenkov/texts/coglang.html",
+      "url": "http://filorus.ru/ilyenkov/texts/coglang.html",
       "year": ""
     },
     {
@@ -1142,7 +1142,7 @@
       "output_path": "ilyenkov_md/glavy-i-stati-v-knigah/glavy-i-stati-v-knigah-leninskaya-ideya-sovpadeniya-logiki-teorii-poznaniya-i-dialektiki.md",
       "section": "Главы и статьи в книгах",
       "title": "Ленинская идея совпадения логики, теории познания и диалектики",
-      "url": "http://caute.ru/ilyenkov/texts/dilotp.html",
+      "url": "http://filorus.ru/ilyenkov/texts/dilotp.html",
       "year": "1974"
     },
     {
@@ -1155,7 +1155,7 @@
       "output_path": "ilyenkov_md/glavy-i-stati-v-knigah/glavy-i-stati-v-knigah-dialektika-i-mirovozzrenie.md",
       "section": "Главы и статьи в книгах",
       "title": "Диалектика и мировоззрение",
-      "url": "http://caute.ru/ilyenkov/texts/dimirb.html",
+      "url": "http://filorus.ru/ilyenkov/texts/dimirb.html",
       "year": "1977"
     },
     {
@@ -1168,7 +1168,7 @@
       "output_path": "ilyenkov_md/glavy-i-stati-v-knigah/glavy-i-stati-v-knigah-problema-protivorechiya-v-logike.md",
       "section": "Главы и статьи в книгах",
       "title": "Проблема противоречия в логике",
-      "url": "http://caute.ru/ilyenkov/texts/ctradicb.html",
+      "url": "http://filorus.ru/ilyenkov/texts/ctradicb.html",
       "year": "1979"
     },
     {
@@ -1181,7 +1181,7 @@
       "output_path": "ilyenkov_md/glavy-i-stati-v-knigah/glavy-i-stati-v-knigah-o-materialnosti-soznaniya-i-o-transtsendentalnyh-koshkah.md",
       "section": "Главы и статьи в книгах",
       "title": "О материальности сознания и о трансцендентальных кошках",
-      "url": "http://caute.ru/ilyenkov/texts/tracats.html",
+      "url": "http://filorus.ru/ilyenkov/texts/tracats.html",
       "year": "1979"
     },
     {
@@ -1194,7 +1194,7 @@
       "output_path": "ilyenkov_md/glavy-i-stati-v-knigah/glavy-i-stati-v-knigah-dialektika-esteticheskogo-kak-teoriya-chuvstvennogo-poznaniya.md",
       "section": "Главы и статьи в книгах",
       "title": "Диалектика эстетического, как теория чувственного познания",
-      "url": "http://caute.ru/ilyenkov/texts/canar.html",
+      "url": "http://filorus.ru/ilyenkov/texts/canar.html",
       "year": "1979"
     },
     {
@@ -1207,7 +1207,7 @@
       "output_path": "ilyenkov_md/glavy-i-stati-v-knigah/glavy-i-stati-v-knigah-dialektika-i-mirovozzrenie-2.md",
       "section": "Главы и статьи в книгах",
       "title": "Диалектика и мировоззрение",
-      "url": "http://caute.ru/ilyenkov/texts/dimira.html",
+      "url": "http://filorus.ru/ilyenkov/texts/dimira.html",
       "year": "1979"
     },
     {
@@ -1233,7 +1233,7 @@
       "output_path": "ilyenkov_md/stati-v-zhurnalah/stati-v-zhurnalah-o-dialektike-abstraktnogo-i-konkretnogo-v-nauchno-teoreticheskom-poznani.md",
       "section": "Статьи в журналах",
       "title": "О диалектике абстрактного и конкретного в научно-теоретическом познании",
-      "url": "http://caute.ru/ilyenkov/texts/vf/daikntp.html",
+      "url": "http://filorus.ru/ilyenkov/texts/vf/daikntp.html",
       "year": "1955"
     },
     {
@@ -1246,7 +1246,7 @@
       "output_path": "ilyenkov_md/stati-v-zhurnalah/stati-v-zhurnalah-k-voprosu-o-protivorechii-v-myshlenii.md",
       "section": "Статьи в журналах",
       "title": "К вопросу о противоречии в мышлении",
-      "url": "http://caute.ru/ilyenkov/texts/vf/quecontr.html",
+      "url": "http://filorus.ru/ilyenkov/texts/vf/quecontr.html",
       "year": "1957"
     },
     {
@@ -1259,7 +1259,7 @@
       "output_path": "ilyenkov_md/stati-v-zhurnalah/stati-v-zhurnalah-truslivyi-nigilizm-geroicheskogo-pozitivista.md",
       "section": "Статьи в журналах",
       "title": "Трусливый нигилизм «героического позитивиста»",
-      "url": "http://caute.ru/ilyenkov/texts/rec/nihilism.html",
+      "url": "http://filorus.ru/ilyenkov/texts/rec/nihilism.html",
       "year": "1959"
     },
     {
@@ -1272,7 +1272,7 @@
       "output_path": "ilyenkov_md/stati-v-zhurnalah/stati-v-zhurnalah-problema-ideala-v-filosofii-i.md",
       "section": "Статьи в журналах",
       "title": "Проблема идеала в философии (I)",
-      "url": "http://caute.ru/ilyenkov/texts/vf/ideala.html",
+      "url": "http://filorus.ru/ilyenkov/texts/vf/ideala.html",
       "year": "1962"
     },
     {
@@ -1285,7 +1285,7 @@
       "output_path": "ilyenkov_md/stati-v-zhurnalah/stati-v-zhurnalah-problema-ideala-v-filosofii-ii.md",
       "section": "Статьи в журналах",
       "title": "Проблема идеала в философии (II)",
-      "url": "http://caute.ru/ilyenkov/texts/vf/idealb.html",
+      "url": "http://filorus.ru/ilyenkov/texts/vf/idealb.html",
       "year": "1963"
     },
     {
@@ -1298,7 +1298,7 @@
       "output_path": "",
       "section": "Статьи в журналах",
       "title": "Школа должна учить мыслить!",
-      "url": "http://caute.ru/ilyenkov/texts/sch/schola.html",
+      "url": "http://filorus.ru/ilyenkov/texts/sch/schola.html",
       "year": "1964"
     },
     {
@@ -1311,7 +1311,7 @@
       "output_path": "ilyenkov_md/stati-v-zhurnalah/stati-v-zhurnalah-predmet-logiki-kak-nauki-v-novoi-filosofii.md",
       "section": "Статьи в журналах",
       "title": "Предмет логики как науки в новой философии",
-      "url": "http://caute.ru/ilyenkov/texts/vf/sublog.html",
+      "url": "http://filorus.ru/ilyenkov/texts/vf/sublog.html",
       "year": "1965"
     },
     {
@@ -1324,7 +1324,7 @@
       "output_path": "ilyenkov_md/stati-v-zhurnalah/stati-v-zhurnalah-k-istorii-voprosa-o-predmete-logiki-kak-nauki.md",
       "section": "Статьи в журналах",
       "title": "К истории вопроса о предмете логики как науки",
-      "url": "http://caute.ru/ilyenkov/texts/vf/hislog.html",
+      "url": "http://filorus.ru/ilyenkov/texts/vf/hislog.html",
       "year": "1966"
     },
     {
@@ -1337,7 +1337,7 @@
       "output_path": "",
       "section": "Статьи в журналах",
       "title": "Гегель и «отчуждение»",
-      "url": "http://caute.ru/ilyenkov/texts/phc/hgentfr.html",
+      "url": "http://filorus.ru/ilyenkov/texts/phc/hgentfr.html",
       "year": "1967"
     },
     {
@@ -1350,7 +1350,7 @@
       "output_path": "ilyenkov_md/stati-v-zhurnalah/stati-v-zhurnalah-problema-abstraktnogo-i-konkretnogo.md",
       "section": "Статьи в журналах",
       "title": "Проблема абстрактного и конкретного",
-      "url": "http://caute.ru/ilyenkov/texts/vf/prabcon.html",
+      "url": "http://filorus.ru/ilyenkov/texts/vf/prabcon.html",
       "year": "1967"
     },
     {
@@ -1363,7 +1363,7 @@
       "output_path": "ilyenkov_md/stati-v-zhurnalah/stati-v-zhurnalah-o-voobrazhenii.md",
       "section": "Статьи в журналах",
       "title": "О воображении",
-      "url": "http://caute.ru/ilyenkov/texts/imaginat.html",
+      "url": "http://filorus.ru/ilyenkov/texts/imaginat.html",
       "year": "1968"
     },
     {
@@ -1376,7 +1376,7 @@
       "output_path": "ilyenkov_md/stati-v-zhurnalah/stati-v-zhurnalah-dialektika-ili-eklektika-polemicheskie-zametki-o-maoistskom-ponimanii-i-.md",
       "section": "Статьи в журналах",
       "title": "Диалектика или эклектика? (Полемические заметки о маоистском «понимании» и «применении» диалектики)",
-      "url": "http://caute.ru/ilyenkov/texts/vf/diekl.html",
+      "url": "http://filorus.ru/ilyenkov/texts/vf/diekl.html",
       "year": "1968"
     },
     {
@@ -1389,7 +1389,7 @@
       "output_path": "ilyenkov_md/stati-v-zhurnalah/stati-v-zhurnalah-psihika-i-mozg-otvet-d-i-dubrovskomu.md",
       "section": "Статьи в журналах",
       "title": "Психика и мозг (ответ Д.И. Дубровскому)",
-      "url": "http://caute.ru/ilyenkov/texts/vf/psycer.html",
+      "url": "http://filorus.ru/ilyenkov/texts/vf/psycer.html",
       "year": "1968"
     },
     {
@@ -1402,7 +1402,7 @@
       "output_path": "ilyenkov_md/stati-v-zhurnalah/stati-v-zhurnalah-v-i-lenin-i-aktualnye-problemy-dialekticheskoi-logiki.md",
       "section": "Статьи в журналах",
       "title": "В.И. Ленин и актуальные проблемы диалектической логики",
-      "url": "http://caute.ru/ilyenkov/texts/leninact.html",
+      "url": "http://filorus.ru/ilyenkov/texts/leninact.html",
       "year": "1969"
     },
     {
@@ -1415,7 +1415,7 @@
       "output_path": "ilyenkov_md/stati-v-zhurnalah/stati-v-zhurnalah-psihika-cheloveka-pod-lupoi-vremeni.md",
       "section": "Статьи в журналах",
       "title": "Психика человека под «лупой времени»",
-      "url": "http://caute.ru/ilyenkov/texts/lupa.html",
+      "url": "http://filorus.ru/ilyenkov/texts/lupa.html",
       "year": "1970"
     },
     {
@@ -1428,7 +1428,7 @@
       "output_path": "",
       "section": "Статьи в журналах",
       "title": "Пройдена ли таблица умножения?",
-      "url": "http://caute.ru/ilyenkov/texts/iki/tabmult.html",
+      "url": "http://filorus.ru/ilyenkov/texts/iki/tabmult.html",
       "year": "1972"
     },
     {
@@ -1441,7 +1441,7 @@
       "output_path": "ilyenkov_md/stati-v-zhurnalah/stati-v-zhurnalah-tsentralnyi-vopros-dialektiki.md",
       "section": "Статьи в журналах",
       "title": "Центральный вопрос диалектики",
-      "url": "http://caute.ru/ilyenkov/texts/centrdia.html",
+      "url": "http://filorus.ru/ilyenkov/texts/centrdia.html",
       "year": "1973"
     },
     {
@@ -1454,7 +1454,7 @@
       "output_path": "ilyenkov_md/stati-v-zhurnalah/stati-v-zhurnalah-tak-kto-zhe-myslit-abstraktno-neobrazovannyi-chelovek-a-vovse-ne-prosves.md",
       "section": "Статьи в журналах",
       "title": "– Так кто же мыслит абстрактно? — Необразованный человек, а вовсе не просвещенный",
-      "url": "http://caute.ru/ilyenkov/tra/denkabc.html",
+      "url": "http://filorus.ru/ilyenkov/tra/denkabc.html",
       "year": "1973"
     },
     {
@@ -1467,7 +1467,7 @@
       "output_path": "ilyenkov_md/stati-v-zhurnalah/stati-v-zhurnalah-falsifikatsiya-marksistskoi-dialektiki-v-ugodu-maoistskoi-politike.md",
       "section": "Статьи в журналах",
       "title": "Фальсификация марксистской диалектики в угоду маоистской политике",
-      "url": "http://caute.ru/ilyenkov/texts/falsmao.html",
+      "url": "http://filorus.ru/ilyenkov/texts/falsmao.html",
       "year": "1973"
     },
     {
@@ -1480,7 +1480,7 @@
       "output_path": "ilyenkov_md/stati-v-zhurnalah/stati-v-zhurnalah-gegel-i-germenevtika.md",
       "section": "Статьи в журналах",
       "title": "Гегель и герменевтика",
-      "url": "http://caute.ru/ilyenkov/texts/vf/hegherm.html",
+      "url": "http://filorus.ru/ilyenkov/texts/vf/hegherm.html",
       "year": "1974"
     },
     {
@@ -1493,7 +1493,7 @@
       "output_path": "ilyenkov_md/stati-v-zhurnalah/stati-v-zhurnalah-didaktika-i-dialektika.md",
       "section": "Статьи в журналах",
       "title": "Дидактика и диалектика",
-      "url": "http://caute.ru/ilyenkov/texts/vf/didakt.html",
+      "url": "http://filorus.ru/ilyenkov/texts/vf/didakt.html",
       "year": "1974"
     },
     {
@@ -1506,7 +1506,7 @@
       "output_path": "",
       "section": "Статьи в журналах",
       "title": "Несомненное и сомнительное в размышлениях Э. Майра",
-      "url": "http://caute.ru/ilyenkov/texts/phc/mayr.html",
+      "url": "http://filorus.ru/ilyenkov/texts/phc/mayr.html",
       "year": "1974"
     },
     {
@@ -1519,7 +1519,7 @@
       "output_path": "ilyenkov_md/stati-v-zhurnalah/stati-v-zhurnalah-aleksandr-ivanovich-mescheryakov-i-ego-pedagogika.md",
       "section": "Статьи в журналах",
       "title": "Александр Иванович Мещеряков и его педагогика",
-      "url": "http://caute.ru/ilyenkov/texts/messher.html",
+      "url": "http://filorus.ru/ilyenkov/texts/messher.html",
       "year": "1975"
     },
     {
@@ -1532,7 +1532,7 @@
       "output_path": "ilyenkov_md/stati-v-zhurnalah/stati-v-zhurnalah-vydayuscheesya-dostizhenie-sovetskoi-nauki.md",
       "section": "Статьи в журналах",
       "title": "Выдающееся достижение советской науки",
-      "url": "http://caute.ru/ilyenkov/texts/vf/magsci.html",
+      "url": "http://filorus.ru/ilyenkov/texts/vf/magsci.html",
       "year": "1975"
     },
     {
@@ -1545,7 +1545,7 @@
       "output_path": "ilyenkov_md/stati-v-zhurnalah/stati-v-zhurnalah-partii-naya-pozitsiya-teoretika.md",
       "section": "Статьи в журналах",
       "title": "Партийная позиция теоретика",
-      "url": "http://caute.ru/ilyenkov/texts/lifpart.html",
+      "url": "http://filorus.ru/ilyenkov/texts/lifpart.html",
       "year": "1975"
     },
     {
@@ -1558,7 +1558,7 @@
       "output_path": "ilyenkov_md/stati-v-zhurnalah/stati-v-zhurnalah-tri-veka-bessmertiya.md",
       "section": "Статьи в журналах",
       "title": "Три века бессмертия",
-      "url": "http://caute.ru/ilyenkov/texts/tricent.html",
+      "url": "http://filorus.ru/ilyenkov/texts/tricent.html",
       "year": "1977"
     },
     {
@@ -1571,7 +1571,7 @@
       "output_path": "",
       "section": "Статьи в журналах",
       "title": "Опередивший свое время",
-      "url": "http://caute.ru/ilyenkov/texts/phc/tempus.html",
+      "url": "http://filorus.ru/ilyenkov/texts/phc/tempus.html",
       "year": "1977"
     },
     {
@@ -1584,7 +1584,7 @@
       "output_path": "ilyenkov_md/stati-v-zhurnalah/stati-v-zhurnalah-stanovlenie-lichnosti-k-itogam-nauchnogo-eksperimenta.md",
       "section": "Статьи в журналах",
       "title": "Становление личности: к итогам научного эксперимента",
-      "url": "http://caute.ru/ilyenkov/texts/genpers.html",
+      "url": "http://filorus.ru/ilyenkov/texts/genpers.html",
       "year": "1977"
     },
     {
@@ -1597,7 +1597,7 @@
       "output_path": "ilyenkov_md/stati-v-zhurnalah/stati-v-zhurnalah-soobrazheniya-po-voprosu-ob-otnoshenii-myshleniya-i-yazyka-rechi.md",
       "section": "Статьи в журналах",
       "title": "Соображения по вопросу об отношении мышления и языка (речи)",
-      "url": "http://caute.ru/ilyenkov/texts/vf/cogling.html",
+      "url": "http://filorus.ru/ilyenkov/texts/vf/cogling.html",
       "year": "1977"
     },
     {
@@ -1610,7 +1610,7 @@
       "output_path": "ilyenkov_md/stati-v-zhurnalah/stati-v-zhurnalah-problema-idealnogo.md",
       "section": "Статьи в журналах",
       "title": "Проблема идеального",
-      "url": "http://caute.ru/ilyenkov/texts/vf/prideala.html",
+      "url": "http://filorus.ru/ilyenkov/texts/vf/prideala.html",
       "year": "1979"
     },
     {
@@ -1623,7 +1623,7 @@
       "output_path": "ilyenkov_md/stati-v-zhurnalah/stati-v-zhurnalah-materializm-voinstvuyuschii-znachit-dialekticheskii.md",
       "section": "Статьи в журналах",
       "title": "Материализм воинствующий — значит диалектический",
-      "url": "http://caute.ru/ilyenkov/texts/material.html",
+      "url": "http://filorus.ru/ilyenkov/texts/material.html",
       "year": "1979"
     },
     {
@@ -1636,7 +1636,7 @@
       "output_path": "ilyenkov_md/stati-v-entsiklopediyah/stati-v-entsiklopediyah-subekt-i-obekt.md",
       "section": "Статьи в энциклопедиях",
       "title": "Субъект и объект",
-      "url": "http://caute.ru/ilyenkov/texts/enc/subobj.html",
+      "url": "http://filorus.ru/ilyenkov/texts/enc/subobj.html",
       "year": "1956"
     },
     {
@@ -1649,7 +1649,7 @@
       "output_path": "ilyenkov_md/stati-v-entsiklopediyah/stati-v-entsiklopediyah-abstraktsiya.md",
       "section": "Статьи в энциклопедиях",
       "title": "Абстракция",
-      "url": "http://caute.ru/ilyenkov/texts/enc/abstract.html",
+      "url": "http://filorus.ru/ilyenkov/texts/enc/abstract.html",
       "year": "1960"
     },
     {
@@ -1662,7 +1662,7 @@
       "output_path": "ilyenkov_md/stati-v-entsiklopediyah/stati-v-entsiklopediyah-vzaimodei-stvie.md",
       "section": "Статьи в энциклопедиях",
       "title": "Взаимодействие",
-      "url": "http://caute.ru/ilyenkov/texts/enc/interact.html",
+      "url": "http://filorus.ru/ilyenkov/texts/enc/interact.html",
       "year": "1960"
     },
     {
@@ -1675,7 +1675,7 @@
       "output_path": "ilyenkov_md/stati-v-entsiklopediyah/stati-v-entsiklopediyah-vzaimosvyaz.md",
       "section": "Статьи в энциклопедиях",
       "title": "Взаимосвязь",
-      "url": "http://caute.ru/ilyenkov/texts/enc/correlat.html",
+      "url": "http://filorus.ru/ilyenkov/texts/enc/correlat.html",
       "year": "1960"
     },
     {
@@ -1688,7 +1688,7 @@
       "output_path": "ilyenkov_md/stati-v-entsiklopediyah/stati-v-entsiklopediyah-vseobschee.md",
       "section": "Статьи в энциклопедиях",
       "title": "Всеобщее",
-      "url": "http://caute.ru/ilyenkov/texts/enc/comfe.html",
+      "url": "http://filorus.ru/ilyenkov/texts/enc/comfe.html",
       "year": "1960"
     },
     {
@@ -1701,7 +1701,7 @@
       "output_path": "ilyenkov_md/stati-v-entsiklopediyah/stati-v-entsiklopediyah-dei-stvitelnost.md",
       "section": "Статьи в энциклопедиях",
       "title": "Действительность",
-      "url": "http://caute.ru/ilyenkov/texts/enc/real.html",
+      "url": "http://filorus.ru/ilyenkov/texts/enc/real.html",
       "year": "1960"
     },
     {
@@ -1714,7 +1714,7 @@
       "output_path": "ilyenkov_md/stati-v-entsiklopediyah/stati-v-entsiklopediyah-edinichnoe.md",
       "section": "Статьи в энциклопедиях",
       "title": "Единичное",
-      "url": "http://caute.ru/ilyenkov/texts/enc/singul.html",
+      "url": "http://filorus.ru/ilyenkov/texts/enc/singul.html",
       "year": "1962"
     },
     {
@@ -1727,7 +1727,7 @@
       "output_path": "ilyenkov_md/stati-v-entsiklopediyah/stati-v-entsiklopediyah-edinstvo.md",
       "section": "Статьи в энциклопедиях",
       "title": "Единство",
-      "url": "http://caute.ru/ilyenkov/texts/enc/unitas.html",
+      "url": "http://filorus.ru/ilyenkov/texts/enc/unitas.html",
       "year": "1962"
     },
     {
@@ -1740,7 +1740,7 @@
       "output_path": "ilyenkov_md/stati-v-entsiklopediyah/stati-v-entsiklopediyah-zabluzhdenie.md",
       "section": "Статьи в энциклопедиях",
       "title": "Заблуждение",
-      "url": "http://caute.ru/ilyenkov/texts/enc/errat.html",
+      "url": "http://filorus.ru/ilyenkov/texts/enc/errat.html",
       "year": "1962"
     },
     {
@@ -1753,7 +1753,7 @@
       "output_path": "",
       "section": "Статьи в энциклопедиях",
       "title": "Идеал",
-      "url": "http://caute.ru/ilyenkov/texts/enc/idealfe.html",
+      "url": "http://filorus.ru/ilyenkov/texts/enc/idealfe.html",
       "year": "1962"
     },
     {
@@ -1766,7 +1766,7 @@
       "output_path": "ilyenkov_md/stati-v-entsiklopediyah/stati-v-entsiklopediyah-idealnoe.md",
       "section": "Статьи в энциклопедиях",
       "title": "Идеальное",
-      "url": "http://caute.ru/ilyenkov/texts/enc/ideale.html",
+      "url": "http://filorus.ru/ilyenkov/texts/enc/ideale.html",
       "year": "1962"
     },
     {
@@ -1779,7 +1779,7 @@
       "output_path": "ilyenkov_md/stati-v-entsiklopediyah/stati-v-entsiklopediyah-kapital-logika-kapitala.md",
       "section": "Статьи в энциклопедиях",
       "title": "«Капитал» [Логика «Капитала»]",
-      "url": "http://caute.ru/ilyenkov/texts/enc/logcapit.html",
+      "url": "http://filorus.ru/ilyenkov/texts/enc/logcapit.html",
       "year": "1962"
     },
     {
@@ -1792,7 +1792,7 @@
       "output_path": "ilyenkov_md/stati-v-entsiklopediyah/stati-v-entsiklopediyah-kolichestvo.md",
       "section": "Статьи в энциклопедиях",
       "title": "Количество",
-      "url": "http://caute.ru/ilyenkov/texts/enc/quant.html",
+      "url": "http://filorus.ru/ilyenkov/texts/enc/quant.html",
       "year": "1962"
     },
     {
@@ -1805,7 +1805,7 @@
       "output_path": "ilyenkov_md/stati-v-entsiklopediyah/stati-v-entsiklopediyah-konkretnoe.md",
       "section": "Статьи в энциклопедиях",
       "title": "Конкретное",
-      "url": "http://caute.ru/ilyenkov/texts/enc/concret.html",
+      "url": "http://filorus.ru/ilyenkov/texts/enc/concret.html",
       "year": "1964"
     },
     {
@@ -1818,7 +1818,7 @@
       "output_path": "ilyenkov_md/stati-v-entsiklopediyah/stati-v-entsiklopediyah-logicheskoe-i-istoricheskoe.md",
       "section": "Статьи в энциклопедиях",
       "title": "Логическое и историческое",
-      "url": "http://caute.ru/ilyenkov/texts/enc/loghis.html",
+      "url": "http://filorus.ru/ilyenkov/texts/enc/loghis.html",
       "year": "1964"
     },
     {
@@ -1831,7 +1831,7 @@
       "output_path": "ilyenkov_md/stati-v-entsiklopediyah/stati-v-entsiklopediyah-filosofiya.md",
       "section": "Статьи в энциклопедиях",
       "title": "Философия",
-      "url": "http://caute.ru/ilyenkov/texts/enc/philosophia.html",
+      "url": "http://filorus.ru/ilyenkov/texts/enc/philosophia.html",
       "year": "1968"
     },
     {
@@ -1844,7 +1844,7 @@
       "output_path": "",
       "section": "Статьи в энциклопедиях",
       "title": "Субстанция",
-      "url": "http://caute.ru/ilyenkov/texts/enc/substantia.html",
+      "url": "http://filorus.ru/ilyenkov/texts/enc/substantia.html",
       "year": "1970"
     },
     {
@@ -1857,7 +1857,7 @@
       "output_path": "ilyenkov_md/stati-v-entsiklopediyah/stati-v-entsiklopediyah-vseobschee-2.md",
       "section": "Статьи в энциклопедиях",
       "title": "Всеобщее",
-      "url": "http://caute.ru/ilyenkov/texts/enc/combs.html",
+      "url": "http://filorus.ru/ilyenkov/texts/enc/combs.html",
       "year": "1971"
     },
     {
@@ -1870,7 +1870,7 @@
       "output_path": "ilyenkov_md/stati-v-entsiklopediyah/stati-v-entsiklopediyah-gegel.md",
       "section": "Статьи в энциклопедиях",
       "title": "Гегель",
-      "url": "http://caute.ru/ilyenkov/texts/enc/hegelbs.html",
+      "url": "http://filorus.ru/ilyenkov/texts/enc/hegelbs.html",
       "year": "1971"
     },
     {
@@ -1883,7 +1883,7 @@
       "output_path": "ilyenkov_md/stati-v-entsiklopediyah/stati-v-entsiklopediyah-ideal-2.md",
       "section": "Статьи в энциклопедиях",
       "title": "Идеал",
-      "url": "http://caute.ru/ilyenkov/texts/enc/idealbs.html",
+      "url": "http://filorus.ru/ilyenkov/texts/enc/idealbs.html",
       "year": "1972"
     },
     {
@@ -1896,7 +1896,7 @@
       "output_path": "ilyenkov_md/stati-v-entsiklopediyah/stati-v-entsiklopediyah-gegel-2.md",
       "section": "Статьи в энциклопедиях",
       "title": "Гегель",
-      "url": "http://caute.ru/ilyenkov/texts/enc/hegelfs.html",
+      "url": "http://filorus.ru/ilyenkov/texts/enc/hegelfs.html",
       "year": "1983"
     },
     {
@@ -1909,7 +1909,7 @@
       "output_path": "",
       "section": "Газетные статьи",
       "title": "Могучий союзник в борьбе за коммунизм",
-      "url": "http://caute.ru/ilyenkov/texts/gaz/potens.html",
+      "url": "http://filorus.ru/ilyenkov/texts/gaz/potens.html",
       "year": "1960"
     },
     {
@@ -1922,7 +1922,7 @@
       "output_path": "",
       "section": "Газетные статьи",
       "title": "Великий гуманист",
-      "url": "http://caute.ru/ilyenkov/texts/gaz/rousseau.html",
+      "url": "http://filorus.ru/ilyenkov/texts/gaz/rousseau.html",
       "year": "1962"
     },
     {
@@ -1935,7 +1935,7 @@
       "output_path": "",
       "section": "Газетные статьи",
       "title": "Многознание уму не научает...",
-      "url": "http://caute.ru/ilyenkov/texts/gaz/multisci.html",
+      "url": "http://filorus.ru/ilyenkov/texts/gaz/multisci.html",
       "year": "1964"
     },
     {
@@ -1948,7 +1948,7 @@
       "output_path": "",
       "section": "Газетные статьи",
       "title": "Думать...",
-      "url": "http://caute.ru/ilyenkov/texts/gaz/cogitare.html",
+      "url": "http://filorus.ru/ilyenkov/texts/gaz/cogitare.html",
       "year": "1968"
     },
     {
@@ -1961,7 +1961,7 @@
       "output_path": "",
       "section": "Газетные статьи",
       "title": "Адское пламя и огонь мысли",
-      "url": "http://caute.ru/ilyenkov/texts/gaz/georgy.html",
+      "url": "http://filorus.ru/ilyenkov/texts/gaz/georgy.html",
       "year": "1968"
     },
     {
@@ -1974,7 +1974,7 @@
       "output_path": "",
       "section": "Газетные статьи",
       "title": "Противоречия мнимые и реальные",
-      "url": "http://caute.ru/ilyenkov/texts/phc/medavar.html",
+      "url": "http://filorus.ru/ilyenkov/texts/phc/medavar.html",
       "year": "1969"
     },
     {
@@ -1987,7 +1987,7 @@
       "output_path": "",
       "section": "Газетные статьи",
       "title": "Гегель и современность",
-      "url": "http://caute.ru/ilyenkov/texts/gaz/hegel.html",
+      "url": "http://filorus.ru/ilyenkov/texts/gaz/hegel.html",
       "year": "1970"
     },
     {
@@ -2000,7 +2000,7 @@
       "output_path": "",
       "section": "Газетные статьи",
       "title": "Знание и мышление",
-      "url": "http://caute.ru/ilyenkov/texts/scientia.html",
+      "url": "http://filorus.ru/ilyenkov/texts/scientia.html",
       "year": "1973"
     },
     {
@@ -2013,7 +2013,7 @@
       "output_path": "",
       "section": "Газетные статьи",
       "title": "Эстетика — оружие борьбы",
-      "url": "http://caute.ru/ilyenkov/texts/gaz/aestetica.html",
+      "url": "http://filorus.ru/ilyenkov/texts/gaz/aestetica.html",
       "year": "1975"
     },
     {
@@ -2026,7 +2026,7 @@
       "output_path": "",
       "section": "Военная публицистика",
       "title": "В школе сержантов",
-      "url": "http://caute.ru/ilyenkov/texts/gaz/sergeant.html",
+      "url": "http://filorus.ru/ilyenkov/texts/gaz/sergeant.html",
       "year": "1945"
     },
     {
@@ -2039,7 +2039,7 @@
       "output_path": "",
       "section": "Военная публицистика",
       "title": "Гвардейские минометы выходят в поле...",
-      "url": "http://caute.ru/ilyenkov/texts/gaz/guardia.html",
+      "url": "http://filorus.ru/ilyenkov/texts/gaz/guardia.html",
       "year": "1945"
     },
     {
@@ -2052,7 +2052,7 @@
       "output_path": "",
       "section": "Военная публицистика",
       "title": "У миниатюр-полигона",
-      "url": "http://caute.ru/ilyenkov/texts/gaz/poligon.html",
+      "url": "http://filorus.ru/ilyenkov/texts/gaz/poligon.html",
       "year": "1945"
     },
     {
@@ -2065,7 +2065,7 @@
       "output_path": "",
       "section": "Военная публицистика",
       "title": "Орудия прорыва",
-      "url": "http://caute.ru/ilyenkov/texts/gaz/orudia.html",
+      "url": "http://filorus.ru/ilyenkov/texts/gaz/orudia.html",
       "year": "1945"
     },
     {
@@ -2078,7 +2078,7 @@
       "output_path": "",
       "section": "Военная публицистика",
       "title": "Занятия по стрелково-артиллерийской подготовке",
-      "url": "http://caute.ru/ilyenkov/texts/gaz/artilleria.html",
+      "url": "http://filorus.ru/ilyenkov/texts/gaz/artilleria.html",
       "year": "1945"
     },
     {
@@ -2091,7 +2091,7 @@
       "output_path": "ilyenkov_md/dialogi-i-intervyu/dialogi-i-intervyu-muzhestvo-mysli.md",
       "section": "Диалоги и интервью",
       "title": "Мужество мысли...",
-      "url": "http://caute.ru/ilyenkov/texts/int/virtu.html",
+      "url": "http://filorus.ru/ilyenkov/texts/int/virtu.html",
       "year": "1967"
     },
     {
@@ -2104,7 +2104,7 @@
       "output_path": "ilyenkov_md/dialogi-i-intervyu/dialogi-i-intervyu-klub-filosofov-i-filosofy-v-klube.md",
       "section": "Диалоги и интервью",
       "title": "Клуб философов и философы в клубе",
-      "url": "http://caute.ru/ilyenkov/texts/int/club.html",
+      "url": "http://filorus.ru/ilyenkov/texts/int/club.html",
       "year": "1975"
     },
     {
@@ -2117,7 +2117,7 @@
       "output_path": "ilyenkov_md/dialogi-i-intervyu/dialogi-i-intervyu-solo-dlya-aleshi.md",
       "section": "Диалоги и интервью",
       "title": "Соло для Алеши",
-      "url": "http://caute.ru/ilyenkov/texts/int/alesha.html",
+      "url": "http://filorus.ru/ilyenkov/texts/int/alesha.html",
       "year": "1976"
     },
     {
@@ -2130,7 +2130,7 @@
       "output_path": "ilyenkov_md/dialogi-i-intervyu/dialogi-i-intervyu-za-god-do-sovershennoletiya.md",
       "section": "Диалоги и интервью",
       "title": "За год до совершеннолетия...",
-      "url": "http://caute.ru/ilyenkov/texts/int/annoante.html",
+      "url": "http://filorus.ru/ilyenkov/texts/int/annoante.html",
       "year": "1977"
     },
     {
@@ -2143,7 +2143,7 @@
       "output_path": "ilyenkov_md/dialogi-i-intervyu/dialogi-i-intervyu-pravo-na-tvorchestvo.md",
       "section": "Диалоги и интервью",
       "title": "Право на творчество",
-      "url": "http://caute.ru/ilyenkov/texts/int/creatio.html",
+      "url": "http://filorus.ru/ilyenkov/texts/int/creatio.html",
       "year": "1977"
     },
     {
@@ -2156,7 +2156,7 @@
       "output_path": "",
       "section": "Рукописи и стенограммы выступлений",
       "title": "Космология духа",
-      "url": "http://caute.ru/ilyenkov/texts/phc/cosmologia.html",
+      "url": "http://filorus.ru/ilyenkov/texts/phc/cosmologia.html",
       "year": ""
     },
     {
@@ -2169,7 +2169,7 @@
       "output_path": "ilyenkov_md/rukopisi-i-stenogrammy-vystuplenii/rukopisi-i-stenogrammy-vystuplenii-problema-predmetnosti-soznaniya.md",
       "section": "Рукописи и стенограммы выступлений",
       "title": "[Проблема предметности сознания]",
-      "url": "http://caute.ru/ilyenkov/texts/objconsci.html",
+      "url": "http://filorus.ru/ilyenkov/texts/objconsci.html",
       "year": ""
     },
     {
@@ -2182,7 +2182,7 @@
       "output_path": "",
       "section": "Рукописи и стенограммы выступлений",
       "title": "[Ответ Я.А. Кронроду: «Капитал» К. Маркса и проблема стоимости]",
-      "url": "http://caute.ru/ilyenkov/texts/daik/reskron.html",
+      "url": "http://filorus.ru/ilyenkov/texts/daik/reskron.html",
       "year": "1961"
     },
     {
@@ -2195,7 +2195,7 @@
       "output_path": "",
       "section": "Рукописи и стенограммы выступлений",
       "title": "К выступлению у экономистов 24.II.65",
-      "url": "http://caute.ru/ilyenkov/texts/daik/econ.html",
+      "url": "http://filorus.ru/ilyenkov/texts/daik/econ.html",
       "year": "1965"
     },
     {
@@ -2208,7 +2208,7 @@
       "output_path": "",
       "section": "Рукописи и стенограммы выступлений",
       "title": "К вопросу о товарном производстве",
-      "url": "http://caute.ru/ilyenkov/texts/daik/merx.html",
+      "url": "http://filorus.ru/ilyenkov/texts/daik/merx.html",
       "year": ""
     },
     {
@@ -2221,7 +2221,7 @@
       "output_path": "",
       "section": "Рукописи и стенограммы выступлений",
       "title": "К разговору о Марксе",
-      "url": "http://caute.ru/ilyenkov/texts/daik/marx.html",
+      "url": "http://filorus.ru/ilyenkov/texts/daik/marx.html",
       "year": ""
     },
     {
@@ -2234,7 +2234,7 @@
       "output_path": "",
       "section": "Рукописи и стенограммы выступлений",
       "title": "О переводе термина «Wert» (ценность, достоинство, стоимость, значение)",
-      "url": "http://caute.ru/ilyenkov/texts/daik/wert.html",
+      "url": "http://filorus.ru/ilyenkov/texts/daik/wert.html",
       "year": ""
     },
     {
@@ -2247,7 +2247,7 @@
       "output_path": "",
       "section": "Рукописи и стенограммы выступлений",
       "title": "Гегелевская концепция красоты и истины",
-      "url": "http://caute.ru/ilyenkov/texts/iki/beuver.html",
+      "url": "http://filorus.ru/ilyenkov/texts/iki/beuver.html",
       "year": ""
     },
     {
@@ -2260,7 +2260,7 @@
       "output_path": "ilyenkov_md/rukopisi-i-stenogrammy-vystuplenii/rukopisi-i-stenogrammy-vystuplenii-k-dokladu-o-spinoze.md",
       "section": "Рукописи и стенограммы выступлений",
       "title": "К докладу о Спинозе",
-      "url": "http://caute.ru/ilyenkov/texts/spinrep.html",
+      "url": "http://filorus.ru/ilyenkov/texts/spinrep.html",
       "year": "1965"
     },
     {
@@ -2273,7 +2273,7 @@
       "output_path": "ilyenkov_md/rukopisi-i-stenogrammy-vystuplenii/rukopisi-i-stenogrammy-vystuplenii-spinoza-materialy-k-knige.md",
       "section": "Рукописи и стенограммы выступлений",
       "title": "Спиноза [материалы к книге]",
-      "url": "http://caute.ru/ilyenkov/texts/spinoza.html",
+      "url": "http://filorus.ru/ilyenkov/texts/spinoza.html",
       "year": ""
     },
     {
@@ -2286,7 +2286,7 @@
       "output_path": "",
       "section": "Рукописи и стенограммы выступлений",
       "title": "Маркс и западный мир",
-      "url": "http://caute.ru/ilyenkov/texts/phc/marxww.html",
+      "url": "http://filorus.ru/ilyenkov/texts/phc/marxww.html",
       "year": "1965"
     },
     {
@@ -2299,7 +2299,7 @@
       "output_path": "",
       "section": "Рукописи и стенограммы выступлений",
       "title": "Античная диалектика как форма мысли",
-      "url": "http://caute.ru/ilyenkov/texts/phc/antdia.html",
+      "url": "http://filorus.ru/ilyenkov/texts/phc/antdia.html",
       "year": ""
     },
     {
@@ -2312,7 +2312,7 @@
       "output_path": "",
       "section": "Рукописи и стенограммы выступлений",
       "title": "О «сущности человека» и «гуманизме» в понимании Адама Шаффа",
-      "url": "http://caute.ru/ilyenkov/texts/phc/schaff.html",
+      "url": "http://filorus.ru/ilyenkov/texts/phc/schaff.html",
       "year": ""
     },
     {
@@ -2325,7 +2325,7 @@
       "output_path": "",
       "section": "Рукописи и стенограммы выступлений",
       "title": "Заметки о Вагнере",
-      "url": "http://caute.ru/ilyenkov/texts/iki/vagner.html",
+      "url": "http://filorus.ru/ilyenkov/texts/iki/vagner.html",
       "year": ""
     },
     {
@@ -2338,7 +2338,7 @@
       "output_path": "ilyenkov_md/rukopisi-i-stenogrammy-vystuplenii/rukopisi-i-stenogrammy-vystuplenii-problema-protivorechiya-v-logike.md",
       "section": "Рукописи и стенограммы выступлений",
       "title": "Проблема противоречия в логике",
-      "url": "http://caute.ru/ilyenkov/texts/ctradica.html",
+      "url": "http://filorus.ru/ilyenkov/texts/phc/ctradica.html",
       "year": ""
     },
     {
@@ -2351,7 +2351,7 @@
       "output_path": "ilyenkov_md/rukopisi-i-stenogrammy-vystuplenii/rukopisi-i-stenogrammy-vystuplenii-psihika-i-mozg.md",
       "section": "Рукописи и стенограммы выступлений",
       "title": "Психика и мозг",
-      "url": "http://caute.ru/ilyenkov/texts/psycer.html",
+      "url": "http://filorus.ru/ilyenkov/texts/psycer.html",
       "year": "1969"
     },
     {
@@ -2364,7 +2364,7 @@
       "output_path": "ilyenkov_md/rukopisi-i-stenogrammy-vystuplenii/rukopisi-i-stenogrammy-vystuplenii-problema-edinstva-bytiya-i-myshleniya-v-antichnoi-filos.md",
       "section": "Рукописи и стенограммы выступлений",
       "title": "Проблема единства бытия и мышления в античной философии",
-      "url": "http://caute.ru/ilyenkov/texts/idembc.html",
+      "url": "http://filorus.ru/ilyenkov/texts/idembc.html",
       "year": ""
     },
     {
@@ -2377,7 +2377,7 @@
       "output_path": "ilyenkov_md/rukopisi-i-stenogrammy-vystuplenii/rukopisi-i-stenogrammy-vystuplenii-nauka-logiki.md",
       "section": "Рукописи и стенограммы выступлений",
       "title": "«Наука логики»",
-      "url": "http://caute.ru/ilyenkov/texts/wislogik.html",
+      "url": "http://filorus.ru/ilyenkov/texts/wislogik.html",
       "year": ""
     },
     {
@@ -2390,7 +2390,7 @@
       "output_path": "",
       "section": "Рукописи и стенограммы выступлений",
       "title": "К дискуссии о школьном образовании",
-      "url": "http://caute.ru/ilyenkov/texts/sch/discus.html",
+      "url": "http://filorus.ru/ilyenkov/texts/sch/discus.html",
       "year": ""
     },
     {
@@ -2403,7 +2403,7 @@
       "output_path": "",
       "section": "Рукописи и стенограммы выступлений",
       "title": "О природе способности",
-      "url": "http://caute.ru/ilyenkov/texts/sch/potent.html",
+      "url": "http://filorus.ru/ilyenkov/texts/sch/potent.html",
       "year": ""
     },
     {
@@ -2416,7 +2416,7 @@
       "output_path": "",
       "section": "Рукописи и стенограммы выступлений",
       "title": "Биологическое и социальное в человеке",
-      "url": "http://caute.ru/ilyenkov/texts/sch/biosoc.html",
+      "url": "http://filorus.ru/ilyenkov/texts/sch/biosoc.html",
       "year": ""
     },
     {
@@ -2429,7 +2429,7 @@
       "output_path": "",
       "section": "Рукописи и стенограммы выступлений",
       "title": "К вопросу о понятии «деятельность» и его значении для педагогики",
-      "url": "http://caute.ru/ilyenkov/texts/sch/actus.html",
+      "url": "http://filorus.ru/ilyenkov/texts/sch/actus.html",
       "year": ""
     },
     {
@@ -2442,7 +2442,7 @@
       "output_path": "",
       "section": "Рукописи и стенограммы выступлений",
       "title": "Философский подвиг",
-      "url": "http://caute.ru/ilyenkov/texts/phc/feuerbach.html",
+      "url": "http://filorus.ru/ilyenkov/texts/phc/feuerbach.html",
       "year": "1972"
     },
     {
@@ -2455,7 +2455,7 @@
       "output_path": "",
       "section": "Рукописи и стенограммы выступлений",
       "title": "Гегель и герменевтика (проблема отношения языка к мышлению в концепции Гегеля)",
-      "url": "http://caute.ru/ilyenkov/texts/iki/hgherm.html",
+      "url": "http://filorus.ru/ilyenkov/texts/iki/hgherm.html",
       "year": ""
     },
     {
@@ -2468,7 +2468,7 @@
       "output_path": "",
       "section": "Рукописи и стенограммы выступлений",
       "title": "Вершина, конец и новая жизнь диалектики (Гегель и конец старой философии)",
-      "url": "http://caute.ru/ilyenkov/texts/phc/hegfin.html",
+      "url": "http://filorus.ru/ilyenkov/texts/phc/hegfin.html",
       "year": "1974"
     },
     {
@@ -2481,7 +2481,7 @@
       "output_path": "",
       "section": "Рукописи и стенограммы выступлений",
       "title": "К беседе об эстетическом воспитании",
-      "url": "http://caute.ru/ilyenkov/texts/sch/aest.html",
+      "url": "http://filorus.ru/ilyenkov/texts/sch/aest.html",
       "year": "1974"
     },
     {
@@ -2494,7 +2494,7 @@
       "output_path": "",
       "section": "Рукописи и стенограммы выступлений",
       "title": "К разговору о Мещерякове",
-      "url": "http://caute.ru/ilyenkov/texts/sch/mess.html",
+      "url": "http://filorus.ru/ilyenkov/texts/sch/mess.html",
       "year": "1975"
     },
     {
@@ -2507,7 +2507,7 @@
       "output_path": "",
       "section": "Рукописи и стенограммы выступлений",
       "title": "Гегель и проблема способностей",
-      "url": "http://caute.ru/ilyenkov/texts/phc/hgpotn.html",
+      "url": "http://filorus.ru/ilyenkov/texts/phc/hgpotn.html",
       "year": ""
     },
     {
@@ -2520,7 +2520,7 @@
       "output_path": "ilyenkov_md/rukopisi-i-stenogrammy-vystuplenii/rukopisi-i-stenogrammy-vystuplenii-psihologiya.md",
       "section": "Рукописи и стенограммы выступлений",
       "title": "Психология",
-      "url": "http://caute.ru/ilyenkov/texts/psychol.html",
+      "url": "http://filorus.ru/ilyenkov/texts/psychol.html",
       "year": ""
     },
     {
@@ -2533,7 +2533,7 @@
       "output_path": "",
       "section": "Рукописи и стенограммы выступлений",
       "title": "Фихте и «свобода воли»",
-      "url": "http://caute.ru/ilyenkov/texts/phc/fichtela.html",
+      "url": "http://filorus.ru/ilyenkov/texts/phc/fichtela.html",
       "year": ""
     },
     {
@@ -2546,7 +2546,7 @@
       "output_path": "",
       "section": "Рукописи и стенограммы выступлений",
       "title": "Деятельность и знание",
-      "url": "http://caute.ru/ilyenkov/texts/phc/actcog.html",
+      "url": "http://filorus.ru/ilyenkov/texts/phc/actcog.html",
       "year": ""
     },
     {
@@ -2559,7 +2559,7 @@
       "output_path": "",
       "section": "Рукописи и стенограммы выступлений",
       "title": "Диалектика и мировоззрение",
-      "url": "http://caute.ru/ilyenkov/texts/phc/diamir.html",
+      "url": "http://filorus.ru/ilyenkov/texts/phc/diamir.html",
       "year": "1977"
     },
     {
@@ -2572,7 +2572,7 @@
       "output_path": "ilyenkov_md/rukopisi-i-stenogrammy-vystuplenii/rukopisi-i-stenogrammy-vystuplenii-o-tak-nazyvaemoi-spetsifike-myshleniya-k-voprosu-o-pred.md",
       "section": "Рукописи и стенограммы выступлений",
       "title": "О так называемой «специфике мышления» (к вопросу о предмете диалектической логики)",
-      "url": "http://caute.ru/ilyenkov/texts/specog.html",
+      "url": "http://filorus.ru/ilyenkov/texts/specog.html",
       "year": ""
     },
     {
@@ -2585,7 +2585,7 @@
       "output_path": "ilyenkov_md/rukopisi-i-stenogrammy-vystuplenii/rukopisi-i-stenogrammy-vystuplenii-k-ponyatiyu-telo-cheloveka-chelovecheskoe-telo.md",
       "section": "Рукописи и стенограммы выступлений",
       "title": "К понятию «тело человека», «человеческое тело»",
-      "url": "http://caute.ru/ilyenkov/texts/corpus.html",
+      "url": "http://filorus.ru/ilyenkov/texts/corpus.html",
       "year": ""
     },
     {
@@ -2598,7 +2598,7 @@
       "output_path": "",
       "section": "Рукописи и стенограммы выступлений",
       "title": "Диалектика идеального",
-      "url": "http://caute.ru/ilyenkov/texts/dialideal.html",
+      "url": "http://filorus.ru/ilyenkov/texts/dialideal.html",
       "year": ""
     },
     {
@@ -2611,7 +2611,7 @@
       "output_path": "ilyenkov_md/rukopisi-i-stenogrammy-vystuplenii/rukopisi-i-stenogrammy-vystuplenii-chto-zhe-takoe-lichnost.md",
       "section": "Рукописи и стенограммы выступлений",
       "title": "Что же такое личность?",
-      "url": "http://caute.ru/ilyenkov/texts/personab.html",
+      "url": "http://filorus.ru/ilyenkov/texts/personab.html",
       "year": ""
     },
     {
@@ -2624,7 +2624,7 @@
       "output_path": "ilyenkov_md/rukopisi-i-stenogrammy-vystuplenii/rukopisi-i-stenogrammy-vystuplenii-u-istokov-filosofii.md",
       "section": "Рукописи и стенограммы выступлений",
       "title": "[У истоков философии]",
-      "url": "http://caute.ru/ilyenkov/texts/oriph.html",
+      "url": "http://filorus.ru/ilyenkov/texts/oriph.html",
       "year": ""
     },
     {
@@ -2637,7 +2637,7 @@
       "output_path": "ilyenkov_md/rukopisi-i-stenogrammy-vystuplenii/rukopisi-i-stenogrammy-vystuplenii-k-dokladu-u-n-p-dubinina.md",
       "section": "Рукописи и стенограммы выступлений",
       "title": "К докладу у Н.П. Дубинина",
-      "url": "http://caute.ru/ilyenkov/texts/dubinin.html",
+      "url": "http://filorus.ru/ilyenkov/texts/dubinin.html",
       "year": "1979"
     },
     {
@@ -2657,35 +2657,35 @@
       "children": [
         {
           "title": "Введение",
-          "url": "http://caute.ru/ilyenkov/texts/cand/intro.html"
+          "url": "http://filorus.ru/ilyenkov/texts/cand/intro.html"
         },
         {
           "title": "Глава 1. Исторические условия появления труда Маркса «К критике политической экономии»",
-          "url": "http://caute.ru/ilyenkov/texts/cand/1.html"
+          "url": "http://filorus.ru/ilyenkov/texts/cand/1.html"
         },
         {
           "title": "Глава 2. Решение Марксом проблемы абстрактного и конкретного",
-          "url": "http://caute.ru/ilyenkov/texts/cand/2a.html"
+          "url": "http://filorus.ru/ilyenkov/texts/cand/2a.html"
         },
         {
           "title": "§2. Маркс о внутренних, специфических законах логического научного мышления. Критика основ гегелевского понимания предмета",
-          "url": "http://caute.ru/ilyenkov/texts/cand/2b.html"
+          "url": "http://filorus.ru/ilyenkov/texts/cand/2b.html"
         },
         {
           "title": "§3. Решение Марксом проблемы отношения абстрактного и конкретного",
-          "url": "http://caute.ru/ilyenkov/texts/cand/2c.html"
+          "url": "http://filorus.ru/ilyenkov/texts/cand/2c.html"
         },
         {
           "title": "Глава 3. Решение Марксом проблемы логического и исторического",
-          "url": "http://caute.ru/ilyenkov/texts/cand/3.html"
+          "url": "http://filorus.ru/ilyenkov/texts/cand/3.html"
         },
         {
           "title": "Заключение",
-          "url": "http://caute.ru/ilyenkov/texts/cand/fin.html"
+          "url": "http://filorus.ru/ilyenkov/texts/cand/fin.html"
         },
         {
           "title": "Библиография",
-          "url": "http://caute.ru/ilyenkov/texts/cand/bibl.html"
+          "url": "http://filorus.ru/ilyenkov/texts/cand/bibl.html"
         }
       ],
       "covered_by": "",
@@ -2697,7 +2697,7 @@
       "output_path": "ilyenkov_md/dissertatsii-i-avtoreferaty/dissertatsii-i-avtoreferaty-nekotorye-voprosy-materialisticheskoi-dialektiki-v-rabote-k-ma.md",
       "section": "Диссертации и авторефераты",
       "title": "Некоторые вопросы материалистической диалектики в работе К. Маркса «К критике политической экономии»",
-      "url": "http://caute.ru/ilyenkov/texts/cand/index.html",
+      "url": "http://filorus.ru/ilyenkov/texts/cand/index.html",
       "work_manifest": "ilyenkov_md/dissertatsii-i-avtoreferaty/dissertatsii-i-avtoreferaty-nekotorye-voprosy-materialisticheskoi-dialektiki-v-rabote-k-ma/work_manifest.json",
       "year": "1953"
     },
@@ -2711,7 +2711,7 @@
       "output_path": "ilyenkov_md/dissertatsii-i-avtoreferaty/dissertatsii-i-avtoreferaty-avtoreferat-kandidatskoi-dissertatsii.md",
       "section": "Диссертации и авторефераты",
       "title": "Автореферат кандидатской диссертации",
-      "url": "http://caute.ru/ilyenkov/texts/cand/auto.html",
+      "url": "http://filorus.ru/ilyenkov/texts/cand/auto.html",
       "year": "1953"
     },
     {
@@ -2729,27 +2729,27 @@
       "children": [
         {
           "title": "Введение",
-          "url": "http://caute.ru/ilyenkov/texts/doc/intro.html"
+          "url": "http://filorus.ru/ilyenkov/texts/doc/intro.html"
         },
         {
           "title": "Глава 1. Идея совпадения логики с диалектикой в немецкой классической философии (Кант и Фихте)",
-          "url": "http://caute.ru/ilyenkov/texts/doc/1.html"
+          "url": "http://filorus.ru/ilyenkov/texts/doc/1.html"
         },
         {
           "title": "Глава 2. Фихте и проблема логики",
-          "url": "http://caute.ru/ilyenkov/texts/doc/2.html"
+          "url": "http://filorus.ru/ilyenkov/texts/doc/2.html"
         },
         {
           "title": "Глава 3. Шеллинг — познание и логика",
-          "url": "http://caute.ru/ilyenkov/texts/doc/3.html"
+          "url": "http://filorus.ru/ilyenkov/texts/doc/3.html"
         },
         {
           "title": "Глава 4. Гегель. Диалектика как логика и теория познания",
-          "url": "http://caute.ru/ilyenkov/texts/doc/4.html"
+          "url": "http://filorus.ru/ilyenkov/texts/doc/4.html"
         },
         {
           "title": "Заключение",
-          "url": "http://caute.ru/ilyenkov/texts/doc/fin.html"
+          "url": "http://filorus.ru/ilyenkov/texts/doc/fin.html"
         }
       ],
       "covered_by": "",
@@ -2761,7 +2761,7 @@
       "output_path": "ilyenkov_md/dissertatsii-i-avtoreferaty/dissertatsii-i-avtoreferaty-k-voprosu-o-prirode-myshleniya.md",
       "section": "Диссертации и авторефераты",
       "title": "К вопросу о природе мышления",
-      "url": "http://caute.ru/ilyenkov/texts/doc/index.html",
+      "url": "http://filorus.ru/ilyenkov/texts/doc/index.html",
       "work_manifest": "ilyenkov_md/dissertatsii-i-avtoreferaty/dissertatsii-i-avtoreferaty-k-voprosu-o-prirode-myshleniya/work_manifest.json",
       "year": "1968"
     },
@@ -2775,7 +2775,7 @@
       "output_path": "ilyenkov_md/dissertatsii-i-avtoreferaty/dissertatsii-i-avtoreferaty-avtoreferat-doktorskoi-dissertatsii.md",
       "section": "Диссертации и авторефераты",
       "title": "Автореферат докторской диссертации",
-      "url": "http://caute.ru/ilyenkov/texts/doc/auto.html",
+      "url": "http://filorus.ru/ilyenkov/texts/doc/auto.html",
       "year": "1968"
     },
     {
@@ -2788,7 +2788,7 @@
       "output_path": "ilyenkov_md/retsenzii/retsenzii-molodoi-gegel.md",
       "section": "Рецензии",
       "title": "«Молодой Гегель»",
-      "url": "http://caute.ru/ilyenkov/texts/rec/hegeljuv.html",
+      "url": "http://filorus.ru/ilyenkov/texts/rec/hegeljuv.html",
       "year": "1956"
     },
     {
@@ -2801,7 +2801,7 @@
       "output_path": "ilyenkov_md/retsenzii/retsenzii-pervyi-tom-istorii-filosofii.md",
       "section": "Рецензии",
       "title": "Первый том «Истории философии»",
-      "url": "http://caute.ru/ilyenkov/texts/rec/ifvol.html",
+      "url": "http://filorus.ru/ilyenkov/texts/rec/ifvol.html",
       "year": "1958"
     },
     {
@@ -2814,7 +2814,7 @@
       "output_path": "ilyenkov_md/retsenzii/retsenzii-podlinnaya-populyarnost-soyuznitsa-strogoi-nauchnosti.md",
       "section": "Рецензии",
       "title": "Подлинная популярность — союзница строгой научности",
-      "url": "http://caute.ru/ilyenkov/texts/rec/serebr.html",
+      "url": "http://filorus.ru/ilyenkov/texts/rec/serebr.html",
       "year": "1960"
     },
     {
@@ -2827,7 +2827,7 @@
       "output_path": "ilyenkov_md/retsenzii/retsenzii-dialekticheskaya-logika-v-ekonomicheskom-issledovanii.md",
       "section": "Рецензии",
       "title": "Диалектическая логика в экономическом исследовании",
-      "url": "http://caute.ru/ilyenkov/texts/rec/mank.html",
+      "url": "http://filorus.ru/ilyenkov/texts/rec/mank.html",
       "year": "1964"
     },
     {
@@ -2840,7 +2840,7 @@
       "output_path": "ilyenkov_md/retsenzii/retsenzii-issledovanie-dialektiki-i-logiki-poznaniya.md",
       "section": "Рецензии",
       "title": "Исследование диалектики и логики познания",
-      "url": "http://caute.ru/ilyenkov/texts/rec/almata.html",
+      "url": "http://filorus.ru/ilyenkov/texts/rec/almata.html",
       "year": "1965"
     },
     {
@@ -2853,7 +2853,7 @@
       "output_path": "ilyenkov_md/retsenzii/retsenzii-predislovie-k-state-s-averintseva-pohvalnoe-slovo-filologii.md",
       "section": "Рецензии",
       "title": "[Предисловие к статье С. Аверинцева «Похвальное слово филологии»]",
-      "url": "http://caute.ru/ilyenkov/texts/rec/aver.html",
+      "url": "http://filorus.ru/ilyenkov/texts/rec/aver.html",
       "year": "1969"
     },
     {
@@ -2866,7 +2866,7 @@
       "output_path": "ilyenkov_md/retsenzii/retsenzii-mir-cheloveka.md",
       "section": "Рецензии",
       "title": "Мир человека",
-      "url": "http://caute.ru/ilyenkov/texts/rec/mir.html",
+      "url": "http://filorus.ru/ilyenkov/texts/rec/mir.html",
       "year": "1973"
     },
     {
@@ -2879,7 +2879,7 @@
       "output_path": "ilyenkov_md/retsenzii/retsenzii-kniga-o-marksistskoi-estetike.md",
       "section": "Рецензии",
       "title": "Книга о марксистской эстетике",
-      "url": "http://caute.ru/ilyenkov/texts/rec/liflib.html",
+      "url": "http://filorus.ru/ilyenkov/texts/rec/liflib.html",
       "year": "1974"
     },
     {
@@ -2892,7 +2892,7 @@
       "output_path": "ilyenkov_md/retsenzii/retsenzii-obyknovennoe-chudo.md",
       "section": "Рецензии",
       "title": "Обыкновенное чудо",
-      "url": "http://caute.ru/ilyenkov/texts/rec/trivial.html",
+      "url": "http://filorus.ru/ilyenkov/texts/rec/trivial.html",
       "year": "1975"
     },
     {
@@ -2905,7 +2905,7 @@
       "output_path": "ilyenkov_md/retsenzii/retsenzii-vstupitelnoe-slovo-k-knige-p-s-zabotina-preodolenie-zabluzhdeniya-v-nauchnom-poz.md",
       "section": "Рецензии",
       "title": "[Вступительное слово к книге П.С. Заботина «Преодоление заблуждения в научном познании»]",
-      "url": "http://caute.ru/ilyenkov/texts/rec/zabotin.html",
+      "url": "http://filorus.ru/ilyenkov/texts/rec/zabotin.html",
       "year": "1979"
     },
     {
@@ -2918,7 +2918,7 @@
       "output_path": "ilyenkov_md/perevody/perevody-g-lukach-ekonomicheskie-vzglyady-gegelya-v-ienskii-period.md",
       "section": "Переводы",
       "title": "Г. Лукач — Экономические взгляды Гегеля в иенский период",
-      "url": "http://caute.ru/ilyenkov/tra/lukac.html",
+      "url": "http://filorus.ru/ilyenkov/tra/lukac.html",
       "year": "1956"
     },
     {
@@ -2931,7 +2931,7 @@
       "output_path": "ilyenkov_md/perevody/perevody-g-v-f-gegel-kto-myslit-abstraktno.md",
       "section": "Переводы",
       "title": "Г.В.Ф. Гегель — Кто мыслит абстрактно?",
-      "url": "http://caute.ru/ilyenkov/tra/denkaba.html",
+      "url": "http://filorus.ru/ilyenkov/tra/denkaba.html",
       "year": "1956"
     },
     {
@@ -2944,7 +2944,7 @@
       "output_path": "ilyenkov_md/perevody/perevody-k-marks-zametki-po-povodu-knigi-dzhemsa-millya.md",
       "section": "Переводы",
       "title": "К. Маркс — Заметки по поводу книги Джемса Милля",
-      "url": "http://caute.ru/ilyenkov/tra/mill.html",
+      "url": "http://filorus.ru/ilyenkov/tra/mill.html",
       "year": "1966"
     },
     {
@@ -2957,7 +2957,7 @@
       "output_path": "ilyenkov_md/perevody/perevody-g-v-f-gegel-o-kartochnoi-igre.md",
       "section": "Переводы",
       "title": "Г.В.Ф. Гегель — О карточной игре",
-      "url": "http://caute.ru/ilyenkov/tra/carta.html",
+      "url": "http://filorus.ru/ilyenkov/tra/carta.html",
       "year": "1972"
     },
     {
@@ -2970,7 +2970,7 @@
       "output_path": "ilyenkov_md/perevody/perevody-g-v-f-gegel-kto-myslit-abstraktno-2.md",
       "section": "Переводы",
       "title": "Г.В.Ф. Гегель — Кто мыслит абстрактно?",
-      "url": "http://caute.ru/ilyenkov/tra/denkabb.html",
+      "url": "http://filorus.ru/ilyenkov/tra/denkabb.html",
       "year": "1972"
     },
     {
@@ -2983,7 +2983,7 @@
       "output_path": "ilyenkov_md/perevody/perevody-g-v-f-gegel-kto-myslit-abstraktno-3.md",
       "section": "Переводы",
       "title": "Г.В.Ф. Гегель — Кто мыслит абстрактно?",
-      "url": "http://caute.ru/ilyenkov/tra/denkabc.html",
+      "url": "http://filorus.ru/ilyenkov/tra/denkabc.html",
       "year": "1973"
     },
     {
@@ -2996,7 +2996,7 @@
       "output_path": "ilyenkov_md/perevody/perevody-i-g-fihte-osnovy-estestvennogo-prava-soglasno-printsipam-naukoucheniya.md",
       "section": "Переводы",
       "title": "И.Г. Фихте — Основы естественного права согласно принципам Наукоучения",
-      "url": "http://caute.ru/ilyenkov/tra/fichte.html",
+      "url": "http://filorus.ru/ilyenkov/tra/fichte.html",
       "year": "1977"
     },
     {
@@ -3009,7 +3009,7 @@
       "output_path": "ilyenkov_md/pisma/pisma-pisma-s-fronta.md",
       "section": "Письма",
       "title": "Письма с фронта",
-      "url": "http://caute.ru/ilyenkov/texts/epis/front.html",
+      "url": "http://filorus.ru/ilyenkov/texts/epis/front.html",
       "year": "1943-1945"
     },
     {
@@ -3022,7 +3022,7 @@
       "output_path": "",
       "section": "Письма",
       "title": "В Институт марксизма-ленинизма",
-      "url": "http://caute.ru/ilyenkov/texts/phc/imel.html",
+      "url": "http://filorus.ru/ilyenkov/texts/phc/imel.html",
       "year": "конец 50-х"
     },
     {
@@ -3035,7 +3035,7 @@
       "output_path": "ilyenkov_md/pisma/pisma-o-polozhenii-s-filosofiei-pismo-v-tsk-partii.md",
       "section": "Письма",
       "title": "О положении с философией [письмо в ЦК партии]",
-      "url": "http://caute.ru/ilyenkov/texts/epis/ckp.html",
+      "url": "http://filorus.ru/ilyenkov/texts/epis/ckp.html",
       "year": "конец 60-х"
     },
     {
@@ -3048,7 +3048,7 @@
       "output_path": "ilyenkov_md/pisma/pisma-yu-a-zhdanovu.md",
       "section": "Письма",
       "title": "Ю.А. Жданову",
-      "url": "http://caute.ru/ilyenkov/texts/epis/zhdanov.html",
+      "url": "http://filorus.ru/ilyenkov/texts/epis/zhdanov.html",
       "year": "1968"
     },
     {
@@ -3061,7 +3061,7 @@
       "output_path": "ilyenkov_md/pisma/pisma-yu-a-zhdanovu-2.md",
       "section": "Письма",
       "title": "Ю.А. Жданову",
-      "url": "http://caute.ru/ilyenkov/texts/epis/zhdanlib.html",
+      "url": "http://filorus.ru/ilyenkov/texts/epis/zhdanlib.html",
       "year": "1963, 1968"
     },
     {
@@ -3074,7 +3074,7 @@
       "output_path": "",
       "section": "Письма",
       "title": "Г.Е. Шилову",
-      "url": "http://caute.ru/ilyenkov/texts/phc/shilov.html",
+      "url": "http://filorus.ru/ilyenkov/texts/phc/shilov.html",
       "year": "1970"
     },
     {
@@ -3087,7 +3087,7 @@
       "output_path": "",
       "section": "Письма",
       "title": "А.В. Суворову",
-      "url": "http://caute.ru/ilyenkov/texts/phc/suvorov.html",
+      "url": "http://filorus.ru/ilyenkov/texts/phc/suvorov.html",
       "year": "1974"
     },
     {
@@ -3100,7 +3100,7 @@
       "output_path": "",
       "section": "Фотокопии газетных статей",
       "title": "Могучий союзник в борьбе за коммунизм",
-      "url": "http://caute.ru/ilyenkov/gra/sk020860.jpg",
+      "url": "http://filorus.ru/ilyenkov/gra/sk020860.jpg",
       "year": ""
     },
     {
@@ -3113,7 +3113,7 @@
       "output_path": "",
       "section": "Фотокопии газетных статей",
       "title": "Великий гуманист",
-      "url": "http://caute.ru/ilyenkov/gra/sr280662.jpg",
+      "url": "http://filorus.ru/ilyenkov/gra/sr280662.jpg",
       "year": ""
     },
     {
@@ -3126,7 +3126,7 @@
       "output_path": "",
       "section": "Фотокопии газетных статей",
       "title": "Многознание уму не научает",
-      "url": "http://caute.ru/ilyenkov/gra/lg220964.jpg",
+      "url": "http://filorus.ru/ilyenkov/gra/lg220964.jpg",
       "year": ""
     },
     {
@@ -3139,7 +3139,7 @@
       "output_path": "",
       "section": "Фотокопии газетных статей",
       "title": "Мужество мысли...",
-      "url": "http://caute.ru/ilyenkov/gra/kp081267.jpg",
+      "url": "http://filorus.ru/ilyenkov/gra/kp081267.jpg",
       "year": ""
     },
     {
@@ -3152,7 +3152,7 @@
       "output_path": "",
       "section": "Фотокопии газетных статей",
       "title": "Думать...",
-      "url": "http://caute.ru/ilyenkov/gra/mk130368.jpg",
+      "url": "http://filorus.ru/ilyenkov/gra/mk130368.jpg",
       "year": ""
     },
     {
@@ -3165,7 +3165,7 @@
       "output_path": "",
       "section": "Фотокопии газетных статей",
       "title": "Адское пламя и огонь мысли (ответ отцу Георгию)",
-      "url": "http://caute.ru/ilyenkov/gra/mk140668.jpg",
+      "url": "http://filorus.ru/ilyenkov/gra/mk140668.jpg",
       "year": ""
     },
     {
@@ -3178,7 +3178,7 @@
       "output_path": "",
       "section": "Фотокопии газетных статей",
       "title": "Гегель и современность",
-      "url": "http://caute.ru/ilyenkov/gra/pr230870.jpg",
+      "url": "http://filorus.ru/ilyenkov/gra/pr230870.jpg",
       "year": ""
     },
     {
@@ -3191,7 +3191,7 @@
       "output_path": "",
       "section": "Фотокопии газетных статей",
       "title": "Знание и мышление",
-      "url": "http://caute.ru/ilyenkov/gra/ug041273.jpg",
+      "url": "http://filorus.ru/ilyenkov/gra/ug041273.jpg",
       "year": ""
     },
     {
@@ -3204,7 +3204,7 @@
       "output_path": "",
       "section": "Фотокопии газетных статей",
       "title": "Эстетика — оружие борьбы",
-      "url": "http://caute.ru/ilyenkov/gra/lg110675.jpg",
+      "url": "http://filorus.ru/ilyenkov/gra/lg110675.jpg",
       "year": ""
     },
     {
@@ -3217,7 +3217,7 @@
       "output_path": "",
       "section": "Фотокопии газетных статей",
       "title": "Клуб философов и философы в клубе",
-      "url": "http://caute.ru/files/club.djvu",
+      "url": "http://filorus.ru/files/club.djvu",
       "year": ""
     },
     {
@@ -3230,7 +3230,7 @@
       "output_path": "",
       "section": "Фотокопии газетных статей",
       "title": "Соло для Алеши",
-      "url": "http://caute.ru/ilyenkov/gra/kp161276.jpg",
+      "url": "http://filorus.ru/ilyenkov/gra/kp161276.jpg",
       "year": ""
     },
     {
@@ -3243,7 +3243,7 @@
       "output_path": "",
       "section": "Фотокопии газетных статей",
       "title": "Право на творчество",
-      "url": "http://caute.ru/ilyenkov/gra/oa151177.jpg",
+      "url": "http://filorus.ru/ilyenkov/gra/oa151177.jpg",
       "year": ""
     },
     {
@@ -3256,7 +3256,7 @@
       "output_path": "",
       "section": "Фотокопии газетных статей",
       "title": "В школе сержантов",
-      "url": "http://caute.ru/ilyenkov/gra/kz290945.jpg",
+      "url": "http://filorus.ru/ilyenkov/gra/kz290945.jpg",
       "year": ""
     },
     {
@@ -3269,7 +3269,7 @@
       "output_path": "",
       "section": "Фотокопии газетных статей",
       "title": "Гвардейские минометы выходят в поле...",
-      "url": "http://caute.ru/ilyenkov/gra/kz111045.jpg",
+      "url": "http://filorus.ru/ilyenkov/gra/kz111045.jpg",
       "year": ""
     },
     {
@@ -3282,7 +3282,7 @@
       "output_path": "",
       "section": "Фотокопии газетных статей",
       "title": "У миниатюр-полигона",
-      "url": "http://caute.ru/ilyenkov/gra/kz261045.jpg",
+      "url": "http://filorus.ru/ilyenkov/gra/kz261045.jpg",
       "year": ""
     },
     {
@@ -3295,7 +3295,7 @@
       "output_path": "",
       "section": "Фотокопии газетных статей",
       "title": "Орудия прорыва",
-      "url": "http://caute.ru/ilyenkov/gra/kz161145.jpg",
+      "url": "http://filorus.ru/ilyenkov/gra/kz161145.jpg",
       "year": ""
     },
     {
@@ -3308,7 +3308,7 @@
       "output_path": "",
       "section": "Фотокопии газетных статей",
       "title": "Занятия по стрелково-артиллерийской подготовке",
-      "url": "http://caute.ru/ilyenkov/gra/kz211245.jpg",
+      "url": "http://filorus.ru/ilyenkov/gra/kz211245.jpg",
       "year": ""
     },
     {
@@ -3321,7 +3321,7 @@
       "output_path": "",
       "section": "Копии изданий в формате djvu",
       "title": "Диалектика абстрактного и конкретного в «Капитале» К. Маркса",
-      "url": "http://caute.ru/files/evidaikmx.djvu",
+      "url": "http://filorus.ru/files/evidaikmx.djvu",
       "year": "1960"
     },
     {
@@ -3334,7 +3334,7 @@
       "output_path": "",
       "section": "Копии изданий в формате djvu",
       "title": "Об идолах и идеалах",
-      "url": "http://caute.ru/files/eviiddl.djvu",
+      "url": "http://filorus.ru/files/eviiddl.djvu",
       "year": "1968"
     },
     {
@@ -3347,7 +3347,7 @@
       "output_path": "",
       "section": "Копии изданий в формате djvu",
       "title": "К вопросу о природе мышления (машинописный оригинал докторской диссертации)",
-      "url": "http://caute.ru/files/evidoct.djvu",
+      "url": "http://filorus.ru/files/evidoct.djvu",
       "year": "1968"
     },
     {
@@ -3360,7 +3360,7 @@
       "output_path": "",
       "section": "Копии изданий в формате djvu",
       "title": "Диалектическая логика. Очерки истории и теории",
-      "url": "http://caute.ru/files/evidla.djvu",
+      "url": "http://filorus.ru/files/evidla.djvu",
       "year": "1974"
     },
     {
@@ -3373,7 +3373,7 @@
       "output_path": "",
       "section": "Копии изданий в формате djvu",
       "title": "Ленинская диалектика и метафизика позитивизма",
-      "url": "http://caute.ru/files/evilendia.djvu",
+      "url": "http://filorus.ru/files/evilendia.djvu",
       "year": "1980"
     },
     {
@@ -3386,7 +3386,7 @@
       "output_path": "",
       "section": "Копии изданий в формате djvu",
       "title": "Диалектическая логика. Очерки истории и теории",
-      "url": "http://caute.ru/files/evidlb.djvu",
+      "url": "http://filorus.ru/files/evidlb.djvu",
       "year": "1984"
     },
     {
@@ -3399,7 +3399,7 @@
       "output_path": "",
       "section": "Копии изданий в формате djvu",
       "title": "Философия и культура",
-      "url": "http://caute.ru/files/evifik.djvu",
+      "url": "http://filorus.ru/files/evifik.djvu",
       "year": "1991"
     },
     {
@@ -3412,7 +3412,7 @@
       "output_path": "",
       "section": "Копии изданий в формате djvu",
       "title": "Диалектика абстрактного и конкретного в научно-теоретическом мышлении",
-      "url": "http://caute.ru/files/evidaiks.djvu",
+      "url": "http://filorus.ru/files/evidaiks.djvu",
       "year": "1997"
     },
     {
@@ -3425,7 +3425,7 @@
       "output_path": "",
       "section": "Копии изданий в формате djvu",
       "title": "Школа должна учить мыслить",
-      "url": "http://caute.ru/files/evischol.djvu",
+      "url": "http://filorus.ru/files/evischol.djvu",
       "year": "2002"
     },
     {
@@ -3438,7 +3438,7 @@
       "output_path": "",
       "section": "Копии изданий в формате djvu",
       "title": "Об идолах и идеалах",
-      "url": "http://caute.ru/files/eviidlkiev.djvu",
+      "url": "http://filorus.ru/files/eviidlkiev.djvu",
       "year": "2006"
     },
     {
@@ -3451,9 +3451,9 @@
       "output_path": "",
       "section": "Копии изданий в формате djvu",
       "title": "Главы и статьи в книгах",
-      "url": "http://caute.ru/files/eviartic.djvu",
+      "url": "http://filorus.ru/files/eviartic.djvu",
       "year": "1960-1979"
     }
   ],
-  "source": "http://caute.ru/ilyenkov/texts.html"
+  "source": "http://filorus.ru/ilyenkov/texts.html"
 }

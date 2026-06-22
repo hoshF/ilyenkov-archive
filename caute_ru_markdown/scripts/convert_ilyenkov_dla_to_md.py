@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-Convert Evald Ilyenkov's "Диалектическая логика" pages from caute.ru to Markdown.
+Convert Evald Ilyenkov's "Диалектическая логика" pages from filorus.ru to Markdown.
 
 This script fetches the original Russian HTML pages and writes a single Markdown
 file. It is intended for local personal/research use where you have the right to
@@ -24,7 +24,7 @@ PROJECT_ROOT = Path(__file__).resolve().parents[2]
 sys.path.insert(0, str(PROJECT_ROOT / "scripts"))
 import split_longform_markdown as longform  # noqa: E402
 
-BASE_URL = "http://caute.ru/ilyenkov/texts/dla/"
+BASE_URL = "http://filorus.ru/ilyenkov/texts/dla/"
 DEFAULT_OUTPUT = "dialectical_logic_ilyenkov_ru.md"
 CHAPTERS = [
     ("intro.html", "Введение"),
@@ -205,7 +205,7 @@ def parse_index_summary(index_html: str) -> str:
         "",
         "Автор: Э. В. Ильенков",
         "",
-        "Источник: <http://caute.ru/ilyenkov/texts/dla/index.html>",
+        "Источник: <http://filorus.ru/ilyenkov/texts/dla/index.html>",
         "",
         "Издание: Москва, Политиздат, 1974.",
         "",
@@ -246,7 +246,7 @@ def build_markdown(base_url: str, verbose: bool) -> str:
 
 
 def main() -> int:
-    parser = argparse.ArgumentParser(description="Convert caute.ru Ilyenkov DLA HTML pages to Markdown.")
+    parser = argparse.ArgumentParser(description="Convert filorus.ru Ilyenkov DLA HTML pages to Markdown.")
     parser.add_argument("-o", "--output", default=DEFAULT_OUTPUT, help="Markdown output path")
     parser.add_argument("--base-url", default=BASE_URL, help="Base URL for the DLA pages")
     parser.add_argument("--quiet", action="store_true", help="Suppress progress messages")

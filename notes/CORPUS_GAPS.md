@@ -1,7 +1,7 @@
 ---
 title: "全仓语料缺口登记"
 created: "2026-06-11"
-updated: "2026-06-11"
+updated: "2026-06-22"
 type: "analysis"
 tags: ["corpus", "gaps", "sources", "audit"]
 language: "zh"
@@ -14,7 +14,10 @@ gbrain_source: "project-markdown"
 
 本表记录重要但当前没有合格正文语料的作品。保存扫描件不等于文本已经进入语料；`scan_only_unprocessed` 项目不进入 GBrain，也不执行 OCR。
 
-最近统一核查日期：2026-06-11。
+最近外部来源统一核查日期：2026-06-11。
+
+本地 manifest 状态复核日期：2026-06-22。本次只核对仓库已有文件与登记状态，没有重新
+联网搜索缺口来源，因此不改变下表中的外部来源判断。
 
 ## 凯德洛夫
 

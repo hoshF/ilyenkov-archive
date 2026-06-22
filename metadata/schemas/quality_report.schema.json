@@ -1,0 +1,14 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "quality_report.schema.json",
+  "title": "Digitization Quality Report",
+  "type": "object",
+  "required": ["schema_version", "status", "checks", "unresolved_issues"],
+  "properties": {
+    "schema_version": { "const": 1 },
+    "status": { "enum": ["pending", "failed", "passed"] },
+    "checks": { "type": "array", "items": { "type": "object" } },
+    "unresolved_issues": { "type": "array", "items": { "type": "object" } }
+  },
+  "additionalProperties": false
+}

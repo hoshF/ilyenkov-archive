@@ -10,7 +10,6 @@ gbrain_source: "project-markdown"
 ---
 # planned
 
-待翻译项目登记目录。
+待翻译项目按 `planned/<author_id>/<work_id>/` 登记。
 
-当前不登记具体新翻译任务。读完现有两本书后，再根据 `../../TRANSLATION_PLAN.md` 选择下一批文本。
-
+每个项目使用 `../templates/translation.json`，记录原文路径、版本、哈希和目标语言。

@@ -75,7 +75,7 @@ def audit(manifest: dict) -> list[dict]:
             url = link["url"]
             title = link["title"]
             parsed = urlparse(url)
-            if parsed.netloc != "caute.ru":
+            if parsed.netloc not in common.SOURCE_HOSTS:
                 continue
             if url == item["url"] or url in children:
                 continue

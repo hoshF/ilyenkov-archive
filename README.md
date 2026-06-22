@@ -1,109 +1,122 @@
----
-title: "伊里因科夫中文学习与翻译资料库"
-created: "2026-06-11"
-type: "project"
-tags: ["project", "documentation"]
-language: "zh"
-collection: "project-documentation"
-llm_wiki_eligible: "true"
-gbrain_source: "project-markdown"
----
-# 伊里因科夫中文学习与翻译资料库
+# 伊里因科夫哲学文本库
 
 ![伊里因科夫肖像](assets/images/ilyenkov-portrait.jpg)
 
-本项目尝试为中文读者整理埃瓦尔德·瓦西里耶维奇·伊里因科夫（Э.В. Ильенков）相关资料，包括俄文原文 Markdown、已有中文译本 PDF、阅读笔记、术语表和后续翻译工作框架。
+## English Summary
 
-项目仍处于初级阶段，主要用于个人学习、文本校对、资料保存和公开交流。这里的内容不代表正式完整译本，也不保证已经完成充分校订；如果这些材料能帮助后来者进入伊里因科夫的思想、比较版本、修正错误或继续翻译，那这个仓库就已经有了意义。
+The Ilyenkov Philosophy Text Archive is a global, source-traceable project for collecting,
+verifying, structuring, and digitizing original-language philosophical texts centered on Evald
+Ilyenkov and his intellectual context. It is an auditable, reproducible, AI-ready source-text
+digitization and research platform for preservation, search, digital humanities, multilingual study,
+and carefully bounded LLM-assisted research.
 
-GitHub 仓库：<https://github.com/hoshF/Ilyenkov-cn>
+One of its central long-term programs is the Chinese translation, terminology study, and close
+reading of Ilyenkov. Related philosophers are translated selectively when needed for that research.
+Public access is rights-gated; availability in the archive does not imply redistribution or
+model-training permission. Global collaborators are welcome through
+[Discussions](https://github.com/hoshF/Ilyenkov-cn/discussions).
 
-## 可以如何参与
+本项目是一个以埃瓦尔德·瓦西里耶维奇·伊里因科夫（Э. В. Ильенков）哲学为中心的文本库。项目由伊里因科夫原文整理与中文阅读起步，现已扩展到与其思想来源、理论论争和苏联哲学语境密切相关的作者与文献。
 
-欢迎通过 issue 或 pull request 参与：
+项目包含两项相互支撑的长期工作：
 
-- 补充俄文原文、出版信息、译本来源和版本线索。
-- 指出来源、HTML/EPUB 转换、文件命名或目录归类中的错误。
-- 比较已有中文译本与俄文原文，记录缺页、误译、删改和版本差异。
-- 讨论术语译法，例如 `идеальное`、`деятельность`、`мышление`、`всеобщее`。
-- 提交小范围、可追溯、已经人工检查过的译文修订。
+1. **原典数字化与研究平台**：建设可审计、可重建、适合 AI/LLM 与数字人文使用的哲学文本基础设施。
+2. **中文翻译与精读计划**：持续推进以伊里因科夫为优先对象的中文翻译、术语研究和精读。
 
-更详细的参与方式见 [CONTRIBUTING.md](CONTRIBUTING.md)。协作规则、决策方式和成员结构见 [GOVERNANCE.md](GOVERNANCE.md)。半正式讨论（术语、版本考证、翻译认领）在仓库的 [Discussions](https://github.com/hoshF/Ilyenkov-cn/discussions) 进行，即时交流可加入 [Telegram 群](https://t.me/+Bmk9X1lnUY45ZjJl)；微信群不公开入口，请通过 Telegram 或 Discussions 私下联系维护者。
+原典数字化工作的主要内容包括：
 
-## 当前内容
+- 保存和整理作者原语言文本。
+- 收集可核验的扫描版本、出版信息和来源记录。
+- 支持全文检索、版本比较、文本校勘和哲学研究。
+- 为不同语言背景的全球研究者和学习者提供可复用的哲学文献基础。
+
+Markdown 与 Git 是文本和元数据的事实来源；扫描件、译文、研究资料和派生索引按各自角色分层保存。仓库名称和 GitHub 地址沿用项目历史：
+<https://github.com/hoshF/Ilyenkov-cn>
+
+## 收录范围
+
+| 作者或专题 | 当前材料 | 在项目中的位置 |
+|---|---|---|
+| 伊里因科夫 | 俄文原著、文章、书信、访谈、手稿及经确认的历史报纸文本，以 Markdown 为核心 | 项目的中心语料 |
+| 迈丹斯基 | 伊里因科夫、斯宾诺莎、辩证法及相关问题的研究文章与来源档案 | 研究与阐释层 |
+| 凯德洛夫 | 由真实 HTML 整理的俄文 Markdown，以及未处理 PDF/DjVu 扫描件 | 苏联辩证法与科学哲学语境 |
+| 奥伊泽尔曼 | 官方书目、作品主表和未处理扫描件，包括与列克托尔斯基共同主编的四卷本《认识论》 | 苏联哲学史与认识论语境 |
+| 科普宁 | 作品主表、来源调查和未处理扫描件 | 辩证逻辑、认识论与科学方法论语境 |
+| 斯宾诺莎 | 拉丁文原文、历史译本和文本见证 | 伊里因科夫哲学的重要思想来源 |
+
+主要研究入口：
+
+- [全库收藏状态](COLLECTION_STATUS.md)
+- [伊里因科夫与迈丹斯基语料](caute_ru_markdown/README.md)
+- [迈丹斯基来源档案](maidansky_markdown/README.md)
+- [斯宾诺莎文本库](spinoza_markdown/README.md)
+- [凯德洛夫文本库](kedrov_markdown/README.md)
+- [奥伊泽尔曼文本库](oizerman_markdown/README.md)
+- [科普宁文本库](kopnin_markdown/README.md)
+
+## 如何使用文本库
+
+本仓库中的文件承担不同功能，不能仅凭扩展名判断其可靠性或文本身份：
+
+- **可检索正文 Markdown**：进入相应作者的 `*_md/` 目录。长篇作品应先查看作品目录中的 `README.md` 和 `work_manifest.json`，再按章节阅读。
+- **未处理扫描件**：保存在各作者的 `source_scans/` 或历史兼容扫描目录中，只作为版本与校勘依据，不等同于已整理正文。
+- **书目和来源元数据**：保存在各作者的 `metadata/`、`bibliography/` 以及 `notes/` 中，用于确认题名、版本、责任形式、来源和收集状态。
+- **中文译本与翻译工程**：集中在 `existing_translations/`、`dialectical_logic/`、`idols_ideals/` 和 `translation_workspace/`。
+- **LLM 检索索引**：项目使用 [GBrain](LLM_WIKI.md) 对合格 Markdown 建立可重建索引。数据库是派生工具，不替代 Markdown、manifest 和 Git 历史。
+
+阅读或引用前，应检查文件 front matter、来源 URL、版本说明、`text_role`、`text_status` 和权利字段。具体文本应放在哪一层，见 [RESOLVER.md](RESOLVER.md)。
+
+新增哲学家或资料集合必须通过中央注册表和管理命令完成，见[集合架构与扩展规范](notes/COLLECTION_ARCHITECTURE.md)。
+
+## 文本层级与来源原则
+
+- 作者原文、历史译本、现代译文、研究文章、文本见证、AI 参考和未处理扫描件必须分开标记。
+- 核心语料优先采用作者写作时使用的语言，不以译文替代原文。
+- 真实 HTML 和原生结构化 EPUB 可在保留来源记录后整理为 Markdown。
+- 自由直接下载的 PDF/DjVu 先作为未处理扫描件保存；扫描件不自动进入正文或检索层。
+- 项目当前不执行新的 OCR，也不从 PDF/DjVu 的派生文本层直接生成正文。只有完成规定校验的文本才能升级其状态。
+- 来源可访问不等于获得公开再分发许可；本地检索资格与公开发布许可相互独立。
+
+权威规则见[哲学文本来源、OCR 准入与发布政策](notes/PHILOSOPHY_SOURCE_FORMAT_POLICY.md)。扫描本数字化的触发条件、人工校验和准入流程见[扫描本数字化流程](notes/SCAN_DIGITIZATION_WORKFLOW.md)。
+
+## 中文翻译与精读计划
+
+中文翻译、术语研究和精读是本项目建立在原文数字化基础上的长期重点。伊里因科夫是持续
+翻译的优先对象；其他苏联哲学家按与其研究的关系选择性翻译；斯宾诺莎等思想来源主要建设
+原语言语料，不承诺全面中文化。译文不能替代作者原语言文本。
 
 - `dialectical_logic/`：已整理的《辩证逻辑：历史与理论论文集》1974 年第一版中文 LaTeX 工程。
 - `idols_ideals/`：已整理的《论偶像与理想》中文 LaTeX 工程。
-- `caute_ru_markdown/`：从 caute.ru 整理出的俄文 Markdown 资料库，含伊里因科夫文本、报纸材料和迈丹斯基相关研究资料。
-- `spinoza_markdown/`：斯宾诺莎原文与文本见证资料库；拉丁作者语言文本作为核心语料，荷兰文历史译本和存世见证单独标记。
-- `kedrov_markdown/`：凯德洛夫哲学文本资料库；当前收录三部由真实 HTML 转换的俄文 Markdown，并保留来源清单和转换脚本。
-- `existing_translations/`：已有中文译本 PDF、扫描本和本项目编译 PDF 的集中目录。
-- `translation_workspace/`：以后翻译新作品时使用的工作区。
-- `notes/`：术语表、翻译风格、阅读笔记和项目说明。
-- `assets/`：README 图片等展示资源。
-- `TRANSLATION_PLAN.md`：后续翻译优先级和候选文本索引。
+- [`existing_translations/`](existing_translations/README.md)：已有中文 PDF、扫描本及本项目编译文件；来源、版本和校订状态不完全一致。
+- [`translation_workspace/`](translation_workspace/README.md)：小规模翻译、校订和术语讨论的工作区。
+- [TRANSLATION_PLAN.md](TRANSLATION_PLAN.md)：中文翻译与精读计划的原则、候选文本和优先级记录。
 
-## 已有中文资料
+任何新增译文都应保留原题、原文路径、来源 URL、版本信息和校订状态。未经人工检查的批量机器翻译不作为正式译本收录。
 
-- 《辩证逻辑：历史与理论论文集》：见 `dialectical_logic/`。
-- 《论偶像与理想》：见 `idols_ideals/`。
-- 《资本论中抽象与具体的辩证法》相关中文 PDF：见 `existing_translations/`。
-- 《列宁主义辩证法和经验主义形而上学》相关中文 PDF：见 `existing_translations/`。
-- 其他已有中文 PDF：见 `existing_translations/README.md`。
+## 参与方式
 
-这些 PDF 会作为项目资料进入 Git，便于在 GitHub 上直接阅读和下载。它们的文本质量、版本来源和校订状态不完全一致，请阅读时结合原文和说明谨慎使用。
+欢迎通过 issue 或 pull request 参与：
 
-## 俄文原文资料
+- 补充原文、扫描版本、出版信息、书目和来源线索。
+- 指出文本转换、文件命名、目录归类、版本判断或元数据中的错误。
+- 比较不同版本，记录缺页、删改、异文和校勘问题。
+- 完善作者关系、概念索引、术语对照和研究导航。
+- 提交范围明确、来源可追溯并经过人工检查的文本修订或译文。
 
-俄文 Markdown 原文统一保存在：
-
-- `caute_ru_markdown/ilyenkov_md/`
-- `caute_ru_markdown/maidansky_md/`
-
-其中 `ilyenkov_md/` 是伊里因科夫作品原文，`maidansky_md/` 是迈丹斯基研究和相关论文，主要作为版本学、阐释和背景资料使用。
+详细规范见 [CONTRIBUTING.md](CONTRIBUTING.md)，协作与决策规则见 [GOVERNANCE.md](GOVERNANCE.md)。专题讨论可使用仓库的 [Discussions](https://github.com/hoshF/Ilyenkov-cn/discussions)，即时交流可加入 [Telegram 群](https://t.me/+Bmk9X1lnUY45ZjJl)。
 
 ## 来源与致谢
 
-本项目的俄文原文和大量整理资料主要来自 [caute.ru](http://caute.ru/)。如果没有该站长期保存和整理伊里因科夫相关文本，本项目很难展开。
+伊里因科夫原文和相关整理资料历史上有相当部分来自 `caute.ru` 镜像。迈丹斯基本人于 2026-06-17 来信说明，他已不再拥有 `caute.ru`；引用其网站文本时，应使用当前入口 [filorus.ru/ilyenkov](http://filorus.ru/ilyenkov/) 并在 URL 后注明 `(at the website by Andrey Maidansky)`。`caute_ru_markdown/` 目录名作为历史采集路径保留，不代表当前推荐引用入口。
 
-特别感谢安德烈·德米特里耶维奇·迈丹斯基（А.Д. Майданский）。他在整理、出版和研究伊里因科夫作品方面做出了重要贡献，也在辩证逻辑、斯宾诺莎哲学和马克思主义哲学研究中持续推进了相关讨论。本项目使用和整理的许多资料都受益于他的工作。
+特别感谢安德烈·德米特里耶维奇·迈丹斯基（А. Д. Майданский）。本项目对伊里因科夫作品、斯宾诺莎哲学及相关研究材料的整理，受益于他的长期收集、出版和研究工作。详细归属规则见[迈丹斯基来源归属说明](notes/MAIDANSKY_SOURCE_ATTRIBUTION.md)。
 
-本项目仍处于初级阶段，目前尚未与迈丹斯基本人联系。如本项目在引用、整理、翻译、说明或呈现方式上有不周之处，在此谨致歉意，并欢迎指正。
+各子项目还保留其独立的来源 URL、manifest、书目和调查记录。引用具体文本时，应以对应文件中的来源信息为准，而不是只引用本 README。
 
-## 后续翻译流程
+## 版权与公开发布
 
-1. 从 `caute_ru_markdown/ilyenkov_md/` 选择一篇俄文 Markdown。
-2. 在 `translation_workspace/planned/` 登记选题、来源和优先级。
-3. 在 `translation_workspace/drafts/<work_slug>/` 建立翻译草稿目录。
-4. 生成中文 Markdown 初稿，但保持与俄文来源可追溯。
-5. 人工阅读、校订和术语统一后，移动到 `translation_workspace/reviewed/`。
-6. 确认值得成书或成册时，再使用 `translation_workspace/latex_templates/` 建立独立 LaTeX 工程并编译 PDF。
+完整工作仓库用于学习、研究、资料保存和文本校勘。不同原文、译本、扫描件、图片和研究材料的版权及授权状态并不相同；未明确取得许可的材料默认不得公开再分发。
 
-## 当前原则
+公开发布只能通过 `scripts/publish_public.sh` 和版权闸门生成的 `dist/public/` 进行，不得直接发布完整工作仓库。`llm_wiki_eligible` 只表示本地检索资格，不代表公开发布许可。
 
-- 原文优先：核心 Markdown 语料尽可能采用作者写作时所使用的语言，而不是用译文替代原文。
-- 新收集文本优先使用真实 HTML 或原生结构化 EPUB；自由可下载的 PDF/DjVu 只保存为未处理源扫描件。项目当前不执行新的 OCR。未经人工校勘的 OCR 只能隔离；13 份逐篇对图校勘并具备 manifest 的历史报纸文本作为作者原文进入核心层，同时保留 OCR 来历。
-- 译文属于解释和辅助阅读层，必须与原文、存世文本见证和 AI 生成内容分开标记。
-- AI 用于在完整语料、术语关系和具体上下文之间进行动态翻译与解释，但模型输出不能冒充原文或未经核验的权威译本。
-- 暂不启动新的 AI 批量翻译。
-- 先阅读、理解和校订已有两本已整理作品。
-- 新翻译必须保留来源 URL、原题、版本说明和翻译状态。
-- 未经人工检查的大批量机器翻译不作为正式译本收录。
-- 核心概念优先统一术语，不追求一次性翻完所有文本。
-- 报纸、访谈、书信、手稿可以先作为资料库保存，晚于核心著作和正式论文处理。
-
-关于这种原文语料与 AI 跨语言阅读方法的完整说明，见 [notes/ORIGINAL_LANGUAGE_AI_READING.md](notes/ORIGINAL_LANGUAGE_AI_READING.md)。
-
-哲学文本的来源优先级、OCR 准入和源扫描件规则见 [notes/PHILOSOPHY_SOURCE_FORMAT_POLICY.md](notes/PHILOSOPHY_SOURCE_FORMAT_POLICY.md)。
-
-## LLM Wiki
-
-本项目使用 [GBrain](LLM_WIKI.md) 作为当前 LLM wiki 实例，对仓库内的 Markdown 语料建立可重建的检索、分块和向量索引。Markdown 与 Git 是文本事实来源；GBrain 数据库是派生索引。
-
-语料路径和文本角色的选择规则见 [RESOLVER.md](RESOLVER.md)。项目不复制文件建立另一套 wiki 目录，而是通过现有目录、front matter 和来源元数据组织文本。
-
-15 部超过 500 KB 的长篇已按真实标题边界可逆切章，原整文快照不进入 GBrain 或公开导出。当前全量索引有 652 个活动页面，embedding 无欠账。
-
-## 版权与说明
-
-完整工作仓库用于私有学习、研究和资料整理。不同文本、图片和 PDF 的版权、授权和流传来源情况并不完全相同；公开发布只能使用 `scripts/export_public.py` 生成的 `dist/public/`，不得直接发布完整工作仓库。如有权利人或整理者认为某些材料不宜公开，请提出意见，我会及时处理。
+如权利人、作者、译者或整理者认为某项材料的保存、说明或呈现方式存在问题，请通过仓库 issue 联系维护者核查处理。

@@ -1,0 +1,25 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "ocr_review_log.schema.json",
+  "title": "OCR Human Review Log",
+  "type": "object",
+  "required": ["schema_version", "reviews"],
+  "properties": {
+    "schema_version": { "const": 1 },
+    "reviews": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["scan_page_id", "reviewer", "review_date", "decision"],
+        "properties": {
+          "scan_page_id": { "type": "string" },
+          "reviewer": { "type": "string" },
+          "review_date": { "type": "string" },
+          "decision": { "type": "string" },
+          "note": { "type": "string" }
+        }
+      }
+    }
+  },
+  "additionalProperties": false
+}

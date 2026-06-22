@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-Convert the caute.ru page "В.И. Ленин и актуальные проблемы диалектической
+Convert the filorus.ru page "В.И. Ленин и актуальные проблемы диалектической
 логики" to Markdown.
 
 This script fetches the original Russian HTML page and writes a single Markdown
@@ -16,7 +16,7 @@ import sys
 from pathlib import Path
 
 
-URL = "http://caute.ru/ilyenkov/texts/leninacl.html"
+URL = "http://filorus.ru/ilyenkov/texts/leninact.html"
 DEFAULT_OUTPUT = "lenin_and_dialectical_logic_ilyenkov_rosenthal_ru.md"
 TITLE = "В.И. Ленин и актуальные проблемы диалектической логики"
 
@@ -82,7 +82,7 @@ def article_markdown(html_source: str) -> str:
 
 
 def main() -> int:
-    parser = argparse.ArgumentParser(description="Convert caute.ru Ilyenkov/Rosenthal Lenin article to Markdown.")
+    parser = argparse.ArgumentParser(description="Convert filorus.ru Ilyenkov/Rosenthal Lenin article to Markdown.")
     parser.add_argument("-o", "--output", default=DEFAULT_OUTPUT, help="Markdown output path")
     parser.add_argument("--url", default=URL, help="Article URL")
     parser.add_argument("--quiet", action="store_true", help="Suppress progress messages")

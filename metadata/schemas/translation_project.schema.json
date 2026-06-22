@@ -1,0 +1,29 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "translation_project.schema.json",
+  "title": "Translation Project",
+  "type": "object",
+  "required": [
+    "schema_version",
+    "author_id",
+    "work_id",
+    "source_path",
+    "source_url",
+    "source_version",
+    "source_sha256",
+    "target_language",
+    "status"
+  ],
+  "properties": {
+    "schema_version": { "const": 1 },
+    "author_id": { "type": "string", "pattern": "^[a-z0-9-]+$" },
+    "work_id": { "type": "string", "pattern": "^[a-z0-9-]+$" },
+    "source_path": { "type": "string" },
+    "source_url": { "type": "string" },
+    "source_version": { "type": "string" },
+    "source_sha256": { "type": "string", "pattern": "^[0-9a-f]{64}$" },
+    "target_language": { "type": "string" },
+    "status": { "enum": ["planned", "drafts", "reviewed"] }
+  },
+  "additionalProperties": true
+}

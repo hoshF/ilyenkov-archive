@@ -11,8 +11,8 @@ gbrain_source: "project-markdown"
 # Maidansky page comparison
 
 Sources:
-- http://caute.ru/am/index.html
-- http://caute.ru/maidansky.html
+- http://filorus.ru/am/index.html
+- http://filorus.ru/maidansky.html
 
 Notes:
 - `am/index.html` is treated as the linked works index.
@@ -29,75 +29,75 @@ Notes:
 
 ## Clearly Corresponding Items
 
-- Происхождение дефиниций у Спинозы — http://caute.ru/am/text/origin.html
-- Реформа логики в работах Декарта и Спинозы — http://caute.ru/am/text/reforma.html
-- Русские спинозисты — http://caute.ru/am/text/rsr.html
-- Геометрический порядок доказательства и логический метод в «Этике» Спинозы — http://caute.ru/am/text/geometr.html
-- Категория существования в «Этике» Спинозы — http://caute.ru/am/text/spexis.html
-- Практическая истина коммунистических утопий — http://caute.ru/am/text/utopia.html
-- Понятие мышления у Ильенкова и Спинозы — http://caute.ru/am/text/cogitatio.html
-- Размышления о назначении философии — http://caute.ru/am/text/mareeva.html
-- Декарт и Спиноза о природе души — http://caute.ru/am/text/anima.html
-- О мыслящей себя природе и идеальной реальности — http://caute.ru/am/text/natura.html
-- Метаморфозы идеального — http://caute.ru/am/text/midi.html
-- Метаморфозы идеального / Metamorphoses of the ideal — http://caute.ru/am/text/midii.html
-- Объективная телеология Спинозы — http://caute.ru/am/text/teleolog.html
-- Проблема доказательства в философии — http://caute.ru/am/text/ruta.html
-- Логика и феноменология всемирной истории — http://caute.ru/am/text/liphm.html
-- Векторы и контуры общества знаний — http://caute.ru/am/text/vector.html
-- Principium coexsistentiae — http://caute.ru/am/text/pricoex.html
-- О «деятельной стороне» учения Спинозы — http://caute.ru/am/text/act.html
-- Выготский — Спиноза: диалог сквозь столетия — http://caute.ru/am/text/vygspi.html
-- Как разлагалась мысль — http://caute.ru/am/text/raridea.html
-- Диаграмма философской мысли — http://caute.ru/am/text/diagramma.html
-- Лекция в структуре «неявного знания» — http://caute.ru/am/text/lectimplic.html
-- Понятие истины в диалектической логике Ильенкова — http://caute.ru/am/text/eviveri.html
-- Ильенков, Эвальд Васильевич / Э.В. Ильенков — http://caute.ru/am/text/evinre.html
-- История и общественные идеалы — http://caute.ru/am/text/histideal.html
-- Феноменология мировой истории: от Гегеля к Марксу — http://caute.ru/am/text/phehemx.html
-- Логика исторической теории Маркса: реформация формаций — http://caute.ru/am/text/logmarx.html
-- Философское россиеведение — http://caute.ru/am/text/filrus.html
-- Иллюзии осознанного бытия — http://caute.ru/am/text/illusio.html
-- Се Человек: Одиссея двух дефиниций — http://caute.ru/am/text/essehomo.html
-- «Не отомрёт, с-собака!»: Э.В. Ильенков о государстве — http://caute.ru/am/text/dogstate.html
-- The Reform of Logic in Descartes’s and Spinoza’s Works — http://caute.ru/am/text/reform.htm
-- The Russian Spinozists — http://caute.ru/am/text/rse.htm
-- The Concept of Truth in Ilyenkov’s Dialectical Logic — http://caute.ru/am/text/truth.htm
-- Russische Spinozisten des 20. Jahrhunderts — http://caute.ru/am/text/rsd.htm
-- The Logic of Marx’s Theory of History: Reforming Formations — http://caute.ru/am/files/logmarx.pdf
-- Reality of the Ideal — http://caute.ru/am/files/realideal.pdf
-- Metamorphoses of the ideal — http://caute.ru/files/metid.pdf
+- Происхождение дефиниций у Спинозы — http://filorus.ru/am/text/origin.html
+- Реформа логики в работах Декарта и Спинозы — http://filorus.ru/am/text/reforma.html
+- Русские спинозисты — http://filorus.ru/am/text/rsr.html
+- Геометрический порядок доказательства и логический метод в «Этике» Спинозы — http://filorus.ru/am/text/geometr.html
+- Категория существования в «Этике» Спинозы — http://filorus.ru/am/text/spexis.html
+- Практическая истина коммунистических утопий — http://filorus.ru/am/text/utopia.html
+- Понятие мышления у Ильенкова и Спинозы — http://filorus.ru/am/text/cogitatio.html
+- Размышления о назначении философии — http://filorus.ru/am/text/mareeva.html
+- Декарт и Спиноза о природе души — http://filorus.ru/am/text/anima.html
+- О мыслящей себя природе и идеальной реальности — http://filorus.ru/am/text/natura.html
+- Метаморфозы идеального — http://filorus.ru/am/text/midi.html
+- Метаморфозы идеального / Metamorphoses of the ideal — http://filorus.ru/am/text/midii.html
+- Объективная телеология Спинозы — http://filorus.ru/am/text/teleolog.html
+- Проблема доказательства в философии — http://filorus.ru/am/text/ruta.html
+- Логика и феноменология всемирной истории — http://filorus.ru/am/text/liphm.html
+- Векторы и контуры общества знаний — http://filorus.ru/am/text/vector.html
+- Principium coexsistentiae — http://filorus.ru/am/text/pricoex.html
+- О «деятельной стороне» учения Спинозы — http://filorus.ru/am/text/act.html
+- Выготский — Спиноза: диалог сквозь столетия — http://filorus.ru/am/text/vygspi.html
+- Как разлагалась мысль — http://filorus.ru/am/text/raridea.html
+- Диаграмма философской мысли — http://filorus.ru/am/text/diagramma.html
+- Лекция в структуре «неявного знания» — http://filorus.ru/am/text/lectimplic.html
+- Понятие истины в диалектической логике Ильенкова — http://filorus.ru/am/text/eviveri.html
+- Ильенков, Эвальд Васильевич / Э.В. Ильенков — http://filorus.ru/am/text/evinre.html
+- История и общественные идеалы — http://filorus.ru/am/text/histideal.html
+- Феноменология мировой истории: от Гегеля к Марксу — http://filorus.ru/am/text/phehemx.html
+- Логика исторической теории Маркса: реформация формаций — http://filorus.ru/am/text/logmarx.html
+- Философское россиеведение — http://filorus.ru/am/text/filrus.html
+- Иллюзии осознанного бытия — http://filorus.ru/am/text/illusio.html
+- Се Человек: Одиссея двух дефиниций — http://filorus.ru/am/text/essehomo.html
+- «Не отомрёт, с-собака!»: Э.В. Ильенков о государстве — http://filorus.ru/am/text/dogstate.html
+- The Reform of Logic in Descartes’s and Spinoza’s Works — http://filorus.ru/am/text/reform.htm
+- The Russian Spinozists — http://filorus.ru/am/text/rse.htm
+- The Concept of Truth in Ilyenkov’s Dialectical Logic — http://filorus.ru/am/text/truth.htm
+- Russische Spinozisten des 20. Jahrhunderts — http://filorus.ru/am/text/rsd.htm
+- The Logic of Marx’s Theory of History: Reforming Formations — http://filorus.ru/am/files/logmarx.pdf
+- Reality of the Ideal — http://filorus.ru/am/files/realideal.pdf
+- Metamorphoses of the ideal — http://filorus.ru/files/metid.pdf
 
 ## Only On `am/index.html`
 
 HTML or directory resources:
-- Логический метод Спинозы — http://caute.ru/spinoza/method.html
-- Истинна ли классическая дефиниция истины? — http://caute.ru/am/text/veritas.html
-- О мыслящих вещах и жареных квадратах — http://caute.ru/am/text/rescogit.html
-- О действующем деле и протяженном местоимении — http://caute.ru/am/text/delo.html
-- О вульгарных мыслях тела — http://caute.ru/am/text/naumvulg.html
-- «Вещь мыслящая» — душа или просто тело? — http://caute.ru/am/text/simcorp.html
-- Определить человека — http://caute.ru/am/text/defhomo.html
-- Полемика о «мыслящем теле» — http://caute.ru/am/polemica/index.html
-- Полемика о категории материального — http://caute.ru/ilyenkov/mater/index.html
-- Философская антропология Страхова — http://caute.ru/am/text/strahov.html
-- Эстетика Михаила Лифшица и современность — http://caute.ru/am/text/lifsovr.html
-- The Aesthetics of Mikhail Lifshits and Modernity — http://caute.ru/am/text/lifmod.htm
-- Реальность как деятельность: понятие практики в советской философии — http://caute.ru/am/text/realact.html
-- Идеальное у Маркса: аудит «прекрасных цитат» — http://caute.ru/am/text/audit.html
-- Ильенков, Эвальд Васильевич (Википедия) — http://caute.ru/am/text/eviwiki.html
-- Учиться мыслить? — http://caute.ru/am/text/cogitare.html
-- Диалектика и логика Гераклита — http://caute.ru/am/text/dialhr.html
-- Учение Парменида о бытии в истории логического мышления — http://caute.ru/am/text/parmenid.html
-- Атомистика и проблематика чистого разума в философии Анаксагора — http://caute.ru/am/text/anaxagor.html
-- Две категории бытия в средневековой философии — http://caute.ru/am/text/desse.html
-- Общение: опыт логико-семантического анализа — http://caute.ru/am/text/commerci.html
-- Академический плагиат — http://caute.ru/am/plagiat/index.html
+- Логический метод Спинозы — http://filorus.ru/spinoza/method.html
+- Истинна ли классическая дефиниция истины? — http://filorus.ru/am/text/veritas.html
+- О мыслящих вещах и жареных квадратах — http://filorus.ru/am/text/rescogit.html
+- О действующем деле и протяженном местоимении — http://filorus.ru/am/text/delo.html
+- О вульгарных мыслях тела — http://filorus.ru/am/text/naumvulg.html
+- «Вещь мыслящая» — душа или просто тело? — http://filorus.ru/am/text/simcorp.html
+- Определить человека — http://filorus.ru/am/text/defhomo.html
+- Полемика о «мыслящем теле» — http://filorus.ru/am/polemica/index.html
+- Полемика о категории материального — http://filorus.ru/ilyenkov/mater/index.html
+- Философская антропология Страхова — http://filorus.ru/am/text/strahov.html
+- Эстетика Михаила Лифшица и современность — http://filorus.ru/am/text/lifsovr.html
+- The Aesthetics of Mikhail Lifshits and Modernity — http://filorus.ru/am/text/lifmod.htm
+- Реальность как деятельность: понятие практики в советской философии — http://filorus.ru/am/text/realact.html
+- Идеальное у Маркса: аудит «прекрасных цитат» — http://filorus.ru/am/text/audit.html
+- Ильенков, Эвальд Васильевич (Википедия) — http://filorus.ru/am/text/eviwiki.html
+- Учиться мыслить? — http://filorus.ru/am/text/cogitare.html
+- Диалектика и логика Гераклита — http://filorus.ru/am/text/dialhr.html
+- Учение Парменида о бытии в истории логического мышления — http://filorus.ru/am/text/parmenid.html
+- Атомистика и проблематика чистого разума в философии Анаксагора — http://filorus.ru/am/text/anaxagor.html
+- Две категории бытия в средневековой философии — http://filorus.ru/am/text/desse.html
+- Общение: опыт логико-семантического анализа — http://filorus.ru/am/text/commerci.html
+- Академический плагиат — http://filorus.ru/am/plagiat/index.html
 
 PDF resources only on the works index:
-- «Логос», 2 (59), 2007: «Современность Спинозы» — http://caute.ru/files/slogos.pdf
-- «Логос», 1 (69), 2009: «Ильенков» — http://caute.ru/files/ilogos.pdf
-- «Логос», 2 (81), 2011: «История Маркса» — http://caute.ru/files/mlogos.pdf
+- «Логос», 2 (59), 2007: «Современность Спинозы» — http://filorus.ru/files/slogos.pdf
+- «Логос», 1 (69), 2009: «Ильенков» — http://filorus.ru/files/ilogos.pdf
+- «Логос», 2 (81), 2011: «История Маркса» — http://filorus.ru/files/mlogos.pdf
 
 ## Only In `maidansky.html` Selected Publications
 

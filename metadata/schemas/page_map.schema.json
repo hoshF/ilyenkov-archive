@@ -1,0 +1,24 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "page_map.schema.json",
+  "title": "Digitization Page Map",
+  "type": "object",
+  "required": ["schema_version", "pages"],
+  "properties": {
+    "schema_version": { "const": 1 },
+    "pages": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["file_page_index", "scan_page_id", "printed_page"],
+        "properties": {
+          "file_page_index": { "type": "integer", "minimum": 0 },
+          "scan_page_id": { "type": "string" },
+          "printed_page": { "type": ["string", "null"] },
+          "note": { "type": "string" }
+        }
+      }
+    }
+  },
+  "additionalProperties": false
+}

@@ -1,111 +1,142 @@
 ---
-title: "多平台招募文稿（X / Reddit / 论坛）"
+title: "全球平台招募文稿"
 created: "2026-06-12"
+updated: "2026-06-22"
 type: "note"
 tags: ["research-note", "community"]
-language: "zh"
+language: "en"
 collection: "research-notes"
 llm_wiki_eligible: "true"
 gbrain_source: "project-markdown"
 ---
-# 多平台招募文稿（X / Reddit / 论坛）
 
-中文平台（豆瓣/知乎）版本见 [RECRUITMENT_POST.md](RECRUITMENT_POST.md)。本文件是面向国际平台的版本。
+# Global Recruitment Copy
 
-## 统一信息块（所有文案共用）
+中文平台长文见 [RECRUITMENT_POST.md](RECRUITMENT_POST.md)。
 
-- 仓库：<https://github.com/hoshF/Ilyenkov-cn>
-- Telegram 群：<https://t.me/+Bmk9X1lnUY45ZjJl>
-- 微信群：不公开入口，请通过 Telegram 私聊或平台私信维护者获取
-- 署名：一律使用「维护者 / the maintainer (GitHub: hoshF)」
+## Shared Information
 
-## 隐私守则（发布前自查）
+- Repository: <https://github.com/hoshF/Ilyenkov-cn>
+- Discussions: <https://github.com/hoshF/Ilyenkov-cn/discussions>
+- Telegram: <https://t.me/+Bmk9X1lnUY45ZjJl>
+- Maintainer attribution: `the maintainer (GitHub: hoshF)`
 
-1. 任何公开文案不出现真名、个人邮箱、手机号、微信号、所在城市或单位。
-2. X / Reddit 建议使用专门的项目账号，或确认所用账号与真实身份没有可检索的关联。
-3. Telegram 群建议：开启「新成员需管理员批准」（公开邀请链接会引来广告机器人）；在 Settings → Privacy 里把手机号设为 Nobody；以用户名而非手机号示人。邀请链接可随时撤销重生成，撤销后记得更新仓库和已发文案中的链接。
-4. 微信群永远不公开二维码和微信号，只通过私信一对一拉人。
-5. 如需公开邮箱联系方式，先注册一个项目专用邮箱，不用个人邮箱。
-6. Git 提交一律使用 GitHub noreply 邮箱（本仓库与公开工作树已配置）。
+## Privacy Checklist
 
----
+1. Do not publish personal email addresses, phone numbers, workplaces, locations, or private social accounts.
+2. Use project-specific accounts where appropriate.
+3. Keep Telegram phone-number visibility disabled and use administrator approval for new members.
+4. Do not publish WeChat IDs or group QR codes; share them privately.
+5. Use a project-specific address if public email contact is later required.
+6. Keep Git commits associated with the configured GitHub noreply address.
 
-## X（中文版，单条）
+## X / Bluesky — English
 
-> 我们在整理苏联哲学家伊里因科夫（Э. В. Ильенков）的开放中文资料库：俄文原文语料、译本与版本考证、术语表，来源可追溯、版权可审计。
+> We are building a source-traceable philosophy text archive centered on Evald Ilyenkov: original-language texts, edition metadata, scans, and related collections on Spinoza and Soviet philosophy.
 >
-> 找懂俄语的中文使用者，以及对苏联哲学、维果茨基、活动理论感兴趣的朋友。
+> The goal is an AI-ready source-text digitization and research platform for preservation, search, close reading, multilingual study, and digital humanities. Collaboration is global; public access is rights-gated.
 >
-> GitHub: github.com/hoshF/Ilyenkov-cn
-> Telegram: t.me/+Bmk9X1lnUY45ZjJl
-
-## X（英文版，两条成串）
-
-> 1/ We're building an open, source-traceable archive of the Soviet philosopher Evald Ilyenkov (1924–1979) for Chinese readers: Russian originals, collation of existing Chinese translations, and terminology work (идеальное, деятельность, всеобщее…).
+> The project also maintains a long-term Chinese translation and close-reading program focused on
+> Ilyenkov and grounded in the original-language corpus.
 >
-> 2/ Looking for collaborators: RU/ZH bilinguals, readers of the English translations, anyone from the Vygotsky / activity-theory world. Everything happens in the open — issues, discussions, good-first-tasks.
-> github.com/hoshF/Ilyenkov-cn · t.me/+Bmk9X1lnUY45ZjJl
+> https://github.com/hoshF/Ilyenkov-cn
 
-标签候选（不必全用）：#philosophy #Marxism #Vygotsky #SovietPhilosophy
+Suggested tags: `#DigitalHumanities #Philosophy #SovietPhilosophy #LLM`
 
-## Reddit（英文版）
+## X / Bluesky — 中文
 
-候选社区：r/CriticalTheory、r/Marxism_101。**发帖前先读各版规**——多数社区对纯自我宣传敏感，建议先以正常成员身份参与讨论，或把帖子写成「介绍一项工作 + 提一个真问题」的形式（文末的术语问题就是为此准备的）。
-
-标题：
-
-> An open archive project on Evald Ilyenkov: Russian sources, Chinese translation collation, terminology work — collaborators welcome
-
-正文：
-
-> Evald Ilyenkov (1924–1979) is arguably the most original philosopher of the late-Soviet Marxist tradition — known for *The Dialectics of the Abstract and the Concrete in Marx's "Capital"*, his essay on the concept of the ideal (идеальное), and his influence on the Vygotskian psychology and activity-theory tradition (Davydov and others).
+> 我们在建设一个以伊里因科夫哲学为中心的多哲学家文本库：收集、核验、结构化和数字化原语言文本、扫描版本与书目元数据。
 >
-> His Chinese reception is fragmented: a few translations from the 1980s with unclear editions, no systematic terminology, large parts of the corpus untranslated. We started an open repository to fix that: a Russian-language markdown corpus with full source tracking, collation notes on existing Chinese translations, a growing terminology table, and a rights-gated publishing pipeline (only redistribution-approved material goes into the public repo; every file's inclusion or exclusion is auditable).
+> 目标是为长期保存、哲学研究、跨语言学习及 AI/LLM 应用提供可审计、可重建的研究基础。项目面向全球协作者，全文公开采用权利门控。
 >
-> The working language is mostly Chinese, but several tasks are genuinely multilingual and we'd welcome help from:
+> 项目同时长期推进伊里因科夫中文翻译、术语研究和精读，使原典数字化成果进入具体的学习与研究。
 >
-> - RU/ZH (or RU/EN) bilinguals — checking translations against the originals;
-> - readers of the English translations (Progress Publishers editions) — three-way terminology comparison;
-> - people from the CHAT / Vygotsky world who know the Ilyenkov–Davydov connection;
-> - bibliographic detectives — edition histories, publication data, dead-link archaeology.
+> github.com/hoshF/Ilyenkov-cn
+
+## Reddit
+
+Possible communities include digital-humanities, philosophy, Marxism, book-history, archival, and
+LLM-research communities. Read each community's rules before posting.
+
+### Title
+
+> Building an AI-ready philosophy text archive centered on Evald Ilyenkov — global collaborators welcome
+
+### Post
+
+> We are building a source-traceable digital archive of philosophical texts centered on Evald Ilyenkov and the thinkers, debates, and traditions connected with his work.
 >
-> Repo (issues and discussions open to all, with good-first-issues): https://github.com/hoshF/Ilyenkov-cn
+> The project brings together original-language Markdown, bibliographic records, edition histories, unprocessed source scans, and related collections on Spinoza and Soviet philosophers. Each layer is kept distinct: a scan is not treated as verified text; OCR does not enter the core corpus without full human review; translations and research remain separate from authorial originals.
+>
+> Our aim is an **AI-ready source-text digitization and research platform**: auditable and reconstructable texts that can support preservation, full-text search, version comparison, multilingual close reading, digital humanities, retrieval systems, and LLM-assisted research. We do not treat model output as scholarly authority, and inclusion in the archive does not imply permission for model training.
+>
+> The project also maintains a sustained Chinese translation, terminology study, and close-reading
+> program focused on Ilyenkov. This does not restrict the archive's audience: the underlying corpus
+> and infrastructure are built for global research, while the Chinese work is a long-term, concrete
+> use of the source-text collection.
+>
+> We would welcome help from:
+>
+> - philosophers and historians of ideas;
+> - Russian, Latin, German, Dutch, Chinese, and other language specialists;
+> - librarians, bibliographers, and archival researchers;
+> - textual scholars and digitization reviewers;
+> - developers working on search, structured corpora, knowledge systems, or LLM tooling;
+> - Chinese translators and terminology researchers working closely from Ilyenkov's originals;
+> - readers who can report missing pages, broken links, uncertain editions, or difficult terminology.
+>
+> The project uses rights-gated public access. Collaboration, code, workflows, and metadata can be open even when a complete text or scan cannot legally be redistributed.
+>
+> Repository: https://github.com/hoshF/Ilyenkov-cn
+>
+> Discussions: https://github.com/hoshF/Ilyenkov-cn/discussions
+>
 > Telegram: https://t.me/+Bmk9X1lnUY45ZjJl
+
+## Academic Forum / Mailing List
+
+### Subject
+
+> A source-traceable philosophy text digitization project centered on Evald Ilyenkov
+
+### Message
+
+> Hello,
 >
-> One question for this community, to start an actual discussion: in your language's literature, how is идеальное rendered — "the ideal", "ideality", something else — and does that choice survive Ilyenkov's argument that the ideal is not "in the head" but in activity? Chinese faces the same fork (观念的 vs 理想的), and it changes how the whole essay reads.
-
-## Discourse 式论坛 / 邮件列表（英文长文版）
-
-适用于 Discourse 论坛、XMCA（Mind, Culture, and Activity）邮件列表等文化-历史活动理论社群、其他学术性论坛。这是最完整的版本，可按场合删节。
-
-标题同 Reddit 版。正文：
-
-> Hello — I maintain an open-source archive project on Evald Ilyenkov and would like to introduce it here, since this community is one of the few places where his work is still read closely.
+> I maintain a philosophy text digitization project centered on Evald Ilyenkov. The project began with his Russian corpus and now extends to thinkers and traditions necessary for studying his work, including Spinoza and several Soviet philosophers.
 >
-> **What it is.** A public Git repository organizing (1) a Russian-language corpus of Ilyenkov's texts in markdown, converted from verified HTML sources with full provenance metadata; (2) collation notes on the existing Chinese translations — editions, omissions, mistranslations; (3) a terminology table for the core vocabulary (идеальное, деятельность, мышление, всеобщее) across Russian, Chinese, and English renderings; (4) related corpora (Spinoza, Kedrov, Maidansky's research) that the Ilyenkov material constantly points into.
+> The central task is not mass translation or automated text generation. It is the collection, verification, structuring, and long-term preservation of original-language philosophical texts. The repository records provenance, editions, source scans, textual roles, rights status, and reversible chapter structure. Unprocessed scans, unverified OCR, translations, research, and authorial originals remain explicitly separated.
 >
-> **How it works.** Two principles distinguish it from a casual text dump. First, source traceability: every file carries metadata about where it came from, how it was converted, and whether a human has verified it; unreviewed OCR and bulk machine translation are not accepted. Second, rights auditing: the public repository contains only material that passed an explicit redistribution gate, and the export decision for every file is recorded in a public audit log. Translation drafts that cannot be published stay in a private working repository.
+> This work is intended to create **AI-ready research infrastructure**: a corpus suitable for accountable retrieval, comparison, multilingual close reading, digital humanities, and carefully bounded LLM-assisted research. AI outputs remain derivative research aids rather than textual or scholarly authorities.
 >
-> **Who we're looking for.** The working language is mostly Chinese (the project's first goal is a reliable Chinese point of entry into Ilyenkov), but the terminology and collation work is multilingual by nature. Russian/Chinese bilinguals are the scarcest resource; readers who know the English translations well, or who come to Ilyenkov through Vygotsky, Davydov and activity theory, would be just as valuable — the "concept of the ideal" discussion in particular needs people who can say how the English-language reception handled it.
+> Alongside this global infrastructure, the project maintains a sustained Chinese translation,
+> terminology study, and close-reading program focused on Ilyenkov. Related Soviet philosophers
+> are translated selectively where required by that research.
 >
-> **Where.** GitHub (issues and discussions open to everyone, with beginner-friendly tasks marked): https://github.com/hoshF/Ilyenkov-cn — and a Telegram group for informal discussion: https://t.me/+Bmk9X1lnUY45ZjJl
+> The project is seeking global collaborators in philosophy, intellectual history, bibliography, librarianship, textual scholarship, languages, digitization review, software development, knowledge engineering, and AI research.
 >
-> Happy to answer questions here, and genuinely interested in how this community reads Ilyenkov today.
+> Public participation is open, but access to complete texts and scans is rights-gated. The availability of metadata or research tooling does not imply redistribution or model-training permission for every source.
+>
+> Repository: https://github.com/hoshF/Ilyenkov-cn
+>
+> Discussions: https://github.com/hoshF/Ilyenkov-cn/discussions
+>
+> Telegram: https://t.me/+Bmk9X1lnUY45ZjJl
 
-## 候选阵地清单
+## Suggested Communities
 
-| 阵地 | 语言 | 备注 |
-| --- | --- | --- |
-| X | 中/英 | 用上方两版；中文版可同步发到豆瓣广播 |
-| r/CriticalTheory | 英 | 先读版规，建议带讨论问题发 |
-| r/Marxism_101 | 英 | 同上 |
-| XMCA 邮件列表（文化-历史活动理论社群） | 英 | 用长文版；学术语气，去掉表情类修辞 |
-| ISCAR 社群 / 相关研究者 | 英 | 可由 XMCA 顺藤摸瓜，或会议通讯 |
-| 中文马克思主义文库志愿者 | 中 | 一对一联系，用豆瓣/知乎版改写成信件 |
-| 豆瓣 / 知乎 | 中 | 见 [RECRUITMENT_POST.md](RECRUITMENT_POST.md) |
+| Community type | Possible contribution |
+|---|---|
+| Philosophy and intellectual history | Works, concepts, historical context |
+| Slavic and Soviet studies | Russian sources, editions, bibliography |
+| Spinoza studies | Source texts and conceptual relations |
+| Libraries and archives | Catalogues, holdings, provenance |
+| Digital humanities | Encoding, collation, preservation, search |
+| AI and knowledge systems | Retrieval, corpus validation, reproducible tooling |
+| Translation studies | Multilingual close reading and terminology comparison |
 
-## 发布记录
+## Publication Log
 
-| 日期 | 平台 | 链接 | 备注 |
-| --- | --- | --- | --- |
+| Date | Platform | Link | Notes |
+|---|---|---|---|
 | | | | |

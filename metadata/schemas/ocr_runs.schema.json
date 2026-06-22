@@ -1,0 +1,25 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "ocr_runs.schema.json",
+  "title": "OCR Execution Records",
+  "type": "object",
+  "required": ["schema_version", "runs"],
+  "properties": {
+    "schema_version": { "const": 1 },
+    "runs": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["engine", "version", "configuration_sha256", "input_pages", "output_path"],
+        "properties": {
+          "engine": { "type": "string" },
+          "version": { "type": "string" },
+          "configuration_sha256": { "type": "string", "pattern": "^[0-9a-f]{64}$" },
+          "input_pages": { "type": "array", "items": { "type": "string" } },
+          "output_path": { "type": "string" }
+        }
+      }
+    }
+  },
+  "additionalProperties": false
+}

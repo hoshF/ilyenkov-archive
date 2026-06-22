@@ -1,0 +1,31 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "digitization_project.schema.json",
+  "title": "Digitization Project",
+  "type": "object",
+  "required": [
+    "schema_version",
+    "author_id",
+    "work_id",
+    "source_scan",
+    "source_sha256",
+    "source_version",
+    "status",
+    "created",
+    "ocr_activated"
+  ],
+  "properties": {
+    "schema_version": { "const": 1 },
+    "author_id": { "type": "string", "pattern": "^[a-z0-9-]+$" },
+    "work_id": { "type": "string", "pattern": "^[a-z0-9-]+$" },
+    "source_scan": { "type": "string" },
+    "source_sha256": { "type": "string", "pattern": "^[0-9a-f]{64}$" },
+    "source_version": { "type": "string", "minLength": 1 },
+    "status": {
+      "enum": ["planned", "processing", "human_review", "human_verified"]
+    },
+    "created": { "type": "string" },
+    "ocr_activated": { "type": "boolean" }
+  },
+  "additionalProperties": true
+}

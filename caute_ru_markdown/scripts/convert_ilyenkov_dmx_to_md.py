@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """
 Convert Evald Ilyenkov's "Диалектика абстрактного и конкретного..." pages
-from caute.ru to Markdown.
+from filorus.ru to Markdown.
 
 This script fetches the original Russian HTML pages and writes a single Markdown
 file. It is intended for local personal/research use where you have the right to
@@ -22,7 +22,7 @@ PROJECT_ROOT = Path(__file__).resolve().parents[2]
 sys.path.insert(0, str(PROJECT_ROOT / "scripts"))
 import split_longform_markdown as longform  # noqa: E402
 
-BASE_URL = "http://caute.ru/ilyenkov/texts/dmx/"
+BASE_URL = "http://filorus.ru/ilyenkov/texts/dmx/"
 DEFAULT_OUTPUT = "dialectics_abstract_concrete_capital_ilyenkov_ru.md"
 
 CHAPTERS = [
@@ -91,7 +91,7 @@ def parse_index_summary(index_html: str) -> str:
         "",
         "Автор: Э. В. Ильенков",
         "",
-        "Источник: <http://caute.ru/ilyenkov/texts/dmx/index.html>",
+        "Источник: <http://filorus.ru/ilyenkov/texts/dmx/index.html>",
         "",
         "Издание: Москва, Издательство Академии наук СССР, 1960.",
         "",
@@ -132,7 +132,7 @@ def build_markdown(base_url: str, verbose: bool) -> str:
 
 
 def main() -> int:
-    parser = argparse.ArgumentParser(description="Convert caute.ru Ilyenkov DMX HTML pages to Markdown.")
+    parser = argparse.ArgumentParser(description="Convert filorus.ru Ilyenkov DMX HTML pages to Markdown.")
     parser.add_argument("-o", "--output", default=DEFAULT_OUTPUT, help="Markdown output path")
     parser.add_argument("--base-url", default=BASE_URL, help="Base URL for the DMX pages")
     parser.add_argument("--quiet", action="store_true", help="Suppress progress messages")

@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Analyze and bulk-convert A.D. Maidansky caute.ru HTML works to Markdown."""
+"""Analyze and bulk-convert A.D. Maidansky filorus.ru HTML works to Markdown."""
 
 from __future__ import annotations
 
@@ -20,7 +20,7 @@ PROJECT_ROOT = ROOT.parent
 sys.path.insert(0, str(PROJECT_ROOT / "scripts"))
 import split_longform_markdown as longform  # noqa: E402
 
-AM_INDEX_URL = "http://caute.ru/am/index.html"
+AM_INDEX_URL = "http://filorus.ru/am/index.html"
 MANIFEST_PATH = ROOT / "metadata" / "maidansky_catalog_manifest.json"
 STATE_PATH = ROOT / "metadata" / "maidansky_bulk_state.json"
 OUTPUT_ROOT = ROOT / "maidansky_md"
@@ -130,7 +130,7 @@ def is_probable_content_link(index_url: str, link: dict[str, str]) -> bool:
     parsed = urlparse(url)
     path = parsed.path
     suffix = Path(path).suffix.lower()
-    if parsed.netloc != "caute.ru":
+    if parsed.netloc not in common.SOURCE_HOSTS:
         return False
     if url == index_url or url == AM_INDEX_URL:
         return False
@@ -566,7 +566,7 @@ def validate_outputs(manifest: dict, state: dict) -> int:
 
 
 def main() -> int:
-    parser = argparse.ArgumentParser(description="Analyze and bulk-convert caute.ru Maidansky HTML works to Markdown.")
+    parser = argparse.ArgumentParser(description="Analyze and bulk-convert filorus.ru Maidansky HTML works to Markdown.")
     parser.add_argument("--resume", action="store_true", help="Skip completed items whose output hash still matches state")
     parser.add_argument("--force", action="store_true", help="Re-convert even completed or duplicate items")
     parser.add_argument("--only", help="Convert only one manifest item id")

@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-抓取 http://caute.ru/ilyenkov/texts/dla/ 所有章节，保存为本地文本文件。
+抓取 http://filorus.ru/ilyenkov/texts/dla/ 所有章节，保存为本地文本文件。
 运行环境：Python 3.6+，无需第三方库。
 """
 
@@ -9,7 +9,7 @@ import re
 import os
 import time
 
-BASE_URL = "http://caute.ru/ilyenkov/texts/dla/"
+BASE_URL = "http://filorus.ru/ilyenkov/texts/dla/"
 OUTPUT_DIR = "ilyenkov_chapters"
 
 CHAPTERS = [
@@ -36,7 +36,7 @@ HEADERS = {
     ),
     "Accept": "text/html,application/xhtml+xml",
     "Accept-Language": "ru,en;q=0.9",
-    "Referer": "http://caute.ru/ilyenkov/texts/dla/index.html",
+    "Referer": "http://filorus.ru/ilyenkov/texts/dla/index.html",
 }
 
 

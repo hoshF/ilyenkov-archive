@@ -1,6 +1,7 @@
 ---
 title: "Discussions 分类规划与欢迎帖文案"
 created: "2026-06-12"
+updated: "2026-06-22"
 type: "note"
 tags: ["research-note", "community"]
 language: "zh"
@@ -8,72 +9,88 @@ collection: "research-notes"
 llm_wiki_eligible: "true"
 gbrain_source: "project-markdown"
 ---
+
 # Discussions 分类规划与欢迎帖文案
 
 公开仓库 `Ilyenkov-cn` 的 Discussions 已开启。GitHub 不支持通过 API 创建分类，需要在
-`https://github.com/hoshF/Ilyenkov-cn/discussions/categories`（仓库 Settings 或 Discussions 页右侧铅笔图标）手工建立以下分类。
+`https://github.com/hoshF/Ilyenkov-cn/discussions/categories` 手工建立以下分类。
 
 ## 分类设计
 
 | 分类名 | 格式 | 用途 |
-| --- | --- | --- |
-| 公告 | Announcement（仅维护者可发） | 月报、发布说明、章程修订 |
-| 术语讨论 | Open-ended discussion | 译法提案与讨论；定版后回流 `notes/TERMS.md` |
-| 文本与版本考证 | Open-ended discussion | 出版信息、版次差异、缺页删改、来源线索 |
-| 翻译认领与进度 | Open-ended discussion | 认领章节、汇报进度、协调分工 |
-| 问答 | Q&A | 怎么参与、文件在哪、流程疑问 |
-| 自由讨论 | Open-ended discussion | 阅读感悟、相关文献、不属于以上分类的一切 |
+|---|---|---|
+| Announcements / 公告 | Announcement | 项目状态、发布说明和流程修订 |
+| Texts and Editions / 文本与版本 | Open-ended discussion | 原文来源、版本、异文、缺页和书目信息 |
+| Digitization and Review / 数字化与校验 | Open-ended discussion | 转录结构、人工校验、页码映射和质量问题 |
+| Philosophy and Concepts / 哲学与概念 | Open-ended discussion | 哲学讨论、术语比较和思想史关系 |
+| AI and Digital Humanities / AI 与数字人文 | Open-ended discussion | 检索、结构化语料、LLM Wiki 和计算研究 |
+| Multilingual Study / 多语言学习 | Open-ended discussion | 翻译、术语对照和跨语言精读 |
+| Questions / 问答 | Q&A | 参与方式、文件位置和工作流问题 |
 
-默认分类中的 Polls、Show and tell 可以删除或保留，不影响使用。
+## Welcome Post
 
-## 欢迎帖文案（建在「公告」分类，置顶）
+标题：
 
-标题：`欢迎来到伊里因科夫中文资料库 · 从这里开始`
+`Welcome to the Ilyenkov Philosophy Text Archive`
 
-> 这里是「伊里因科夫中文学习与翻译资料库」的讨论区。项目为中文读者整理埃瓦尔德·伊里因科夫（Э. В. Ильенков）的俄文原文、已有中文译本线索、术语表和翻译工作框架。
+> This project is building a source-traceable philosophy text archive centered on Evald Ilyenkov and the thinkers, debates, and traditions connected with his work.
 >
-> **从哪里开始：**
-> - 项目介绍和现有内容：见仓库 [README](https://github.com/hoshF/Ilyenkov-cn#readme)
-> - 参与方式和提交规范：[CONTRIBUTING.md](https://github.com/hoshF/Ilyenkov-cn/blob/main/CONTRIBUTING.md)
-> - 协作规则和决策方式：[GOVERNANCE.md](https://github.com/hoshF/Ilyenkov-cn/blob/main/GOVERNANCE.md)
-> - 想直接动手：看带 `good first issue` 标签的 issue
+> Our primary task is the long-term collection, verification, structuring, and digitization of original-language philosophical texts. The archive combines:
 >
-> **讨论区怎么用：**
-> - 讨论某个词怎么译 → 「术语讨论」
-> - 提供版本、出版信息、来源线索 → 「文本与版本考证」
-> - 想认领一段校对或翻译 → 「翻译认领与进度」
-> - 不知道发哪里 → 「自由讨论」或「问答」
+> - original-language Markdown with provenance metadata;
+> - bibliographic records and edition histories;
+> - unprocessed source scans kept separate from verified text;
+> - related collections on Spinoza and Soviet philosophers;
+> - reproducible infrastructure for search, comparison, digital humanities, and LLM-assisted research.
 >
-> **两条约定：**
-> 1. 有结论的讨论会回流到仓库文件（如 `notes/TERMS.md`），讨论帖是过程，仓库是记忆。
-> 2. 本仓库只包含通过版权审核的内容。请不要在讨论区张贴受版权保护的扫描件或大段未授权文本，版权相关请求请直接开 issue。
+> The goal is an **AI-ready source-text digitization and research platform**: auditable texts and metadata that can support retrieval, close reading, multilingual study, and future computational work. This does not mean that AI output is treated as scholarly authority, or that every file is licensed for model training.
 >
-> 欢迎自我介绍：你怎么知道伊里因科夫的，读过什么，想做什么。
-
-## Good first issue 草稿
-
-以下三条可直接在公开仓库建 issue，加 `good first issue` 标签。命令：
-
-```sh
-gh issue create -R hoshF/Ilyenkov-cn --label "good first issue" -t "标题" -b "正文"
-```
-
-### 1. 术语讨论：идеальное 的译法
-
-> `идеальное` 是伊里因科夫哲学的核心概念，中文文献里译作"观念的""理想的""理念性的"等。
+> Alongside this global platform, the project maintains a long-term Chinese translation and
+> close-reading program focused on Ilyenkov. Related Soviet philosophers are translated selectively
+> where they clarify his work; source figures such as Spinoza are primarily developed as
+> original-language collections.
 >
-> 任务：挑选一处具体段落（`notes/TERMS.md` 和已有译本中可找到语境），比较至少两种译法在该语境下的得失，把意见发到 Discussions「术语讨论」或直接对 `notes/TERMS.md` 提 PR。
+> Collaboration is global. We welcome philosophers, historians, librarians, bibliographers, language specialists, textual scholars, digitization reviewers, software developers, and researchers working with AI or digital humanities.
 >
-> 不需要俄语基础也可以参与：可以从中文译本内部的一致性入手。
-
-### 2. 版本考证：《辩证逻辑》中译本出版信息补全
-
-> `existing_translations/README.md` 中《辩证逻辑：历史与理论论文集》中译本的版次、印次、译者、出版社信息尚不完整。
+> **How to begin**
 >
-> 任务：依据实体书、图书馆目录（如 CALIS、读秀）或可靠书目数据，补全出版信息，注明信息来源，以 issue 回复或 PR 提交。
-
-### 3. 来源核对：caute.ru 链接抽查
-
-> `caute_ru_markdown/metadata/` 的清单记录了俄文文本的来源 URL。
+> - Project overview: [README](https://github.com/hoshF/Ilyenkov-cn#readme)
+> - Contribution guide: [CONTRIBUTING.md](https://github.com/hoshF/Ilyenkov-cn/blob/main/CONTRIBUTING.md)
+> - Collection status: [COLLECTION_STATUS.md](https://github.com/hoshF/Ilyenkov-cn/blob/main/COLLECTION_STATUS.md)
+> - Governance and decisions: [GOVERNANCE.md](https://github.com/hoshF/Ilyenkov-cn/blob/main/GOVERNANCE.md)
 >
-> 任务：抽查其中 10 条链接是否仍可访问，记录失效链接和（若有）网页存档替代地址，以 issue 回复提交。不需要俄语阅读能力。
+> Public access is rights-gated. Open collaboration and metadata do not imply that every complete text or scan can be redistributed. Source scans, unverified OCR, translations, and research materials remain clearly separated, and public exports include only material that passes the repository's rights review.
+>
+> Introduce yourself by telling us which philosophers, languages, archives, or technical methods you work with, and what kind of contribution interests you.
+
+### 中文说明
+
+> 本项目面向全球研究者和学习者，以伊里因科夫哲学为中心，整理相关哲学家的原语言文本、
+> 扫描版本、书目和版本元数据。目标是建立可审计、可重建、适合长期研究及 AI/LLM
+> 辅助使用的原典数字化与研究平台。同时，项目长期推进伊里因科夫中文翻译、术语研究和
+> 精读；其他人物按研究需要选择性翻译。
+>
+> 项目实行权利门控：公开协作和元数据开放，不代表所有全文与扫描件都可以公开下载或用于
+> 模型训练。
+
+## Good First Issue 草稿
+
+### 1. 核对一条作品书目
+
+> 从 `COLLECTION_STATUS.md` 选择一个人物，核对一部作品的原题、出版年份、出版社和责任形式。
+> 提交可靠目录或馆藏来源，不需要下载全文。
+
+### 2. 抽查来源链接
+
+> 从某个作者的 metadata manifest 中选择 10 条来源 URL，记录可访问状态、重定向和可验证的
+> 替代入口。不要绕过受控借阅或下载限制。
+
+### 3. 多语言术语比较
+
+> 选择一个具体段落，比较同一哲学术语在两种或更多语言中的处理方式。必须标明原文位置和
+> 使用的译本版本，不要求提出唯一标准译法。伊里因科夫的中文术语研究是优先方向。
+
+### 4. 数字化质量规则
+
+> 阅读 `notes/SCAN_DIGITIZATION_WORKFLOW.md`，针对页码映射、脚注、公式或多语言引文提出一个
+> 可自动检测的质量问题及测试样例。本任务不运行 OCR。

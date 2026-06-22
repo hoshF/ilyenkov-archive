@@ -7,21 +7,21 @@ import argparse
 import hashlib
 import json
 import re
+import sys
 from pathlib import Path
+
+sys.path.insert(0, str(Path(__file__).resolve().parent))
+from collection_registry import collection_for_path, corpus_paths
 
 
 ROOT = Path(__file__).resolve().parents[1]
-SKIP_PARTS = {".git", ".obsidian", ".codex", ".fulltext", "node_modules", "dist"}
+SKIP_PARTS = {
+    ".git", ".obsidian", ".codex", ".fulltext", "node_modules", "dist",
+    "cache", "digitization", "source_scans", "source_pdfs",
+}
 METADATA_DATE = "2026-06-11"
 
-CORPUS_PREFIXES = (
-    "caute_ru_markdown/ilyenkov_md/",
-    "caute_ru_markdown/maidansky_md/",
-    "spinoza_markdown/spinoza_md/",
-    "kedrov_markdown/kedrov_md/",
-    "translation_workspace/drafts/",
-    "translation_workspace/reviewed/",
-)
+TRANSLATION_PREFIXES = ("translation_workspace/drafts/", "translation_workspace/reviewed/")
 CORPUS_FIELDS = (
     "text_role",
     "core_corpus_eligible",
@@ -92,6 +92,10 @@ def relative_name(path: Path, root: Path = ROOT) -> str:
     return path.relative_to(root).as_posix()
 
 
+def is_root_readme(path: Path, root: Path = ROOT) -> bool:
+    return relative_name(path, root) == "README.md"
+
+
 def sha256(path: Path) -> str:
     digest = hashlib.sha256()
     with path.open("rb") as handle:
@@ -111,7 +115,8 @@ def human_collated_ocr_entry(path: Path, root: Path = ROOT) -> dict[str, object]
 
 def is_corpus_markdown(path: Path, root: Path = ROOT) -> bool:
     rel = relative_name(path, root)
-    return rel.startswith(CORPUS_PREFIXES) and path.name.lower() != "readme.md"
+    prefixes = corpus_paths(root) + TRANSLATION_PREFIXES
+    return rel.startswith(prefixes) and path.name.lower() != "readme.md"
 
 
 def has_front_matter(text: str) -> bool:
@@ -163,13 +168,20 @@ def contains_cjk(text: str) -> bool:
 def base_metadata_for(path: Path, text: str, root: Path = ROOT) -> dict[str, object]:
     rel = relative_name(path, root)
     parts = path.relative_to(root).parts
-    if rel.startswith("caute_ru_markdown/ilyenkov_md/"):
+    registered = collection_for_path(root, rel)
+    if registered and registered.get("default_text_role") == "author_original":
         page_type, tags, language, collection = (
-            "source", ["ilyenkov", "russian", "source-text"], "ru", "ilyenkov-russian"
+            "source",
+            [registered["person_id"], "source-text"],
+            registered.get("default_language", "not_stated"),
+            registered.get("collection_name", registered["id"]),
         )
-    elif rel.startswith("caute_ru_markdown/maidansky_md/"):
+    elif registered and registered.get("default_text_role") == "research":
         page_type, tags, language, collection = (
-            "analysis", ["maidansky", "research", "secondary-source"], "ru", "maidansky-research"
+            "analysis",
+            [registered["person_id"], "research", "secondary-source"],
+            registered.get("default_language", "not_stated"),
+            registered.get("collection_name", registered["id"]),
         )
     elif rel.startswith(("caute_ru_markdown/metadata/", "spinoza_markdown/metadata/")):
         page_type, tags, language, collection = (
@@ -297,6 +309,20 @@ def corpus_defaults(path: Path, text: str, current: dict[str, str], root: Path =
             "text_status": status,
             "source_url": source_url,
         }
+    registered = collection_for_path(root, rel)
+    if registered:
+        mapped_role = current.get("text_role") or registered.get("default_text_role", "author_original")
+        return {
+            "text_role": mapped_role,
+            "core_corpus_eligible": "true" if mapped_role == "author_original" else "false",
+            "llm_wiki_eligible": current.get("llm_wiki_eligible") or "true",
+            "source_format": current.get("source_format") or "not_stated",
+            "source_license": current.get("source_license") or "not_stated",
+            "redistribution_approved": current.get("redistribution_approved") or "false",
+            "rights_review_status": current.get("rights_review_status") or "unreviewed",
+            "text_status": status,
+            "source_url": source_url,
+        }
     return {
         "text_role": "modern_translation",
         "core_corpus_eligible": "false",
@@ -350,6 +376,8 @@ def update_front_matter(text: str, fields: dict[str, str]) -> str:
 def validate_file(path: Path, text: str, root: Path = ROOT) -> list[str]:
     rel = relative_name(path, root)
     errors: list[str] = []
+    if is_root_readme(path, root):
+        return errors
     if not has_front_matter(text) or not front_matter_bounds(text):
         return [f"{rel}: missing or malformed front matter"]
     metadata = parse_front_matter(text)
@@ -406,6 +434,8 @@ def validate_file(path: Path, text: str, root: Path = ROOT) -> list[str]:
 
 
 def prepare_file(path: Path, text: str, root: Path = ROOT) -> str:
+    if is_root_readme(path, root):
+        return text
     if not has_front_matter(text):
         text = render_front_matter(base_metadata_for(path, text, root)) + text
     metadata = parse_front_matter(text)

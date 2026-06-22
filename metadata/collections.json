@@ -1,0 +1,211 @@
+{
+  "schema_version": 1,
+  "generated_at": "2026-06-21",
+  "project": {
+    "focus_person_id": "ilyenkov",
+    "large_binary_threshold_bytes": 78643200,
+    "gbrain_extra_roots": [
+      "notes/",
+      "translation_workspace/",
+      "dialectical_logic/",
+      "idols_ideals/",
+      "existing_translations/"
+    ],
+    "excluded_directory_names": [
+      "cache",
+      "digitization",
+      "source_scans",
+      "source_pdfs"
+    ]
+  },
+  "people": [
+    {
+      "id": "ilyenkov",
+      "name_zh": "埃瓦尔德·伊里因科夫",
+      "name_original": "Эвальд Васильевич Ильенков",
+      "name_latin": "Evald Ilyenkov",
+      "relation": "项目中心人物"
+    },
+    {
+      "id": "maidansky",
+      "name_zh": "安德烈·迈丹斯基",
+      "name_original": "Андрей Дмитриевич Майданский",
+      "name_latin": "Andrey Maidansky",
+      "relation": "伊里因科夫研究、文本整理与斯宾诺莎研究"
+    },
+    {
+      "id": "spinoza",
+      "name_zh": "巴鲁赫·斯宾诺莎",
+      "name_original": "Benedictus de Spinoza",
+      "name_latin": "Baruch Spinoza",
+      "relation": "伊里因科夫哲学的重要思想来源"
+    },
+    {
+      "id": "kedrov",
+      "name_zh": "博尼法季·凯德洛夫",
+      "name_original": "Бонифатий Михайлович Кедров",
+      "name_latin": "Bonifaty Kedrov",
+      "relation": "苏联辩证法与科学哲学语境"
+    },
+    {
+      "id": "oizerman",
+      "name_zh": "特奥多尔·奥伊泽尔曼",
+      "name_original": "Теодор Ильич Ойзерман",
+      "name_latin": "Teodor Oizerman",
+      "relation": "苏联哲学史与认识论语境"
+    },
+    {
+      "id": "kopnin",
+      "name_zh": "帕维尔·科普宁",
+      "name_original": "Павел Васильевич Копнин",
+      "name_latin": "Pavel Kopnin",
+      "relation": "辩证逻辑、认识论与科学方法论语境"
+    }
+  ],
+  "collections": [
+    {
+      "id": "ilyenkov-texts",
+      "person_id": "ilyenkov",
+      "kind": "author_texts",
+      "root": "caute_ru_markdown",
+      "layout": "legacy",
+      "stage": "markdown_corpus",
+      "readme": "caute_ru_markdown/README.md",
+      "corpus_paths": [
+        "caute_ru_markdown/ilyenkov_md/"
+      ],
+      "scan_paths": [],
+      "scan_manifest": null,
+      "works_manifest": "caute_ru_markdown/metadata/ilyenkov_catalog_manifest.json",
+      "bibliography_paths": [],
+      "source_survey": "notes/REPOSITORY_STATUS_FOR_CLAUDE.md",
+      "gbrain_tracked": true,
+      "default_text_role": "author_original",
+      "default_language": "ru",
+      "collection_name": "ilyenkov-russian"
+    },
+    {
+      "id": "maidansky-research",
+      "person_id": "maidansky",
+      "kind": "research_texts",
+      "root": "caute_ru_markdown",
+      "layout": "legacy",
+      "stage": "markdown_corpus",
+      "readme": "caute_ru_markdown/README.md",
+      "corpus_paths": [
+        "caute_ru_markdown/maidansky_md/"
+      ],
+      "scan_paths": [],
+      "scan_manifest": null,
+      "works_manifest": "caute_ru_markdown/metadata/maidansky_catalog_manifest.json",
+      "bibliography_paths": [],
+      "source_survey": "notes/MAIDANSKY_SOURCE_ATTRIBUTION.md",
+      "gbrain_tracked": true,
+      "default_text_role": "research",
+      "default_language": "ru",
+      "collection_name": "maidansky-research"
+    },
+    {
+      "id": "maidansky-academia",
+      "person_id": "maidansky",
+      "kind": "source_archive",
+      "root": "maidansky_markdown",
+      "layout": "legacy",
+      "stage": "source_scans",
+      "readme": "maidansky_markdown/README.md",
+      "corpus_paths": [],
+      "scan_paths": [
+        "maidansky_markdown/source_scans/"
+      ],
+      "scan_manifest": "maidansky_markdown/metadata/source_scans_manifest.json",
+      "works_manifest": "maidansky_markdown/metadata/academia_manifest.json",
+      "bibliography_paths": [],
+      "source_survey": "maidansky_markdown/README.md",
+      "gbrain_tracked": true
+    },
+    {
+      "id": "spinoza-texts",
+      "person_id": "spinoza",
+      "kind": "author_texts_and_witnesses",
+      "root": "spinoza_markdown",
+      "layout": "legacy",
+      "stage": "markdown_corpus",
+      "readme": "spinoza_markdown/README.md",
+      "corpus_paths": [
+        "spinoza_markdown/spinoza_md/"
+      ],
+      "scan_paths": [
+        "spinoza_markdown/source_pdfs/"
+      ],
+      "scan_manifest": null,
+      "works_manifest": "spinoza_markdown/metadata/spinoza_catalog_manifest.json",
+      "bibliography_paths": [],
+      "source_survey": "spinoza_markdown/metadata/source_audit.md",
+      "gbrain_tracked": true,
+      "default_text_role": "author_original",
+      "default_language": "la",
+      "collection_name": "spinoza-original-language"
+    },
+    {
+      "id": "kedrov-texts",
+      "person_id": "kedrov",
+      "kind": "author_texts",
+      "root": "kedrov_markdown",
+      "layout": "legacy",
+      "stage": "markdown_and_scans",
+      "readme": "kedrov_markdown/README.md",
+      "corpus_paths": [
+        "kedrov_markdown/kedrov_md/"
+      ],
+      "scan_paths": [
+        "kedrov_markdown/source_scans/"
+      ],
+      "scan_manifest": "kedrov_markdown/metadata/source_scans_manifest.json",
+      "works_manifest": "kedrov_markdown/metadata/royallib_manifest.json",
+      "bibliography_paths": [],
+      "source_survey": "notes/KEDROV_SOURCE_SURVEY.md",
+      "gbrain_tracked": true,
+      "default_text_role": "author_original",
+      "default_language": "ru",
+      "collection_name": "kedrov-russian"
+    },
+    {
+      "id": "oizerman-archive",
+      "person_id": "oizerman",
+      "kind": "bibliography_and_scans",
+      "root": "oizerman_markdown",
+      "layout": "legacy",
+      "stage": "source_scans",
+      "readme": "oizerman_markdown/README.md",
+      "corpus_paths": [],
+      "scan_paths": [
+        "oizerman_markdown/source_scans/"
+      ],
+      "scan_manifest": "oizerman_markdown/metadata/source_scans_manifest.json",
+      "works_manifest": "oizerman_markdown/metadata/works_master.json",
+      "bibliography_paths": [
+        "oizerman_markdown/bibliography/"
+      ],
+      "source_survey": "notes/OIZERMAN_SOURCE_SURVEY.md",
+      "gbrain_tracked": true
+    },
+    {
+      "id": "kopnin-archive",
+      "person_id": "kopnin",
+      "kind": "bibliography_and_scans",
+      "root": "kopnin_markdown",
+      "layout": "legacy",
+      "stage": "source_scans",
+      "readme": "kopnin_markdown/README.md",
+      "corpus_paths": [],
+      "scan_paths": [
+        "kopnin_markdown/source_scans/"
+      ],
+      "scan_manifest": "kopnin_markdown/metadata/source_scans_manifest.json",
+      "works_manifest": "kopnin_markdown/metadata/works_master.json",
+      "bibliography_paths": [],
+      "source_survey": "notes/KOPNIN_SOURCE_SURVEY.md",
+      "gbrain_tracked": true
+    }
+  ]
+}

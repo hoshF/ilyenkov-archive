@@ -16,7 +16,11 @@ gbrain_version_tested: "0.42.37.0"
 
 ## 语料结构
 
-- `caute_ru_markdown/ilyenkov_md/`：伊里因科夫俄文文本，主要类型为 `source`。
+人物与集合路径统一登记在 `metadata/collections.json`，当前状态见
+[`COLLECTION_STATUS.md`](COLLECTION_STATUS.md)。`gbrain.yml` 中的集合根目录由
+`scripts/manage_collections.py sync` 生成。
+
+- `caute_ru_markdown/ilyenkov_md/`：伊里因科夫俄文文本，正文主要角色为 `author_original`。
 - `caute_ru_markdown/maidansky_md/`：迈丹斯基及相关研究文本，主要类型为 `analysis`。
 - `spinoza_markdown/spinoza_md/`：斯宾诺莎作者语言文本、历史译本和存世文本见证，具体角色以 front matter 与来源策略为准。
 - `kedrov_markdown/kedrov_md/`：凯德洛夫俄文哲学文本；源扫描件单独保存在 `kedrov_markdown/source_scans/`，不进入索引。
@@ -52,6 +56,7 @@ scripts/run_gbrain_without_dist.sh gbrain extract --stale --catch-up
 同步前可运行：
 
 ```bash
+python3 scripts/manage_collections.py check
 python3 scripts/prepare_gbrain_markdown.py --check
 ```
 
@@ -61,7 +66,11 @@ python3 scripts/prepare_gbrain_markdown.py --check
 - 哲学正文优先从真实 HTML 或原生 EPUB 转换。项目当前不执行新的 OCR；未经人工校勘的 OCR 不进入核心层。13 份逐篇对图校勘并具备 manifest 的历史报纸文本属于作者原文核心层，同时保留 OCR provenance。PDF/DjVu 源扫描件不进入 GBrain。
 - 跨语言解释优先从作者语言全文出发；历史译本可作为文本见证，但不冒充作者原文。
 - GBrain 的检索结果和模型回答是研究入口，不是学术校勘结论。
+- AI-ready 表示文本与元数据适合可审计的检索和计算研究，不表示获得模型训练许可。
 - 修改文本后重新同步；不要直接把 GBrain 数据库当作唯一保存位置。
+- 不要直接运行裸 `gbrain sync .`。包装脚本会隐藏 `dist/` 和各人物的 `digitization/`
+  隔离目录，防止未校验 OCR 中间材料进入索引。
 - 语料入口与路径选择见 [RESOLVER.md](RESOLVER.md)。
+- 引用迈丹斯基网站文本时使用 `http://filorus.ru/ilyenkov/... (at the website by Andrey Maidansky)`；`caute_ru_markdown/` 是历史采集目录名，不代表当前推荐引用入口。
 - 来源格式规则见 [notes/PHILOSOPHY_SOURCE_FORMAT_POLICY.md](notes/PHILOSOPHY_SOURCE_FORMAT_POLICY.md)。
 - 默认关系抽取的实际能力和 0 结果原因见 [notes/EXTRACTION_DIAGNOSIS.md](notes/EXTRACTION_DIAGNOSIS.md)。
