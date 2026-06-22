@@ -1,122 +1,146 @@
 ---
-title: "T. I. Oizerman Text Source Survey"
+title: "T. I. Oizerman Text Source Survey / 奥伊泽尔曼哲学文本来源调查"
 created: "2026-06-16"
 updated: "2026-06-22"
 type: "analysis"
 tags: ["oizerman", "source-metadata", "marxism", "history-of-philosophy"]
-language: "zh"
+language: "en-zh"
 collection: "corpus-metadata"
 llm_wiki_eligible: "true"
 gbrain_source: "project-markdown"
 ---
 
-# 奥伊泽尔曼哲学文本来源调查
+# T. I. Oizerman Text Source Survey
 
-## 人物确认
+This document translates the existing survey; it does not record a new external source search.
 
-目标人物是特奥多尔·伊里奇·奥伊泽尔曼（Теодор Ильич Ойзерман，1914—2017；英文常写作 Teodor/T. I. Oizerman，旧译有 Oiserman）。苏联及俄罗斯哲学家、哲学史家，研究方向包括马克思主义形成史、哲学史方法论与过程理论、德国古典哲学（康德与黑格尔）、对马克思主义/乌托邦主义/修正主义的反思，以及晚年的元哲学。俄文检索优先使用 `Т. И. Ойзерман`、`Ойзерман Т. И.`、`Теодор Ильич Ойзерман` 和具体书名。
+## Identity And Findings
 
-## 结论
+Teodor Ilyich Oizerman (Теодор Ильич Ойзерман, 1914-2017; also Teodor/T. I. Oizerman or Oiserman)
+worked on the formation of Marxism, methodology of the history of philosophy, German classical
+philosophy, and later met philosophy.
 
-- 当前已建立书目与来源表，并保存自由直链提供的未处理扫描件。奥伊泽尔曼 2017 年去世，著作仍受版权保护，找到的下载站均未给出明确开放许可。文件可访问不等于可再分发。
-- 官方书目（俄罗斯科学院哲学研究所，IPHRAS）已下载并提取文本，作为作品主表、出版年份与版本校验的权威依据。它是书目工具，不含著作全文。
-- 主要在线来源为 Klex、Koob、Librusec 等俄文资源站，多为扫描 PDF/DjVu。按仓库政策，自由直接下载的 PDF/DjVu 只按 `source_scan_unprocessed` 原样保存，不提取文本层、不 OCR、不进入 GBrain 或公开导出。
-- 当前没有发现奥伊泽尔曼著作的真实 HTML 正文或原生结构化 EPUB；因此暂无可直接转 Markdown 的正文来源。若后续发现真实 HTML/EPUB，再按政策第 1、2 优先级转换。
+- A works registry and source table exist, and directly downloadable scans are preserved.
+- Oizerman's works remain protected; located download sites state no clear open license.
+- The Institute of Philosophy RAS bibliography is the authority for titles, dates, editions, and
+  responsibility statements. It is a bibliographic tool, not Oizerman's full text.
+- Klex, Koob, and Librusec provide mainly PDF/DjVu or uncertain derivative formats.
+- No genuine HTML body text or native structured EPUB has been accepted.
 
-以上处理遵循仓库的[哲学文本来源与格式政策](PHILOSOPHY_SOURCE_FORMAT_POLICY.md)。作品主表见 [`oizerman_markdown/metadata/works_master.json`](../oizerman_markdown/metadata/works_master.json)。
+See the [Source Policy](PHILOSOPHY_SOURCE_FORMAT_POLICY.md) and
+[`works_master.json`](../oizerman_markdown/metadata/works_master.json).
 
-## 一、官方书目（权威校验）
+## Official Bibliography
 
-| 项目 | 信息 |
+| Field | Value |
 |---|---|
-| 来源 | 俄罗斯科学院哲学研究所（IPHRAS） |
+| Provider | Institute of Philosophy, Russian Academy of Sciences |
 | URL | https://iphras.ru/uplfile/rusph/biblio/oizerman_verst_1-122.pdf |
-| 本地路径 | `oizerman_markdown/bibliography/iphras_official_bibliography.pdf` |
-| 提取文本 | `oizerman_markdown/bibliography/iphras_official_bibliography.txt`（4050 行，pdftotext UTF-8） |
+| Local PDF | `oizerman_markdown/bibliography/iphras_official_bibliography.pdf` |
+| Extracted text | `oizerman_markdown/bibliography/iphras_official_bibliography.txt` (4,050 lines, UTF-8 `pdftotext`) |
 | SHA-256 | `f0935bece0cac834a3c2b0e6ca42dc06b7dbab2d2b3d421317a0f9bdf666bc4d` |
-| 下载日期 | 2026-06-16 |
+| Download date | 2026-06-16 |
 
-用途：建立作品主表、校验同名作品版本、区分专著/论文/主编/合著、获取出版年份与出版社。该 PDF 是书目工具，不是奥伊泽尔曼著作全文。书目正文混编奥伊泽尔曼本人著作、关于他的研究书评、他为他人著作所作序言和期刊论文，后续机器解析需按此区分。
+The bibliography mixes Oizerman's works, reviews about him, prefaces, and periodical articles;
+machine parsing must distinguish responsibility types. An additional verification query is
+`site:iphras.ru Ойзерман`.
 
-站内权威校验入口（主要用于核验，不一定提供扫描件）：`site:iphras.ru Ойзерман`。
+## Main Scan And Text Leads
 
-## 二、扫描 PDF/DjVu 首要目标站
+### Klex
 
-### Klex（五卷本与扫描版首要目标）
+- Author page: https://www.klex.ru/author/ojzerman/
+- Known coverage includes selected works volumes 1-3, `Кант и Гегель`,
+  `Теория познания Канта`, and `История диалектики. Немецкая классическая философия`.
+- Confirmed pages:
+  - `Избранные труды. Том 1. Возникновение марксизма`: https://www.klex.ru/ts6
+  - `Возникновение марксизма`: https://www.klex.ru/hav
 
-- 作者页：https://www.klex.ru/author/ojzerman/
-- 已知列出：五卷本第 1—3 卷、`Кант и Гегель`、`Теория познания Канта`、`История диалектики. Немецкая классическая философия` 等。
-- 已确认页面：
-  - 五卷本第 1 卷 `Избранные труды. Том 1. Возникновение марксизма`：https://www.klex.ru/ts6 （ZIP / DJV / 在线）
-  - 单行本 `Возникновение марксизма`：https://www.klex.ru/hav （可能为不同于五卷本第 1 卷的版本，须按出版年、出版社、页数、封面、是否标 `Том 1` 区分）
-- 通常提供 `DjVu`/`ZIP`/`在线`。优先保存 DjVu 或原始扫描格式。
+The single-volume work and selected-works volume must be distinguished by publication year,
+publisher, pagination, cover, and volume statement.
 
-### Koob（作品目录与下载中转）
+### Koob
 
-- 作者页：https://www.koob.ru/ojzerman/
-- 已确认作品页：
-  - `Философия как история философии`：https://www.koob.ru/ojzerman/filosofiya_kak_istoriya_filosofii
-  - `Проблемы историко-философской науки`：https://www.koob.ru/ojzerman/problemy_istor_filosof_nauki
-  - `Главные философские направления`：https://www.koob.ru/ojzerman/glavnie_filosofskie_napravleniya
-  - `Философия эпохи ранних буржуазных революций`：https://www.koob.ru/ojzerman/filosofiya_revolyutsiy
-  - `Краткий очерк истории философии`：https://www.koob.ru/ojzerman/kratkiy_ocherk
-  - `Развитие марксистской теории на опыте революции 1848 года`：https://www.koob.ru/ojzerman/razvitiye_marksistskoy_teorii
-- Koob 作品页不一定直接存文件，可能跳转 Klex 或其他镜像。须区分作品介绍页、在线阅读页、实际下载地址、外部跳转地址。
+- Author page: https://www.koob.ru/ojzerman/
+- Confirmed work pages:
+  - https://www.koob.ru/ojzerman/filosofiya_kak_istoriya_filosofii
+  - https://www.koob.ru/ojzerman/problemy_istor_filosof_nauki
+  - https://www.koob.ru/ojzerman/glavnie_filosofskie_napravleniya
+  - https://www.koob.ru/ojzerman/filosofiya_revolyutsiy
+  - https://www.koob.ru/ojzerman/kratkiy_ocherk
+  - https://www.koob.ru/ojzerman/razvitiye_marksistskoy_teorii
 
-### Librusec（可检索文本补充）
+Koob pages may be descriptions or redirects rather than file hosts.
 
-- 作者入口：https://librusec.pro/a/16395
-- 多提供 FB2/EPUB/MOBI/HTML，适合补充可检索文本，不保留原始版式与扫描图像。需核验作者确为 `Т. И. Ойзерман`，防止同名误匹配，检查是否删节、是否 OCR 自动生成；不用 FB2 替代原始 DjVu 扫描版。
+### Librusec
 
-## 三、2014 年五卷本《Избранные труды》
+- Author page: https://librusec.pro/a/16395
 
-`Ойзерман Т. И. Избранные труды: в 5 томах`，Москва: Наука, 2014。
+FB2/EPUB/MOBI/HTML may aid source discovery but requires identity, completeness, and OCR-origin
+checks. It does not replace the original scan.
 
-| 卷 | 主体著作 | 状态 |
+## 2014 Five-Volume Selected Works
+
+`Ойзерман Т. И. Избранные труды: в 5 томах`. Moscow: Наука, 2014.
+
+| Volume | Main work | Status |
 |---|---|---|
-| Том 1 | `Возникновение марксизма` | 2014 年 DjVu 已保存并登记 |
-| Том 2 | `Марксизм и утопизм` | 2014 年 DjVu 已保存并登记 |
-| Том 3 | `Оправдание ревизионизма` | 2014 年 DjVu 已保存并登记 |
-| Том 4 | `Кант и Гегель` | 2014 年 DjVu 已保存并登记 |
-| Том 5 | `Метафилософия. Амбивалентность философии` | 2014 年 DjVu 已保存并登记 |
+| 1 | `Возникновение марксизма` | 2014 DjVu preserved and registered |
+| 2 | `Марксизм и утопизм` | 2014 DjVu preserved and registered |
+| 3 | `Оправдание ревизионизма` | 2014 DjVu preserved and registered |
+| 4 | `Кант и Гегель` | 2014 DjVu preserved and registered |
+| 5 | `Метафилософия. Амбивалентность философии` | 2014 DjVu preserved and registered |
 
-注意：五卷本各卷由此前代表作改编重排，**不**等同早期单行本数字文件，须用出版年、出版社、页数、封面、是否标 `Избранные труды`/`Том N` 区分。
-五卷均保持 `source_scan_unprocessed`，不等于已有正文 Markdown。
+These rearranged selected-works volumes are not digitally identical to earlier stand-alone
+editions. All remain `source_scan_unprocessed`.
 
-## 三 A、四卷本《Теория познания》
+## Four-Volume `Теория познания`
 
-列克托尔斯基与奥伊泽尔曼共同主编的集体著作，四卷均已于 2026-06-21 从 Klex 所指向的自由 PDF 直链下载，并按 `source_scan_unprocessed` 登记：
+The collective work edited by Vladislav Lektorsky and Teodor Oizerman was downloaded on June 21,
+2026 from direct PDF links referenced by Klex and registered as unprocessed scans:
 
-| 卷 | 分卷题名 | 年份 | 页数 |
+| Volume | Subtitle | Year | Pages |
 |---|---|---:|---:|
-| Том 1 | `Домарксистская теория познания` | 1991 | 305 |
-| Том 2 | `Социально-культурная природа познания` | 1991 | 481 |
-| Том 3 | `Познание как исторический процесс` | 1993 | 400 |
-| Том 4 | `Познание социальной реальности` | 1995 | 433 |
+| 1 | `Домарксистская теория познания` | 1991 | 305 |
+| 2 | `Социально-культурная природа познания` | 1991 | 481 |
+| 3 | `Познание как исторический процесс` | 1993 | 400 |
+| 4 | `Познание социальной реальности` | 1995 | 433 |
 
-本套书不是两位主编共同撰写的四卷专著。官方书目同时确认奥伊泽尔曼在第 1 卷撰写《Введение》《Принцип познаваемости мира》，在第 2 卷撰写《Истина как гносеологическая проблема》。未发现可靠的原生 Markdown、真实 HTML 或结构化 EPUB 版本。
+This is not a four-volume monograph co-authored by the editors. The official bibliography credits
+Oizerman with `Введение` and `Принцип познаваемости мира` in volume 1 and
+`Истина как гносеологическая проблема` in volume 2. No reliable native Markdown, genuine HTML, or
+structured EPUB was found.
 
-## 四、建议收集优先级
+## Collection Priorities
 
-1. **官方书目**（已完成）→ 作品主表。
-2. **2014 五卷本** Том 1—5：扫描件收集已完成；后续只做版本核对或经批准的数字化。
-3. **哲学史理论核心**：继续补充缺失版本与可核验正文来源，包括 `Проблемы историко-философской науки`、`Главные философские направления`、`Философия как история философии`、`Диалектический материализм и история философии`、`Основы теории историко-философского процесса`（合著）。
-4. **德国古典哲学**：`Кант и Гегель`、`Теория познания Канта`（合著）、`Историко-философское учение Гегеля`、`История диалектики. Немецкая классическая философия`（集体）。
-5. **马克思主义形成史**：`Возникновение марксизма`、`Формирование философии марксизма`、`Развитие марксистской теории на опыте революции 1848 года`。
-6. **晚年反思与元哲学**：`Марксизм и утопизм`、`Оправдание ревизионизма`、`Метафилософия`、`Амбивалентность философии`、`Размышления. Изречения`、`Проблемы. Социально-политические и философские очерки`。
+1. Official bibliography: completed and used for the works registry.
+2. 2014 volumes 1-5: scan collection completed; later work is edition verification or approved
+   digitization.
+3. History-of-philosophy theory: `Проблемы историко-философской науки`,
+   `Главные философские направления`, `Философия как история философии`,
+   `Диалектический материализм и история философии`, and
+   `Основы теории историко-философского процесса`.
+4. German classical philosophy: `Кант и Гегель`, `Теория познания Канта`,
+   `Историко-философское учение Гегеля`, and
+   `История диалектики. Немецкая классическая философия`.
+5. Formation of Marxism: `Возникновение марксизма`, `Формирование философии марксизма`, and
+   `Развитие марксистской теории на опыте революции 1848 года`.
+6. Later reflection: `Марксизм и утопизм`, `Оправдание ревизионизма`, `Метафилософия`,
+   `Амбивалентность философии`, `Размышления. Изречения`, and `Проблемы`.
 
-## 五、权利处理原则
+## Rights
 
-奥伊泽尔曼 2017 年去世，著作受版权保护，本次找到的全文来源均未标示 Creative Commons、公共领域或其他明确开放许可。因此：
+Oizerman died in 2017 and the works remain protected. The survey, official bibliography, factual
+metadata, and reproducible tools may be preserved. PDF/DjVu files remain
+`source_scan_unprocessed`, are not OCRed or indexed, and do not enter public export. Controlled,
+encrypted, and `printdisabled` sources are bibliography only. Translations remain separate, and
+edited or co-authored works retain accurate responsibility statements.
 
-- 可在仓库保存本来源调查、官方书目及可复现的下载/转换脚本。
-- 自由下载的 PDF/DjVu 只按 `source_scan_unprocessed` 原样保存到 `oizerman_markdown/source_scans/<provider>/`，登记 `metadata/source_scans_manifest.json`（题名、作者、出版年、版次、URL、下载日期、页数、字节数、SHA-256、格式、权利状态），不提取文本、不 OCR、不进 GBrain 或公开导出。
-- 受控借阅、加密、`printdisabled` 材料只记入 [`notes/CORPUS_GAPS.md`](CORPUS_GAPS.md)，不下载、不绕过。
-- 权利状态未确认前不把全文标记 `redistribution_approved: "true"`，不公开发布全文。
-- 外文译本另建目录，不混入俄文原著主表；合著与主编著作必须标明奥伊泽尔曼的责任形式。
+Verification sources also include `site:rusneb.ru Ойзерман` and
+`site:search.rsl.ru Ойзерман`.
 
-## 六、身份与书目核对来源
+## 中文摘要
 
-- 俄罗斯科学院哲学研究所官方书目 PDF（见第一节）。
-- IPHRAS 站内页面：`site:iphras.ru Ойзерман`。
-- 俄文图书馆目录：`site:rusneb.ru Ойзерман`、`site:search.rsl.ru Ойзерман`。
+调查保存了奥伊泽尔曼官方书目、2014 年五卷本和其他未处理扫描件，并确认列克托尔斯基与
+奥伊泽尔曼主编的四卷本《Теория познания》卷次为 1991、1991、1993、1995。扫描件不等于
+正文数字化，现有来源也未声明明确开放许可，因此不进行 OCR、不进入 GBrain 或公开导出。

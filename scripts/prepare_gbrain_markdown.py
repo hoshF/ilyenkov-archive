@@ -16,7 +16,7 @@ from collection_registry import collection_for_path, corpus_paths
 
 ROOT = Path(__file__).resolve().parents[1]
 SKIP_PARTS = {
-    ".git", ".obsidian", ".codex", ".fulltext", "node_modules", "dist",
+    ".git", ".github", ".obsidian", ".codex", ".fulltext", "node_modules", "dist",
     "cache", "digitization", "source_scans", "source_pdfs",
 }
 METADATA_DATE = "2026-06-11"

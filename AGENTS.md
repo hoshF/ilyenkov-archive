@@ -98,7 +98,7 @@ scripts/run_gbrain_without_dist.sh gbrain lint .
 
 | 跟踪文件 | Markdown | 语料 md | 切章文件 | 切章作品 | 分支 |
 |---:|---:|---:|---:|---:|:--|
-| 1085 | 685 | 630 | 337 | 15 | `main` |
+| 1092 | 686 | 630 | 337 | 15 | `main` |
 
 <!-- AGENTS-AUTO:END -->
 
@@ -108,17 +108,17 @@ scripts/run_gbrain_without_dist.sh gbrain lint .
 **Git 进度（提交时刷新，可能滞后一个提交）**
 
 - 领先 `origin/main` 1 个提交，落后 0 个
-- HEAD：4910fe9  docs: make public project guides English-first
-- 工作区：10 个已改跟踪文件，0 个未跟踪文件未提交
+- HEAD：0b21143  docs: internationalize source and digitization policies
+- 工作区：12 个已改跟踪文件，0 个未跟踪文件未提交
 
 **最近提交**
 
+- `0b21143` docs: internationalize source and digitization policies
+- `ada437b` docs: internationalize collection navigation
 - `4910fe9` docs: make public project guides English-first
 - `92c540e` docs: align metadata and recruitment guidance
 - `82b87f4` corpus: approve public-domain Spinoza sources
 - `001094e` rights: enforce auditable public release policy
-- `73b525a` legal: add layered project licensing
-- `09e5e22` test: enforce current project documentation
 
 <!-- AGENTS-LIVE:END -->
 

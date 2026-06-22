@@ -37,6 +37,14 @@ class PrepareGbrainMarkdownTests(unittest.TestCase):
             self.assertEqual(MODULE.validate_file(path, text, root), [])
             self.assertEqual(MODULE.prepare_file(path, text, root), text)
 
+    def test_github_templates_are_excluded_from_gbrain_documents(self):
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            template = root / ".github/PULL_REQUEST_TEMPLATE.md"
+            template.parent.mkdir()
+            template.write_text("# Pull Request\n", encoding="utf-8")
+            self.assertNotIn(template, MODULE.markdown_files(root))
+
     def test_invalid_role_is_rejected(self):
         with tempfile.TemporaryDirectory() as directory:
             root = Path(directory)

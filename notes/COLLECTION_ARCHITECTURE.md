@@ -1,23 +1,24 @@
 ---
-title: "哲学家集合架构与扩展规范"
+title: "Collection Architecture And Extension Guide / 哲学家集合架构与扩展规范"
 created: "2026-06-21"
+updated: "2026-06-22"
 type: "project"
 tags: ["collections", "architecture", "corpus", "maintenance"]
-language: "zh"
+language: "en-zh"
 collection: "project-documentation"
 llm_wiki_eligible: "true"
 gbrain_source: "project-markdown"
 ---
 
-# 哲学家集合架构与扩展规范
+# Collection Architecture And Extension Guide
 
-`metadata/collections.json` 是人物、资料集合、正文路径、扫描件 manifest 和 GBrain
-跟踪根目录的共同事实来源。人物与集合分开登记：同一人物可以拥有作者正文、研究文本、
-来源档案等多个集合。
+`metadata/collections.json` is the shared source of truth for people, collections, corpus paths,
+scan manifests, and GBrain tracking roots. People and collections are separate records: one person
+may have authorial texts, research texts, and source archives in different collections.
 
-## 标准人物目录
+## Standard Person Layout
 
-新人物统一使用：
+New people use:
 
 ```text
 <author_id>_markdown/
@@ -31,52 +32,65 @@ gbrain_source: "project-markdown"
 └── scripts/
 ```
 
-使用以下命令创建，不要手工复制现有历史目录：
+Create the collection through the management command rather than copying a historical directory:
 
 ```bash
 python3 scripts/manage_collections.py add-person \
   --id <author_id> \
-  --name-zh <中文名> \
-  --name-original <原文名> \
-  --name-latin <拉丁转写> \
-  --relation <与项目的关系>
+  --name-zh <Chinese name> \
+  --name-original <original-language name> \
+  --name-latin <Latin-script name> \
+  --relation <relationship to the project>
 ```
 
-命令会创建目录和空 manifest、登记注册表，并同步 `gbrain.yml` 与
-`COLLECTION_STATUS.md`。
+The command creates the layout and empty manifests, registers the person and collection, and
+synchronizes `gbrain.yml` and `COLLECTION_STATUS.md`.
 
-## 历史布局
+## Historical Layouts
 
-- `caute_ru_markdown/` 同时保存伊里因科夫正文和迈丹斯基研究正文，路径不得改名。
-- `maidansky_markdown/` 是 Academia 来源档案，不是上述研究正文的重复副本。
-- `spinoza_markdown/source_pdfs/` 是历史兼容扫描目录。
-- `spinoza_markdown/cache/` 是采集脚本的可复现响应缓存，不计入正文统计，不进入公开导出。
+- `caute_ru_markdown/` contains both Ilyenkov source text and Maidansky research text. Do not rename
+  it.
+- `maidansky_markdown/` is an Academia.edu source archive, not a duplicate of the research corpus.
+- `spinoza_markdown/source_pdfs/` is a historical scan path retained for compatibility.
+- `spinoza_markdown/cache/` is a reproducible acquisition cache. It is excluded from corpus
+  statistics and public export.
 
-历史集合在注册表中标记为 `layout: "legacy"`。统一工具适配这些路径，但不迁移文件。
+Historical collections use `layout: "legacy"` in the registry. Shared tools support these paths
+without moving them.
 
-## 状态与校验
+## Synchronization And Validation
 
 ```bash
 python3 scripts/manage_collections.py sync
 python3 scripts/manage_collections.py check
 ```
 
-`sync` 生成状态页并同步 GBrain 路径；`check` 验证注册表、路径、数字化项目和翻译项目。
-新增单个扫描件超过 75 MiB 时，manifest 必须增加 `large_file_review`，记录人工复核、
-收录理由和存储决定。现有 Git 历史不迁移到 Git LFS。
+`sync` regenerates the collection status page and managed GBrain roots. `check` validates the
+registry, paths, digitization projects, and translation projects.
 
-## 数字化与翻译
+A newly added scan larger than 75 MiB requires `large_file_review` in its manifest, including
+manual review, a reason for inclusion, and a storage decision. Existing Git history is not migrated
+to Git LFS.
 
-数字化项目位于 `<author_root>/digitization/<work_id>/`，只能通过
-`manage_collections.py init-digitization` 初始化。该命令只登记项目，不执行 OCR。
-数字化目录在 GBrain 包装脚本运行期间被隐藏，也不进入公开导出。
+## Digitization And Translation
 
-中文翻译与精读计划使用：
+Digitization projects live under `<author_root>/digitization/<work_id>/` and are initialized only
+through `manage_collections.py init-digitization`. Initialization records a project but does not run
+OCR. Digitization workspaces are hidden from GBrain and excluded from public export.
+
+Chinese translation and close reading use:
 
 ```text
 translation_workspace/<stage>/<author_id>/<work_id>/
 ```
 
-每个项目保存 `translation.json`，绑定原文路径、版本和 SHA-256。Schema 与模板分别位于
-`metadata/schemas/translation_project.schema.json` 和
-`translation_workspace/templates/translation.json`。
+Each project keeps `translation.json` with the source path, version, and SHA-256. The schema and
+template are `metadata/schemas/translation_project.schema.json` and
+`translation_workspace/templates/translation.json`.
+
+## 中文摘要
+
+`metadata/collections.json` 是人物、集合和路径配置的中央事实来源。新增人物必须使用
+`manage_collections.py add-person` 创建标准目录，不复制历史目录。数字化项目与翻译项目均
+按作品隔离保存；扫描件、正文、书目和元数据必须分层，数字化中间文件不进入 GBrain 或公开
+导出。

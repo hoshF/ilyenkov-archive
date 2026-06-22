@@ -1,30 +1,40 @@
 ---
-title: "Maidansky Website Source Attribution"
+title: "Maidansky Website Source Attribution / 迈丹斯基网站来源归属"
 created: "2026-06-17"
+updated: "2026-06-22"
 type: "project"
 tags: ["source-attribution", "maidansky", "ilyenkov", "filorus"]
-language: "zh"
+language: "en-zh"
 collection: "corpus-metadata"
 llm_wiki_eligible: "true"
 gbrain_source: "project-markdown"
 ---
 
-# 迈丹斯基网站来源归属
+# Maidansky Website Source Attribution
 
-2026-06-17，安德烈·德米特里耶维奇·迈丹斯基（А.Д. Майданский）来信说明：
+On June 17, 2026, Andrey D. Maidansky stated that:
 
-- 他已不再拥有 `caute.ru` 网站。
-- 引用他的网站文本时，应使用当前入口 `http://filorus.ru/ilyenkov`。
-- 在 URL 后加括号说明：`(at the website by Andrey Maidansky)`。
+- he no longer owns `caute.ru`;
+- citations to texts from his website should use `http://filorus.ru/ilyenkov`;
+- the URL should be followed by `(at the website by Andrey Maidansky)`.
 
-因此，本项目后续引用伊里因科夫相关在线文本时采用如下格式：
+Use:
 
 ```text
 http://filorus.ru/ilyenkov/... (at the website by Andrey Maidansky)
 ```
 
-机器可读字段如 `source_url` 只保存 URL；Markdown 正文中的 `Источник:`、项目说明和引用说明应追加上述括号说明。
+Machine-readable fields such as `source_url` contain only the URL. Visible source lines and project
+documentation append the attribution phrase.
 
-若某个已采集文本在当前 `filorus.ru` 上核验不到正文页，则保留实际可访问的历史来源 URL，并在 Markdown 可见来源行标明这是历史例外。
+If a harvested text has no matching body page on the current `filorus.ru` site, retain the actual
+accessible historical URL and identify it as a historical exception in the visible source line.
 
-`caute_ru_markdown/` 是历史采集目录名，保留不改名，以免破坏路径、slug、manifest 与既有引用。目录名只表示本项目最初采集来源和转换批次，不再表示当前推荐引用入口。
+`caute_ru_markdown/` remains unchanged because it is an acquisition-history path used by slugs,
+manifests, and existing references. It no longer identifies the recommended citation host.
+
+## 中文摘要
+
+迈丹斯基已不再拥有 `caute.ru`。引用其网站上的伊里因科夫文本时，应使用
+`filorus.ru/ilyenkov` 并在可见来源说明中添加 `(at the website by Andrey Maidansky)`。
+`caute_ru_markdown/` 仅作为历史路径保留，不代表当前推荐引用入口。

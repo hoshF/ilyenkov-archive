@@ -1,0 +1,50 @@
+name: Source or edition report
+description: Add or correct bibliography, provenance, holdings, editions, or source URLs.
+title: "[Source] "
+labels: ["documentation"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Report verifiable source and edition information. Do not upload controlled or rights-unclear full text.
+  - type: input
+    id: person
+    attributes:
+      label: Philosopher or collection
+      placeholder: Evald Ilyenkov
+    validations:
+      required: true
+  - type: input
+    id: title
+    attributes:
+      label: Original title
+      placeholder: Original-language title
+    validations:
+      required: true
+  - type: textarea
+    id: edition
+    attributes:
+      label: Edition or bibliographic statement
+      description: Include year, publisher, responsibility, volume, pagination, and identifiers when known.
+    validations:
+      required: true
+  - type: input
+    id: source
+    attributes:
+      label: Verifiable source URL or catalogue record
+    validations:
+      required: true
+  - type: textarea
+    id: evidence
+    attributes:
+      label: Evidence and proposed change
+      description: Explain what repository record should change and why.
+    validations:
+      required: true
+  - type: checkboxes
+    id: rights
+    attributes:
+      label: Rights and access
+      options:
+        - label: I have not bypassed access controls or attached rights-unclear full text.
+          required: true

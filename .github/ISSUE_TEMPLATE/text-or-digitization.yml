@@ -1,0 +1,54 @@
+name: Text or digitization problem
+description: Report transcription, page mapping, structure, collation, or digitization defects.
+title: "[Text] "
+labels: ["bug"]
+body:
+  - type: input
+    id: path
+    attributes:
+      label: Repository path or work ID
+      placeholder: author_markdown/author_md/work/chapter.md
+    validations:
+      required: true
+  - type: input
+    id: location
+    attributes:
+      label: Page, chapter, or line location
+      placeholder: Printed page 42; chapter 003
+    validations:
+      required: true
+  - type: dropdown
+    id: problem
+    attributes:
+      label: Problem type
+      options:
+        - Transcription or character error
+        - Missing or duplicated text
+        - Heading or chapter structure
+        - Footnote, table, formula, or quotation
+        - Page map or edition alignment
+        - OCR or human-review record
+        - Other text-quality problem
+    validations:
+      required: true
+  - type: textarea
+    id: observed
+    attributes:
+      label: Observed and expected text
+      description: Quote only the minimum passage needed to identify the problem.
+    validations:
+      required: true
+  - type: textarea
+    id: evidence
+    attributes:
+      label: Source evidence
+      description: Cite the edition, scan page, source URL, or comparison witness.
+    validations:
+      required: true
+  - type: checkboxes
+    id: scope
+    attributes:
+      label: Workflow confirmation
+      options:
+        - label: This report does not request an unapproved OCR run.
+          required: true

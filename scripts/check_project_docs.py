@@ -36,7 +36,9 @@ CURRENT_DOCS = (
     "notes/REPOSITORY_STATUS_FOR_CLAUDE.md",
     "notes/KEDROV_COLLECTION_STATUS_FOR_CLAUDE.md",
     "notes/KEDROV_SOURCE_SURVEY.md",
+    "notes/KOPNIN_SOURCE_SURVEY.md",
     "notes/OIZERMAN_SOURCE_SURVEY.md",
+    "notes/MAIDANSKY_SOURCE_ATTRIBUTION.md",
     "notes/ORIGINAL_LANGUAGE_AI_READING.md",
     "notes/SCAN_DIGITIZATION_WORKFLOW.md",
     "spinoza_markdown/metadata/source_audit.md",
@@ -95,6 +97,45 @@ MISSION_REQUIREMENTS = {
         "# Pavel Kopnin Philosophy Text Archive",
         "## 中文摘要",
     ),
+    "notes/COLLECTION_ARCHITECTURE.md": (
+        "# Collection Architecture And Extension Guide",
+        "## Standard Person Layout",
+        "## 中文摘要",
+    ),
+    "notes/PHILOSOPHY_SOURCE_FORMAT_POLICY.md": (
+        "# Philosophical Text Source, OCR Admission, And Publication Policy",
+        "## OCR Admission Gate",
+        "## 中文摘要",
+    ),
+    "notes/SCAN_DIGITIZATION_WORKFLOW.md": (
+        "# Scan Digitization Workflow",
+        "## 3. Standard Workflow",
+        "## 中文摘要",
+    ),
+    "notes/ORIGINAL_LANGUAGE_AI_READING.md": (
+        "# Original-Language Priority And AI-Assisted Reading",
+        "## Limits Of AI",
+        "## 中文摘要",
+    ),
+    "notes/MAIDANSKY_SOURCE_ATTRIBUTION.md": (
+        "# Maidansky Website Source Attribution",
+        "## 中文摘要",
+    ),
+    "notes/KEDROV_SOURCE_SURVEY.md": (
+        "# B. M. Kedrov Text Source Survey",
+        "## Current Processing Order",
+        "## 中文摘要",
+    ),
+    "notes/KOPNIN_SOURCE_SURVEY.md": (
+        "# P. V. Kopnin Text Source Survey",
+        "## Unresolved Gaps",
+        "## 中文摘要",
+    ),
+    "notes/OIZERMAN_SOURCE_SURVEY.md": (
+        "# T. I. Oizerman Text Source Survey",
+        "## Four-Volume `Теория познания`",
+        "## 中文摘要",
+    ),
     "AGENTS.md": ("原典数字化与研究平台面向全球", "中文翻译与精读计划"),
     "notes/REPOSITORY_STATUS_FOR_CLAUDE.md": (
         "原典数字化与研究平台面向全球",
@@ -123,6 +164,15 @@ LICENSE_FILES = (
     "metadata/licensing_policy.json",
     "metadata/rights_registry.json",
     "metadata/schemas/rights_review.schema.json",
+)
+COLLABORATION_FILES = (
+    ".github/ISSUE_TEMPLATE/config.yml",
+    ".github/ISSUE_TEMPLATE/source-and-edition.yml",
+    ".github/ISSUE_TEMPLATE/text-or-digitization.yml",
+    ".github/ISSUE_TEMPLATE/rights-review.yml",
+    ".github/ISSUE_TEMPLATE/tooling.yml",
+    ".github/PULL_REQUEST_TEMPLATE.md",
+    "CITATION.cff",
 )
 METADATA_REQUIREMENTS = {
     "AGENTS.md": {
@@ -223,9 +273,58 @@ METADATA_REQUIREMENTS = {
     },
     "notes/PHILOSOPHY_SOURCE_FORMAT_POLICY.md": {
         "type": "project",
-        "language": "zh",
+        "language": "en-zh",
         "collection": "project-documentation",
         "tags": ("source-policy", "copyright"),
+        "updated": True,
+    },
+    "notes/COLLECTION_ARCHITECTURE.md": {
+        "type": "project",
+        "language": "en-zh",
+        "collection": "project-documentation",
+        "tags": ("collections", "architecture"),
+        "updated": True,
+    },
+    "notes/SCAN_DIGITIZATION_WORKFLOW.md": {
+        "type": "project",
+        "language": "en-zh",
+        "collection": "project-documentation",
+        "tags": ("source-scan", "ocr", "workflow"),
+        "updated": True,
+    },
+    "notes/ORIGINAL_LANGUAGE_AI_READING.md": {
+        "type": "note",
+        "language": "en-zh",
+        "collection": "research-notes",
+        "tags": ("research-note",),
+        "updated": True,
+    },
+    "notes/MAIDANSKY_SOURCE_ATTRIBUTION.md": {
+        "type": "project",
+        "language": "en-zh",
+        "collection": "corpus-metadata",
+        "tags": ("source-attribution", "maidansky", "filorus"),
+        "updated": True,
+    },
+    "notes/KEDROV_SOURCE_SURVEY.md": {
+        "type": "analysis",
+        "language": "en-zh",
+        "collection": "corpus-metadata",
+        "tags": ("kedrov", "source-metadata"),
+        "updated": True,
+    },
+    "notes/KOPNIN_SOURCE_SURVEY.md": {
+        "type": "analysis",
+        "language": "en-zh",
+        "collection": "corpus-metadata",
+        "tags": ("kopnin", "source-metadata"),
+        "updated": True,
+    },
+    "notes/OIZERMAN_SOURCE_SURVEY.md": {
+        "type": "analysis",
+        "language": "en-zh",
+        "collection": "corpus-metadata",
+        "tags": ("oizerman", "source-metadata"),
         "updated": True,
     },
     "notes/community/DISCUSSIONS.md": {
@@ -438,6 +537,80 @@ def licensing_errors(root: Path) -> list[str]:
     return errors
 
 
+def collaboration_errors(root: Path) -> list[str]:
+    errors: list[str] = []
+    for relative in COLLABORATION_FILES:
+        if not (root / relative).is_file():
+            errors.append(f"缺少公共协作接口: {relative}")
+    if errors:
+        return errors
+
+    forms = {
+        ".github/ISSUE_TEMPLATE/source-and-edition.yml": (
+            "name: Source or edition report",
+            "id: edition",
+            "id: source",
+            "Rights and access",
+        ),
+        ".github/ISSUE_TEMPLATE/text-or-digitization.yml": (
+            "name: Text or digitization problem",
+            "id: path",
+            "id: evidence",
+            "unapproved OCR run",
+        ),
+        ".github/ISSUE_TEMPLATE/rights-review.yml": (
+            "name: Rights review or removal request",
+            "id: basis",
+            "id: action",
+            "confidential",
+        ),
+        ".github/ISSUE_TEMPLATE/tooling.yml": (
+            "name: Tooling or validation problem",
+            "id: reproduce",
+            "id: output",
+            "removed secrets",
+        ),
+    }
+    for relative, required in forms.items():
+        text = (root / relative).read_text(encoding="utf-8")
+        for value in required:
+            if value not in text:
+                errors.append(f"{relative}: 缺少 Issue 表单字段: {value}")
+
+    config = (root / ".github/ISSUE_TEMPLATE/config.yml").read_text(encoding="utf-8")
+    for value in ("blank_issues_enabled: false", "https://github.com/hoshF/Ilyenkov-cn/discussions"):
+        if value not in config:
+            errors.append(f"Issue 配置缺少: {value}")
+
+    pull_request = (root / ".github/PULL_REQUEST_TEMPLATE.md").read_text(encoding="utf-8")
+    for value in ("## Evidence", "## Rights And Provenance", "## Validation", "AGENTS.md"):
+        if value not in pull_request:
+            errors.append(f"PR 模板缺少: {value}")
+    return errors
+
+
+def citation_errors(root: Path) -> list[str]:
+    path = root / "CITATION.cff"
+    if not path.is_file():
+        return ["缺少 CITATION.cff"]
+    text = path.read_text(encoding="utf-8")
+    required = (
+        "cff-version: 1.2.0",
+        "type: dataset",
+        "title: Ilyenkov Philosophy Text Archive",
+        "name: Ilyenkov Philosophy Text Archive contributors",
+        "repository-code: https://github.com/hoshF/Ilyenkov-cn",
+        "preferred-citation:",
+        "original source, edition, provenance metadata",
+    )
+    errors = [f"CITATION.cff 缺少引用字段: {value}" for value in required if value not in text]
+    if re.search(r"(?m)^license\s*:", text):
+        errors.append("CITATION.cff 不得用单一 license 字段覆盖分层许可")
+    if text.count("type: dataset") < 2:
+        errors.append("CITATION.cff 的项目和 preferred-citation 都应为 dataset")
+    return errors
+
+
 def metadata_errors(root: Path) -> list[str]:
     errors: list[str] = []
     for relative, expected in METADATA_REQUIREMENTS.items():
@@ -479,6 +652,8 @@ def check(root: Path = ROOT) -> list[str]:
     errors.extend(public_entry_errors(root))
     errors.extend(deprecated_text_errors(root))
     errors.extend(licensing_errors(root))
+    errors.extend(collaboration_errors(root))
+    errors.extend(citation_errors(root))
     errors.extend(metadata_errors(root))
     try:
         if not sync_status(root, check=True):

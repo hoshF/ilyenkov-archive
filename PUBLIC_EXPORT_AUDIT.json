@@ -2,7 +2,7 @@
   "schema_version": 2,
   "policy": "Project infrastructure, original documentation, and factual metadata are public by default. Source texts, translations, scans, media, and content-bearing metadata require approval in metadata/rights_registry.json for the exact path and SHA-256. Scans additionally require approval in their source manifest.",
   "audit_convention": "PUBLIC_EXPORT_AUDIT.json is generated together with the export and does not list itself; the export tree and the public git tree must equal the included paths plus this audit file.",
-  "included": 235,
+  "included": 242,
   "excluded": 752,
   "files": [
     {
@@ -27,6 +27,48 @@
       "sha256": "9899eacb29b8eee3f69b7e5c8882993fff89b35e6e9e6fcac126f500a2edd8e6"
     },
     {
+      "path": ".github/ISSUE_TEMPLATE/config.yml",
+      "included": true,
+      "reason": "project_file",
+      "bytes": 235,
+      "sha256": "d2cc5975ca2d50639b1ded15e8aff1c77fded233051375ceaf6630eed3997ac9"
+    },
+    {
+      "path": ".github/ISSUE_TEMPLATE/rights-review.yml",
+      "included": true,
+      "reason": "project_file",
+      "bytes": 1388,
+      "sha256": "d8a4341aafbfa8f2106adf38414a76f8c42b4df38f626dc3f7dd6cbfbdcf37c3"
+    },
+    {
+      "path": ".github/ISSUE_TEMPLATE/source-and-edition.yml",
+      "included": true,
+      "reason": "project_file",
+      "bytes": 1451,
+      "sha256": "f12b616f42b5c87f1c7c248951c6c25d70f352d4823ce96b60c0dca9f38ddce1"
+    },
+    {
+      "path": ".github/ISSUE_TEMPLATE/text-or-digitization.yml",
+      "included": true,
+      "reason": "project_file",
+      "bytes": 1555,
+      "sha256": "3b43778a3e78bf419b6bf504ce066007ab16650babf9f0190143a00d70bc3a37"
+    },
+    {
+      "path": ".github/ISSUE_TEMPLATE/tooling.yml",
+      "included": true,
+      "reason": "project_file",
+      "bytes": 1130,
+      "sha256": "16ef640296fad66d69f7b746131bc0a004a310c1d5ce2aa62e1b4512f7daa579"
+    },
+    {
+      "path": ".github/PULL_REQUEST_TEMPLATE.md",
+      "included": true,
+      "reason": "project_file",
+      "bytes": 821,
+      "sha256": "ab8a3f412be051f69acfbeafec4f033afddd5b9fec05fe31a796ab57769f7527"
+    },
+    {
       "path": ".gitignore",
       "included": true,
       "reason": "project_file",
@@ -37,8 +79,15 @@
       "path": "AGENTS.md",
       "included": true,
       "reason": "project_file",
-      "bytes": 6088,
-      "sha256": "22b0edea9f43dd515a593a31309d1a48a3c7b5af62978699ec6544d118e0f12c"
+      "bytes": 6117,
+      "sha256": "8c6dac135c0957c4f45854378fd39ed2699c90ca06f9783e40330101635ded76"
+    },
+    {
+      "path": "CITATION.cff",
+      "included": true,
+      "reason": "project_file",
+      "bytes": 950,
+      "sha256": "cecb41bab7e5560ec03e2ecd8ed2bb285037a44f92d394aeb45e23b37ade7f7c"
     },
     {
       "path": "CLAUDE.md",
@@ -107,8 +156,8 @@
       "path": "README.md",
       "included": true,
       "reason": "project_file",
-      "bytes": 8106,
-      "sha256": "d022dcf8bb2f8f7307b9770b18294b0558ca5e9f03da5e12fb46f51b33261c81"
+      "bytes": 8403,
+      "sha256": "65000db0dc95c36e9354c0c3e3c66c1ba1412eeb3a54002db2fd28936e2f1552"
     },
     {
       "path": "RESOLVER.md",
@@ -4615,8 +4664,8 @@
       "path": "notes/COLLECTION_ARCHITECTURE.md",
       "included": true,
       "reason": "project_file",
-      "bytes": 2792,
-      "sha256": "1dc2802b884975dd31c041bd8913bd5da53bfcda2d50676baedafd5c68c5a7e7"
+      "bytes": 3530,
+      "sha256": "3da5302cfbe49fb67257738b1aa4433d59483bb1d0a4acbb246a7602ace14e57"
     },
     {
       "path": "notes/CORPUS_GAPS.md",
@@ -4643,43 +4692,43 @@
       "path": "notes/KEDROV_SOURCE_SURVEY.md",
       "included": true,
       "reason": "project_file",
-      "bytes": 12517,
-      "sha256": "ca9d259b3d898172cdcf7565ef823c8d7a456c14f333c6b29074228cacf3c67b"
+      "bytes": 9439,
+      "sha256": "8e922fb1ab62a36873e2672de82720fe74a8f035ba24260e370913f84e96ff52"
     },
     {
       "path": "notes/KOPNIN_SOURCE_SURVEY.md",
       "included": true,
       "reason": "project_file",
-      "bytes": 5438,
-      "sha256": "2b1837bd359ad065dca4ced660343a7e62bfa48626c9e6733feba422a0f61220"
+      "bytes": 4702,
+      "sha256": "3d7906ac3a8b3c7c4eccb3e0e53dbb9d377c242ccb7d1ada725f2ddb5a8c6fbf"
     },
     {
       "path": "notes/MAIDANSKY_SOURCE_ATTRIBUTION.md",
       "included": true,
       "reason": "project_file",
-      "bytes": 1336,
-      "sha256": "df617db7d3bda61780b5ff8275905d76205c7588355983b6f1e5d325017de65c"
+      "bytes": 1515,
+      "sha256": "ab69122fab31076bf38c11a24d93abcfe8b02d872155965ea44905d5f78c2d2a"
     },
     {
       "path": "notes/OIZERMAN_SOURCE_SURVEY.md",
       "included": true,
       "reason": "project_file",
-      "bytes": 10285,
-      "sha256": "ce809ec324de0fd951184eacdab6576db25c5ccb30984140d8d719a422ee1410"
+      "bytes": 7696,
+      "sha256": "3bb108605e4b2a366ffc14d4f55a777b08472b06cd9d94206d6b84009c29c077"
     },
     {
       "path": "notes/ORIGINAL_LANGUAGE_AI_READING.md",
       "included": true,
       "reason": "project_file",
-      "bytes": 4033,
-      "sha256": "796e7ae7684ebc7ba73a51a53d715aa42bf5b8c34140e067111f689743609b46"
+      "bytes": 3226,
+      "sha256": "296794159e30525a9285e72670b4db9154782fe4ffd3328d9457aa1eaec3b887"
     },
     {
       "path": "notes/PHILOSOPHY_SOURCE_FORMAT_POLICY.md",
       "included": true,
       "reason": "project_file",
-      "bytes": 7249,
-      "sha256": "e5aad9ef392ebcbacda0630e907a0d514fe3959858347ec9b5d61ad7da1bf54a"
+      "bytes": 6936,
+      "sha256": "d8cc69a94ebc76400562b28a1f1de83be5dd98e53a8b39e22ba3480ed399b458"
     },
     {
       "path": "notes/PUBLISH_EXPOSURE_AUDIT.md",
@@ -4706,8 +4755,8 @@
       "path": "notes/SCAN_DIGITIZATION_WORKFLOW.md",
       "included": true,
       "reason": "project_file",
-      "bytes": 9196,
-      "sha256": "09e52a27d9444b6ca38e4b622b33114b4053913cb98effd76d7e4e0c97ee67c9"
+      "bytes": 7806,
+      "sha256": "3e5b8ceb2704f57302363b1402f1f049675d3e094ab0db5af9ba9f24d30b7ff7"
     },
     {
       "path": "notes/STYLE_GUIDE.md",
@@ -5056,8 +5105,8 @@
       "path": "scripts/check_project_docs.py",
       "included": true,
       "reason": "project_file",
-      "bytes": 17502,
-      "sha256": "80bedd63d349114cee80682301b66a9e7f3fde873bf034647571c81cc2c079f1"
+      "bytes": 23700,
+      "sha256": "93dc954e994cef48738499e943ba96f49836c31545a3b6de216b7a2d49a5195c"
     },
     {
       "path": "scripts/collection_registry.py",
@@ -5084,8 +5133,8 @@
       "path": "scripts/prepare_gbrain_markdown.py",
       "included": true,
       "reason": "project_file",
-      "bytes": 20257,
-      "sha256": "f2e5b188784908f2c8bf7cc516e7d7347c276640437abed8d0c5093152bfbc7f"
+      "bytes": 20268,
+      "sha256": "854b943767dd86bf447fcb2141b700e2834bde73bdad7586875a9aaf2cd0d403"
     },
     {
       "path": "scripts/publish_public.sh",
@@ -6834,8 +6883,8 @@
       "path": "tests/test_check_project_docs.py",
       "included": true,
       "reason": "project_file",
-      "bytes": 6875,
-      "sha256": "08771ca8a76ccd6bac02e4452aef3808736452488836a79a0660ed5932b02fcd"
+      "bytes": 8760,
+      "sha256": "3d6310091f9f3e1d7a05debe5ac1eb5b40cc40378bb3307bae19f84ccdd00067"
     },
     {
       "path": "tests/test_export_public.py",
@@ -6855,8 +6904,8 @@
       "path": "tests/test_prepare_gbrain_markdown.py",
       "included": true,
       "reason": "project_file",
-      "bytes": 7052,
-      "sha256": "a072c50953556311f4673f0c162fe1904ea95537dcd115c3691a0f5d34a53037"
+      "bytes": 7456,
+      "sha256": "5aa89f8feb3bddf59c2a452afa8f89e0a3c99e9c8200fc24d71d7db12f877b2c"
     },
     {
       "path": "tests/test_rights_registry.py",

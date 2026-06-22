@@ -1,53 +1,67 @@
 ---
-title: "原文优先与 AI 阅读方法"
+title: "Original-Language Priority And AI-Assisted Reading / 原文优先与 AI 阅读方法"
 created: "2026-06-11"
 updated: "2026-06-22"
 type: "note"
 tags: ["research-note"]
-language: "zh"
+language: "en-zh"
 collection: "research-notes"
 llm_wiki_eligible: "true"
 gbrain_source: "project-markdown"
 ---
-# 原文优先与 AI 阅读方法
+# Original-Language Priority And AI-Assisted Reading
 
-## 基本原则
+## Principle
 
-本项目尽可能收集作者写作时所使用语言的文本，而不是用后来的译文代替原文。原文是知识库的认识论锚点：作品的概念、句法、修辞、歧义和历史语境首先存在于原文中，任何译文都已经包含译者的理解、选择和重组。
+The archive prioritizes texts in the language used by the author rather than substituting a later
+translation. Concepts, syntax, rhetoric, ambiguity, and historical context first exist in that
+text; every translation already contains interpretation and restructuring.
 
-“原文优先”不等于只收作者亲笔语言文本。与作者同时代、能够考证来源的早期译本、抄本和出版文本，也是思想流传过程中的重要历史语料，可以进入 LLM wiki。它们不能冒充作者写作语言的原文，但也不应与后世中文、英文等现代译本混为一谈。原文、同时代文本见证、现代译本和 AI 生成内容必须分开标记，并始终能够追溯到具体来源和版本。
+Original-language priority does not exclude early translations, manuscripts, or historical
+witnesses with auditable provenance. They may enter the LLM Wiki when historically relevant, but
+must not be relabeled as authorial-language originals or merged with modern translations.
 
-## 为什么采用这种方法
+## Research Rationale
 
-人的翻译和阅读受到时间、语言能力、知识背景和局部阅读范围的限制。译者不可能在每一句话中同时调动作者全部作品、概念演变和历史语境；读者也常常只能依据某个译本或作品片段形成理解。因此，译文虽然必要，却不能与原文完全等同。
+Human translation and reading are constrained by time, language, background, and partial access.
+An LLM-assisted workflow can search a broader original-language corpus, compare terminology across
+works, and produce contextual translation or cross-references in response to a specific question.
+This makes translation an evidence-linked research process rather than the reader's only route to
+the author.
 
-大语言模型提供了一种新的跨语言阅读条件。模型可以在一次研究过程中同时检索和比较较大范围的原文，追踪术语在不同作品中的用法，并根据读者的问题即时生成翻译、解释和交叉引用。这使翻译不再只能是一份预先固定的成品，而可以成为建立在完整语料、具体上下文和读者问题之上的动态解释过程。
+## Limits Of AI
 
-从这个意义上说，AI 使跨语言思想交流发生了重要变化：读者可以不必把某一份译本当作通向作者的唯一通道，而是能够通过 AI 在译文、原文、术语史和全文结构之间往返。
+Models may mistranslate, confuse editions, miss grammar, invent connections, or conceal uncertainty
+behind fluent prose. AI output is a reading aid, not a new authoritative edition or translation.
 
-## AI 的边界
+Reliable use requires:
 
-AI 并不会自动消除语言和历史理解的全部困难。模型可能误译、混淆版本、忽略语法细节、补出原文没有的联系，或者以流畅表达掩盖不确定性。因此，本项目不把 AI 输出当作新的权威译本，而把它当作建立在可核验原文之上的阅读工具。
+- explicit source, edition, language, and text status;
+- citations that resolve to source passages;
+- visible uncertainty, lacunae, variants, and inference;
+- comparison of important concepts across relevant authorial texts;
+- revision when source evidence or interpretation changes.
 
-可靠的 AI 阅读必须具备以下条件：
+## Corpus Layers
 
-- 原文来源、版本、语言和文本状态明确。
-- 引用和解释能够定位到原文段落。
-- 不确定、残缺、异文和推断被明确标注。
-- 重要概念可以在作者全部相关文本中比较。
-- 译文能够随原文证据和新的理解被修订。
+1. **Authorial-language text**: strict core corpus and default citation target.
+2. **Contemporary or early witness**: manuscripts, early translations, and historical publications
+   with an explicit relationship to the original.
+3. **Modern translation**: reading and comparison aid, outside the default source corpus.
+4. **AI translation and explanation**: dynamic output with source location, model, and generation
+   status.
+5. **Scans and unverified text**: reference and collation material outside the LLM Wiki.
 
-## 语料分层
+The project does not initiate OCR without work-level approval. OCR remains isolated until the full
+source has been checked page by page. Human-verified authorial-language OCR may enter the core as
+`author_original` only with retained provenance and a valid manifest.
 
-本项目按以下顺序组织文本：
+The strict core and the broader historically useful LLM Wiki are therefore different scopes. When
+the authorial language is uncertain or the original is lost, record that uncertainty and classify
+the surviving witness honestly.
 
-1. **作者写作语言的原文**：严格核心语料和默认引用对象。
-2. **同时代或早期文本见证**：可考证的抄本、早期译本和历史出版文本，可以进入 LLM wiki，但必须说明其与作者原稿的关系。
-3. **后世现代译本**：中文、英文等现代译本主要用于辅助阅读和译本比较，不作为当前 LLM wiki 的基础语料。
-4. **AI 翻译与解释**：按问题动态生成，并保留原文或历史文本见证的定位、模型信息和生成状态。
-5. **扫描 PDF 与待校文本**：PDF/DjVu 只作为阅读、版本核对和书目资料，不直接转换为
-   Markdown，也不进入 LLM wiki。项目当前不执行未经作品级批准的新 OCR。未经全书逐页
-   人工校验的 OCR 保持隔离；完成规定校验、保留 provenance 并通过 manifest 验证的作者
-   原语言文本可以升级为 `author_original`，进入核心语料与 LLM wiki。
+## 中文摘要
 
-因此，“严格原文核心”和“LLM wiki 可用历史语料”是两个不同范围。当作者写作语言不能确定，或原稿已经失传时，项目应如实记录“不确定”“早期译本”或“存世文本见证”，但只要来源、年代和文本关系能够考证，仍可纳入 LLM wiki。
+项目以作者原语言文本为认识论锚点，同时允许来源可考的早期译本、抄本和历史见证作为独立
+语料层。AI 可用于检索、比较和动态解释，但不是权威文本。所有回答都应回到具体来源、版本和
+段落；不确定性、异文与推断必须明确标注。

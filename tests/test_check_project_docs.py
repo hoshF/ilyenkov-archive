@@ -88,6 +88,21 @@ class ProjectDocsTests(unittest.TestCase):
             errors = MODULE.public_entry_errors(root)
             self.assertEqual(errors, ["README.md 不应包含 front matter"])
 
+    def test_public_policy_requires_english_body_and_chinese_summary(self):
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            path = root / "policy.md"
+            path.write_text("# Policy\n", encoding="utf-8")
+            requirements = MODULE.MISSION_REQUIREMENTS
+            MODULE.MISSION_REQUIREMENTS = {
+                "policy.md": ("# Source Policy", "## OCR Admission Gate", "## 中文摘要")
+            }
+            try:
+                errors = MODULE.mission_errors(root)
+            finally:
+                MODULE.MISSION_REQUIREMENTS = requirements
+            self.assertEqual(len(errors), 3)
+
     def test_deprecated_source_role_and_collection_status_are_rejected(self):
         with tempfile.TemporaryDirectory() as directory:
             root = Path(directory)
@@ -121,6 +136,30 @@ class ProjectDocsTests(unittest.TestCase):
             }), encoding="utf-8")
             errors = MODULE.licensing_errors(root)
             self.assertTrue(any("分层许可边界" in error for error in errors))
+
+    def test_collaboration_interfaces_are_required(self):
+        with tempfile.TemporaryDirectory() as directory:
+            errors = MODULE.collaboration_errors(Path(directory))
+            self.assertTrue(any("source-and-edition.yml" in error for error in errors))
+            self.assertTrue(any("PULL_REQUEST_TEMPLATE.md" in error for error in errors))
+
+    def test_citation_must_be_dataset_without_single_license(self):
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            (root / "CITATION.cff").write_text(
+                "cff-version: 1.2.0\n"
+                "type: software\n"
+                "title: Ilyenkov Philosophy Text Archive\n"
+                "authors:\n"
+                "  - name: Ilyenkov Philosophy Text Archive contributors\n"
+                "repository-code: https://github.com/hoshF/Ilyenkov-cn\n"
+                "preferred-citation:\n"
+                "license: MIT\n",
+                encoding="utf-8",
+            )
+            errors = MODULE.citation_errors(root)
+            self.assertTrue(any("单一 license" in error for error in errors))
+            self.assertTrue(any("都应为 dataset" in error for error in errors))
 
     def test_controlled_document_metadata_is_checked(self):
         with tempfile.TemporaryDirectory() as directory:

@@ -116,6 +116,12 @@ The archive is indebted to Andrey D. Maidansky's long-term work collecting, publ
 studying Ilyenkov and related philosophy. Each collection retains its own source URLs, manifests,
 and attribution records.
 
+## Citation
+
+Use [`CITATION.cff`](CITATION.cff) for the archive-level citation. When citing a specific text, also
+cite its original source, edition, provenance metadata, and applicable rights record. The citation
+file does not replace the layered license boundaries in `LICENSE` and `RIGHTS.md`.
+
 ## Rights And Public Release
 
 Project infrastructure, original documentation, and factual metadata are open by default:

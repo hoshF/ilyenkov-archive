@@ -1,0 +1,27 @@
+cff-version: 1.2.0
+message: >-
+  Cite the archive as a dataset. When citing a specific text, also cite its
+  original source, edition, provenance metadata, and applicable rights record.
+type: dataset
+title: Ilyenkov Philosophy Text Archive
+authors:
+  - name: Ilyenkov Philosophy Text Archive contributors
+repository-code: https://github.com/hoshF/Ilyenkov-cn
+url: https://github.com/hoshF/Ilyenkov-cn
+abstract: >-
+  A source-traceable archive of original-language philosophical texts,
+  bibliographic and provenance metadata, digitization infrastructure, and
+  Chinese translation research centered on Evald Ilyenkov.
+keywords:
+  - Evald Ilyenkov
+  - Soviet philosophy
+  - philosophy text digitization
+  - digital humanities
+  - source criticism
+preferred-citation:
+  type: dataset
+  title: Ilyenkov Philosophy Text Archive
+  authors:
+    - name: Ilyenkov Philosophy Text Archive contributors
+  year: 2026
+  url: https://github.com/hoshF/Ilyenkov-cn

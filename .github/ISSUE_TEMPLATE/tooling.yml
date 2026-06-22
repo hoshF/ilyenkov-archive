@@ -1,0 +1,41 @@
+name: Tooling or validation problem
+description: Report a reproducible problem in scripts, schemas, export, tests, or LLM Wiki tooling.
+title: "[Tooling] "
+labels: ["bug"]
+body:
+  - type: textarea
+    id: summary
+    attributes:
+      label: Problem summary
+    validations:
+      required: true
+  - type: textarea
+    id: reproduce
+    attributes:
+      label: Reproduction steps
+      description: Include the command, relevant paths, and minimal input conditions.
+    validations:
+      required: true
+  - type: textarea
+    id: output
+    attributes:
+      label: Expected and actual result
+    validations:
+      required: true
+  - type: input
+    id: environment
+    attributes:
+      label: Environment
+      placeholder: OS, Python version, tool version
+  - type: textarea
+    id: logs
+    attributes:
+      label: Relevant log excerpt
+      description: Remove tokens, cookies, credentials, private paths, and personal information.
+  - type: checkboxes
+    id: safety
+    attributes:
+      label: Safety
+      options:
+        - label: I removed secrets and private credentials from this report.
+          required: true
