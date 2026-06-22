@@ -1,0 +1,37 @@
+Ilyenkov Philosophy Text Archive - Layered Licensing
+
+Copyright (c) 2026 Ilyenkov Philosophy Text Archive contributors
+
+This repository contains materials with different copyright and licensing
+statuses. No single license applies to the entire repository.
+
+1. Software
+
+Project-authored code, scripts, tests, schemas, Git hooks, and comparable
+software infrastructure are licensed under the MIT License. See
+LICENSES/MIT.
+
+2. Project-authored documentation
+
+Project-authored documentation, research notes, and original annotations are
+licensed under the Creative Commons Attribution-ShareAlike 4.0 International
+License (CC BY-SA 4.0), unless a file states otherwise. See
+LICENSES/CC-BY-SA-4.0.
+
+3. Factual metadata
+
+Project-created factual bibliographic, provenance, source, checksum, and
+status metadata are dedicated to the public domain under CC0 1.0 Universal,
+unless a file contains third-party expressive content or states otherwise.
+See LICENSES/CC0-1.0.
+
+4. Third-party and controlled content
+
+Philosophical source texts, historical and modern translations, scans,
+images, transcriptions, and other third-party materials retain their own
+copyright and license status. Their presence in this repository does not
+place them under the project licenses. Public redistribution is permitted
+only when the repository's rights registry explicitly approves the exact
+file and checksum.
+
+See RIGHTS.md for the authoritative scope and redistribution policy.

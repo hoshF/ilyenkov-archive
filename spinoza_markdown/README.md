@@ -26,6 +26,19 @@ This directory is a reproducible source archive for original-language Spinoza te
 
 ## Source Strategy
 
+### Public Redistribution
+
+Project infrastructure and factual metadata are public by default. Selected source texts are
+released only after exact-file rights review. The first approved group consists of five Latin
+Wikisource Markdown files, the Dutch Wikisource `Korte Verhandeling`, DBNL's 97 chapter files for
+the 1677 `Nagelate schriften`, and the content-bearing `metadata/ethica_elements.json`.
+
+Wikisource transcriptions retain CC BY-SA 4.0 attribution and share-alike requirements. DBNL labels
+the 1677 source `Auteursrechtvrij`; DBNL remains credited as the digital source. Redistribution
+approval records a rights decision, not a claim of complete collation or critical-edition status.
+Spinoza et Nous files remain outside the public export because their source terms include a
+non-commercial restriction.
+
 ### Corpus Principle
 
 The strict core corpus identifies texts in the language in which Spinoza composed them. The broader LLM wiki also includes auditable contemporary or early translations, manuscripts, and historical textual witnesses. These sources are historically relevant and usable for research, but they are never relabeled as authorial-language originals. Modern Chinese, English, and other later translations are outside the default source corpus.

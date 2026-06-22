@@ -1,0 +1,75 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/hoshF/Ilyenkov-cn/blob/main/metadata/schemas/rights_review.schema.json",
+  "title": "Rights review registry",
+  "type": "object",
+  "required": ["schema_version", "generated_at", "items"],
+  "properties": {
+    "schema_version": { "const": 1 },
+    "generated_at": { "type": "string", "format": "date" },
+    "items": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": [
+          "id",
+          "path",
+          "sha256",
+          "content_category",
+          "rights_basis",
+          "license_expression",
+          "source_rights_statement",
+          "evidence_urls",
+          "attribution",
+          "reviewed_by",
+          "reviewed_date",
+          "redistribution_approved"
+        ],
+        "properties": {
+          "id": {
+            "type": "string",
+            "pattern": "^[a-z0-9][a-z0-9-]*$"
+          },
+          "path": { "type": "string", "minLength": 1 },
+          "sha256": {
+            "type": "string",
+            "pattern": "^[0-9a-f]{64}$"
+          },
+          "content_category": {
+            "enum": [
+              "source_text",
+              "translation",
+              "scan",
+              "media",
+              "content_bearing_metadata"
+            ]
+          },
+          "rights_basis": {
+            "enum": [
+              "public_domain",
+              "open_license",
+              "permission",
+              "project_owned",
+              "restricted",
+              "unknown"
+            ]
+          },
+          "license_expression": { "type": "string", "minLength": 1 },
+          "source_rights_statement": { "type": "string", "minLength": 1 },
+          "evidence_urls": {
+            "type": "array",
+            "minItems": 1,
+            "items": { "type": "string", "minLength": 1 }
+          },
+          "attribution": { "type": "string", "minLength": 1 },
+          "reviewed_by": { "type": "string", "minLength": 1 },
+          "reviewed_date": { "type": "string", "format": "date" },
+          "redistribution_approved": { "type": "boolean" },
+          "review_note": { "type": "string" }
+        },
+        "additionalProperties": false
+      }
+    }
+  },
+  "additionalProperties": false
+}

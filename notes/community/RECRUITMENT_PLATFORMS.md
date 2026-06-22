@@ -85,7 +85,9 @@ LLM-research communities. Read each community's rules before posting.
 > - Chinese translators and terminology researchers working closely from Ilyenkov's originals;
 > - readers who can report missing pages, broken links, uncertain editions, or difficult terminology.
 >
-> The project uses rights-gated public access. Collaboration, code, workflows, and metadata can be open even when a complete text or scan cannot legally be redistributed.
+> Infrastructure, original documentation, and factual metadata are open by default. Complete texts
+> and scans are released individually only when their rights status and exact checksum have been
+> reviewed.
 >
 > Repository: https://github.com/hoshF/Ilyenkov-cn
 >
@@ -115,7 +117,9 @@ LLM-research communities. Read each community's rules before posting.
 >
 > The project is seeking global collaborators in philosophy, intellectual history, bibliography, librarianship, textual scholarship, languages, digitization review, software development, knowledge engineering, and AI research.
 >
-> Public participation is open, but access to complete texts and scans is rights-gated. The availability of metadata or research tooling does not imply redistribution or model-training permission for every source.
+> Public participation, infrastructure, original documentation, and factual metadata are open.
+> Complete texts and scans are released file by file after rights review; inclusion never implies
+> model-training permission beyond the applicable license.
 >
 > Repository: https://github.com/hoshF/Ilyenkov-cn
 >

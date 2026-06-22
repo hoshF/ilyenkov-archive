@@ -14,6 +14,7 @@ from pathlib import Path
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 from prepare_gbrain_markdown import is_corpus_markdown, parse_front_matter
 from collection_registry import corpus_asset_paths, load_registry, scan_manifest_paths
+from rights_registry import approved_rights_entries, content_bearing_metadata_paths
 
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -85,46 +86,29 @@ def source_scan_approvals(root: Path) -> dict[str, bool]:
     return approvals
 
 
-def project_asset_approvals(root: Path) -> dict[str, bool]:
-    """Approvals for non-corpus project assets, bound to exact bytes and SHA-256."""
-    manifest_path = root / "metadata" / "public_assets_manifest.json"
-    approvals: dict[str, bool] = {}
-    if not manifest_path.is_file():
-        return approvals
-    required = {
-        "local_path", "bytes", "sha256", "source_license",
-        "redistribution_approved", "rights_review_status", "approved_by", "approved_date",
-    }
-    data = json.loads(manifest_path.read_text(encoding="utf-8"))
-    for item in data.get("items", []):
-        missing = sorted(required - item.keys())
-        if missing:
-            raise ValueError(f"{manifest_path}: public asset entry missing {missing}")
-        local_path = str(item["local_path"])
-        if local_path.startswith(corpus_asset_paths(root)):
-            raise ValueError(f"{manifest_path}: corpus assets cannot be approved here: {local_path}")
-        file_path = root / local_path
-        if not file_path.is_file():
-            raise ValueError(f"{manifest_path}: missing public asset {local_path}")
-        if file_path.suffix.lower() not in CONTROLLED_ASSET_SUFFIXES:
-            raise ValueError(f"{manifest_path}: not a controlled asset: {local_path}")
-        if file_path.stat().st_size != int(item["bytes"]):
-            raise ValueError(f"{manifest_path}: byte count mismatch for {local_path}")
-        if sha256(file_path) != str(item["sha256"]):
-            raise ValueError(f"{manifest_path}: SHA-256 mismatch for {local_path}")
-        approvals[local_path] = str(item["redistribution_approved"]).lower() == "true"
-    return approvals
-
-
-def markdown_approval(path: Path, root: Path) -> tuple[bool, str] | None:
+def markdown_approval(
+    path: Path,
+    root: Path,
+    rights: dict[str, dict],
+) -> tuple[bool, str] | None:
     text = path.read_text(encoding="utf-8")
     metadata = parse_front_matter(text)
     controlled = is_corpus_markdown(path, root) or "text_role" in metadata
     if not controlled:
         return None
-    approved = metadata.get("redistribution_approved") == "true"
-    reason = "redistribution_approved=true" if approved else "redistribution_not_approved"
-    return approved, reason
+    rel = path.relative_to(root).as_posix()
+    review = rights.get(rel)
+    if review is None:
+        return False, "rights_review_not_approved"
+    if review["content_category"] not in {"source_text", "translation"}:
+        raise ValueError(f"{rel}: Markdown rights entry has incompatible content_category")
+    if metadata.get("rights_review_id") != review["id"]:
+        raise ValueError(f"{rel}: rights_review_id does not match rights registry")
+    if metadata.get("redistribution_approved") != "true":
+        raise ValueError(f"{rel}: approved rights entry requires redistribution_approved=true")
+    if metadata.get("rights_review_status") != "reviewed":
+        raise ValueError(f"{rel}: approved rights entry requires rights_review_status=reviewed")
+    return True, "rights_registry_approved"
 
 
 def is_local_configuration(rel_parts: tuple[str, ...]) -> bool:
@@ -138,31 +122,44 @@ def export_decision(
     path: Path,
     root: Path,
     scan_approvals: dict[str, bool],
-    asset_approvals: dict[str, bool] | None = None,
+    rights: dict[str, dict],
+    content_metadata: set[str],
 ) -> tuple[bool, str]:
     rel = path.relative_to(root).as_posix()
     if path.name in REPOSITORY_METADATA_NAMES:
         return False, "repository_metadata"
     if is_local_configuration(path.relative_to(root).parts):
         return False, "local_configuration"
-    if "source_scans" in path.relative_to(root).parts:
-        return False, "source_scan_directory"
+    if rel in content_metadata:
+        approved = rel in rights
+        if approved and rights[rel]["content_category"] != "content_bearing_metadata":
+            raise ValueError(f"{rel}: content-bearing metadata requires matching rights category")
+        return approved, "rights_registry_approved" if approved else "content_metadata_not_approved"
     if path.suffix.lower() == ".md":
-        approval = markdown_approval(path, root)
+        approval = markdown_approval(path, root, rights)
         if approval is not None:
             return approval
         if rel.startswith(corpus_asset_paths(root)):
             return False, "corpus_markdown_without_redistribution_approval"
+    if "source_scans" in path.relative_to(root).parts:
+        approved = scan_approvals.get(rel, False) and rel in rights
+        if approved and rights[rel]["content_category"] != "scan":
+            raise ValueError(f"{rel}: source scan requires content_category=scan")
+        return approved, "scan_rights_approved" if approved else "source_scan_not_approved"
     if path.suffix.lower() in CONTROLLED_BINARY_SUFFIXES:
-        approved = scan_approvals.get(rel, False)
-        return approved, "scan_manifest_approved" if approved else "binary_without_redistribution_approval"
+        approved = rel in rights
+        return approved, "rights_registry_approved" if approved else "binary_without_rights_review"
     if rel.startswith(corpus_asset_paths(root)) and path.suffix.lower() != ".md":
-        return False, "corpus_asset_without_redistribution_approval"
+        approved = rel in rights
+        return approved, "rights_registry_approved" if approved else "corpus_asset_without_rights_review"
     if path.suffix.lower() in CONTROLLED_TEXT_SUFFIXES:
-        return False, "text_without_redistribution_approval"
+        approved = rel in rights
+        return approved, "rights_registry_approved" if approved else "text_without_rights_review"
     if path.suffix.lower() in CONTROLLED_ASSET_SUFFIXES:
-        approved = bool(asset_approvals) and asset_approvals.get(rel, False)
-        return approved, "asset_manifest_approved" if approved else "asset_without_redistribution_approval"
+        approved = rel in rights
+        if approved and rights[rel]["content_category"] not in {"media", "scan"}:
+            raise ValueError(f"{rel}: media asset has incompatible content_category")
+        return approved, "rights_registry_approved" if approved else "asset_without_rights_review"
     return True, "project_file"
 
 
@@ -178,7 +175,8 @@ def source_files(root: Path) -> list[Path]:
 
 def build_export(root: Path, output: Path, *, write: bool = True) -> dict:
     scan_approvals = source_scan_approvals(root)
-    asset_approvals = project_asset_approvals(root)
+    rights = approved_rights_entries(root)
+    content_metadata = content_bearing_metadata_paths(root)
     records: list[dict[str, object]] = []
     staging = output.parent / f".{output.name}-build"
     if write:
@@ -187,7 +185,7 @@ def build_export(root: Path, output: Path, *, write: bool = True) -> dict:
         staging.mkdir(parents=True)
 
     for path in source_files(root):
-        approved, reason = export_decision(path, root, scan_approvals, asset_approvals)
+        approved, reason = export_decision(path, root, scan_approvals, rights, content_metadata)
         rel = path.relative_to(root)
         record = {
             "path": rel.as_posix(),
@@ -204,7 +202,7 @@ def build_export(root: Path, output: Path, *, write: bool = True) -> dict:
 
     audit = {
         "schema_version": 2,
-        "policy": "Corpus, source binaries, non-Markdown text, and media assets require explicit redistribution approval; project assets are approved only through metadata/public_assets_manifest.json with matching bytes and SHA-256; local tool configuration is never exported; project code and documentation use the static project-file rule.",
+        "policy": "Project infrastructure, original documentation, and factual metadata are public by default. Source texts, translations, scans, media, and content-bearing metadata require approval in metadata/rights_registry.json for the exact path and SHA-256. Scans additionally require approval in their source manifest.",
         "audit_convention": "PUBLIC_EXPORT_AUDIT.json is generated together with the export and does not list itself; the export tree and the public git tree must equal the included paths plus this audit file.",
         "included": sum(1 for item in records if item["included"]),
         "excluded": sum(1 for item in records if not item["included"]),
@@ -260,8 +258,7 @@ def verify_export_tree(audit: dict, root: Path, output: Path) -> None:
         raise ValueError(f"public export SHA-256 mismatch: {mismatched}")
     forbidden = [
         path for path in actual
-        if "source_scans/" in path
-        or "/digitization/" in f"/{path}"
+        if "/digitization/" in f"/{path}"
         or path.endswith(".snapshot")
         or path.startswith(".fulltext/")
         or is_local_configuration(tuple(path.split("/")))
@@ -269,14 +266,9 @@ def verify_export_tree(audit: dict, root: Path, output: Path) -> None:
     if forbidden:
         raise ValueError(f"forbidden source material in public export: {forbidden}")
     verify_git_publishability(output, sorted(set(actual) | {"PUBLIC_EXPORT_AUDIT.json"}))
-    approved_markdown = {
-        path.relative_to(root).as_posix()
-        for path in source_files(root)
-        if path.suffix.lower() == ".md"
-        and markdown_approval(path, root) == (True, "redistribution_approved=true")
-    }
-    if not approved_markdown.issubset(actual):
-        raise ValueError(f"approved Markdown missing from public export: {sorted(approved_markdown - set(actual))}")
+    approved_paths = set(approved_rights_entries(root))
+    if not approved_paths.issubset(actual):
+        raise ValueError(f"rights-approved files missing from public export: {sorted(approved_paths - set(actual))}")
 
 
 def verify_git_publishability(output: Path, tree_paths: list[str]) -> None:

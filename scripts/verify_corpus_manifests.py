@@ -9,6 +9,7 @@ from pathlib import Path
 
 from export_public import source_scan_approvals
 from prepare_gbrain_markdown import parse_front_matter
+from rights_registry import rights_entries
 
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -58,7 +59,11 @@ def verify_legacy_ocr() -> int:
 def main() -> int:
     ocr_count = verify_legacy_ocr()
     scan_count = len(source_scan_approvals(ROOT))
-    print(f"legacy_ocr_verified={ocr_count} source_scans_verified={scan_count}")
+    rights_count = len(rights_entries(ROOT))
+    print(
+        f"legacy_ocr_verified={ocr_count} source_scans_verified={scan_count} "
+        f"rights_entries_verified={rights_count}"
+    )
     return 0
 
 

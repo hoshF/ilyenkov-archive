@@ -401,6 +401,11 @@ def validate_file(path: Path, text: str, root: Path = ROOT) -> list[str]:
     rights = metadata.get("rights_review_status")
     if rights and rights not in {"reviewed", "unreviewed"}:
         errors.append(f"{rel}: invalid rights_review_status={rights}")
+    if metadata.get("redistribution_approved") == "true":
+        if rights != "reviewed":
+            errors.append(f"{rel}: redistribution approval requires rights_review_status=reviewed")
+        if not metadata.get("rights_review_id"):
+            errors.append(f"{rel}: redistribution approval requires rights_review_id")
     text_status = metadata.get("text_status")
     if text_status and text_status not in TEXT_STATUSES:
         errors.append(f"{rel}: invalid text_status={text_status}")

@@ -48,6 +48,7 @@ gbrain_source: "project-markdown"
 | GBrain/LLM Wiki | [LLM_WIKI.md](LLM_WIKI.md) | 只通过包装脚本同步 |
 | 中文翻译与精读计划 | [TRANSLATION_PLAN.md](TRANSLATION_PLAN.md) | 伊里因科夫优先，其他人物选择性翻译 |
 | 公开发布与版权 | [notes/PUBLISH_EXPOSURE_AUDIT.md](notes/PUBLISH_EXPOSURE_AUDIT.md) | 只用 `publish_public.sh` |
+| 许可范围与权利审核 | [RIGHTS.md](RIGHTS.md) | 基础设施和元数据默认开放；全文按注册表逐项开放 |
 | 来源引用迁移 | [notes/MAIDANSKY_SOURCE_ATTRIBUTION.md](notes/MAIDANSKY_SOURCE_ATTRIBUTION.md) | 不改历史目录名 |
 | 凯德洛夫专题 | [notes/KEDROV_COLLECTION_STATUS_FOR_CLAUDE.md](notes/KEDROV_COLLECTION_STATUS_FOR_CLAUDE.md) | 当前事实以 manifest 为准 |
 | 全仓架构与工作流 | [notes/REPOSITORY_STATUS_FOR_CLAUDE.md](notes/REPOSITORY_STATUS_FOR_CLAUDE.md) | 稳定交接说明，不含实时快照 |
@@ -82,6 +83,8 @@ scripts/run_gbrain_without_dist.sh gbrain lint .
 - 扫描件只能进入已登记的扫描目录和 manifest；它不等于已数字化正文。
 - `llm_wiki_eligible` 与 `redistribution_approved` 相互独立。
 - 不直接发布完整工作仓库，不绕过 `scripts/publish_public.sh`。
+- 不把根 `LICENSE` 套用到第三方全文；公开受控文件必须匹配
+  `metadata/rights_registry.json` 中的路径、SHA-256 和权利依据。
 - 不移动或改名 `caute_ru_markdown/` 等历史兼容路径。
 - 不复制正文建立第二套 wiki 或翻译来源；引用原路径和哈希。
 - 发现用户或其他进程的未提交改动时与之协作，不擅自还原。
@@ -95,7 +98,7 @@ scripts/run_gbrain_without_dist.sh gbrain lint .
 
 | 跟踪文件 | Markdown | 语料 md | 切章文件 | 切章作品 | 分支 |
 |---:|---:|---:|---:|---:|:--|
-| 1076 | 684 | 630 | 337 | 15 | `main` |
+| 1085 | 685 | 630 | 337 | 15 | `main` |
 
 <!-- AGENTS-AUTO:END -->
 
@@ -105,17 +108,17 @@ scripts/run_gbrain_without_dist.sh gbrain lint .
 **Git 进度（提交时刷新，可能滞后一个提交）**
 
 - 领先 `origin/main` 2 个提交，落后 0 个
-- HEAD：9c81bfd  docs: revise global collaboration invitations
-- 工作区：2 个已改跟踪文件，0 个未跟踪文件未提交
+- HEAD：001094e  rights: enforce auditable public release policy
+- 工作区：108 个已改跟踪文件，0 个未跟踪文件未提交
 
 **最近提交**
 
+- `001094e` rights: enforce auditable public release policy
+- `73b525a` legal: add layered project licensing
+- `09e5e22` test: enforce current project documentation
 - `9c81bfd` docs: revise global collaboration invitations
 - `3687448` docs: define digitization platform and translation program
 - `4a03cf4` docs: unify project and AI reading guides
-- `9b56854` infra: add extensible philosopher collection framework
-- `9cc6af4` docs: simplify root README presentation
-- `34b3b71` corpus: add epistemology scans and digitization workflow
 
 <!-- AGENTS-LIVE:END -->
 

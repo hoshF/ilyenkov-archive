@@ -12,6 +12,44 @@ assert SPEC.loader
 SPEC.loader.exec_module(MODULE)
 
 
+def write_rights_files(root: Path, items: list[dict] | None = None) -> None:
+    metadata = root / "metadata"
+    metadata.mkdir(parents=True, exist_ok=True)
+    (metadata / "licensing_policy.json").write_text(json.dumps({
+        "schema_version": 1,
+        "controlled_categories": [
+            "source_text",
+            "translation",
+            "scan",
+            "media",
+            "content_bearing_metadata",
+        ],
+        "content_bearing_metadata_paths": [],
+    }), encoding="utf-8")
+    (metadata / "rights_registry.json").write_text(json.dumps({
+        "schema_version": 1,
+        "generated_at": "2026-06-22",
+        "items": items or [],
+    }), encoding="utf-8")
+
+
+def rights_item(path: Path, root: Path, review_id: str, category: str = "media") -> dict:
+    return {
+        "id": review_id,
+        "path": path.relative_to(root).as_posix(),
+        "sha256": MODULE.sha256(path),
+        "content_category": category,
+        "rights_basis": "open_license",
+        "license_expression": "CC-BY-SA-4.0",
+        "source_rights_statement": "Test approval",
+        "evidence_urls": ["https://example.test/license"],
+        "attribution": "Test source",
+        "reviewed_by": "tester",
+        "reviewed_date": "2026-06-22",
+        "redistribution_approved": True,
+    }
+
+
 class ExportPublicTests(unittest.TestCase):
     def test_unapproved_corpus_markdown_is_excluded(self):
         with tempfile.TemporaryDirectory() as directory:
@@ -23,7 +61,10 @@ class ExportPublicTests(unittest.TestCase):
                 'redistribution_approved: "false"\n---\n# Work\n',
                 encoding="utf-8",
             )
-            self.assertEqual(MODULE.export_decision(path, root, {}), (False, "redistribution_not_approved"))
+            self.assertEqual(
+                MODULE.export_decision(path, root, {}, {}, set()),
+                (False, "rights_review_not_approved"),
+            )
 
     def test_approved_corpus_markdown_is_included(self):
         with tempfile.TemporaryDirectory() as directory:
@@ -32,10 +73,20 @@ class ExportPublicTests(unittest.TestCase):
             path.parent.mkdir(parents=True)
             path.write_text(
                 '---\ncreated: "2026-06-11"\ntext_role: "author_original"\n'
-                'redistribution_approved: "true"\n---\n# Work\n',
+                'redistribution_approved: "true"\nrights_review_status: "reviewed"\n'
+                'rights_review_id: "work-review"\n---\n# Work\n',
                 encoding="utf-8",
             )
-            self.assertEqual(MODULE.export_decision(path, root, {}), (True, "redistribution_approved=true"))
+            rights = {
+                path.relative_to(root).as_posix(): {
+                    "id": "work-review",
+                    "content_category": "source_text",
+                }
+            }
+            self.assertEqual(
+                MODULE.export_decision(path, root, {}, rights, set()),
+                (True, "rights_registry_approved"),
+            )
 
     def test_unlisted_pdf_is_excluded(self):
         with tempfile.TemporaryDirectory() as directory:
@@ -43,14 +94,14 @@ class ExportPublicTests(unittest.TestCase):
             path = root / "existing_translations/book.pdf"
             path.parent.mkdir(parents=True)
             path.write_bytes(b"%PDF-test")
-            self.assertFalse(MODULE.export_decision(path, root, {})[0])
+            self.assertFalse(MODULE.export_decision(path, root, {}, {}, set())[0])
 
     def test_project_document_is_included(self):
         with tempfile.TemporaryDirectory() as directory:
             root = Path(directory)
             path = root / "README.md"
             path.write_text("---\ncreated: 2026-06-11\n---\n# Readme\n", encoding="utf-8")
-            self.assertEqual(MODULE.export_decision(path, root, {}), (True, "project_file"))
+            self.assertEqual(MODULE.export_decision(path, root, {}, {}, set()), (True, "project_file"))
 
     def test_unapproved_image_is_excluded(self):
         with tempfile.TemporaryDirectory() as directory:
@@ -59,20 +110,31 @@ class ExportPublicTests(unittest.TestCase):
             path.parent.mkdir(parents=True)
             path.write_bytes(b"image")
             self.assertEqual(
-                MODULE.export_decision(path, root, {}),
-                (False, "asset_without_redistribution_approval"),
+                MODULE.export_decision(path, root, {}, {}, set()),
+                (False, "asset_without_rights_review"),
             )
 
-    def test_any_file_under_source_scans_is_excluded(self):
+    def test_source_scan_requires_manifest_and_rights_approval(self):
         with tempfile.TemporaryDirectory() as directory:
             root = Path(directory)
-            for rel in ("oizerman_markdown/source_scans/klex/book.zip",
-                        "oizerman_markdown/source_scans/klex/scan.djvu",
-                        "kedrov_markdown/source_scans/ia/x.pdf"):
-                p = root / rel
-                p.parent.mkdir(parents=True, exist_ok=True)
-                p.write_bytes(b"x")
-                self.assertEqual(MODULE.export_decision(p, root, {}), (False, "source_scan_directory"))
+            path = root / "oizerman_markdown/source_scans/klex/scan.djvu"
+            path.parent.mkdir(parents=True)
+            path.write_bytes(b"x")
+            rel = path.relative_to(root).as_posix()
+            self.assertEqual(
+                MODULE.export_decision(path, root, {rel: True}, {}, set()),
+                (False, "source_scan_not_approved"),
+            )
+            self.assertEqual(
+                MODULE.export_decision(
+                    path,
+                    root,
+                    {rel: True},
+                    {rel: {"id": "scan", "content_category": "scan"}},
+                    set(),
+                ),
+                (True, "scan_rights_approved"),
+            )
 
     def test_large_scan_requires_explicit_storage_review(self):
         with tempfile.TemporaryDirectory() as directory:
@@ -137,8 +199,8 @@ class ExportPublicTests(unittest.TestCase):
             path.parent.mkdir(parents=True)
             path.write_text("\\chapter{Text}\n", encoding="utf-8")
             self.assertEqual(
-                MODULE.export_decision(path, root, {}),
-                (False, "text_without_redistribution_approval"),
+                MODULE.export_decision(path, root, {}, {}, set()),
+                (False, "text_without_rights_review"),
             )
 
     def test_repository_metadata_is_excluded(self):
@@ -147,7 +209,7 @@ class ExportPublicTests(unittest.TestCase):
             path = root / ".DS_Store"
             path.write_bytes(b"metadata")
             self.assertEqual(
-                MODULE.export_decision(path, root, {}),
+                MODULE.export_decision(path, root, {}, {}, set()),
                 (False, "repository_metadata"),
             )
 
@@ -158,7 +220,7 @@ class ExportPublicTests(unittest.TestCase):
             path.parent.mkdir(parents=True)
             path.write_text('{"permissions": {}}\n', encoding="utf-8")
             self.assertEqual(
-                MODULE.export_decision(path, root, {}),
+                MODULE.export_decision(path, root, {}, {}, set()),
                 (False, "local_configuration"),
             )
 
@@ -169,7 +231,7 @@ class ExportPublicTests(unittest.TestCase):
             path.parent.mkdir(parents=True)
             path.write_text("# command\n", encoding="utf-8")
             self.assertEqual(
-                MODULE.export_decision(path, root, {}),
+                MODULE.export_decision(path, root, {}, {}, set()),
                 (False, "local_configuration"),
             )
 
@@ -180,65 +242,86 @@ class ExportPublicTests(unittest.TestCase):
             path.parent.mkdir(parents=True)
             path.write_text("---\ncreated: 2026-06-11\n---\n# Work\n", encoding="utf-8")
             self.assertEqual(
-                MODULE.export_decision(path, root, {}),
+                MODULE.export_decision(path, root, {}, {}, set()),
                 (False, "corpus_markdown_without_redistribution_approval"),
             )
 
-    def test_manifest_approved_asset_is_included(self):
+    def test_rights_approved_asset_is_included(self):
         with tempfile.TemporaryDirectory() as directory:
             root = Path(directory)
             path = root / "assets/images/portrait.jpg"
             path.parent.mkdir(parents=True)
             path.write_bytes(b"image")
             self.assertEqual(
-                MODULE.export_decision(path, root, {}, {"assets/images/portrait.jpg": True}),
-                (True, "asset_manifest_approved"),
+                MODULE.export_decision(
+                    path,
+                    root,
+                    {},
+                    {
+                        "assets/images/portrait.jpg": {
+                            "id": "portrait",
+                            "content_category": "media",
+                        }
+                    },
+                    set(),
+                ),
+                (True, "rights_registry_approved"),
             )
 
-    def test_asset_manifest_sha256_mismatch_raises(self):
+    def test_rights_registry_sha256_mismatch_raises(self):
         with tempfile.TemporaryDirectory() as directory:
             root = Path(directory)
             path = root / "assets/images/portrait.jpg"
             path.parent.mkdir(parents=True)
             path.write_bytes(b"image")
-            manifest = root / "metadata/public_assets_manifest.json"
-            manifest.parent.mkdir(parents=True)
-            manifest.write_text(json.dumps({"items": [{
-                "local_path": "assets/images/portrait.jpg",
-                "bytes": 5,
-                "sha256": "0" * 64,
-                "source_license": "not_stated",
-                "redistribution_approved": "true",
-                "rights_review_status": "owner_reviewed",
-                "approved_by": "owner",
-                "approved_date": "2026-06-12",
-            }]}), encoding="utf-8")
+            item = rights_item(path, root, "portrait")
+            item["sha256"] = "0" * 64
+            write_rights_files(root, [item])
             with self.assertRaises(ValueError):
-                MODULE.project_asset_approvals(root)
+                MODULE.approved_rights_entries(root)
 
-    def test_corpus_asset_cannot_be_approved_via_manifest(self):
+    def test_corpus_asset_requires_rights_registry(self):
         with tempfile.TemporaryDirectory() as directory:
             root = Path(directory)
             path = root / "caute_ru_markdown/ilyenkov_md/newspaper/images/scan.jpg"
             path.parent.mkdir(parents=True)
             path.write_bytes(b"image")
-            manifest = root / "metadata/public_assets_manifest.json"
-            manifest.parent.mkdir(parents=True)
-            manifest.write_text(json.dumps({"items": [{
-                "local_path": "caute_ru_markdown/ilyenkov_md/newspaper/images/scan.jpg",
-                "bytes": 5,
-                "sha256": MODULE.sha256(path),
-                "source_license": "not_stated",
-                "redistribution_approved": "true",
-                "rights_review_status": "owner_reviewed",
-                "approved_by": "owner",
-                "approved_date": "2026-06-12",
-            }]}), encoding="utf-8")
-            with self.assertRaises(ValueError):
-                MODULE.project_asset_approvals(root)
+            rel = path.relative_to(root).as_posix()
             self.assertEqual(
-                MODULE.export_decision(path, root, {}, {path.relative_to(root).as_posix(): True}),
-                (False, "corpus_asset_without_redistribution_approval"),
+                MODULE.export_decision(path, root, {}, {}, set()),
+                (False, "corpus_asset_without_rights_review"),
+            )
+            self.assertEqual(
+                MODULE.export_decision(
+                    path,
+                    root,
+                    {},
+                    {rel: {"id": "scan", "content_category": "scan"}},
+                    set(),
+                ),
+                (True, "rights_registry_approved"),
+            )
+
+    def test_content_bearing_metadata_requires_explicit_review(self):
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            path = root / "metadata/content.json"
+            path.parent.mkdir()
+            path.write_text('{"text": "third-party passage"}\n', encoding="utf-8")
+            rel = path.relative_to(root).as_posix()
+            self.assertEqual(
+                MODULE.export_decision(path, root, {}, {}, {rel}),
+                (False, "content_metadata_not_approved"),
+            )
+            rights = {
+                rel: {
+                    "id": "content-review",
+                    "content_category": "content_bearing_metadata",
+                }
+            }
+            self.assertEqual(
+                MODULE.export_decision(path, root, {}, rights, {rel}),
+                (True, "rights_registry_approved"),
             )
 
     def test_fulltext_dir_is_never_in_export_universe(self):
@@ -263,18 +346,8 @@ class ExportPublicTests(unittest.TestCase):
             approved.write_bytes(b"approved-image")
             unlisted = root / "assets/images/other.jpg"
             unlisted.write_bytes(b"unlisted-image")
-            manifest = root / "metadata/public_assets_manifest.json"
-            manifest.parent.mkdir(parents=True)
-            manifest.write_text(json.dumps({"items": [{
-                "local_path": "assets/images/portrait.jpg",
-                "bytes": approved.stat().st_size,
-                "sha256": MODULE.sha256(approved),
-                "source_license": "not_stated",
-                "redistribution_approved": "true",
-                "rights_review_status": "owner_reviewed",
-                "approved_by": "owner",
-                "approved_date": "2026-06-12",
-            }]}), encoding="utf-8")
+            item = rights_item(approved, root, "portrait")
+            write_rights_files(root, [item])
             output = root / "dist/public"
             output.mkdir(parents=True)
 
@@ -283,8 +356,8 @@ class ExportPublicTests(unittest.TestCase):
             self.assertTrue((output / "assets/images/portrait.jpg").is_file())
             self.assertFalse((output / "assets/images/other.jpg").exists())
             reasons = {item["path"]: item["reason"] for item in audit["files"]}
-            self.assertEqual(reasons["assets/images/portrait.jpg"], "asset_manifest_approved")
-            self.assertEqual(reasons["assets/images/other.jpg"], "asset_without_redistribution_approval")
+            self.assertEqual(reasons["assets/images/portrait.jpg"], "rights_registry_approved")
+            self.assertEqual(reasons["assets/images/other.jpg"], "asset_without_rights_review")
             MODULE.verify_export_tree(audit, root, output)
 
     def test_build_preserves_git_pointer_and_exports_all_approved_markdown(self):
@@ -294,7 +367,9 @@ class ExportPublicTests(unittest.TestCase):
             approved.parent.mkdir(parents=True)
             approved.write_text(
                 '---\ncreated: "2026-06-11"\ntext_role: "author_original"\n'
-                'core_corpus_eligible: "false"\nredistribution_approved: "true"\n---\n# Work\n',
+                'core_corpus_eligible: "false"\nredistribution_approved: "true"\n'
+                'rights_review_status: "reviewed"\nrights_review_id: "work-review"\n'
+                '---\n# Work\n',
                 encoding="utf-8",
             )
             rejected = root / "kedrov_markdown/kedrov_md/rejected.md"
@@ -307,6 +382,9 @@ class ExportPublicTests(unittest.TestCase):
             output.mkdir(parents=True)
             (output / ".git").write_text("gitdir: ../.public.git\n", encoding="utf-8")
             (output / "stale.txt").write_text("stale", encoding="utf-8")
+            write_rights_files(root, [
+                rights_item(approved, root, "work-review", "source_text")
+            ])
 
             audit = MODULE.build_export(root, output)
 
@@ -326,6 +404,7 @@ class ExportPublicTests(unittest.TestCase):
             nested.parent.mkdir(parents=True)
             nested.write_text("# command\n", encoding="utf-8")
             (root / "README.md").write_text("---\ncreated: 2026-06-11\n---\n# Readme\n", encoding="utf-8")
+            write_rights_files(root)
             output = root / "dist/public"
             output.mkdir(parents=True)
 

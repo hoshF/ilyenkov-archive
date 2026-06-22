@@ -1,0 +1,30 @@
+{
+  "schema_version": 1,
+  "project_attribution": "Ilyenkov Philosophy Text Archive contributors",
+  "licenses": {
+    "software": "MIT",
+    "project_documentation": "CC-BY-SA-4.0",
+    "factual_metadata": "CC0-1.0"
+  },
+  "default_public_categories": [
+    "software",
+    "project_documentation",
+    "factual_metadata"
+  ],
+  "controlled_categories": [
+    "source_text",
+    "translation",
+    "scan",
+    "media",
+    "content_bearing_metadata"
+  ],
+  "content_bearing_metadata_paths": [
+    "spinoza_markdown/metadata/ethica_elements.json"
+  ],
+  "always_private_directory_names": [
+    "cache",
+    "digitization",
+    ".fulltext"
+  ],
+  "policy": "Project infrastructure, original documentation, and factual metadata are public by default. Source texts, translations, scans, media, and metadata containing substantial third-party text require an exact-path and SHA-256 rights review."
+}

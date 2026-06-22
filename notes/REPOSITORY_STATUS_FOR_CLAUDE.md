@@ -83,6 +83,8 @@ stale 状态时现场执行 GBrain 命令，不把结果抄入本交接文档。
 ## 公开发布
 
 完整仓库不是公开发布树。所有公开内容由 `scripts/publish_public.sh` 调用版权闸门生成，
+项目基础设施、原创文档和事实性元数据默认开放；第三方全文和资产以
+`metadata/rights_registry.json` 的精确文件审核为准。
 不允许直接推送完整工作仓库。历史暴露与处理记录见
 [PUBLISH_EXPOSURE_AUDIT.md](PUBLISH_EXPOSURE_AUDIT.md)。
 

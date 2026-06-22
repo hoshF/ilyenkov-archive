@@ -1,4 +1,5 @@
 import importlib.util
+import json
 import tempfile
 import unittest
 from pathlib import Path
@@ -86,6 +87,29 @@ class ProjectDocsTests(unittest.TestCase):
             )
             errors = MODULE.deprecated_text_errors(root, ("survey.md",))
             self.assertEqual(len(errors), 2)
+
+    def test_layered_license_files_and_policy_are_required(self):
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            errors = MODULE.licensing_errors(root)
+            self.assertTrue(any("LICENSE" in error for error in errors))
+
+    def test_single_repository_wide_license_is_rejected(self):
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            for relative in MODULE.LICENSE_FILES:
+                path = root / relative
+                path.parent.mkdir(parents=True, exist_ok=True)
+                path.write_text("{}\n", encoding="utf-8")
+            (root / "metadata/licensing_policy.json").write_text(json.dumps({
+                "licenses": {
+                    "software": "MIT",
+                    "project_documentation": "CC-BY-SA-4.0",
+                    "factual_metadata": "CC0-1.0",
+                }
+            }), encoding="utf-8")
+            errors = MODULE.licensing_errors(root)
+            self.assertTrue(any("分层许可边界" in error for error in errors))
 
 
 if __name__ == "__main__":

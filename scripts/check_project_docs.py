@@ -3,6 +3,7 @@
 
 from __future__ import annotations
 
+import json
 import re
 import sys
 from pathlib import Path
@@ -15,6 +16,7 @@ ROOT = Path(__file__).resolve().parents[1]
 OLD_PROJECT_NAME = "伊里因科夫中文学习与翻译资料库"
 CURRENT_DOCS = (
     "README.md",
+    "RIGHTS.md",
     "AGENTS.md",
     "CLAUDE.md",
     "COLLECTION_STATUS.md",
@@ -58,6 +60,16 @@ MISSION_REQUIREMENTS = {
     ),
     "notes/community/RECRUITMENT_POST.md": ("AI-ready", "原典数字化与研究平台"),
 }
+LICENSE_FILES = (
+    "LICENSE",
+    "RIGHTS.md",
+    "LICENSES/MIT",
+    "LICENSES/CC-BY-SA-4.0",
+    "LICENSES/CC0-1.0",
+    "metadata/licensing_policy.json",
+    "metadata/rights_registry.json",
+    "metadata/schemas/rights_review.schema.json",
+)
 DEPRECATED_TEXT = {
     'text_role: "source"': "使用已废弃的正文角色 source",
     "主要类型为 `source`": "使用已废弃的正文角色 source",
@@ -193,6 +205,41 @@ def deprecated_text_errors(
     return errors
 
 
+def licensing_errors(root: Path) -> list[str]:
+    errors: list[str] = []
+    for relative in LICENSE_FILES:
+        if not (root / relative).is_file():
+            errors.append(f"缺少许可或权利文件: {relative}")
+    if errors:
+        return errors
+    root_license = (root / "LICENSE").read_text(encoding="utf-8")
+    required_scope = (
+        "No single license applies to the entire repository",
+        "LICENSES/MIT",
+        "LICENSES/CC-BY-SA-4.0",
+        "LICENSES/CC0-1.0",
+        "Third-party and controlled content",
+    )
+    for value in required_scope:
+        if value not in root_license:
+            errors.append(f"LICENSE 缺少分层许可边界: {value}")
+    rights = (root / "RIGHTS.md").read_text(encoding="utf-8")
+    for value in ("## English", "## 中文", "SHA-256", "model training", "模型训练"):
+        if value not in rights:
+            errors.append(f"RIGHTS.md 缺少权利说明: {value}")
+    policy = json.loads((root / "metadata/licensing_policy.json").read_text(encoding="utf-8"))
+    expected = {
+        "software": "MIT",
+        "project_documentation": "CC-BY-SA-4.0",
+        "factual_metadata": "CC0-1.0",
+    }
+    if policy.get("licenses") != expected:
+        errors.append("metadata/licensing_policy.json 的分层许可证不正确")
+    if (root / "metadata/public_assets_manifest.json").exists():
+        errors.append("旧 public_assets_manifest.json 尚未迁移到中央权利注册表")
+    return errors
+
+
 def check(root: Path = ROOT) -> list[str]:
     errors: list[str] = []
     errors.extend(local_link_errors(root))
@@ -202,6 +249,7 @@ def check(root: Path = ROOT) -> list[str]:
     errors.extend(status_snapshot_errors(root))
     errors.extend(mission_errors(root))
     errors.extend(deprecated_text_errors(root))
+    errors.extend(licensing_errors(root))
     try:
         if not sync_status(root, check=True):
             errors.append("COLLECTION_STATUS.md 与中央注册表不同步")

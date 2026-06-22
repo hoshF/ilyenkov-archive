@@ -59,7 +59,9 @@ gbrain_source: "project-markdown"
 > - Collection status: [COLLECTION_STATUS.md](https://github.com/hoshF/Ilyenkov-cn/blob/main/COLLECTION_STATUS.md)
 > - Governance and decisions: [GOVERNANCE.md](https://github.com/hoshF/Ilyenkov-cn/blob/main/GOVERNANCE.md)
 >
-> Public access is rights-gated. Open collaboration and metadata do not imply that every complete text or scan can be redistributed. Source scans, unverified OCR, translations, and research materials remain clearly separated, and public exports include only material that passes the repository's rights review.
+> Project infrastructure, original documentation, and auditable factual metadata are open by
+> default. Complete texts, translations, scans, media, and content-bearing derivatives are released
+> file by file only after an evidence-based rights review tied to the exact checksum.
 >
 > Introduce yourself by telling us which philosophers, languages, archives, or technical methods you work with, and what kind of contribution interests you.
 

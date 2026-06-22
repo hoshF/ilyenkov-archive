@@ -94,8 +94,13 @@ directive_2_supplement_sha256: "0b669a0096597fba9a9910a1c986099a209b6087c3f4ad60
 
 版权和发布由 `source_license`、`rights_review_status`、`redistribution_approved` 及公开导出闸门共同决定：
 
+- 项目基础设施、原创文档和事实性元数据默认公开；事实性元数据使用 CC0 1.0；
+- 含有较多第三方正文的 JSON 等派生数据属于受控内容，不按普通元数据默认公开；
 - 可下载、可阅读、网站投诉机制或“研究用途”都不等于获得再分发许可；
 - 没有明确证据时使用 `not_stated`、`unreviewed` 和 `redistribution_approved: "false"`；
+- 受控文件只有在 `metadata/rights_registry.json` 中记录精确路径、SHA-256、权利依据、
+  证据、审核人和日期后才能公开；
+- 扫描件即使权利明确，也必须同时通过来源 manifest 与中央权利注册表审核；
 - `llm_wiki_eligible: "true"` 只代表本地检索许可，不代表可以公开发布；
 - 公开 GitHub 发布必须从 `scripts/export_public.py` 生成的 `dist/public/` 导出树进行，不直接发布完整工作仓库。
 - `dist/public` 使用独立 Git 元数据 `dist/.public.git/`；发布前必须验证父 remote 为私有仓库、嵌套 remote 为重建后的公开仓库，并只允许普通 push。
