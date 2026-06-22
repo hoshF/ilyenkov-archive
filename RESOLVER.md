@@ -1,11 +1,13 @@
 ---
 title: "Corpus Resolver"
 created: "2026-06-11"
+updated: "2026-06-22"
 type: "project"
 tags: ["corpus", "resolver", "gbrain"]
 language: "zh"
 collection: "project-documentation"
 llm_wiki_eligible: "true"
+gbrain_source: "project-markdown"
 ---
 
 # Corpus Resolver

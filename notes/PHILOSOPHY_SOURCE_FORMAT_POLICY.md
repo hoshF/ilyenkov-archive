@@ -1,7 +1,7 @@
 ---
 title: "哲学文本来源、OCR 准入与发布政策"
 created: "2026-06-11"
-updated: "2026-06-21"
+updated: "2026-06-22"
 type: "project"
 tags: ["source-policy", "markdown", "source-scan", "ocr-gate", "copyright"]
 language: "zh"

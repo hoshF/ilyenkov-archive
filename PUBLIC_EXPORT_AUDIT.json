@@ -37,8 +37,8 @@
       "path": "AGENTS.md",
       "included": true,
       "reason": "project_file",
-      "bytes": 6098,
-      "sha256": "7e94d1f83546eb3e6d587bcfe50d9deb0056359a84a2925009530a0c241ac446"
+      "bytes": 6099,
+      "sha256": "292160b97e0e725767169ea896fa72f949de983ae638f30d4f127205a1206858"
     },
     {
       "path": "CLAUDE.md",
@@ -58,8 +58,8 @@
       "path": "CONTRIBUTING.md",
       "included": true,
       "reason": "project_file",
-      "bytes": 4676,
-      "sha256": "41a11927455e35e88360c09802fe0362fc0fcd36db7d575e4882047b52b600a2"
+      "bytes": 4698,
+      "sha256": "847dcb0d6dc32105ca4abb78a785f3df71cc5ee73d0b957833ef711f9c133b7b"
     },
     {
       "path": "GOVERNANCE.md",
@@ -100,22 +100,22 @@
       "path": "LLM_WIKI.md",
       "included": true,
       "reason": "project_file",
-      "bytes": 4197,
-      "sha256": "ab0f9ed54251d01fedf58a9ba773b74fc198f74c7b500a39922e03f184d6e1e4"
+      "bytes": 4253,
+      "sha256": "7e767b74f7b6f4b84e632481fe0fb8e7943bbe4c3b33ceca4d784012b5c85941"
     },
     {
       "path": "README.md",
       "included": true,
       "reason": "project_file",
-      "bytes": 9535,
-      "sha256": "ad53bd68f725fffe84148aae0fbdf8b8e49f36adb29adea56109341e8ca57e40"
+      "bytes": 9658,
+      "sha256": "94235c3d74e1f64e949b225d34aca777a8b7bf9236319083700baae36993ad12"
     },
     {
       "path": "RESOLVER.md",
       "included": true,
       "reason": "project_file",
-      "bytes": 3020,
-      "sha256": "1aa55ce1b57ebe388c1708b7a4fb88a828c38044a9dd8310867733bf5235b1ca"
+      "bytes": 3076,
+      "sha256": "a34328625c5fc41070f87ca8ad52fdbe2a6a5b3c19a38c784a7dacc2cc68fab7"
     },
     {
       "path": "RIGHTS.md",
@@ -4679,7 +4679,7 @@
       "included": true,
       "reason": "project_file",
       "bytes": 7249,
-      "sha256": "bbee99e72598eb3861b4280d3e5ccb216b6b1c56c7edced61686e760cc98d698"
+      "sha256": "e5aad9ef392ebcbacda0630e907a0d514fe3959858347ec9b5d61ad7da1bf54a"
     },
     {
       "path": "notes/PUBLISH_EXPOSURE_AUDIT.md",
@@ -4727,22 +4727,22 @@
       "path": "notes/community/DISCUSSIONS.md",
       "included": true,
       "reason": "project_file",
-      "bytes": 5349,
-      "sha256": "03127671003b1c633e8bdc746a505387f4582deddcab370d6a361760994f37f4"
+      "bytes": 6151,
+      "sha256": "2080976277f16255537cc70361aba72c0a58338de78e5df6cc84bc3fb7c67b4c"
     },
     {
       "path": "notes/community/RECRUITMENT_PLATFORMS.md",
       "included": true,
       "reason": "project_file",
-      "bytes": 7608,
-      "sha256": "9932e7d9623406f39d8fbde2afb764469789cc31c0258c933514dea620c4a4fb"
+      "bytes": 8662,
+      "sha256": "abefe76d5434e81322679692d345527ef6aa628f8973f456ed69f3d5099b7afc"
     },
     {
       "path": "notes/community/RECRUITMENT_POST.md",
       "included": true,
       "reason": "project_file",
-      "bytes": 4235,
-      "sha256": "db83102264a839035d7ff9771eaded322d6c98743a661b6741d65ee92581835e"
+      "bytes": 5197,
+      "sha256": "a7201f2930ea1158459391f76c396d02f6e0bcacd608a618db8f97383c84f188"
     },
     {
       "path": "notes/contributors/README.md",
@@ -5056,8 +5056,8 @@
       "path": "scripts/check_project_docs.py",
       "included": true,
       "reason": "project_file",
-      "bytes": 9818,
-      "sha256": "b87a034f440f3ab1cd4ce0202f882d768266bda431a541cea4250c792a1196b4"
+      "bytes": 14112,
+      "sha256": "2d5d4112ee02022fb7c6948819c635b711d53231ec4a57860b1ee7a980a8ea5d"
     },
     {
       "path": "scripts/collection_registry.py",
@@ -5168,8 +5168,8 @@
       "path": "spinoza_markdown/metadata/source_audit.md",
       "included": true,
       "reason": "project_file",
-      "bytes": 1933,
-      "sha256": "0ffe86e417ba316980e6e6e5b59f93ba0d77c4b7312c2bcec54306190ab8ae52"
+      "bytes": 1989,
+      "sha256": "6bfd2993932b8b763744d78308ec47189a82a7d6df70c3db47ec514f75eeebbd"
     },
     {
       "path": "spinoza_markdown/metadata/source_notes.md",
@@ -6834,8 +6834,8 @@
       "path": "tests/test_check_project_docs.py",
       "included": true,
       "reason": "project_file",
-      "bytes": 5079,
-      "sha256": "ea9bcf868aa1879f3c29c7cf03a248b0f310239ccf42914d3ed365841a0a9162"
+      "bytes": 6405,
+      "sha256": "2e172ce396a52a2ab2039e547955d6629f2966940855617ab77f3303bef30713"
     },
     {
       "path": "tests/test_export_public.py",

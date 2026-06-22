@@ -1,6 +1,7 @@
 ---
 title: "参与方式"
 created: "2026-06-11"
+updated: "2026-06-22"
 type: "project"
 tags: ["project", "documentation"]
 language: "zh"

@@ -1,7 +1,7 @@
 ---
 title: "Ilyenkov 仓库 · AI 操作指南"
 created: "2026-06-17"
-updated: "2026-06-21"
+updated: "2026-06-22"
 type: "agent-guide"
 tags: ["agents", "entry-point", "navigation", "read-on-demand"]
 language: "zh"
@@ -107,18 +107,18 @@ scripts/run_gbrain_without_dist.sh gbrain lint .
 
 **Git 进度（提交时刷新，可能滞后一个提交）**
 
-- 领先 `origin/main` 2 个提交，落后 0 个
-- HEAD：001094e  rights: enforce auditable public release policy
-- 工作区：108 个已改跟踪文件，0 个未跟踪文件未提交
+- 领先 `origin/main` 0 个提交，落后 0 个
+- HEAD：82b87f4  corpus: approve public-domain Spinoza sources
+- 工作区：12 个已改跟踪文件，0 个未跟踪文件未提交
 
 **最近提交**
 
+- `82b87f4` corpus: approve public-domain Spinoza sources
 - `001094e` rights: enforce auditable public release policy
 - `73b525a` legal: add layered project licensing
 - `09e5e22` test: enforce current project documentation
 - `9c81bfd` docs: revise global collaboration invitations
 - `3687448` docs: define digitization platform and translation program
-- `4a03cf4` docs: unify project and AI reading guides
 
 <!-- AGENTS-LIVE:END -->
 

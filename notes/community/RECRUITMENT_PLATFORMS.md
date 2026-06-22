@@ -1,10 +1,10 @@
 ---
-title: "全球平台招募文稿"
+title: "全球协作平台招募文稿"
 created: "2026-06-12"
 updated: "2026-06-22"
 type: "note"
-tags: ["research-note", "community"]
-language: "en"
+tags: ["community", "recruitment", "outreach"]
+language: "en-zh"
 collection: "research-notes"
 llm_wiki_eligible: "true"
 gbrain_source: "project-markdown"
@@ -34,10 +34,13 @@ gbrain_source: "project-markdown"
 
 > We are building a source-traceable philosophy text archive centered on Evald Ilyenkov: original-language texts, edition metadata, scans, and related collections on Spinoza and Soviet philosophy.
 >
-> The goal is an AI-ready source-text digitization and research platform for preservation, search, close reading, multilingual study, and digital humanities. Collaboration is global; public access is rights-gated.
+> The goal is an AI-ready source-text digitization and research platform for preservation, search, close reading, multilingual study, and digital humanities. Infrastructure and factual metadata are open by default; complete texts are released after file-level rights review.
 >
 > The project also maintains a long-term Chinese translation and close-reading program focused on
 > Ilyenkov and grounded in the original-language corpus.
+>
+> A first reviewed group of Latin and Dutch Spinoza texts is now public. We welcome help with
+> bibliography, collation, languages, rights research, translation, and corpus tooling.
 >
 > https://github.com/hoshF/Ilyenkov-cn
 
@@ -47,9 +50,11 @@ Suggested tags: `#DigitalHumanities #Philosophy #SovietPhilosophy #LLM`
 
 > 我们在建设一个以伊里因科夫哲学为中心的多哲学家文本库：收集、核验、结构化和数字化原语言文本、扫描版本与书目元数据。
 >
-> 目标是为长期保存、哲学研究、跨语言学习及 AI/LLM 应用提供可审计、可重建的研究基础。项目面向全球协作者，全文公开采用权利门控。
+> 目标是为长期保存、哲学研究、跨语言学习及 AI/LLM 应用提供可审计、可重建的研究基础。基础设施和事实性元数据默认开放，第三方全文按文件逐项审核。
 >
 > 项目同时长期推进伊里因科夫中文翻译、术语研究和精读，使原典数字化成果进入具体的学习与研究。
+>
+> 公开仓库现已发布首批通过权利审核的斯宾诺莎拉丁文和荷兰文文本，欢迎参与书目、校勘、语言、权利核查、翻译和技术工作。
 >
 > github.com/hoshF/Ilyenkov-cn
 
@@ -89,6 +94,9 @@ LLM-research communities. Read each community's rules before posting.
 > and scans are released individually only when their rights status and exact checksum have been
 > reviewed.
 >
+> The public repository now includes a first rights-reviewed release of Latin and Dutch Spinoza
+> materials from Wikisource and DBNL. Public release does not imply critical-edition status.
+>
 > Repository: https://github.com/hoshF/Ilyenkov-cn
 >
 > Discussions: https://github.com/hoshF/Ilyenkov-cn/discussions
@@ -121,6 +129,10 @@ LLM-research communities. Read each community's rules before posting.
 > Complete texts and scans are released file by file after rights review; inclusion never implies
 > model-training permission beyond the applicable license.
 >
+> The first reviewed public text group includes Latin and Dutch Spinoza materials from Wikisource
+> and DBNL. The project uses MIT for software, CC BY-SA 4.0 for project-authored documentation, and
+> CC0 1.0 for project-created factual metadata; third-party texts retain their own rights status.
+>
 > Repository: https://github.com/hoshF/Ilyenkov-cn
 >
 > Discussions: https://github.com/hoshF/Ilyenkov-cn/discussions
@@ -138,6 +150,7 @@ LLM-research communities. Read each community's rules before posting.
 | Digital humanities | Encoding, collation, preservation, search |
 | AI and knowledge systems | Retrieval, corpus validation, reproducible tooling |
 | Translation studies | Multilingual close reading and terminology comparison |
+| Copyright and open scholarship | Rights evidence, licenses, attribution and public-domain review |
 
 ## Publication Log
 

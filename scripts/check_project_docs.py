@@ -10,6 +10,7 @@ from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 from manage_collections import sync_status
+from prepare_gbrain_markdown import parse_front_matter
 
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -32,6 +33,7 @@ CURRENT_DOCS = (
     "notes/OIZERMAN_SOURCE_SURVEY.md",
     "notes/ORIGINAL_LANGUAGE_AI_READING.md",
     "notes/SCAN_DIGITIZATION_WORKFLOW.md",
+    "spinoza_markdown/metadata/source_audit.md",
     "notes/community/DISCUSSIONS.md",
     "notes/community/RECRUITMENT_PLATFORMS.md",
     "notes/community/RECRUITMENT_POST.md",
@@ -70,6 +72,91 @@ LICENSE_FILES = (
     "metadata/rights_registry.json",
     "metadata/schemas/rights_review.schema.json",
 )
+METADATA_REQUIREMENTS = {
+    "AGENTS.md": {
+        "type": "agent-guide",
+        "language": "zh",
+        "collection": "project-documentation",
+        "tags": ("agents", "navigation"),
+        "updated": True,
+    },
+    "CONTRIBUTING.md": {
+        "type": "project",
+        "language": "zh",
+        "collection": "project-documentation",
+        "tags": ("project", "documentation"),
+        "updated": True,
+    },
+    "GOVERNANCE.md": {
+        "type": "project",
+        "language": "zh",
+        "collection": "project-documentation",
+        "tags": ("project", "documentation"),
+        "updated": True,
+    },
+    "LLM_WIKI.md": {
+        "type": "project",
+        "language": "zh",
+        "collection": "project-documentation",
+        "tags": ("llm-wiki", "gbrain"),
+        "updated": True,
+    },
+    "RESOLVER.md": {
+        "type": "project",
+        "language": "zh",
+        "collection": "project-documentation",
+        "tags": ("corpus", "resolver"),
+        "updated": True,
+    },
+    "RIGHTS.md": {
+        "type": "project",
+        "language": "en-zh",
+        "collection": "project-documentation",
+        "tags": ("rights", "licensing"),
+    },
+    "TRANSLATION_PLAN.md": {
+        "type": "project",
+        "language": "zh",
+        "collection": "project-documentation",
+        "tags": ("project", "documentation"),
+        "updated": True,
+    },
+    "notes/PHILOSOPHY_SOURCE_FORMAT_POLICY.md": {
+        "type": "project",
+        "language": "zh",
+        "collection": "project-documentation",
+        "tags": ("source-policy", "copyright"),
+        "updated": True,
+    },
+    "notes/community/DISCUSSIONS.md": {
+        "type": "note",
+        "language": "en-zh",
+        "collection": "research-notes",
+        "tags": ("community", "discussions", "recruitment"),
+        "updated": True,
+    },
+    "notes/community/RECRUITMENT_POST.md": {
+        "type": "note",
+        "language": "zh",
+        "collection": "research-notes",
+        "tags": ("community", "recruitment", "digitization"),
+        "updated": True,
+    },
+    "notes/community/RECRUITMENT_PLATFORMS.md": {
+        "type": "note",
+        "language": "en-zh",
+        "collection": "research-notes",
+        "tags": ("community", "recruitment", "outreach"),
+        "updated": True,
+    },
+    "spinoza_markdown/metadata/source_audit.md": {
+        "type": "analysis",
+        "language": "en",
+        "collection": "corpus-metadata",
+        "tags": ("spinoza", "source-metadata", "audit"),
+        "updated": True,
+    },
+}
 DEPRECATED_TEXT = {
     'text_role: "source"': "使用已废弃的正文角色 source",
     "主要类型为 `source`": "使用已废弃的正文角色 source",
@@ -240,6 +327,36 @@ def licensing_errors(root: Path) -> list[str]:
     return errors
 
 
+def metadata_errors(root: Path) -> list[str]:
+    errors: list[str] = []
+    for relative, expected in METADATA_REQUIREMENTS.items():
+        path = root / relative
+        if not path.is_file():
+            errors.append(f"缺少元数据受控文档: {relative}")
+            continue
+        metadata = parse_front_matter(path.read_text(encoding="utf-8"))
+        for field in ("created", "type", "tags", "language", "collection", "llm_wiki_eligible", "gbrain_source"):
+            if not metadata.get(field):
+                errors.append(f"{relative}: 缺少 front matter 字段: {field}")
+        for field in ("type", "language", "collection"):
+            value = expected.get(field)
+            if value and metadata.get(field) != value:
+                errors.append(f"{relative}: {field} 应为 {value}")
+        tags = metadata.get("tags", "")
+        for tag in expected.get("tags", ()):
+            if f'"{tag}"' not in tags:
+                errors.append(f"{relative}: 缺少用途标签: {tag}")
+        if expected.get("updated") and not metadata.get("updated"):
+            errors.append(f"{relative}: 可变文档缺少 updated")
+        if metadata.get("updated") and metadata.get("updated", "") < metadata.get("created", ""):
+            errors.append(f"{relative}: updated 早于 created")
+        if metadata.get("llm_wiki_eligible") != "true":
+            errors.append(f"{relative}: llm_wiki_eligible 应为 true")
+        if metadata.get("gbrain_source") != "project-markdown":
+            errors.append(f"{relative}: gbrain_source 应为 project-markdown")
+    return errors
+
+
 def check(root: Path = ROOT) -> list[str]:
     errors: list[str] = []
     errors.extend(local_link_errors(root))
@@ -250,6 +367,7 @@ def check(root: Path = ROOT) -> list[str]:
     errors.extend(mission_errors(root))
     errors.extend(deprecated_text_errors(root))
     errors.extend(licensing_errors(root))
+    errors.extend(metadata_errors(root))
     try:
         if not sync_status(root, check=True):
             errors.append("COLLECTION_STATUS.md 与中央注册表不同步")

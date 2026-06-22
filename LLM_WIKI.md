@@ -1,11 +1,13 @@
 ---
 title: "Ilyenkov Research LLM Wiki"
 created: "2026-06-11"
+updated: "2026-06-22"
 type: "project"
 tags: ["ilyenkov", "spinoza", "llm-wiki", "gbrain"]
 language: "zh"
 collection: "project-documentation"
 llm_wiki_eligible: "true"
+gbrain_source: "project-markdown"
 llm_wiki_engine: "gbrain"
 gbrain_version_tested: "0.42.37.0"
 ---

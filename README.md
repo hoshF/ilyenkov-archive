@@ -12,8 +12,9 @@ and carefully bounded LLM-assisted research.
 
 One of its central long-term programs is the Chinese translation, terminology study, and close
 reading of Ilyenkov. Related philosophers are translated selectively when needed for that research.
-Public access is rights-gated; availability in the archive does not imply redistribution or
-model-training permission. Global collaborators are welcome through
+Project infrastructure, original documentation, and factual metadata are open by default.
+Third-party texts and assets are released file by file after rights review; public availability does
+not automatically grant model-training permission. Global collaborators are welcome through
 [Discussions](https://github.com/hoshF/Ilyenkov-cn/discussions).
 
 本项目是一个以埃瓦尔德·瓦西里耶维奇·伊里因科夫（Э. В. Ильенков）哲学为中心的文本库。项目由伊里因科夫原文整理与中文阅读起步，现已扩展到与其思想来源、理论论争和苏联哲学语境密切相关的作者与文献。

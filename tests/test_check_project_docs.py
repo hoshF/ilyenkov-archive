@@ -111,6 +111,35 @@ class ProjectDocsTests(unittest.TestCase):
             errors = MODULE.licensing_errors(root)
             self.assertTrue(any("分层许可边界" in error for error in errors))
 
+    def test_controlled_document_metadata_is_checked(self):
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            path = root / "doc.md"
+            path.write_text(
+                '---\ncreated: "2026-06-22"\ntype: "note"\n'
+                'tags: ["community"]\nlanguage: "zh"\n'
+                'collection: "research-notes"\nllm_wiki_eligible: "true"\n'
+                'gbrain_source: "project-markdown"\n---\n# Doc\n',
+                encoding="utf-8",
+            )
+            requirements = MODULE.METADATA_REQUIREMENTS
+            MODULE.METADATA_REQUIREMENTS = {
+                "doc.md": {
+                    "type": "note",
+                    "language": "en-zh",
+                    "collection": "research-notes",
+                    "tags": ("community", "recruitment"),
+                    "updated": True,
+                }
+            }
+            try:
+                errors = MODULE.metadata_errors(root)
+            finally:
+                MODULE.METADATA_REQUIREMENTS = requirements
+            self.assertTrue(any("language 应为 en-zh" in error for error in errors))
+            self.assertTrue(any("缺少用途标签: recruitment" in error for error in errors))
+            self.assertTrue(any("缺少 updated" in error for error in errors))
+
 
 if __name__ == "__main__":
     unittest.main()

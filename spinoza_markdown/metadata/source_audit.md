@@ -1,11 +1,13 @@
 ---
 title: "Spinoza Source Audit"
 created: "2026-06-11"
+updated: "2026-06-22"
 type: "analysis"
 tags: ["spinoza", "source-metadata", "audit"]
 language: "en"
 collection: "corpus-metadata"
 llm_wiki_eligible: "true"
+gbrain_source: "project-markdown"
 ---
 
 # Spinoza Source Audit
