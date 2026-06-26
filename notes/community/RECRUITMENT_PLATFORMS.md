@@ -1,10 +1,10 @@
 ---
-title: "全球协作平台招募文稿"
+title: "Global Recruitment Copy"
 created: "2026-06-12"
 updated: "2026-06-22"
 type: "note"
 tags: ["community", "recruitment", "outreach"]
-language: "en-zh"
+language: "en"
 collection: "research-notes"
 llm_wiki_eligible: "true"
 gbrain_source: "project-markdown"
@@ -12,7 +12,7 @@ gbrain_source: "project-markdown"
 
 # Global Recruitment Copy
 
-中文平台长文见 [RECRUITMENT_POST.md](RECRUITMENT_POST.md)。
+Long-form recruitment copy is maintained in [RECRUITMENT_POST.md](RECRUITMENT_POST.md).
 
 ## Shared Information
 
@@ -45,18 +45,6 @@ gbrain_source: "project-markdown"
 > https://github.com/hoshF/ilyenkov-archive
 
 Suggested tags: `#DigitalHumanities #Philosophy #SovietPhilosophy #LLM`
-
-## X / Bluesky — 中文
-
-> 我们在建设一个以伊里因科夫哲学为中心的多哲学家文本库：收集、核验、结构化和数字化原语言文本、扫描版本与书目元数据。
->
-> 目标是为长期保存、哲学研究、跨语言学习及 AI/LLM 应用提供可审计、可重建的研究基础。基础设施和事实性元数据默认开放，第三方全文按文件逐项审核。
->
-> 项目同时长期推进伊里因科夫中文翻译、术语研究和精读，使原典数字化成果进入具体的学习与研究。
->
-> 公开仓库现已发布首批通过权利审核的斯宾诺莎拉丁文和荷兰文文本，欢迎参与书目、校勘、语言、权利核查、翻译和技术工作。
->
-> github.com/hoshF/ilyenkov-archive
 
 ## Reddit
 

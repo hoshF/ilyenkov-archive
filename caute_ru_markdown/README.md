@@ -4,7 +4,7 @@ created: "2026-06-11"
 updated: "2026-06-22"
 type: "project"
 tags: ["project", "documentation"]
-language: "en-zh"
+language: "en"
 collection: "project-documentation"
 llm_wiki_eligible: "true"
 gbrain_source: "project-markdown"
@@ -50,9 +50,3 @@ authorize new OCR runs.
 
 Corpus eligibility and redistribution permission are separate. Files enter the public export only
 when their exact path and SHA-256 have an approved record in the central rights registry.
-
-## 中文摘要
-
-本历史目录保存项目核心的伊里因科夫原文语料和迈丹斯基研究文本。`caute_ru_markdown/`
-作为采集历史路径保留，当前引用迈丹斯基网站内容时应使用 `filorus.ru/ilyenkov`。其中 13
-份历史报纸文本属于已有人工对图校勘记录的例外，不代表项目允许启动新的 OCR。

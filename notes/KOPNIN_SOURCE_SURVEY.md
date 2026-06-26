@@ -1,10 +1,10 @@
 ---
-title: "P. V. Kopnin Text Source Survey / 科普宁哲学文本来源调查"
+title: "P. V. Kopnin Text Source Survey"
 created: "2026-06-16"
 updated: "2026-06-22"
 type: "analysis"
 tags: ["kopnin", "source-metadata", "dialectical-logic", "epistemology"]
-language: "en-zh"
+language: "en"
 collection: "corpus-metadata"
 llm_wiki_eligible: "true"
 gbrain_source: "project-markdown"
@@ -78,9 +78,3 @@ Kopnin died in 1971 and the works remain protected. Located sources state no ope
 Freely downloadable PDF/DjVu files remain `source_scan_unprocessed` under
 `kopnin_markdown/source_scans/<provider>/`, with manifest records. They are not OCRed, indexed by
 GBrain, or publicly exported. Controlled sources are bibliography only.
-
-## 中文摘要
-
-调查通过 Klex→phantastike 路径保存了 4 部科普宁俄文著作扫描件。1973 年代表作
-《Диалектика как логика и теория познания》仍缺少合格扫描本；受限或需要积分的来源未被
-绕过。现有扫描件不进行 OCR、不进入 GBrain 或公开导出。

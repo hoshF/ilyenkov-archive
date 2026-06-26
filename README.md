@@ -1,7 +1,5 @@
 # Ilyenkov Philosophy Text Archive
 
-![Portrait of Evald Ilyenkov](assets/images/ilyenkov-portrait.jpg)
-
 The Ilyenkov Philosophy Text Archive is a global, source-traceable project for collecting,
 verifying, structuring, and digitizing original-language philosophical texts centered on Evald
 Ilyenkov and his intellectual context.
@@ -25,12 +23,12 @@ materials, and derived indexes remain separate layers.
 
 | Person or collection | Current material | Role in the archive |
 |---|---|---|
-| Evald Ilyenkov / 伊里因科夫 | Russian books, articles, letters, interviews, manuscripts, and verified historical newspaper texts; Markdown is the main corpus format | Central collection |
-| Andrey Maidansky / 迈丹斯基 | Research articles, source records, and files concerning Ilyenkov, Spinoza, and dialectics | Research and interpretation |
-| Bonifaty Kedrov / 凯德洛夫 | Russian Markdown converted from genuine HTML plus unprocessed PDF/DjVu scans | Soviet dialectics and philosophy of science |
-| Teodor Oizerman / 奥伊泽尔曼 | Bibliography, works registry, and unprocessed scans, including the four-volume *Теория познания* edited with Vladislav Lektorsky | Soviet history of philosophy and epistemology |
-| Pavel Kopnin / 科普宁 | Works registry, source survey, and unprocessed scans | Dialectical logic, epistemology, and methodology |
-| Baruch Spinoza / 斯宾诺莎 | Latin originals, historical translations, and textual witnesses | Major intellectual source for Ilyenkov |
+| Evald Ilyenkov | Russian books, articles, letters, interviews, manuscripts, and verified historical newspaper texts; Markdown is the main corpus format | Central collection |
+| Andrey Maidansky | Research articles, source records, and files concerning Ilyenkov, Spinoza, and dialectics | Research and interpretation |
+| Bonifaty Kedrov | Russian Markdown converted from genuine HTML plus unprocessed PDF/DjVu scans | Soviet dialectics and philosophy of science |
+| Teodor Oizerman | Bibliography, works registry, and unprocessed scans, including the four-volume *Теория познания* edited with Vladislav Lektorsky | Soviet history of philosophy and epistemology |
+| Pavel Kopnin | Works registry, source survey, and unprocessed scans | Dialectical logic, epistemology, and methodology |
+| Baruch Spinoza | Latin originals, historical translations, and textual witnesses | Major intellectual source for Ilyenkov |
 
 Research entry points:
 
@@ -137,12 +135,3 @@ redistribution or model-training permission.
 
 See [LICENSE](LICENSE) and [RIGHTS.md](RIGHTS.md). Rightsholders may open an issue to request review
 or removal.
-
-## 中文摘要
-
-本项目以伊里因科夫哲学为中心，面向全球建设可追溯的哲学原典数字化与研究平台，同时长期
-推进以伊里因科夫为优先对象的中文翻译、术语研究和精读。公共协作入口以英文为主，但中文
-翻译计划、术语表、阅读笔记和译文工程继续使用中文。
-
-项目基础设施、原创文档和事实性元数据默认开放；第三方全文、译文、扫描件和媒体按具体文件
-逐项审核权利状态与 SHA-256 后开放。公开不等于完成校勘，也不自动授予模型训练许可。

@@ -1,10 +1,10 @@
 ---
-title: "Contributing / 参与方式"
+title: "Contributing"
 created: "2026-06-11"
 updated: "2026-06-22"
 type: "project"
 tags: ["project", "documentation", "contributing"]
-language: "en-zh"
+language: "en"
 collection: "project-documentation"
 llm_wiki_eligible: "true"
 gbrain_source: "project-markdown"
@@ -102,9 +102,3 @@ or “for research” is not sufficient evidence of redistribution permission.
 
 Rightsholders, editors, translators, or source providers may open an issue to request review or
 removal.
-
-## 中文摘要
-
-欢迎参与书目考证、版本核验、文本校勘、数字化质量检查、元数据与工具建设，以及伊里因科夫
-中文翻译和术语研究。提交内容必须来源可追溯、改动范围清楚，并遵守原文、译文、扫描件和
-AI 草稿分层保存的规则。未经人工复核的批量机器翻译和未经准入流程的 OCR 不进入正式语料。

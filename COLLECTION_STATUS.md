@@ -1,9 +1,9 @@
 ---
-title: "Philosopher Text Collection Status / 哲学家文本收藏状态"
+title: "Philosopher Text Collection Status"
 created: "2026-06-21"
 type: "project"
 tags: ["collections", "status", "corpus"]
-language: "en-zh"
+language: "en"
 collection: "project-documentation"
 llm_wiki_eligible: "true"
 gbrain_source: "project-markdown"
@@ -16,13 +16,13 @@ Markdown and Git are the sources of record. Scan counts do not imply searchable 
 
 | Person | Collection | Stage | Corpus Markdown | Source scans | Scan size | Work records | Metadata updated |
 |---|---|---|---:|---:|---:|---:|---|
-| Evald Ilyenkov / 埃瓦尔德·伊里因科夫 | [ilyenkov-texts](caute_ru_markdown/README.md) | `markdown_corpus` | 275 | 0 | - | 204 | 2026-06-09T00:21:32+00:00 |
-| Andrey Maidansky / 安德烈·迈丹斯基 | [maidansky-research](caute_ru_markdown/README.md) | `markdown_corpus` | 66 | 0 | - | 63 | 2026-06-09T01:53:50+00:00 |
-| Andrey Maidansky / 安德烈·迈丹斯基 | [maidansky-academia](maidansky_markdown/README.md) | `source_scans` | 0 | 56 | 33.6 MiB | 57 | 2026-06-17T06:45:00+00:00 |
-| Baruch Spinoza / 巴鲁赫·斯宾诺莎 | [spinoza-texts](spinoza_markdown/README.md) | `markdown_corpus` | 211 | 0 | - | 9 | 2026-06-09T16:39:55+00:00 |
-| Bonifaty Kedrov / 博尼法季·凯德洛夫 | [kedrov-texts](kedrov_markdown/README.md) | `markdown_and_scans` | 54 | 6 | 133.8 MiB | 3 | 2026-06-11 |
-| Teodor Oizerman / 特奥多尔·奥伊泽尔曼 | [oizerman-archive](oizerman_markdown/README.md) | `source_scans` | 0 | 35 | 252.9 MiB | 24 | 2026-06-21 |
-| Pavel Kopnin / 帕维尔·科普宁 | [kopnin-archive](kopnin_markdown/README.md) | `source_scans` | 0 | 4 | 48.8 MiB | 18 | 2026-06-16 |
+| Evald Ilyenkov | [ilyenkov-texts](caute_ru_markdown/README.md) | `markdown_corpus` | 275 | 0 | - | 204 | 2026-06-09T00:21:32+00:00 |
+| Andrey Maidansky | [maidansky-research](caute_ru_markdown/README.md) | `markdown_corpus` | 66 | 0 | - | 63 | 2026-06-09T01:53:50+00:00 |
+| Andrey Maidansky | [maidansky-academia](maidansky_markdown/README.md) | `source_scans` | 0 | 56 | 33.6 MiB | 57 | 2026-06-17T06:45:00+00:00 |
+| Baruch Spinoza | [spinoza-texts](spinoza_markdown/README.md) | `markdown_corpus` | 211 | 0 | - | 9 | 2026-06-09T16:39:55+00:00 |
+| Bonifaty Kedrov | [kedrov-texts](kedrov_markdown/README.md) | `markdown_and_scans` | 54 | 6 | 133.8 MiB | 3 | 2026-06-11 |
+| Teodor Oizerman | [oizerman-archive](oizerman_markdown/README.md) | `source_scans` | 0 | 35 | 252.9 MiB | 24 | 2026-06-21 |
+| Pavel Kopnin | [kopnin-archive](kopnin_markdown/README.md) | `source_scans` | 0 | 4 | 48.8 MiB | 18 | 2026-06-16 |
 
 ## Stage Notes
 
@@ -30,8 +30,3 @@ Markdown and Git are the sources of record. Scan counts do not imply searchable 
 - `markdown_and_scans`: the collection contains both Markdown and unprocessed scans.
 - `source_scans`: bibliography and scans exist, but verified digital text does not.
 - Historical layouts retain their paths; new people use the standard collection layout.
-
-## 中文说明
-
-本页由中央注册表和各集合 manifest 自动生成。扫描件数量只表示已保存的版本资料，
-不表示已经完成正文数字化、人工校验或公开授权。

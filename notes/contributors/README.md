@@ -1,51 +1,60 @@
 ---
-title: "成员研究笔记目录"
+title: "Contributor Research Notes Directory"
 created: "2026-06-12"
 type: "note"
 tags: ["research-note", "community"]
-language: "zh"
+language: "en"
 collection: "research-notes"
 llm_wiki_eligible: "true"
 gbrain_source: "project-markdown"
 ---
-# 成员研究笔记目录
 
-每位成员在这里拥有一个以署名命名的子目录，存放个人的研究笔记、阅读感悟和工作记录。署名可以是真名、笔名或 GitHub 用户名，建立后保持稳定。
+# Contributor Research Notes Directory
 
-```
+Each contributor may keep a stable named subdirectory for personal research notes, reading
+reflections, and work logs. The name may be a real name, pen name, or GitHub username; keep it stable
+after creation.
+
+```text
 notes/contributors/
-  <署名>/
-    README.md        # 自我介绍：背景、语言能力、关注方向、认领的工作
-    <笔记文件>.md     # 任意研究笔记，建议一个主题一个文件
+  <name>/
+    README.md        # Self-introduction: background, languages, interests, claimed tasks
+    <note-file>.md   # Research notes; prefer one topic per file
 ```
 
-## 约定
+## Conventions
 
-- 子目录内的内容署名归作者，项目原创内容的许可见 [GOVERNANCE.md](../../GOVERNANCE.md)「署名与许可」。
-- 个人笔记不需要他人审核即可提交，但**有结论的内容请回流公共文件**：术语意见进 `notes/TERMS.md`，版本考证进相应 metadata，分工进度进 `notes/journal/` 月报。
-- 笔记文件需要包含 frontmatter，最少包含 `created` 字段；照抄本文件头部的格式即可（`title` 改成笔记标题）。
-- 引用受版权保护的文本时只引必要的段落，注明出处；不要把未授权的长篇原文或扫描件存到这里。
+- Content inside a contributor subdirectory is attributed to that contributor. Project-authored
+  licensing rules are described in [GOVERNANCE.md](../../GOVERNANCE.md).
+- Personal notes do not need prior review, but conclusions should flow back to shared files:
+  terminology notes to `notes/TERMS.md`, source findings to the relevant metadata, and progress
+  updates to monthly notes under `notes/journal/`.
+- Note files should include front matter with at least `created`; copy this file's header shape and
+  change `title`.
+- Quote only necessary passages from copyrighted text, cite the source, and do not store
+  unauthorized long source texts or scans here.
 
-## 笔记文件模板
+## Note Template
 
 ```markdown
 ---
-title: "笔记标题"
+title: "Note Title"
 created: "YYYY-MM-DD"
 type: "note"
 tags: ["research-note"]
-language: "zh"
+language: "en"
 collection: "research-notes"
 llm_wiki_eligible: "true"
 gbrain_source: "project-markdown"
 ---
-# 笔记标题
+# Note Title
 
-（正文。涉及的文本写明文件路径或来源；有翻译建议时附俄文原文位置。）
+Body text. Cite repository paths or external sources; include original-language locations when
+making translation suggestions.
 ```
 
-## 成员索引
+## Contributor Index
 
-| 署名 | 方向 | 加入时间 |
-| --- | --- | --- |
+| Name | Focus | Joined |
+|---|---|---|
 | | | |

@@ -1,10 +1,10 @@
 ---
-title: "Teodor Oizerman Philosophy Text Archive / 奥伊泽尔曼哲学文本资料库"
+title: "Teodor Oizerman Philosophy Text Archive"
 created: "2026-06-16"
 updated: "2026-06-22"
 type: "project"
 tags: ["oizerman", "philosophy", "russian", "source-archive"]
-language: "en-zh"
+language: "en"
 collection: "project-documentation"
 llm_wiki_eligible: "true"
 gbrain_source: "project-markdown"
@@ -55,10 +55,3 @@ Oizerman died in 2017 and his works remain protected. Source files default to
   works registry.
 - Co-authored and edited works record Oizerman's actual responsibility rather than treating every
   title as a sole-authored monograph.
-
-## 中文摘要
-
-本目录保存奥伊泽尔曼的书目、来源元数据和 35 份未处理扫描件，其中包括列克托尔斯基与
-奥伊泽尔曼共同主编的四卷本《Теория познания》（1991、1991、1993、1995）。这些扫描件
-不等于已数字化正文，不进行 OCR、不进入 GBrain 或公开导出。2014 年五卷本选集与早期单行本
-必须保持版本区分。

@@ -1,93 +1,93 @@
 ---
-title: "伊里因科夫哲学文本库招募说明"
+title: "Ilyenkov Philosophy Text Archive Recruitment Post"
 created: "2026-06-12"
-updated: "2026-06-22"
+updated: "2026-06-26"
 type: "note"
 tags: ["community", "recruitment", "digitization"]
-language: "zh"
+language: "en"
 collection: "research-notes"
 llm_wiki_eligible: "true"
 gbrain_source: "project-markdown"
 ---
 
-# 伊里因科夫哲学文本库招募说明
+# Ilyenkov Philosophy Text Archive Recruitment Post
 
-适用于中文平台。中文只是本文的发布语言，项目本身面向全球研究者和学习者。
+This English recruitment post is intended for public forums, mailing lists, and discussion spaces.
 
-## 标题候选
+## Title Options
 
-- 伊里因科夫哲学文本库：寻找原典数字化、翻译与研究协作者
-- 一起整理可追溯的哲学原典：版本、书目、校勘与中文翻译
-- 为长期研究和 AI 检索建设可靠的哲学文本库
+- Ilyenkov Philosophy Text Archive: collaborators for source-text digitization and research
+- Building a source-traceable philosophy archive for Ilyenkov, Spinoza, and Soviet philosophy
+- Reliable philosophical texts for long-term research, search, and digital humanities
 
-## 正文
+## Body
 
-哲学研究长期依赖纸本、扫描件、分散的网站和质量不一的转录文本。对许多苏联哲学家而言，
-作品的版本信息、原语言全文、页码、异文和引用关系仍缺少稳定、可追溯的数字基础。
+Philosophical research often depends on print volumes, scans, dispersed websites, and transcriptions
+of uneven quality. For many Soviet philosophers, edition information, original-language full text,
+page references, variants, and citation relationships still lack a stable and traceable digital
+foundation.
 
-我正在建设一个以埃瓦尔德·伊里因科夫哲学为中心的多哲学家文本库。它从伊里因科夫出发，
-逐步收录与其思想来源、理论论争和历史语境相关的哲学家，包括斯宾诺莎以及多位苏联哲学家。
+I am building a multi-philosopher text archive centered on Evald Ilyenkov. The project begins with
+Ilyenkov and expands to figures and traditions needed to study his work, including Spinoza and
+several Soviet philosophers.
 
-项目最重要的工作不是快速生成译文，而是：
+The main task is not fast translation or automated text generation. It is to:
 
-- 收集和核验作者原语言文本；
-- 保存版本明确、来源可追溯的扫描件和书目记录；
-- 将合格文本整理为结构化 Markdown，并保留章节、页码和来源关系；
-- 区分作者原文、历史译本、现代译文、研究文章、AI 内容和未校验 OCR；
-- 建立可审计、可重建的检索与 LLM Wiki 基础设施。
+- collect and verify original-language texts;
+- preserve source scans and bibliographic records with clear provenance;
+- structure acceptable texts as Markdown with chapter, page, and source relationships;
+- distinguish authorial originals, historical translations, modern translations, research, AI
+  content, and unverified OCR;
+- build auditable and reproducible retrieval and LLM Wiki infrastructure.
 
-这并不意味着放弃中文翻译。恰恰相反，可靠的原文数字化是高质量翻译的前提。项目在建设
-面向全球的原典数字化与研究平台的同时，会持续推进以伊里因科夫为优先对象的中文翻译、
-术语研究和精读。其他苏联哲学家按研究关系选择性翻译；斯宾诺莎等思想来源主要先建设
-原语言语料。
+This does not mean abandoning translation. Reliable source-text digitization is the foundation for
+high-quality translation. Alongside the global research platform, the project maintains a sustained
+Chinese translation, terminology study, and close-reading program focused first on Ilyenkov. Related
+Soviet philosophers are translated selectively when required by that research; source figures such as
+Spinoza are primarily developed as original-language collections.
 
-为什么要做这件事？高质量数字文本不仅方便阅读，还能支持全文检索、版本比较、跨语言精读、
-数字人文研究和 AI 辅助分析。未来的 AI 工具是否可靠，很大程度上取决于它们使用的文本是否
-完整、结构清楚、来源可追溯。这个项目希望提供的是 **AI-ready 的研究基础**，而不是把模型
-回答当作哲学结论，也不默认所有材料都可以用于模型训练。
+High-quality digital texts support reading, full-text search, version comparison, cross-language
+close reading, digital humanities, and AI-assisted analysis. The project aims to provide
+**AI-ready research infrastructure**, not to treat model answers as philosophical conclusions or to
+assume that all material is licensed for model training.
 
-中文翻译的目标不是追求快速覆盖，而是形成能够回到具体原文、版本和章节的学习与研究成果。
-译文不能替代作者原语言文本，但会把数字化基础真正转化为中文世界可以持续使用的哲学资源。
+We welcome help from:
 
-目前希望找到不同背景的参与者：
+- philosophers and historians of ideas who can assess works, contexts, and intellectual relations;
+- readers of Russian, Latin, German, Dutch, Chinese, and other relevant languages;
+- librarians, archivists, and bibliographers who can improve edition and holdings records;
+- textual scholars and digitization reviewers who can check chapters, pages, notes, formulae,
+  variants, and OCR risks;
+- software, knowledge-engineering, and digital-humanities contributors who can improve structured
+  corpora, search, indexing, and validation;
+- Chinese translators and terminology researchers working closely from Ilyenkov's originals;
+- readers who can report unclear passages, broken links, missing pages, and difficult terminology.
 
-- 哲学与思想史研究者：判断作品重要性、人物关系和版本语境；
-- 熟悉俄语、拉丁语、德语、荷兰语或其他语言的人：核对原文、题名和译本；
-- 图书馆、档案和书目研究者：补充版本、馆藏和出版记录；
-- 文本校勘与数字化参与者：检查章节、页码、脚注、公式、异文和 OCR 风险；
-- 软件、知识工程与数字人文研究者：改进结构化语料、检索、索引和质量验证；
-- 中文翻译与术语研究参与者：长期推进伊里因科夫译文、译本校勘和概念比较；
-- 普通学习者：报告阅读问题、断链、缺页和难以理解的术语。
+Project infrastructure, original documentation, and factual metadata are open by default. Third-party
+texts, translations, scans, and media are released file by file only after rights status and SHA-256
+checks. Unprocessed scans do not masquerade as verified digital text, unverified OCR does not enter
+the core corpus, and public availability does not automatically grant model-training permission.
 
-项目基础设施、原创文档和事实性元数据默认开放。第三方全文、译文、扫描件和媒体按具体
-文件逐项核验权利状态与 SHA-256 后开放。未处理扫描件不冒充数字化正文，未经人工校验的
-OCR 不进入核心语料，公开资格也不自动代表模型训练许可。
+The public repository has released a first rights-reviewed group of Spinoza Latin and Dutch
+materials from Wikisource and DBNL. Public release means that those specific files have a recorded
+redistribution basis; it does not mean that the texts are critically edited or fully collated.
 
-公开仓库目前已经发布首批通过权利审核的斯宾诺莎拉丁文和荷兰文材料，包括来自
-Wikisource 与 DBNL 的文本。公开表示这些具体文件具备可记录的再分发依据，并不表示它们
-已经完成版本校勘。苏联哲学家材料仍按作品和版本逐项核查，不以“网上能够下载”代替授权。
+Repository: <https://github.com/hoshF/ilyenkov-archive>
 
-项目采用分层许可：代码和工具使用 MIT，项目原创文档使用 CC BY-SA 4.0，事实性元数据
-使用 CC0 1.0；第三方文本保留各自权利状态。权利说明和每项公开文件的审核依据均可在公开
-仓库核查。
+Discussions: <https://github.com/hoshF/ilyenkov-archive/discussions>
 
-项目地址：<https://github.com/hoshF/ilyenkov-archive>
+Telegram: <https://t.me/+Bmk9X1lnUY45ZjJl>
 
-讨论区：<https://github.com/hoshF/ilyenkov-archive/discussions>
+Good first contributions include:
 
-Telegram：<https://t.me/+Bmk9X1lnUY45ZjJl>
+- verifying one work's edition, holdings, or responsibility statement;
+- checking one source link or rights statement;
+- comparing existing Markdown against scan pages for pagination, notes, or variants;
+- discussing an Ilyenkov term or reviewing a short Chinese translation excerpt;
+- improving metadata validation, public export, search, or digital-humanities tooling.
 
-如果你对某位哲学家、某种语言、文献数字化、知识检索或 AI 辅助研究感兴趣，都可以从一条
-书目、一个来源链接、一处文本问题或一个小工具开始参与。当前尤其适合认领的工作包括：
+## Publication Log
 
-- 核对一部作品的版本、馆藏和责任形式；
-- 检查一条来源链接或权利声明；
-- 对照扫描本抽查已有 Markdown 的页码、脚注和异文；
-- 讨论伊里因科夫术语或校订一小段中文译文；
-- 改进元数据校验、公开导出、检索和数字人文工具。
-
-## 发布记录
-
-| 日期 | 平台 | 链接 | 备注 |
+| Date | Platform | Link | Notes |
 |---|---|---|---|
 | | | | |

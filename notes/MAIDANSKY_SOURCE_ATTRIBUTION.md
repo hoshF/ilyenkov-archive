@@ -1,10 +1,10 @@
 ---
-title: "Maidansky Website Source Attribution / 迈丹斯基网站来源归属"
+title: "Maidansky Website Source Attribution"
 created: "2026-06-17"
 updated: "2026-06-22"
 type: "project"
 tags: ["source-attribution", "maidansky", "ilyenkov", "filorus"]
-language: "en-zh"
+language: "en"
 collection: "corpus-metadata"
 llm_wiki_eligible: "true"
 gbrain_source: "project-markdown"
@@ -32,9 +32,3 @@ accessible historical URL and identify it as a historical exception in the visib
 
 `caute_ru_markdown/` remains unchanged because it is an acquisition-history path used by slugs,
 manifests, and existing references. It no longer identifies the recommended citation host.
-
-## 中文摘要
-
-迈丹斯基已不再拥有 `caute.ru`。引用其网站上的伊里因科夫文本时，应使用
-`filorus.ru/ilyenkov` 并在可见来源说明中添加 `(at the website by Andrey Maidansky)`。
-`caute_ru_markdown/` 仅作为历史路径保留，不代表当前推荐引用入口。

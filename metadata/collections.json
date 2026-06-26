@@ -78,7 +78,7 @@
       "scan_manifest": null,
       "works_manifest": "caute_ru_markdown/metadata/ilyenkov_catalog_manifest.json",
       "bibliography_paths": [],
-      "source_survey": "notes/REPOSITORY_STATUS_FOR_CLAUDE.md",
+      "source_survey": "caute_ru_markdown/README.md",
       "gbrain_tracked": true,
       "default_text_role": "author_original",
       "default_language": "ru",

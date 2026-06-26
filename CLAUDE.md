@@ -1,15 +1,15 @@
 ---
-title: "Claude / AI 入口指针"
+title: "Claude / AI Entry Pointer"
 created: "2026-06-17"
-updated: "2026-06-21"
+updated: "2026-06-26"
 type: "agent-guide"
 tags: ["agents", "entry-point", "pointer"]
-language: "zh"
+language: "en"
 collection: "project-documentation"
 llm_wiki_eligible: "true"
 gbrain_source: "project-markdown"
 ---
 
-# Claude / AI 入口
+# Claude / AI Entry
 
-请先阅读 [AGENTS.md](AGENTS.md)。它是本仓库唯一权威的 AI/Agent 操作指南。
+Read [AGENTS.md](AGENTS.md) first. It is the single authoritative AI and agent operations guide for this repository.

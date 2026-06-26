@@ -4,7 +4,7 @@ created: "2026-06-11"
 updated: "2026-06-22"
 type: "project"
 tags: ["corpus", "resolver", "gbrain"]
-language: "en-zh"
+language: "en"
 collection: "project-documentation"
 llm_wiki_eligible: "true"
 gbrain_source: "project-markdown"
@@ -48,9 +48,3 @@ of truth for people and paths.
     `manage_collections.py sync`.
 
 See [Source Policy](notes/PHILOSOPHY_SOURCE_FORMAT_POLICY.md).
-
-## 中文摘要
-
-使用语料前先确认文本角色。作者原语言文本优先于现代译文；扫描件只作为版本证据；数字化
-中间文件不进入 GBrain 或公开导出。新增人物和路径必须登记到中央注册表，不要复制正文建立
-第二套语料目录。

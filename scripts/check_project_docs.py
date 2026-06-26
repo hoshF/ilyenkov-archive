@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""检查当前项目、AI 入口和社区文档的一致性。"""
+"""Check consistency of project, AI entry, and community documentation."""
 
 from __future__ import annotations
 
@@ -15,6 +15,7 @@ from prepare_gbrain_markdown import parse_front_matter
 
 ROOT = Path(__file__).resolve().parents[1]
 OLD_PROJECT_NAME = "伊里因科夫中文学习与翻译资料库"
+HAN_RE = re.compile(r"[\u4e00-\u9fff]")
 CURRENT_DOCS = (
     "README.md",
     "RIGHTS.md",
@@ -33,13 +34,13 @@ CURRENT_DOCS = (
     "oizerman_markdown/README.md",
     "kopnin_markdown/README.md",
     "notes/COLLECTION_ARCHITECTURE.md",
-    "notes/REPOSITORY_STATUS_FOR_CLAUDE.md",
-    "notes/KEDROV_COLLECTION_STATUS_FOR_CLAUDE.md",
+    "notes/CORPUS_GAPS.md",
     "notes/KEDROV_SOURCE_SURVEY.md",
     "notes/KOPNIN_SOURCE_SURVEY.md",
     "notes/OIZERMAN_SOURCE_SURVEY.md",
     "notes/MAIDANSKY_SOURCE_ATTRIBUTION.md",
     "notes/ORIGINAL_LANGUAGE_AI_READING.md",
+    "notes/OPERATIONS_CHECKLIST.md",
     "notes/SCAN_DIGITIZATION_WORKFLOW.md",
     "spinoza_markdown/metadata/source_audit.md",
     "notes/community/DISCUSSIONS.md",
@@ -47,113 +48,111 @@ CURRENT_DOCS = (
     "notes/community/RECRUITMENT_POST.md",
     "translation_workspace/README.md",
 )
+CHINESE_ALLOWED_DOCS = (
+    "TRANSLATION_PLAN.md",
+    "translation_workspace/README.md",
+    "existing_translations/README.md",
+    "idols_ideals/README.md",
+    "dialectical_logic/README.md",
+    "notes/STYLE_GUIDE.md",
+    "notes/TERMS.md",
+    "notes/READING_NOTES.md",
+)
 MISSION_REQUIREMENTS = {
     "README.md": (
         "# Ilyenkov Philosophy Text Archive",
         "## Collections",
         "## Chinese Translation And Close Reading",
-        "## 中文摘要",
     ),
     "GOVERNANCE.md": (
         "# Project Governance",
         "## Mission",
         "Chinese translation",
-        "## 中文摘要",
     ),
     "CONTRIBUTING.md": (
         "# Contributing",
         "## Useful Contributions",
         "Chinese translation",
-        "## 中文摘要",
     ),
-    "LLM_WIKI.md": ("# LLM Wiki", "## Operating Principles", "## 中文摘要"),
-    "RESOLVER.md": ("# Corpus Resolver", "## Routing", "## 中文摘要"),
+    "LLM_WIKI.md": ("# LLM Wiki", "## Operating Principles"),
+    "RESOLVER.md": ("# Corpus Resolver", "## Routing"),
     "COLLECTION_STATUS.md": (
         "# Philosopher Text Collection Status",
         "## Stage Notes",
-        "## 中文说明",
     ),
     "caute_ru_markdown/README.md": (
         "# Ilyenkov / Maidansky Markdown Archive",
-        "## 中文摘要",
     ),
     "maidansky_markdown/README.md": (
         "# Andrey Maidansky Academia.edu Source Archive",
-        "## 中文摘要",
     ),
     "spinoza_markdown/README.md": (
         "# Spinoza Original-Language Markdown Archive",
-        "## 中文摘要",
     ),
     "kedrov_markdown/README.md": (
         "# Bonifaty Kedrov Philosophy Text Archive",
-        "## 中文摘要",
     ),
     "oizerman_markdown/README.md": (
         "# Teodor Oizerman Philosophy Text Archive",
-        "## 中文摘要",
     ),
     "kopnin_markdown/README.md": (
         "# Pavel Kopnin Philosophy Text Archive",
-        "## 中文摘要",
     ),
     "notes/COLLECTION_ARCHITECTURE.md": (
         "# Collection Architecture And Extension Guide",
         "## Standard Person Layout",
-        "## 中文摘要",
     ),
     "notes/PHILOSOPHY_SOURCE_FORMAT_POLICY.md": (
         "# Philosophical Text Source, OCR Admission, And Publication Policy",
         "## OCR Admission Gate",
-        "## 中文摘要",
     ),
     "notes/SCAN_DIGITIZATION_WORKFLOW.md": (
         "# Scan Digitization Workflow",
         "## 3. Standard Workflow",
-        "## 中文摘要",
     ),
     "notes/ORIGINAL_LANGUAGE_AI_READING.md": (
         "# Original-Language Priority And AI-Assisted Reading",
         "## Limits Of AI",
-        "## 中文摘要",
     ),
     "notes/MAIDANSKY_SOURCE_ATTRIBUTION.md": (
         "# Maidansky Website Source Attribution",
-        "## 中文摘要",
     ),
     "notes/KEDROV_SOURCE_SURVEY.md": (
         "# B. M. Kedrov Text Source Survey",
         "## Current Processing Order",
-        "## 中文摘要",
     ),
     "notes/KOPNIN_SOURCE_SURVEY.md": (
         "# P. V. Kopnin Text Source Survey",
         "## Unresolved Gaps",
-        "## 中文摘要",
     ),
     "notes/OIZERMAN_SOURCE_SURVEY.md": (
         "# T. I. Oizerman Text Source Survey",
         "## Four-Volume `Теория познания`",
-        "## 中文摘要",
     ),
-    "AGENTS.md": ("原典数字化与研究平台面向全球", "中文翻译与精读计划"),
-    "notes/REPOSITORY_STATUS_FOR_CLAUDE.md": (
-        "原典数字化与研究平台面向全球",
-        "中文翻译与精读计划",
+    "notes/CORPUS_GAPS.md": (
+        "# Corpus Gaps Registry",
+        "## Kedrov",
+        "## Spinoza",
     ),
+    "notes/OPERATIONS_CHECKLIST.md": (
+        "# Operations Checklist",
+        "## 1. Adding Corpus Markdown",
+        "## 2. Adding Source Scans",
+        "## 3. Public Release",
+    ),
+    "AGENTS.md": ("source-text digitization and research platform", "Chinese translation"),
     "TRANSLATION_PLAN.md": ("长期重点", "伊里因科夫", "选择性翻译"),
     "notes/community/DISCUSSIONS.md": (
         "AI-ready source-text digitization and research platform",
         "Chinese translation",
         "close-reading program",
-        "原典数字化与研究平台",
     ),
     "notes/community/RECRUITMENT_PLATFORMS.md": (
         "AI-ready source-text digitization and research platform",
         "Chinese translation",
         "close-reading program",
     ),
-    "notes/community/RECRUITMENT_POST.md": ("AI-ready", "原典数字化与研究平台"),
+    "notes/community/RECRUITMENT_POST.md": ("AI-ready", "source-text digitization"),
 }
 LICENSE_FILES = (
     "LICENSE",
@@ -177,90 +176,90 @@ COLLABORATION_FILES = (
 METADATA_REQUIREMENTS = {
     "AGENTS.md": {
         "type": "agent-guide",
-        "language": "zh",
+        "language": "en",
         "collection": "project-documentation",
         "tags": ("agents", "navigation"),
         "updated": True,
     },
     "CONTRIBUTING.md": {
         "type": "project",
-        "language": "en-zh",
+        "language": "en",
         "collection": "project-documentation",
         "tags": ("project", "documentation", "contributing"),
         "updated": True,
     },
     "GOVERNANCE.md": {
         "type": "project",
-        "language": "en-zh",
+        "language": "en",
         "collection": "project-documentation",
         "tags": ("project", "documentation", "governance"),
         "updated": True,
     },
     "LLM_WIKI.md": {
         "type": "project",
-        "language": "en-zh",
+        "language": "en",
         "collection": "project-documentation",
         "tags": ("llm-wiki", "gbrain"),
         "updated": True,
     },
     "RESOLVER.md": {
         "type": "project",
-        "language": "en-zh",
+        "language": "en",
         "collection": "project-documentation",
         "tags": ("corpus", "resolver"),
         "updated": True,
     },
     "COLLECTION_STATUS.md": {
         "type": "project",
-        "language": "en-zh",
+        "language": "en",
         "collection": "project-documentation",
         "tags": ("collections", "status", "corpus"),
     },
     "caute_ru_markdown/README.md": {
         "type": "project",
-        "language": "en-zh",
+        "language": "en",
         "collection": "project-documentation",
         "tags": ("project", "documentation"),
         "updated": True,
     },
     "maidansky_markdown/README.md": {
         "type": "project",
-        "language": "en-zh",
+        "language": "en",
         "collection": "project-documentation",
         "tags": ("maidansky", "source-archive"),
         "updated": True,
     },
     "spinoza_markdown/README.md": {
         "type": "project",
-        "language": "en-zh",
+        "language": "en",
         "collection": "project-documentation",
         "tags": ("project", "documentation"),
         "updated": True,
     },
     "kedrov_markdown/README.md": {
         "type": "project",
-        "language": "en-zh",
+        "language": "en",
         "collection": "project-documentation",
         "tags": ("kedrov", "source-archive"),
         "updated": True,
     },
     "oizerman_markdown/README.md": {
         "type": "project",
-        "language": "en-zh",
+        "language": "en",
         "collection": "project-documentation",
         "tags": ("oizerman", "source-archive"),
         "updated": True,
     },
     "kopnin_markdown/README.md": {
         "type": "project",
-        "language": "en-zh",
+        "language": "en",
         "collection": "project-documentation",
         "tags": ("kopnin", "source-archive"),
         "updated": True,
     },
     "RIGHTS.md": {
         "type": "project",
-        "language": "en-zh",
+        "language": "en",
         "collection": "project-documentation",
         "tags": ("rights", "licensing"),
     },
@@ -273,77 +272,91 @@ METADATA_REQUIREMENTS = {
     },
     "notes/PHILOSOPHY_SOURCE_FORMAT_POLICY.md": {
         "type": "project",
-        "language": "en-zh",
+        "language": "en",
         "collection": "project-documentation",
         "tags": ("source-policy", "copyright"),
         "updated": True,
     },
     "notes/COLLECTION_ARCHITECTURE.md": {
         "type": "project",
-        "language": "en-zh",
+        "language": "en",
         "collection": "project-documentation",
         "tags": ("collections", "architecture"),
         "updated": True,
     },
+    "notes/OPERATIONS_CHECKLIST.md": {
+        "type": "project",
+        "language": "en",
+        "collection": "project-documentation",
+        "tags": ("operations", "checklist", "maintenance"),
+        "updated": True,
+    },
     "notes/SCAN_DIGITIZATION_WORKFLOW.md": {
         "type": "project",
-        "language": "en-zh",
+        "language": "en",
         "collection": "project-documentation",
         "tags": ("source-scan", "ocr", "workflow"),
         "updated": True,
     },
     "notes/ORIGINAL_LANGUAGE_AI_READING.md": {
         "type": "note",
-        "language": "en-zh",
+        "language": "en",
         "collection": "research-notes",
         "tags": ("research-note",),
         "updated": True,
     },
     "notes/MAIDANSKY_SOURCE_ATTRIBUTION.md": {
         "type": "project",
-        "language": "en-zh",
+        "language": "en",
         "collection": "corpus-metadata",
         "tags": ("source-attribution", "maidansky", "filorus"),
         "updated": True,
     },
     "notes/KEDROV_SOURCE_SURVEY.md": {
         "type": "analysis",
-        "language": "en-zh",
+        "language": "en",
         "collection": "corpus-metadata",
         "tags": ("kedrov", "source-metadata"),
         "updated": True,
     },
     "notes/KOPNIN_SOURCE_SURVEY.md": {
         "type": "analysis",
-        "language": "en-zh",
+        "language": "en",
         "collection": "corpus-metadata",
         "tags": ("kopnin", "source-metadata"),
         "updated": True,
     },
     "notes/OIZERMAN_SOURCE_SURVEY.md": {
         "type": "analysis",
-        "language": "en-zh",
+        "language": "en",
         "collection": "corpus-metadata",
         "tags": ("oizerman", "source-metadata"),
         "updated": True,
     },
+    "notes/CORPUS_GAPS.md": {
+        "type": "analysis",
+        "language": "en",
+        "collection": "corpus-metadata",
+        "tags": ("corpus", "gaps"),
+        "updated": True,
+    },
     "notes/community/DISCUSSIONS.md": {
         "type": "note",
-        "language": "en-zh",
+        "language": "en",
         "collection": "research-notes",
         "tags": ("community", "discussions", "recruitment"),
         "updated": True,
     },
     "notes/community/RECRUITMENT_POST.md": {
         "type": "note",
-        "language": "zh",
+        "language": "en",
         "collection": "research-notes",
         "tags": ("community", "recruitment", "digitization"),
         "updated": True,
     },
     "notes/community/RECRUITMENT_PLATFORMS.md": {
         "type": "note",
-        "language": "en-zh",
+        "language": "en",
         "collection": "research-notes",
         "tags": ("community", "recruitment", "outreach"),
         "updated": True,
@@ -365,18 +378,19 @@ DEPRECATED_TEXT = {
     "PDF 保存候选": "仍将已收录扫描件描述为候选",
     "建议新建独立的 `kedrov_markdown/`": "仍保留已完成的目录计划",
 }
-STATUS_DOCS = (
-    "notes/REPOSITORY_STATUS_FOR_CLAUDE.md",
-    "notes/KEDROV_COLLECTION_STATUS_FOR_CLAUDE.md",
-)
+STATUS_DOCS: tuple[str, ...] = ()
 STATUS_METRIC_PATTERNS = (
-    r"\b\d+\s+个活动页面",
     r"\b\d+\s+pages scanned",
     r"embedding\s+(?:coverage|100%)",
     r"stale\s*[=:]\s*\d+",
     r"markdown_total\s*=\s*\d+",
-    r"\b\d+\s+页数据库",
 )
+
+
+def controlled_documents() -> tuple[str, ...]:
+    return tuple(dict.fromkeys(
+        list(CURRENT_DOCS) + list(MISSION_REQUIREMENTS) + list(METADATA_REQUIREMENTS)
+    ))
 
 
 def markdown_body(text: str) -> str:
@@ -414,7 +428,7 @@ def claude_errors(root: Path) -> list[str]:
     nonempty = [line for line in body.splitlines() if line.strip()]
     if len(nonempty) > 4:
         errors.append("CLAUDE.md 只能作为简短入口指针")
-    if re.search(r"\b\d+(?:\.\d+)?\s*(?:GB|MB|个文件|页|pages)\b", body, re.IGNORECASE):
+    if re.search(r"\b\d+(?:\.\d+)?\s*(?:GB|MB|files?|个文件|页|pages)\b", body, re.IGNORECASE):
         errors.append("CLAUDE.md 不得写入易过期状态数字")
     return errors
 
@@ -427,11 +441,10 @@ def agents_errors(root: Path) -> list[str]:
     required = (
         "<!-- AGENTS-AUTO:BEGIN -->",
         "<!-- AGENTS-AUTO:END -->",
-        "<!-- AGENTS-LIVE:BEGIN -->",
-        "<!-- AGENTS-LIVE:END -->",
         "metadata/collections.json",
         "COLLECTION_STATUS.md",
         "notes/COLLECTION_ARCHITECTURE.md",
+        "notes/OPERATIONS_CHECKLIST.md",
         "scripts/manage_collections.py",
         "scripts/check_project_docs.py",
     )
@@ -502,6 +515,26 @@ def deprecated_text_errors(
     return errors
 
 
+def english_only_errors(root: Path, documents: tuple[str, ...] | None = None) -> list[str]:
+    errors: list[str] = []
+    checked = documents or controlled_documents()
+    allowed = set(CHINESE_ALLOWED_DOCS)
+    for relative in checked:
+        if relative in allowed:
+            continue
+        path = root / relative
+        if not path.is_file() or path.suffix.lower() != ".md":
+            continue
+        text = path.read_text(encoding="utf-8")
+        if 'language: "zh"' in text or 'language: "en-zh"' in text:
+            errors.append(f"{relative}: project documentation must use language: \"en\"")
+        if "中文摘要" in text or "中文说明" in text:
+            errors.append(f"{relative}: remove Chinese summary sections from project documentation")
+        if HAN_RE.search(text):
+            errors.append(f"{relative}: project documentation must be English-only")
+    return errors
+
+
 def licensing_errors(root: Path) -> list[str]:
     errors: list[str] = []
     for relative in LICENSE_FILES:
@@ -521,9 +554,9 @@ def licensing_errors(root: Path) -> list[str]:
         if value not in root_license:
             errors.append(f"LICENSE 缺少分层许可边界: {value}")
     rights = (root / "RIGHTS.md").read_text(encoding="utf-8")
-    for value in ("## English", "## 中文", "SHA-256", "model training", "模型训练"):
+    for value in ("# Rights and Licensing", "SHA-256", "model training", "layered licensing"):
         if value not in rights:
-            errors.append(f"RIGHTS.md 缺少权利说明: {value}")
+            errors.append(f"RIGHTS.md missing rights statement: {value}")
     policy = json.loads((root / "metadata/licensing_policy.json").read_text(encoding="utf-8"))
     expected = {
         "software": "MIT",
@@ -643,7 +676,7 @@ def metadata_errors(root: Path) -> list[str]:
 
 def check(root: Path = ROOT) -> list[str]:
     errors: list[str] = []
-    errors.extend(local_link_errors(root))
+    errors.extend(local_link_errors(root, controlled_documents()))
     errors.extend(claude_errors(root))
     errors.extend(agents_errors(root))
     errors.extend(terminology_errors(root))
@@ -651,6 +684,7 @@ def check(root: Path = ROOT) -> list[str]:
     errors.extend(mission_errors(root))
     errors.extend(public_entry_errors(root))
     errors.extend(deprecated_text_errors(root))
+    errors.extend(english_only_errors(root))
     errors.extend(licensing_errors(root))
     errors.extend(collaboration_errors(root))
     errors.extend(citation_errors(root))

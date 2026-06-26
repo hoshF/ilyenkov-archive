@@ -1,10 +1,10 @@
 ---
-title: "Original-Language Priority And AI-Assisted Reading / 原文优先与 AI 阅读方法"
+title: "Original-Language Priority And AI-Assisted Reading"
 created: "2026-06-11"
 updated: "2026-06-22"
 type: "note"
 tags: ["research-note"]
-language: "en-zh"
+language: "en"
 collection: "research-notes"
 llm_wiki_eligible: "true"
 gbrain_source: "project-markdown"
@@ -59,9 +59,3 @@ source has been checked page by page. Human-verified authorial-language OCR may 
 The strict core and the broader historically useful LLM Wiki are therefore different scopes. When
 the authorial language is uncertain or the original is lost, record that uncertainty and classify
 the surviving witness honestly.
-
-## 中文摘要
-
-项目以作者原语言文本为认识论锚点，同时允许来源可考的早期译本、抄本和历史见证作为独立
-语料层。AI 可用于检索、比较和动态解释，但不是权威文本。所有回答都应回到具体来源、版本和
-段落；不确定性、异文与推断必须明确标注。

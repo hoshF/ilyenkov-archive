@@ -1,10 +1,10 @@
 ---
-title: "Collection Architecture And Extension Guide / 哲学家集合架构与扩展规范"
+title: "Collection Architecture And Extension Guide"
 created: "2026-06-21"
 updated: "2026-06-22"
 type: "project"
 tags: ["collections", "architecture", "corpus", "maintenance"]
-language: "en-zh"
+language: "en"
 collection: "project-documentation"
 llm_wiki_eligible: "true"
 gbrain_source: "project-markdown"
@@ -87,10 +87,3 @@ translation_workspace/<stage>/<author_id>/<work_id>/
 Each project keeps `translation.json` with the source path, version, and SHA-256. The schema and
 template are `metadata/schemas/translation_project.schema.json` and
 `translation_workspace/templates/translation.json`.
-
-## 中文摘要
-
-`metadata/collections.json` 是人物、集合和路径配置的中央事实来源。新增人物必须使用
-`manage_collections.py add-person` 创建标准目录，不复制历史目录。数字化项目与翻译项目均
-按作品隔离保存；扫描件、正文、书目和元数据必须分层，数字化中间文件不进入 GBrain 或公开
-导出。

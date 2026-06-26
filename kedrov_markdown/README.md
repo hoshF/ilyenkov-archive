@@ -1,10 +1,10 @@
 ---
-title: "Bonifaty Kedrov Philosophy Text Archive / 凯德洛夫哲学文本资料库"
+title: "Bonifaty Kedrov Philosophy Text Archive"
 created: "2026-06-11"
 updated: "2026-06-22"
 type: "project"
 tags: ["kedrov", "philosophy", "russian", "source-archive"]
-language: "en-zh"
+language: "en"
 collection: "project-documentation"
 llm_wiki_eligible: "true"
 gbrain_source: "project-markdown"
@@ -49,9 +49,3 @@ assessment, but are not presented as a critical edition or approved public text.
 python3 kedrov_markdown/scripts/kedrov_royallib_convert.py
 python3 kedrov_markdown/scripts/kedrov_royallib_convert.py --check
 ```
-
-## 中文摘要
-
-本目录保存凯德洛夫的俄文 Markdown、未处理扫描件和来源元数据。现有正文来自 RoyalLib
-真实 HTML，但来源未声明开放许可证，因此不自动进入公开导出。PDF/DjVu 只作为版本资料保存，
-不执行 OCR，也不进入正文或 GBrain。

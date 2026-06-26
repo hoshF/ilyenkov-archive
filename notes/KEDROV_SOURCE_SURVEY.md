@@ -1,10 +1,10 @@
 ---
-title: "B. M. Kedrov Text Source Survey / 凯德洛夫哲学文本来源调查"
+title: "B. M. Kedrov Text Source Survey"
 created: "2026-06-11"
 updated: "2026-06-22"
 type: "analysis"
 tags: ["kedrov", "source-metadata", "dialectics", "philosophy-of-science"]
-language: "en-zh"
+language: "en"
 collection: "corpus-metadata"
 llm_wiki_eligible: "true"
 gbrain_source: "project-markdown"
@@ -123,9 +123,3 @@ Identity and bibliography references:
 Kedrov died in 1985, and no located source states an open license. A complaints process does not
 grant downstream redistribution. Full text remains excluded from public export until a rights
 review approves the exact file.
-
-## 中文摘要
-
-调查确认三部 RoyalLib 真实 HTML 已转换为 Markdown，六份 PDF/DjVu 作为未处理扫描件保存。
-Internet Archive 的 OCR 派生 EPUB 和文本层不作为正文来源。凯德洛夫著作仍受版权保护，
-现有来源未声明明确开放许可，因此正文和扫描件均不自动进入公开导出。

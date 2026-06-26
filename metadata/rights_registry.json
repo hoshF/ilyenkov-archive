@@ -3,23 +3,6 @@
   "generated_at": "2026-06-22",
   "items": [
     {
-      "id": "asset-ilyenkov-portrait",
-      "path": "assets/images/ilyenkov-portrait.jpg",
-      "sha256": "96c28ba8915116ec7bbb18746ed7d32e80432a477814d1c1dd705943fdfc5d24",
-      "content_category": "media",
-      "rights_basis": "permission",
-      "license_expression": "Permission for project redistribution",
-      "source_rights_statement": "Repository owner supplied the image and asserted that it is free of copyright restrictions.",
-      "evidence_urls": [
-        "urn:ilyenkov-archive:owner-attestation:portrait-2026-06-12"
-      ],
-      "attribution": "Portrait of E. V. Ilyenkov; source supplied by the repository owner.",
-      "reviewed_by": "repository owner",
-      "reviewed_date": "2026-06-12",
-      "redistribution_approved": true,
-      "review_note": "Migrated from metadata/public_assets_manifest.json."
-    },
-    {
       "id": "spinoza-wikisource-latin-ethica-elements",
       "path": "spinoza_markdown/metadata/ethica_elements.json",
       "sha256": "917efa51ef01d1f3d615e34d6b460666355f27a4b68b6c318e96454b6a5725ad",

@@ -4,7 +4,7 @@ created: "2026-06-11"
 updated: "2026-06-22"
 type: "project"
 tags: ["ilyenkov", "spinoza", "llm-wiki", "gbrain"]
-language: "en-zh"
+language: "en"
 collection: "project-documentation"
 llm_wiki_eligible: "true"
 gbrain_source: "project-markdown"
@@ -80,11 +80,4 @@ python3 scripts/prepare_gbrain_markdown.py --check
 - Cite Maidansky-hosted Ilyenkov texts through
   `http://filorus.ru/ilyenkov/... (at the website by Andrey Maidansky)`.
 
-See [Source Policy](notes/PHILOSOPHY_SOURCE_FORMAT_POLICY.md) and
-[Extraction Diagnosis](notes/EXTRACTION_DIAGNOSIS.md).
-
-## 中文摘要
-
-本项目使用 GBrain 建立可重建的 LLM Wiki 索引，但 Markdown、manifest 和 Git 始终是事实
-来源。原文、译文、研究文本和 AI 内容必须保持角色区分；扫描件、数字化中间文件和未经完整
-人工校验的 OCR 不进入索引。GBrain 的回答是研究入口，不是学术权威，也不代表模型训练许可。
+See [Source Policy](notes/PHILOSOPHY_SOURCE_FORMAT_POLICY.md).

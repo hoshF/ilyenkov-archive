@@ -1,10 +1,10 @@
 ---
-title: "Philosophical Text Source, OCR Admission, And Publication Policy / 哲学文本来源、OCR 准入与发布政策"
+title: "Philosophical Text Source, OCR Admission, And Publication Policy"
 created: "2026-06-11"
 updated: "2026-06-22"
 type: "project"
 tags: ["source-policy", "markdown", "source-scan", "ocr-gate", "copyright"]
-language: "en-zh"
+language: "en"
 collection: "project-documentation"
 llm_wiki_eligible: "true"
 gbrain_source: "project-markdown"
@@ -130,10 +130,3 @@ Physical paths express authorship and text role, not copyright. Rights are contr
 
 Important works available only as scans, controlled loans, or inadequate sources are recorded in
 `notes/CORPUS_GAPS.md` with importance, format, reason for absence, last check date, and source URL.
-
-## 中文摘要
-
-核心语料只接受经过人工确认的作者原语言文本。项目未明确启动某部作品前，不执行 OCR，也
-不使用 PDF/DjVu 派生文本层。扫描件默认只作版本证据；OCR 只有在全书逐页人工校验、完整
-manifest 和哈希验证通过后才能升级为 `author_original`。本地检索资格、公开再分发许可和
-模型训练许可相互独立，受控文件必须通过中央权利注册表逐项审核。

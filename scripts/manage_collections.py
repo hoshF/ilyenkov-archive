@@ -95,11 +95,11 @@ def status_markdown(root: Path) -> str:
     people = person_map(data)
     lines = [
         "---",
-        'title: "Philosopher Text Collection Status / 哲学家文本收藏状态"',
+        'title: "Philosopher Text Collection Status"',
         'created: "2026-06-21"',
         'type: "project"',
         'tags: ["collections", "status", "corpus"]',
-        'language: "en-zh"',
+        'language: "en"',
         'collection: "project-documentation"',
         'llm_wiki_eligible: "true"',
         'gbrain_source: "project-markdown"',
@@ -134,7 +134,7 @@ def status_markdown(root: Path) -> str:
         )
         lines.append(
             "| {person} | {collection} | `{stage}` | {markdown} | {scans} | {size} | {works} | {updated} |".format(
-                person=f"{person['name_latin']} / {person['name_zh']}",
+                person=person["name_latin"],
                 collection=collection_label,
                 stage=collection["stage"],
                 markdown=markdown_count(root, collection.get("corpus_paths", [])),
@@ -153,11 +153,6 @@ def status_markdown(root: Path) -> str:
             "- `markdown_and_scans`: the collection contains both Markdown and unprocessed scans.",
             "- `source_scans`: bibliography and scans exist, but verified digital text does not.",
             "- Historical layouts retain their paths; new people use the standard collection layout.",
-            "",
-            "## 中文说明",
-            "",
-            "本页由中央注册表和各集合 manifest 自动生成。扫描件数量只表示已保存的版本资料，",
-            "不表示已经完成正文数字化、人工校验或公开授权。",
             "",
         ]
     )
@@ -334,12 +329,12 @@ def scaffold_person(root: Path, args: argparse.Namespace) -> None:
 
     (author_root / "README.md").write_text(
         "---\n"
-        f'title: "{args.name_latin} Philosophy Text Archive / {args.name_zh}哲学文本资料库"\n'
+        f'title: "{args.name_latin} Philosophy Text Archive"\n'
         f'created: "{args.date}"\n'
         f'updated: "{args.date}"\n'
         'type: "project"\n'
         f'tags: ["{args.id}", "philosophy", "source-archive"]\n'
-        'language: "en-zh"\n'
+        'language: "en"\n'
         'collection: "project-documentation"\n'
         'llm_wiki_eligible: "true"\n'
         'gbrain_source: "project-markdown"\n'
@@ -349,10 +344,7 @@ def scaffold_person(root: Path, args: argparse.Namespace) -> None:
         f"provenance metadata for {args.name_latin} ({args.name_original}).\n\n"
         f"Relationship to the project: {args.relation}.\n\n"
         "The directory uses the standard collection layout. Searchable text, unprocessed scans, "
-        "bibliography, and metadata must remain separate.\n\n"
-        "## 中文摘要\n\n"
-        f"本目录保存{args.name_zh}（{args.name_original}）的原语言文本、书目、扫描件和来源元数据。"
-        "正文、未处理扫描件、书目与元数据必须分层保存。\n",
+        "bibliography, and metadata must remain separate.\n",
         encoding="utf-8",
     )
     write_json(

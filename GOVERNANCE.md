@@ -1,10 +1,10 @@
 ---
-title: "Project Governance / 项目章程"
+title: "Project Governance"
 created: "2026-06-12"
 updated: "2026-06-22"
 type: "project"
 tags: ["project", "documentation", "governance"]
-language: "en-zh"
+language: "en"
 collection: "project-documentation"
 llm_wiki_eligible: "true"
 gbrain_source: "project-markdown"
@@ -104,9 +104,3 @@ See [LICENSE](LICENSE) and [RIGHTS.md](RIGHTS.md).
 Rightsholders, authors, translators, editors, and source providers may request review or removal
 through the public issue tracker. Charter amendments are proposed by pull request and follow the
 decision process above.
-
-## 中文摘要
-
-本项目同时建设面向全球的原典数字化与研究平台，并长期推进以伊里因科夫为优先对象的中文
-翻译、术语研究和精读。项目坚持来源可追溯、权利可审计、过程可复查。完整工作仓库保持私有，
-公开内容只能通过权利门控导出；任何讨论形成结论后都应回流到仓库文件或元数据中。

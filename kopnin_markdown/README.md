@@ -1,10 +1,10 @@
 ---
-title: "Pavel Kopnin Philosophy Text Archive / 科普宁哲学文本资料库"
+title: "Pavel Kopnin Philosophy Text Archive"
 created: "2026-06-16"
 updated: "2026-06-22"
 type: "project"
 tags: ["kopnin", "philosophy", "russian", "source-archive"]
-language: "en-zh"
+language: "en"
 collection: "project-documentation"
 llm_wiki_eligible: "true"
 gbrain_source: "project-markdown"
@@ -54,9 +54,3 @@ leads and were not downloaded.
 
 Kopnin died in 1971 and the works remain protected. All scans default to
 `redistribution_approved: "false"` and stay outside GBrain and the public export.
-
-## 中文摘要
-
-本目录保存科普宁的作品主表、来源调查和 4 部核心俄文著作的未处理扫描件。
-《Диалектика как логика и теория познания》（1973）仍未找到合格扫描本。现有材料受版权
-保护，不进行 OCR、不进入 GBrain，也不进入公开导出。

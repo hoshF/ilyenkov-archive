@@ -17,11 +17,11 @@ class ProjectDocsTests(unittest.TestCase):
         with tempfile.TemporaryDirectory() as directory:
             root = Path(directory)
             (root / "CLAUDE.md").write_text(
-                "# Claude\n\n请读 [AGENTS.md](AGENTS.md)。仓库有 1000 个文件。\n",
+                "# Claude\n\nRead [AGENTS.md](AGENTS.md). The repository has 1000 files.\n",
                 encoding="utf-8",
             )
             errors = MODULE.claude_errors(root)
-            self.assertTrue(any("状态数字" in error for error in errors))
+            self.assertTrue(any("易过期状态数字" in error for error in errors))
 
     def test_agents_requires_generated_markers_and_navigation(self):
         with tempfile.TemporaryDirectory() as directory:
@@ -30,6 +30,23 @@ class ProjectDocsTests(unittest.TestCase):
             errors = MODULE.agents_errors(root)
             self.assertTrue(any("AGENTS-AUTO:BEGIN" in error for error in errors))
             self.assertTrue(any("metadata/collections.json" in error for error in errors))
+            self.assertFalse(any("AGENTS-LIVE" in error for error in errors))
+
+    def test_agents_accepts_stable_block_without_live_snapshot(self):
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            (root / "AGENTS.md").write_text(
+                "<!-- AGENTS-AUTO:BEGIN -->\n"
+                "<!-- AGENTS-AUTO:END -->\n"
+                "metadata/collections.json\n"
+                "COLLECTION_STATUS.md\n"
+                "notes/COLLECTION_ARCHITECTURE.md\n"
+                "notes/OPERATIONS_CHECKLIST.md\n"
+                "scripts/manage_collections.py\n"
+                "scripts/check_project_docs.py\n",
+                encoding="utf-8",
+            )
+            self.assertEqual(MODULE.agents_errors(root), [])
 
     def test_old_project_name_is_rejected(self):
         with tempfile.TemporaryDirectory() as directory:
@@ -50,15 +67,17 @@ class ProjectDocsTests(unittest.TestCase):
     def test_status_document_rejects_live_gbrain_metrics(self):
         with tempfile.TemporaryDirectory() as directory:
             root = Path(directory)
-            target = root / "notes/REPOSITORY_STATUS_FOR_CLAUDE.md"
-            target.parent.mkdir()
+            target = root / "status.md"
             target.write_text("embedding coverage 100%\n", encoding="utf-8")
-            other = root / "notes/KEDROV_COLLECTION_STATUS_FOR_CLAUDE.md"
-            other.write_text("现场查询。\n", encoding="utf-8")
-            errors = MODULE.status_snapshot_errors(root)
+            docs = MODULE.STATUS_DOCS
+            MODULE.STATUS_DOCS = ("status.md",)
+            try:
+                errors = MODULE.status_snapshot_errors(root)
+            finally:
+                MODULE.STATUS_DOCS = docs
             self.assertTrue(any("GBrain 实时指标" in error for error in errors))
 
-    def test_mission_requires_english_entry_and_chinese_summary(self):
+    def test_mission_requires_current_english_sections(self):
         with tempfile.TemporaryDirectory() as directory:
             root = Path(directory)
             path = root / "README.md"
@@ -69,14 +88,13 @@ class ProjectDocsTests(unittest.TestCase):
                     "# Ilyenkov Philosophy Text Archive",
                     "## Collections",
                     "## Chinese Translation And Close Reading",
-                    "## 中文摘要",
                 )
             }
             try:
                 errors = MODULE.mission_errors(root)
             finally:
                 MODULE.MISSION_REQUIREMENTS = requirements
-            self.assertEqual(len(errors), 4)
+            self.assertEqual(len(errors), 3)
 
     def test_root_readme_rejects_front_matter(self):
         with tempfile.TemporaryDirectory() as directory:
@@ -88,20 +106,20 @@ class ProjectDocsTests(unittest.TestCase):
             errors = MODULE.public_entry_errors(root)
             self.assertEqual(errors, ["README.md 不应包含 front matter"])
 
-    def test_public_policy_requires_english_body_and_chinese_summary(self):
+    def test_public_policy_requires_english_body(self):
         with tempfile.TemporaryDirectory() as directory:
             root = Path(directory)
             path = root / "policy.md"
             path.write_text("# Policy\n", encoding="utf-8")
             requirements = MODULE.MISSION_REQUIREMENTS
             MODULE.MISSION_REQUIREMENTS = {
-                "policy.md": ("# Source Policy", "## OCR Admission Gate", "## 中文摘要")
+                "policy.md": ("# Source Policy", "## OCR Admission Gate")
             }
             try:
                 errors = MODULE.mission_errors(root)
             finally:
                 MODULE.MISSION_REQUIREMENTS = requirements
-            self.assertEqual(len(errors), 3)
+            self.assertEqual(len(errors), 2)
 
     def test_deprecated_source_role_and_collection_status_are_rejected(self):
         with tempfile.TemporaryDirectory() as directory:
@@ -176,7 +194,7 @@ class ProjectDocsTests(unittest.TestCase):
             MODULE.METADATA_REQUIREMENTS = {
                 "doc.md": {
                     "type": "note",
-                    "language": "en-zh",
+                    "language": "en",
                     "collection": "research-notes",
                     "tags": ("community", "recruitment"),
                     "updated": True,
@@ -186,9 +204,40 @@ class ProjectDocsTests(unittest.TestCase):
                 errors = MODULE.metadata_errors(root)
             finally:
                 MODULE.METADATA_REQUIREMENTS = requirements
-            self.assertTrue(any("language 应为 en-zh" in error for error in errors))
+            self.assertTrue(any("language 应为 en" in error for error in errors))
             self.assertTrue(any("缺少用途标签: recruitment" in error for error in errors))
             self.assertTrue(any("缺少 updated" in error for error in errors))
+
+    def test_operations_checklist_metadata_is_registered(self):
+        expected = MODULE.METADATA_REQUIREMENTS["notes/OPERATIONS_CHECKLIST.md"]
+        self.assertEqual(expected["type"], "project")
+        self.assertEqual(expected["language"], "en")
+        self.assertEqual(expected["collection"], "project-documentation")
+        self.assertIn("operations", expected["tags"])
+        self.assertIn("checklist", expected["tags"])
+        self.assertIn("notes/OPERATIONS_CHECKLIST.md", MODULE.CURRENT_DOCS)
+
+    def test_english_only_rejects_han_in_project_docs(self):
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            path = root / "doc.md"
+            path.write_text(
+                '---\nlanguage: "en"\n---\n# Doc\n\n中文摘要\n',
+                encoding="utf-8",
+            )
+            errors = MODULE.english_only_errors(root, ("doc.md",))
+            self.assertTrue(any("remove Chinese summary" in error for error in errors))
+            self.assertTrue(any("English-only" in error for error in errors))
+
+    def test_english_only_allows_translation_layer_chinese(self):
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            path = root / "TRANSLATION_PLAN.md"
+            path.write_text(
+                '---\nlanguage: "zh"\n---\n# 翻译计划\n',
+                encoding="utf-8",
+            )
+            self.assertEqual(MODULE.english_only_errors(root, ("TRANSLATION_PLAN.md",)), [])
 
 
 if __name__ == "__main__":

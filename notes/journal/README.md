@@ -1,47 +1,51 @@
 ---
-title: "项目月报目录"
+title: "Project Journal Directory"
 created: "2026-06-12"
 type: "note"
 tags: ["research-note", "community"]
-language: "zh"
+language: "en"
 collection: "research-notes"
 llm_wiki_eligible: "true"
 gbrain_source: "project-markdown"
 ---
-# 项目月报目录
 
-每月一篇简短汇总，是松散协作不散架的最便宜机制。文件名 `YYYY-MM.md`，月初由维护者或轮值成员汇总上月内容；初期成员少，可以两三段写完，不必凑字数。
+# Project Journal Directory
 
-月报发布后同步到公开仓库 Discussions「公告」分类。
+Monthly notes provide a lightweight coordination mechanism. Use `YYYY-MM.md` filenames. At the
+start of each month, the maintainer or a rotating contributor summarizes the previous month. Early
+entries can stay short.
 
-## 月报模板
+After publication, cross-post the monthly note to the public repository Discussions announcements
+category.
+
+## Monthly Note Template
 
 ```markdown
 ---
-title: "项目月报 YYYY 年 M 月"
+title: "Project Journal YYYY-MM"
 created: "YYYY-MM-DD"
 type: "note"
 tags: ["research-note", "journal"]
-language: "zh"
+language: "en"
 collection: "research-notes"
 llm_wiki_eligible: "true"
 gbrain_source: "project-markdown"
 ---
-# 项目月报 YYYY 年 M 月
+# Project Journal YYYY-MM
 
-## 本月完成
+## Completed
 
-（做了什么：校对了哪些章节、定版了哪些术语、新增了哪些来源。附文件路径或 PR/issue 链接。）
+What changed: chapters checked, terminology settled, sources added. Link paths, PRs, or issues.
 
-## 进行中与卡点
+## In Progress And Blockers
 
-（谁在做什么，卡在哪里，需要什么帮助。）
+Who is working on what, where work is blocked, and what help is needed.
 
-## 下月计划与分工
+## Next Month
 
-（认领关系写清楚：谁、做什么、到什么程度。）
+Clear assignments: who, what, and to what level of completion.
 
-## 其他
+## Other Notes
 
-（新成员、讨论区值得回看的帖子、版权事项等。）
+New contributors, discussion threads worth revisiting, rights notes, or related context.
 ```

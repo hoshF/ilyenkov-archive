@@ -96,7 +96,7 @@ class ManageCollectionsTests(unittest.TestCase):
                 name_zh="新人",
                 name_original="Новый философ",
                 name_latin="New Philosopher",
-                relation="后续研究对象",
+                relation="later research context",
                 language="ru",
                 date="2026-06-21",
             )
@@ -110,10 +110,11 @@ class ManageCollectionsTests(unittest.TestCase):
             self.assertIn("new-person_markdown/", (root / "gbrain.yml").read_text())
             readme = (author_root / "README.md").read_text(encoding="utf-8")
             self.assertIn("# New Philosopher Philosophy Text Archive", readme)
-            self.assertIn('language: "en-zh"', readme)
-            self.assertIn("## 中文摘要", readme)
+            self.assertIn('language: "en"', readme)
+            self.assertNotIn("## 中文摘要", readme)
             status = (root / "COLLECTION_STATUS.md").read_text(encoding="utf-8")
-            self.assertIn("New Philosopher / 新人", status)
+            self.assertIn("New Philosopher", status)
+            self.assertNotIn("New Philosopher / 新人", status)
             self.assertEqual(REGISTRY.validate_registry(root), [])
 
     def test_status_generation_is_deterministic(self):
@@ -124,7 +125,8 @@ class ManageCollectionsTests(unittest.TestCase):
             second = MANAGER.status_markdown(root)
             self.assertEqual(first, second)
             self.assertIn("# Philosopher Text Collection Status", first)
-            self.assertIn('language: "en-zh"', first)
+            self.assertIn('language: "en"', first)
+            self.assertNotIn("中文说明", first)
             self.assertIn("| Person | Collection | Stage |", first)
 
     def test_digitization_planned_requires_only_project_record(self):

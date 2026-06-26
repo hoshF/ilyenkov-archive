@@ -1,56 +1,64 @@
 ---
-title: "Discussions 分类规划与项目欢迎帖"
+title: "Discussions Category Plan And Welcome Post"
 created: "2026-06-12"
-updated: "2026-06-22"
+updated: "2026-06-26"
 type: "note"
 tags: ["community", "discussions", "recruitment"]
-language: "en-zh"
+language: "en"
 collection: "research-notes"
 llm_wiki_eligible: "true"
 gbrain_source: "project-markdown"
 ---
 
-# Discussions 分类规划与欢迎帖文案
+# Discussions Category Plan And Welcome Post
 
-公开仓库 `ilyenkov-archive` 的 Discussions 已开启。GitHub 不支持通过 API 创建分类，需要在
-`https://github.com/hoshF/ilyenkov-archive/discussions/categories` 手工建立以下分类。
+Discussions are enabled in the public `ilyenkov-archive` repository. GitHub does not support creating
+discussion categories through the API; create them manually at
+`https://github.com/hoshF/ilyenkov-archive/discussions/categories`.
 
-## 分类设计
+## Category Design
 
-| 分类名 | 格式 | 用途 |
+| Category | Format | Purpose |
 |---|---|---|
-| Announcements / 公告 | Announcement | 项目状态、发布说明和流程修订 |
-| Texts and Editions / 文本与版本 | Open-ended discussion | 原文来源、版本、异文、缺页和书目信息 |
-| Digitization and Review / 数字化与校验 | Open-ended discussion | 转录结构、人工校验、页码映射和质量问题 |
-| Philosophy and Concepts / 哲学与概念 | Open-ended discussion | 哲学讨论、术语比较和思想史关系 |
-| AI and Digital Humanities / AI 与数字人文 | Open-ended discussion | 检索、结构化语料、LLM Wiki 和计算研究 |
-| Multilingual Study / 多语言学习 | Open-ended discussion | 翻译、术语对照和跨语言精读 |
-| Questions / 问答 | Q&A | 参与方式、文件位置和工作流问题 |
+| Announcements | Announcement | Project status, release notes, and workflow updates |
+| Texts and Editions | Open-ended discussion | Source texts, editions, variants, missing pages, and bibliography |
+| Digitization and Review | Open-ended discussion | Transcription structure, human review, page mapping, and quality issues |
+| Philosophy and Concepts | Open-ended discussion | Philosophical discussion, terminology comparison, and intellectual history |
+| AI and Digital Humanities | Open-ended discussion | Search, structured corpora, LLM Wiki, and computational research |
+| Multilingual Study | Open-ended discussion | Translation, terminology comparison, and cross-language close reading |
+| Questions | Q&A | Participation, file locations, and workflow questions |
 
 ## Welcome Post
 
-标题：
+Title:
 
 `Welcome to the Ilyenkov Philosophy Text Archive`
 
-> This project is building a source-traceable philosophy text archive centered on Evald Ilyenkov and the thinkers, debates, and traditions connected with his work.
+> This project is building a source-traceable philosophy text archive centered on Evald Ilyenkov
+> and the thinkers, debates, and traditions connected with his work.
 >
-> Our primary task is the long-term collection, verification, structuring, and digitization of original-language philosophical texts. The archive combines:
+> Our primary task is the long-term collection, verification, structuring, and digitization of
+> original-language philosophical texts. The archive combines:
 >
 > - original-language Markdown with provenance metadata;
 > - bibliographic records and edition histories;
 > - unprocessed source scans kept separate from verified text;
 > - related collections on Spinoza and Soviet philosophers;
-> - reproducible infrastructure for search, comparison, digital humanities, and LLM-assisted research.
+> - reproducible infrastructure for search, comparison, digital humanities, and LLM-assisted
+>   research.
 >
-> The goal is an **AI-ready source-text digitization and research platform**: auditable texts and metadata that can support retrieval, close reading, multilingual study, and future computational work. This does not mean that AI output is treated as scholarly authority, or that every file is licensed for model training.
+> The goal is an **AI-ready source-text digitization and research platform**: auditable texts and
+> metadata that can support retrieval, close reading, multilingual study, and future computational
+> work. This does not mean that AI output is treated as scholarly authority, or that every file is
+> licensed for model training.
 >
-> Alongside this global platform, the project maintains a long-term Chinese translation and
-> close-reading program focused on Ilyenkov. Related Soviet philosophers are translated selectively
-> where they clarify his work; source figures such as Spinoza are primarily developed as
-> original-language collections.
+> The project also maintains a long-term Chinese translation and close-reading program focused on
+> Ilyenkov. Related Soviet philosophers are translated selectively where they clarify his work;
+> source figures such as Spinoza are primarily developed as original-language collections.
 >
-> Collaboration is global. We welcome philosophers, historians, librarians, bibliographers, language specialists, textual scholars, digitization reviewers, software developers, and researchers working with AI or digital humanities.
+> Collaboration is global. We welcome philosophers, historians, librarians, bibliographers,
+> language specialists, textual scholars, digitization reviewers, software developers, and
+> researchers working with AI or digital humanities.
 >
 > **How to begin**
 >
@@ -68,42 +76,35 @@ gbrain_source: "project-markdown"
 > and Dutch Wikisource and DBNL. Their public availability records a redistribution decision, not a
 > claim that the texts are critically edited or fully collated.
 >
-> Introduce yourself by telling us which philosophers, languages, archives, or technical methods you work with, and what kind of contribution interests you.
+> Introduce yourself by telling us which philosophers, languages, archives, or technical methods you
+> work with, and what kind of contribution interests you.
 
-### 中文说明
+## Good First Issue Drafts
 
-> 本项目面向全球研究者和学习者，以伊里因科夫哲学为中心，整理相关哲学家的原语言文本、
-> 扫描版本、书目和版本元数据。目标是建立可审计、可重建、适合长期研究及 AI/LLM
-> 辅助使用的原典数字化与研究平台。同时，项目长期推进伊里因科夫中文翻译、术语研究和
-> 精读；其他人物按研究需要选择性翻译。
->
-> 项目基础设施、原创文档和事实性元数据默认开放；第三方全文和扫描件按具体文件逐项审核。
-> 公开仓库已经收录首批通过权利审核的斯宾诺莎拉丁文、荷兰文材料，但公开不等于完成校勘，
-> 也不自动授予模型训练许可。
+### 1. Check One Work Record
 
-## Good First Issue 草稿
+> Choose one person from `COLLECTION_STATUS.md` and verify the original title, publication year,
+> publisher, and responsibility statement for one work. Provide a reliable catalogue or library
+> source; do not download controlled full text.
 
-### 1. 核对一条作品书目
+### 2. Spot-Check Source Links
 
-> 从 `COLLECTION_STATUS.md` 选择一个人物，核对一部作品的原题、出版年份、出版社和责任形式。
-> 提交可靠目录或馆藏来源，不需要下载全文。
+> Choose 10 source URLs from an author metadata manifest and record availability, redirects, and
+> verifiable alternate entry points. Do not bypass controlled lending or download restrictions.
 
-### 2. 抽查来源链接
+### 3. Compare Multilingual Terminology
 
-> 从某个作者的 metadata manifest 中选择 10 条来源 URL，记录可访问状态、重定向和可验证的
-> 替代入口。不要绕过受控借阅或下载限制。
+> Choose one passage and compare how a philosophical term is handled in two or more languages.
+> Identify the original location and editions used. A single final translation is not required.
 
-### 3. 多语言术语比较
+### 4. Propose A Digitization Quality Rule
 
-> 选择一个具体段落，比较同一哲学术语在两种或更多语言中的处理方式。必须标明原文位置和
-> 使用的译本版本，不要求提出唯一标准译法。伊里因科夫的中文术语研究是优先方向。
+> Read `notes/SCAN_DIGITIZATION_WORKFLOW.md` and propose one automatically testable quality issue
+> involving page mapping, footnotes, formulae, or multilingual quotations. This task does not run
+> OCR.
 
-### 4. 数字化质量规则
+### 5. Verify One Public Rights Basis
 
-> 阅读 `notes/SCAN_DIGITIZATION_WORKFLOW.md`，针对页码映射、脚注、公式或多语言引文提出一个
-> 可自动检测的质量问题及测试样例。本任务不运行 OCR。
-
-### 5. 核验一项公开权利依据
-
-> 从 `metadata/rights_registry.json` 选择一项已公开材料，检查来源页面、许可证或公共领域
-> 声明是否仍可访问，并确认登记的归属信息清楚。不要自行把未审核全文改为公开。
+> Choose one public item from `metadata/rights_registry.json`, check that the source page, license,
+> or public-domain statement remains accessible, and confirm that attribution is clear. Do not make
+> unreviewed full text public.

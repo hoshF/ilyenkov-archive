@@ -1,10 +1,10 @@
 ---
-title: "T. I. Oizerman Text Source Survey / 奥伊泽尔曼哲学文本来源调查"
+title: "T. I. Oizerman Text Source Survey"
 created: "2026-06-16"
 updated: "2026-06-22"
 type: "analysis"
 tags: ["oizerman", "source-metadata", "marxism", "history-of-philosophy"]
-language: "en-zh"
+language: "en"
 collection: "corpus-metadata"
 llm_wiki_eligible: "true"
 gbrain_source: "project-markdown"
@@ -138,9 +138,3 @@ edited or co-authored works retain accurate responsibility statements.
 
 Verification sources also include `site:rusneb.ru Ойзерман` and
 `site:search.rsl.ru Ойзерман`.
-
-## 中文摘要
-
-调查保存了奥伊泽尔曼官方书目、2014 年五卷本和其他未处理扫描件，并确认列克托尔斯基与
-奥伊泽尔曼主编的四卷本《Теория познания》卷次为 1991、1991、1993、1995。扫描件不等于
-正文数字化，现有来源也未声明明确开放许可，因此不进行 OCR、不进入 GBrain 或公开导出。

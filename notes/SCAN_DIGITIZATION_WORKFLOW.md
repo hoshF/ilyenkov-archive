@@ -1,11 +1,11 @@
 ---
-title: "Scan Digitization Workflow / 扫描本数字化流程"
+title: "Scan Digitization Workflow"
 created: "2026-06-21"
 updated: "2026-06-22"
 type: "project"
 status: "approved-design-not-activated"
 tags: ["source-scan", "ocr", "human-collation", "workflow"]
-language: "en-zh"
+language: "en"
 collection: "project-documentation"
 llm_wiki_eligible: "true"
 gbrain_source: "project-markdown"
@@ -181,9 +181,3 @@ completeness. `scripts/prepare_gbrain_markdown.py` and manifest checks enforce t
 - Cleanup cannot silently add, remove, summarize, translate, or modernize text.
 - Chapter splitting must reconstruct the defined body payload.
 - GBrain eligibility and redistribution permission remain independent.
-
-## 中文摘要
-
-流程设计已经实现，但尚未针对新作品激活。每部作品必须单独批准并建立不可变源文件基线、
-页码映射、双引擎原始结果、差异记录、质量报告和全书人工校验 manifest。未经逐页人工校验
-的 OCR 始终隔离；完成全部校验并通过哈希验证后，作者原语言文本才可升级为核心语料。

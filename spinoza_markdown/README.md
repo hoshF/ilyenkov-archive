@@ -4,7 +4,7 @@ created: "2026-06-11"
 updated: "2026-06-22"
 type: "project"
 tags: ["project", "documentation"]
-language: "en-zh"
+language: "en"
 collection: "project-documentation"
 llm_wiki_eligible: "true"
 gbrain_source: "project-markdown"
@@ -91,9 +91,3 @@ Use the scripts under `spinoza_markdown/scripts/` for source-specific rebuilds, 
 python3 spinoza_markdown/scripts/audit_spinoza_sources.py
 python3 scripts/prepare_gbrain_markdown.py --check
 ```
-
-## 中文摘要
-
-本目录保存与伊里因科夫研究相关的斯宾诺莎拉丁文原文、早期荷兰文文本见证、来源元数据和
-参考扫描件。原文、历史译本、现代译本、AI 输出与扫描件严格分层。当前公开权利审核范围仍为
-104 个文件；公开许可不表示已经完成校勘，也不等于获得模型训练许可。
