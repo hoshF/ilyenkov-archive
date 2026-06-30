@@ -4,7 +4,7 @@ schema:
 storage:
   db_tracked:
     # COLLECTIONS-AUTO:BEGIN
-    - caute_ru_markdown/
+    - ilyenkov_markdown/
     - maidansky_markdown/
     - spinoza_markdown/
     - kedrov_markdown/

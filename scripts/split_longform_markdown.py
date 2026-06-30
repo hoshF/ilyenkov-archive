@@ -438,7 +438,8 @@ def refresh_metadata_references(*, root: Path = ROOT) -> int:
     _, works = load_registry(root)
     changed_files = 0
     metadata_roots = [
-        root / "caute_ru_markdown" / "metadata",
+        root / "ilyenkov_markdown" / "metadata",
+        root / "maidansky_markdown" / "metadata",
         root / "kedrov_markdown" / "metadata",
         root / "spinoza_markdown" / "metadata",
     ]

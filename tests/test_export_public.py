@@ -283,7 +283,7 @@ class ExportPublicTests(unittest.TestCase):
     def test_corpus_asset_requires_rights_registry(self):
         with tempfile.TemporaryDirectory() as directory:
             root = Path(directory)
-            path = root / "caute_ru_markdown/ilyenkov_md/newspaper/images/scan.jpg"
+            path = root / "ilyenkov_markdown/ilyenkov_md/newspaper/images/scan.jpg"
             path.parent.mkdir(parents=True)
             path.write_bytes(b"image")
             rel = path.relative_to(root).as_posix()
@@ -328,14 +328,14 @@ class ExportPublicTests(unittest.TestCase):
         with tempfile.TemporaryDirectory() as directory:
             root = Path(directory)
             (root / "README.md").write_text("---\ncreated: 2026-06-11\n---\n# Readme\n", encoding="utf-8")
-            full = root / ".fulltext/caute_ru_markdown/ilyenkov_md/work.md"
+            full = root / ".fulltext/ilyenkov_markdown/ilyenkov_md/work.md"
             full.parent.mkdir(parents=True)
             full.write_text(
                 '---\ntext_role: "author_original"\nredistribution_approved: "false"\n---\n# Full corpus text\n',
                 encoding="utf-8",
             )
             listed = {path.relative_to(root).as_posix() for path in MODULE.source_files(root)}
-            self.assertNotIn(".fulltext/caute_ru_markdown/ilyenkov_md/work.md", listed)
+            self.assertNotIn(".fulltext/ilyenkov_markdown/ilyenkov_md/work.md", listed)
             self.assertNotIn(".fulltext", {Path(p).parts[0] for p in listed})
 
     def test_build_exports_manifest_approved_asset(self):

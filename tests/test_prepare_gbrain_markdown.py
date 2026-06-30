@@ -87,10 +87,10 @@ class PrepareGbrainMarkdownTests(unittest.TestCase):
             errors = MODULE.validate_file(path, path.read_text(), root)
             self.assertTrue(any("core corpus requires" in error for error in errors))
 
-    def test_human_collated_ocr_can_enter_core_with_manifest(self):
+    def test_historical_human_collated_ocr_can_enter_core_with_manifest(self):
         with tempfile.TemporaryDirectory() as directory:
             root = Path(directory)
-            path = root / "caute_ru_markdown/ilyenkov_md/newspaper/article.md"
+            path = root / "ilyenkov_markdown/ilyenkov_md/newspaper/article.md"
             path.parent.mkdir(parents=True)
             path.write_text(
                 '---\ncreated: "2026-06-11"\ntext_role: "author_original"\n'
@@ -102,7 +102,7 @@ class PrepareGbrainMarkdownTests(unittest.TestCase):
                 '---\n# Article\n',
                 encoding="utf-8",
             )
-            manifest = root / "caute_ru_markdown/metadata/ilyenkov_newspaper_human_verification_manifest.json"
+            manifest = root / "ilyenkov_markdown/metadata/ilyenkov_newspaper_human_verification_manifest.json"
             manifest.parent.mkdir(parents=True)
             manifest.write_text(json.dumps({"items": [{
                 "markdown_path": path.relative_to(root).as_posix(),
@@ -110,23 +110,88 @@ class PrepareGbrainMarkdownTests(unittest.TestCase):
             }]}), encoding="utf-8")
             self.assertEqual(MODULE.validate_file(path, path.read_text(), root), [])
 
-    def test_core_image_scan_without_manifest_is_rejected(self):
+    def test_verified_ocr_can_enter_core_with_digitization_manifest(self):
         with tempfile.TemporaryDirectory() as directory:
             root = Path(directory)
-            path = root / "caute_ru_markdown/ilyenkov_md/newspaper/article.md"
+            path = root / "test_markdown/test_md/work.md"
             path.parent.mkdir(parents=True)
             path.write_text(
                 '---\ncreated: "2026-06-11"\ntext_role: "author_original"\n'
                 'core_corpus_eligible: "true"\nllm_wiki_eligible: "true"\n'
                 'source_format: "image_scan"\nsource_license: "not_stated"\n'
                 'redistribution_approved: "false"\nrights_review_status: "unreviewed"\n'
-                'text_status: "ocr_draft_human_collated"\nsource_url: "not_stated"\n'
+                'text_status: "ocr_human_verified"\nsource_url: "not_stated"\n'
+                'provenance: "ocr_initial_then_manual_collation_against_source_images"\n'
+                '---\n# Work\n',
+                encoding="utf-8",
+            )
+            manifest = root / "test_markdown/digitization/work/human_verification_manifest.json"
+            manifest.parent.mkdir(parents=True)
+            (manifest.parent / "project.json").write_text(json.dumps({
+                "schema_version": 1,
+                "author_id": "test",
+                "work_id": "work",
+                "source_scan": "test_markdown/source_scans/work.pdf",
+                "source_sha256": "0" * 64,
+                "source_version": "test scan",
+                "status": "human_verified",
+                "created": "2026-06-29",
+                "ocr_activated": True,
+            }), encoding="utf-8")
+            manifest.write_text(json.dumps({
+                "schema_version": 1,
+                "verification_status": "human_verified",
+                "reviewer": "tester",
+                "verification_date": "2026-06-29",
+                "verified_scan_pages": ["p001"],
+                "source_scan_sha256": "0" * 64,
+                "final_markdown": path.relative_to(root).as_posix(),
+                "final_markdown_sha256": hashlib.sha256(path.read_bytes()).hexdigest(),
+            }), encoding="utf-8")
+
+            self.assertEqual(MODULE.validate_file(path, path.read_text(), root), [])
+
+    def test_core_image_scan_without_manifest_is_rejected(self):
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            path = root / "test_markdown/test_md/work.md"
+            path.parent.mkdir(parents=True)
+            path.write_text(
+                '---\ncreated: "2026-06-11"\ntext_role: "author_original"\n'
+                'core_corpus_eligible: "true"\nllm_wiki_eligible: "true"\n'
+                'source_format: "image_scan"\nsource_license: "not_stated"\n'
+                'redistribution_approved: "false"\nrights_review_status: "unreviewed"\n'
+                'text_status: "ocr_human_verified"\nsource_url: "not_stated"\n'
                 'provenance: "ocr_initial_then_manual_collation_against_source_images"\n'
                 '---\n# Article\n',
                 encoding="utf-8",
             )
             errors = MODULE.validate_file(path, path.read_text(), root)
             self.assertTrue(any("missing from the human verification manifest" in error for error in errors))
+
+    def test_maidansky_research_ocr_is_allowed_but_not_core(self):
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            path = root / "maidansky_markdown/maidansky_md/article.md"
+            path.parent.mkdir(parents=True)
+            path.write_text(
+                '---\ncreated: "2026-06-11"\ntext_role: "research"\n'
+                'core_corpus_eligible: "false"\nllm_wiki_eligible: "true"\n'
+                'source_format: "pdf"\nsource_license: "not_stated"\n'
+                'redistribution_approved: "false"\nrights_review_status: "unreviewed"\n'
+                'text_status: "ocr_human_verified"\nsource_url: "https://example.test/article.pdf"\n'
+                'provenance: "ocr_initial_then_manual_collation_against_source_images"\n'
+                '---\n# Article\n',
+                encoding="utf-8",
+            )
+            self.assertEqual(MODULE.validate_file(path, path.read_text(), root), [])
+
+            text = path.read_text().replace(
+                'core_corpus_eligible: "false"',
+                'core_corpus_eligible: "true"',
+            )
+            errors = MODULE.validate_file(path, text, root)
+            self.assertTrue(any("core corpus requires" in error for error in errors))
 
     def test_partial_chapter_metadata_is_rejected(self):
         with tempfile.TemporaryDirectory() as directory:

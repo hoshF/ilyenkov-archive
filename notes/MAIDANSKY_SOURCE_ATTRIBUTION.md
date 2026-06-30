@@ -30,5 +30,7 @@ documentation append the attribution phrase.
 If a harvested text has no matching body page on the current `filorus.ru` site, retain the actual
 accessible historical URL and identify it as a historical exception in the visible source line.
 
-`caute_ru_markdown/` remains unchanged because it is an acquisition-history path used by slugs,
-manifests, and existing references. It no longer identifies the recommended citation host.
+The earlier `caute.ru` acquisition history is preserved as source context, not as a corpus
+directory name. Current registered paths use philosopher-specific roots such as
+`ilyenkov_markdown/` and `maidansky_markdown/`; citation host recommendations remain independent of
+repository path names.

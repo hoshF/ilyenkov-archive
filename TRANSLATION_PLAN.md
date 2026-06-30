@@ -50,9 +50,9 @@ gbrain_source: "project-markdown"
 
 优先选择能够帮助理解伊里因科夫思想体系的文本：
 
-- 书籍：`caute_ru_markdown/ilyenkov_md/knigi/`
-- 正式期刊文章：`caute_ru_markdown/ilyenkov_md/stati-v-zhurnalah/`
-- 书中章节和论文：`caute_ru_markdown/ilyenkov_md/glavy-i-stati-v-knigah/`
+- 书籍：`ilyenkov_markdown/ilyenkov_md/knigi/`
+- 正式期刊文章：`ilyenkov_markdown/ilyenkov_md/stati-v-zhurnalah/`
+- 书中章节和论文：`ilyenkov_markdown/ilyenkov_md/glavy-i-stati-v-knigah/`
 
 优先主题：
 
@@ -66,19 +66,19 @@ gbrain_source: "project-markdown"
 
 ### B 级：辅助理解材料
 
-- 百科条目：`caute_ru_markdown/ilyenkov_md/stati-v-entsiklopediyah/`
-- 访谈：`caute_ru_markdown/ilyenkov_md/dialogi-i-intervyu/`
-- 书信：`caute_ru_markdown/ilyenkov_md/pisma/`
-- 评论和书评：`caute_ru_markdown/ilyenkov_md/retsenzii/`
+- 百科条目：`ilyenkov_markdown/ilyenkov_md/stati-v-entsiklopediyah/`
+- 访谈：`ilyenkov_markdown/ilyenkov_md/dialogi-i-intervyu/`
+- 书信：`ilyenkov_markdown/ilyenkov_md/pisma/`
+- 评论和书评：`ilyenkov_markdown/ilyenkov_md/retsenzii/`
 
 这些材料适合在读完核心著作后补充人物背景、概念脉络和时代语境。
 
 ### C 级：资料库和专题研究材料
 
-- 手稿和发言记录：`caute_ru_markdown/ilyenkov_md/rukopisi-i-stenogrammy-vystuplenii/`
-- 报纸文章：`caute_ru_markdown/ilyenkov_md/newspaper/`
-- 译文和转译材料：`caute_ru_markdown/ilyenkov_md/perevody/`
-- 迈丹斯基研究：`caute_ru_markdown/maidansky_md/`
+- 手稿和发言记录：`ilyenkov_markdown/ilyenkov_md/rukopisi-i-stenogrammy-vystuplenii/`
+- 报纸文章：`ilyenkov_markdown/ilyenkov_md/newspaper/`
+- 译文和转译材料：`ilyenkov_markdown/ilyenkov_md/perevody/`
+- 迈丹斯基研究：`maidansky_markdown/maidansky_md/`
 
 这些材料先作为资料保存，不急于系统翻译。
 

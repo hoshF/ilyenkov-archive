@@ -1,9 +1,9 @@
 ---
 title: "Scan Digitization Workflow"
 created: "2026-06-21"
-updated: "2026-06-22"
+updated: "2026-07-01"
 type: "project"
-status: "approved-design-not-activated"
+status: "approved-workflow-work-activated"
 tags: ["source-scan", "ocr", "human-collation", "workflow"]
 language: "en"
 collection: "project-documentation"
@@ -16,8 +16,8 @@ gbrain_source: "project-markdown"
 This document defines conversion of PDF/DjVu scans into authorial-language Markdown. It implements,
 but does not replace, the [Source And OCR Policy](PHILOSOPHY_SOURCE_FORMAT_POLICY.md).
 
-**Status: approved design, not activated.** Do not run OCR or use PDF text layers, DjVuTXT, DjVu
-XML, ABBYY XML, or hOCR until the owner explicitly activates a specific work.
+**Status: approved workflow, activated per work.** Do not run OCR or use PDF text layers, DjVuTXT,
+DjVu XML, ABBYY XML, or hOCR for a work until the owner explicitly activates that work.
 
 Translation is separate; see [`TRANSLATION_PLAN.md`](../TRANSLATION_PLAN.md) and
 [`translation_workspace/`](../translation_workspace/).
@@ -45,17 +45,20 @@ complete verification manifest has passed:
 
 ```yaml
 text_role: "author_original"
-text_status: "ocr_draft_human_collated"
+text_status: "ocr_human_verified"
 provenance: "ocr_initial_then_manual_collation_against_source_images"
 core_corpus_eligible: "true"
 llm_wiki_eligible: "true"
 ```
 
+The earlier `ocr_draft_human_collated` status remains valid for recorded historical batches. New
+digitization projects use `ocr_human_verified` after complete page-level human review.
+
 Preserve the OCR origin, source SHA-256, reviewer, date, scope, and final Markdown SHA-256. Do not
 represent OCR-derived text as HTML or native EPUB.
 
-Schemas and stage validation exist, but processing still requires explicit approval. Initialize
-with `scripts/manage_collections.py init-digitization`.
+Schemas and stage validation exist, and processing requires work-level activation. Initialize with
+`scripts/manage_collections.py init-digitization`.
 
 ## 2. Activation Requirements
 
@@ -151,10 +154,38 @@ keep `ocr_unverified` output outside GBrain with both eligibility fields set to 
 
 Human review covers every scan page, not only risk and sample pages. The owner reviews the
 verification manifest; machine checks must match source scan, final Markdown, page map, coverage,
-and hashes before promotion to `author_original`.
+and hashes before promotion. Only authorial-language texts may be promoted to `author_original`;
+digitized research remains `text_role: "research"` and outside the core corpus.
 
 Any later body change invalidates the final hash and requires renewed verification. A partial edit
 cannot silently retain whole-book verification.
+
+## 3.11 Experimental Digitizable PDF Helper
+
+`scripts/digitize_pdf_work.py` is an experimental, unstable helper for a narrow case: registered
+PDFs that already have usable AI/Markdown conversions and can be checked against rendered page
+images. It is part of the digitizable-PDF engineering workflow, not a stable replacement for the
+scan OCR workflow above.
+
+Use it only after the owner activates the specific work. The helper can prepare an isolated review
+draft, preserve raw AI conversions, generate project records, and promote a human-approved draft to
+verified research text. It must not be used to decide textual correctness, infer missing text, or
+mark a work as verified without explicit human approval.
+
+The helper is not designed for difficult image-only scans, complex page layouts, poor OCR images,
+or works needing real OCR engine selection and page-level arbitration. Those remain under the
+manual standard workflow until this experimental path is revised and stabilized.
+
+Current commands:
+
+```bash
+python3 scripts/digitize_pdf_work.py prepare-review ...
+python3 scripts/digitize_pdf_work.py promote-verified ... --human-verified
+```
+
+Promotion remains limited to `text_role: "research"` and `core_corpus_eligible: "false"` in this
+experimental version. Authorial-original promotion must use the standard workflow unless a later,
+reviewed version of the helper explicitly supports it.
 
 ## 4. Required Records
 

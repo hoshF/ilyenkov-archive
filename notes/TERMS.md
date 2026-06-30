@@ -1,31 +1,43 @@
 ---
-title: "术语表"
+title: "术语表总入口"
 created: "2026-06-11"
+updated: "2026-07-01"
 type: "note"
-tags: ["research-note"]
+tags: ["terminology", "glossary", "research-note"]
 language: "zh"
 collection: "research-notes"
 llm_wiki_eligible: "true"
 gbrain_source: "project-markdown"
 ---
-# 术语表
+# 术语表总入口
 
-本文件用于中文翻译与精读计划中的伊里因科夫核心术语研究。当前先保留框架，不强行定稿。
+本项目现在使用按哲学家组织的正式术语/专名系统。JSON 是源记录，Markdown 是生成视图。
 
-| 俄文 | 暂译 | 其他可能译法 | 说明 | 状态 |
-|---|---|---|---|---|
-| идеальное | 理想的东西 / 理想性 | 观念的东西、理想物 | 伊里因科夫核心术语，需要结合上下文判断 | 待定 |
-| деятельность | 活动 | 实践活动、能动活动 | 与对象性活动、劳动、实践相关 | 待定 |
-| мышление | 思维 | 思想、思考 | 通常译为“思维” | 待定 |
-| всеобщее | 普遍物 / 普遍性 | 一般、普遍者 | 与抽象、具体、特殊关系密切 | 待定 |
-| абстрактное | 抽象的东西 / 抽象 | 抽象物 | 与“具体”成对 | 待定 |
-| конкретное | 具体的东西 / 具体 | 具体物 | 注意区别经验直观意义和辩证逻辑意义 | 待定 |
-| предметная деятельность | 对象性活动 | 客观活动、对象活动 | 马克思主义实践论语境 | 待定 |
-| тождество мышления и бытия | 思维与存在的同一性 | 思维和存在的统一 | 注意与“相互关系”区分 | 待定 |
+## 入口
 
-## 使用原则
+- [术语表系统](terminology/README.md)
+- [伊里因科夫术语表](terminology/ilyenkov.md)
+- [迈丹斯基术语表](terminology/maidansky.md)
+- [斯宾诺莎术语表](terminology/spinoza.md)
+- [凯德洛夫术语表](terminology/kedrov.md)
 
-- 先记录实际上下文，再决定固定译法。
-- 同一篇文章内部优先保持术语一致。
-- 已有两本书中的译法可作为参考，但不自动视为最终标准。
-- 重要术语需要保留俄文原词，以便后续复查。
+## 源记录
+
+- `ilyenkov_markdown/metadata/glossary.json`
+- `maidansky_markdown/metadata/glossary.json`
+- `spinoza_markdown/metadata/glossary.json`
+- `kedrov_markdown/metadata/glossary.json`
+
+原先记录在本文件中的伊里因科夫核心术语已经迁入
+`ilyenkov_markdown/metadata/glossary.json`，并保留为 `needs_review` 或 `provisional` 状态。
+
+## 维护命令
+
+```bash
+python3 scripts/render_glossaries.py --write
+python3 scripts/render_glossaries.py --check
+python3 scripts/check_glossaries.py --check
+```
+
+不要手工修改 `notes/terminology/*.md` 的生成表格；需要改术语时编辑对应的
+`metadata/glossary.json`，然后重新生成并检查。

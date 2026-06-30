@@ -16,9 +16,9 @@ Markdown and Git are the sources of record. Scan counts do not imply searchable 
 
 | Person | Collection | Stage | Corpus Markdown | Source scans | Scan size | Work records | Metadata updated |
 |---|---|---|---:|---:|---:|---:|---|
-| Evald Ilyenkov | [ilyenkov-texts](caute_ru_markdown/README.md) | `markdown_corpus` | 275 | 0 | - | 204 | 2026-06-09T00:21:32+00:00 |
-| Andrey Maidansky | [maidansky-research](caute_ru_markdown/README.md) | `markdown_corpus` | 66 | 0 | - | 63 | 2026-06-09T01:53:50+00:00 |
-| Andrey Maidansky | [maidansky-academia](maidansky_markdown/README.md) | `source_scans` | 0 | 56 | 33.6 MiB | 57 | 2026-06-17T06:45:00+00:00 |
+| Evald Ilyenkov | [ilyenkov-texts](ilyenkov_markdown/README.md) | `markdown_corpus` | 275 | 0 | - | 204 | 2026-06-09T00:21:32+00:00 |
+| Andrey Maidansky | [maidansky-research](maidansky_markdown/README.md) | `markdown_corpus` | 69 | 0 | - | 64 | 2026-06-09T01:53:50+00:00 |
+| Andrey Maidansky | [maidansky-academia](maidansky_markdown/README.md) | `source_scans` | 0 | 58 | 34.0 MiB | 57 | 2026-06-17T06:45:00+00:00 |
 | Baruch Spinoza | [spinoza-texts](spinoza_markdown/README.md) | `markdown_corpus` | 211 | 0 | - | 9 | 2026-06-09T16:39:55+00:00 |
 | Bonifaty Kedrov | [kedrov-texts](kedrov_markdown/README.md) | `markdown_and_scans` | 54 | 6 | 133.8 MiB | 3 | 2026-06-11 |
 | Teodor Oizerman | [oizerman-archive](oizerman_markdown/README.md) | `source_scans` | 0 | 35 | 252.9 MiB | 24 | 2026-06-21 |

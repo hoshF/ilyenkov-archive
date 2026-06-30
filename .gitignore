@@ -36,7 +36,7 @@ dist/
 *.swp
 ~$*
 
-# Keep PDFs, Markdown sources, images, and caute_ru_markdown tracked.
+# Keep PDFs, Markdown sources, images, and philosopher Markdown roots tracked.
 !*.pdf
 !*.md
 !*.jpg

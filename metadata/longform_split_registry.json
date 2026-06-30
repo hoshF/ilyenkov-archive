@@ -2,20 +2,20 @@
   "schema_version": 1,
   "max_chapter_bytes": 500000,
   "works": [
-    {"source_path": "caute_ru_markdown/ilyenkov_md/already-done/dialectical_logic_ilyenkov_ru.md", "levels": [2, 3], "mode": "oversized_recursive"},
-    {"source_path": "caute_ru_markdown/ilyenkov_md/already-done/dialectics_abstract_concrete_capital_ilyenkov_ru.md", "levels": [2], "mode": "level"},
-    {"source_path": "caute_ru_markdown/ilyenkov_md/dissertatsii-i-avtoreferaty/dissertatsii-i-avtoreferaty-k-voprosu-o-prirode-myshleniya.md", "levels": [2], "mode": "level"},
-    {"source_path": "caute_ru_markdown/ilyenkov_md/dissertatsii-i-avtoreferaty/dissertatsii-i-avtoreferaty-nekotorye-voprosy-materialisticheskoi-dialektiki-v-rabote-k-ma.md", "levels": [2], "mode": "level"},
-    {"source_path": "caute_ru_markdown/ilyenkov_md/knigi/knigi-dialekticheskaya-logika-ocherki-istorii-i-teorii-2.md", "levels": [2], "mode": "level"},
-    {"source_path": "caute_ru_markdown/ilyenkov_md/knigi/knigi-dialektika-abstraktnogo-i-konkretnogo-v-nauchno-teoreticheskom-myshlenii.md", "levels": [2], "mode": "level"},
-    {"source_path": "caute_ru_markdown/ilyenkov_md/knigi/knigi-filosofiya-i-kultura.md", "levels": [2], "mode": "level"},
-    {"source_path": "caute_ru_markdown/ilyenkov_md/knigi/knigi-iskusstvo-i-kommunisticheskii-ideal.md", "levels": [2], "mode": "level"},
-    {"source_path": "caute_ru_markdown/ilyenkov_md/knigi/knigi-ob-idolah-i-idealah.md", "levels": [2], "mode": "level"},
+    {"source_path": "ilyenkov_markdown/ilyenkov_md/already-done/dialectical_logic_ilyenkov_ru.md", "levels": [2, 3], "mode": "oversized_recursive"},
+    {"source_path": "ilyenkov_markdown/ilyenkov_md/already-done/dialectics_abstract_concrete_capital_ilyenkov_ru.md", "levels": [2], "mode": "level"},
+    {"source_path": "ilyenkov_markdown/ilyenkov_md/dissertatsii-i-avtoreferaty/dissertatsii-i-avtoreferaty-k-voprosu-o-prirode-myshleniya.md", "levels": [2], "mode": "level"},
+    {"source_path": "ilyenkov_markdown/ilyenkov_md/dissertatsii-i-avtoreferaty/dissertatsii-i-avtoreferaty-nekotorye-voprosy-materialisticheskoi-dialektiki-v-rabote-k-ma.md", "levels": [2], "mode": "level"},
+    {"source_path": "ilyenkov_markdown/ilyenkov_md/knigi/knigi-dialekticheskaya-logika-ocherki-istorii-i-teorii-2.md", "levels": [2], "mode": "level"},
+    {"source_path": "ilyenkov_markdown/ilyenkov_md/knigi/knigi-dialektika-abstraktnogo-i-konkretnogo-v-nauchno-teoreticheskom-myshlenii.md", "levels": [2], "mode": "level"},
+    {"source_path": "ilyenkov_markdown/ilyenkov_md/knigi/knigi-filosofiya-i-kultura.md", "levels": [2], "mode": "level"},
+    {"source_path": "ilyenkov_markdown/ilyenkov_md/knigi/knigi-iskusstvo-i-kommunisticheskii-ideal.md", "levels": [2], "mode": "level"},
+    {"source_path": "ilyenkov_markdown/ilyenkov_md/knigi/knigi-ob-idolah-i-idealah.md", "levels": [2], "mode": "level"},
     {"source_path": "kedrov_markdown/kedrov_md/russian_web/royallib/besedy-o-dialektike.md", "levels": [2, 3], "mode": "leaf"},
     {"source_path": "kedrov_markdown/kedrov_md/russian_web/royallib/o-dialektike-prirody-engelsa.md", "levels": [2], "mode": "level"},
     {"source_path": "kedrov_markdown/kedrov_md/russian_web/royallib/o-tvorchestve-v-nauke-i-tekhnike.md", "levels": [2, 3], "mode": "leaf"},
     {"source_path": "spinoza_markdown/spinoza_md/dutch/nagelate-schriften.md", "levels": [3], "mode": "level"},
     {"source_path": "spinoza_markdown/spinoza_md/latin_web/spinozaetnous/tractatus-theologico-politicus.md", "levels": [2], "mode": "level"},
-    {"source_path": "caute_ru_markdown/maidansky_md/istoriya-filosofii/istoriya-filosofii-logicheskii-metod-spinozy.md", "levels": [2], "mode": "level"}
+    {"source_path": "maidansky_markdown/maidansky_md/istoriya-filosofii/istoriya-filosofii-logicheskii-metod-spinozy.md", "levels": [2], "mode": "level"}
   ]
 }

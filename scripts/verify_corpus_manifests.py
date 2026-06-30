@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Verify source-scan and legacy OCR manifests against repository files."""
+"""Verify source-scan and human-verified OCR manifests against repository files."""
 
 from __future__ import annotations
 
@@ -13,7 +13,7 @@ from rights_registry import rights_entries
 
 
 ROOT = Path(__file__).resolve().parents[1]
-OCR_MANIFEST = ROOT / "caute_ru_markdown/metadata/ilyenkov_newspaper_human_verification_manifest.json"
+HISTORICAL_OCR_MANIFEST = ROOT / "ilyenkov_markdown/metadata/ilyenkov_newspaper_human_verification_manifest.json"
 
 
 def sha256(path: Path) -> str:
@@ -24,11 +24,11 @@ def sha256(path: Path) -> str:
     return digest.hexdigest()
 
 
-def verify_legacy_ocr() -> int:
-    data = json.loads(OCR_MANIFEST.read_text(encoding="utf-8"))
+def verify_historical_ocr_batch() -> int:
+    data = json.loads(HISTORICAL_OCR_MANIFEST.read_text(encoding="utf-8"))
     items = data.get("items", [])
     if len(items) != 13:
-        raise ValueError(f"expected 13 legacy OCR entries, found {len(items)}")
+        raise ValueError(f"expected 13 historical newspaper OCR entries, found {len(items)}")
     for item in items:
         markdown = ROOT / item["markdown_path"]
         image = ROOT / item["image_path"]
@@ -56,12 +56,39 @@ def verify_legacy_ocr() -> int:
     return len(items)
 
 
+def verify_digitization_ocr() -> int:
+    count = 0
+    for manifest_path in sorted(ROOT.glob("*_markdown/digitization/*/human_verification_manifest.json")):
+        data = json.loads(manifest_path.read_text(encoding="utf-8"))
+        label = manifest_path.relative_to(ROOT).as_posix()
+        project_path = manifest_path.parent / "project.json"
+        if not project_path.is_file():
+            raise ValueError(f"{label}: missing digitization project record")
+        project = json.loads(project_path.read_text(encoding="utf-8"))
+        if project.get("status") != "human_verified" or project.get("ocr_activated") is not True:
+            raise ValueError(f"{label}: digitization project must be activated and human_verified")
+        if data.get("verification_status") != "human_verified":
+            raise ValueError(f"{label}: missing human verification status")
+        final = ROOT / str(data.get("final_markdown", ""))
+        if not final.is_file():
+            raise ValueError(f"{label}: final Markdown is missing")
+        if sha256(final) != data.get("final_markdown_sha256"):
+            raise ValueError(f"{label}: final Markdown SHA-256 mismatch")
+        metadata = parse_front_matter(final.read_text(encoding="utf-8"))
+        if metadata.get("text_status") != "ocr_human_verified":
+            raise ValueError(f"{label}: final Markdown must use text_status=ocr_human_verified")
+        if metadata.get("provenance") != "ocr_initial_then_manual_collation_against_source_images":
+            raise ValueError(f"{label}: final Markdown is missing OCR provenance")
+        count += 1
+    return count
+
+
 def main() -> int:
-    ocr_count = verify_legacy_ocr()
+    ocr_count = verify_historical_ocr_batch() + verify_digitization_ocr()
     scan_count = len(source_scan_approvals(ROOT))
     rights_count = len(rights_entries(ROOT))
     print(
-        f"legacy_ocr_verified={ocr_count} source_scans_verified={scan_count} "
+        f"human_verified_ocr={ocr_count} source_scans_verified={scan_count} "
         f"rights_entries_verified={rights_count}"
     )
     return 0

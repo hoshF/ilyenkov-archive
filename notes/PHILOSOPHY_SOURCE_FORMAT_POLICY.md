@@ -49,26 +49,30 @@ recognition pipeline remains OCR-derived.
 4. Isolated OCR uses `text_role: "ocr_unverified"` with both eligibility fields set to `false`.
 5. Authorial-language OCR may become `author_original` only after complete page-by-page human
    comparison, owner confirmation, and a valid manifest. OCR provenance remains permanent.
-6. Follow [Scan Digitization Workflow](SCAN_DIGITIZATION_WORKFLOW.md). The workflow is implemented
-   but not activated for a new work without explicit approval.
+6. Follow [Scan Digitization Workflow](SCAN_DIGITIZATION_WORKFLOW.md). The workflow is active as a
+   controlled work-level process; each work still requires explicit project activation before OCR.
 
-### Historical Human-Verified Exception
+### Verified OCR Admission
 
-The thirteen newspaper Markdown files under `caute_ru_markdown/ilyenkov_md/newspaper/` predate this
-policy. The owner confirmed on June 11, 2026 that each was collated against its repository image.
-They retain:
+OCR-derived text may enter the archive only through a registered digitization project or a recorded
+historical verification manifest. The early Ilyenkov newspaper batch is one verified batch, not the
+limit of OCR activity in the project.
+
+Verified authorial-language OCR that enters the core corpus uses:
 
 ```yaml
 text_role: "author_original"
-text_status: "ocr_draft_human_collated"
+text_status: "ocr_human_verified"
 provenance: "ocr_initial_then_manual_collation_against_source_images"
 core_corpus_eligible: "true"
 llm_wiki_eligible: "true"
 ```
 
-Verification scope and hashes are recorded in
-`caute_ru_markdown/metadata/ilyenkov_newspaper_human_verification_manifest.json`. This exception
-does not authorize another OCR run.
+Existing historical records may retain `text_status: "ocr_draft_human_collated"` when their
+manifest preserves that status. Research texts digitized from PDF or image scans remain
+`text_role: "research"` and cannot use `core_corpus_eligible: "true"`, even after human
+verification. All verified OCR must preserve source hashes, reviewer, date, scope, final Markdown
+SHA-256, and OCR provenance.
 
 ## Source Scans
 

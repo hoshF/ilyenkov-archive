@@ -184,6 +184,8 @@ def validate_digitization(root: Path) -> list[str]:
     errors: list[str] = []
     data = load_registry(root)
     for collection in data.get("collections", []):
+        if not collection.get("scan_manifest"):
+            continue
         digitization = root / collection["root"] / "digitization"
         if not digitization.is_dir():
             continue

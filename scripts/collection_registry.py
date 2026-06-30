@@ -10,18 +10,18 @@ from typing import Any
 
 DEFAULT_REGISTRY = "metadata/collections.json"
 FALLBACK_CORPUS_PATHS = (
-    "caute_ru_markdown/ilyenkov_md/",
-    "caute_ru_markdown/maidansky_md/",
+    "ilyenkov_markdown/ilyenkov_md/",
+    "maidansky_markdown/maidansky_md/",
     "spinoza_markdown/spinoza_md/",
     "kedrov_markdown/kedrov_md/",
 )
 FALLBACK_COLLECTION_ROOTS = (
-    "caute_ru_markdown/",
+    "ilyenkov_markdown/",
+    "maidansky_markdown/",
     "spinoza_markdown/",
     "kedrov_markdown/",
     "kopnin_markdown/",
     "oizerman_markdown/",
-    "maidansky_markdown/",
 )
 
 
@@ -162,7 +162,8 @@ def validate_registry(root: Path, *, require_paths: bool = True) -> list[str]:
             if collection.get("root") != expected_root:
                 errors.append(f"{cid}: 标准布局 root 必须为 {expected_root}")
             expected_corpus = f"{expected_root}/{author_id}_md/"
-            if collection.get("corpus_paths") != [expected_corpus]:
+            corpus_paths = collection.get("corpus_paths", [])
+            if corpus_paths and corpus_paths != [expected_corpus]:
                 errors.append(f"{cid}: 标准布局 corpus_paths 必须为 {expected_corpus}")
 
     threshold = data.get("project", {}).get("large_binary_threshold_bytes")

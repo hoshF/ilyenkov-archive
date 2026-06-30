@@ -1,0 +1,3996 @@
+{
+  "schema_version": 1,
+  "generated_at": "2026-06-27",
+  "source_profile_url": "https://scholar.google.com/citations?user=CQAYjuQAAAAJ&hl=zh-CN&oi=ao",
+  "retrieval_notes": [
+    "Google Scholar author profile was read through the in-app browser on 2026-06-27.",
+    "Visible profile rows were collected with pagesize=100: cstart=0 returned 100 rows, cstart=100 returned 100 rows, cstart=200 returned 36 rows, and cstart=300 returned no real additional entries.",
+    "The regular Scholar search results page may block automated access; this manifest tracks the visible author-profile bibliography, not an authoritative complete works list."
+  ],
+  "policy": "Bibliographic tracking only; not corpus text. Do not create corpus Markdown, run OCR, read PDF text layers, DjVuTXT, hOCR, ABBYY, or derived text from this manifest alone.",
+  "classification_categories": [
+    "markdown_corpus",
+    "source_scan",
+    "bibliographic_lead",
+    "duplicate_or_variant",
+    "noise_or_uncertain",
+    "source_gap"
+  ],
+  "priority_values": [
+    "high",
+    "medium",
+    "low",
+    "none"
+  ],
+  "comparison_sources": [
+    "maidansky_markdown/metadata/maidansky_catalog_manifest.json",
+    "maidansky_markdown/metadata/academia_manifest.json",
+    "maidansky_markdown/metadata/source_scans_manifest.json"
+  ],
+  "classification_counts": {
+    "markdown_corpus": 29,
+    "source_scan": 36,
+    "bibliographic_lead": 16,
+    "duplicate_or_variant": 34,
+    "noise_or_uncertain": 32,
+    "source_gap": 89
+  },
+  "items": [
+    {
+      "scholar_rank": 1,
+      "title": "Философия науки: Учебное пособие для аспирантов и соискателей",
+      "authors": "АДМ ЕВ Мареева, СН Мареев",
+      "venue": "М.: НИЦ ИНФРА-М, 333, 2010",
+      "year": "2010",
+      "citations": "135",
+      "category": "bibliographic_lead",
+      "local_matches": [],
+      "priority": "medium",
+      "notes": "Cited Scholar record retained as a bibliographic lead; not currently in source scans or Markdown."
+    },
+    {
+      "scholar_rank": 2,
+      "title": "Деятельностный подход и принцип рефлексивности в науке",
+      "authors": "АД Майданский, ОН Полухин, АВ Федосеенков",
+      "venue": "NOMOTHETIKA: Философия. Социология. Право 33 (14 (211)), 28-33, 2015",
+      "year": "2015",
+      "citations": "94",
+      "category": "source_gap",
+      "local_matches": [],
+      "priority": "high",
+      "notes": "Project-relevant Scholar record not found in local Markdown or source scans."
+    },
+    {
+      "scholar_rank": 3,
+      "title": "О категориях качества и количества",
+      "authors": "АД Майданский, АВ Федосеенков",
+      "venue": "Проблемы регионального управления, экономики, права и инновационных …, 2005",
+      "year": "2005",
+      "citations": "44",
+      "category": "bibliographic_lead",
+      "local_matches": [],
+      "priority": "medium",
+      "notes": "Cited Scholar record retained as a bibliographic lead; not currently in source scans or Markdown."
+    },
+    {
+      "scholar_rank": 4,
+      "title": "О мыслящей себя Природе и идеальной реальности",
+      "authors": "АД МАЙДАНСКИЙ",
+      "venue": "Вопросы философии, 76-84, 2004",
+      "year": "2004",
+      "citations": "36",
+      "category": "markdown_corpus",
+      "local_matches": [
+        {
+          "source": "markdown_corpus",
+          "title": "О мыслящей себя Природе и идеальной реальности",
+          "path": "maidansky_markdown/maidansky_md/dialekticheskaya-logika/dialekticheskaya-logika-o-myslyaschei-sebya-prirode-i-idealnoi-realnosti.md",
+          "match_type": "exact"
+        },
+        {
+          "source": "maidansky_catalog_manifest",
+          "title": "О мыслящей себя природе и идеальной реальности",
+          "path": "maidansky_markdown/maidansky_md/dialekticheskaya-logika/dialekticheskaya-logika-o-myslyaschei-sebya-prirode-i-idealnoi-realnosti.md",
+          "match_type": "exact"
+        }
+      ],
+      "priority": "none",
+      "notes": "Exact title match to existing Maidansky Markdown corpus text."
+    },
+    {
+      "scholar_rank": 5,
+      "title": "The Russian Spinozists",
+      "authors": "A Maidansky",
+      "venue": "Studies in East European Thought 55 (3), 199-216, 2003",
+      "year": "2003",
+      "citations": "29",
+      "category": "source_scan",
+      "local_matches": [
+        {
+          "source": "markdown_corpus",
+          "title": "The Russian Spinozists",
+          "path": "maidansky_markdown/maidansky_md/istoriya-filosofii/istoriya-filosofii-the-russian-spinozists.md",
+          "match_type": "exact"
+        },
+        {
+          "source": "maidansky_catalog_manifest",
+          "title": "The Russian Spinozists",
+          "path": "maidansky_markdown/maidansky_md/istoriya-filosofii/istoriya-filosofii-the-russian-spinozists.md",
+          "match_type": "exact"
+        },
+        {
+          "source": "source_scans_manifest",
+          "title": "The Russian Spinozists",
+          "path": "maidansky_markdown/source_scans/academia/the-russian-spinozists.pdf",
+          "match_type": "exact"
+        },
+        {
+          "source": "academia_manifest",
+          "title": "The Russian Spinozists",
+          "path": "maidansky_markdown/metadata/academia_manifest.json",
+          "match_type": "exact",
+          "item_index": 0,
+          "status": "listed"
+        }
+      ],
+      "priority": "none",
+      "notes": "Exact title match to an existing unprocessed source scan."
+    },
+    {
+      "scholar_rank": 6,
+      "title": "Понятие мышления у Ильенкова и Спинозы",
+      "authors": "АД Майданский",
+      "venue": "Вопросы философии, 165-174, 2002",
+      "year": "2002",
+      "citations": "28",
+      "category": "markdown_corpus",
+      "local_matches": [
+        {
+          "source": "markdown_corpus",
+          "title": "Понятие мышления у Ильенкова и Спинозы",
+          "path": "maidansky_markdown/maidansky_md/istoriya-filosofii/istoriya-filosofii-ponyatie-myshleniya-u-ilenkova-i-spinozy.md",
+          "match_type": "exact"
+        },
+        {
+          "source": "maidansky_catalog_manifest",
+          "title": "Понятие мышления у Ильенкова и Спинозы",
+          "path": "maidansky_markdown/maidansky_md/istoriya-filosofii/istoriya-filosofii-ponyatie-myshleniya-u-ilenkova-i-spinozy.md",
+          "match_type": "exact"
+        }
+      ],
+      "priority": "none",
+      "notes": "Exact title match to existing Maidansky Markdown corpus text."
+    },
+    {
+      "scholar_rank": 7,
+      "title": "The practical essence of man: the'activity approach'in late Soviet philosophy",
+      "authors": "A Maidansky, V Oittinen",
+      "venue": "Brill, 2015",
+      "year": "2015",
+      "citations": "25",
+      "category": "source_scan",
+      "local_matches": [
+        {
+          "source": "source_scans_manifest",
+          "title": "The Practical Essence of Man The Activity Approach in Late Soviet Philosophy",
+          "path": "maidansky_markdown/source_scans/academia/the-practical-essence-of-man-the-activity-approach-in-late-soviet-philosophy.pdf",
+          "match_type": "exact"
+        },
+        {
+          "source": "academia_manifest",
+          "title": "The Practical Essence of Man The Activity Approach in Late Soviet Philosophy",
+          "path": "maidansky_markdown/metadata/academia_manifest.json",
+          "match_type": "exact",
+          "item_index": 51,
+          "status": "downloaded"
+        }
+      ],
+      "priority": "none",
+      "notes": "Exact title match to an existing unprocessed source scan."
+    },
+    {
+      "scholar_rank": 8,
+      "title": "Векторы и контуры общества знаний",
+      "authors": "АД Майданский",
+      "venue": "Вестник Московского государственного университета культуры и искусств, 4-12, 2005",
+      "year": "2005",
+      "citations": "23",
+      "category": "markdown_corpus",
+      "local_matches": [
+        {
+          "source": "markdown_corpus",
+          "title": "Векторы и контуры общества знаний",
+          "path": "maidansky_markdown/maidansky_md/teoriya-istorii/teoriya-istorii-vektory-i-kontury-obschestva-znanii.md",
+          "match_type": "exact"
+        },
+        {
+          "source": "maidansky_catalog_manifest",
+          "title": "Векторы и контуры общества знаний",
+          "path": "maidansky_markdown/maidansky_md/teoriya-istorii/teoriya-istorii-vektory-i-kontury-obschestva-znanii.md",
+          "match_type": "exact"
+        }
+      ],
+      "priority": "none",
+      "notes": "Exact title match to existing Maidansky Markdown corpus text."
+    },
+    {
+      "scholar_rank": 9,
+      "title": "Лекция в структуре неявного знания",
+      "authors": "АД Майданский",
+      "venue": "Alma Mater, 16-19, 2009",
+      "year": "2009",
+      "citations": "21",
+      "category": "markdown_corpus",
+      "local_matches": [
+        {
+          "source": "markdown_corpus",
+          "title": "Лекция в структуре «неявного знания»",
+          "path": "maidansky_markdown/maidansky_md/miniatyury/miniatyury-lektsiya-v-strukture-neyavnogo-znaniya.md",
+          "match_type": "exact"
+        },
+        {
+          "source": "maidansky_catalog_manifest",
+          "title": "Лекция в структуре «неявного знания»",
+          "path": "maidansky_markdown/maidansky_md/miniatyury/miniatyury-lektsiya-v-strukture-neyavnogo-znaniya.md",
+          "match_type": "exact"
+        }
+      ],
+      "priority": "none",
+      "notes": "Exact title match to existing Maidansky Markdown corpus text."
+    },
+    {
+      "scholar_rank": 10,
+      "title": "Научные подходы в современной отечественной психологии/АЛ Журав",
+      "authors": "АЛ Журавлев, ЕА Сергиенко, ГА Виленская, АГ Асмолов, ЕД Шехтер, ...",
+      "venue": "",
+      "year": "2023",
+      "citations": "19",
+      "category": "source_gap",
+      "local_matches": [],
+      "priority": "high",
+      "notes": "Project-relevant Scholar record not found in local Markdown or source scans."
+    },
+    {
+      "scholar_rank": 11,
+      "title": "История и общественные идеалы",
+      "authors": "АД МАЙДАНСКИЙ",
+      "venue": "Вопросы философии, 127-133, 2010",
+      "year": "2010",
+      "citations": "19",
+      "category": "source_scan",
+      "local_matches": [
+        {
+          "source": "markdown_corpus",
+          "title": "История и общественные идеалы",
+          "path": "maidansky_markdown/maidansky_md/teoriya-istorii/teoriya-istorii-istoriya-i-obschestvennye-idealy.md",
+          "match_type": "exact"
+        },
+        {
+          "source": "maidansky_catalog_manifest",
+          "title": "История и общественные идеалы",
+          "path": "maidansky_markdown/maidansky_md/teoriya-istorii/teoriya-istorii-istoriya-i-obschestvennye-idealy.md",
+          "match_type": "exact"
+        },
+        {
+          "source": "source_scans_manifest",
+          "title": "История и общественные идеалы",
+          "path": "maidansky_markdown/source_scans/academia/istoriya-i-obschestvennye-idealy.pdf",
+          "match_type": "exact"
+        },
+        {
+          "source": "academia_manifest",
+          "title": "История и общественные идеалы",
+          "path": "maidansky_markdown/metadata/academia_manifest.json",
+          "match_type": "exact",
+          "item_index": 6,
+          "status": "listed"
+        }
+      ],
+      "priority": "none",
+      "notes": "Exact title match to an existing unprocessed source scan."
+    },
+    {
+      "scholar_rank": 12,
+      "title": "Геометрический порядок доказательства и логический метод в «Этике» Спинозы",
+      "authors": "АД Майданский",
+      "venue": "Вопросы философии 11, 172-180, 1999",
+      "year": "1999",
+      "citations": "19",
+      "category": "markdown_corpus",
+      "local_matches": [
+        {
+          "source": "maidansky_catalog_manifest",
+          "title": "Геометрический порядок доказательства и логический метод в «Этике» Спинозы",
+          "path": "maidansky_markdown/maidansky_md/istoriya-filosofii/istoriya-filosofii-geometricheskii-poryadok-dokazatelstva-i-logicheskii-metod-v-etike-spin.md",
+          "match_type": "exact"
+        }
+      ],
+      "priority": "none",
+      "notes": "Exact title match to existing Maidansky Markdown corpus text."
+    },
+    {
+      "scholar_rank": 13,
+      "title": "Выготский - Спиноза: диалог сквозь столетия",
+      "authors": "АД Майданский",
+      "venue": "Вопросы философии, 116-127, 2008",
+      "year": "2008",
+      "citations": "18",
+      "category": "markdown_corpus",
+      "local_matches": [
+        {
+          "source": "markdown_corpus",
+          "title": "Выготский — Спиноза: диалог сквозь столетия",
+          "path": "maidansky_markdown/maidansky_md/istoriya-filosofii/istoriya-filosofii-vygotskii-spinoza-dialog-skvoz-stoletiya.md",
+          "match_type": "exact"
+        },
+        {
+          "source": "maidansky_catalog_manifest",
+          "title": "Выготский — Спиноза: диалог сквозь столетия",
+          "path": "maidansky_markdown/maidansky_md/istoriya-filosofii/istoriya-filosofii-vygotskii-spinoza-dialog-skvoz-stoletiya.md",
+          "match_type": "exact"
+        }
+      ],
+      "priority": "none",
+      "notes": "Exact title match to existing Maidansky Markdown corpus text."
+    },
+    {
+      "scholar_rank": 14,
+      "title": "О\" деятельной стороне\" учения Спинозы",
+      "authors": "А Майданский",
+      "venue": "Логос, 201-212, 2007",
+      "year": "2007",
+      "citations": "18",
+      "category": "markdown_corpus",
+      "local_matches": [
+        {
+          "source": "markdown_corpus",
+          "title": "О «деятельной стороне» учения Спинозы",
+          "path": "maidansky_markdown/maidansky_md/istoriya-filosofii/istoriya-filosofii-o-deyatelnoi-storone-ucheniya-spinozy.md",
+          "match_type": "exact"
+        },
+        {
+          "source": "maidansky_catalog_manifest",
+          "title": "О «деятельной стороне» учения Спинозы",
+          "path": "maidansky_markdown/maidansky_md/istoriya-filosofii/istoriya-filosofii-o-deyatelnoi-storone-ucheniya-spinozy.md",
+          "match_type": "exact"
+        }
+      ],
+      "priority": "none",
+      "notes": "Exact title match to existing Maidansky Markdown corpus text."
+    },
+    {
+      "scholar_rank": 15,
+      "title": "Глобальное будущее 2045 (Обзор научной конференции в Белгороде)",
+      "authors": "СМ Климова, АД Майданский",
+      "venue": "Вопросы философии, 172-175, 2014",
+      "year": "2014",
+      "citations": "17",
+      "category": "bibliographic_lead",
+      "local_matches": [],
+      "priority": "low",
+      "notes": "Cited Scholar record retained as a bibliographic lead; not currently in source scans or Markdown."
+    },
+    {
+      "scholar_rank": 16,
+      "title": "The dialectical logic of Evald Ilyenkov and western European marxism",
+      "authors": "A Maidansky",
+      "venue": "Russian thought in Europe: Reception, polemics, development, 2013",
+      "year": "2013",
+      "citations": "16",
+      "category": "source_scan",
+      "local_matches": [
+        {
+          "source": "source_scans_manifest",
+          "title": "The Dialectical Logic of Evald Ilyenkov and Western European Marxism",
+          "path": "maidansky_markdown/source_scans/academia/the-dialectical-logic-of-evald-ilyenkov-and-western-european-marxism.pdf",
+          "match_type": "exact"
+        },
+        {
+          "source": "academia_manifest",
+          "title": "The Dialectical Logic of Evald Ilyenkov and Western European Marxism",
+          "path": "maidansky_markdown/metadata/academia_manifest.json",
+          "match_type": "exact",
+          "item_index": 16,
+          "status": "listed"
+        }
+      ],
+      "priority": "none",
+      "notes": "Exact title match to an existing unprocessed source scan."
+    },
+    {
+      "scholar_rank": 17,
+      "title": "Metamorphoses of the Ideal",
+      "authors": "A Maidansky",
+      "venue": "Studies in East European Thought 57 (3), 289-304, 2005",
+      "year": "2005",
+      "citations": "16",
+      "category": "source_scan",
+      "local_matches": [
+        {
+          "source": "source_scans_manifest",
+          "title": "Metamorphoses of the Ideal",
+          "path": "maidansky_markdown/source_scans/academia/metamorphoses-of-the-ideal.pdf",
+          "match_type": "exact"
+        },
+        {
+          "source": "academia_manifest",
+          "title": "Metamorphoses of the Ideal",
+          "path": "maidansky_markdown/metadata/academia_manifest.json",
+          "match_type": "exact",
+          "item_index": 2,
+          "status": "listed"
+        }
+      ],
+      "priority": "none",
+      "notes": "Exact title match to an existing unprocessed source scan."
+    },
+    {
+      "scholar_rank": 18,
+      "title": "Логика и феноменология всемирной истории",
+      "authors": "АД Майданский",
+      "venue": "Вестник Московского государственного университета культуры и искусств, 17-25, 2005",
+      "year": "2005",
+      "citations": "16",
+      "category": "markdown_corpus",
+      "local_matches": [
+        {
+          "source": "markdown_corpus",
+          "title": "Логика и феноменология всемирной истории",
+          "path": "maidansky_markdown/maidansky_md/teoriya-istorii/teoriya-istorii-logika-i-fenomenologiya-vsemirnoi-istorii.md",
+          "match_type": "exact"
+        },
+        {
+          "source": "maidansky_catalog_manifest",
+          "title": "Логика и феноменология всемирной истории",
+          "path": "maidansky_markdown/maidansky_md/teoriya-istorii/teoriya-istorii-logika-i-fenomenologiya-vsemirnoi-istorii.md",
+          "match_type": "exact"
+        }
+      ],
+      "priority": "none",
+      "notes": "Exact title match to existing Maidansky Markdown corpus text."
+    },
+    {
+      "scholar_rank": 19,
+      "title": "Декарт и Спиноза о природе души:«мыслящая субстанция» или «идея тела»",
+      "authors": "АД Майданский",
+      "venue": "Психология и философия: возвращение души, 76-91, 2003",
+      "year": "2003",
+      "citations": "15",
+      "category": "markdown_corpus",
+      "local_matches": [
+        {
+          "source": "maidansky_catalog_manifest",
+          "title": "Декарт и Спиноза о природе души: «мыслящая субстанция» или «идея тела»?",
+          "path": "maidansky_markdown/maidansky_md/istoriya-filosofii/istoriya-filosofii-dekart-i-spinoza-o-prirode-dushi-myslyaschaya-substantsiya-ili-ideya-te.md",
+          "match_type": "exact"
+        }
+      ],
+      "priority": "none",
+      "notes": "Exact title match to existing Maidansky Markdown corpus text."
+    },
+    {
+      "scholar_rank": 20,
+      "title": "Маргинальность образования: условие формирования творческого воображения",
+      "authors": "АВ Федосеенков, АД Майданский",
+      "venue": "Перспективы высшей школы в негосударственном секторе образования, 87-90, 1999",
+      "year": "1999",
+      "citations": "15",
+      "category": "bibliographic_lead",
+      "local_matches": [],
+      "priority": "low",
+      "notes": "Cited Scholar record retained as a bibliographic lead; not currently in source scans or Markdown."
+    },
+    {
+      "scholar_rank": 21,
+      "title": "Реформа логики в работах Р. Декарта и Б. Спинозы",
+      "authors": "АД Майданский",
+      "venue": "Вопросы философии, 145-155, 1996",
+      "year": "1996",
+      "citations": "15",
+      "category": "markdown_corpus",
+      "local_matches": [
+        {
+          "source": "maidansky_catalog_manifest",
+          "title": "Реформа логики в работах Р. Декарта и Б. Спинозы",
+          "path": "maidansky_markdown/maidansky_md/istoriya-filosofii/istoriya-filosofii-reforma-logiki-v-rabotah-r-dekarta-i-b-spinozy.md",
+          "match_type": "exact"
+        }
+      ],
+      "priority": "none",
+      "notes": "Exact title match to existing Maidansky Markdown corpus text."
+    },
+    {
+      "scholar_rank": 22,
+      "title": "Воспитание и природа: уроки Загорского эксперимента",
+      "authors": "А Майданский",
+      "venue": "Философская антропология 5 (1), 81-101, 2019",
+      "year": "2019",
+      "citations": "14",
+      "category": "source_scan",
+      "local_matches": [
+        {
+          "source": "source_scans_manifest",
+          "title": "Воспитание и природа Уроки Загорского эксперимента",
+          "path": "maidansky_markdown/source_scans/academia/vospitanie-i-priroda-uroki-zagorskogo-eksperimenta.pdf",
+          "match_type": "exact"
+        },
+        {
+          "source": "academia_manifest",
+          "title": "Воспитание и природа Уроки Загорского эксперимента",
+          "path": "maidansky_markdown/metadata/academia_manifest.json",
+          "match_type": "exact",
+          "item_index": 28,
+          "status": "downloaded"
+        }
+      ],
+      "priority": "none",
+      "notes": "Exact title match to an existing unprocessed source scan."
+    },
+    {
+      "scholar_rank": 23,
+      "title": "Spinoza in cultural-historical psychology",
+      "authors": "A Maidansky",
+      "venue": "Mind, Culture, and Activity 25 (4), 355-364, 2018",
+      "year": "2018",
+      "citations": "14",
+      "category": "source_scan",
+      "local_matches": [
+        {
+          "source": "source_scans_manifest",
+          "title": "Spinoza in cultural historical psychology",
+          "path": "maidansky_markdown/source_scans/academia/spinoza-in-cultural-historical-psychology.pdf",
+          "match_type": "exact"
+        },
+        {
+          "source": "source_scans_manifest",
+          "title": "Spinoza in cultural historical psychology",
+          "path": "maidansky_markdown/source_scans/academia/spinoza-in-cultural-historical-psychology.pdf",
+          "match_type": "exact"
+        },
+        {
+          "source": "academia_manifest",
+          "title": "Spinoza in cultural historical psychology",
+          "path": "maidansky_markdown/metadata/academia_manifest.json",
+          "match_type": "exact",
+          "item_index": 24,
+          "status": "listed"
+        },
+        {
+          "source": "academia_manifest",
+          "title": "Spinoza in cultural historical psychology",
+          "path": "maidansky_markdown/metadata/academia_manifest.json",
+          "match_type": "exact",
+          "item_index": 43,
+          "status": "listed"
+        }
+      ],
+      "priority": "none",
+      "notes": "Exact title match to an existing unprocessed source scan."
+    },
+    {
+      "scholar_rank": 24,
+      "title": "Reality of the Ideal",
+      "authors": "A Maidansky",
+      "venue": "Dialectics of the ideal. Evald Ilyenkov and creative Soviet Marxism, 125-145, 2014",
+      "year": "2014",
+      "citations": "14",
+      "category": "source_scan",
+      "local_matches": [
+        {
+          "source": "source_scans_manifest",
+          "title": "Reality of the Ideal",
+          "path": "maidansky_markdown/source_scans/academia/reality-of-the-ideal.pdf",
+          "match_type": "exact"
+        },
+        {
+          "source": "academia_manifest",
+          "title": "Reality of the Ideal",
+          "path": "maidansky_markdown/metadata/academia_manifest.json",
+          "match_type": "exact",
+          "item_index": 15,
+          "status": "listed"
+        }
+      ],
+      "priority": "none",
+      "notes": "Exact title match to an existing unprocessed source scan."
+    },
+    {
+      "scholar_rank": 25,
+      "title": "Логика исторической теории Маркса: реформация формаций",
+      "authors": "А Майданский",
+      "venue": "Философско-литературный журнал «Логос», 113-150, 2011",
+      "year": "2011",
+      "citations": "14",
+      "category": "markdown_corpus",
+      "local_matches": [
+        {
+          "source": "maidansky_catalog_manifest",
+          "title": "Логика исторической теории Маркса: реформация формаций",
+          "path": "maidansky_markdown/maidansky_md/teoriya-istorii/teoriya-istorii-logika-istoricheskoi-teorii-marksa-reformatsiya-formatsii.md",
+          "match_type": "exact"
+        }
+      ],
+      "priority": "none",
+      "notes": "Exact title match to existing Maidansky Markdown corpus text."
+    },
+    {
+      "scholar_rank": 26,
+      "title": "Понятие истины в диалектической логике Ильенкова",
+      "authors": "А Майданский",
+      "venue": "Свободная мысль, 169-178, 2009",
+      "year": "2009",
+      "citations": "14",
+      "category": "source_scan",
+      "local_matches": [
+        {
+          "source": "maidansky_catalog_manifest",
+          "title": "Понятие истины в диалектической логике Ильенкова",
+          "path": "maidansky_markdown/maidansky_md/istoriya-filosofii/istoriya-filosofii-ponyatie-istiny-v-dialekticheskoi-logike-ilenkova.md",
+          "match_type": "exact"
+        },
+        {
+          "source": "source_scans_manifest",
+          "title": "Понятие истины в диалектической логике Ильенкова",
+          "path": "maidansky_markdown/source_scans/academia/ponyatie-istiny-v-dialekticheskoi-logike-ilenkova.pdf",
+          "match_type": "exact"
+        },
+        {
+          "source": "academia_manifest",
+          "title": "Понятие истины в диалектической логике Ильенкова",
+          "path": "maidansky_markdown/metadata/academia_manifest.json",
+          "match_type": "exact",
+          "item_index": 5,
+          "status": "listed"
+        }
+      ],
+      "priority": "none",
+      "notes": "Exact title match to an existing unprocessed source scan."
+    },
+    {
+      "scholar_rank": 27,
+      "title": "НН Страхов в диалогах с современниками. Философия как культура понимания",
+      "authors": "СМ Климова, ЕА Антонов, НП Ильин, МА Маслин, ИА Майданская, ...",
+      "venue": "Издательство Алетейя, 2010",
+      "year": "2010",
+      "citations": "13",
+      "category": "bibliographic_lead",
+      "local_matches": [],
+      "priority": "low",
+      "notes": "Cited Scholar record retained as a bibliographic lead; not currently in source scans or Markdown."
+    },
+    {
+      "scholar_rank": 28,
+      "title": "Не отомрет, с-собака!",
+      "authors": "А Майданский",
+      "venue": "Свободная мысль, 171-182, 2013",
+      "year": "2013",
+      "citations": "12",
+      "category": "duplicate_or_variant",
+      "local_matches": [
+        {
+          "source": "markdown_corpus",
+          "title": "«Не отомрёт, с-собака!»: Э.В. Ильенков о государстве",
+          "path": "maidansky_markdown/maidansky_md/teoriya-istorii/teoriya-istorii-ne-otomre-t-s-sobaka-e-v-ilenkov-o-gosudarstve.md",
+          "match_type": "loose"
+        },
+        {
+          "source": "maidansky_catalog_manifest",
+          "title": "«Не отомрёт, с-собака!»: Э.В. Ильенков о государстве",
+          "path": "maidansky_markdown/maidansky_md/teoriya-istorii/teoriya-istorii-ne-otomre-t-s-sobaka-e-v-ilenkov-o-gosudarstve.md",
+          "match_type": "loose"
+        },
+        {
+          "source": "source_scans_manifest",
+          "title": "Не отомрёт с собака Ильенков о государстве",
+          "path": "maidansky_markdown/source_scans/academia/ne-otomret-s-sobaka-ilenkov-o-gosudarstve.pdf",
+          "match_type": "loose"
+        }
+      ],
+      "priority": "none",
+      "notes": "Likely duplicate, reprint, translation, or title variant of a local record."
+    },
+    {
+      "scholar_rank": 29,
+      "title": "Мыслить конкретно: дело «советского европейца» Эвальда Ильенкова",
+      "authors": "АД Майданский",
+      "venue": "NOMOTHETIKA: Философия. Социология. Право 25 (16 (159)), 29-35, 2013",
+      "year": "2013",
+      "citations": "12",
+      "category": "source_gap",
+      "local_matches": [],
+      "priority": "high",
+      "notes": "Project-relevant Scholar record not found in local Markdown or source scans."
+    },
+    {
+      "scholar_rank": 30,
+      "title": "Метаморфозы идеального",
+      "authors": "АД Майданский",
+      "venue": "Восток, 2005",
+      "year": "2005",
+      "citations": "12",
+      "category": "markdown_corpus",
+      "local_matches": [
+        {
+          "source": "markdown_corpus",
+          "title": "Метаморфозы идеального",
+          "path": "maidansky_markdown/maidansky_md/dialekticheskaya-logika/dialekticheskaya-logika-metamorfozy-idealnogo-i.md",
+          "match_type": "exact"
+        },
+        {
+          "source": "markdown_corpus",
+          "title": "Метаморфозы идеального",
+          "path": "maidansky_markdown/maidansky_md/dialekticheskaya-logika/dialekticheskaya-logika-metamorfozy-idealnogo-ii.md",
+          "match_type": "exact"
+        }
+      ],
+      "priority": "none",
+      "notes": "Exact title match to existing Maidansky Markdown corpus text."
+    },
+    {
+      "scholar_rank": 31,
+      "title": "Категория существования в\" Этике\" Спинозы",
+      "authors": "АД Майданский",
+      "venue": "Вопросы философии, 161-174, 2001",
+      "year": "2001",
+      "citations": "12",
+      "category": "markdown_corpus",
+      "local_matches": [
+        {
+          "source": "markdown_corpus",
+          "title": "Категория существования в «Этике» Спинозы",
+          "path": "maidansky_markdown/maidansky_md/istoriya-filosofii/istoriya-filosofii-kategoriya-suschestvovaniya-v-etike-spinozy.md",
+          "match_type": "exact"
+        },
+        {
+          "source": "maidansky_catalog_manifest",
+          "title": "Категория существования в «Этике» Спинозы",
+          "path": "maidansky_markdown/maidansky_md/istoriya-filosofii/istoriya-filosofii-kategoriya-suschestvovaniya-v-etike-spinozy.md",
+          "match_type": "exact"
+        }
+      ],
+      "priority": "none",
+      "notes": "Exact title match to existing Maidansky Markdown corpus text."
+    },
+    {
+      "scholar_rank": 32,
+      "title": "Reality as activity: The concept of praxis in Soviet philosophy",
+      "authors": "A Maidansky",
+      "venue": "The Practical Essence of Man, 42-57, 2016",
+      "year": "2016",
+      "citations": "11",
+      "category": "source_scan",
+      "local_matches": [
+        {
+          "source": "source_scans_manifest",
+          "title": "Reality as Activity The Concept of Praxis in Soviet Philosophy",
+          "path": "maidansky_markdown/source_scans/academia/reality-as-activity-the-concept-of-praxis-in-soviet-philosophy.pdf",
+          "match_type": "exact"
+        },
+        {
+          "source": "academia_manifest",
+          "title": "Reality as Activity The Concept of Praxis in Soviet Philosophy",
+          "path": "maidansky_markdown/metadata/academia_manifest.json",
+          "match_type": "exact",
+          "item_index": 18,
+          "status": "listed"
+        }
+      ],
+      "priority": "none",
+      "notes": "Exact title match to an existing unprocessed source scan."
+    },
+    {
+      "scholar_rank": 33,
+      "title": "Русские спинозисты",
+      "authors": "АД Майданский",
+      "venue": "Вопросы философии 1, 79-88, 1998",
+      "year": "1998",
+      "citations": "11",
+      "category": "markdown_corpus",
+      "local_matches": [
+        {
+          "source": "markdown_corpus",
+          "title": "Русские спинозисты",
+          "path": "maidansky_markdown/maidansky_md/istoriya-filosofii/istoriya-filosofii-russkie-spinozisty.md",
+          "match_type": "exact"
+        },
+        {
+          "source": "maidansky_catalog_manifest",
+          "title": "Русские спинозисты",
+          "path": "maidansky_markdown/maidansky_md/istoriya-filosofii/istoriya-filosofii-russkie-spinozisty.md",
+          "match_type": "exact"
+        }
+      ],
+      "priority": "none",
+      "notes": "Exact title match to existing Maidansky Markdown corpus text."
+    },
+    {
+      "scholar_rank": 34,
+      "title": "Сто лет развития культурно-исторической психологии: вехи и направления",
+      "authors": "ВВ Рубцов, ВК Зарецкий, АД Майданский",
+      "venue": "Культурно-историческая психология 20 (3), 5-11, 2024",
+      "year": "2024",
+      "citations": "10",
+      "category": "source_gap",
+      "local_matches": [],
+      "priority": "high",
+      "notes": "Project-relevant Scholar record not found in local Markdown or source scans."
+    },
+    {
+      "scholar_rank": 35,
+      "title": "Evald Ilyenkov’s ‘Creative Marxism’: A Review of EV Ilyenkov: Zhit’Filosofiei [To Live by Philosophy] by Sergey Mareev",
+      "authors": "A Maidansky, EV Pavlov",
+      "venue": "Historical Materialism 26 (4), 214-226, 2018",
+      "year": "2018",
+      "citations": "10",
+      "category": "duplicate_or_variant",
+      "local_matches": [
+        {
+          "source": "source_scans_manifest",
+          "title": "Evald Ilyenkov s Creative Marxism",
+          "path": "maidansky_markdown/source_scans/academia/evald-ilyenkov-s-creative-marxism.pdf",
+          "match_type": "loose"
+        }
+      ],
+      "priority": "none",
+      "notes": "Likely duplicate, reprint, translation, or title variant of a local record."
+    },
+    {
+      "scholar_rank": 36,
+      "title": "Гуманитарные науки: вчера, сегодня, завтра (Материалы круглого стола)",
+      "authors": "ВА Лекторский, ИТ Касавин, БГ Юдин, СС Неретина, СС Аванесов, ...",
+      "venue": "Человек, 6-41, 2015",
+      "year": "2015",
+      "citations": "10",
+      "category": "bibliographic_lead",
+      "local_matches": [],
+      "priority": "low",
+      "notes": "Cited Scholar record retained as a bibliographic lead; not currently in source scans or Markdown."
+    },
+    {
+      "scholar_rank": 37,
+      "title": "Vygotsky on cultural-historical development: from the primitive to the superhuman (Vygotski y el desarrollo histórico-cultural: del hombre primitivo al superhombre)",
+      "authors": "A Maidansky",
+      "venue": "Culture and Education 34 (1), 188-210, 2022",
+      "year": "2022",
+      "citations": "9",
+      "category": "source_scan",
+      "local_matches": [
+        {
+          "source": "source_scans_manifest",
+          "title": "Vygotsky on cultural historical development from the primitive to the superhuman Vygotski y el desarrollo histórico cultural del hombre primitivo al superhombre",
+          "path": "maidansky_markdown/source_scans/academia/vygotsky-on-cultural-historical-development-from-the-primitive-to-the-superhuman-vygotski-y-el-desarrollo-hist-rico-cult.pdf",
+          "match_type": "exact"
+        },
+        {
+          "source": "academia_manifest",
+          "title": "Vygotsky on cultural historical development from the primitive to the superhuman Vygotski y el desarrollo histórico cultural del hombre primitivo al superhombre",
+          "path": "maidansky_markdown/metadata/academia_manifest.json",
+          "match_type": "exact",
+          "item_index": 46,
+          "status": "downloaded"
+        }
+      ],
+      "priority": "none",
+      "notes": "Exact title match to an existing unprocessed source scan."
+    },
+    {
+      "scholar_rank": 38,
+      "title": "Коммунистический идеал ЭВ Ильенкова и реальный социализм",
+      "authors": "АД Майданский",
+      "venue": "Наука. Искусство. Культура, 59-65, 2017",
+      "year": "2017",
+      "citations": "9",
+      "category": "source_gap",
+      "local_matches": [],
+      "priority": "high",
+      "notes": "Project-relevant Scholar record not found in local Markdown or source scans."
+    },
+    {
+      "scholar_rank": 39,
+      "title": "Русский европеец\" ЭВ Ильенков и западный марксизм",
+      "authors": "АД Майданский",
+      "venue": "Вопросы философии, 93-100, 2015",
+      "year": "2015",
+      "citations": "9",
+      "category": "source_scan",
+      "local_matches": [
+        {
+          "source": "source_scans_manifest",
+          "title": "Русский европеец Э В Ильенков и западный марксизм",
+          "path": "maidansky_markdown/source_scans/academia/russkii-evropeets-e-v-ilenkov-i-zapadnyi-marksizm.pdf",
+          "match_type": "variant"
+        }
+      ],
+      "priority": "none",
+      "notes": "Title variant of an existing unprocessed source scan."
+    },
+    {
+      "scholar_rank": 40,
+      "title": "Восхождение к идеальному",
+      "authors": "А Майданский",
+      "venue": "Философско-литературный журнал «Логос», 63-73, 2009",
+      "year": "2009",
+      "citations": "8",
+      "category": "duplicate_or_variant",
+      "local_matches": [
+        {
+          "source": "source_scans_manifest",
+          "title": "Ascent Toward the Ideal",
+          "path": "maidansky_markdown/source_scans/academia/ascent-toward-the-ideal-2.pdf",
+          "match_type": "translated_title_variant"
+        }
+      ],
+      "priority": "none",
+      "notes": "Russian title variant of the existing English source scan Ascent Toward the Ideal."
+    },
+    {
+      "scholar_rank": 41,
+      "title": "Мышление и язык в Логике Ильенкова",
+      "authors": "АД Майданский",
+      "venue": "Вопросы философии 2, 128–136, 2019",
+      "year": "2019",
+      "citations": "7",
+      "category": "source_scan",
+      "local_matches": [
+        {
+          "source": "source_scans_manifest",
+          "title": "Мышление и язык в Логике Ильенкова",
+          "path": "maidansky_markdown/source_scans/academia/myshlenie-i-yazyk-v-logike-ilenkova.pdf",
+          "match_type": "exact"
+        },
+        {
+          "source": "academia_manifest",
+          "title": "Мышление и язык в Логике Ильенкова",
+          "path": "maidansky_markdown/metadata/academia_manifest.json",
+          "match_type": "exact",
+          "item_index": 27,
+          "status": "downloaded"
+        }
+      ],
+      "priority": "none",
+      "notes": "Exact title match to an existing unprocessed source scan."
+    },
+    {
+      "scholar_rank": 42,
+      "title": "The Ilyenkov triangle: Marxism in search of its philosophical roots",
+      "authors": "A Maidansky",
+      "venue": "Stasis 5 (2), 2017",
+      "year": "2017",
+      "citations": "7",
+      "category": "source_scan",
+      "local_matches": [
+        {
+          "source": "source_scans_manifest",
+          "title": "The Ilyenkov Triangle Marxism in Search of its Philosophical Roots",
+          "path": "maidansky_markdown/source_scans/academia/the-ilyenkov-triangle-marxism-in-search-of-its-philosophical-roots.pdf",
+          "match_type": "exact"
+        },
+        {
+          "source": "academia_manifest",
+          "title": "The Ilyenkov Triangle Marxism in Search of its Philosophical Roots",
+          "path": "maidansky_markdown/metadata/academia_manifest.json",
+          "match_type": "exact",
+          "item_index": 22,
+          "status": "downloaded"
+        }
+      ],
+      "priority": "none",
+      "notes": "Exact title match to an existing unprocessed source scan."
+    },
+    {
+      "scholar_rank": 43,
+      "title": "Фрагменты истории советской философии в переписке Эвальда Ильенкова с Михаилом Петровым и Алексеем Потёмкиным",
+      "authors": "ВП Римский, АД Майданский, ГФ Перетятькин, ОН Римская",
+      "venue": "Наука. Искусство. Культура, 67-86, 2017",
+      "year": "2017",
+      "citations": "7",
+      "category": "source_gap",
+      "local_matches": [],
+      "priority": "medium",
+      "notes": "Project-relevant Scholar record not found in local Markdown or source scans."
+    },
+    {
+      "scholar_rank": 44,
+      "title": "Неорганическое тело человека»: трансгуманистические идеи Маркса",
+      "authors": "АД Майданский",
+      "venue": "Глобальное будущее 2045, 275-279, 2014",
+      "year": "2014",
+      "citations": "7",
+      "category": "duplicate_or_variant",
+      "local_matches": [
+        {
+          "source": "source_scans_manifest",
+          "title": "Inorganic body of man the transhumanist ideas in Marx",
+          "path": "maidansky_markdown/source_scans/academia/inorganic-body-of-man-the-transhumanist-ideas-in-marx.pdf",
+          "match_type": "translated_title_variant"
+        }
+      ],
+      "priority": "none",
+      "notes": "Russian title variant of an existing English source scan on Marx and the inorganic body of man."
+    },
+    {
+      "scholar_rank": 45,
+      "title": "Реальность как деятельность: понятие практики в советской философии",
+      "authors": "АД Майданский",
+      "venue": "Режим доступа: http://caute. ru/am/text/realact. html (дата обращения: 05.09 …, 2012",
+      "year": "2012",
+      "citations": "7",
+      "category": "markdown_corpus",
+      "local_matches": [
+        {
+          "source": "maidansky_catalog_manifest",
+          "title": "Реальность как деятельность: понятие практики в советской философии",
+          "path": "maidansky_markdown/maidansky_md/istoriya-filosofii/istoriya-filosofii-realnost-kak-deyatelnost-ponyatie-praktiki-v-sovetskoi-filosofii.md",
+          "match_type": "exact"
+        }
+      ],
+      "priority": "none",
+      "notes": "Exact title match to existing Maidansky Markdown corpus text."
+    },
+    {
+      "scholar_rank": 46,
+      "title": "Советский Спиноза: вера в поисках разумения",
+      "authors": "А Майданский",
+      "venue": "Свободная мысль, 124-136, 2012",
+      "year": "2012",
+      "citations": "7",
+      "category": "source_scan",
+      "local_matches": [
+        {
+          "source": "source_scans_manifest",
+          "title": "Советский Спиноза вера в поисках разумения",
+          "path": "maidansky_markdown/source_scans/academia/sovetskii-spinoza-vera-v-poiskah-razumeniya.pdf",
+          "match_type": "exact"
+        },
+        {
+          "source": "academia_manifest",
+          "title": "Советский Спиноза вера в поисках разумения",
+          "path": "maidansky_markdown/metadata/academia_manifest.json",
+          "match_type": "exact",
+          "item_index": 4,
+          "status": "listed"
+        }
+      ],
+      "priority": "none",
+      "notes": "Exact title match to an existing unprocessed source scan."
+    },
+    {
+      "scholar_rank": 47,
+      "title": "Логический метод Спинозы",
+      "authors": "АД Майданский",
+      "venue": "Философское наследие античности.-Таганрог: Таганрог. радио-техн. ун-т, 1999",
+      "year": "1999",
+      "citations": "7",
+      "category": "markdown_corpus",
+      "local_matches": [
+        {
+          "source": "markdown_corpus",
+          "title": "Логический метод Спинозы",
+          "path": "maidansky_markdown/maidansky_md/istoriya-filosofii/istoriya-filosofii-logicheskii-metod-spinozy/README.md",
+          "match_type": "exact"
+        },
+        {
+          "source": "markdown_corpus",
+          "title": "Логический метод Спинозы",
+          "path": "maidansky_markdown/maidansky_md/istoriya-filosofii/istoriya-filosofii-logicheskii-metod-spinozy/istoriya-filosofii-logicheskii-metod-spinozy-ch000.md",
+          "match_type": "exact"
+        },
+        {
+          "source": "markdown_corpus",
+          "title": "Логический метод Спинозы",
+          "path": "maidansky_markdown/maidansky_md/istoriya-filosofii/istoriya-filosofii-logicheskii-metod-spinozy/istoriya-filosofii-logicheskii-metod-spinozy-ch001.md",
+          "match_type": "exact"
+        },
+        {
+          "source": "markdown_corpus",
+          "title": "Логический метод Спинозы",
+          "path": "maidansky_markdown/maidansky_md/istoriya-filosofii/istoriya-filosofii-logicheskii-metod-spinozy/istoriya-filosofii-logicheskii-metod-spinozy-ch002.md",
+          "match_type": "exact"
+        },
+        {
+          "source": "markdown_corpus",
+          "title": "Логический метод Спинозы",
+          "path": "maidansky_markdown/maidansky_md/istoriya-filosofii/istoriya-filosofii-logicheskii-metod-spinozy/istoriya-filosofii-logicheskii-metod-spinozy-ch003.md",
+          "match_type": "exact"
+        },
+        {
+          "source": "markdown_corpus",
+          "title": "Логический метод Спинозы",
+          "path": "maidansky_markdown/maidansky_md/istoriya-filosofii/istoriya-filosofii-logicheskii-metod-spinozy/istoriya-filosofii-logicheskii-metod-spinozy-ch004.md",
+          "match_type": "exact"
+        },
+        {
+          "source": "markdown_corpus",
+          "title": "Логический метод Спинозы",
+          "path": "maidansky_markdown/maidansky_md/istoriya-filosofii/istoriya-filosofii-logicheskii-metod-spinozy/istoriya-filosofii-logicheskii-metod-spinozy-ch005.md",
+          "match_type": "exact"
+        },
+        {
+          "source": "markdown_corpus",
+          "title": "Логический метод Спинозы",
+          "path": "maidansky_markdown/maidansky_md/istoriya-filosofii/istoriya-filosofii-logicheskii-metod-spinozy/istoriya-filosofii-logicheskii-metod-spinozy-ch006.md",
+          "match_type": "exact"
+        },
+        {
+          "source": "markdown_corpus",
+          "title": "Логический метод Спинозы",
+          "path": "maidansky_markdown/maidansky_md/istoriya-filosofii/istoriya-filosofii-logicheskii-metod-spinozy/istoriya-filosofii-logicheskii-metod-spinozy-ch007.md",
+          "match_type": "exact"
+        },
+        {
+          "source": "markdown_corpus",
+          "title": "Логический метод Спинозы",
+          "path": "maidansky_markdown/maidansky_md/istoriya-filosofii/istoriya-filosofii-logicheskii-metod-spinozy/istoriya-filosofii-logicheskii-metod-spinozy-ch008.md",
+          "match_type": "exact"
+        },
+        {
+          "source": "markdown_corpus",
+          "title": "Логический метод Спинозы",
+          "path": "maidansky_markdown/maidansky_md/istoriya-filosofii/istoriya-filosofii-logicheskii-metod-spinozy/istoriya-filosofii-logicheskii-metod-spinozy-ch009.md",
+          "match_type": "exact"
+        },
+        {
+          "source": "maidansky_catalog_manifest",
+          "title": "Логический метод Спинозы",
+          "path": "maidansky_markdown/maidansky_md/istoriya-filosofii/istoriya-filosofii-logicheskii-metod-spinozy/README.md",
+          "match_type": "exact",
+          "notes": "Split-work entry point for the current corpus layout."
+        }
+      ],
+      "priority": "none",
+      "notes": "Exact title match to existing Maidansky Markdown corpus text."
+    },
+    {
+      "scholar_rank": 48,
+      "title": "Controversy and growth points in the activity theory in psychology",
+      "authors": "AD Maidansky",
+      "venue": "Psychology in Russia 14 (4), 3, 2021",
+      "year": "2021",
+      "citations": "6",
+      "category": "source_scan",
+      "local_matches": [
+        {
+          "source": "source_scans_manifest",
+          "title": "Controversy and Growth Points in the Activity Theory in Psychology",
+          "path": "maidansky_markdown/source_scans/academia/controversy-and-growth-points-in-the-activity-theory-in-psychology.pdf",
+          "match_type": "exact"
+        },
+        {
+          "source": "academia_manifest",
+          "title": "Controversy and Growth Points in the Activity Theory in Psychology",
+          "path": "maidansky_markdown/metadata/academia_manifest.json",
+          "match_type": "exact",
+          "item_index": 37,
+          "status": "listed"
+        }
+      ],
+      "priority": "none",
+      "notes": "Exact title match to an existing unprocessed source scan."
+    },
+    {
+      "scholar_rank": 49,
+      "title": "Эволюция психики: предметная деятельность и аффект",
+      "authors": "АД Майданский",
+      "venue": "Научный результат. Педагогика и психология образования 7 (3), 70-83, 2021",
+      "year": "2021",
+      "citations": "6",
+      "category": "source_scan",
+      "local_matches": [
+        {
+          "source": "source_scans_manifest",
+          "title": "Эволюция психики предметная деятельность и аффект",
+          "path": "maidansky_markdown/source_scans/academia/evolyutsiya-psihiki-predmetnaya-deyatelnost-i-affekt.pdf",
+          "match_type": "exact"
+        },
+        {
+          "source": "academia_manifest",
+          "title": "Эволюция психики предметная деятельность и аффект",
+          "path": "maidansky_markdown/metadata/academia_manifest.json",
+          "match_type": "exact",
+          "item_index": 40,
+          "status": "listed"
+        }
+      ],
+      "priority": "none",
+      "notes": "Exact title match to an existing unprocessed source scan."
+    },
+    {
+      "scholar_rank": 50,
+      "title": "Revisionist revolution in Vygotsky studies",
+      "authors": "A Maidansky",
+      "venue": "Studies in East European Thought 72 (1), 89-95, 2020",
+      "year": "2020",
+      "citations": "6",
+      "category": "duplicate_or_variant",
+      "local_matches": [
+        {
+          "source": "source_scans_manifest",
+          "title": "Anton Yasnitsky and René van der Veer eds Revisionist revolution in Vygotsky studies",
+          "path": "maidansky_markdown/source_scans/academia/anton-yasnitsky-and-ren-van-der-veer-eds-revisionist-revolution-in-vygotsky-studies.pdf",
+          "match_type": "loose"
+        }
+      ],
+      "priority": "none",
+      "notes": "Likely duplicate, reprint, translation, or title variant of a local record."
+    },
+    {
+      "scholar_rank": 51,
+      "title": "Vygotsky—Spinoza: Dialogue through Centuries",
+      "authors": "AD Maidansky",
+      "venue": "Voprosy filosofii 10, 116-127, 2008",
+      "year": "2008",
+      "citations": "6",
+      "category": "duplicate_or_variant",
+      "local_matches": [],
+      "priority": "none",
+      "notes": "Likely translated/reprinted variant of: Выготский — Спиноза: диалог сквозь столетия."
+    },
+    {
+      "scholar_rank": 52,
+      "title": "Дух и душа: Декарт и Спиноза",
+      "authors": "АД Майданский",
+      "venue": "Человек, 113-124, 2006",
+      "year": "2006",
+      "citations": "6",
+      "category": "source_gap",
+      "local_matches": [],
+      "priority": "medium",
+      "notes": "Project-relevant Scholar record not found in local Markdown or source scans."
+    },
+    {
+      "scholar_rank": 53,
+      "title": "Логический метод Р. Декарта и Б. Спинозы",
+      "authors": "АД Майданский",
+      "venue": "",
+      "year": "1998",
+      "citations": "6",
+      "category": "source_gap",
+      "local_matches": [],
+      "priority": "medium",
+      "notes": "Project-relevant Scholar record not found in local Markdown or source scans."
+    },
+    {
+      "scholar_rank": 54,
+      "title": "Происхождение дефиниций у Спинозы",
+      "authors": "АД Майданский",
+      "venue": "Вестник Моск. ун-та. Сер. 7. Философия, 1994",
+      "year": "1994",
+      "citations": "6",
+      "category": "markdown_corpus",
+      "local_matches": [
+        {
+          "source": "markdown_corpus",
+          "title": "Происхождение дефиниций у Спинозы",
+          "path": "maidansky_markdown/maidansky_md/istoriya-filosofii/istoriya-filosofii-proishozhdenie-definitsii-u-spinozy.md",
+          "match_type": "exact"
+        },
+        {
+          "source": "maidansky_catalog_manifest",
+          "title": "Происхождение дефиниций у Спинозы",
+          "path": "maidansky_markdown/maidansky_md/istoriya-filosofii/istoriya-filosofii-proishozhdenie-definitsii-u-spinozy.md",
+          "match_type": "exact"
+        }
+      ],
+      "priority": "none",
+      "notes": "Exact title match to existing Maidansky Markdown corpus text."
+    },
+    {
+      "scholar_rank": 55,
+      "title": "Мышление и труд (читая Выготского)",
+      "authors": "АД Майданский",
+      "venue": "Культурно-историческая психология 19 (3), 4-12, 2023",
+      "year": "2023",
+      "citations": "5",
+      "category": "source_scan",
+      "local_matches": [
+        {
+          "source": "source_scans_manifest",
+          "title": "Мышление и труд читая Выготского",
+          "path": "maidansky_markdown/source_scans/academia/myshlenie-i-trud-chitaya-vygotskogo.pdf",
+          "match_type": "exact"
+        },
+        {
+          "source": "academia_manifest",
+          "title": "Мышление и труд читая Выготского",
+          "path": "maidansky_markdown/metadata/academia_manifest.json",
+          "match_type": "exact",
+          "item_index": 55,
+          "status": "listed"
+        }
+      ],
+      "priority": "none",
+      "notes": "Exact title match to an existing unprocessed source scan."
+    },
+    {
+      "scholar_rank": 56,
+      "title": "Spinoza in late-Soviet philosophy",
+      "authors": "A Maidansky",
+      "venue": "Studies in East European Thought 74 (3), 333-344, 2022",
+      "year": "2022",
+      "citations": "5",
+      "category": "source_scan",
+      "local_matches": [
+        {
+          "source": "source_scans_manifest",
+          "title": "Spinoza in Late Soviet philosophy",
+          "path": "maidansky_markdown/source_scans/academia/spinoza-in-late-soviet-philosophy.pdf",
+          "match_type": "exact"
+        },
+        {
+          "source": "academia_manifest",
+          "title": "Spinoza in Late Soviet philosophy",
+          "path": "maidansky_markdown/metadata/academia_manifest.json",
+          "match_type": "exact",
+          "item_index": 45,
+          "status": "downloaded"
+        }
+      ],
+      "priority": "none",
+      "notes": "Exact title match to an existing unprocessed source scan."
+    },
+    {
+      "scholar_rank": 57,
+      "title": "Учение Спинозы об аффектах в культурно-исторической психологии",
+      "authors": "АД Майданский",
+      "venue": "Концепт: философия, религия, культура 6 (2), 7-19, 2022",
+      "year": "2022",
+      "citations": "5",
+      "category": "source_scan",
+      "local_matches": [
+        {
+          "source": "source_scans_manifest",
+          "title": "Учение Спинозы об аффектах в культурно исторической психологии",
+          "path": "maidansky_markdown/source_scans/academia/uchenie-spinozy-ob-affektah-v-kulturno-istoricheskoi-psihologii.pdf",
+          "match_type": "exact"
+        },
+        {
+          "source": "academia_manifest",
+          "title": "Учение Спинозы об аффектах в культурно исторической психологии",
+          "path": "maidansky_markdown/metadata/academia_manifest.json",
+          "match_type": "exact",
+          "item_index": 54,
+          "status": "listed"
+        }
+      ],
+      "priority": "none",
+      "notes": "Exact title match to an existing unprocessed source scan."
+    },
+    {
+      "scholar_rank": 58,
+      "title": "Thought and language in Ilyenkov’s logic",
+      "authors": "A Maidansky",
+      "venue": "Voprosy filosofii, 128-136, 2019",
+      "year": "2019",
+      "citations": "5",
+      "category": "duplicate_or_variant",
+      "local_matches": [],
+      "priority": "none",
+      "notes": "Likely translated/reprinted variant of: Мышление и язык в Логике Ильенкова."
+    },
+    {
+      "scholar_rank": 59,
+      "title": "Уроки Загорского эксперимента",
+      "authors": "А Майданский",
+      "venue": "Шабельников Виталий Константинович-доктор психологических наук, 28, 2018",
+      "year": "2018",
+      "citations": "5",
+      "category": "duplicate_or_variant",
+      "local_matches": [
+        {
+          "source": "source_scans_manifest",
+          "title": "Воспитание и природа Уроки Загорского эксперимента",
+          "path": "maidansky_markdown/source_scans/academia/vospitanie-i-priroda-uroki-zagorskogo-eksperimenta.pdf",
+          "match_type": "loose"
+        }
+      ],
+      "priority": "none",
+      "notes": "Likely duplicate, reprint, translation, or title variant of a local record."
+    },
+    {
+      "scholar_rank": 60,
+      "title": "Русский марксизм от восхода до заката",
+      "authors": "АД Майданский",
+      "venue": "Человек, 22-32, 2017",
+      "year": "2017",
+      "citations": "5",
+      "category": "source_gap",
+      "local_matches": [],
+      "priority": "medium",
+      "notes": "Project-relevant Scholar record not found in local Markdown or source scans."
+    },
+    {
+      "scholar_rank": 61,
+      "title": "Институт человека как интеллектуальная идея и ее социальный контекст",
+      "authors": "МС Киселева",
+      "venue": "Человек, 78-94, 2017",
+      "year": "2017",
+      "citations": "5",
+      "category": "bibliographic_lead",
+      "local_matches": [],
+      "priority": "low",
+      "notes": "Cited Scholar record retained as a bibliographic lead; not currently in source scans or Markdown."
+    },
+    {
+      "scholar_rank": 62,
+      "title": "Mikhail Lifshits: an enigmatic Marxist",
+      "authors": "A Maidansky, V Oittinen",
+      "venue": "Studies in East European Thought 68 (4), 241-246, 2016",
+      "year": "2016",
+      "citations": "5",
+      "category": "source_scan",
+      "local_matches": [
+        {
+          "source": "source_scans_manifest",
+          "title": "Mikhail Lifshits an enigmatic Marxist",
+          "path": "maidansky_markdown/source_scans/academia/mikhail-lifshits-an-enigmatic-marxist.pdf",
+          "match_type": "exact"
+        },
+        {
+          "source": "academia_manifest",
+          "title": "Mikhail Lifshits an enigmatic Marxist",
+          "path": "maidansky_markdown/metadata/academia_manifest.json",
+          "match_type": "exact",
+          "item_index": 19,
+          "status": "listed"
+        }
+      ],
+      "priority": "none",
+      "notes": "Exact title match to an existing unprocessed source scan."
+    },
+    {
+      "scholar_rank": 63,
+      "title": "Консервативная революция Мих. Лифшиц на уроках Гегеля",
+      "authors": "А Майданский",
+      "venue": "Свободная мысль, 209-220, 2015",
+      "year": "2015",
+      "citations": "5",
+      "category": "source_gap",
+      "local_matches": [],
+      "priority": "medium",
+      "notes": "Project-relevant Scholar record not found in local Markdown or source scans."
+    },
+    {
+      "scholar_rank": 64,
+      "title": "Читая Спинозу",
+      "authors": "А Майданский",
+      "venue": "Saarbrücken: Lambert Academic Publishing, 2012",
+      "year": "2012",
+      "citations": "5",
+      "category": "source_scan",
+      "local_matches": [
+        {
+          "source": "source_scans_manifest",
+          "title": "Читая Спинозу",
+          "path": "maidansky_markdown/source_scans/academia/chitaya-spinozu.pdf",
+          "match_type": "exact"
+        },
+        {
+          "source": "academia_manifest",
+          "title": "Читая Спинозу",
+          "path": "maidansky_markdown/metadata/academia_manifest.json",
+          "match_type": "exact",
+          "item_index": 3,
+          "status": "listed"
+        }
+      ],
+      "priority": "none",
+      "notes": "Exact title match to an existing unprocessed source scan."
+    },
+    {
+      "scholar_rank": 65,
+      "title": "Се человек: Одиссея двух дефиниций",
+      "authors": "АД Майданский",
+      "venue": "NOMOTHETIKA: Философия. Социология. Право 22 (20 (139)), 11-15, 2012",
+      "year": "2012",
+      "citations": "5",
+      "category": "markdown_corpus",
+      "local_matches": [
+        {
+          "source": "markdown_corpus",
+          "title": "Се Человек: Одиссея двух дефиниций",
+          "path": "maidansky_markdown/maidansky_md/istoriya-filosofii/istoriya-filosofii-se-chelovek-odisseya-dvuh-definitsii.md",
+          "match_type": "exact"
+        },
+        {
+          "source": "maidansky_catalog_manifest",
+          "title": "Се Человек: Одиссея двух дефиниций",
+          "path": "maidansky_markdown/maidansky_md/istoriya-filosofii/istoriya-filosofii-se-chelovek-odisseya-dvuh-definitsii.md",
+          "match_type": "exact"
+        }
+      ],
+      "priority": "none",
+      "notes": "Exact title match to existing Maidansky Markdown corpus text."
+    },
+    {
+      "scholar_rank": 66,
+      "title": "Как разлагалась мысль",
+      "authors": "А Майданский",
+      "venue": "Философско-литературный журнал «Логос», 175-183, 2009",
+      "year": "2009",
+      "citations": "5",
+      "category": "markdown_corpus",
+      "local_matches": [
+        {
+          "source": "markdown_corpus",
+          "title": "Как разлагалась мысль",
+          "path": "maidansky_markdown/maidansky_md/dialekticheskaya-logika/dialekticheskaya-logika-kak-razlagalas-mysl.md",
+          "match_type": "exact"
+        },
+        {
+          "source": "maidansky_catalog_manifest",
+          "title": "Как разлагалась мысль",
+          "path": "maidansky_markdown/maidansky_md/dialekticheskaya-logika/dialekticheskaya-logika-kak-razlagalas-mysl.md",
+          "match_type": "exact"
+        }
+      ],
+      "priority": "none",
+      "notes": "Exact title match to existing Maidansky Markdown corpus text."
+    },
+    {
+      "scholar_rank": 67,
+      "title": "Объективная телеология Спинозы",
+      "authors": "АД Майданский",
+      "venue": "Историко-философский ежегодник 18, 136-145, 2003",
+      "year": "2003",
+      "citations": "5",
+      "category": "markdown_corpus",
+      "local_matches": [
+        {
+          "source": "markdown_corpus",
+          "title": "Объективная телеология Спинозы",
+          "path": "maidansky_markdown/maidansky_md/istoriya-filosofii/istoriya-filosofii-obektivnaya-teleologiya-spinozy.md",
+          "match_type": "exact"
+        },
+        {
+          "source": "maidansky_catalog_manifest",
+          "title": "Объективная телеология Спинозы",
+          "path": "maidansky_markdown/maidansky_md/istoriya-filosofii/istoriya-filosofii-obektivnaya-teleologiya-spinozy.md",
+          "match_type": "exact"
+        }
+      ],
+      "priority": "none",
+      "notes": "Exact title match to existing Maidansky Markdown corpus text."
+    },
+    {
+      "scholar_rank": 68,
+      "title": "Понятие вращивания в теории развития высших психологических функций",
+      "authors": "АД Майданский",
+      "venue": "Культурно-историческая психология 20 (3), 36-44, 2024",
+      "year": "2024",
+      "citations": "4",
+      "category": "source_gap",
+      "local_matches": [],
+      "priority": "high",
+      "notes": "Project-relevant Scholar record not found in local Markdown or source scans."
+    },
+    {
+      "scholar_rank": 69,
+      "title": "Эволюция психики: аффект и разум",
+      "authors": "АД Майданский",
+      "venue": "Научный результат. Педагогика и психология образования 8 (2), 120-133, 2022",
+      "year": "2022",
+      "citations": "4",
+      "category": "source_scan",
+      "local_matches": [
+        {
+          "source": "source_scans_manifest",
+          "title": "Эволюция психики аффект и разум",
+          "path": "maidansky_markdown/source_scans/academia/evolyutsiya-psihiki-affekt-i-razum.pdf",
+          "match_type": "exact"
+        },
+        {
+          "source": "academia_manifest",
+          "title": "Эволюция психики аффект и разум",
+          "path": "maidansky_markdown/metadata/academia_manifest.json",
+          "match_type": "exact",
+          "item_index": 47,
+          "status": "listed"
+        }
+      ],
+      "priority": "none",
+      "notes": "Exact title match to an existing unprocessed source scan."
+    },
+    {
+      "scholar_rank": 70,
+      "title": "Lev Vygotsky’s psychology of freedom",
+      "authors": "AD Maidansky",
+      "venue": "Russian Studies in Philosophy 59 (4), 275-289, 2021",
+      "year": "2021",
+      "citations": "4",
+      "category": "source_gap",
+      "local_matches": [],
+      "priority": "medium",
+      "notes": "Project-relevant Scholar record not found in local Markdown or source scans."
+    },
+    {
+      "scholar_rank": 71,
+      "title": "Evald Ilyenkov and Soviet Philosophy",
+      "authors": "V Oittinen",
+      "venue": "Monthly Review, 2020",
+      "year": "2020",
+      "citations": "4",
+      "category": "source_scan",
+      "local_matches": [
+        {
+          "source": "source_scans_manifest",
+          "title": "Evald Ilyenkov and Soviet Philosophy",
+          "path": "maidansky_markdown/source_scans/academia/evald-ilyenkov-and-soviet-philosophy.pdf",
+          "match_type": "exact"
+        },
+        {
+          "source": "academia_manifest",
+          "title": "Evald Ilyenkov and Soviet Philosophy",
+          "path": "maidansky_markdown/metadata/academia_manifest.json",
+          "match_type": "exact",
+          "item_index": 26,
+          "status": "downloaded"
+        }
+      ],
+      "priority": "none",
+      "notes": "Exact title match to an existing unprocessed source scan."
+    },
+    {
+      "scholar_rank": 72,
+      "title": "Дело Ильенкова-Коровикова",
+      "authors": "А Майданский",
+      "venue": "Свободная мысль, 213-221, 2016",
+      "year": "2016",
+      "citations": "4",
+      "category": "source_gap",
+      "local_matches": [],
+      "priority": "medium",
+      "notes": "Project-relevant Scholar record not found in local Markdown or source scans."
+    },
+    {
+      "scholar_rank": 73,
+      "title": "Экономика и свобода в\" науке истории\" Маркса",
+      "authors": "А Майданский",
+      "venue": "Философско-литературный журнал «Логос», 46-54, 2011",
+      "year": "2011",
+      "citations": "4",
+      "category": "source_gap",
+      "local_matches": [],
+      "priority": "medium",
+      "notes": "Project-relevant Scholar record not found in local Markdown or source scans."
+    },
+    {
+      "scholar_rank": 74,
+      "title": "Понятие личности в культурно-исторической психологии",
+      "authors": "А Майданский",
+      "venue": "Свободная мысль, 77-92, 2011",
+      "year": "2011",
+      "citations": "4",
+      "category": "source_gap",
+      "local_matches": [],
+      "priority": "medium",
+      "notes": "Project-relevant Scholar record not found in local Markdown or source scans."
+    },
+    {
+      "scholar_rank": 75,
+      "title": "«Истинная логика» Спинозы",
+      "authors": "АД Майданский",
+      "venue": "История философии, 149-168, 2010",
+      "year": "2010",
+      "citations": "4",
+      "category": "source_gap",
+      "local_matches": [],
+      "priority": "medium",
+      "notes": "Project-relevant Scholar record not found in local Markdown or source scans."
+    },
+    {
+      "scholar_rank": 76,
+      "title": "В поисках дефиниции человека",
+      "authors": "АД Майданский",
+      "venue": "Вестник таганрогского института управления и экономики, 65-69, 2009",
+      "year": "2009",
+      "citations": "4",
+      "category": "bibliographic_lead",
+      "local_matches": [],
+      "priority": "low",
+      "notes": "Cited Scholar record retained as a bibliographic lead; not currently in source scans or Markdown."
+    },
+    {
+      "scholar_rank": 77,
+      "title": "Размышления о назначении философии",
+      "authors": "А Майданский",
+      "venue": "Alma mater: Вестник высшей школы, 41-42, 2002",
+      "year": "2002",
+      "citations": "4",
+      "category": "markdown_corpus",
+      "local_matches": [
+        {
+          "source": "markdown_corpus",
+          "title": "Размышления о назначении философии",
+          "path": "maidansky_markdown/maidansky_md/retsenzii/retsenzii-razmyshleniya-o-naznachenii-filosofii.md",
+          "match_type": "exact"
+        },
+        {
+          "source": "maidansky_catalog_manifest",
+          "title": "Размышления о назначении философии",
+          "path": "maidansky_markdown/maidansky_md/retsenzii/retsenzii-razmyshleniya-o-naznachenii-filosofii.md",
+          "match_type": "exact"
+        }
+      ],
+      "priority": "none",
+      "notes": "Exact title match to existing Maidansky Markdown corpus text."
+    },
+    {
+      "scholar_rank": 78,
+      "title": "Учение Парменида о бытии в истории логического мышления",
+      "authors": "АВ Федосеенков, АД Майданский",
+      "venue": "ФИЛОСОФСКОЕ НАСЛЕДИЕ АНТИЧНОСТИ, 43-45, 1999",
+      "year": "1999",
+      "citations": "4",
+      "category": "markdown_corpus",
+      "local_matches": [
+        {
+          "source": "maidansky_catalog_manifest",
+          "title": "Учение Парменида о бытии в истории логического мышления",
+          "path": "maidansky_markdown/maidansky_md/miniatyury/miniatyury-uchenie-parmenida-o-bytii-v-istorii-logicheskogo-myshleniya.md",
+          "match_type": "exact"
+        }
+      ],
+      "priority": "none",
+      "notes": "Exact title match to existing Maidansky Markdown corpus text."
+    },
+    {
+      "scholar_rank": 79,
+      "title": "Логический метод Р. Декарта и Б. Спинозы: Монография",
+      "authors": "АД Майданский",
+      "venue": "Таганрог, Изд-во ТРТУ, 1998",
+      "year": "1998",
+      "citations": "4",
+      "category": "source_gap",
+      "local_matches": [],
+      "priority": "medium",
+      "notes": "Project-relevant Scholar record not found in local Markdown or source scans."
+    },
+    {
+      "scholar_rank": 80,
+      "title": "Открытия домашнего архива ЭВ Ильенкова",
+      "authors": "АД Майданский",
+      "venue": "Вопросы философии, 84-94, 2024",
+      "year": "2024",
+      "citations": "3",
+      "category": "markdown_corpus",
+      "local_matches": [
+        {
+          "source": "markdown_corpus",
+          "title": "Открытия домашнего архива Э.В. Ильенкова",
+          "path": "maidansky_markdown/maidansky_md/istoriya-filosofii/istoriya-filosofii-otkrytiya-domashnego-arhiva-e-v-ilenkova.md",
+          "match_type": "human_collated_ocr"
+        },
+        {
+          "source": "source_scans_manifest",
+          "title": "Открытия домашнего архива Э.В. Ильенкова",
+          "path": "maidansky_markdown/source_scans/voprosy_filosofii/otkrytiya-domashnego-arhiva-e-v-ilyenkova.pdf",
+          "match_type": "article_pdf"
+        }
+      ],
+      "priority": "none",
+      "notes": "Human-collated OCR Markdown exists and is backed by the local article-level source scan."
+    },
+    {
+      "scholar_rank": 81,
+      "title": "Гегель в зеркалах советской философии",
+      "authors": "АД Майданский",
+      "venue": "Концепт: философия, религия, культура 7 (4), 8-20, 2023",
+      "year": "2023",
+      "citations": "3",
+      "category": "source_gap",
+      "local_matches": [],
+      "priority": "medium",
+      "notes": "Project-relevant Scholar record not found in local Markdown or source scans."
+    },
+    {
+      "scholar_rank": 82,
+      "title": "Saving philosopher Descartes: Valentin Asmus as a guardian of culture",
+      "authors": "A Maidansky, M Maidansky",
+      "venue": "Studies in East European Thought 75 (4), 599-612, 2023",
+      "year": "2023",
+      "citations": "3",
+      "category": "bibliographic_lead",
+      "local_matches": [],
+      "priority": "low",
+      "notes": "Lower-priority bibliographic lead outside the current Ilyenkov/Spinoza-focused acquisition scope."
+    },
+    {
+      "scholar_rank": 83,
+      "title": "Thinking and labour (reading Vygotsky)",
+      "authors": "AD Maidansky",
+      "venue": "Cultural-Historical Psychology 19 (3), 4-12, 2023",
+      "year": "2023",
+      "citations": "3",
+      "category": "duplicate_or_variant",
+      "local_matches": [],
+      "priority": "none",
+      "notes": "Likely translated/reprinted variant of: Мышление и труд читая Выготского."
+    },
+    {
+      "scholar_rank": 84,
+      "title": "Культурно-историческая психология: истоки и новая реальность",
+      "authors": "АД Майданский",
+      "venue": "Izdatelʹstvo\" Kanon-Pli︠u︡s\", 2023",
+      "year": "2023",
+      "citations": "3",
+      "category": "source_gap",
+      "local_matches": [
+        {
+          "source": "academia_manifest",
+          "title": "Культурно историческая психология Истоки и новая реальность",
+          "path": "maidansky_markdown/metadata/academia_manifest.json",
+          "match_type": "exact",
+          "item_index": 49,
+          "status": "source_unavailable"
+        }
+      ],
+      "priority": "medium",
+      "notes": "Project-relevant Scholar record; local Academia metadata marks the source as unavailable, so this remains a source gap."
+    },
+    {
+      "scholar_rank": 85,
+      "title": "Remolding the Human: The Transhumanist Ideas in Marx and Russian Marxists",
+      "authors": "A Maidansky",
+      "venue": "New Proposals: Journal of Marxism and Interdisciplinary Inquiry 12 (1), 2021",
+      "year": "2021",
+      "citations": "3",
+      "category": "source_gap",
+      "local_matches": [],
+      "priority": "medium",
+      "notes": "Project-relevant Scholar record not found in local Markdown or source scans."
+    },
+    {
+      "scholar_rank": 86,
+      "title": "«Культурная психология» ЛС Выготскогов оптике Спинозы и Маркса",
+      "authors": "АД Майданский",
+      "venue": "Культурно-историческая психология 14 (1), 126-130, 2018",
+      "year": "2018",
+      "citations": "3",
+      "category": "source_gap",
+      "local_matches": [],
+      "priority": "medium",
+      "notes": "Project-relevant Scholar record not found in local Markdown or source scans."
+    },
+    {
+      "scholar_rank": 87,
+      "title": "Гуманитарная экспертиза: перспективы и границы возможностей",
+      "authors": "АД Майданский",
+      "venue": "Философские науки, 110-116, 2017",
+      "year": "2017",
+      "citations": "3",
+      "category": "bibliographic_lead",
+      "local_matches": [],
+      "priority": "low",
+      "notes": "Cited Scholar record retained as a bibliographic lead; not currently in source scans or Markdown."
+    },
+    {
+      "scholar_rank": 88,
+      "title": "Радикальная метафилософия АВ Потемкина",
+      "authors": "АД Майданский",
+      "venue": "NOMOTHETIKA: Философия. Социология. Право 39 (3 (252)), 185-186, 2017",
+      "year": "2017",
+      "citations": "3",
+      "category": "bibliographic_lead",
+      "local_matches": [],
+      "priority": "low",
+      "notes": "Cited Scholar record retained as a bibliographic lead; not currently in source scans or Markdown."
+    },
+    {
+      "scholar_rank": 89,
+      "title": "О заметках ЭВ Ильенкова на полях рукописи МК Петрова «Искусство и наука»",
+      "authors": "АД Майданский",
+      "venue": "Наука. Искусство. Культура, 187-194, 2016",
+      "year": "2016",
+      "citations": "3",
+      "category": "source_gap",
+      "local_matches": [],
+      "priority": "medium",
+      "notes": "Project-relevant Scholar record not found in local Markdown or source scans."
+    },
+    {
+      "scholar_rank": 90,
+      "title": "Истина и заблуждение: ревизия классических дефиниций",
+      "authors": "АД Майданский",
+      "venue": "Наука. Искусство. Культура, 75-82, 2014",
+      "year": "2014",
+      "citations": "3",
+      "category": "bibliographic_lead",
+      "local_matches": [],
+      "priority": "low",
+      "notes": "Cited Scholar record retained as a bibliographic lead; not currently in source scans or Markdown."
+    },
+    {
+      "scholar_rank": 91,
+      "title": "A Marx for the Left Today: Interview with Marcello Musto",
+      "authors": "V Oittinene, A Maidansky",
+      "venue": "Cultural Logic: A Journal of Marxist Theory & Practice 17, 2010",
+      "year": "2010",
+      "citations": "3",
+      "category": "source_gap",
+      "local_matches": [],
+      "priority": "medium",
+      "notes": "Project-relevant Scholar record not found in local Markdown or source scans."
+    },
+    {
+      "scholar_rank": 92,
+      "title": "Старейшее жизнеописание Спинозы",
+      "authors": "АД Майданский",
+      "venue": "Вопросы философии, 116-118, 2006",
+      "year": "2006",
+      "citations": "3",
+      "category": "source_gap",
+      "local_matches": [],
+      "priority": "medium",
+      "notes": "Project-relevant Scholar record not found in local Markdown or source scans."
+    },
+    {
+      "scholar_rank": 93,
+      "title": "Principium coexsistentiae, или История одного сновидения магистра Иммануила Канта",
+      "authors": "АД Майданский",
+      "venue": "Вопросы философии, 2005",
+      "year": "2005",
+      "citations": "3",
+      "category": "markdown_corpus",
+      "local_matches": [
+        {
+          "source": "maidansky_catalog_manifest",
+          "title": "Principium coexsistentiae, или История одного сновидения магистра Иммануила Канта",
+          "path": "maidansky_markdown/maidansky_md/istoriya-filosofii/istoriya-filosofii-principium-coexsistentiae-ili-istoriya-odnogo-snovideniya-magistra-imma.md",
+          "match_type": "exact"
+        }
+      ],
+      "priority": "none",
+      "notes": "Exact title match to existing Maidansky Markdown corpus text."
+    },
+    {
+      "scholar_rank": 94,
+      "title": "The Reform of Logic in Descartes's and Spinoza's Works",
+      "authors": "AD Maidanskii",
+      "venue": "Russian Studies in Philosophy 37 (2), 25-44, 1998",
+      "year": "1998",
+      "citations": "3",
+      "category": "markdown_corpus",
+      "local_matches": [
+        {
+          "source": "maidansky_catalog_manifest",
+          "title": "The Reform of Logic in Descartes’s and Spinoza’s Works",
+          "path": "maidansky_markdown/maidansky_md/istoriya-filosofii/istoriya-filosofii-the-reform-of-logic-in-descartes-s-and-spinoza-s-works.md",
+          "match_type": "exact"
+        }
+      ],
+      "priority": "none",
+      "notes": "Exact title match to existing Maidansky Markdown corpus text."
+    },
+    {
+      "scholar_rank": 95,
+      "title": "О системе категорий культурно-исторической психологии",
+      "authors": "АД Майданский, ВВ Рубцов",
+      "venue": "Культурно-историческая психология 21 (3), 4-14, 2025",
+      "year": "2025",
+      "citations": "2",
+      "category": "source_gap",
+      "local_matches": [],
+      "priority": "high",
+      "notes": "Project-relevant Scholar record not found in local Markdown or source scans."
+    },
+    {
+      "scholar_rank": 96,
+      "title": "ЭВ Ильенков о свободе воли",
+      "authors": "АД Майданский",
+      "venue": "Культурно-историческая психология 20 (1), 89-96, 2024",
+      "year": "2024",
+      "citations": "2",
+      "category": "source_scan",
+      "local_matches": [
+        {
+          "source": "source_scans_manifest",
+          "title": "Э.В. Ильенков о свободе воли",
+          "path": "maidansky_markdown/source_scans/psyjournals/e-v-ilyenkov-o-svobode-voli.pdf",
+          "match_type": "exact_normalized"
+        }
+      ],
+      "priority": "none",
+      "notes": "Normalized title match to the newly added PsyJournals source scan."
+    },
+    {
+      "scholar_rank": 97,
+      "title": "Примитив и сверхчеловек в культурной психологии ЛС Выготского",
+      "authors": "АД Майданский",
+      "venue": "Сибирский психологический журнал, 6-19, 2021",
+      "year": "2021",
+      "citations": "2",
+      "category": "source_gap",
+      "local_matches": [],
+      "priority": "medium",
+      "notes": "Project-relevant Scholar record not found in local Markdown or source scans."
+    },
+    {
+      "scholar_rank": 98,
+      "title": "Мечта Выготского и идея свободы в марксистской психологии",
+      "authors": "АД Майданский",
+      "venue": "Свободная мысль, 197-210, 2021",
+      "year": "2021",
+      "citations": "2",
+      "category": "source_scan",
+      "local_matches": [
+        {
+          "source": "source_scans_manifest",
+          "title": "Мечта Выготского и идея свободы в марксистской психологии",
+          "path": "maidansky_markdown/source_scans/academia/mechta-vygotskogo-i-ideya-svobody-v-marksistskoi-psihologii.pdf",
+          "match_type": "exact"
+        },
+        {
+          "source": "academia_manifest",
+          "title": "Мечта Выготского и идея свободы в марксистской психологии",
+          "path": "maidansky_markdown/metadata/academia_manifest.json",
+          "match_type": "exact",
+          "item_index": 39,
+          "status": "listed"
+        }
+      ],
+      "priority": "none",
+      "notes": "Exact title match to an existing unprocessed source scan."
+    },
+    {
+      "scholar_rank": 99,
+      "title": "Гегель и культурноисторическая психология",
+      "authors": "АД Майданский",
+      "venue": "Научный результат. Социальные и гуманитарные исследования 6 (4), 13-17, 2020",
+      "year": "2020",
+      "citations": "2",
+      "category": "source_gap",
+      "local_matches": [],
+      "priority": "medium",
+      "notes": "Project-relevant Scholar record not found in local Markdown or source scans."
+    },
+    {
+      "scholar_rank": 100,
+      "title": "АИ Мещеряков о формировании человеческой психики у слепоглухих детей",
+      "authors": "АД Майданский",
+      "venue": "Клиническая и специальная психология 9 (4), 188-200, 2020",
+      "year": "2020",
+      "citations": "2",
+      "category": "source_gap",
+      "local_matches": [],
+      "priority": "medium",
+      "notes": "Project-relevant Scholar record not found in local Markdown or source scans."
+    },
+    {
+      "scholar_rank": 101,
+      "title": "Онтогенез человеческой психики и языка в работах ЭВ Ильенкова",
+      "authors": "АД Майданский",
+      "venue": "Сибирский психологический журнал, 20-31, 2020",
+      "year": "2020",
+      "citations": "2",
+      "category": "source_gap",
+      "local_matches": [],
+      "priority": "medium",
+      "notes": "Project-relevant Scholar record not found in local Markdown or source scans."
+    },
+    {
+      "scholar_rank": 102,
+      "title": "Историзм в психологии",
+      "authors": "АД МАЙДАНСКИЙ, ЕЭ ИЛЛЕШ",
+      "venue": "Вопросы философии, 79-89, 2018",
+      "year": "2018",
+      "citations": "2",
+      "category": "source_gap",
+      "local_matches": [],
+      "priority": "medium",
+      "notes": "Project-relevant Scholar record not found in local Markdown or source scans."
+    },
+    {
+      "scholar_rank": 103,
+      "title": "Лейбниц как фигура «Умеренного Просвещения»",
+      "authors": "АД Майданский",
+      "venue": "Наука. Искусство. Культура, 82-88, 2016",
+      "year": "2016",
+      "citations": "2",
+      "category": "bibliographic_lead",
+      "local_matches": [],
+      "priority": "low",
+      "notes": "Cited Scholar record retained as a bibliographic lead; not currently in source scans or Markdown."
+    },
+    {
+      "scholar_rank": 104,
+      "title": "Два метода, две версии диалектики:«Феноменология духа» против «Науки логики»",
+      "authors": "АД Майданский",
+      "venue": "М.: Изд-во СГУ, 224-240, 2014",
+      "year": "2014",
+      "citations": "2",
+      "category": "source_gap",
+      "local_matches": [],
+      "priority": "medium",
+      "notes": "Project-relevant Scholar record not found in local Markdown or source scans."
+    },
+    {
+      "scholar_rank": 105,
+      "title": "Ascent Toward the Ideal",
+      "authors": "AD Maidansky",
+      "venue": "Russian Studies in Philosophy 48 (4), 63-75, 2010",
+      "year": "2010",
+      "citations": "2",
+      "category": "source_scan",
+      "local_matches": [
+        {
+          "source": "source_scans_manifest",
+          "title": "Ascent Toward the Ideal",
+          "path": "maidansky_markdown/source_scans/academia/ascent-toward-the-ideal-2.pdf",
+          "match_type": "exact"
+        },
+        {
+          "source": "source_scans_manifest",
+          "title": "Ascent Toward the Ideal",
+          "path": "maidansky_markdown/source_scans/academia/ascent-toward-the-ideal.pdf",
+          "match_type": "exact"
+        },
+        {
+          "source": "academia_manifest",
+          "title": "Ascent Toward the Ideal",
+          "path": "maidansky_markdown/metadata/academia_manifest.json",
+          "match_type": "exact",
+          "item_index": 1,
+          "status": "listed"
+        },
+        {
+          "source": "academia_manifest",
+          "title": "Ascent Toward the Ideal",
+          "path": "maidansky_markdown/metadata/academia_manifest.json",
+          "match_type": "exact",
+          "item_index": 36,
+          "status": "listed"
+        }
+      ],
+      "priority": "none",
+      "notes": "Exact title match to an existing unprocessed source scan."
+    },
+    {
+      "scholar_rank": 106,
+      "title": "Штрихи к аксиоматике человека",
+      "authors": "АД Майданский",
+      "venue": "Человек, 93-98, 2010",
+      "year": "2010",
+      "citations": "2",
+      "category": "bibliographic_lead",
+      "local_matches": [],
+      "priority": "low",
+      "notes": "Cited Scholar record retained as a bibliographic lead; not currently in source scans or Markdown."
+    },
+    {
+      "scholar_rank": 107,
+      "title": "Проблема универсального логического метода в работах Декарта и Спинозы",
+      "authors": "АД Майданский",
+      "venue": "",
+      "year": "2000",
+      "citations": "2",
+      "category": "source_gap",
+      "local_matches": [],
+      "priority": "medium",
+      "notes": "Project-relevant Scholar record not found in local Markdown or source scans."
+    },
+    {
+      "scholar_rank": 108,
+      "title": "Понятие разума в философии Бенедикта Спинозы",
+      "authors": "АД Майданский",
+      "venue": "Философский журнал 16 (4), 124-143, 2023",
+      "year": "2023",
+      "citations": "1",
+      "category": "duplicate_or_variant",
+      "local_matches": [
+        {
+          "source": "source_scans_manifest",
+          "title": "Понятие разума в философии Бенедикта Спинозы by Andrey Maidansky 2023 • Философский журнал",
+          "path": "maidansky_markdown/source_scans/academia/ponyatie-razuma-v-filosofii-benedikta-spinozy-by-andrey-maidansky-2023-filosofskii-zhurnal.pdf",
+          "match_type": "loose"
+        }
+      ],
+      "priority": "none",
+      "notes": "Likely duplicate, reprint, translation, or title variant of a local record."
+    },
+    {
+      "scholar_rank": 109,
+      "title": "Л.С. Выготский. О методических основах психологического изучения культурно своеобразных народов",
+      "authors": "АД Майданский, АА Леонтьева",
+      "venue": "Диалог со временем 81, 382–401, 2022",
+      "year": "2022",
+      "citations": "1",
+      "category": "source_gap",
+      "local_matches": [],
+      "priority": "medium",
+      "notes": "Project-relevant Scholar record not found in local Markdown or source scans."
+    },
+    {
+      "scholar_rank": 110,
+      "title": "КОММЕНТАРИИ ТЕКСТА ЭВ ИЛЬЕНКОВА «К БЕСЕДЕ ОБ ЭСТЕТИКЕ ГЕГЕЛЯ»",
+      "authors": "ЕЭ Иллеш, АД Майданский",
+      "venue": "Наука. Искусство. Культура, 129-136, 2022",
+      "year": "2022",
+      "citations": "1",
+      "category": "source_gap",
+      "local_matches": [],
+      "priority": "medium",
+      "notes": "Project-relevant Scholar record not found in local Markdown or source scans."
+    },
+    {
+      "scholar_rank": 111,
+      "title": "Культурно-исторический и колонизационный подходы в этнопсихологии детства",
+      "authors": "АД Майданский",
+      "venue": "Наука. Искусство. Культура, 103-123, 2022",
+      "year": "2022",
+      "citations": "1",
+      "category": "source_scan",
+      "local_matches": [
+        {
+          "source": "source_scans_manifest",
+          "title": "Культурно исторический и колонизационный подходы в этнопсихологии детства",
+          "path": "maidansky_markdown/source_scans/academia/kulturno-istoricheskii-i-kolonizatsionnyi-podhody-v-etnopsihologii-detstva.pdf",
+          "match_type": "exact"
+        },
+        {
+          "source": "academia_manifest",
+          "title": "Культурно исторический и колонизационный подходы в этнопсихологии детства",
+          "path": "maidansky_markdown/metadata/academia_manifest.json",
+          "match_type": "exact",
+          "item_index": 48,
+          "status": "listed"
+        }
+      ],
+      "priority": "none",
+      "notes": "Exact title match to an existing unprocessed source scan."
+    },
+    {
+      "scholar_rank": 112,
+      "title": "Recent Archival Discoveries and New Perspectives in Vygotsky Studies Guest Editor’s Introduction",
+      "authors": "AD Maidansky",
+      "venue": "Russian Studies in Philosophy 59 (4), 255-262, 2021",
+      "year": "2021",
+      "citations": "1",
+      "category": "source_gap",
+      "local_matches": [],
+      "priority": "medium",
+      "notes": "Project-relevant Scholar record not found in local Markdown or source scans."
+    },
+    {
+      "scholar_rank": 113,
+      "title": "Book Review: Vygotsky's Notebooks: A Selection",
+      "authors": "A Maidansky",
+      "venue": "Frontiers in Psychology 11, 595795, 2021",
+      "year": "2021",
+      "citations": "1",
+      "category": "source_gap",
+      "local_matches": [],
+      "priority": "medium",
+      "notes": "Project-relevant Scholar record not found in local Markdown or source scans."
+    },
+    {
+      "scholar_rank": 114,
+      "title": "Джеймс Д. УАЙТ. Маркс и Россия: судьба доктрины",
+      "authors": "АД Майданский",
+      "venue": "Вопросы философии, 220-222, 2021",
+      "year": "2021",
+      "citations": "1",
+      "category": "source_gap",
+      "local_matches": [],
+      "priority": "medium",
+      "notes": "Project-relevant Scholar record not found in local Markdown or source scans."
+    },
+    {
+      "scholar_rank": 115,
+      "title": "Unseen life of the intellect",
+      "authors": "A Maidansky",
+      "venue": "Rethinking Marxism 33 (1), 168-173, 2021",
+      "year": "2021",
+      "citations": "1",
+      "category": "duplicate_or_variant",
+      "local_matches": [
+        {
+          "source": "source_scans_manifest",
+          "title": "Unseen Life of the Intellect Review of Vygotsky s Notebooks A Selection edited by Ekaterina Zavershneva and René van der Veer Singapore Springer 2018",
+          "path": "maidansky_markdown/source_scans/academia/unseen-life-of-the-intellect-review-of-vygotsky-s-notebooks-a-selection-edited-by-ekaterina-zavershneva-and-ren-van-der-.pdf",
+          "match_type": "loose"
+        }
+      ],
+      "priority": "none",
+      "notes": "Likely duplicate, reprint, translation, or title variant of a local record."
+    },
+    {
+      "scholar_rank": 116,
+      "title": "К работе Мещерякова (послесловие и примечания АД Майданского)",
+      "authors": "ЭВ Ильенков, АД Майданский",
+      "venue": "Консультативная психология и психотерапия 29 (4), 164-174, 2021",
+      "year": "2021",
+      "citations": "1",
+      "category": "source_gap",
+      "local_matches": [],
+      "priority": "medium",
+      "notes": "Project-relevant Scholar record not found in local Markdown or source scans."
+    },
+    {
+      "scholar_rank": 117,
+      "title": "The “Revisionist Revolution” and Future Prospects of Vygotskian Studies",
+      "authors": "AD Maidansky",
+      "venue": "Культурно-историческая психология 17 (2), 23-28, 2021",
+      "year": "2021",
+      "citations": "1",
+      "category": "source_scan",
+      "local_matches": [
+        {
+          "source": "source_scans_manifest",
+          "title": "The Revisionist Revolution and Future Prospects of Vygotskian Studies",
+          "path": "maidansky_markdown/source_scans/academia/the-revisionist-revolution-and-future-prospects-of-vygotskian-studies.pdf",
+          "match_type": "exact"
+        },
+        {
+          "source": "academia_manifest",
+          "title": "The Revisionist Revolution and Future Prospects of Vygotskian Studies",
+          "path": "maidansky_markdown/metadata/academia_manifest.json",
+          "match_type": "exact",
+          "item_index": 41,
+          "status": "listed"
+        }
+      ],
+      "priority": "none",
+      "notes": "Exact title match to an existing unprocessed source scan."
+    },
+    {
+      "scholar_rank": 118,
+      "title": "«Практический материализм» в понимании мышления: ЭВ Ильенков и ФТ Михайлов",
+      "authors": "АД Майданский",
+      "venue": "Культурно-историческая психология 17 (1), 37-41, 2021",
+      "year": "2021",
+      "citations": "1",
+      "category": "source_gap",
+      "local_matches": [],
+      "priority": "medium",
+      "notes": "Project-relevant Scholar record not found in local Markdown or source scans."
+    },
+    {
+      "scholar_rank": 119,
+      "title": "Evald Ilyenkov and Soviet Philosophy: interview",
+      "authors": "A Maidansky, V Oittinen",
+      "venue": "Monthly Review 71, 2021",
+      "year": "2021",
+      "citations": "1",
+      "category": "duplicate_or_variant",
+      "local_matches": [
+        {
+          "source": "source_scans_manifest",
+          "title": "Evald Ilyenkov and Soviet Philosophy",
+          "path": "maidansky_markdown/source_scans/academia/evald-ilyenkov-and-soviet-philosophy.pdf",
+          "match_type": "loose"
+        }
+      ],
+      "priority": "none",
+      "notes": "Likely translated/reprinted variant of: Evald Ilyenkov and Soviet Philosophy."
+    },
+    {
+      "scholar_rank": 120,
+      "title": "Гегель и Гомель в советской философии и психологии",
+      "authors": "АД Майданский",
+      "venue": "Интеллектуальная культура Беларуси: духовно-нравственные традиции и …, 2020",
+      "year": "2020",
+      "citations": "1",
+      "category": "source_gap",
+      "local_matches": [],
+      "priority": "medium",
+      "notes": "Project-relevant Scholar record not found in local Markdown or source scans."
+    },
+    {
+      "scholar_rank": 121,
+      "title": "'Inorganic Body of Man': The Transhumanist Ideas in Marx",
+      "authors": "A Maidansky, N Biryukov",
+      "venue": "SHS Web of Conferences 72, 03006, 2019",
+      "year": "2019",
+      "citations": "1",
+      "category": "source_scan",
+      "local_matches": [
+        {
+          "source": "source_scans_manifest",
+          "title": "Inorganic body of man the transhumanist ideas in Marx",
+          "path": "maidansky_markdown/source_scans/academia/inorganic-body-of-man-the-transhumanist-ideas-in-marx.pdf",
+          "match_type": "exact"
+        },
+        {
+          "source": "academia_manifest",
+          "title": "Inorganic body of man the transhumanist ideas in Marx",
+          "path": "maidansky_markdown/metadata/academia_manifest.json",
+          "match_type": "exact",
+          "item_index": 44,
+          "status": "listed"
+        }
+      ],
+      "priority": "none",
+      "notes": "Exact title match to an existing unprocessed source scan."
+    },
+    {
+      "scholar_rank": 122,
+      "title": "The ‘True Religion’and the Philosophical God of Spinoza",
+      "authors": "A Maidansky",
+      "venue": "European Journal of Science and Theology, 2019",
+      "year": "2019",
+      "citations": "1",
+      "category": "source_scan",
+      "local_matches": [
+        {
+          "source": "source_scans_manifest",
+          "title": "The True Religion and the Philosophical God of Spinoza",
+          "path": "maidansky_markdown/source_scans/academia/the-true-religion-and-the-philosophical-god-of-spinoza.pdf",
+          "match_type": "exact"
+        },
+        {
+          "source": "academia_manifest",
+          "title": "The True Religion and the Philosophical God of Spinoza",
+          "path": "maidansky_markdown/metadata/academia_manifest.json",
+          "match_type": "exact",
+          "item_index": 25,
+          "status": "downloaded"
+        }
+      ],
+      "priority": "none",
+      "notes": "Exact title match to an existing unprocessed source scan."
+    },
+    {
+      "scholar_rank": 123,
+      "title": "Размышления над книгой СН Мареева\" ЭВ Ильенков: жить философией\"(М.: Академический проект, Трикста, 2015)",
+      "authors": "АД Майданский",
+      "venue": "Наука. Искусство. Культура, 180-186, 2019",
+      "year": "2019",
+      "citations": "1",
+      "category": "source_gap",
+      "local_matches": [],
+      "priority": "medium",
+      "notes": "Project-relevant Scholar record not found in local Markdown or source scans."
+    },
+    {
+      "scholar_rank": 124,
+      "title": "Русский марксизм как\" религия революции\"",
+      "authors": "АД Майданский",
+      "venue": "Наука. Искусство. Культура, 73-77, 2018",
+      "year": "2018",
+      "citations": "1",
+      "category": "source_gap",
+      "local_matches": [],
+      "priority": "medium",
+      "notes": "Project-relevant Scholar record not found in local Markdown or source scans."
+    },
+    {
+      "scholar_rank": 125,
+      "title": "Треугольник Ильенкова: марксизм в поисках философских корней",
+      "authors": "А Майданский",
+      "venue": "Stasis 5 (2), 446-474, 2017",
+      "year": "2017",
+      "citations": "1",
+      "category": "source_scan",
+      "local_matches": [
+        {
+          "source": "source_scans_manifest",
+          "title": "Треугольник Ильенкова марксизм в поисках философских корней",
+          "path": "maidansky_markdown/source_scans/academia/treugolnik-ilenkova-marksizm-v-poiskah-filosofskih-kornei.pdf",
+          "match_type": "exact"
+        },
+        {
+          "source": "academia_manifest",
+          "title": "Треугольник Ильенкова марксизм в поисках философских корней",
+          "path": "maidansky_markdown/metadata/academia_manifest.json",
+          "match_type": "exact",
+          "item_index": 23,
+          "status": "downloaded"
+        }
+      ],
+      "priority": "none",
+      "notes": "Exact title match to an existing unprocessed source scan."
+    },
+    {
+      "scholar_rank": 126,
+      "title": "Государство и научная революция",
+      "authors": "АД Майданский",
+      "venue": "Культура и цивилизация (Донецк), 29-35, 2017",
+      "year": "2017",
+      "citations": "1",
+      "category": "bibliographic_lead",
+      "local_matches": [],
+      "priority": "low",
+      "notes": "Cited Scholar record retained as a bibliographic lead; not currently in source scans or Markdown."
+    },
+    {
+      "scholar_rank": 127,
+      "title": "ФИЛОСОФСКАЯ ОТТЕПЕЛЬ И ПАДЕНИЕ ДОГМАТИЧЕСКОГО МАРКСИЗМА В РОССИИ. ФИЛОСОФСКИЙ ФАКУЛЬТЕТ МГУ ИМ. МВ ЛОМОНОСОВА В ВОСПОМИНАНИЯХ ЕГО ВЫПУСКНИКОВ. СОСТАВЛЕНИЕ, ОБЩАЯ РЕДАКЦИЯ И …",
+      "authors": "АД Майданский",
+      "venue": "Вопросы философии, 212-214, 2017",
+      "year": "2017",
+      "citations": "1",
+      "category": "source_gap",
+      "local_matches": [],
+      "priority": "low",
+      "notes": "Project-relevant Scholar record not found in local Markdown or source scans."
+    },
+    {
+      "scholar_rank": 128,
+      "title": "Комментарий ЭВ Ильенкова к гегелевской «Философии духа». Предисловие к публикации ГВФ Гегель.«Философия духа»",
+      "authors": "АД Майданский, ЭВ Ильенков",
+      "venue": "Наука. Искусство. Культура, 57-75, 2017",
+      "year": "2017",
+      "citations": "1",
+      "category": "source_gap",
+      "local_matches": [],
+      "priority": "low",
+      "notes": "Project-relevant Scholar record not found in local Markdown or source scans."
+    },
+    {
+      "scholar_rank": 129,
+      "title": "Дело Ильенкова–Коровикова: новые гипотезы и документы",
+      "authors": "АД Майданский",
+      "venue": "ББК 74.00 я43 Ф 56, 22, 2016",
+      "year": "2016",
+      "citations": "1",
+      "category": "source_gap",
+      "local_matches": [],
+      "priority": "low",
+      "notes": "Project-relevant Scholar record not found in local Markdown or source scans."
+    },
+    {
+      "scholar_rank": 130,
+      "title": "Ильенковские чтения. Обзор XVI Международной научной конференции",
+      "authors": "OF Ivashchuk, AD Maidanskii, EV Mareeva",
+      "venue": "Вопросы философии, 197-204, 2015",
+      "year": "2015",
+      "citations": "1",
+      "category": "source_gap",
+      "local_matches": [],
+      "priority": "low",
+      "notes": "Project-relevant Scholar record not found in local Markdown or source scans."
+    },
+    {
+      "scholar_rank": 131,
+      "title": "The Logic of Marx's Theory of History: Reforming Formations",
+      "authors": "AD Maidansky",
+      "venue": "Russian studies in philosophy 51 (2), 44-82, 2012",
+      "year": "2012",
+      "citations": "1",
+      "category": "source_scan",
+      "local_matches": [
+        {
+          "source": "source_scans_manifest",
+          "title": "The Logic of Marx s Theory of History Reforming Formations",
+          "path": "maidansky_markdown/source_scans/academia/the-logic-of-marx-s-theory-of-history-reforming-formations.pdf",
+          "match_type": "exact"
+        },
+        {
+          "source": "academia_manifest",
+          "title": "The Logic of Marx s Theory of History Reforming Formations",
+          "path": "maidansky_markdown/metadata/academia_manifest.json",
+          "match_type": "exact",
+          "item_index": 12,
+          "status": "listed"
+        }
+      ],
+      "priority": "none",
+      "notes": "Exact title match to an existing unprocessed source scan."
+    },
+    {
+      "scholar_rank": 132,
+      "title": "Иллюзии осознанного бытия",
+      "authors": "А Майданский",
+      "venue": "Свободная мысль, 191-194, 2012",
+      "year": "2012",
+      "citations": "1",
+      "category": "markdown_corpus",
+      "local_matches": [
+        {
+          "source": "markdown_corpus",
+          "title": "Иллюзии осознанного бытия",
+          "path": "maidansky_markdown/maidansky_md/retsenzii/retsenzii-illyuzii-osoznannogo-bytiya.md",
+          "match_type": "exact"
+        },
+        {
+          "source": "maidansky_catalog_manifest",
+          "title": "Иллюзии осознанного бытия",
+          "path": "maidansky_markdown/maidansky_md/retsenzii/retsenzii-illyuzii-osoznannogo-bytiya.md",
+          "match_type": "exact"
+        }
+      ],
+      "priority": "none",
+      "notes": "Exact title match to existing Maidansky Markdown corpus text."
+    },
+    {
+      "scholar_rank": 133,
+      "title": "Мысль о России",
+      "authors": "А Майданский",
+      "venue": "Свободная мысль, 163-168, 2011",
+      "year": "2011",
+      "citations": "1",
+      "category": "duplicate_or_variant",
+      "local_matches": [
+        {
+          "source": "maidansky_catalog_manifest",
+          "title": "Философское россиеведение: мысль о России и русская мысль.",
+          "path": "maidansky_markdown/maidansky_md/retsenzii/retsenzii-filosofskoe-rossievedenie-mysl-o-rossii-i-russkaya-mysl.md",
+          "match_type": "loose"
+        }
+      ],
+      "priority": "none",
+      "notes": "Likely duplicate, reprint, translation, or title variant of a local record."
+    },
+    {
+      "scholar_rank": 134,
+      "title": "А.Н. Ерыгин. Философское россиеведение: мысль о России и русская мысль",
+      "authors": "АД Майданский",
+      "venue": "Вопросы философии, 2011",
+      "year": "2011",
+      "citations": "1",
+      "category": "duplicate_or_variant",
+      "local_matches": [
+        {
+          "source": "maidansky_catalog_manifest",
+          "title": "Философское россиеведение: мысль о России и русская мысль.",
+          "path": "maidansky_markdown/maidansky_md/retsenzii/retsenzii-filosofskoe-rossievedenie-mysl-o-rossii-i-russkaya-mysl.md",
+          "match_type": "loose"
+        }
+      ],
+      "priority": "none",
+      "notes": "Likely duplicate, reprint, translation, or title variant of a local record."
+    },
+    {
+      "scholar_rank": 135,
+      "title": "Проблема начала в диалектической логике",
+      "authors": "АД Майданский",
+      "venue": "Вопросы философии, 98-105, 2026",
+      "year": "2026",
+      "citations": "",
+      "category": "source_gap",
+      "local_matches": [],
+      "priority": "high",
+      "notes": "Project-relevant Scholar record not found in local Markdown or source scans."
+    },
+    {
+      "scholar_rank": 136,
+      "title": "ЛС Выготский о «психологической физиологии»",
+      "authors": "АД Майданский",
+      "venue": "Cultural-Historical Psychology 22 (1), 10-17, 2026",
+      "year": "2026",
+      "citations": "",
+      "category": "source_gap",
+      "local_matches": [],
+      "priority": "high",
+      "notes": "Project-relevant Scholar record not found in local Markdown or source scans."
+    },
+    {
+      "scholar_rank": 137,
+      "title": "The Problem of the Beginning in Dialectical Logic",
+      "authors": "AD Maidansky",
+      "venue": "VOPROSY FILOSOFII, 98-105, 2026",
+      "year": "2026",
+      "citations": "",
+      "category": "duplicate_or_variant",
+      "local_matches": [],
+      "priority": "none",
+      "notes": "Likely translated/reprinted variant of: Проблема начала в диалектической логике."
+    },
+    {
+      "scholar_rank": 138,
+      "title": "Marxism and the classics: from Lenin to Ilyenkov",
+      "authors": "A Maidansky",
+      "venue": "STUDIES IN EAST EUROPEAN THOUGHT, 2025",
+      "year": "2025",
+      "citations": "",
+      "category": "source_gap",
+      "local_matches": [],
+      "priority": "high",
+      "notes": "Project-relevant Scholar record not found in local Markdown or source scans."
+    },
+    {
+      "scholar_rank": 139,
+      "title": "Review of: Vakhitov RR, Marksizm i klassika: ot Lenina k Ilyenkovu [Marxism and the classics: from Lenin to Ilyenkov], Moscow & Berlin, DirectMEDIA Publ., 2024, 448 pages, ISBN …",
+      "authors": "A Maidansky",
+      "venue": "Studies in East European Thought, 1-5, 2025",
+      "year": "2025",
+      "citations": "",
+      "category": "source_gap",
+      "local_matches": [],
+      "priority": "high",
+      "notes": "Project-relevant Scholar record not found in local Markdown or source scans."
+    },
+    {
+      "scholar_rank": 140,
+      "title": "Review of: Joseph Grim Feinberg, Ivan Landa & Jan Mervart (Eds.), Karel Kosík and the Dialectics of the Concrete, Leiden & Boston, Brill, 2022, 378 pages, ISBN …",
+      "authors": "A Maidansky",
+      "venue": "Studies in East European Thought 77 (6), 1281-1286, 2025",
+      "year": "2025",
+      "citations": "",
+      "category": "source_gap",
+      "local_matches": [],
+      "priority": "high",
+      "notes": "Project-relevant Scholar record not found in local Markdown or source scans."
+    },
+    {
+      "scholar_rank": 141,
+      "title": "Hegel in the mirrors of soviet philosophy",
+      "authors": "AD Maidansky",
+      "venue": "The Russian Journal of Cultural Studies and Communication 3 (2), 47-59, 2025",
+      "year": "2025",
+      "citations": "",
+      "category": "duplicate_or_variant",
+      "local_matches": [],
+      "priority": "none",
+      "notes": "Likely translated/reprinted variant of: Гегель в зеркалах советской философии."
+    },
+    {
+      "scholar_rank": 142,
+      "title": "База данных цифровой образовательной платформы «Культурно-историческая психология и теория деятельности»",
+      "authors": "ВВ Рубцов, АД Майданский, ВК Зарецкий, ОВ Рубцова, АА Шведовская, ...",
+      "venue": "МГППУ, 2025",
+      "year": "2025",
+      "citations": "",
+      "category": "source_gap",
+      "local_matches": [],
+      "priority": "high",
+      "notes": "Project-relevant Scholar record not found in local Markdown or source scans."
+    },
+    {
+      "scholar_rank": 143,
+      "title": "Review of: David Bakhurst, The Heart of the Matter: Ilyenkov, Vygotsky and the Courage of Thought, Leiden, Brill, 2023, 402 pp., ISBN: 1570-1522, ISBN: 978-90-04 …",
+      "authors": "A Maidansky",
+      "venue": "Studies in East European Thought 76 (3), 565-569, 2024",
+      "year": "2024",
+      "citations": "",
+      "category": "source_gap",
+      "local_matches": [],
+      "priority": "high",
+      "notes": "Project-relevant Scholar record not found in local Markdown or source scans."
+    },
+    {
+      "scholar_rank": 144,
+      "title": "БЭКХЕРСТ Д. Суть дела: Ильенков, Выготский и мужество мысли. Лейден: Бриль, 2023. 402 с.",
+      "authors": "АД Майданский",
+      "venue": "Вопросы философии, 220-222, 2024",
+      "year": "2024",
+      "citations": "",
+      "category": "source_gap",
+      "local_matches": [],
+      "priority": "high",
+      "notes": "Project-relevant Scholar record not found in local Markdown or source scans."
+    },
+    {
+      "scholar_rank": 145,
+      "title": "Spinoza’s Doctrine of Affect in Cultural-Historical Psychology",
+      "authors": "AD Maidansky",
+      "venue": "The Russian Journal of Cultural Studies and Communication 2 (4), 35-47, 2024",
+      "year": "2024",
+      "citations": "",
+      "category": "duplicate_or_variant",
+      "local_matches": [],
+      "priority": "none",
+      "notes": "Likely translated/reprinted variant of: Учение Спинозы об аффектах в культурно исторической психологии."
+    },
+    {
+      "scholar_rank": 146,
+      "title": "КУЛЬТУРНО-ИСТОРИЧЕСКАЯ ПСИХОЛОГИЯ",
+      "authors": "АД МАЙДАНСКИЙ",
+      "venue": "КУЛЬТУРНО-ИСТОРИЧЕСКАЯ ПСИХОЛОГИЯ Учредители: Московский государственный …, 2024",
+      "year": "2024",
+      "citations": "",
+      "category": "noise_or_uncertain",
+      "local_matches": [],
+      "priority": "none",
+      "notes": "Generic, incomplete, or uncertain Scholar record; do not acquire without manual review."
+    },
+    {
+      "scholar_rank": 147,
+      "title": "Discoveries of Evald Ilyenkov's Home Archive",
+      "authors": "AD Maidansky",
+      "venue": "VOPROSY FILOSOFII, 84-94, 2024",
+      "year": "2024",
+      "citations": "",
+      "category": "duplicate_or_variant",
+      "local_matches": [],
+      "priority": "none",
+      "notes": "Likely translated/reprinted variant of: Открытия домашнего архива ЭВ Ильенкова."
+    },
+    {
+      "scholar_rank": 148,
+      "title": "ЭВ Ильенков о системе категорий диалектической логики",
+      "authors": "АД Майданский",
+      "venue": "Антиномии 24 (4), 53-72, 2024",
+      "year": "2024",
+      "citations": "",
+      "category": "source_gap",
+      "local_matches": [],
+      "priority": "high",
+      "notes": "Project-relevant Scholar record not found in local Markdown or source scans."
+    },
+    {
+      "scholar_rank": 149,
+      "title": "ЭВ Ильенков и Московский логический кружок: материалы полемики",
+      "authors": "АД Майданский, ЕЭ Иллеш",
+      "venue": "Отечественная философия 2 (2), 62-86, 2024",
+      "year": "2024",
+      "citations": "",
+      "category": "source_gap",
+      "local_matches": [],
+      "priority": "high",
+      "notes": "Project-relevant Scholar record not found in local Markdown or source scans."
+    },
+    {
+      "scholar_rank": 150,
+      "title": "Теория познания Льва Выготского. Выготский ЛС Психология и теория познания/Подготовка текста, публикация и примечания АД Майданского",
+      "authors": "АД Майданский, ОГ Кравцов",
+      "venue": "Вопросы философии, 42-59, 2023",
+      "year": "2023",
+      "citations": "",
+      "category": "source_gap",
+      "local_matches": [],
+      "priority": "medium",
+      "notes": "Project-relevant Scholar record not found in local Markdown or source scans."
+    },
+    {
+      "scholar_rank": 151,
+      "title": "КУЛЬТУРНО-ИСТОРИЧЕСКАЯ ПСИХОЛОГИЯ",
+      "authors": "ОВ САЛОМАТОВА",
+      "venue": "КУЛЬТУРНО-ИСТОРИЧЕСКАЯ ПСИХОЛОГИЯ Учредители: Московский государственный …, 2023",
+      "year": "2023",
+      "citations": "",
+      "category": "duplicate_or_variant",
+      "local_matches": [],
+      "priority": "none",
+      "notes": "Likely duplicate, reprint, translation, or title variant of a local record."
+    },
+    {
+      "scholar_rank": 152,
+      "title": "Учредители: Институт философии и права УрО РАН",
+      "authors": "МВ ГОРОДЕЦКИЙ",
+      "venue": "АНТИНОМИИ Учредители: Институт философии и права УрО РАН 23 (1), 7-29, 2023",
+      "year": "2023",
+      "citations": "",
+      "category": "noise_or_uncertain",
+      "local_matches": [],
+      "priority": "none",
+      "notes": "Generic, incomplete, or uncertain Scholar record; do not acquire without manual review."
+    },
+    {
+      "scholar_rank": 153,
+      "title": "Глава 3. Культурно-историческая психология: современное состояние и направления развития научной школы",
+      "authors": "ВВ Рубцов, ВК Зарецкий, АД Майданский",
+      "venue": "",
+      "year": "2023",
+      "citations": "",
+      "category": "source_gap",
+      "local_matches": [],
+      "priority": "medium",
+      "notes": "Project-relevant Scholar record not found in local Markdown or source scans."
+    },
+    {
+      "scholar_rank": 154,
+      "title": "L'essence prâtique de l'homme: L'approche par l'activité dans la philosophie soviétique tardive",
+      "authors": "V Oittinen, A Maidansky",
+      "venue": "Editions Delga, 2023",
+      "year": "2023",
+      "citations": "",
+      "category": "source_gap",
+      "local_matches": [],
+      "priority": "medium",
+      "notes": "Project-relevant Scholar record not found in local Markdown or source scans."
+    },
+    {
+      "scholar_rank": 155,
+      "title": "КОНЦЕПТ: ФИЛОСОФИЯ, РЕЛИГИЯ, КУЛЬТУРА",
+      "authors": "ВВ БАРАШКОВ",
+      "venue": "КОНЦЕПТ: ФИЛОСОФИЯ, РЕЛИГИЯ, КУЛЬТУРА Учредители: Московский государственный …, 2023",
+      "year": "2023",
+      "citations": "",
+      "category": "noise_or_uncertain",
+      "local_matches": [],
+      "priority": "none",
+      "notes": "Generic, incomplete, or uncertain Scholar record; do not acquire without manual review."
+    },
+    {
+      "scholar_rank": 156,
+      "title": "Spinoza’s Doctrine of Affect in Cultural-Historical Psychology",
+      "authors": "A Maidansky",
+      "venue": "Concept: philosophy, religion, culture 6 (2), 7-19, 2022",
+      "year": "2022",
+      "citations": "",
+      "category": "duplicate_or_variant",
+      "local_matches": [],
+      "priority": "none",
+      "notes": "Likely translated/reprinted variant of: Учение Спинозы об аффектах в культурно исторической психологии."
+    },
+    {
+      "scholar_rank": 157,
+      "title": "Special sub-issue on Soviet Spinoza",
+      "authors": "V Oittinen",
+      "venue": "Springer, 2022",
+      "year": "2022",
+      "citations": "",
+      "category": "source_gap",
+      "local_matches": [],
+      "priority": "medium",
+      "notes": "Project-relevant Scholar record not found in local Markdown or source scans."
+    },
+    {
+      "scholar_rank": 158,
+      "title": "НАУЧНЫЙ РЕЗУЛЬТАТ. ПЕДАГОГИКА И ПСИХОЛОГИЯ ОБРАЗОВАНИЯ",
+      "authors": "АД МАЙДАНСКИЙ",
+      "venue": "НАУЧНЫЙ РЕЗУЛЬТАТ. ПЕДАГОГИКА И ПСИХОЛОГИЯ ОБРАЗОВАНИЯ Учредители …, 2022",
+      "year": "2022",
+      "citations": "",
+      "category": "source_gap",
+      "local_matches": [],
+      "priority": "medium",
+      "notes": "Project-relevant Scholar record not found in local Markdown or source scans."
+    },
+    {
+      "scholar_rank": 159,
+      "title": "КОДЫ ИСТОРИЧЕСКОЙ ПАМЯТИ В РОССИЙСКОЙ И МИРОВОЙ КУЛЬТУРЕ",
+      "authors": "АД МАЙДАНСКИЙ, ИА МАЙДАНСКАЯ",
+      "venue": "",
+      "year": "2022",
+      "citations": "",
+      "category": "noise_or_uncertain",
+      "local_matches": [],
+      "priority": "none",
+      "notes": "Generic, incomplete, or uncertain Scholar record; do not acquire without manual review."
+    },
+    {
+      "scholar_rank": 160,
+      "title": "Идея политехнизма в марксистской теории воспитания",
+      "authors": "A Maidansky",
+      "venue": "Stasis. 2022. Т. 13.№ 1. С. 177–196, 2022",
+      "year": "2022",
+      "citations": "",
+      "category": "source_scan",
+      "local_matches": [
+        {
+          "source": "source_scans_manifest",
+          "title": "Идея политехнизма в марксистской теории воспитания",
+          "path": "maidansky_markdown/source_scans/academia/ideya-politehnizma-v-marksistskoi-teorii-vospitaniya.pdf",
+          "match_type": "exact"
+        },
+        {
+          "source": "academia_manifest",
+          "title": "Идея политехнизма в марксистской теории воспитания",
+          "path": "maidansky_markdown/metadata/academia_manifest.json",
+          "match_type": "exact",
+          "item_index": 53,
+          "status": "listed"
+        }
+      ],
+      "priority": "none",
+      "notes": "Exact title match to an existing unprocessed source scan."
+    },
+    {
+      "scholar_rank": 161,
+      "title": "Сведения об официальном оппоненте",
+      "authors": "ЕЕ Завьялова",
+      "venue": "Virus 10, 937180-937180, 2022",
+      "year": "2022",
+      "citations": "",
+      "category": "noise_or_uncertain",
+      "local_matches": [],
+      "priority": "none",
+      "notes": "Generic, incomplete, or uncertain Scholar record; do not acquire without manual review."
+    },
+    {
+      "scholar_rank": 162,
+      "title": "FOREWORD TO THE PUBLICATION",
+      "authors": "VT KUDRYAVTSEV, AD MAIDANSKY",
+      "venue": "Cultural-Historical Psychology 17 (3), 5, 2021",
+      "year": "2021",
+      "citations": "",
+      "category": "source_gap",
+      "local_matches": [],
+      "priority": "medium",
+      "notes": "Project-relevant Scholar record not found in local Markdown or source scans."
+    },
+    {
+      "scholar_rank": 163,
+      "title": "КУЛЬТУРНО-ИСТОРИЧЕСКАЯ ПСИХОЛОГИЯ В НАШИ ДНИ: ОПАСНЫЕ СВЯЗИ",
+      "authors": "АД Майданский",
+      "venue": "Психология творчества и одаренности, 226-230, 2021",
+      "year": "2021",
+      "citations": "",
+      "category": "noise_or_uncertain",
+      "local_matches": [],
+      "priority": "none",
+      "notes": "Generic, incomplete, or uncertain Scholar record; do not acquire without manual review."
+    },
+    {
+      "scholar_rank": 164,
+      "title": "ДИАЛОГИЧЕСКИЙ МАРКСИЗМ ВАДИМА МЕЖУЕВА",
+      "authors": "АД Майданский",
+      "venue": "Наука. Искусство. Культура, 61-76, 2021",
+      "year": "2021",
+      "citations": "",
+      "category": "source_gap",
+      "local_matches": [],
+      "priority": "medium",
+      "notes": "Project-relevant Scholar record not found in local Markdown or source scans."
+    },
+    {
+      "scholar_rank": 165,
+      "title": "Философская антропология Страхова",
+      "authors": "ИА Майданская, АД Майданский",
+      "venue": "НН Страхов: pro et contra, антология, 718-741, 2021",
+      "year": "2021",
+      "citations": "",
+      "category": "markdown_corpus",
+      "local_matches": [
+        {
+          "source": "markdown_corpus",
+          "title": "Философская антропология Страхова",
+          "path": "maidansky_markdown/maidansky_md/istoriya-filosofii/istoriya-filosofii-filosofskaya-antropologiya-strahova.md",
+          "match_type": "exact"
+        },
+        {
+          "source": "maidansky_catalog_manifest",
+          "title": "Философская антропология Страхова",
+          "path": "maidansky_markdown/maidansky_md/istoriya-filosofii/istoriya-filosofii-filosofskaya-antropologiya-strahova.md",
+          "match_type": "exact"
+        }
+      ],
+      "priority": "none",
+      "notes": "Exact title match to existing Maidansky Markdown corpus text."
+    },
+    {
+      "scholar_rank": 166,
+      "title": "КАК ЭВАЛЬД ВАСИЛЬЕВИЧ ПОСПОРИЛ С МЕРАБОМ КОНСТАНТИНОВИЧЕМ",
+      "authors": "АД Майданский",
+      "venue": "Наука. Искусство. Культура, 86-98, 2021",
+      "year": "2021",
+      "citations": "",
+      "category": "noise_or_uncertain",
+      "local_matches": [],
+      "priority": "none",
+      "notes": "Generic, incomplete, or uncertain Scholar record; do not acquire without manual review."
+    },
+    {
+      "scholar_rank": 167,
+      "title": "«Ревизионистская революция» и перспективы исследований Выготского",
+      "authors": "АД Майданский",
+      "venue": "Культурно-историческая психология 17 (2), 23-28, 2021",
+      "year": "2021",
+      "citations": "",
+      "category": "source_gap",
+      "local_matches": [],
+      "priority": "medium",
+      "notes": "Project-relevant Scholar record not found in local Markdown or source scans."
+    },
+    {
+      "scholar_rank": 168,
+      "title": "James D. White: Marx and Russia: The Fate of a Doctrine London: Bloomsbury Academic, 2019, 240 pp, ISBN-10: 1474224067; ISBN-13: 978-1474224062",
+      "authors": "A Maidansky",
+      "venue": "Studies in East European Thought 73 (1), 2021",
+      "year": "2021",
+      "citations": "",
+      "category": "source_gap",
+      "local_matches": [],
+      "priority": "medium",
+      "notes": "Project-relevant Scholar record not found in local Markdown or source scans."
+    },
+    {
+      "scholar_rank": 169,
+      "title": "Hegel for social movements: by Andy Blunden, Leiden, Boston, Brill, 2019, 289 pp., $28.00 (Paperback), ISBN-10: 1642591920 ISBN-13: 978-1642591927",
+      "authors": "A Maidansky",
+      "venue": "Mind, Culture, and Activity 27 (4), 385-389, 2020",
+      "year": "2020",
+      "citations": "",
+      "category": "source_gap",
+      "local_matches": [],
+      "priority": "medium",
+      "notes": "Project-relevant Scholar record not found in local Markdown or source scans."
+    },
+    {
+      "scholar_rank": 170,
+      "title": "ЭВ Ильенков и советская философия",
+      "authors": "АД Майданский, В Ойттинен",
+      "venue": "Концепт: философия, религия, культура 4 (3), 180-186, 2020",
+      "year": "2020",
+      "citations": "",
+      "category": "source_gap",
+      "local_matches": [],
+      "priority": "medium",
+      "notes": "Project-relevant Scholar record not found in local Markdown or source scans."
+    },
+    {
+      "scholar_rank": 171,
+      "title": "Hegel in the Mirrors of Soviet Philosophy: From Love to Hate and Back Again",
+      "authors": "A Maidansky",
+      "venue": "Hegel Jahrbuch 2020 (1), 51-62, 2020",
+      "year": "2020",
+      "citations": "",
+      "category": "duplicate_or_variant",
+      "local_matches": [],
+      "priority": "none",
+      "notes": "Likely translated/reprinted variant of: Гегель в зеркалах советской философии."
+    },
+    {
+      "scholar_rank": 172,
+      "title": "СОВЕТСКАЯ ФИЛОСОФИЯ СОЗНАНИЯ 1950-80-Х ГОДОВ: КОНЦЕПЦИИ, ГИПОТЕЗЫ, СПОРЫ",
+      "authors": "АД МАЙДАНСКИЙ",
+      "venue": "",
+      "year": "2020",
+      "citations": "",
+      "category": "source_gap",
+      "local_matches": [],
+      "priority": "medium",
+      "notes": "Project-relevant Scholar record not found in local Markdown or source scans."
+    },
+    {
+      "scholar_rank": 173,
+      "title": "КУЛЬТУРНО-ИСТОРИЧЕСКАЯ ПСИХОЛОГИЯ В АРХИВАХ ЕЕ ТВОРЦОВ",
+      "authors": "АД МАЙДАНСКИЙ",
+      "venue": "MENTAL, 20-31, 2020",
+      "year": "2020",
+      "citations": "",
+      "category": "noise_or_uncertain",
+      "local_matches": [],
+      "priority": "none",
+      "notes": "Generic, incomplete, or uncertain Scholar record; do not acquire without manual review."
+    },
+    {
+      "scholar_rank": 174,
+      "title": "Избранное/Под общ. ред. Екатерины Завершневой и ене ван дер Веера by Записные книжки ЛС Выготского, and: Vygotsky's Notebooks: A Selection ed. by Ekaterina Zavershneva and René …",
+      "authors": "А Майданский",
+      "venue": "Ab Imperio 2020 (3), 473-481, 2020",
+      "year": "2020",
+      "citations": "",
+      "category": "source_gap",
+      "local_matches": [],
+      "priority": "medium",
+      "notes": "Project-relevant Scholar record not found in local Markdown or source scans."
+    },
+    {
+      "scholar_rank": 175,
+      "title": "Hegel's logic revisited, reconsidered and applied. Hegel for social movements by Andy Blunden, Leiden, Boston, Brill, 2019: book review",
+      "authors": "A Maidansky",
+      "venue": "Mind, Culture, and Activity 27, 2020",
+      "year": "2020",
+      "citations": "",
+      "category": "source_gap",
+      "local_matches": [],
+      "priority": "medium",
+      "notes": "Project-relevant Scholar record not found in local Markdown or source scans."
+    },
+    {
+      "scholar_rank": 176,
+      "title": "Anton Yasnitsky, René Van der Veer (eds.): Revisionist revolution in Vygotsky studiesl: book review",
+      "authors": "A Maidansky",
+      "venue": "",
+      "year": "2020",
+      "citations": "",
+      "category": "source_gap",
+      "local_matches": [],
+      "priority": "medium",
+      "notes": "Project-relevant Scholar record not found in local Markdown or source scans."
+    },
+    {
+      "scholar_rank": 177,
+      "title": "ПРАГМАТИЧЕСКОЕ ВОСПОМИНАНИЕ И ШТРИХИ К РОСТОВСКОЙ ФИЛОСОФИИ СОЗНАНИЯ",
+      "authors": "АД Майданский",
+      "venue": "Наука. Искусство. Культура, 74-80, 2020",
+      "year": "2020",
+      "citations": "",
+      "category": "noise_or_uncertain",
+      "local_matches": [],
+      "priority": "none",
+      "notes": "Generic, incomplete, or uncertain Scholar record; do not acquire without manual review."
+    },
+    {
+      "scholar_rank": 178,
+      "title": "Гегель, Маркс и фурия революции",
+      "authors": "АД Майданский",
+      "venue": "Наследие Гегеля в истории философии и культуры: к 250-летию со дня рождения …, 2020",
+      "year": "2020",
+      "citations": "",
+      "category": "source_gap",
+      "local_matches": [],
+      "priority": "medium",
+      "notes": "Project-relevant Scholar record not found in local Markdown or source scans."
+    },
+    {
+      "scholar_rank": 179,
+      "title": "У истоков радикального Просвещения:\" невидимый колледж\" Спинозы",
+      "authors": "АД Майданский",
+      "venue": "",
+      "year": "2019",
+      "citations": "",
+      "category": "source_gap",
+      "local_matches": [],
+      "priority": "medium",
+      "notes": "Project-relevant Scholar record not found in local Markdown or source scans."
+    },
+    {
+      "scholar_rank": 180,
+      "title": "Сергей Мареев о трудовой природе сознания",
+      "authors": "АД Майданский",
+      "venue": "Вестник Московского государственного университета культуры и искусств, 71-81, 2019",
+      "year": "2019",
+      "citations": "",
+      "category": "noise_or_uncertain",
+      "local_matches": [],
+      "priority": "none",
+      "notes": "Generic, incomplete, or uncertain Scholar record; do not acquire without manual review."
+    },
+    {
+      "scholar_rank": 181,
+      "title": "Логика Гегеля и современная психология. Рецензия на книгу: Hegel for social movements by Andy Blunden (Энди Бланден. Гегель для общественных движений)",
+      "authors": "АД Майданский",
+      "venue": "Сибирский психологический журнал, 183-189, 2019",
+      "year": "2019",
+      "citations": "",
+      "category": "duplicate_or_variant",
+      "local_matches": [
+        {
+          "source": "markdown_corpus",
+          "title": "Рецензия на книгу:",
+          "path": "maidansky_markdown/maidansky_md/retsenzii/retsenzii-filosofskoe-rossievedenie-mysl-o-rossii-i-russkaya-mysl.md",
+          "match_type": "loose"
+        },
+        {
+          "source": "markdown_corpus",
+          "title": "Рецензия на книгу:",
+          "path": "maidansky_markdown/maidansky_md/retsenzii/retsenzii-problema-dokazatelstva-v-filosofii.md",
+          "match_type": "loose"
+        }
+      ],
+      "priority": "none",
+      "notes": "Likely duplicate, reprint, translation, or title variant of a local record."
+    },
+    {
+      "scholar_rank": 182,
+      "title": "Сведения об официальном оппоненте",
+      "authors": "АД Майданский",
+      "venue": "Вопросы философии, 79-89, 2018",
+      "year": "2018",
+      "citations": "",
+      "category": "duplicate_or_variant",
+      "local_matches": [],
+      "priority": "none",
+      "notes": "Likely duplicate, reprint, translation, or title variant of a local record."
+    },
+    {
+      "scholar_rank": 183,
+      "title": "Историзм в психологии. ЭВ Ильенков",
+      "authors": "АД Майданский, ЕЭ Иллеш",
+      "venue": "",
+      "year": "2018",
+      "citations": "",
+      "category": "source_gap",
+      "local_matches": [],
+      "priority": "medium",
+      "notes": "Project-relevant Scholar record not found in local Markdown or source scans."
+    },
+    {
+      "scholar_rank": 184,
+      "title": "Bookshelf КНИЖНАЯ ПОЛКА",
+      "authors": "АД Майданский, ЕВ Павлов",
+      "venue": "Вестник мирБис, 24, 2018",
+      "year": "2018",
+      "citations": "",
+      "category": "noise_or_uncertain",
+      "local_matches": [],
+      "priority": "none",
+      "notes": "Generic, incomplete, or uncertain Scholar record; do not acquire without manual review."
+    },
+    {
+      "scholar_rank": 185,
+      "title": "LS Vygotsky's\" Cultural Psychology\" through the Lens of Spinoza and Marx",
+      "authors": "AD Maidansky",
+      "venue": "KULTURNO-ISTORICHESKAYA PSIKHOLOGIYA-CULTURAL-HISTORICAL PSYCHOLOGY 14 (1 …, 2018",
+      "year": "2018",
+      "citations": "",
+      "category": "source_gap",
+      "local_matches": [],
+      "priority": "medium",
+      "notes": "Project-relevant Scholar record not found in local Markdown or source scans."
+    },
+    {
+      "scholar_rank": 186,
+      "title": "Historism in Psychology. Publication by Andrey D. Maidansky, Elena E. Illesh",
+      "authors": "AD Maidansky, EE Illesh",
+      "venue": "VOPROSY FILOSOFII, 79-89, 2018",
+      "year": "2018",
+      "citations": "",
+      "category": "source_gap",
+      "local_matches": [],
+      "priority": "medium",
+      "notes": "Project-relevant Scholar record not found in local Markdown or source scans."
+    },
+    {
+      "scholar_rank": 187,
+      "title": "Диалог между дикарем и бакалавром: Вольтер",
+      "authors": "АД Майданский, МА Майданский",
+      "venue": "Человек, 119-126, 2017",
+      "year": "2017",
+      "citations": "",
+      "category": "noise_or_uncertain",
+      "local_matches": [],
+      "priority": "none",
+      "notes": "Generic, incomplete, or uncertain Scholar record; do not acquire without manual review."
+    },
+    {
+      "scholar_rank": 188,
+      "title": "Диалектика и проблемы развития науки",
+      "authors": "НВ Гусева, ВА Лазуткин, ВВ Лимонченко, ГВ Лобастов, ...",
+      "venue": "Казахстанско-Американский свободный университет, 2017",
+      "year": "2017",
+      "citations": "",
+      "category": "source_gap",
+      "local_matches": [],
+      "priority": "low",
+      "notes": "Project-relevant Scholar record not found in local Markdown or source scans."
+    },
+    {
+      "scholar_rank": 189,
+      "title": "The Ilyenkov Triangle: Marxism in Search of its Philosophical Rootsta eva",
+      "authors": "A Maidansky",
+      "venue": "",
+      "year": "2017",
+      "citations": "",
+      "category": "duplicate_or_variant",
+      "local_matches": [
+        {
+          "source": "source_scans_manifest",
+          "title": "The Ilyenkov Triangle Marxism in Search of its Philosophical Roots",
+          "path": "maidansky_markdown/source_scans/academia/the-ilyenkov-triangle-marxism-in-search-of-its-philosophical-roots.pdf",
+          "match_type": "loose"
+        }
+      ],
+      "priority": "none",
+      "notes": "Likely duplicate, reprint, translation, or title variant of a local record."
+    },
+    {
+      "scholar_rank": 190,
+      "title": "Цивилизованный дикарь вольтера",
+      "authors": "АД Майданский, МА Майданский",
+      "venue": "Человек, 117-118, 2017",
+      "year": "2017",
+      "citations": "",
+      "category": "noise_or_uncertain",
+      "local_matches": [],
+      "priority": "none",
+      "notes": "Generic, incomplete, or uncertain Scholar record; do not acquire without manual review."
+    },
+    {
+      "scholar_rank": 191,
+      "title": "An interview with Dmitri Gutov",
+      "authors": "A Maidansky, V Oittinen",
+      "venue": "Studies in East European Thought 68 (4), 247-254, 2016",
+      "year": "2016",
+      "citations": "",
+      "category": "source_scan",
+      "local_matches": [
+        {
+          "source": "source_scans_manifest",
+          "title": "An interview with Dmitri Gutov",
+          "path": "maidansky_markdown/source_scans/academia/an-interview-with-dmitri-gutov.pdf",
+          "match_type": "exact"
+        },
+        {
+          "source": "academia_manifest",
+          "title": "An interview with Dmitri Gutov",
+          "path": "maidansky_markdown/metadata/academia_manifest.json",
+          "match_type": "exact",
+          "item_index": 20,
+          "status": "listed"
+        }
+      ],
+      "priority": "none",
+      "notes": "Exact title match to an existing unprocessed source scan."
+    },
+    {
+      "scholar_rank": 192,
+      "title": "The aesthetic realism of Mikhail Lifshits: art, history and the communist ideal",
+      "authors": "A Maidansky",
+      "venue": "Studies in East European Thought 68 (4), 255-270, 2016",
+      "year": "2016",
+      "citations": "",
+      "category": "source_scan",
+      "local_matches": [
+        {
+          "source": "source_scans_manifest",
+          "title": "The aesthetic realism of Mikhail Lifshits art history and the communist ideal",
+          "path": "maidansky_markdown/source_scans/academia/the-aesthetic-realism-of-mikhail-lifshits-art-history-and-the-communist-ideal.pdf",
+          "match_type": "exact"
+        },
+        {
+          "source": "academia_manifest",
+          "title": "The aesthetic realism of Mikhail Lifshits art history and the communist ideal",
+          "path": "maidansky_markdown/metadata/academia_manifest.json",
+          "match_type": "exact",
+          "item_index": 21,
+          "status": "listed"
+        }
+      ],
+      "priority": "none",
+      "notes": "Exact title match to an existing unprocessed source scan."
+    },
+    {
+      "scholar_rank": 193,
+      "title": "Special issue on Mikhail Lifshits-An enigmatic Marxist",
+      "authors": "A Maidansky, V Oittinen",
+      "venue": "Springer, 2016",
+      "year": "2016",
+      "citations": "",
+      "category": "duplicate_or_variant",
+      "local_matches": [
+        {
+          "source": "source_scans_manifest",
+          "title": "Mikhail Lifshits an enigmatic Marxist",
+          "path": "maidansky_markdown/source_scans/academia/mikhail-lifshits-an-enigmatic-marxist.pdf",
+          "match_type": "loose"
+        }
+      ],
+      "priority": "none",
+      "notes": "Likely duplicate, reprint, translation, or title variant of a local record."
+    },
+    {
+      "scholar_rank": 194,
+      "title": "Трактат об очищении интеллекта. Жизнеописания Спинозы",
+      "authors": "АД Майданский",
+      "venue": "Общество с ограниченной ответственностью «Научно-издательский центр ИНФРА-М», 2016",
+      "year": "2016",
+      "citations": "",
+      "category": "source_gap",
+      "local_matches": [],
+      "priority": "low",
+      "notes": "Project-relevant Scholar record not found in local Markdown or source scans."
+    },
+    {
+      "scholar_rank": 195,
+      "title": "Философия науки",
+      "authors": "АД Майданский, СН Мареев, ЕВ Мареева",
+      "venue": "Общество с ограниченной ответственностью «Научно-издательский центр ИНФРА-М», 2016",
+      "year": "2016",
+      "citations": "",
+      "category": "noise_or_uncertain",
+      "local_matches": [],
+      "priority": "none",
+      "notes": "Generic, incomplete, or uncertain Scholar record; do not acquire without manual review."
+    },
+    {
+      "scholar_rank": 196,
+      "title": "Глава 3.\" ОБЩЕСТВО ЗНАНИЙ\": ФИЛОСОФСКО-МЕТОДОЛОГИЧЕСКАЯ КРИТИКА ПОНЯТИЯ",
+      "authors": "ГН Калинина, АД Майданский, НН Шамардин",
+      "venue": "Культурный капитал. Инновации. Наука (от писцовых школ к\" обществу знаний …, 2016",
+      "year": "2016",
+      "citations": "",
+      "category": "noise_or_uncertain",
+      "local_matches": [],
+      "priority": "none",
+      "notes": "Generic, incomplete, or uncertain Scholar record; do not acquire without manual review."
+    },
+    {
+      "scholar_rank": 197,
+      "title": "Глава 2. ГЕНЕЗИС\" ОБЩЕСТВА ЗНАНИЙ\" В ИНДУСТРИАЛЬНОЙ ЦИВИЛИЗАЦИИ",
+      "authors": "ГН Калинина, АД Майданский, НН Шамардин",
+      "venue": "Культурный капитал. Инновации. Наука (от писцовых школ к\" обществу знаний …, 2016",
+      "year": "2016",
+      "citations": "",
+      "category": "noise_or_uncertain",
+      "local_matches": [],
+      "priority": "none",
+      "notes": "Generic, incomplete, or uncertain Scholar record; do not acquire without manual review."
+    },
+    {
+      "scholar_rank": 198,
+      "title": "ЭВ ИЛЬЕНКОВ И МК ПЕТРОВ: СПОР НА ПОЛЯХ РУКОПИСИ",
+      "authors": "АД Майданский",
+      "venue": "Наследие МК Петрова: философия, культурология, науковедение, регионалистика …, 2016",
+      "year": "2016",
+      "citations": "",
+      "category": "source_gap",
+      "local_matches": [],
+      "priority": "low",
+      "notes": "Project-relevant Scholar record not found in local Markdown or source scans."
+    },
+    {
+      "scholar_rank": 199,
+      "title": "ДЕЛО ТЕХНИКИ: ДИАЛОГ ФИЛОСОФА С ПОЭТОМ",
+      "authors": "ИА Майданская, АД Майданский",
+      "venue": "ББК 87.2 Ч 39, 216, 2016",
+      "year": "2016",
+      "citations": "",
+      "category": "noise_or_uncertain",
+      "local_matches": [],
+      "priority": "none",
+      "notes": "Generic, incomplete, or uncertain Scholar record; do not acquire without manual review."
+    },
+    {
+      "scholar_rank": 200,
+      "title": "Amor caecus: Solovyov draws Spinoza",
+      "authors": "A Maidansky",
+      "venue": "",
+      "year": "2015",
+      "citations": "",
+      "category": "source_gap",
+      "local_matches": [],
+      "priority": "low",
+      "notes": "Project-relevant Scholar record not found in local Markdown or source scans."
+    },
+    {
+      "scholar_rank": 201,
+      "title": "The Practical Essence of Man",
+      "authors": "M East",
+      "venue": "",
+      "year": "2015",
+      "citations": "",
+      "category": "duplicate_or_variant",
+      "local_matches": [
+        {
+          "source": "source_scans_manifest",
+          "title": "The Practical Essence of Man The Activity Approach in Late Soviet Philosophy",
+          "path": "maidansky_markdown/source_scans/academia/the-practical-essence-of-man-the-activity-approach-in-late-soviet-philosophy.pdf",
+          "match_type": "loose"
+        }
+      ],
+      "priority": "none",
+      "notes": "Likely duplicate, reprint, translation, or title variant of a local record."
+    },
+    {
+      "scholar_rank": 202,
+      "title": "Russian Leviathan and the Marxist idea of dying out of the State",
+      "authors": "AD Maidansky",
+      "venue": "Научный результат. Социальные и гуманитарные исследования, 37-44, 2015",
+      "year": "2015",
+      "citations": "",
+      "category": "duplicate_or_variant",
+      "local_matches": [],
+      "priority": "none",
+      "notes": "Likely translated/reprinted variant of: Не отомрёт, с-собака!: Э.В. Ильенков о государстве."
+    },
+    {
+      "scholar_rank": 203,
+      "title": "Диалектика и герменевтика: логика дела против логики слова",
+      "authors": "АД Майданский",
+      "venue": "редакционная коллегия, 161, 2014",
+      "year": "2014",
+      "citations": "",
+      "category": "source_gap",
+      "local_matches": [],
+      "priority": "low",
+      "notes": "Project-relevant Scholar record not found in local Markdown or source scans."
+    },
+    {
+      "scholar_rank": 204,
+      "title": "Культурно-созидательный потенциал философии",
+      "authors": "ГВ Драч, ТГ Лешкевич, ОМ Штомпель, МВ Заковоротная, ...",
+      "venue": "Северо-Кавказский научный центр высшей школы федерального государственного …, 2014",
+      "year": "2014",
+      "citations": "",
+      "category": "noise_or_uncertain",
+      "local_matches": [],
+      "priority": "none",
+      "notes": "Generic, incomplete, or uncertain Scholar record; do not acquire without manual review."
+    },
+    {
+      "scholar_rank": 205,
+      "title": "Шедевры мировой философии. Возрождение. Новое время",
+      "authors": "ВВ Богданов, ОВ Галустян, МА Дедюлина, СА Дорошенко, ВА Ивлиев, ...",
+      "venue": "Федеральное государственное автономное образовательное учреждение высшего …, 2014",
+      "year": "2014",
+      "citations": "",
+      "category": "noise_or_uncertain",
+      "local_matches": [],
+      "priority": "none",
+      "notes": "Generic, incomplete, or uncertain Scholar record; do not acquire without manual review."
+    },
+    {
+      "scholar_rank": 206,
+      "title": "Global Future 2045 (review of the scientific conference in Belgorod)",
+      "authors": "SM Klimova, AD Maidansky",
+      "venue": "VOPROSY FILOSOFII, 172-175, 2014",
+      "year": "2014",
+      "citations": "",
+      "category": "bibliographic_lead",
+      "local_matches": [],
+      "priority": "low",
+      "notes": "Lower-priority bibliographic lead outside the current Ilyenkov/Spinoza-focused acquisition scope."
+    },
+    {
+      "scholar_rank": 207,
+      "title": "ББК 71.0 П 78",
+      "authors": "ОА Воронина, СМ Климова, ИЕ Кознова, СА Кутоманов, ...",
+      "venue": "",
+      "year": "2013",
+      "citations": "",
+      "category": "noise_or_uncertain",
+      "local_matches": [],
+      "priority": "none",
+      "notes": "Generic, incomplete, or uncertain Scholar record; do not acquire without manual review."
+    },
+    {
+      "scholar_rank": 208,
+      "title": "Диаграмма философской мысли",
+      "authors": "А Майданский",
+      "venue": "Свободная мысль, 201-205, 2009",
+      "year": "2009",
+      "citations": "",
+      "category": "markdown_corpus",
+      "local_matches": [
+        {
+          "source": "markdown_corpus",
+          "title": "Диаграмма философской мысли",
+          "path": "maidansky_markdown/maidansky_md/retsenzii/retsenzii-diagramma-filosofskoi-mysli.md",
+          "match_type": "exact"
+        },
+        {
+          "source": "maidansky_catalog_manifest",
+          "title": "Диаграмма философской мысли",
+          "path": "maidansky_markdown/maidansky_md/retsenzii/retsenzii-diagramma-filosofskoi-mysli.md",
+          "match_type": "exact"
+        }
+      ],
+      "priority": "none",
+      "notes": "Exact title match to existing Maidansky Markdown corpus text."
+    },
+    {
+      "scholar_rank": 209,
+      "title": "The oldest biography of Spinoza",
+      "authors": "AD Maidansky",
+      "venue": "VOPROSY FILOSOFII, 116-118, 2006",
+      "year": "2006",
+      "citations": "",
+      "category": "source_gap",
+      "local_matches": [],
+      "priority": "low",
+      "notes": "Project-relevant Scholar record not found in local Markdown or source scans."
+    },
+    {
+      "scholar_rank": 210,
+      "title": "Практическая истина коммунистических утопий",
+      "authors": "А Майданский",
+      "venue": "",
+      "year": "2006",
+      "citations": "",
+      "category": "markdown_corpus",
+      "local_matches": [
+        {
+          "source": "markdown_corpus",
+          "title": "Практическая истина коммунистических утопий",
+          "path": "maidansky_markdown/maidansky_md/teoriya-istorii/teoriya-istorii-prakticheskaya-istina-kommunisticheskih-utopii.md",
+          "match_type": "exact"
+        },
+        {
+          "source": "maidansky_catalog_manifest",
+          "title": "Практическая истина коммунистических утопий",
+          "path": "maidansky_markdown/maidansky_md/teoriya-istorii/teoriya-istorii-prakticheskaya-istina-kommunisticheskih-utopii.md",
+          "match_type": "exact"
+        }
+      ],
+      "priority": "none",
+      "notes": "Exact title match to existing Maidansky Markdown corpus text."
+    },
+    {
+      "scholar_rank": 211,
+      "title": "ВД РУТА. Проблема доказательства в философии. М.: Микрон-принт, 2002, 111с",
+      "authors": "АД Майданский",
+      "venue": "Вопросы философии, 175-176, 2004",
+      "year": "2004",
+      "citations": "",
+      "category": "duplicate_or_variant",
+      "local_matches": [
+        {
+          "source": "maidansky_catalog_manifest",
+          "title": "Проблема доказательства в философии",
+          "path": "maidansky_markdown/maidansky_md/retsenzii/retsenzii-problema-dokazatelstva-v-filosofii.md",
+          "match_type": "loose"
+        }
+      ],
+      "priority": "none",
+      "notes": "Likely duplicate, reprint, translation, or title variant of a local record."
+    },
+    {
+      "scholar_rank": 212,
+      "title": "История философии. Понятие мышления у Ильенкова и Спинозы",
+      "authors": "АД МАЙДАНСКИЙ",
+      "venue": "Voprosy filosofii, 2002",
+      "year": "2002",
+      "citations": "",
+      "category": "duplicate_or_variant",
+      "local_matches": [
+        {
+          "source": "markdown_corpus",
+          "title": "Понятие мышления у Ильенкова и Спинозы",
+          "path": "maidansky_markdown/maidansky_md/istoriya-filosofii/istoriya-filosofii-ponyatie-myshleniya-u-ilenkova-i-spinozy.md",
+          "match_type": "loose"
+        },
+        {
+          "source": "maidansky_catalog_manifest",
+          "title": "Понятие мышления у Ильенкова и Спинозы",
+          "path": "maidansky_markdown/maidansky_md/istoriya-filosofii/istoriya-filosofii-ponyatie-myshleniya-u-ilenkova-i-spinozy.md",
+          "match_type": "loose"
+        }
+      ],
+      "priority": "none",
+      "notes": "Likely duplicate, reprint, translation, or title variant of a local record."
+    },
+    {
+      "scholar_rank": 213,
+      "title": "Культура персонализации: личностный предел",
+      "authors": "АВ Федосеенков, АД Майданский, ИА Майданская",
+      "venue": "СТРОИТЕЛЬСТВО-2000, 133-133, 2000",
+      "year": "2000",
+      "citations": "",
+      "category": "noise_or_uncertain",
+      "local_matches": [],
+      "priority": "none",
+      "notes": "Generic, incomplete, or uncertain Scholar record; do not acquire without manual review."
+    },
+    {
+      "scholar_rank": 214,
+      "title": "Персонализация общения",
+      "authors": "АД Майданский, ОЛ Осыкин, АВ Федосеенков",
+      "venue": "СОВРЕМЕННЫЕ ОБРАЗОВАТЕЛЬНЫЕ ТЕХНОЛОГИИ И ПРОБЛЕМЫ СТАНОВЛЕНИЯ ЛИЧНОСТИ …, 2000",
+      "year": "2000",
+      "citations": "",
+      "category": "noise_or_uncertain",
+      "local_matches": [],
+      "priority": "none",
+      "notes": "Generic, incomplete, or uncertain Scholar record; do not acquire without manual review."
+    },
+    {
+      "scholar_rank": 215,
+      "title": "Russian disciples of Spinoza",
+      "authors": "AD Maidansky",
+      "venue": "VOPROSY FILOSOFII, 79-88, 1998",
+      "year": "1998",
+      "citations": "",
+      "category": "duplicate_or_variant",
+      "local_matches": [],
+      "priority": "none",
+      "notes": "Likely translated/reprinted variant of: Русские спинозисты."
+    },
+    {
+      "scholar_rank": 216,
+      "title": "Логический метод Р. Декарта и Б. Спинозы",
+      "authors": "AD Maĭdanskiĭ",
+      "venue": "Таганрогский гос. радиотехн. университет, 1998",
+      "year": "1998",
+      "citations": "",
+      "category": "duplicate_or_variant",
+      "local_matches": [],
+      "priority": "none",
+      "notes": "Likely duplicate, reprint, translation, or title variant of a local record."
+    },
+    {
+      "scholar_rank": 217,
+      "title": "Логика и феноменология общения",
+      "authors": "АД Майданский",
+      "venue": "",
+      "year": "1993",
+      "citations": "",
+      "category": "source_gap",
+      "local_matches": [],
+      "priority": "low",
+      "notes": "Project-relevant Scholar record not found in local Markdown or source scans."
+    },
+    {
+      "scholar_rank": 218,
+      "title": "ЭВ ИЛЬЕНКОВ И КОНЕЦ КЛАССИЧЕСКОЙ МАРКСИСТСКОЙ ФИЛОСОФИИ",
+      "authors": "АД МАЙДАНСКИЙ",
+      "venue": "",
+      "year": "",
+      "citations": "",
+      "category": "source_gap",
+      "local_matches": [],
+      "priority": "low",
+      "notes": "Project-relevant Scholar record not found in local Markdown or source scans."
+    },
+    {
+      "scholar_rank": 219,
+      "title": "La psicología de la libertad de Lev Vigotski",
+      "authors": "AD Maidansky",
+      "venue": "",
+      "year": "",
+      "citations": "",
+      "category": "duplicate_or_variant",
+      "local_matches": [],
+      "priority": "none",
+      "notes": "Likely translated/reprinted variant of: Lev Vygotsky’s psychology of freedom."
+    },
+    {
+      "scholar_rank": 220,
+      "title": "I. Hegel in Finnland und Skandinavien",
+      "authors": "CG Heidegren, L Kallio, E Lagerspetz, S Roman-Lagerspetz, ...",
+      "venue": "",
+      "year": "",
+      "citations": "",
+      "category": "source_gap",
+      "local_matches": [],
+      "priority": "low",
+      "notes": "Project-relevant Scholar record not found in local Markdown or source scans."
+    },
+    {
+      "scholar_rank": 221,
+      "title": "ЮЖНЫЙ ПОЛЮС ИССЛЕДОВАНИЯ ПО ИСТОРИИ СОВРЕМЕННОЙ ЗАПАДНОЙ ФИЛОСОФИИ 2023, № 10 (2) НАУЧНЫЙ РЕЦЕНЗИРУЕМЫЙ ЖУРНАЛ",
+      "authors": "А Майданский, М Демин, А Веретенников",
+      "venue": "",
+      "year": "",
+      "citations": "",
+      "category": "noise_or_uncertain",
+      "local_matches": [],
+      "priority": "none",
+      "notes": "Generic, incomplete, or uncertain Scholar record; do not acquire without manual review."
+    },
+    {
+      "scholar_rank": 222,
+      "title": "СИБИРСКИЙ ПСИХОЛОГИЧЕСКИЙ ЖУРНАЛ",
+      "authors": "АД МАЙДАНСКИЙ",
+      "venue": "СИБИРСКИЙ ПСИХОЛОГИЧЕСКИЙ ЖУРНАЛ Учредители: Национальный исследовательский …, 0",
+      "year": "",
+      "citations": "",
+      "category": "noise_or_uncertain",
+      "local_matches": [],
+      "priority": "none",
+      "notes": "Generic, incomplete, or uncertain Scholar record; do not acquire without manual review."
+    },
+    {
+      "scholar_rank": 223,
+      "title": "НАУКА. ИСКУССТВО. КУЛЬТУРА",
+      "authors": "ЕЭ Иллеш, АД Майданский",
+      "venue": "НАУКА. ИСКУССТВО. КУЛЬТУРА Учредители: Белгородский государственный институт …, 0",
+      "year": "",
+      "citations": "",
+      "category": "noise_or_uncertain",
+      "local_matches": [],
+      "priority": "none",
+      "notes": "Generic, incomplete, or uncertain Scholar record; do not acquire without manual review."
+    },
+    {
+      "scholar_rank": 224,
+      "title": "ВЕСТНИК МИРБИС",
+      "authors": "АД МАЙДАНСКИЙ",
+      "venue": "ВЕСТНИК МИРБИС Учредители: Московская международная высшая школа бизнеса …, 0",
+      "year": "",
+      "citations": "",
+      "category": "noise_or_uncertain",
+      "local_matches": [],
+      "priority": "none",
+      "notes": "Generic, incomplete, or uncertain Scholar record; do not acquire without manual review."
+    },
+    {
+      "scholar_rank": 225,
+      "title": "НАУКА. ИСКУССТВО. КУЛЬТУРА",
+      "authors": "ТИ Липич, ТА Рудавина",
+      "venue": "НАУКА. ИСКУССТВО. КУЛЬТУРА Учредители: Белгородский государственный институт …, 0",
+      "year": "",
+      "citations": "",
+      "category": "duplicate_or_variant",
+      "local_matches": [],
+      "priority": "none",
+      "notes": "Likely duplicate, reprint, translation, or title variant of a local record."
+    },
+    {
+      "scholar_rank": 226,
+      "title": "НАУКА. ИСКУССТВО. КУЛЬТУРА",
+      "authors": "АД Майданский",
+      "venue": "НАУКА. ИСКУССТВО. КУЛЬТУРА Учредители: Белгородский государственный институт …, 0",
+      "year": "",
+      "citations": "",
+      "category": "duplicate_or_variant",
+      "local_matches": [],
+      "priority": "none",
+      "notes": "Likely duplicate, reprint, translation, or title variant of a local record."
+    },
+    {
+      "scholar_rank": 227,
+      "title": "РАБОЧАЯ ПРОГРАММА ДИСЦИПЛИНЫ «ИСТОРИЯ И ФИЛОСОФИЯ НАУКИ»",
+      "authors": "Г бюджетное учреждение здравоохранения города Москвы, ...",
+      "venue": "",
+      "year": "",
+      "citations": "",
+      "category": "noise_or_uncertain",
+      "local_matches": [],
+      "priority": "none",
+      "notes": "Generic, incomplete, or uncertain Scholar record; do not acquire without manual review."
+    },
+    {
+      "scholar_rank": 228,
+      "title": "Современный российский спинозист АД Майданский, открывший нам русскую поклонницу Спинозы ВН Половцову, отмечал, что «неко-торые результаты ее изысканий были восприняты в-е …",
+      "authors": "А Майданский, Л Аксельрод",
+      "venue": "",
+      "year": "",
+      "citations": "",
+      "category": "source_gap",
+      "local_matches": [],
+      "priority": "low",
+      "notes": "Project-relevant Scholar record not found in local Markdown or source scans."
+    },
+    {
+      "scholar_rank": 229,
+      "title": "1. ОБЩИЕ ТРЕБОВАНИЯ К ЭКЗАМЕНУ",
+      "authors": "АД Майданский, ТВ Мордовцева",
+      "venue": "",
+      "year": "",
+      "citations": "",
+      "category": "noise_or_uncertain",
+      "local_matches": [],
+      "priority": "none",
+      "notes": "Generic, incomplete, or uncertain Scholar record; do not acquire without manual review."
+    },
+    {
+      "scholar_rank": 230,
+      "title": "Hegel’s logic revisited, reconsidered and applied",
+      "authors": "A Maidansky",
+      "venue": "",
+      "year": "",
+      "citations": "",
+      "category": "source_gap",
+      "local_matches": [],
+      "priority": "low",
+      "notes": "Project-relevant Scholar record not found in local Markdown or source scans."
+    },
+    {
+      "scholar_rank": 231,
+      "title": "НАУЧНАЯ РЕВОЛЮЦИЯ И ПРОБЛЕМА ОТМИРАНИЯ ГОСУДАРСТВА",
+      "authors": "АД Майданский",
+      "venue": "ББК 72.4 Д 44, 254, 0",
+      "year": "",
+      "citations": "",
+      "category": "noise_or_uncertain",
+      "local_matches": [],
+      "priority": "none",
+      "notes": "Generic, incomplete, or uncertain Scholar record; do not acquire without manual review."
+    },
+    {
+      "scholar_rank": 232,
+      "title": "Доктор философских наук, профессор кафедры философии. Белгородский государственный национальный исследовательский университет. 308015, Российская Федерация, Белгород, ул …",
+      "authors": "А Майданский",
+      "venue": "",
+      "year": "",
+      "citations": "",
+      "category": "noise_or_uncertain",
+      "local_matches": [],
+      "priority": "none",
+      "notes": "Generic, incomplete, or uncertain Scholar record; do not acquire without manual review."
+    },
+    {
+      "scholar_rank": 233,
+      "title": "The ‘ActivityApproach’inLateSovietPhilosophy",
+      "authors": "A Maidansky, V Oittinen",
+      "venue": "",
+      "year": "",
+      "citations": "",
+      "category": "source_gap",
+      "local_matches": [],
+      "priority": "low",
+      "notes": "Project-relevant Scholar record not found in local Markdown or source scans."
+    },
+    {
+      "scholar_rank": 234,
+      "title": "The Dialectical Logic of Evald llyenkov and Western European Marxism",
+      "authors": "R Wagner",
+      "venue": "",
+      "year": "",
+      "citations": "",
+      "category": "source_gap",
+      "local_matches": [],
+      "priority": "low",
+      "notes": "Project-relevant Scholar record not found in local Markdown or source scans."
+    },
+    {
+      "scholar_rank": 235,
+      "title": "О структуре и специфике человеческого языка",
+      "authors": "АД МАЙДАНСКИЙ",
+      "venue": "Вестник Таганрогского института управления и экономики, 49, 0",
+      "year": "",
+      "citations": "",
+      "category": "noise_or_uncertain",
+      "local_matches": [],
+      "priority": "none",
+      "notes": "Generic, incomplete, or uncertain Scholar record; do not acquire without manual review."
+    },
+    {
+      "scholar_rank": 236,
+      "title": "К генеалогии утопий",
+      "authors": "АД МАЙДАНСКИЙ",
+      "venue": "Вестник Таганрогского института управления и экономики, 60, 0",
+      "year": "",
+      "citations": "",
+      "category": "noise_or_uncertain",
+      "local_matches": [],
+      "priority": "none",
+      "notes": "Generic, incomplete, or uncertain Scholar record; do not acquire without manual review."
+    }
+  ]
+}

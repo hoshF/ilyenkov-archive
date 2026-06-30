@@ -57,9 +57,11 @@ SOURCE_FORMATS = {
 }
 BOOLEAN_FIELDS = {"core_corpus_eligible", "llm_wiki_eligible", "redistribution_approved"}
 NON_CORE_ROLES = TEXT_ROLES - {"author_original"}
-LEGACY_OCR_DIR = "caute_ru_markdown/ilyenkov_md/newspaper/"
-LEGACY_OCR_MANIFEST = "caute_ru_markdown/metadata/ilyenkov_newspaper_human_verification_manifest.json"
+LEGACY_OCR_DIR = "ilyenkov_markdown/ilyenkov_md/newspaper/"
+LEGACY_OCR_MANIFEST = "ilyenkov_markdown/metadata/ilyenkov_newspaper_human_verification_manifest.json"
 HUMAN_COLLATED_OCR_STATUS = "ocr_draft_human_collated"
+HUMAN_VERIFIED_OCR_STATUS = "ocr_human_verified"
+HUMAN_VERIFIED_OCR_STATUSES = {HUMAN_COLLATED_OCR_STATUS, HUMAN_VERIFIED_OCR_STATUS}
 HUMAN_COLLATED_OCR_PROVENANCE = "ocr_initial_then_manual_collation_against_source_images"
 CHAPTER_FIELDS = ("work_id", "chapter_index", "chapter_title")
 MAX_CHAPTER_BYTES = 500_000
@@ -70,6 +72,7 @@ TEXT_STATUSES = {
     "complete_surviving_dutch_text_unverified",
     "html_conversion_unverified",
     "ocr_draft_human_collated",
+    "ocr_human_verified",
     "ocr_human_verified_legacy",
     "partial_or_unverified",
     "partial_web_transcription",
@@ -111,6 +114,33 @@ def human_collated_ocr_entry(path: Path, root: Path = ROOT) -> dict[str, object]
     data = json.loads(manifest_path.read_text(encoding="utf-8"))
     rel = relative_name(path, root)
     return next((item for item in data.get("items", []) if item.get("markdown_path") == rel), None)
+
+
+def verified_ocr_entry(path: Path, root: Path = ROOT) -> dict[str, object] | None:
+    legacy = human_collated_ocr_entry(path, root)
+    if legacy:
+        return {
+            "markdown_path": legacy.get("markdown_path"),
+            "markdown_sha256": legacy.get("markdown_sha256"),
+            "verification_status": legacy.get("verification_status", "human_verified"),
+            "manifest": LEGACY_OCR_MANIFEST,
+        }
+    rel = relative_name(path, root)
+    for manifest_path in sorted(root.glob("*_markdown/digitization/*/human_verification_manifest.json")):
+        data = json.loads(manifest_path.read_text(encoding="utf-8"))
+        if data.get("final_markdown") == rel:
+            project_path = manifest_path.parent / "project.json"
+            project = json.loads(project_path.read_text(encoding="utf-8")) if project_path.is_file() else {}
+            return {
+                "markdown_path": data.get("final_markdown"),
+                "markdown_sha256": data.get("final_markdown_sha256"),
+                "verification_status": data.get("verification_status"),
+                "manifest": manifest_path.relative_to(root).as_posix(),
+                "manifest_type": "digitization",
+                "project_status": project.get("status"),
+                "ocr_activated": project.get("ocr_activated"),
+            }
+    return None
 
 
 def is_corpus_markdown(path: Path, root: Path = ROOT) -> bool:
@@ -183,7 +213,14 @@ def base_metadata_for(path: Path, text: str, root: Path = ROOT) -> dict[str, obj
             registered.get("default_language", "not_stated"),
             registered.get("collection_name", registered["id"]),
         )
-    elif rel.startswith(("caute_ru_markdown/metadata/", "spinoza_markdown/metadata/")):
+    elif rel.startswith((
+        "ilyenkov_markdown/metadata/",
+        "maidansky_markdown/metadata/",
+        "spinoza_markdown/metadata/",
+        "kedrov_markdown/metadata/",
+        "oizerman_markdown/metadata/",
+        "kopnin_markdown/metadata/",
+    )):
         page_type, tags, language, collection = (
             "analysis", ["source-metadata", "audit"], "zh" if contains_cjk(text) else "en", "corpus-metadata"
         )
@@ -251,7 +288,7 @@ def corpus_defaults(path: Path, text: str, current: dict[str, str], root: Path =
             "source_url": source_url,
             "provenance": HUMAN_COLLATED_OCR_PROVENANCE,
         }
-    if rel.startswith("caute_ru_markdown/ilyenkov_md/"):
+    if rel.startswith("ilyenkov_markdown/ilyenkov_md/"):
         translated = "/perevody/" in f"/{rel}"
         return {
             "text_role": "modern_translation" if translated else "author_original",
@@ -264,7 +301,7 @@ def corpus_defaults(path: Path, text: str, current: dict[str, str], root: Path =
             "text_status": status,
             "source_url": source_url,
         }
-    if rel.startswith("caute_ru_markdown/maidansky_md/"):
+    if rel.startswith("maidansky_markdown/maidansky_md/"):
         return {
             "text_role": "research",
             "core_corpus_eligible": "false",
@@ -425,14 +462,27 @@ def validate_file(path: Path, text: str, root: Path = ROOT) -> list[str]:
         errors.append(f"{rel}: core corpus requires text_role=author_original")
     if role in NON_CORE_ROLES and metadata.get("core_corpus_eligible") == "true":
         errors.append(f"{rel}: {role} cannot enter the core corpus")
+    if (
+        metadata.get("text_status") in HUMAN_VERIFIED_OCR_STATUSES
+        and metadata.get("source_format") in {"pdf", "image_scan"}
+        and metadata.get("provenance") != HUMAN_COLLATED_OCR_PROVENANCE
+    ):
+        errors.append(f"{rel}: verified OCR requires permanent OCR provenance")
     if metadata.get("core_corpus_eligible") == "true" and metadata.get("source_format") == "image_scan":
-        entry = human_collated_ocr_entry(path, root)
-        if metadata.get("text_status") != HUMAN_COLLATED_OCR_STATUS:
-            errors.append(f"{rel}: core image scan requires text_status={HUMAN_COLLATED_OCR_STATUS}")
+        entry = verified_ocr_entry(path, root)
+        if metadata.get("text_status") not in HUMAN_VERIFIED_OCR_STATUSES:
+            errors.append(f"{rel}: core image scan requires verified OCR text_status")
         if metadata.get("provenance") != HUMAN_COLLATED_OCR_PROVENANCE:
             errors.append(f"{rel}: core image scan requires approved OCR provenance")
         if not entry:
             errors.append(f"{rel}: core image scan is missing from the human verification manifest")
+        elif entry.get("verification_status") != "human_verified":
+            errors.append(f"{rel}: human verification manifest is not human_verified")
+        elif (
+            entry.get("manifest_type") == "digitization"
+            and (entry.get("project_status") != "human_verified" or entry.get("ocr_activated") is not True)
+        ):
+            errors.append(f"{rel}: digitization project must be activated and human_verified")
         elif entry.get("markdown_sha256") != sha256(path):
             errors.append(f"{rel}: human verification manifest SHA-256 mismatch")
     return errors

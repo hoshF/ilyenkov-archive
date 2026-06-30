@@ -23,8 +23,8 @@ People and collection paths are registered in `metadata/collections.json`; curre
 status is generated in [COLLECTION_STATUS.md](COLLECTION_STATUS.md). The tracked roots in
 `gbrain.yml` are synchronized by `scripts/manage_collections.py`.
 
-- `caute_ru_markdown/ilyenkov_md/`: Ilyenkov Russian texts, normally `author_original`.
-- `caute_ru_markdown/maidansky_md/`: Maidansky research and related scholarship.
+- `ilyenkov_markdown/ilyenkov_md/`: Ilyenkov Russian texts, normally `author_original`.
+- `maidansky_markdown/maidansky_md/`: Maidansky research and related scholarship.
 - `spinoza_markdown/spinoza_md/`: authorial-language texts, historical translations, and witnesses.
 - `kedrov_markdown/kedrov_md/`: Kedrov Russian texts converted from HTML.
 - `notes/`: research notes, terminology, and methods.
@@ -65,13 +65,17 @@ Run before synchronization:
 ```bash
 python3 scripts/manage_collections.py check
 python3 scripts/prepare_gbrain_markdown.py --check
+python3 scripts/check_glossaries.py --check
+python3 scripts/render_glossaries.py --check
 ```
 
 ## Operating Principles
 
 - Keep authorial originals, historical and modern translations, research, and AI content distinct.
-- Prefer genuine HTML or native structured EPUB. Do not initiate OCR or ingest PDF/DjVu text layers.
-- Human-verified OCR may enter the core only through the approved manifest process.
+- Prefer genuine HTML or native structured EPUB. Do not initiate OCR or ingest PDF/DjVu text layers
+  outside a registered, activated digitization project.
+- Human-verified authorial-language OCR may enter the core only through the approved manifest
+  process; digitized research remains outside the core corpus.
 - Cross-language explanation should begin from authorial-language text where available.
 - Search results and model answers are research entry points, not critical-edition conclusions.
 - AI-ready does not imply model-training permission.

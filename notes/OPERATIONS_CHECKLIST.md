@@ -31,12 +31,15 @@ Allowed:
 
 - Convert genuine HTML body text or native structured EPUB to Markdown while preserving provenance.
 - Store source-confirmed, role-confirmed text in registered corpus paths.
+- Promote OCR-derived Markdown only after the relevant digitization project or historical
+  verification manifest has passed human-review and hash checks.
 - Split works larger than 500,000 bytes with `scripts/split_longform_markdown.py`.
 
 Forbidden:
 
 - Mark modern translations, research, AI content, or unverified OCR as `author_original`.
-- Generate corpus text from PDF text layers, DjVuTXT, ABBYY, hOCR, or image recognition output.
+- Generate corpus text from PDF text layers, DjVuTXT, ABBYY, hOCR, or image recognition output
+  outside the activated digitization workflow.
 - Duplicate corpus text into a second wiki, translation source, or temporary corpus tree.
 
 Required checks:
@@ -64,7 +67,8 @@ Allowed:
 - Preserve freely downloadable PDF/DjVu files as edition evidence.
 - Register scans in `metadata/source_scans_manifest.json` with
   `text_status: "source_scan_unprocessed"`.
-- Initialize a later digitization project record without activating OCR.
+- Initialize a later digitization project record; OCR begins only after explicit work-level
+  activation.
 
 Forbidden:
 
@@ -113,6 +117,8 @@ python3 scripts/prepare_gbrain_markdown.py --check
 python3 scripts/verify_corpus_manifests.py
 python3 scripts/split_longform_markdown.py --check
 python3 scripts/update_agents_guide.py --check
+python3 scripts/check_glossaries.py --check
+python3 scripts/render_glossaries.py --check
 python3 -m unittest discover -s tests
 python3 scripts/export_public.py --check
 ```
@@ -121,4 +127,31 @@ Publish only with:
 
 ```bash
 scripts/publish_public.sh "publish: <message>"
+```
+
+## 4. Terminology And Proper Names
+
+Confirm first:
+
+- The entry belongs to a registered philosopher glossary under `<author_id>_markdown/metadata/`.
+- The category is one of `person`, `work`, `concept`, `institution`, or `journal`.
+- The status honestly reflects review state: `approved`, `provisional`, or `needs_review`.
+
+Allowed:
+
+- Add high-frequency proper names, works, journals, institutions, and philosophical concepts.
+- Keep unsettled Chinese terms in the formal table when they are marked `needs_review`.
+- Regenerate Markdown views from JSON source records.
+
+Forbidden:
+
+- Treat generated `notes/terminology/*.md` tables as the source of record.
+- Mark a term `approved` when only automated extraction has identified it.
+
+Required checks:
+
+```bash
+python3 scripts/render_glossaries.py --write
+python3 scripts/render_glossaries.py --check
+python3 scripts/check_glossaries.py --check
 ```

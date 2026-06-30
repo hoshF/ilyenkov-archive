@@ -1,18 +1,19 @@
 ---
-title: "Andrey Maidansky Academia.edu Source Archive"
+title: "Andrey Maidansky Text And Source Archive"
 created: "2026-06-17"
 updated: "2026-06-22"
 type: "project"
-tags: ["maidansky", "philosophy", "source-archive", "academia"]
+tags: ["maidansky", "philosophy", "research", "source-archive", "academia"]
 language: "en"
 collection: "project-documentation"
 llm_wiki_eligible: "true"
 gbrain_source: "project-markdown"
 ---
-# Andrey Maidansky Academia.edu Source Archive
+# Andrey Maidansky Text And Source Archive
 
-This collection preserves metadata and unprocessed files publicly listed on the Academia.edu
-profile of Andrey Dmitrievich Maidansky (Андрей Дмитриевич Майданский).
+This philosopher root contains two registered Maidansky layers: a searchable research corpus and an
+Academia.edu source archive. The layers share metadata infrastructure but keep corpus Markdown,
+source scans, digitization projects, and rights decisions distinct.
 
 Source profile: <https://белгу.academia.edu/AndreyMaidansky>
 
@@ -21,8 +22,10 @@ Source profile: <https://белгу.academia.edu/AndreyMaidansky>
 ```text
 maidansky_markdown/
 ├── README.md
+├── maidansky_md/
 ├── metadata/
 │   ├── academia_manifest.json
+│   ├── maidansky_catalog_manifest.json
 │   ├── academia_manual_queue.json
 │   └── source_scans_manifest.json
 ├── scripts/
@@ -30,7 +33,13 @@ maidansky_markdown/
 └── source_scans/academia/
 ```
 
-## Collection Rules
+## Research Corpus
+
+`maidansky_md/` contains A. D. Maidansky research and related philosophical texts. These files are
+registered as `text_role: "research"` and remain outside the core authorial corpus. Current
+Maidansky-site citations follow [Maidansky Source Attribution](../notes/MAIDANSKY_SOURCE_ATTRIBUTION.md).
+
+## Academia Source Archive Rules
 
 - Preserve the original PDF or attachment supplied by Academia.edu.
 - Do not run OCR, read PDF text layers, or generate Markdown body text.

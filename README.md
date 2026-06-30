@@ -33,7 +33,8 @@ materials, and derived indexes remain separate layers.
 Research entry points:
 
 - [Collection status](COLLECTION_STATUS.md)
-- [Ilyenkov and Maidansky Markdown archive](caute_ru_markdown/README.md)
+- [Terminology system](notes/TERMS.md)
+- [Ilyenkov text archive](ilyenkov_markdown/README.md)
 - [Maidansky source archive](maidansky_markdown/README.md)
 - [Spinoza text archive](spinoza_markdown/README.md)
 - [Kedrov text archive](kedrov_markdown/README.md)
@@ -65,8 +66,9 @@ Before reading or citing a text, inspect its source URL, edition statement, `tex
 - The core corpus prefers the language in which the author wrote; translations do not replace it.
 - Genuine HTML and structurally native EPUB may be converted to Markdown with provenance preserved.
 - Freely downloadable PDF/DjVu files are stored first as unprocessed scans.
-- The project does not currently initiate new OCR. OCR can enter the core corpus only after the
-  approved page-level human verification process and manifest validation.
+- OCR is a controlled, work-level digitization workflow. OCR-derived text can enter the archive only
+  after registration, activation, page-level human verification, provenance, and manifest
+  validation; only verified authorial-language OCR may enter the core corpus.
 - Availability on the web does not imply permission to redistribute.
 
 The authoritative rules are in
@@ -107,8 +109,8 @@ Read [CONTRIBUTING.md](CONTRIBUTING.md), [GOVERNANCE.md](GOVERNANCE.md), and
 Much of the historical Ilyenkov collection originated from a `caute.ru` mirror. Andrey Maidansky
 confirmed on June 17, 2026 that he no longer owns `caute.ru`. Current references to texts from his
 website should use [filorus.ru/ilyenkov](http://filorus.ru/ilyenkov/) and add
-`(at the website by Andrey Maidansky)` after the URL. The directory name `caute_ru_markdown/`
-remains for path stability.
+`(at the website by Andrey Maidansky)` after the URL. The repository now uses philosopher-specific
+standard roots such as `ilyenkov_markdown/` and `maidansky_markdown/`.
 
 The archive is indebted to Andrey D. Maidansky's long-term work collecting, publishing, and
 studying Ilyenkov and related philosophy. Each collection retains its own source URLs, manifests,

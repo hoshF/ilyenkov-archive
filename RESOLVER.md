@@ -19,8 +19,8 @@ of truth for people and paths.
 
 | Need | Preferred location | Text role |
 |---|---|---|
-| Ilyenkov's works | `caute_ru_markdown/ilyenkov_md/` | Russian authorial text |
-| Maidansky research and edition notes | `caute_ru_markdown/maidansky_md/` | Secondary research |
+| Ilyenkov's works | `ilyenkov_markdown/ilyenkov_md/` | Russian authorial text |
+| Maidansky research and edition notes | `maidansky_markdown/maidansky_md/` | Secondary research |
 | Spinoza works | `spinoza_markdown/spinoza_md/` | Authorial-language text or marked historical witness |
 | Kedrov works | `kedrov_markdown/kedrov_md/` | Russian text converted from HTML |
 | Oizerman and Kopnin | Their `metadata/` and `source_scans/` | Bibliography and unprocessed scans |
@@ -38,11 +38,11 @@ of truth for people and paths.
 4. Prefer genuine HTML or native structured EPUB. Do not generate text from OCR, DjVuTXT, ABBYY,
    hOCR, PDF text layers, or image recognition unless the digitization workflow is activated.
 5. Freely downloadable PDF/DjVu may be stored as scans; controlled loans are bibliography only.
-6. `ocr_unverified` remains isolated. The thirteen historical newspaper texts are a documented,
-   human-collated exception with retained OCR provenance.
+6. `ocr_unverified` remains isolated. Verified OCR enters only through a historical verification
+   manifest or an activated digitization project with retained OCR provenance.
 7. Do not describe unverified web transcription or AI output as a critical edition.
 8. Do not duplicate the corpus into a second wiki or translation-source tree.
-9. `caute_ru_markdown/` is a historical path. Current Maidansky-site citations use
+9. Current Maidansky-site citations use
    `http://filorus.ru/ilyenkov/... (at the website by Andrey Maidansky)`.
 10. Register all new people and corpus paths in `metadata/collections.json`, then run
     `manage_collections.py sync`.

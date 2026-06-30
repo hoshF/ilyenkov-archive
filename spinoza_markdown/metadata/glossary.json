@@ -1,0 +1,292 @@
+{
+  "schema_version": 1,
+  "author_id": "spinoza",
+  "updated_at": "2026-07-01",
+  "source_corpus_paths": [
+    "spinoza_markdown/spinoza_md/"
+  ],
+  "required_entry_ids": [
+    "spinoza",
+    "descartes",
+    "ethica",
+    "tractatus-theologico-politicus",
+    "tractatus-politicus",
+    "tractatus-de-intellectus-emendatione",
+    "affectus",
+    "substantia",
+    "attributum",
+    "modus",
+    "natura",
+    "cognitio",
+    "idea",
+    "mens",
+    "corpus",
+    "conatus"
+  ],
+  "entries": [
+    {
+      "id": "spinoza",
+      "category": "person",
+      "canonical": "Benedictus de Spinoza",
+      "forms": ["Baruch Spinoza", "B. de Spinoza", "Spinoza"],
+      "zh_preferred": "巴鲁赫·斯宾诺莎",
+      "zh_alternatives": ["斯宾诺莎"],
+      "status": "approved",
+      "notes": "本集合中心作者。",
+      "evidence": [{"corpus_path": "spinoza_markdown/spinoza_md/", "note": "Spinoza original-language collection."}]
+    },
+    {
+      "id": "descartes",
+      "category": "person",
+      "canonical": "Renatus Cartesius",
+      "forms": ["René Descartes", "Descartes", "Cartesius"],
+      "zh_preferred": "勒内·笛卡尔",
+      "zh_alternatives": ["笛卡尔"],
+      "status": "approved",
+      "notes": "斯宾诺莎哲学的重要近代背景人物。",
+      "evidence": [{"corpus_path": "spinoza_markdown/spinoza_md/", "note": "重要相关人物。"}]
+    },
+    {
+      "id": "kant",
+      "category": "person",
+      "canonical": "Immanuel Kant",
+      "forms": ["Kant"],
+      "zh_preferred": "伊曼努尔·康德",
+      "zh_alternatives": ["康德"],
+      "status": "approved",
+      "notes": "接受史和比较哲学语境中的人物。",
+      "evidence": [{"corpus_path": "spinoza_markdown/spinoza_md/", "note": "相关人物名。"}]
+    },
+    {
+      "id": "ethica",
+      "category": "work",
+      "canonical": "Ethica",
+      "forms": ["Ethics", "Ethica Ordine Geometrico Demonstrata"],
+      "zh_preferred": "《伦理学》",
+      "zh_alternatives": [],
+      "status": "approved",
+      "notes": "斯宾诺莎主要著作。",
+      "evidence": [{"corpus_path": "spinoza_markdown/spinoza_md/latin/ethica.md", "note": "Latin corpus file."}]
+    },
+    {
+      "id": "tractatus-theologico-politicus",
+      "category": "work",
+      "canonical": "Tractatus Theologico-Politicus",
+      "forms": ["Theological-Political Treatise", "TTP"],
+      "zh_preferred": "《神学政治论》",
+      "zh_alternatives": ["《神学政治论稿》"],
+      "status": "approved",
+      "notes": "斯宾诺莎主要著作。",
+      "evidence": [{"corpus_path": "spinoza_markdown/spinoza_md/latin_web/spinozaetnous/tractatus-theologico-politicus/", "note": "Registered split longform corpus directory."}]
+    },
+    {
+      "id": "tractatus-politicus",
+      "category": "work",
+      "canonical": "Tractatus Politicus",
+      "forms": ["Political Treatise", "TP"],
+      "zh_preferred": "《政治论》",
+      "zh_alternatives": ["《政治论稿》"],
+      "status": "approved",
+      "notes": "斯宾诺莎政治哲学著作。",
+      "evidence": [{"corpus_path": "spinoza_markdown/spinoza_md/latin/tractatus-politicus.md", "note": "Latin corpus file."}]
+    },
+    {
+      "id": "tractatus-de-intellectus-emendatione",
+      "category": "work",
+      "canonical": "Tractatus de Intellectus Emendatione",
+      "forms": ["Treatise on the Emendation of the Intellect", "TIE"],
+      "zh_preferred": "《知性改进论》",
+      "zh_alternatives": ["《知性改善论》"],
+      "status": "provisional",
+      "notes": "中文题名需与具体译本说明保持一致。",
+      "evidence": [{"corpus_path": "spinoza_markdown/spinoza_md/latin/tractatus-de-intellectus-emendatione-et-de-via-qua-optime-in-veram-rerum-cognitionem-dirigitur.md", "note": "Latin corpus file."}]
+    },
+    {
+      "id": "epistolae",
+      "category": "work",
+      "canonical": "Epistolae",
+      "forms": ["Correspondence", "Letters"],
+      "zh_preferred": "《书信集》",
+      "zh_alternatives": ["书信"],
+      "status": "provisional",
+      "notes": "用于书信集合和具体书信索引。",
+      "evidence": [{"corpus_path": "spinoza_markdown/spinoza_md/latin/epistolae-benedictus-de-spinoza.md", "note": "Latin correspondence file."}]
+    },
+    {
+      "id": "nagelate-schriften",
+      "category": "work",
+      "canonical": "Nagelate Schriften",
+      "forms": ["Posthumous Works"],
+      "zh_preferred": "《遗著》",
+      "zh_alternatives": ["《身后著作》"],
+      "status": "needs_review",
+      "notes": "荷兰文历史文本集合，中文题名待统一。",
+      "evidence": [{"corpus_path": "spinoza_markdown/spinoza_md/dutch/nagelate-schriften/", "note": "Dutch split longform witness directory."}]
+    },
+    {
+      "id": "affectus",
+      "category": "concept",
+      "canonical": "affectus",
+      "forms": ["affect", "affection", "affectio"],
+      "zh_preferred": "情感",
+      "zh_alternatives": ["感情", "情状"],
+      "status": "needs_review",
+      "notes": "斯宾诺莎核心术语，需区分 affectus 与 affectio。",
+      "evidence": [{"corpus_path": "spinoza_markdown/spinoza_md/", "note": "高频概念。"}]
+    },
+    {
+      "id": "substantia",
+      "category": "concept",
+      "canonical": "substantia",
+      "forms": ["substance"],
+      "zh_preferred": "实体",
+      "zh_alternatives": ["本体"],
+      "status": "provisional",
+      "notes": "《伦理学》核心概念。",
+      "evidence": [{"corpus_path": "spinoza_markdown/spinoza_md/", "note": "核心概念。"}]
+    },
+    {
+      "id": "attributum",
+      "category": "concept",
+      "canonical": "attributum",
+      "forms": ["attribute"],
+      "zh_preferred": "属性",
+      "zh_alternatives": [],
+      "status": "provisional",
+      "notes": "实体由理智知觉为构成其实质的东西。",
+      "evidence": [{"corpus_path": "spinoza_markdown/spinoza_md/", "note": "核心概念。"}]
+    },
+    {
+      "id": "modus",
+      "category": "concept",
+      "canonical": "modus",
+      "forms": ["mode"],
+      "zh_preferred": "样态",
+      "zh_alternatives": ["样式"],
+      "status": "needs_review",
+      "notes": "中文译名需与 Maidansky/Ilyenkov 相关表统一。",
+      "evidence": [{"corpus_path": "spinoza_markdown/spinoza_md/", "note": "核心概念。"}]
+    },
+    {
+      "id": "natura",
+      "category": "concept",
+      "canonical": "natura",
+      "forms": ["nature", "Deus sive Natura"],
+      "zh_preferred": "自然",
+      "zh_alternatives": ["自然界"],
+      "status": "provisional",
+      "notes": "需区分 natura naturans 与 natura naturata。",
+      "evidence": [{"corpus_path": "spinoza_markdown/spinoza_md/", "note": "高频概念。"}]
+    },
+    {
+      "id": "cognitio",
+      "category": "concept",
+      "canonical": "cognitio",
+      "forms": ["cognition", "knowledge"],
+      "zh_preferred": "认识",
+      "zh_alternatives": ["知识"],
+      "status": "provisional",
+      "notes": "认识论术语，需按 cognitio、scientia、idea 等区分。",
+      "evidence": [{"corpus_path": "spinoza_markdown/spinoza_md/", "note": "高频概念。"}]
+    },
+    {
+      "id": "idea",
+      "category": "concept",
+      "canonical": "idea",
+      "forms": ["ideas"],
+      "zh_preferred": "观念",
+      "zh_alternatives": ["理念"],
+      "status": "provisional",
+      "notes": "斯宾诺莎认识论和心灵理论核心概念。",
+      "evidence": [{"corpus_path": "spinoza_markdown/spinoza_md/", "note": "高频概念。"}]
+    },
+    {
+      "id": "mens",
+      "category": "concept",
+      "canonical": "mens",
+      "forms": ["mind"],
+      "zh_preferred": "心灵",
+      "zh_alternatives": ["精神"],
+      "status": "needs_review",
+      "notes": "需避免与 spiritus 或 anima 混同。",
+      "evidence": [{"corpus_path": "spinoza_markdown/spinoza_md/", "note": "核心概念。"}]
+    },
+    {
+      "id": "corpus",
+      "category": "concept",
+      "canonical": "corpus",
+      "forms": ["body"],
+      "zh_preferred": "身体",
+      "zh_alternatives": ["物体"],
+      "status": "needs_review",
+      "notes": "需按身体/物体语境区分。",
+      "evidence": [{"corpus_path": "spinoza_markdown/spinoza_md/", "note": "核心概念。"}]
+    },
+    {
+      "id": "conatus",
+      "category": "concept",
+      "canonical": "conatus",
+      "forms": ["striving", "endeavour"],
+      "zh_preferred": "努力",
+      "zh_alternatives": ["自我保持努力", "趋力"],
+      "status": "needs_review",
+      "notes": "斯宾诺莎伦理学核心概念，中文译名待统一。",
+      "evidence": [{"corpus_path": "spinoza_markdown/spinoza_md/", "note": "核心概念。"}]
+    },
+    {
+      "id": "imaginatio",
+      "category": "concept",
+      "canonical": "imaginatio",
+      "forms": ["imagination"],
+      "zh_preferred": "想象",
+      "zh_alternatives": [],
+      "status": "provisional",
+      "notes": "认识种类和情感理论相关术语。",
+      "evidence": [{"corpus_path": "spinoza_markdown/spinoza_md/", "note": "重要概念。"}]
+    },
+    {
+      "id": "ratio",
+      "category": "concept",
+      "canonical": "ratio",
+      "forms": ["reason"],
+      "zh_preferred": "理性",
+      "zh_alternatives": ["理智"],
+      "status": "provisional",
+      "notes": "需结合 ratio、intellectus 等上下文。",
+      "evidence": [{"corpus_path": "spinoza_markdown/spinoza_md/", "note": "重要概念。"}]
+    },
+    {
+      "id": "scientia-intuitiva",
+      "category": "concept",
+      "canonical": "scientia intuitiva",
+      "forms": ["intuitive knowledge"],
+      "zh_preferred": "直观知识",
+      "zh_alternatives": ["直观认识"],
+      "status": "provisional",
+      "notes": "第三种认识。",
+      "evidence": [{"corpus_path": "spinoza_markdown/spinoza_md/", "note": "认识论关键概念。"}]
+    },
+    {
+      "id": "necessitas",
+      "category": "concept",
+      "canonical": "necessitas",
+      "forms": ["necessity"],
+      "zh_preferred": "必然性",
+      "zh_alternatives": ["必然"],
+      "status": "provisional",
+      "notes": "自由和自然法则问题中的关键概念。",
+      "evidence": [{"corpus_path": "spinoza_markdown/spinoza_md/", "note": "重要概念。"}]
+    },
+    {
+      "id": "libertas",
+      "category": "concept",
+      "canonical": "libertas",
+      "forms": ["freedom", "liberty"],
+      "zh_preferred": "自由",
+      "zh_alternatives": [],
+      "status": "provisional",
+      "notes": "与必然性关系密切。",
+      "evidence": [{"corpus_path": "spinoza_markdown/spinoza_md/", "note": "重要概念。"}]
+    }
+  ]
+}

@@ -806,6 +806,17 @@
       "section": "Рецензии",
       "title": "Академический плагиат",
       "url": "http://filorus.ru/am/plagiat/index.html"
+    },
+    {
+      "children": [],
+      "duplicate_of": "",
+      "exclude_reason": "",
+      "id": "istoriya-filosofii-otkrytiya-domashnego-arhiva-e-v-ilenkova",
+      "kind": "single",
+      "output_path": "maidansky_md/istoriya-filosofii/istoriya-filosofii-otkrytiya-domashnego-arhiva-e-v-ilenkova.md",
+      "section": "История философии",
+      "title": "Открытия домашнего архива Э.В. Ильенкова",
+      "url": "https://pq.iphras.ru/article/view/9982"
     }
   ],
   "source": "http://filorus.ru/am/index.html"

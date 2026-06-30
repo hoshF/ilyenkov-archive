@@ -27,7 +27,7 @@ CURRENT_DOCS = (
     "LLM_WIKI.md",
     "RESOLVER.md",
     "TRANSLATION_PLAN.md",
-    "caute_ru_markdown/README.md",
+    "ilyenkov_markdown/README.md",
     "maidansky_markdown/README.md",
     "spinoza_markdown/README.md",
     "kedrov_markdown/README.md",
@@ -42,6 +42,12 @@ CURRENT_DOCS = (
     "notes/ORIGINAL_LANGUAGE_AI_READING.md",
     "notes/OPERATIONS_CHECKLIST.md",
     "notes/SCAN_DIGITIZATION_WORKFLOW.md",
+    "notes/TERMS.md",
+    "notes/terminology/README.md",
+    "notes/terminology/ilyenkov.md",
+    "notes/terminology/maidansky.md",
+    "notes/terminology/spinoza.md",
+    "notes/terminology/kedrov.md",
     "spinoza_markdown/metadata/source_audit.md",
     "notes/community/DISCUSSIONS.md",
     "notes/community/RECRUITMENT_PLATFORMS.md",
@@ -56,6 +62,11 @@ CHINESE_ALLOWED_DOCS = (
     "dialectical_logic/README.md",
     "notes/STYLE_GUIDE.md",
     "notes/TERMS.md",
+    "notes/terminology/README.md",
+    "notes/terminology/ilyenkov.md",
+    "notes/terminology/maidansky.md",
+    "notes/terminology/spinoza.md",
+    "notes/terminology/kedrov.md",
     "notes/READING_NOTES.md",
 )
 MISSION_REQUIREMENTS = {
@@ -80,11 +91,11 @@ MISSION_REQUIREMENTS = {
         "# Philosopher Text Collection Status",
         "## Stage Notes",
     ),
-    "caute_ru_markdown/README.md": (
-        "# Ilyenkov / Maidansky Markdown Archive",
+    "ilyenkov_markdown/README.md": (
+        "# Evald Ilyenkov Text Archive",
     ),
     "maidansky_markdown/README.md": (
-        "# Andrey Maidansky Academia.edu Source Archive",
+        "# Andrey Maidansky Text And Source Archive",
     ),
     "spinoza_markdown/README.md": (
         "# Spinoza Original-Language Markdown Archive",
@@ -215,7 +226,7 @@ METADATA_REQUIREMENTS = {
         "collection": "project-documentation",
         "tags": ("collections", "status", "corpus"),
     },
-    "caute_ru_markdown/README.md": {
+    "ilyenkov_markdown/README.md": {
         "type": "project",
         "language": "en",
         "collection": "project-documentation",
