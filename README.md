@@ -19,6 +19,23 @@ promised comprehensive Chinese translation.
 Markdown, manifests, and Git history are the textual facts of record. Scans, translations, research
 materials, and derived indexes remain separate layers.
 
+## Scholarly Status And Human Review
+
+This repository has not received authorization to present itself as an authoritative edition or as
+the final text of any research tradition. It is the opposite kind of project: an open, provisional,
+and reviewable archive that needs many researchers, translators, readers, and contributors to
+inspect, discuss, correct, and extend it.
+
+The archive is committed to spreading and studying Soviet philosophy centered on Ilyenkov. Agents
+and automation can assist human work, reduce repetitive labor, and make workflows more reproducible,
+but they cannot replace human reading, collation, criticism, and judgment. Texts become part of
+living human thought only when they are read, discussed, and taken seriously as the already existing
+content of human thinking. The development of productive forces binds social human relations more
+closely together; language and national boundaries should not block exchange. As extended human
+organs, technical tools are objects made by people and, in turn, help form human capacities
+themselves. Let this archive be one small way to bring readers, researchers, and traditions into
+closer connection.
+
 ## Collections
 
 | Person or collection | Current material | Role in the archive |
@@ -106,11 +123,11 @@ Read [CONTRIBUTING.md](CONTRIBUTING.md), [GOVERNANCE.md](GOVERNANCE.md), and
 
 ## Sources And Acknowledgements
 
-Much of the historical Ilyenkov collection originated from a `caute.ru` mirror. Andrey Maidansky
-confirmed on June 17, 2026 that he no longer owns `caute.ru`. Current references to texts from his
-website should use [filorus.ru/ilyenkov](http://filorus.ru/ilyenkov/) and add
-`(at the website by Andrey Maidansky)` after the URL. The repository now uses philosopher-specific
-standard roots such as `ilyenkov_markdown/` and `maidansky_markdown/`.
+Much of the historical Ilyenkov collection originated from a `caute.ru` mirror. The currently
+maintained website by Andrey D. Maidansky is
+[filorus.ru/ilyenkov](http://filorus.ru/ilyenkov/). Current references to texts from that site
+should add `(at the website by Andrey Maidansky)` after the URL. The repository now uses
+philosopher-specific standard roots such as `ilyenkov_markdown/` and `maidansky_markdown/`.
 
 The archive is indebted to Andrey D. Maidansky's long-term work collecting, publishing, and
 studying Ilyenkov and related philosophy. Each collection retains its own source URLs, manifests,

@@ -156,8 +156,8 @@
       "path": "README.md",
       "included": true,
       "reason": "project_file",
-      "bytes": 7818,
-      "sha256": "5b7fb70c5535222ea0607699926ea20402a22e54084ce55321377cf5e48a3c70"
+      "bytes": 8962,
+      "sha256": "66e1d1db6b78d4fe06e3d05d07ed9faa9d083a8fefb5bb22d1959a0ac6cc24ba"
     },
     {
       "path": "RESOLVER.md",
@@ -2781,8 +2781,8 @@
       "path": "ilyenkov_markdown/metadata/glossary.json",
       "included": true,
       "reason": "project_file",
-      "bytes": 16098,
-      "sha256": "5abc299fcf7a62ae8a6732aeb6e05c90b8d751ad1ac14d977f5bf16d1ea97daa"
+      "bytes": 16063,
+      "sha256": "cdd3170c01148ea2c2397e5f6ee80b0dd7d716e921464ab06546cd591f87a80b"
     },
     {
       "path": "ilyenkov_markdown/metadata/ilyenkov_bulk_state.json",
@@ -4860,8 +4860,8 @@
       "path": "notes/terminology/ilyenkov.md",
       "included": true,
       "reason": "project_file",
-      "bytes": 6053,
-      "sha256": "b9f209c41768f17d50ff73a10726177ae6790ce27745e78fa0a180430f905c77"
+      "bytes": 6050,
+      "sha256": "eb771caff47427e09a3c796f6d05243ffb2bbb7aec1051a8235628ee105b51f5"
     },
     {
       "path": "notes/terminology/kedrov.md",
