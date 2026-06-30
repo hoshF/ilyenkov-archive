@@ -21,10 +21,10 @@ materials, and derived indexes remain separate layers.
 
 ## Scholarly Status And Human Review
 
-This repository has not received authorization to present itself as an authoritative edition or as
-the final text of any research tradition. It is the opposite kind of project: an open, provisional,
-and reviewable archive that needs many researchers, translators, readers, and contributors to
-inspect, discuss, correct, and extend it.
+This repository does not present itself as an authoritative edition or as the final text of any
+research tradition. It is the opposite kind of project: an open, provisional, and reviewable archive
+that needs many researchers, translators, readers, and contributors to inspect, discuss, correct,
+and extend it.
 
 This is an independent and unofficial project. The inclusion of a scholar's name, works, website,
 archive, or bibliographic records does not imply that the scholar, rightsholder, editor,
