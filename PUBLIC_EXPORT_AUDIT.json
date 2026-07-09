@@ -2,7 +2,7 @@
   "schema_version": 2,
   "policy": "Project infrastructure, original documentation, and factual metadata are public by default. Source texts, translations, scans, media, and content-bearing metadata require approval in metadata/rights_registry.json for the exact path and SHA-256. Scans additionally require approval in their source manifest.",
   "audit_convention": "PUBLIC_EXPORT_AUDIT.json is generated together with the export and does not list itself; the export tree and the public git tree must equal the included paths plus this audit file.",
-  "included": 273,
+  "included": 272,
   "excluded": 777,
   "files": [
     {
@@ -4960,13 +4960,6 @@
       "reason": "project_file",
       "bytes": 27391,
       "sha256": "3feb96eeed01ad8bea18d71ccc916c1b77c67bbfca3c54b592017bc26c9d2aaa"
-    },
-    {
-      "path": "notes/WEB_DESIGN_REQUIREMENTS.md",
-      "included": true,
-      "reason": "project_file",
-      "bytes": 14946,
-      "sha256": "9b9872a813b38d93cbfd6dd89696588ec0549f964a3c49745e5562f655670c31"
     },
     {
       "path": "notes/community/DISCUSSIONS.md",
