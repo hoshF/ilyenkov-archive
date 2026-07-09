@@ -1,7 +1,7 @@
 ---
 title: "P. V. Kopnin Text Source Survey"
 created: "2026-06-16"
-updated: "2026-06-22"
+updated: "2026-07-03"
 type: "analysis"
 tags: ["kopnin", "source-metadata", "dialectical-logic", "epistemology"]
 language: "en"
@@ -12,7 +12,8 @@ gbrain_source: "project-markdown"
 
 # P. V. Kopnin Text Source Survey
 
-This document translates the existing survey; it does not record a new external source search.
+This document translates the existing survey and now records the first cross-person network
+discovery pass for Soviet philosophy source leads.
 
 ## Identity And Findings
 
@@ -29,6 +30,41 @@ logic, Marxist epistemology, logic of science, and methodology. Russian searches
 
 See the [Source Policy](PHILOSOPHY_SOURCE_FORMAT_POLICY.md) and
 [`works_master.json`](../kopnin_markdown/metadata/works_master.json).
+
+## Network Discovery Round, 2026-07-03
+
+The cross-person discovery pass created
+[`soviet_philosophy_source_discovery.json`](../metadata/soviet_philosophy_source_discovery.json).
+For Kopnin, the highest-value confirmed lead remains the `Диалектика как логика и теория познания`
+gap:
+
+- `https://www.klex.ru/26xx` returned HTTP 200 and is recorded as a Klex text/file lead for
+  `dialektika-kak-logika-i-teoriya-poznaniya-1973`.
+- The Klex page exposes Phantastike file routes for a ZIP
+  (`dialekt_kak_logika_i_teoriya_poznaniya.zip`, 731,596 bytes) and DOC
+  (`dialekt_kak_logika_i_teoriya_poznaniya.doc`, 2,100,224 bytes), plus the Koob author page
+  `https://www.koob.ru/kopnin_p_v/`.
+- The lead is not a scan and is not accepted as corpus text. It requires manual version,
+  completeness, format-origin, and rights review before any ingestion.
+- The Russian Wikipedia bibliography is useful only as a secondary checklist for titles such as
+  `Диалектика как логика`, `Проблемы диалектики как логики и теории познания`, and other known gaps.
+
+The lead is now mirrored in
+[`works_master.json`](../kopnin_markdown/metadata/works_master.json) with
+`source_gap_priority: priority_1_text_lead_review` and
+`format_origin_status: non_scan_text_file_lead`.
+
+## Text Lead Review Queue
+
+This queue is a planning aid only. It does not authorize downloads, OCR, PDF/DjVu text-layer use,
+or Markdown conversion.
+
+| Priority | Work id | Lead | Reason | Next action |
+|---|---|---|---|---|
+| `priority_1_text_lead_review` | `dialektika-kak-logika-i-teoriya-poznaniya-1973` | Klex `26xx` -> Phantastike ZIP/DOC | Major missing monograph; available lead is text-file based rather than a source scan. | Manual version, completeness, format-origin, and rights review before any download or ingest. |
+
+No files were downloaded, no PDF/DjVu text layer was read, no OCR was run, and no Markdown body text
+was created in this round.
 
 ## Preserved Scans
 

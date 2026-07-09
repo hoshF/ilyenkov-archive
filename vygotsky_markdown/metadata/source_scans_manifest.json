@@ -1,0 +1,28 @@
+{
+  "schema_version": 1,
+  "generated_at": "2026-07-01",
+  "policy": "Source scans are stored unprocessed. No OCR or embedded text layer is used for corpus generation. Every downloaded item records source, local path, bytes, sha256, rights status, and exclusion from core corpus and LLM indexing.",
+  "items": [
+    {
+      "title": "Диагностика развития и педологическая клиника трудного детства",
+      "author": "Лев Семенович Выготский",
+      "publication_year": "1936",
+      "edition": "Москва: Экспериментальный дефектологический институт им. М. С. Эпштейна",
+      "source_url": "https://rusneb.ru/catalog/000199_000009_005273230/",
+      "download_url": "https://rusneb.ru/local/tools/exalead/getFiles.php?book_id=000199_000009_005273230&name=diagnostika-razvitiya-i-pedologicheskaya-klinika-trudnogo-detstva&doc_type=pdf",
+      "download_date": "2026-07-01",
+      "local_path": "source_scans/rusneb/diagnostika-razvitiya-i-pedologicheskaya-klinika-trudnogo-detstva-1936.pdf",
+      "pages": 86,
+      "bytes": 35072213,
+      "sha256": "59601f5e46f212d3ea1d2c97e4358cdc196bebf91d1a68981280c1fd081fdccd",
+      "source_format": "pdf",
+      "source_license": "not_stated",
+      "redistribution_approved": "false",
+      "rights_review_status": "unreviewed",
+      "text_role": "source_scan_unprocessed",
+      "text_status": "source_scan_unprocessed",
+      "core_corpus_eligible": "false",
+      "llm_wiki_eligible": "false"
+    }
+  ]
+}

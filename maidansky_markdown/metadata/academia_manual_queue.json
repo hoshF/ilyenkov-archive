@@ -3,6 +3,20 @@
   "generated_at": "2026-06-17T06:45:00+00:00",
   "items": [
     {
+      "work_id": "41913797",
+      "title": "Бенедикт Спиноза Могущество разума",
+      "work_url": "https://www.academia.edu/41913797/%D0%91%D0%B5%D0%BD%D0%B5%D0%B4%D0%B8%D0%BA%D1%82_%D0%A1%D0%BF%D0%B8%D0%BD%D0%BE%D0%B7%D0%B0_%D0%9C%D0%BE%D0%B3%D1%83%D1%89%D0%B5%D1%81%D1%82%D0%B2%D0%BE_%D1%80%D0%B0%D0%B7%D1%83%D0%BC%D0%B0",
+      "category": "",
+      "citation": "Сост., предисл., коммент. А. Майданского. М.: Издательство АСТ, 2019. – 320 с., ISBN 978-5-17-112346-8",
+      "summary": "Бенедикт Спиноза. Могущество разума.",
+      "download_url": "https://www.academia.edu/attachments/62039975/download_file",
+      "attachment_id": "62039975",
+      "status": "registered_partial_or_cover_file_full_text_not_found",
+      "error": "registered_file_not_full_book",
+      "local_path": "source_scans/academia/benedikt-spinoza-moguschestvo-razuma.pdf",
+      "note": "Registered local file has 9 pages while the bibliographic citation records 320 pages. Full book scan remains unavailable and unreviewed."
+    },
+    {
       "work_id": "95704694",
       "title": "Культурно историческая психология Истоки и новая реальность",
       "work_url": "https://www.academia.edu/95704694/%D0%9A%D1%83%D0%BB%D1%8C%D1%82%D1%83%D1%80%D0%BD%D0%BE_%D0%B8%D1%81%D1%82%D0%BE%D1%80%D0%B8%D1%87%D0%B5%D1%81%D0%BA%D0%B0%D1%8F_%D0%BF%D1%81%D0%B8%D1%85%D0%BE%D0%BB%D0%BE%D0%B3%D0%B8%D1%8F_%D0%98%D1%81%D1%82%D0%BE%D0%BA%D0%B8_%D0%B8_%D0%BD%D0%BE%D0%B2%D0%B0%D1%8F_%D1%80%D0%B5%D0%B0%D0%BB%D1%8C%D0%BD%D0%BE%D1%81%D1%82%D1%8C",
@@ -11,9 +25,23 @@
       "summary": "",
       "download_url": "https://www.academia.edu/attachments/97813738/download_file",
       "attachment_id": "97813738",
-      "status": "source_unavailable",
-      "error": "not_found_online_after_manual_search",
-      "note": "User confirmed on 2026-06-17 that no available online resource could be found; attachment URL returns HTTP 403."
+      "status": "cover_only_found_full_text_not_found",
+      "error": "curl_cloudflare_403_or_full_text_unavailable",
+      "note": "User confirmed on 2026-06-17 that no usable attachment source could be found; attachment URL returned HTTP 403. Browser check on 2026-07-03 loaded the work page and showed 2022, 1 page, and 2 files. User reported on 2026-07-03 that the manually downloaded file is the book cover, not the body text. Full text remains unavailable and unreviewed."
+    },
+    {
+      "work_id": "95705255",
+      "title": "Выготский Л С Педология школьного возраста Лекции по психологии развития",
+      "work_url": "https://www.academia.edu/95705255/%D0%92%D1%8B%D0%B3%D0%BE%D1%82%D1%81%D0%BA%D0%B8%D0%B9_%D0%9B_%D0%A1_%D0%9F%D0%B5%D0%B4%D0%BE%D0%BB%D0%BE%D0%B3%D0%B8%D1%8F_%D1%88%D0%BA%D0%BE%D0%BB%D1%8C%D0%BD%D0%BE%D0%B3%D0%BE_%D0%B2%D0%BE%D0%B7%D1%80%D0%B0%D1%81%D1%82%D0%B0_%D0%9B%D0%B5%D0%BA%D1%86%D0%B8%D0%B8_%D0%BF%D0%BE_%D0%BF%D1%81%D0%B8%D1%85%D0%BE%D0%BB%D0%BE%D0%B3%D0%B8%D0%B8_%D1%80%D0%B0%D0%B7%D0%B2%D0%B8%D1%82%D0%B8%D1%8F",
+      "category": "",
+      "citation": "М.: Канон+, 2022. – 320 с.",
+      "summary": "Vygotsky L.S. Pedology of School Age. Lectures on Developmental Psychology.",
+      "download_url": "https://www.academia.edu/attachments/97814140/download_file",
+      "attachment_id": "97814140",
+      "status": "registered_partial_or_cover_file_full_text_not_found",
+      "error": "registered_file_not_full_book",
+      "local_path": "source_scans/academia/vygotskii-l-s-pedologiya-shkolnogo-vozrasta-lektsii-po-psihologii-razvitiya.pdf",
+      "note": "Registered local file has 37 pages while the bibliographic citation records 320 pages. Owner reported on 2026-07-03 that this Academia book-type file is not full body text. Full book scan remains unavailable and unreviewed."
     }
   ]
 }

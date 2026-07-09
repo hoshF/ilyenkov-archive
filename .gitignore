@@ -10,6 +10,9 @@ venv/
 # Local editor configuration
 .obsidian/
 
+# Local credentials
+academia_cookie.txt
+
 # Generated public export repository and worktree
 dist/
 

@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "generated_at": "2026-06-21",
+  "generated_at": "2026-07-02",
   "project": {
     "focus_person_id": "ilyenkov",
     "large_binary_threshold_bytes": 78643200,
@@ -60,6 +60,13 @@
       "name_original": "Павел Васильевич Копнин",
       "name_latin": "Pavel Kopnin",
       "relation": "辩证逻辑、认识论与科学方法论语境"
+    },
+    {
+      "id": "vygotsky",
+      "name_zh": "列夫·维果茨基",
+      "name_original": "Лев Семенович Выготский",
+      "name_latin": "Lev Vygotsky",
+      "relation": "文化历史心理学、活动理论与伊里因科夫相关思想语境"
     }
   ],
   "collections": [
@@ -161,7 +168,7 @@
         "kedrov_markdown/source_scans/"
       ],
       "scan_manifest": "kedrov_markdown/metadata/source_scans_manifest.json",
-      "works_manifest": "kedrov_markdown/metadata/royallib_manifest.json",
+      "works_manifest": "kedrov_markdown/metadata/works_master.json",
       "bibliography_paths": [],
       "source_survey": "notes/KEDROV_SOURCE_SURVEY.md",
       "gbrain_tracked": true,
@@ -206,6 +213,31 @@
       "bibliography_paths": [],
       "source_survey": "notes/KOPNIN_SOURCE_SURVEY.md",
       "gbrain_tracked": true
+    },
+    {
+      "id": "vygotsky-texts",
+      "person_id": "vygotsky",
+      "kind": "author_texts",
+      "root": "vygotsky_markdown",
+      "layout": "standard",
+      "stage": "markdown_and_scans",
+      "readme": "vygotsky_markdown/README.md",
+      "corpus_paths": [
+        "vygotsky_markdown/vygotsky_md/"
+      ],
+      "scan_paths": [
+        "vygotsky_markdown/source_scans/"
+      ],
+      "scan_manifest": "vygotsky_markdown/metadata/source_scans_manifest.json",
+      "works_manifest": "vygotsky_markdown/metadata/works_master.json",
+      "bibliography_paths": [
+        "vygotsky_markdown/bibliography/"
+      ],
+      "source_survey": "notes/VYGOTSKY_SOURCE_SURVEY.md",
+      "gbrain_tracked": true,
+      "default_text_role": "author_original",
+      "default_language": "ru",
+      "collection_name": "vygotsky-original-language"
     }
   ]
 }

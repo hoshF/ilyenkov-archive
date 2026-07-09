@@ -1,0 +1,1063 @@
+{
+  "schema_version": 1,
+  "created": "2026-07-03",
+  "updated": "2026-07-03",
+  "scope": "Cross-person web source discovery for Soviet philosophy collections around Ilyenkov, Vygotsky, Maidansky, Kopnin, Kedrov, and Oizerman.",
+  "policy": "Discovery records are leads only. Do not download scans, read PDF/DjVu text layers, run OCR, or convert full text from these records without a separate source and rights review.",
+  "priority_model": {
+    "first_pass": ["kopnin", "oizerman", "kedrov"],
+    "network_pass": ["ilyenkov", "maidansky", "vygotsky"],
+    "reason": "First-pass priority follows current collection gaps: Kopnin and Oizerman are mostly source_scan/index records; Kedrov has useful but incomplete web-source coverage."
+  },
+  "rights_assessment_values": [
+    "html_candidate",
+    "source_scan_candidate",
+    "bibliography_only",
+    "restricted",
+    "unknown"
+  ],
+  "records": [
+    {
+      "id": "kopnin-klex-26xx-dialektika-logika-teoriya-poznaniya",
+      "person_id": "kopnin",
+      "matched_work_id": "dialektika-kak-logika-i-teoriya-poznaniya-1973",
+      "candidate_title": "Диалектика как логика и теория познания. Опыт логико-гносеологического исследования",
+      "source_url": "https://www.klex.ru/26xx",
+      "source_host": "klex.ru",
+      "source_type": "text_or_file_page",
+      "content_kind": "derivative_text_lead",
+      "rights_assessment": "unknown",
+      "verification_status": "page_and_file_headers_checked",
+      "source_gap_priority": "priority_1_text_lead_review",
+      "format_origin_status": "non_scan_text_file_lead",
+      "rights_review_required": true,
+      "linked_sources": [
+        {
+          "url": "https://www.phantastike.com/philosophy/dialekt_kak_logika_i_teoriya_poznaniya/zip/",
+          "format": "zip",
+          "content_type": "application/octet-stream",
+          "content_length": 731596,
+          "filename": "dialekt_kak_logika_i_teoriya_poznaniya.zip",
+          "status": "header_checked_not_downloaded"
+        },
+        {
+          "url": "https://www.phantastike.com/philosophy/dialekt_kak_logika_i_teoriya_poznaniya/doc/",
+          "format": "doc",
+          "content_type": "application/octet-stream",
+          "content_length": 2100224,
+          "filename": "dialekt_kak_logika_i_teoriya_poznaniya.doc",
+          "status": "header_checked_not_downloaded"
+        },
+        {
+          "url": "https://www.koob.ru/kopnin_p_v/",
+          "format": "author_page",
+          "status": "http_200_page_checked"
+        }
+      ],
+      "recommended_next_action": "manual_version_completeness_format_origin_and_rights_review_before_any_download_or_ingest",
+      "evidence_note": "Specific Klex page is reachable and corresponds to the Kopnin work previously noted as text-only. It exposes Phantastike ZIP/DOC links and a Koob author-page route; headers were checked, but no body text or files were downloaded/read. This is a non-scan text-file lead, not an accepted corpus source.",
+      "checked_at": "2026-07-03"
+    },
+    {
+      "id": "kopnin-wikipedia-bibliography",
+      "person_id": "kopnin",
+      "matched_work_id": null,
+      "candidate_title": "Копнин bibliography and selected works list",
+      "source_url": "https://ru.wikipedia.org/wiki/Копнин,_Павел_Васильевич",
+      "source_host": "ru.wikipedia.org",
+      "source_type": "secondary_bibliography",
+      "content_kind": "work_list",
+      "rights_assessment": "bibliography_only",
+      "verification_status": "web_search_result_reviewed",
+      "recommended_next_action": "use_only_for_title_discovery_and_cross_check_against_library_records",
+      "evidence_note": "Secondary list includes major Kopnin monographs and posthumous selected works; not a source for body text.",
+      "checked_at": "2026-07-03"
+    },
+    {
+      "id": "oizerman-koob-problemy-istoriko-filosofskoy-nauki",
+      "person_id": "oizerman",
+      "matched_work_id": "problemy-istoriko-filosofskoy-nauki",
+      "candidate_title": "Проблемы историко-философской науки",
+      "source_url": "https://www.koob.ru/ojzerman/problemy_istor_filosof_nauki",
+      "source_host": "koob.ru",
+      "source_type": "work_page",
+      "content_kind": "file_or_catalog_lead",
+      "rights_assessment": "unknown",
+      "verification_status": "koob_to_klex_and_format_links_checked",
+      "scan_candidate_priority": "registered_scan",
+      "source_scan_manifest_status": "registered_source_scan_unprocessed",
+      "source_scan_local_path": "source_scans/klex/problemy-istoriko-filosofskoy-nauki.djvu",
+      "linked_sources": [
+        {
+          "url": "https://www.klex.ru/tsf",
+          "format": "klex_work_page",
+          "status": "http_200_page_checked"
+        },
+        {
+          "url": "https://www.phantastike.com/philosophy/problemy_istor_filosof_nauki/zip/",
+          "format": "zip",
+          "display_size": "5,7 Mb",
+          "status": "listed_not_downloaded"
+        },
+        {
+          "url": "https://www.phantastike.com/philosophy/problemy_istor_filosof_nauki/djvu/",
+          "format": "djvu",
+          "status": "listed_not_downloaded"
+        },
+        {
+          "url": "https://www.phantastike.com/philosophy/problemy_istor_filosof_nauki/djvu/view/",
+          "format": "online_djvu_view",
+          "status": "listed_not_opened"
+        }
+      ],
+      "recommended_next_action": "no_new_acquisition; compare registered scan edition against official bibliography and keep as source_scan_unprocessed unless a separate digitization project is approved",
+      "evidence_note": "Koob work page is reachable and points to Klex tsf; Klex lists Phantastike ZIP/DjVu routes. This route already corresponds to a registered local DjVu scan; no files were downloaded/read in this discovery round.",
+      "checked_at": "2026-07-03"
+    },
+    {
+      "id": "oizerman-koob-glavnye-filosofskie-napravleniya",
+      "person_id": "oizerman",
+      "matched_work_id": "glavnye-filosofskie-napravleniya",
+      "candidate_title": "Главные философские направления",
+      "source_url": "https://www.koob.ru/ojzerman/glavnie_filosofskie_napravleniya",
+      "source_host": "koob.ru",
+      "source_type": "work_page",
+      "content_kind": "file_or_catalog_lead",
+      "rights_assessment": "unknown",
+      "verification_status": "koob_to_klex_and_format_links_checked",
+      "scan_candidate_priority": "registered_scan",
+      "source_scan_manifest_status": "registered_source_scan_unprocessed",
+      "source_scan_local_path": "source_scans/klex/glavnye-filosofskie-napravleniya.djvu",
+      "linked_sources": [
+        {
+          "url": "https://www.klex.ru/hat",
+          "format": "klex_work_page",
+          "status": "http_200_page_checked"
+        },
+        {
+          "url": "https://www.phantastike.com/philosophy/glavnie_filosofskie_napravleniya/zip/",
+          "format": "zip",
+          "display_size": "4,7 Mb",
+          "status": "listed_not_downloaded"
+        },
+        {
+          "url": "https://www.phantastike.com/philosophy/glavnie_filosofskie_napravleniya/djvu/",
+          "format": "djvu",
+          "status": "listed_not_downloaded"
+        },
+        {
+          "url": "https://www.phantastike.com/philosophy/glavnie_filosofskie_napravleniya/djvu/view/",
+          "format": "online_djvu_view",
+          "status": "listed_not_opened"
+        }
+      ],
+      "recommended_next_action": "no_new_acquisition; compare registered scan edition against official bibliography and keep as source_scan_unprocessed unless a separate digitization project is approved",
+      "evidence_note": "Koob work page is reachable and points to Klex hat; Klex lists Phantastike ZIP/DjVu routes. This route already corresponds to a registered local DjVu scan; no files were downloaded/read in this discovery round.",
+      "checked_at": "2026-07-03"
+    },
+    {
+      "id": "oizerman-klex-author-page",
+      "person_id": "oizerman",
+      "matched_work_id": null,
+      "candidate_title": "Ойзерман author page",
+      "source_url": "https://www.klex.ru/author/ojzerman/",
+      "source_host": "klex.ru",
+      "source_type": "author_page",
+      "content_kind": "multi_work_scan_or_file_leads",
+      "rights_assessment": "unknown",
+      "verification_status": "http_200_header_checked",
+      "recommended_next_action": "use_for_gap_discovery_only; cross-check individual pages and existing source_scans_manifest",
+      "evidence_note": "Author page is reachable and overlaps with existing Oizerman scan leads.",
+      "checked_at": "2026-07-03"
+    },
+    {
+      "id": "oizerman-wikipedia-network-bibliography",
+      "person_id": "oizerman",
+      "matched_work_id": null,
+      "candidate_title": "Ойзерман online works and bibliography list",
+      "source_url": "https://ru.wikipedia.org/wiki/Ойзерман,_Теодор_Ильич",
+      "source_host": "ru.wikipedia.org",
+      "source_type": "secondary_bibliography",
+      "content_kind": "work_list_and_network_leads",
+      "rights_assessment": "bibliography_only",
+      "verification_status": "web_search_result_reviewed",
+      "recommended_next_action": "extract candidate platform leads such as Runivers, leninist.biz, Autodidact Project, and Archive.org for separate verification",
+      "evidence_note": "The page lists Russian and English network copies and reviews; use as a map, not as source text.",
+      "checked_at": "2026-07-03"
+    },
+    {
+      "id": "kedrov-publ-lib-author-page",
+      "person_id": "kedrov",
+      "matched_work_id": null,
+      "candidate_title": "Kedrov Public Library author page",
+      "source_url": "https://publ.lib.ru/ARCHIVES/K/KEDROV_Bonifatiy_Mihaylovich/_Kedrov_B.M..html",
+      "source_host": "publ.lib.ru",
+      "source_type": "author_page",
+      "content_kind": "multi_work_catalog_and_file_leads",
+      "rights_assessment": "unknown",
+      "verification_status": "catalog_listing_and_inventory_mapping_checked",
+      "catalog_highlights": [
+        {
+          "title": "Беседы о диалектике",
+          "files": [
+            {"filename": "Kedrov_B.M.__Besedy_o_dialektike.(2007).[djv].zip", "format": "djv_zip", "display_size": "15.6M"},
+            {"filename": "Kedrov_B.M.__Besedy_o_dialektike.(2007).[pdf].zip", "format": "pdf_zip", "display_size": "28.0M"}
+          ]
+        },
+        {
+          "title": "Единство диалектики, логики и теории познания",
+          "files": [
+            {"filename": "Kedrov_B.M.__Edinstvo_dialektiki,_logiki_i_teorii_poznaniya.(2006).[djv].zip", "format": "djv_zip", "display_size": "15.2M"},
+            {"filename": "Kedrov_B.M.__Edinstvo_dialektiki,_logiki_i_teorii_poznaniya.(2006).[pdf].zip", "format": "pdf_zip", "display_size": "33.6M"}
+          ]
+        },
+        {
+          "title": "Классификация наук",
+          "files": [
+            {"filename": "Kedrov_B.M.__Klassifikaciya_nauk._Kn.1.(1961).[djv].zip", "format": "djv_zip", "display_size": "9.1M"},
+            {"filename": "Kedrov_B.M.__Klassifikaciya_nauk._Kn.2.(1965).[djv].zip", "format": "djv_zip", "display_size": "9.6M"},
+            {"filename": "Kedrov_B.M.__Klassifikaciya_nauk._Kn.3.(1985).[djv].zip", "format": "djv_zip", "display_size": "8.1M"}
+          ]
+        },
+        {
+          "title": "О повторяемости в процессе развития",
+          "files": [
+            {"filename": "Kedrov_B.M.__O_povtoryaemosti_v_processe_razvitiya.(2006).[djv].zip", "format": "djv_zip", "display_size": "12.1M"},
+            {"filename": "Kedrov_B.M.__O_povtoryaemosti_v_processe_razvitiya.(2006).[pdf].zip", "format": "pdf_zip", "display_size": "24.8M"}
+          ]
+        }
+      ],
+      "inventory_mapping": [
+        {"matched_work_id": "besedy-o-dialektike-1983", "collection_status": "markdown_converted", "mapping_note": "Public Library lists 2007 DjV/PDF ZIP scan leads; RoyalLib HTML is already converted."},
+        {"matched_work_id": "edinstvo-dialektiki-logiki-i-teorii-poznaniya-2006", "collection_status": "scan_downloaded", "scan_candidate_priority": "registered_scan", "mapping_note": "Public Library PDF ZIP is already registered in source_scans_manifest.json."},
+        {"matched_work_id": "klassifikaciya-nauk-kniga-1-1961", "collection_status": "candidate_not_downloaded", "scan_candidate_priority": "priority_1", "mapping_note": "Public Library lists DjV ZIP only; no local scan or Markdown record."},
+        {"matched_work_id": "klassifikaciya-nauk-kniga-2-1965", "collection_status": "candidate_not_downloaded", "scan_candidate_priority": "priority_1", "mapping_note": "Public Library lists DjV ZIP only; no local scan or Markdown record."},
+        {"matched_work_id": "klassifikaciya-nauk-kniga-3-1985", "collection_status": "candidate_not_downloaded", "scan_candidate_priority": "priority_1", "mapping_note": "Public Library lists DjV ZIP only; no local scan or Markdown record."},
+        {"matched_work_id": "o-povtoryaemosti-v-protsesse-razvitiya-2006", "collection_status": "candidate_not_downloaded", "scan_candidate_priority": "priority_1", "mapping_note": "Public Library lists DjV/PDF ZIP leads; no local scan or Markdown record."}
+      ],
+      "recommended_next_action": "follow Kedrov Future Scan Acquisition Queue; priority_1 items still require owner approval, exact file identity check, and rights review before any download",
+      "evidence_note": "Public Library page is reachable and lists file names/sizes, editions, publishers, and scan-provider notes for several high-value Kedrov works. These are catalogue leads only; no ZIP/PDF/DjVu file was downloaded or read.",
+      "checked_at": "2026-07-03"
+    },
+    {
+      "id": "kedrov-klex-author-page",
+      "person_id": "kedrov",
+      "matched_work_id": null,
+      "candidate_title": "Kedrov Klex author page",
+      "source_url": "https://www.klex.ru/author/kedrov_b/",
+      "source_host": "klex.ru",
+      "source_type": "author_page",
+      "content_kind": "multi_work_scan_or_file_leads",
+      "rights_assessment": "unknown",
+      "verification_status": "author_page_and_high_value_work_pages_checked",
+      "catalog_highlights": [
+        {"title": "Три аспекта атомистики. Том 1", "klex_path": "/21og"},
+        {"title": "Три аспекта атомистики. Том 2", "klex_path": "/21oh"},
+        {"title": "Три аспекта атомистики. Том 3", "klex_path": "/21oi"},
+        {"title": "Классификация наук. Книга 1. Энгельс и его предшественники", "klex_path": "/g2e"},
+        {"title": "Классификация наук. Книга 2. От Ленина до наших дней", "klex_path": "/g2f"},
+        {"title": "Классификация наук. Книга 3. Прогноз К. Маркса о науке будущего", "klex_path": "/g2g"},
+        {"title": "Единство диалектики, логики и теории познания", "klex_path": "/g2d"},
+        {"title": "О повторяемости в процессе развития", "klex_path": "/d8o"}
+      ],
+      "work_page_checks": [
+        {
+          "matched_work_id": "tri-aspekta-atomistiki-tom-1",
+          "url": "https://www.klex.ru/21og",
+          "title_checked": "Три аспекта атомистики. Том 1",
+          "linked_sources": [
+            {"url": "https://www.phantastike.com/philosophy/tri_aspekta_atomistiki_1/zip/", "format": "zip", "display_size": "60,9 Mb", "status": "listed_not_downloaded"},
+            {"url": "https://www.phantastike.com/philosophy/tri_aspekta_atomistiki_1/pdf/", "format": "pdf", "status": "listed_not_downloaded"}
+          ]
+        },
+        {
+          "matched_work_id": "tri-aspekta-atomistiki-tom-2",
+          "url": "https://www.klex.ru/21oh",
+          "title_checked": "Три аспекта атомистики. Том 2",
+          "linked_sources": [
+            {"url": "https://www.phantastike.com/philosophy/tri_aspekta_atomistiki_2/zip/", "format": "zip", "display_size": "57,6 Mb", "status": "listed_not_downloaded"},
+            {"url": "https://www.phantastike.com/philosophy/tri_aspekta_atomistiki_2/pdf/", "format": "pdf", "status": "listed_not_downloaded"}
+          ]
+        },
+        {
+          "matched_work_id": "tri-aspekta-atomistiki-tom-3",
+          "url": "https://www.klex.ru/21oi",
+          "title_checked": "Три аспекта атомистики. Том 3",
+          "linked_sources": [
+            {"url": "https://www.phantastike.com/philosophy/tri_aspekta_atomistiki_3/zip/", "format": "zip", "display_size": "54,8 Mb", "status": "listed_not_downloaded"},
+            {"url": "https://www.phantastike.com/philosophy/tri_aspekta_atomistiki_3/pdf/", "format": "pdf", "status": "listed_not_downloaded"}
+          ]
+        },
+        {
+          "matched_work_id": "klassifikaciya-nauk-kniga-1-1961",
+          "url": "https://www.klex.ru/g2e",
+          "title_checked": "Классификация наук. Книга 1. Энгельс и его предшественники",
+          "linked_sources": [
+            {"url": "https://www.phantastike.com/philosophy/classification_1/zip/", "format": "zip", "display_size": "9 Mb", "status": "listed_not_downloaded"},
+            {"url": "https://www.phantastike.com/philosophy/classification_1/djvu/", "format": "djvu", "status": "listed_not_downloaded"},
+            {"url": "https://www.phantastike.com/philosophy/classification_1/djvu/view/", "format": "online_djvu_view", "status": "listed_not_opened"}
+          ]
+        },
+        {
+          "matched_work_id": "klassifikaciya-nauk-kniga-2-1965",
+          "url": "https://www.klex.ru/g2f",
+          "title_checked": "Классификация наук. Книга 2. От Ленина до наших дней",
+          "linked_sources": [
+            {"url": "https://www.phantastike.com/philosophy/classification_2/zip/", "format": "zip", "display_size": "9,6 Mb", "status": "listed_not_downloaded"},
+            {"url": "https://www.phantastike.com/philosophy/classification_2/djvu/", "format": "djvu", "status": "listed_not_downloaded"},
+            {"url": "https://www.phantastike.com/philosophy/classification_2/djvu/view/", "format": "online_djvu_view", "status": "listed_not_opened"}
+          ]
+        },
+        {
+          "matched_work_id": "klassifikaciya-nauk-kniga-3-1985",
+          "url": "https://www.klex.ru/g2g",
+          "title_checked": "Классификация наук. Книга 3. Прогноз К. Маркса о науке будущего",
+          "linked_sources": [
+            {"url": "https://www.phantastike.com/philosophy/classification_3/zip/", "format": "zip", "display_size": "8,1 Mb", "status": "listed_not_downloaded"},
+            {"url": "https://www.phantastike.com/philosophy/classification_3/djvu/", "format": "djvu", "status": "listed_not_downloaded"},
+            {"url": "https://www.phantastike.com/philosophy/classification_3/djvu/view/", "format": "online_djvu_view", "status": "listed_not_opened"}
+          ]
+        },
+        {
+          "matched_work_id": "edinstvo-dialektiki-logiki-i-teorii-poznaniya-2006",
+          "url": "https://www.klex.ru/g2d",
+          "title_checked": "Единство диалектики, логики и теории познания",
+          "linked_sources": [
+            {"url": "https://www.phantastike.com/philosophy/dialectics_logic/zip/", "format": "zip", "display_size": "15,2 Mb", "status": "listed_not_downloaded"},
+            {"url": "https://www.phantastike.com/philosophy/dialectics_logic/djvu/", "format": "djvu", "status": "listed_not_downloaded"},
+            {"url": "https://www.phantastike.com/philosophy/dialectics_logic/djvu/view/", "format": "online_djvu_view", "status": "listed_not_opened"}
+          ]
+        },
+        {
+          "matched_work_id": "o-povtoryaemosti-v-protsesse-razvitiya-2006",
+          "url": "https://www.klex.ru/d8o",
+          "title_checked": "О повторяемости в процессе развития",
+          "linked_sources": [
+            {"url": "https://www.phantastike.com/philosophy/repeatability/zip/", "format": "zip", "display_size": "11,2 Mb", "status": "listed_not_downloaded"},
+            {"url": "https://www.phantastike.com/philosophy/repeatability/pdf/", "format": "pdf", "status": "listed_not_downloaded"}
+          ]
+        }
+      ],
+      "bibliographic_cross_checks": [
+        {
+          "matched_work_ids": [
+            "tri-aspekta-atomistiki-tom-1",
+            "tri-aspekta-atomistiki-tom-2",
+            "tri-aspekta-atomistiki-tom-3"
+          ],
+          "source_url": "https://shchedrovitskiy.com/bonifatiy-mikhajlovich-kedrov/",
+          "source_type": "secondary_bibliography",
+          "finding": "Lists `Три аспекта атомистики` as a 1969 Kedrov work.",
+          "status": "html_checked"
+        },
+        {
+          "matched_work_ids": [
+            "tri-aspekta-atomistiki-tom-1",
+            "tri-aspekta-atomistiki-tom-2",
+            "tri-aspekta-atomistiki-tom-3"
+          ],
+          "source_url": "https://ru.wikipedia.org/wiki/Кедров,_Бонифатий_Михайлович",
+          "source_type": "secondary_bibliography",
+          "finding": "Gives the three 1969 parts as `Парадокс Гиббса. Логический аспект`, `Учение Дальтона. Исторический аспект`, and `Закон Менделеева. Логико-исторический аспект`.",
+          "status": "html_checked"
+        },
+        {
+          "matched_work_ids": [
+            "tri-aspekta-atomistiki-tom-1",
+            "tri-aspekta-atomistiki-tom-2",
+            "tri-aspekta-atomistiki-tom-3"
+          ],
+          "source_url": "https://ru.wikipedia.org/wiki/Философия_химии",
+          "source_type": "secondary_bibliography",
+          "finding": "Bibliography entry gives `Кедров Б. М. Три аспекта атомистики. — М.: Наука 1969`.",
+          "status": "html_checked"
+        }
+      ],
+      "scan_candidate_queue": [
+        {"matched_work_id": "edinstvo-dialektiki-logiki-i-teorii-poznaniya-2006", "priority": "registered_scan", "next_action": "no_new_acquisition"},
+        {"matched_work_id": "klassifikaciya-nauk-kniga-1-1961", "priority": "priority_1", "next_action": "owner_approval_then_file_identity_and_rights_review_before_download"},
+        {"matched_work_id": "klassifikaciya-nauk-kniga-2-1965", "priority": "priority_1", "next_action": "owner_approval_then_file_identity_and_rights_review_before_download"},
+        {"matched_work_id": "klassifikaciya-nauk-kniga-3-1985", "priority": "priority_1", "next_action": "owner_approval_then_file_identity_and_rights_review_before_download"},
+        {"matched_work_id": "o-povtoryaemosti-v-protsesse-razvitiya-2006", "priority": "priority_1", "next_action": "owner_approval_then_file_identity_and_rights_review_before_download"},
+        {"matched_work_id": "tri-aspekta-atomistiki-tom-1", "priority": "priority_2_library_catalog_first", "next_action": "confirm_library_catalog_record_before_scan_acquisition"},
+        {"matched_work_id": "tri-aspekta-atomistiki-tom-2", "priority": "priority_2_library_catalog_first", "next_action": "confirm_library_catalog_record_before_scan_acquisition"},
+        {"matched_work_id": "tri-aspekta-atomistiki-tom-3", "priority": "priority_2_library_catalog_first", "next_action": "confirm_library_catalog_record_before_scan_acquisition"}
+      ],
+      "recommended_next_action": "use the Kedrov scan_candidate_queue for future planning; do not ingest files until owner approval, exact edition review, and rights review",
+      "evidence_note": "Klex author page is reachable and exposes stable work-page slugs. Eight high-value work pages were opened as HTML and matched to the Kedrov works inventory; they list Phantastike ZIP/PDF/DjVu routes, but no attached files were downloaded/read. Secondary bibliographies support 1969, M.: Nauka and the three part titles for `Три аспекта атомистики`; library-catalog confirmation remains pending.",
+      "checked_at": "2026-07-03"
+    },
+    {
+      "id": "kedrov-wikipedia-bibliography",
+      "person_id": "kedrov",
+      "matched_work_id": null,
+      "candidate_title": "Кедров works list and network references",
+      "source_url": "https://ru.wikipedia.org/wiki/Кедров,_Бонифатий_Михайлович",
+      "source_host": "ru.wikipedia.org",
+      "source_type": "secondary_bibliography",
+      "content_kind": "work_list",
+      "rights_assessment": "bibliography_only",
+      "verification_status": "web_search_result_reviewed",
+      "recommended_next_action": "use for gap detection against Kedrov works inventory and library catalogues",
+      "evidence_note": "Secondary bibliography highlights classification of sciences, dialectics of nature, and philosophy of science works.",
+      "checked_at": "2026-07-03"
+    },
+    {
+      "id": "ilyenkov-mia-archive",
+      "person_id": "ilyenkov",
+      "matched_work_id": null,
+      "candidate_title": "Evald Ilyenkov Archive",
+      "source_url": "https://www.marxists.org/archive/ilyenkov/",
+      "source_host": "marxists.org",
+      "source_type": "author_archive",
+      "content_kind": "html_texts_and_translation_network",
+      "rights_assessment": "html_candidate",
+      "verification_status": "archive_page_links_checked",
+      "catalog_highlights": [
+        {"title": "Dialectics of Abstract & Concrete in Marx's Capital", "url": "https://www.marxists.org/archive/ilyenkov/works/abstract/index.htm", "local_overlap": "Russian source family already represented from filorus/caute lineage"},
+        {"title": "Dialectical Logic", "url": "https://www.marxists.org/archive/ilyenkov/works/essays/index.htm", "local_overlap": "Russian source family already represented from filorus/caute lineage"},
+        {"title": "Activity and Knowledge", "url": "https://www.marxists.org/archive/ilyenkov/works/activity/index.htm", "local_overlap": "translation/network witness only"},
+        {"title": "Concept of the Ideal", "url": "https://www.marxists.org/archive/ilyenkov/works/ideal/ideal.htm", "local_overlap": "Russian source family already represented from filorus/caute lineage"},
+        {"title": "Leninist Dialectics & Metaphysics of Positivism", "url": "https://www.marxists.org/archive/ilyenkov/works/positive/index.htm", "local_overlap": "Russian source family already represented from filorus/caute lineage"}
+      ],
+      "network_nodes": [
+        {"label": "Vygotsky Archive", "url": "https://www.marxists.org/archive/vygotsky/index.htm", "relation": "psychology/activity-theory context"},
+        {"label": "Feliks Mikhailov, The Riddle of the Self", "url": "https://www.marxists.org/archive/mikhailov/works/riddle/index.htm", "relation": "Soviet philosophy/personality network"},
+        {"label": "Alexander Meshcheryakov, Awakening to Life", "url": "https://www.marxists.org/archive/meshcheryakov/awakening/index.htm", "relation": "deaf-blind education and personality formation network"},
+        {"label": "Geoff Pilling", "url": "https://www.marxists.org/archive/pilling/index.htm", "relation": "Capital, philosophy, and political economy"},
+        {"label": "Andy Blunden", "url": "https://www.marxists.org/admin/volunteers/biographies/ablunden.htm", "relation": "archive maintainer and activity-theory network"}
+      ],
+      "recommended_next_action": "use as translation and relationship map only; compare per item against existing Russian Markdown before considering any text witness; review MIA rights per item",
+      "evidence_note": "MIA archive lists Ilyenkov translations/HTML/PDF items and related Vygotsky, Mikhailov, Meshcheryakov, Pilling, Lenin, Hegel/Marx network references. It is a strong network map but must be de-duplicated against the existing Russian corpus; no files were downloaded.",
+      "checked_at": "2026-07-03"
+    },
+    {
+      "id": "ilyenkov-caute-reading-ilyenkov",
+      "person_id": "ilyenkov",
+      "matched_work_id": null,
+      "candidate_title": "Reading Ilyenkov / caute.ru texts",
+      "source_url": "http://caute.ru/ilyenkov/eng/texts.htm",
+      "source_host": "caute.ru",
+      "source_type": "author_archive",
+      "content_kind": "html_texts_and_bibliography",
+      "rights_assessment": "html_candidate",
+      "verification_status": "archive_page_links_checked",
+      "local_context": {
+        "current_citation_root": "http://filorus.ru/ilyenkov",
+        "local_policy_note": "Maidansky confirmed on 2026-06-17 that caute.ru is no longer his site; repository citations should use filorus.ru where applicable and preserve the Maidansky attribution note."
+      },
+      "catalog_highlights": [
+        {"title": "Foreign-language DjVu/PDF and HTML items", "formats": ["djvu", "pdf", "html"], "status": "listed_not_downloaded"},
+        {"title": "MIA translation links", "formats": ["html", "pdf"], "status": "network_links_only"},
+        {"title": "Secondary/commentary links", "formats": ["html", "pdf"], "status": "bibliography_or_research_leads"}
+      ],
+      "network_nodes": [
+        {"label": "Andrey Maidansky", "relation": "historical site/editor attribution"},
+        {"label": "Vesa Oittinen", "relation": "secondary research and edited volume network"},
+        {"label": "Alex Levant", "relation": "translation/commentary network"},
+        {"label": "David Bakhurst", "relation": "Ilyenkov/Vygotsky secondary research network"},
+        {"label": "Peter Jones", "relation": "ideality/activity theory commentary network"}
+      ],
+      "recommended_next_action": "use for historical attribution and relationship discovery; do not cite caute.ru as current source when a filorus.ru equivalent exists; do not ingest linked PDFs/DjVu without separate rights and source review",
+      "evidence_note": "The Reading Ilyenkov page is reachable and lists foreign-language items, MIA links, and secondary commentary/research links. Local repository policy already treats filorus.ru as the current citation root for the historical caute lineage.",
+      "checked_at": "2026-07-03"
+    },
+    {
+      "id": "ilyenkov-friends-network",
+      "person_id": "ilyenkov",
+      "matched_work_id": null,
+      "candidate_title": "International Friends of Ilyenkov",
+      "source_url": "https://ilyenkovfriends.org/",
+      "source_host": "ilyenkovfriends.org",
+      "source_type": "network_site",
+      "content_kind": "secondary_research_and_event_leads",
+      "rights_assessment": "bibliography_only",
+      "verification_status": "homepage_navigation_and_recent_posts_checked",
+      "network_features": [
+        {"label": "Ilyenkov Texts", "url": "https://ilyenkovfriends.org/document-archive/", "role": "site document/navigation hub"},
+        {"label": "Articles", "url": "https://ilyenkovfriends.org/posts/", "role": "secondary research and commentary"},
+        {"label": "Programme", "url": "https://ilyenkovfriends.org/next-meeting/", "role": "webinar/event schedule"},
+        {"label": "Webinar videos", "url": "https://ilyenkovfriends.org/webinar-notes/", "role": "event archive"},
+        {"label": "Symposiums", "url": "https://ilyenkovfriends.org/symposiums/", "role": "conference network"},
+        {"label": "Presenters", "url": "https://ilyenkovfriends.org/presenters/", "role": "researcher network"}
+      ],
+      "recent_activity_checked": [
+        {"title": "Žižek’s fractured terrains of reality", "date_context": "listed under February 2026"},
+        {"title": "AI as a human artefact: a powerful vision seeking focus", "date_context": "listed under December 2025"},
+        {"title": "Review of The Heart of the Matter: Ilyenkov, Vygotsky and the Courage of Thought by David Bakhurst", "date_context": "listed under February 2025"}
+      ],
+      "recommended_next_action": "use for contemporary research, conferences, presenters, and secondary bibliography; do not treat as author-original corpus source",
+      "evidence_note": "Homepage and navigation were checked. The site describes an international Ilyenkov research group and exposes pages for texts, articles, programme, webinar videos, symposiums, presenters, and links. It is a relationship and secondary research node, not a corpus text source.",
+      "checked_at": "2026-07-03"
+    },
+    {
+      "id": "maidansky-psyjournals-author-page",
+      "person_id": "maidansky",
+      "matched_work_id": null,
+      "candidate_title": "Maidansky PsyJournals author index",
+      "source_url": "https://psyjournals.ru/authors/8305",
+      "source_host": "psyjournals.ru",
+      "source_type": "author_page",
+      "content_kind": "journal_html_and_pdf_leads",
+      "rights_assessment": "html_candidate",
+      "verification_status": "author_page_and_local_manifest_checked",
+      "local_manifest": "maidansky_markdown/metadata/psyjournals_manifest.json",
+      "local_manifest_policy": "Converted entries derive from genuine PsyJournals HTML article pages; no PDF text layer or OCR was used.",
+      "network_nodes": [
+        {"person_id": "vygotsky", "evidence": "PsyJournals manifest includes 2026 review of Delo Vygotskogo, 2026 article on Vygotsky's psychological physiology, 2023 Myshlenie i trud, and 2018 Vygotsky-Spinoza-Marx article"},
+        {"person_id": "ilyenkov", "evidence": "Manifest includes 2024 E.V. Ilyenkov on free will and 2021 practical materialism article linking Ilyenkov and F.T. Mikhailov"},
+        {"person_id": "meshcheryakov", "evidence": "Manifest includes 2021 Ilyenkov/Maidansky publication on Meshcheryakov and 2020 article on Meshcheryakov and deafblind children"},
+        {"person_id": "mikhailov", "evidence": "Manifest includes 2021 article on Ilyenkov and F.T. Mikhailov"},
+        {"topic": "cultural-historical psychology", "evidence": "Most registered PsyJournals entries are from Kulturno-istoricheskaya psikhologiya and related journals"},
+        {"topic": "spinoza_marx_activity_theory", "evidence": "Manifest includes Vygotsky-Spinoza-Marx and cultural-historical psychology items"}
+      ],
+      "publication_highlights": [
+        "Рецензия на книгу «Дело Выготского» (2026)",
+        "Л.С. Выготский о «психологической физиологии» (2026)",
+        "Э.В. Ильенков о свободе воли (2024)",
+        "Мышление и труд (читая Выготского) (2023)",
+        "К работе Мещерякова (послесловие и примечания А.Д. Майданского) (2021)",
+        "«Практический материализм» в понимании мышления: Э.В. Ильенков и Ф.Т. Михайлов (2021)",
+        "А.И. Мещеряков о формировании человеческой психики у слепоглухих детей (2020)"
+      ],
+      "recommended_next_action": "use as the primary HTML-based Maidansky relationship index; compare PsyJournals HTML against existing Maidansky Markdown before any new conversion",
+      "evidence_note": "The author page is reachable and links to the current personal site at filorus.ru/maidansky.html. The local PsyJournals manifest records HTML-derived CC-BY-NC-4.0 research entries and several skipped PDF-preferred entries; it is relevant for Vygotsky/Ilyenkov/Meshcheryakov/Mikhailov network mapping.",
+      "checked_at": "2026-07-03"
+    },
+    {
+      "id": "maidansky-academia-profile",
+      "person_id": "maidansky",
+      "matched_work_id": null,
+      "candidate_title": "Andrey Maidansky Academia profile",
+      "source_url": "https://белгу.academia.edu/AndreyMaidansky",
+      "source_host": "academia.edu",
+      "source_type": "author_profile",
+      "content_kind": "research_pdf_leads",
+      "rights_assessment": "restricted",
+      "verification_status": "local_manifest_existing_source_browser_pages_accessible_curl_403",
+      "local_manifests": [
+        "maidansky_markdown/metadata/academia_manifest.json",
+        "maidansky_markdown/metadata/source_scans_manifest.json",
+        "maidansky_markdown/metadata/academia_manual_acquisition_queue.json",
+        "maidansky_markdown/metadata/academia_manual_queue.json"
+      ],
+      "source_scan_manifest_status": "registered_source_scan_research_layer",
+      "source_scan_policy": "Academia and related PDF attachments are stored unprocessed as source scans. Do not run OCR, read PDF text layers, or generate Markdown body text.",
+      "access_diagnostics": {
+        "curl_status": "Cloudflare HTTP 403 challenge for profile, registered work page, and manual-queue work page, with or without local cookie file",
+        "browser_status": "in-app browser loaded profile, registered work page, and manual-queue work page without Cloudflare challenge",
+        "diagnosis_note": "403 is caused by Cloudflare browser-challenge handling for non-browser HTTP clients, not by disappearance of the public work pages"
+      },
+      "network_highlights": [
+        {"person_id": "vygotsky", "examples": ["Мышление и труд читая Выготского", "Л С Выготский И А Соколянский и Загорский эксперимент", "Мечта Выготского и идея свободы в марксистской психологии"]},
+        {"person_id": "ilyenkov", "examples": ["Русский европеец Э В Ильенков и западный марксизм", "Понятие истины в диалектической логике Ильенкова", "Онтогенез человеческой психики и языка в работах Э В Ильенкова", "Э.В. Ильенков о свободе воли"]},
+        {"topic": "spinoza", "examples": ["The Russian Spinozists", "Читая Спинозу", "Понятие разума в философии Бенедикта Спинозы", "Учение Спинозы об аффектах в культурно исторической психологии"]},
+        {"topic": "soviet_activity_psychology", "examples": ["The Concept of Personality in Cultural Historical Theory", "Reality as Activity The Concept of Praxis in Soviet Philosophy"]}
+      ],
+      "manual_queue": [
+        {
+          "title": "Бенедикт Спиноза Могущество разума",
+          "status": "registered_partial_or_cover_file_full_text_not_found",
+          "note": "Academia/source_scans manifests contain a registered local file with 9 pages, but the bibliographic citation records A. D. Maidansky as compiler/commentator, AST, 2019, 320 pages. Treat as a partial/source lead; full text remains unavailable and unreviewed."
+        },
+        {
+          "title": "Культурно историческая психология Истоки и новая реальность",
+          "status": "cover_only_found_full_text_not_found",
+          "note": "Browser check on 2026-07-03 loaded the work page and showed 2022, 1 page, and 2 files. Owner reported on 2026-07-03 that the manually downloaded file is only the book cover, not the body text. Bibliographic pages identify the work as a Kanon+/Reabilitatsiya book of roughly 397/400 pages. Full text remains unavailable and unreviewed."
+        },
+        {
+          "title": "Выготский Л С Педология школьного возраста Лекции по психологии развития",
+          "status": "registered_partial_or_cover_file_full_text_not_found",
+          "note": "Academia/source_scans manifests contain a registered local file with 37 pages, but the bibliographic citation records Kanon+, 2022, 320 pages. Owner reported on 2026-07-03 that this Academia book-type file is not full body text. Treat as a partial/source lead; full text remains unavailable and unreviewed."
+        }
+      ],
+      "recommended_next_action": "use local Academia manifest/manual queue only for bibliography and source-scan tracking; do not download attachments, read PDF layers, or convert files without explicit item-level approval",
+      "evidence_note": "Existing Maidansky Academia layer is a source_scans/research lead layer, not automatic corpus admission. CLI access via curl/urllib is blocked by Cloudflare challenge, while real browser navigation can load public work pages. See notes/ACADEMIA_403_INVESTIGATION.md.",
+      "checked_at": "2026-07-03"
+    },
+    {
+      "id": "vygotsky-psyjournals-author-page",
+      "person_id": "vygotsky",
+      "matched_work_id": null,
+      "candidate_title": "Vygotsky PsyJournals author index",
+      "source_url": "https://psyjournals.ru/authors/1035",
+      "source_host": "psyjournals.ru",
+      "source_type": "author_page",
+      "content_kind": "journal_html_and_bibliography",
+      "rights_assessment": "html_candidate",
+      "verification_status": "local_manifest_existing_source",
+      "recommended_next_action": "no immediate action; reviewed PsyJournals HTML candidates are already converted or indexed",
+      "evidence_note": "The Vygotsky source survey uses this as a core bibliography and portal-text index.",
+      "checked_at": "2026-07-03"
+    },
+    {
+      "id": "vygotsky-library-person-page",
+      "person_id": "vygotsky",
+      "matched_work_id": null,
+      "candidate_title": "Vygotsky Library person page",
+      "source_url": "https://vygotskylibrary.com/index.php?s=person&x=VygotskyLS",
+      "source_host": "vygotskylibrary.com",
+      "source_type": "specialized_library",
+      "content_kind": "person_and_topic_index",
+      "rights_assessment": "bibliography_only",
+      "verification_status": "local_survey_existing_source",
+      "recommended_next_action": "use for relationship mapping and topic discovery, not as body text source unless a specific text page is reviewed",
+      "evidence_note": "Already listed in Vygotsky survey as a specialized project around cultural-historical psychology and activity theory.",
+      "checked_at": "2026-07-03"
+    },
+    {
+          "id": "vygotsky-network-pass-local-status-2026-07-03",
+          "person_id": "vygotsky",
+          "matched_work_id": null,
+          "candidate_title": "Vygotsky network pass: PsyJournals, Maidansky, and local manifest status",
+          "source_url": "https://psyjournals.ru/authors/1035",
+          "source_host": "psyjournals.ru",
+          "source_type": "network_pass_summary",
+          "content_kind": "bibliography_html_witnesses_source_scan_and_manual_acquisition_status",
+          "rights_assessment": "bibliography_only",
+          "verification_status": "psyjournals_pages_and_local_manifests_checked",
+          "local_manifests": [
+                "vygotsky_markdown/metadata/works_master.json",
+                "vygotsky_markdown/metadata/source_scans_manifest.json",
+                "vygotsky_markdown/metadata/html_candidate_review_manifest.json",
+                "vygotsky_markdown/metadata/psyjournals_manifest.json",
+                "maidansky_markdown/metadata/psyjournals_manifest.json",
+                "maidansky_markdown/metadata/source_scans_manifest.json",
+                "maidansky_markdown/metadata/academia_manifest.json",
+                "maidansky_markdown/metadata/academia_manual_acquisition_queue.json"
+          ],
+          "web_checks": [
+                {
+                      "url": "https://psyjournals.ru/authors/1035",
+                      "finding": "Vygotsky author bibliography page is reachable and records last update 2026-06-04; it lists a 2024 Vygotsky Lexicon book entry and 16 portal journal publications before the long bibliography.",
+                      "status": "html_checked"
+                },
+                {
+                      "url": "https://psyjournals.ru/authors/8305",
+                      "finding": "Maidansky author page is reachable and records last update 2026-06-21; it lists the shared Vygotsky Lexicon book entry and 13 portal journal publications.",
+                      "status": "html_checked"
+                },
+                {
+                      "url": "https://psyjournals.ru/journals/chp/archive/2026_n1/Maidansky",
+                      "finding": "2026 Maidansky article on Vygotsky's psychological physiology has DOI 10.17759/chp.2026220102, CC BY-NC 4.0 metadata, and HTML full text; it is a Maidansky research text, not Vygotsky author-original corpus.",
+                      "status": "html_checked"
+                },
+                {
+                      "url": "https://psyjournals.ru/journals/chp/archive/2023_n3/Maidansky",
+                      "finding": "2023 Maidansky article `Мышление и труд (читая Выготского)` has DOI 10.17759/chp.2023190301, CC BY-NC 4.0 metadata, and HTML full text; local Maidansky manifest already registers it as converted research text.",
+                      "status": "html_checked"
+                },
+                {
+                      "url": "https://vygotskylibrary.com/index.php?s=person&x=VygotskyLS",
+                      "finding": "Vygotsky Library person page is reachable and remains useful for person/topic relationship mapping.",
+                      "status": "html_checked"
+                }
+          ],
+          "vygotsky_collection_status": {
+                "registered_source_scans": [
+                      {
+                            "work_id": "diagnostika-razvitiya-i-pedologicheskaya-klinika-1936",
+                            "local_path": "vygotsky_markdown/source_scans/rusneb/diagnostika-razvitiya-i-pedologicheskaya-klinika-trudnogo-detstva-1936.pdf",
+                            "status": "source_scan_unprocessed",
+                            "action": "no_ocr_no_text_layer_use"
+                      }
+                ],
+                "converted_html_witnesses": [
+                      "lektsii-po-psikhologii-razvitiya-1928",
+                      "istoriya-razvitiya-vysshikh-psikhicheskikh-funktsii-1931",
+                      "razvitie-zhiteiskikh-i-nauchnykh-ponyatii-v-shkolnom-vozraste-1933",
+                      "problema-obucheniya-i-umstvennogo-razvitiya-v-shkolnom-vozraste-1934"
+                ],
+                "index_only_source_pages": [
+                      "psychlib.ru 1926 `Педагогическая психология` page set",
+                      "psychlib.ru 1934 `Мышление и речь` page set"
+                ],
+                "status_note": "Four PsyJournals HTML witnesses are text_witness records with core_corpus_eligible=false. The psychlib page sets remain index-only pending rights review."
+          },
+          "maidansky_network_status": {
+                "psyjournals_html_research_texts": [
+                      "Рецензия на книгу «Дело Выготского»",
+                      "Л.С. Выготский о «психологической физиологии»",
+                      "О системе категорий культурно-исторической психологии",
+                      "Понятие вращивания в теории развития высших психологических функций",
+                      "Сто лет развития культурно-исторической психологии: вехи и направления",
+                      "Мышление и труд (читая Выготского)",
+                      "«Культурная психология» Л.С. Выготскогов оптике Спинозы и Маркса"
+                ],
+                "psyjournals_source_scan_or_pdf_preferred_leads": [
+                      "Предисловие",
+                      "«Ревизионистская революция» и перспективы исследований Выготского"
+                ],
+                "academia_registered_source_scan_leads": [
+                      "Мышление и труд читая Выготского",
+                      "Воспитание и природа Уроки Загорского эксперимента",
+                      "Л С Выготский И А Соколянский и Загорский эксперимент",
+                      "Мечта Выготского и идея свободы в марксистской психологии",
+                      "The Revisionist Revolution and Future Prospects of Vygotskian Studies",
+                      "Vygotsky on cultural historical development from the primitive to the superhuman"
+                ],
+                "manual_acquisition_book_leads": [
+                      {
+                            "title": "Выготский Л.С. Педология школьного возраста. Лекции по психологии развития",
+                            "status": "registered_partial_or_cover_file_full_text_not_found",
+                            "note": "Registered local file has 37 pages against a 320-page bibliographic record."
+                      },
+                      {
+                            "title": "Культурно-историческая психология: Истоки и новая реальность",
+                            "status": "cover_only_found_full_text_not_found",
+                            "note": "Treat as a Vygotsky-network edited-volume lead; full text remains unavailable and unreviewed."
+                      }
+                ],
+                "status_note": "Maidansky network texts and Academia files are relationship/research-layer records. They are not Vygotsky author-original corpus sources."
+          },
+          "recommended_next_action": "continue with item-level library/source matching for Vygotsky originals; keep Maidansky Academia items in source_scan/manual-acquisition tracking only; do not download attachments, read PDF/DjVu text layers, run OCR, or convert rights-unclear files",
+          "evidence_note": "This network pass cross-checked the Vygotsky source survey, Vygotsky PsyJournals manifest, Maidansky PsyJournals manifest, Maidansky Academia/source-scan manifests, and selected live PsyJournals/Vygotsky Library pages. It classifies current leads into registered source_scan, converted HTML text_witness, index-only bibliography/source page, and manual acquisition buckets.",
+          "checked_at": "2026-07-03"
+    },
+    {
+          "id": "vygotsky-followup-neb-library-lookup-2026-07-03",
+          "person_id": "vygotsky",
+          "matched_work_id": null,
+          "candidate_title": "Vygotsky follow-up НЭБ/RNL/RSL library lookup for unresolved bibliography records",
+          "source_url": "https://rusneb.ru/",
+          "source_host": "rusneb.ru",
+          "source_type": "official_library_catalogue_lookup",
+          "content_kind": "catalogue_records_and_download_candidate_leads",
+          "rights_assessment": "bibliography_only",
+          "verification_status": "official_library_html_pages_checked_no_download",
+          "local_manifests": [
+                "vygotsky_markdown/metadata/works_master.json",
+                "vygotsky_markdown/metadata/priority_lookup_manifest.json",
+                "vygotsky_markdown/metadata/library_lookup_followup_manifest.json"
+          ],
+          "lookup_results": [
+                {
+                      "matched_work_id": "praktikum-po-eksperimentalnoi-psikhologii-1927",
+                      "title": "Практикум по экспериментальной психологии",
+                      "url": "https://rusneb.ru/catalog/000200_000018_rc_2563828/",
+                      "bibliographic_match": "exact",
+                      "access_status": "catalogue_only",
+                      "finding": "НЭБ/RNL catalogue record gives the 1927 Moscow-Leningrad Gosizdat edition, 231 pages, coauthored by Artemov, Bernstein, Vygotsky, Dobrynin, and Luria.",
+                      "local_update": "works_master and priority_lookup_manifest updated to official_exact_source_indexed"
+                },
+                {
+                      "matched_work_id": "voprosy-defektologii-1930",
+                      "title": "Вопросы дефектологии",
+                      "url": "https://rusneb.ru/catalog/000200_000018_RU_NLR_INFOCOMM16_1000015222/",
+                      "bibliographic_match": "variant",
+                      "access_status": "catalogue_only",
+                      "finding": "НЭБ/RNL periodical-family record for 1928-1931 lists 1930 №6(12) as a component with description-only access.",
+                      "local_update": "works_master updated to official_variant_source_indexed; exact issue review remains pending"
+                },
+                {
+                      "matched_work_id": "umstvenno-otstalyi-rebenok-1935",
+                      "title": "Умственно отсталый ребенок",
+                      "url": "https://rusneb.ru/catalog/000199_000009_004909624/",
+                      "bibliographic_match": "exact",
+                      "access_status": "stable_download_candidate_not_downloaded",
+                      "finding": "НЭБ/RSL record gives the 1935 collection edited by L. S. Vygotsky and I. I. Danyushevsky, 176 pages; page exposes read/download controls and a MARC PDF link.",
+                      "local_update": "works_master updated to download_candidate_found, but no source scan was registered"
+                }
+          ],
+          "recommended_next_action": "review exact issue/content identity for `Вопросы дефектологии` №6(12); treat `Умственно отсталый ребенок` as a download candidate only after owner approval and rights/source review; do not download files, read PDF text layers, or run OCR",
+          "evidence_note": "This follow-up lookup used НЭБ HTML catalogue pages only. It did not download PDF files, inspect PDF/DjVu text layers, run OCR, or create Markdown body text. It moved three Vygotsky `needs_library_lookup` records into source-page indexed status and recorded one not-downloaded download candidate.",
+          "checked_at": "2026-07-03"
+    },
+    {
+          "id": "vygotsky-followup-msupe-neb-library-lookup-2026-07-03-b",
+          "person_id": "vygotsky",
+          "matched_work_id": null,
+          "candidate_title": "Vygotsky follow-up MSUPE/НЭБ lookup for source-page and version leads",
+          "source_url": "https://psychlib.ru/",
+          "source_host": "psychlib.ru; rusneb.ru",
+          "source_type": "official_or_institutional_library_lookup",
+          "content_kind": "html_page_sets_and_catalogue_version_leads",
+          "rights_assessment": "bibliography_only",
+          "verification_status": "institutional_html_pages_checked_no_download",
+          "local_manifests": [
+                "vygotsky_markdown/metadata/works_master.json",
+                "vygotsky_markdown/metadata/library_lookup_followup_manifest.json"
+          ],
+          "lookup_results": [
+                {
+                      "matched_work_id": "etyudy-po-istorii-povedeniya-obezyana-primitiv-rebenok-1930",
+                      "title": "Этюды по истории поведения. (Обезьяна. Примитив. Ребенок)",
+                      "url": "https://psychlib.ru/mgppu/VEp-1930/VEp-232.htm",
+                      "bibliographic_match": "exact",
+                      "access_status": "page_limited",
+                      "finding": "MSUPE psychlib page set records the 1930 Moscow-Leningrad Gosizdat edition by Vygotsky and Luria, 232 pages.",
+                      "local_update": "works_master updated to official_exact_source_indexed and source_page_indexed_no_bulk_download"
+                },
+                {
+                      "matched_work_id": "voobrazhenie-i-tvorchestvo-v-detskom-vozraste-psikhologicheskii-ocherk-1930",
+                      "title": "Воображение и творчество в детском возрасте (психологический очерк)",
+                      "url": "https://rusneb.ru/catalog/000199_000009_001764510/",
+                      "bibliographic_match": "variant",
+                      "access_status": "reading_room_only",
+                      "finding": "НЭБ/RSL page records the later 1997 Союз edition, 91,[2] pages; exact 1930 GIZ source remains unresolved.",
+                      "local_update": "works_master updated to official_variant_source_indexed and source_page_indexed_no_bulk_download"
+                },
+                {
+                      "matched_work_id": "pedologiya-podrostka-m-l-izd-vo-bzo-pri-pedfake-2-go-mgu-1931-504-s-na-pravakh-r-1931",
+                      "title": "Педология подростка. М.;Л.: ... 1931. 504 с.",
+                      "url": "https://psychlib.ru/mgppu/VPp-1929/VPp-504.htm",
+                      "bibliographic_match": "exact",
+                      "access_status": "page_limited",
+                      "finding": "MSUPE psychlib page set records the 1931 504-page `Педология подростка` edition.",
+                      "local_update": "works_master updated to official_exact_source_indexed; the separate 1929 `Педология подростка` record remains unresolved"
+                }
+          ],
+          "recommended_next_action": "continue exact-source lookup for remaining Vygotsky `needs_library_lookup` records, especially the 1929 `Педология подростка`, `Психологическая хрестоматия`, and early prefaces; keep psychlib page sets index-only unless separate rights review approves conversion",
+          "evidence_note": "This follow-up used MSUPE psychlib and НЭБ HTML/catalogue pages only. It did not download files, read PDF/DjVu text layers, run OCR, or create Markdown body text.",
+          "checked_at": "2026-07-03"
+    },
+    {
+          "id": "vygotsky-planned-library-lookup-2026-07-04",
+          "person_id": "vygotsky",
+          "matched_work_id": null,
+          "candidate_title": "Vygotsky planned lookup round for five remaining needs_library_lookup records",
+          "source_url": "https://rusneb.ru/catalog/003673_000052_RU%2BNOVOSIBIRSK_BIBL_2000091084/",
+          "source_host": "rusneb.ru; escriptorium.karazin.ua",
+          "source_type": "official_or_institutional_library_lookup",
+          "content_kind": "catalogue_metadata_repository_metadata_and_lookup_attempts",
+          "rights_assessment": "bibliography_only",
+          "verification_status": "html_catalogue_and_repository_pages_checked_no_download",
+          "local_manifests": [
+                "vygotsky_markdown/metadata/works_master.json",
+                "vygotsky_markdown/metadata/library_lookup_followup_manifest.json"
+          ],
+          "lookup_results": [
+                {
+                      "matched_work_id": "psikhologicheskaya-khrestomatiya-1927",
+                      "title": "Психологическая хрестоматия",
+                      "url": "https://rusneb.ru/catalog/003673_000052_RU%2BNOVOSIBIRSK_BIBL_2000091084/",
+                      "bibliographic_match": "exact",
+                      "access_status": "catalogue_only",
+                      "finding": "НЭБ page records the 1927 Moscow Gosizdat edition, with Artemov, Vygotsky, and Dobrynin as compilers and Kornilov as editor.",
+                      "local_update": "works_master updated to official_exact_source_indexed and source_page_indexed_no_bulk_download"
+                },
+                {
+                      "matched_work_id": "psikhologicheskii-slovar-m-uchpedgiz-1931-206-s-sovm-s-b-e-varshava-to-zhe-1931",
+                      "title": "Психологический словарь",
+                      "url": "https://escriptorium.karazin.ua/items/e84f90e1-9683-4cbd-94bc-1989c5da1071",
+                      "bibliographic_match": "exact",
+                      "access_status": "metadata_page_with_file_links_not_downloaded",
+                      "finding": "Karazin University eScriptorium metadata page records B. E. Varshava and L. S. Vygotsky, Moscow: State Educational-Pedagogical Publishing House, 1931, 206 pages.",
+                      "local_update": "works_master updated to official_exact_source_indexed and source_page_indexed_no_bulk_download"
+                },
+                {
+                      "matched_work_id": "pedologiya-shkolnogo-vozrasta-1928",
+                      "title": "Педология школьного возраста",
+                      "url": null,
+                      "bibliographic_match": "uncertain",
+                      "access_status": "not_found",
+                      "finding": "No stable official/library source page for the 1928 218-page edition was confirmed; Academia/manual-acquisition and secondary hits were ignored as source records.",
+                      "local_update": "record remains needs_library_lookup; lookup attempt recorded in follow-up manifest"
+                },
+                {
+                      "matched_work_id": "predmet-i-metody-sovremennoi-psikhologii-1929",
+                      "title": "Предмет и методы современной психологии",
+                      "url": null,
+                      "bibliographic_match": "uncertain",
+                      "access_status": "not_found",
+                      "finding": "No stable official/library source page for the 1929 191-page edited volume was confirmed; PsyJournals remains a bibliography anchor only.",
+                      "local_update": "record remains needs_library_lookup; lookup attempt recorded in follow-up manifest"
+                },
+                {
+                      "matched_work_id": "keler-v-issledovanie-intellekta-chelovekopodobnykh-obezyan-1930",
+                      "title": "Келер В. Исследование интеллекта человекоподобных обезьян",
+                      "url": null,
+                      "bibliographic_match": "uncertain",
+                      "access_status": "not_found",
+                      "finding": "No stable official/library source page for the 1930 Russian edition edited by Vygotsky was confirmed; third-party study/mirror pages were ignored.",
+                      "local_update": "record remains needs_library_lookup; lookup attempt recorded in follow-up manifest"
+                }
+          ],
+          "recommended_next_action": "continue official/library lookup for the remaining Vygotsky needs_library_lookup records; keep unresolved targets unchanged unless a stable source page is confirmed; do not open or download repository PDF links",
+          "evidence_note": "This round checked HTML catalogue/repository/search-result pages only. It did not download PDFs, DjVu, or DOC files, did not inspect text layers, did not run OCR, and did not create Markdown body text.",
+          "checked_at": "2026-07-04"
+    },
+    {
+          "id": "vygotsky-early-defectology-and-editorial-lookup-2026-07-04",
+          "person_id": "vygotsky",
+          "matched_work_id": null,
+          "candidate_title": "Vygotsky early defectology/editorial lookup round",
+          "source_url": "https://museum.social-tech.ru/eksponat/4474108/",
+          "source_host": "museum.social-tech.ru",
+          "source_type": "institutional_object_metadata_and_lookup_attempts",
+          "content_kind": "museum_metadata_and_bibliography_only_lookup_results",
+          "rights_assessment": "bibliography_only",
+          "verification_status": "html_pages_checked_no_download",
+          "local_manifests": [
+                "vygotsky_markdown/metadata/works_master.json",
+                "vygotsky_markdown/metadata/library_lookup_followup_manifest.json"
+          ],
+          "lookup_results": [
+                {
+                      "matched_work_id": "voprosy-vospitaniya-slepykh-glukhonemykh-i-umstvenno-otstalykh-detei-1924",
+                      "title": "Вопросы воспитания слепых, глухонемых и умственно-отсталых детей",
+                      "url": "https://museum.social-tech.ru/eksponat/4474108/",
+                      "bibliographic_match": "exact",
+                      "access_status": "museum_exhibit_metadata",
+                      "finding": "Virtual museum exhibit page records the collection edited by L. S. Vygotsky, RSFSR 1924, with unique identifier 4474108.",
+                      "local_update": "works_master updated to official_exact_source_indexed and source_page_indexed_no_bulk_download"
+                },
+                {
+                      "matched_work_id": "grafika-a-bykhovskogo-1926",
+                      "title": "Графика А. Быховского",
+                      "url": null,
+                      "bibliographic_match": "uncertain",
+                      "access_status": "not_found",
+                      "finding": "Search surfaced an NLI Vygotsky topic page mentioning the title and a commercial auction page, but no stable individual official/library item page was confirmed.",
+                      "local_update": "record remains needs_library_lookup; lookup attempt recorded in follow-up manifest"
+                },
+                {
+                      "matched_work_id": "bekingem-b-r-issledovanie-pedagogicheskogo-protsessa-dlya-uchitelei-1930",
+                      "title": "Бекингем Б.Р. Исследование педагогического процесса для учителей",
+                      "url": null,
+                      "bibliographic_match": "uncertain",
+                      "access_status": "not_found",
+                      "finding": "Only secondary dissertation/bibliography references were found; no stable official/library source page was confirmed.",
+                      "local_update": "record remains needs_library_lookup; lookup attempt recorded in follow-up manifest"
+                },
+                {
+                      "matched_work_id": "byuler-k-ocherk-dukhovnogo-razvitiya-rebenka-1930",
+                      "title": "Бюлер К. Очерк духовного развития ребенка",
+                      "url": null,
+                      "bibliographic_match": "uncertain",
+                      "access_status": "not_found",
+                      "finding": "Only encyclopedic and biographical references were found; no stable official/library item page was confirmed.",
+                      "local_update": "record remains needs_library_lookup; lookup attempt recorded in follow-up manifest"
+                },
+                {
+                      "matched_work_id": "byuler-sh-i-dr-sotsialno-psikhologicheskoe-izuchenie-rebenka-pervogo-goda-zhizni-1931",
+                      "title": "Бюлер Ш. и др. Социально-психологическое изучение ребенка первого года жизни",
+                      "url": null,
+                      "bibliographic_match": "uncertain",
+                      "access_status": "not_found",
+                      "finding": "Only PsyJournals bibliography and secondary/dissertation citations were found; no stable official/library item page was confirmed.",
+                      "local_update": "record remains needs_library_lookup; lookup attempt recorded in follow-up manifest"
+                }
+          ],
+          "excluded_sources_note": "Commercial auction pages, Wikisource text pages, social media posts, dissertation bibliographies, and third-party mirrors were not treated as source records in this round.",
+          "recommended_next_action": "continue official/library lookup for remaining Vygotsky needs_library_lookup records; keep unresolved titles unchanged unless a stable source page is confirmed",
+          "evidence_note": "This round checked HTML catalogue, museum, search-result, and bibliography pages only. It did not download PDFs, DjVu, or DOC files, did not inspect text layers, did not run OCR, and did not create Markdown body text.",
+          "checked_at": "2026-07-04"
+    },
+    {
+          "id": "vygotsky-preface-journal-lookup-2026-07-09",
+          "person_id": "vygotsky",
+          "matched_work_id": null,
+          "candidate_title": "Vygotsky preface and journal lookup round",
+          "source_url": "https://rusneb.ru/catalog/000199_000009_007981140/",
+          "source_host": "rusneb.ru",
+          "source_type": "official_library_catalogue_lookup",
+          "content_kind": "catalogue_download_candidate_variant_witness_and_lookup_attempts",
+          "rights_assessment": "bibliography_only",
+          "verification_status": "html_catalogue_pages_checked_no_download",
+          "local_manifests": [
+                "vygotsky_markdown/metadata/works_master.json",
+                "vygotsky_markdown/metadata/library_lookup_followup_manifest.json"
+          ],
+          "lookup_results": [
+                {
+                      "matched_work_id": "predislovie-1925",
+                      "title": "Предисловие к книге З. Фрейда `По ту сторону принципа удовольствия`",
+                      "url": "https://rusneb.ru/catalog/000199_000009_007981140/",
+                      "bibliographic_match": "exact",
+                      "access_status": "stable_download_candidate_not_downloaded",
+                      "finding": "НЭБ/RSL page for the 1925 Freud volume records Vygotsky and Luria as editors and preface authors; read/download PDF controls are visible but were not opened.",
+                      "local_update": "works_master updated to download_candidate_found and source_page_indexed_no_bulk_download"
+                },
+                {
+                      "matched_work_id": "predislovie-1932-2",
+                      "title": "Предисловие к книге А. Н. Леонтьева `Развитие памяти`",
+                      "url": "https://rusneb.ru/catalog/000199_000009_001079033/",
+                      "bibliographic_match": "variant",
+                      "access_status": "reading_room_only",
+                      "finding": "НЭБ/RSL collected works volume 1 contents list the Leontiev preface at page 151; exact 1932 separate offprint remains unresolved.",
+                      "local_update": "works_master updated to official_variant_source_indexed and source_page_indexed_no_bulk_download"
+                },
+                {
+                      "matched_work_id": "predislovie-1926-2",
+                      "title": "Предисловие к книге Р. Шульце `Практика экспериментальной психологии, педагогики и психотехники`",
+                      "url": null,
+                      "bibliographic_match": "uncertain",
+                      "access_status": "not_found",
+                      "finding": "No stable official/library source page for the 1926 Schultze volume or Vygotsky/Luria preface was confirmed.",
+                      "local_update": "record remains needs_library_lookup; lookup attempt recorded in follow-up manifest"
+                },
+                {
+                      "matched_work_id": "problemy-defektologii-1930",
+                      "title": "Проблемы дефектологии",
+                      "url": null,
+                      "bibliographic_match": "uncertain",
+                      "access_status": "not_found",
+                      "finding": "No stable official/library source page for this `Проблемы дефектологии` fragment/reference was confirmed.",
+                      "local_update": "record remains needs_library_lookup; lookup attempt recorded in follow-up manifest"
+                },
+                {
+                      "matched_work_id": "k-voprosu-o-dementsii-pri-bolezni-pika-1934",
+                      "title": "К вопросу о деменции при болезни Пика",
+                      "url": null,
+                      "bibliographic_match": "uncertain",
+                      "access_status": "not_found",
+                      "finding": "Search surfaced PsyJournals bibliography, Pedlib/third-party mirrors, and secondary references, but no stable official/library issue or article page for the 1934 journal publication was confirmed.",
+                      "local_update": "record remains needs_library_lookup; lookup attempt recorded in follow-up manifest"
+                }
+          ],
+          "recommended_next_action": "keep download candidates unacquired until owner approval and rights/source review; continue official/library lookup for remaining Vygotsky needs_library_lookup records; ignore third-party mirrors as source records",
+          "evidence_note": "This round checked HTML catalogue and bibliography pages only. It did not open or download PDFs/DjVu/DOC files, did not inspect text layers, did not run OCR, and did not create Markdown body text.",
+          "checked_at": "2026-07-09"
+    },
+    {
+          "id": "vygotsky-final-tail-library-sync-2026-07-09",
+          "person_id": "vygotsky",
+          "matched_work_id": null,
+          "candidate_title": "Vygotsky final-tail lookup and variant-witness sync after exporting 14 remaining records",
+          "source_url": "https://rusneb.ru/catalog/000200_000018_rc_2967098/",
+          "source_host": "rusneb.ru; elib.old.gnpbu.ru",
+          "source_type": "official_library_catalogue_and_variant_witness_sync",
+          "content_kind": "catalogue_exact_source_and_collected_works_variant_witnesses",
+          "rights_assessment": "bibliography_only",
+          "verification_status": "html_catalogue_pages_checked_no_download",
+          "local_manifests": [
+                "vygotsky_markdown/metadata/works_master.json",
+                "vygotsky_markdown/metadata/priority_lookup_manifest.json",
+                "vygotsky_markdown/metadata/library_lookup_followup_manifest.json"
+          ],
+          "lookup_results": [
+                {
+                      "matched_work_id": "fashizm-v-psikhonevrologii-1934",
+                      "title": "Фашизм в психоневрологии",
+                      "url": "https://rusneb.ru/catalog/000200_000018_rc_2967098/",
+                      "bibliographic_match": "exact",
+                      "access_status": "catalogue_only",
+                      "finding": "НЭБ/RNL catalogue page records the 1934 Moscow-Leningrad Biomedgiz brochure, 28 pages, compiled by Vygotsky, Gilyarovsky, Gurevich, Krol, Shmaryan and others.",
+                      "local_update": "works_master and priority_lookup_manifest updated to official_exact_source_indexed and source_page_indexed_no_bulk_download"
+                },
+                {
+                      "matched_work_id": "pedologiya-yunosheskogo-vozrasta-osobennosti-povedeniya-podrostka-various",
+                      "title": "Педология юношеского возраста. Особенности поведения подростка",
+                      "url": "https://elib.old.gnpbu.ru/text/vygotsky_ss-v-6tt_t4_1984/fs%2C1/",
+                      "bibliographic_match": "variant",
+                      "access_status": "online_reader",
+                      "finding": "Existing GNPBU collected works volume 4 witness is a later official/library variant; exact early BZO source remains unresolved.",
+                      "local_update": "works_master and priority_lookup_manifest synchronized to official_variant_source_indexed and source_page_indexed_no_bulk_download"
+                },
+                {
+                      "matched_work_id": "trudnoe-detstvo-various",
+                      "title": "Трудное детство",
+                      "url": "https://elib.old.gnpbu.ru/text/vygotsky_ss-v-6tt_t5_1983/fs%2C1/",
+                      "bibliographic_match": "variant",
+                      "access_status": "online_reader",
+                      "finding": "Existing GNPBU collected works volume 5 witness is a later official/library variant; exact early BZO source remains unresolved.",
+                      "local_update": "works_master and priority_lookup_manifest synchronized to official_variant_source_indexed and source_page_indexed_no_bulk_download"
+                }
+          ],
+          "recommended_next_action": "continue exact early-source lookup for remaining Vygotsky needs_library_lookup records; keep collected-works witnesses distinct from original BZO/source editions; do not download or inspect linked files",
+          "evidence_note": "This round checked HTML catalogue/reader pages and synchronized existing variant witnesses. It did not download PDFs, DjVu, or DOC files, did not inspect text layers, did not run OCR, and did not create Markdown body text.",
+          "checked_at": "2026-07-09"
+    }
+  ]
+}

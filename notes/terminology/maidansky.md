@@ -25,7 +25,7 @@ gbrain_source: "project-markdown"
 | 概念 | деятельность | 活动 | activity<br>деятельности | 待审 | 苏联哲学与斯宾诺莎研究交叉处的重要概念。 |
 | 概念 | атрибут | 属性 | attribute<br>attributum<br>атрибута | 暂定 | 斯宾诺莎实体论术语。 |
 | 概念 | бытие | 存在 | being<br>бытия | 暂定 | 需按形而上学、逻辑学或历史理论语境区分。 |
-| 概念 | идеальное | 理想的东西 | ideal<br>идеального<br>idealnoe | 待审 | 需与 Ilyenkov 术语表统一。 |
+| 概念 | идеальное | 观念的东西 | ideal<br>идеального<br>idealnoe | 待审 | 需与 Ilyenkov 术语表统一。 |
 | 概念 | логика | 逻辑 | logic<br>логики | 已定 | 逻辑方法、辩证逻辑和斯宾诺莎几何学方法语境中的常见概念。 |
 | 概念 | модус | 样态 | mode<br>modus<br>модуса | 待审 | 斯宾诺莎术语，中文译名需统一。 |
 | 概念 | природа | 自然 | nature<br>природы | 暂定 | 斯宾诺莎和辩证法语境中的共同概念。 |
@@ -45,7 +45,7 @@ gbrain_source: "project-markdown"
 | 人物 | Benedictus de Spinoza | 巴鲁赫·斯宾诺莎 | Baruch Spinoza<br>Спиноза<br>Spinoza | 已定 | Maidansky 斯宾诺莎研究和伊里因科夫研究的共同核心人物。 |
 | 人物 | Лев Семёнович Выготский | 列夫·维果茨基 | Lev Vygotsky<br>Vygotsky<br>Выготский | 已定 | 文化历史心理学和斯宾诺莎接受史语境中的人物。 |
 | 著作 | Капитал | 《资本论》 | Capital<br>Das Kapital | 已定 | 马克思著作，历史理论和逻辑方法讨论中的常见参照。 |
-| 著作 | Диалектика идеального | 《理想的东西的辩证法》 | Dialectics of the Ideal | 待审 | 伊里因科夫核心文本，中文题名需与 Ilyenkov 术语表统一。 |
+| 著作 | Диалектика идеального | 《观念东西的辩证法》 | Dialectics of the Ideal | 待审 | 伊里因科夫核心文本，中文题名需与 Ilyenkov 术语表统一。 |
 | 著作 | Ethica | 《伦理学》 | Этика<br>Ethics | 已定 | 斯宾诺莎主要著作。 |
 | 著作 | Наука логики | 《逻辑学》 | Science of Logic<br>Wissenschaft der Logik | 暂定 | 黑格尔著作。 |
 | 著作 | Tractatus | 《论稿》 | Трактат<br>Treatise | 待审 | Maidansky 语料中可能指不同 Tractatus，需按上下文核定。 |

@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "generated_at": "2026-06-16",
+  "generated_at": "2026-07-03",
   "author": "Копнин Павел Васильевич",
   "author_variants": ["П. В. Копнин", "Копнин П. В.", "Павел Васильевич Копнин", "P. V. Kopnin", "Pavel Kopnin"],
   "life": "1922—1971",
@@ -47,6 +47,52 @@
       "year": "1973", "place_publisher": "Москва: Наука, 1973 (монография)",
       "responsibility": "monograph",
       "note": "重要专著。Klex/phantastike 仅提供 .doc 文本(非扫描件)，twirpx 扫描需积分，marxistphilosophy.org HTML 已 404；未入库扫描件。",
+      "source_gap_priority": "priority_1_text_lead_review",
+      "source_gap_reason": "Major Kopnin monograph missing from local scans; Klex/Phantastike expose only DOC/ZIP text-file leads, not a scan.",
+      "format_origin_status": "non_scan_text_file_lead",
+      "rights_review_required": true,
+      "recommended_next_action": "manual_version_completeness_format_origin_and_rights_review_before_any_ingest; do not download or convert without owner approval",
+      "known_sources": [
+        {
+          "site": "klex.ru",
+          "url": "https://www.klex.ru/26xx",
+          "label": "reachable Klex text/file lead",
+          "formats": ["doc", "zip"],
+          "verified": true,
+          "source_role": "discovery_lead",
+          "linked_sources": [
+            {
+              "url": "https://www.phantastike.com/philosophy/dialekt_kak_logika_i_teoriya_poznaniya/zip/",
+              "format": "zip",
+              "content_length": 731596,
+              "filename": "dialekt_kak_logika_i_teoriya_poznaniya.zip",
+              "status": "header_checked_not_downloaded"
+            },
+            {
+              "url": "https://www.phantastike.com/philosophy/dialekt_kak_logika_i_teoriya_poznaniya/doc/",
+              "format": "doc",
+              "content_length": 2100224,
+              "filename": "dialekt_kak_logika_i_teoriya_poznaniya.doc",
+              "status": "header_checked_not_downloaded"
+            },
+            {
+              "url": "https://www.koob.ru/kopnin_p_v/",
+              "format": "author_page",
+              "status": "http_200_page_checked"
+            }
+          ],
+          "recommended_next_action": "manual_version_and_rights_review_before_any_ingest"
+        },
+        {
+          "site": "ru.wikipedia.org",
+          "url": "https://ru.wikipedia.org/wiki/Копнин,_Павел_Васильевич",
+          "label": "secondary bibliography checklist",
+          "formats": ["html"],
+          "verified": true,
+          "source_role": "secondary_bibliography",
+          "recommended_next_action": "use only for title discovery and cross-checking"
+        }
+      ],
       "collection_status": "scan_not_found_text_only"
     },
     {

@@ -1,7 +1,7 @@
 ---
 title: "Evald Ilyenkov Text Archive"
 created: "2026-06-11"
-updated: "2026-06-22"
+updated: "2026-07-03"
 type: "project"
 tags: ["project", "documentation"]
 language: "en"
@@ -34,6 +34,25 @@ website should use `http://filorus.ru/ilyenkov` and add `(at the website by Andr
 the URL.
 
 See [Maidansky Source Attribution](../notes/MAIDANSKY_SOURCE_ATTRIBUTION.md).
+
+## Network Discovery Round, 2026-07-03
+
+The cross-person discovery pass records Ilyenkov network leads in
+[`soviet_philosophy_source_discovery.json`](../metadata/soviet_philosophy_source_discovery.json).
+These leads are for relationship mapping and de-duplication, not immediate corpus admission:
+
+- MIA's `Evald Ilyenkov Archive` is useful as an English translation and relationship map. It
+  links Ilyenkov to Vygotsky, Feliks Mikhailov, Alexander Meshcheryakov, Geoff Pilling, Lenin,
+  Hegel/Marx, and activity-theory contexts. Each item must be compared against existing Russian
+  Markdown and reviewed for rights before any text-witness use.
+- `caute.ru/ilyenkov/eng/texts.htm` remains a historical Reading Ilyenkov page with foreign-language
+  files, MIA links, and secondary commentary links. For repository citations to the historical
+  Maidansky source lineage, prefer `http://filorus.ru/ilyenkov` where an equivalent exists.
+- `ilyenkovfriends.org` is a contemporary research, webinar, symposium, presenter, and secondary
+  bibliography node. It is not an author-original corpus source.
+
+No files were downloaded, no PDF/DjVu text layer was read, no OCR was run, and no Markdown body text
+was created in this round.
 
 ## Newspaper Verification Batch
 

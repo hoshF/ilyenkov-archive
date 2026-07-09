@@ -1,7 +1,7 @@
 ---
 title: "T. I. Oizerman Text Source Survey"
 created: "2026-06-16"
-updated: "2026-06-22"
+updated: "2026-07-03"
 type: "analysis"
 tags: ["oizerman", "source-metadata", "marxism", "history-of-philosophy"]
 language: "en"
@@ -12,7 +12,8 @@ gbrain_source: "project-markdown"
 
 # T. I. Oizerman Text Source Survey
 
-This document translates the existing survey; it does not record a new external source search.
+This document translates the existing survey and now records the first cross-person network
+discovery pass for Soviet philosophy source leads.
 
 ## Identity And Findings
 
@@ -29,6 +30,42 @@ philosophy, and later met philosophy.
 
 See the [Source Policy](PHILOSOPHY_SOURCE_FORMAT_POLICY.md) and
 [`works_master.json`](../oizerman_markdown/metadata/works_master.json).
+
+## Network Discovery Round, 2026-07-03
+
+The cross-person discovery pass created
+[`soviet_philosophy_source_discovery.json`](../metadata/soviet_philosophy_source_discovery.json).
+For Oizerman, the useful network leads are broad but still rights-unclear:
+
+- `https://www.koob.ru/ojzerman/problemy_istor_filosof_nauki` and
+  `https://www.koob.ru/ojzerman/glavnie_filosofskie_napravleniya` returned HTTP 200 and are now
+  marked as verified discovery leads in `works_master.json`.
+- The `Проблемы историко-философской науки` Koob page points to Klex `https://www.klex.ru/tsf`;
+  Klex lists Phantastike ZIP (`5,7 Mb`), DjVu, and online DjVu-view routes.
+- The `Главные философские направления` Koob page points to Klex `https://www.klex.ru/hat`;
+  Klex lists Phantastike ZIP (`4,7 Mb`), DjVu, and online DjVu-view routes.
+- `https://www.klex.ru/author/ojzerman/` returned HTTP 200 and remains an author-page lead for
+  comparing gaps against the registered scans and official IPh RAS bibliography.
+- The Russian Wikipedia network bibliography mentions Runivers, leninist.biz, Archive.org, and
+  the Autodidact Project as further platform leads; these require separate per-URL verification
+  before any action.
+
+The two confirmed Koob/Klex leads are now marked in
+[`works_master.json`](../oizerman_markdown/metadata/works_master.json) as registered scans, not
+new acquisition candidates.
+
+## Registered Scan Review Queue
+
+This queue is a planning aid only. It does not authorize downloads, OCR, PDF/DjVu text-layer use,
+or Markdown conversion.
+
+| Status | Work id | Registered scan | Reason | Next action |
+|---|---|---|---|---|
+| `registered_scan` | `problemy-istoriko-filosofskoy-nauki` | `source_scans/klex/problemy-istoriko-filosofskoy-nauki.djvu` | Klex `tsf` / Phantastike DjVu is already registered as `source_scan_unprocessed`. | No new acquisition; compare scan edition against official bibliography before any digitization project. |
+| `registered_scan` | `glavnye-filosofskie-napravleniya` | `source_scans/klex/glavnye-filosofskie-napravleniya.djvu` | Klex `hat` / Phantastike DjVu is already registered as `source_scan_unprocessed`. | No new acquisition; compare scan edition against official bibliography before any digitization project. |
+
+No files were downloaded, no PDF/DjVu text layer was read, no OCR was run, and no Markdown body text
+was created in this round.
 
 ## Official Bibliography
 

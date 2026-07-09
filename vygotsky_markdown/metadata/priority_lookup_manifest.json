@@ -1,0 +1,1947 @@
+{
+  "schema_version": 1,
+  "generated_at": "2026-07-02",
+  "collection_id": "vygotsky",
+  "title": "Vygotsky priority official-library lookup manifest",
+  "policy": "Lookup-only manifest for 25 high-priority Russian original-language candidates. No files were downloaded, no OCR was run, no PDF/DjVu text layer was read, and no Markdown corpus text was created.",
+  "lookup_sources": [
+    {
+      "provider": "НЭБ",
+      "base_url": "https://rusneb.ru/",
+      "role": "national electronic library and catalogue"
+    },
+    {
+      "provider": "RSL",
+      "base_url": "https://search.rsl.ru/",
+      "role": "Russian State Library catalogue lookup"
+    },
+    {
+      "provider": "GNPBU",
+      "base_url": "https://elib.old.gnpbu.ru/",
+      "role": "pedagogical library electronic reader and scan leads"
+    },
+    {
+      "provider": "psychlib.ru",
+      "base_url": "https://psychlib.ru/",
+      "role": "MSUPE psychological library page-limited source pages"
+    },
+    {
+      "provider": "PsyJournals",
+      "base_url": "https://psyjournals.ru/authors/1035",
+      "role": "primary bibliography and portal republication leads"
+    }
+  ],
+  "target_count": 25,
+  "target_work_ids": [
+    "pedagogicheskaya-psikhologiya-1926",
+    "myshlenie-i-rech-1934",
+    "psikhologiya-iskusstva-1987",
+    "istoricheskii-smysl-psikhologicheskogo-krizisa-1927",
+    "istoriya-razvitiya-vysshikh-psikhicheskikh-funktsii-1931",
+    "uchenie-ob-emotsiyakh-istoriko-psikhologicheskoe-issledovanie-1933",
+    "pedologiya-podrostka-1929",
+    "orudie-i-znak-1930",
+    "igra-i-ee-rol-v-psikhicheskom-razvitii-rebenka-1933",
+    "problema-vozrasta-1934",
+    "problema-kulturnogo-razvitiya-rebenka-1928",
+    "lektsii-po-psikhologii-razvitiya-1928",
+    "osnovy-pedologii-1934",
+    "pedologiya-yunosheskogo-vozrasta-osobennosti-povedeniya-podrostka-various",
+    "trudnoe-detstvo-various",
+    "fashizm-v-psikhonevrologii-1934",
+    "praktikum-po-eksperimentalnoi-psikhologii-1927",
+    "psikhologicheskaya-khrestomatiya-1927",
+    "metodika-refleksologicheskogo-i-psikhologicheskogo-issledovaniya-1924",
+    "soznanie-kak-problema-psikhologii-povedeniya-1925",
+    "instrumentalnyi-metod-v-psikhologii-1930",
+    "problema-obucheniya-i-umstvennogo-razvitiya-v-shkolnom-vozraste-1934",
+    "razvitie-zhiteiskikh-i-nauchnykh-ponyatii-v-shkolnom-vozraste-1933",
+    "problema-razvitiya-i-raspada-vysshikh-psikhicheskikh-funktsii-1934",
+    "psikhologiya-i-uchenie-o-lokalizatsii-psikhicheskikh-funktsii-1934"
+  ],
+  "result_value_sets": {
+    "bibliographic_match": [
+      "exact",
+      "variant",
+      "uncertain"
+    ],
+    "access_status": [
+      "stable_download",
+      "online_reader",
+      "reading_room_only",
+      "catalogue_only",
+      "page_limited",
+      "not_found"
+    ],
+    "format": [
+      "pdf",
+      "djvu",
+      "html",
+      "catalogue",
+      "unknown"
+    ],
+    "recommended_next_action": [
+      "download_candidate",
+      "index_only",
+      "manual_review",
+      "defer"
+    ],
+    "priority_lookup_status": [
+      "download_candidate_found",
+      "official_exact_source_indexed",
+      "official_variant_source_indexed",
+      "psyjournals_bibliography_only"
+    ],
+    "source_role": [
+      "bibliography_anchor",
+      "source_or_version_lead",
+      "lookup_attempt"
+    ]
+  },
+  "summary": {
+    "records": 25,
+    "stable_download_candidates": 0,
+    "exact_official_sources": 6,
+    "variant_official_sources": 17,
+    "psyjournals_bibliography_only": 2,
+    "new_files_downloaded": 0,
+    "source_scans_manifest_changed": false
+  },
+  "records": [
+    {
+      "work_id": "pedagogicheskaya-psikhologiya-1926",
+      "title_ru": "Педагогическая психология: Краткий курс",
+      "year": "1926",
+      "priority_lookup_status": "official_exact_source_indexed",
+      "collection_status": "source_page_indexed_no_bulk_download",
+      "lookup_scope": "official_or_library_sources_only_no_download",
+      "results": [
+        {
+          "provider": "НЭБ",
+          "url": "https://rusneb.ru/catalog/000199_000009_009148967/",
+          "bibliographic_match": "exact",
+          "access_status": "catalogue_only",
+          "format": "catalogue",
+          "recommended_next_action": "index_only",
+          "note": "НЭБ/RSL catalogue record for the 1926 Moscow publication; no stable public download recorded in this lookup round.",
+          "query": "Педагогическая психология: Краткий курс",
+          "source_role": "source_or_version_lead"
+        },
+        {
+          "provider": "RSL",
+          "url": "https://search.rsl.ru/ru/search#q=%D0%92%D1%8B%D0%B3%D0%BE%D1%82%D1%81%D0%BA%D0%B8%D0%B9%20%D0%9F%D0%B5%D0%B4%D0%B0%D0%B3%D0%BE%D0%B3%D0%B8%D1%87%D0%B5%D1%81%D0%BA%D0%B0%D1%8F%20%D0%BF%D1%81%D0%B8%D1%85%D0%BE%D0%BB%D0%BE%D0%B3%D0%B8%D1%8F%3A%20%D0%9A%D1%80%D0%B0%D1%82%D0%BA%D0%B8%D0%B9%20%D0%BA%D1%83%D1%80%D1%81%201926",
+          "bibliographic_match": "uncertain",
+          "access_status": "catalogue_only",
+          "format": "catalogue",
+          "recommended_next_action": "manual_review",
+          "query": "Выготский Педагогическая психология: Краткий курс 1926",
+          "note": "Exact-title RSL search URL recorded for manual follow-up; no stable individual RSL record URL captured in this round.",
+          "is_search_query": true,
+          "source_role": "lookup_attempt"
+        },
+        {
+          "provider": "GNPBU",
+          "url": null,
+          "bibliographic_match": "uncertain",
+          "access_status": "not_found",
+          "format": "unknown",
+          "recommended_next_action": "defer",
+          "query": "site:https://elib.old.gnpbu.ru/ Выготский \"Педагогическая психология: Краткий курс\"",
+          "note": "No stable official/library result URL was captured during exact-title lookup in this round.",
+          "source_role": "lookup_attempt"
+        },
+        {
+          "provider": "psychlib.ru",
+          "url": "https://psychlib.ru/mgppu/VPp-1926/VPp-348.htm",
+          "bibliographic_match": "exact",
+          "access_status": "page_limited",
+          "format": "html",
+          "recommended_next_action": "index_only",
+          "note": "MSUPE psychlib page set for the 1926 edition; pages are readable, but bulk capture is outside this round.",
+          "query": "Педагогическая психология: Краткий курс",
+          "source_role": "source_or_version_lead"
+        },
+        {
+          "provider": "PsyJournals",
+          "url": "https://psyjournals.ru/authors/1035",
+          "bibliographic_match": "exact",
+          "access_status": "catalogue_only",
+          "format": "html",
+          "recommended_next_action": "index_only",
+          "note": "PsyJournals author bibliography is the primary bibliographic anchor for this work in the current master table.",
+          "query": "Педагогическая психология: Краткий курс",
+          "source_role": "bibliography_anchor"
+        }
+      ],
+      "notes": [],
+      "recommended_next_actions": [
+        "defer",
+        "index_only",
+        "manual_review"
+      ],
+      "known_source_count": 2
+    },
+    {
+      "work_id": "myshlenie-i-rech-1934",
+      "title_ru": "Мышление и речь: психологические исследования",
+      "year": "1934",
+      "priority_lookup_status": "official_exact_source_indexed",
+      "collection_status": "source_page_indexed_no_bulk_download",
+      "lookup_scope": "official_or_library_sources_only_no_download",
+      "results": [
+        {
+          "provider": "НЭБ",
+          "url": "https://rusneb.ru/catalog/002072_000044_ARONB-RU_%D0%90%D1%80%D1%85%D0%B0%D0%BD%D0%B3%D0%B5%D0%BB%D1%8C%D1%81%D0%BA%D0%B0%D1%8F%2B%D0%9E%D0%9D%D0%91_DOLIB_-253801/",
+          "bibliographic_match": "exact",
+          "access_status": "catalogue_only",
+          "format": "catalogue",
+          "recommended_next_action": "index_only",
+          "note": "НЭБ catalogue record for the 1934 Moscow/Leningrad publication; no stable public download recorded in this lookup round.",
+          "query": "Мышление и речь: психологические исследования",
+          "source_role": "source_or_version_lead"
+        },
+        {
+          "provider": "RSL",
+          "url": "https://search.rsl.ru/ru/search#q=%D0%92%D1%8B%D0%B3%D0%BE%D1%82%D1%81%D0%BA%D0%B8%D0%B9%20%D0%9C%D1%8B%D1%88%D0%BB%D0%B5%D0%BD%D0%B8%D0%B5%20%D0%B8%20%D1%80%D0%B5%D1%87%D1%8C%3A%20%D0%BF%D1%81%D0%B8%D1%85%D0%BE%D0%BB%D0%BE%D0%B3%D0%B8%D1%87%D0%B5%D1%81%D0%BA%D0%B8%D0%B5%20%D0%B8%D1%81%D1%81%D0%BB%D0%B5%D0%B4%D0%BE%D0%B2%D0%B0%D0%BD%D0%B8%D1%8F%201934",
+          "bibliographic_match": "uncertain",
+          "access_status": "catalogue_only",
+          "format": "catalogue",
+          "recommended_next_action": "manual_review",
+          "query": "Выготский Мышление и речь: психологические исследования 1934",
+          "note": "Exact-title RSL search URL recorded for manual follow-up; no stable individual RSL record URL captured in this round.",
+          "is_search_query": true,
+          "source_role": "lookup_attempt"
+        },
+        {
+          "provider": "GNPBU",
+          "url": "https://elib.old.gnpbu.ru/text/vygotsky_ss-v-6tt_t2_1982/fs%2C1/",
+          "bibliographic_match": "variant",
+          "access_status": "online_reader",
+          "format": "unknown",
+          "recommended_next_action": "manual_review",
+          "note": "Six-volume collected works volume 2 includes general psychology materials; use only as a later version witness after contents review.",
+          "query": "Мышление и речь: психологические исследования",
+          "source_role": "source_or_version_lead"
+        },
+        {
+          "provider": "psychlib.ru",
+          "url": "https://psychlib.ru/mgppu/VMr-1934/VMR-001.HTM",
+          "bibliographic_match": "exact",
+          "access_status": "page_limited",
+          "format": "html",
+          "recommended_next_action": "index_only",
+          "note": "MSUPE psychlib page set for the 1934 edition; pages are readable, but bulk capture is outside this round.",
+          "query": "Мышление и речь: психологические исследования",
+          "source_role": "source_or_version_lead"
+        },
+        {
+          "provider": "PsyJournals",
+          "url": "https://psyjournals.ru/authors/1035",
+          "bibliographic_match": "exact",
+          "access_status": "catalogue_only",
+          "format": "html",
+          "recommended_next_action": "index_only",
+          "note": "PsyJournals author bibliography is the primary bibliographic anchor for this work in the current master table.",
+          "query": "Мышление и речь: психологические исследования",
+          "source_role": "bibliography_anchor"
+        }
+      ],
+      "notes": [],
+      "recommended_next_actions": [
+        "index_only",
+        "manual_review"
+      ],
+      "known_source_count": 3
+    },
+    {
+      "work_id": "psikhologiya-iskusstva-1987",
+      "title_ru": "Психология искусства",
+      "year": "1987",
+      "priority_lookup_status": "official_exact_source_indexed",
+      "collection_status": "download_deferred_no_stable_url",
+      "lookup_scope": "official_or_library_sources_only_no_download",
+      "results": [
+        {
+          "provider": "НЭБ",
+          "url": null,
+          "bibliographic_match": "uncertain",
+          "access_status": "not_found",
+          "format": "unknown",
+          "recommended_next_action": "defer",
+          "query": "site:https://rusneb.ru/ Выготский \"Психология искусства\"",
+          "note": "No stable official/library result URL was captured during exact-title lookup in this round.",
+          "source_role": "lookup_attempt"
+        },
+        {
+          "provider": "RSL",
+          "url": "https://search.rsl.ru/ru/search#q=%D0%92%D1%8B%D0%B3%D0%BE%D1%82%D1%81%D0%BA%D0%B8%D0%B9%20%D0%9F%D1%81%D0%B8%D1%85%D0%BE%D0%BB%D0%BE%D0%B3%D0%B8%D1%8F%20%D0%B8%D1%81%D0%BA%D1%83%D1%81%D1%81%D1%82%D0%B2%D0%B0%201987",
+          "bibliographic_match": "uncertain",
+          "access_status": "catalogue_only",
+          "format": "catalogue",
+          "recommended_next_action": "manual_review",
+          "query": "Выготский Психология искусства 1987",
+          "note": "Exact-title RSL search URL recorded for manual follow-up; no stable individual RSL record URL captured in this round.",
+          "is_search_query": true,
+          "source_role": "lookup_attempt"
+        },
+        {
+          "provider": "GNPBU",
+          "url": "https://elib.old.gnpbu.ru/text/vygotsky_psihologiya-iskusstva_1987/fs%2C1/",
+          "bibliographic_match": "exact",
+          "access_status": "online_reader",
+          "format": "unknown",
+          "recommended_next_action": "manual_review",
+          "note": "GNPBU reader page for the 1987 Pedagogika edition; no stable direct PDF/DjVu URL recorded in this lookup round.",
+          "query": "Психология искусства",
+          "source_role": "source_or_version_lead"
+        },
+        {
+          "provider": "psychlib.ru",
+          "url": null,
+          "bibliographic_match": "uncertain",
+          "access_status": "not_found",
+          "format": "unknown",
+          "recommended_next_action": "defer",
+          "query": "site:https://psychlib.ru/ Выготский \"Психология искусства\"",
+          "note": "No stable official/library result URL was captured during exact-title lookup in this round.",
+          "source_role": "lookup_attempt"
+        },
+        {
+          "provider": "PsyJournals",
+          "url": "https://psyjournals.ru/authors/1035",
+          "bibliographic_match": "exact",
+          "access_status": "catalogue_only",
+          "format": "html",
+          "recommended_next_action": "index_only",
+          "note": "PsyJournals author bibliography is the primary bibliographic anchor for this work in the current master table.",
+          "query": "Психология искусства",
+          "source_role": "bibliography_anchor"
+        }
+      ],
+      "notes": [],
+      "recommended_next_actions": [
+        "defer",
+        "index_only",
+        "manual_review"
+      ],
+      "known_source_count": 1
+    },
+    {
+      "work_id": "istoricheskii-smysl-psikhologicheskogo-krizisa-1927",
+      "title_ru": "Исторический смысл психологического кризиса",
+      "year": "1927",
+      "priority_lookup_status": "official_variant_source_indexed",
+      "collection_status": "bibliography_indexed",
+      "lookup_scope": "official_or_library_sources_only_no_download",
+      "results": [
+        {
+          "provider": "НЭБ",
+          "url": "https://rusneb.ru/catalog/000199_000009_001079033/",
+          "bibliographic_match": "variant",
+          "access_status": "reading_room_only",
+          "format": "catalogue",
+          "recommended_next_action": "index_only",
+          "note": "НЭБ record for collected works volume 1; not a direct 1927 source record.",
+          "query": "Исторический смысл психологического кризиса",
+          "source_role": "source_or_version_lead"
+        },
+        {
+          "provider": "RSL",
+          "url": "https://search.rsl.ru/ru/search#q=%D0%92%D1%8B%D0%B3%D0%BE%D1%82%D1%81%D0%BA%D0%B8%D0%B9%20%D0%98%D1%81%D1%82%D0%BE%D1%80%D0%B8%D1%87%D0%B5%D1%81%D0%BA%D0%B8%D0%B9%20%D1%81%D0%BC%D1%8B%D1%81%D0%BB%20%D0%BF%D1%81%D0%B8%D1%85%D0%BE%D0%BB%D0%BE%D0%B3%D0%B8%D1%87%D0%B5%D1%81%D0%BA%D0%BE%D0%B3%D0%BE%20%D0%BA%D1%80%D0%B8%D0%B7%D0%B8%D1%81%D0%B0%201927",
+          "bibliographic_match": "uncertain",
+          "access_status": "catalogue_only",
+          "format": "catalogue",
+          "recommended_next_action": "manual_review",
+          "query": "Выготский Исторический смысл психологического кризиса 1927",
+          "note": "Exact-title RSL search URL recorded for manual follow-up; no stable individual RSL record URL captured in this round.",
+          "is_search_query": true,
+          "source_role": "lookup_attempt"
+        },
+        {
+          "provider": "GNPBU",
+          "url": "https://elib.old.gnpbu.ru/text/vygotsky_ss-v-6tt_t1_1982/fs%2C1/",
+          "bibliographic_match": "variant",
+          "access_status": "online_reader",
+          "format": "unknown",
+          "recommended_next_action": "manual_review",
+          "note": "Six-volume collected works volume 1 is a later publication witness for the crisis manuscript; original archival/version status still needs review.",
+          "query": "Исторический смысл психологического кризиса",
+          "source_role": "source_or_version_lead"
+        },
+        {
+          "provider": "psychlib.ru",
+          "url": null,
+          "bibliographic_match": "uncertain",
+          "access_status": "not_found",
+          "format": "unknown",
+          "recommended_next_action": "defer",
+          "query": "site:https://psychlib.ru/ Выготский \"Исторический смысл психологического кризиса\"",
+          "note": "No stable official/library result URL was captured during exact-title lookup in this round.",
+          "source_role": "lookup_attempt"
+        },
+        {
+          "provider": "PsyJournals",
+          "url": "https://psyjournals.ru/authors/1035",
+          "bibliographic_match": "exact",
+          "access_status": "catalogue_only",
+          "format": "html",
+          "recommended_next_action": "index_only",
+          "note": "PsyJournals author bibliography is the primary bibliographic anchor for this work in the current master table.",
+          "query": "Исторический смысл психологического кризиса",
+          "source_role": "bibliography_anchor"
+        }
+      ],
+      "notes": [],
+      "recommended_next_actions": [
+        "defer",
+        "index_only",
+        "manual_review"
+      ],
+      "known_source_count": 2
+    },
+    {
+      "work_id": "istoriya-razvitiya-vysshikh-psikhicheskikh-funktsii-1931",
+      "title_ru": "История развития высших психических функций",
+      "year": "1931",
+      "priority_lookup_status": "official_variant_source_indexed",
+      "collection_status": "bibliography_indexed",
+      "lookup_scope": "official_or_library_sources_only_no_download",
+      "results": [
+        {
+          "provider": "НЭБ",
+          "url": null,
+          "bibliographic_match": "uncertain",
+          "access_status": "not_found",
+          "format": "unknown",
+          "recommended_next_action": "defer",
+          "query": "site:https://rusneb.ru/ Выготский \"История развития высших психических функций\"",
+          "note": "No stable official/library result URL was captured during exact-title lookup in this round.",
+          "source_role": "lookup_attempt"
+        },
+        {
+          "provider": "RSL",
+          "url": "https://search.rsl.ru/ru/search#q=%D0%92%D1%8B%D0%B3%D0%BE%D1%82%D1%81%D0%BA%D0%B8%D0%B9%20%D0%98%D1%81%D1%82%D0%BE%D1%80%D0%B8%D1%8F%20%D1%80%D0%B0%D0%B7%D0%B2%D0%B8%D1%82%D0%B8%D1%8F%20%D0%B2%D1%8B%D1%81%D1%88%D0%B8%D1%85%20%D0%BF%D1%81%D0%B8%D1%85%D0%B8%D1%87%D0%B5%D1%81%D0%BA%D0%B8%D1%85%20%D1%84%D1%83%D0%BD%D0%BA%D1%86%D0%B8%D0%B9%201931",
+          "bibliographic_match": "uncertain",
+          "access_status": "catalogue_only",
+          "format": "catalogue",
+          "recommended_next_action": "manual_review",
+          "query": "Выготский История развития высших психических функций 1931",
+          "note": "Exact-title RSL search URL recorded for manual follow-up; no stable individual RSL record URL captured in this round.",
+          "is_search_query": true,
+          "source_role": "lookup_attempt"
+        },
+        {
+          "provider": "GNPBU",
+          "url": "https://elib.old.gnpbu.ru/text/vygotsky_ss-v-6tt_t3_1983/fs%2C1/",
+          "bibliographic_match": "variant",
+          "access_status": "online_reader",
+          "format": "unknown",
+          "recommended_next_action": "manual_review",
+          "note": "Six-volume collected works volume 3 is a later publication witness for this work.",
+          "query": "История развития высших психических функций",
+          "source_role": "source_or_version_lead"
+        },
+        {
+          "provider": "psychlib.ru",
+          "url": null,
+          "bibliographic_match": "uncertain",
+          "access_status": "not_found",
+          "format": "unknown",
+          "recommended_next_action": "defer",
+          "query": "site:https://psychlib.ru/ Выготский \"История развития высших психических функций\"",
+          "note": "No stable official/library result URL was captured during exact-title lookup in this round.",
+          "source_role": "lookup_attempt"
+        },
+        {
+          "provider": "PsyJournals",
+          "url": "https://psyjournals.ru/journals/pse/archive/1996_n2/Vygotsky",
+          "bibliographic_match": "variant",
+          "access_status": "online_reader",
+          "format": "html",
+          "recommended_next_action": "manual_review",
+          "note": "PsyJournals republication/portal page; use as version evidence, not as a scan source.",
+          "query": "История развития высших психических функций",
+          "source_role": "source_or_version_lead"
+        }
+      ],
+      "notes": [],
+      "recommended_next_actions": [
+        "defer",
+        "manual_review"
+      ],
+      "known_source_count": 2
+    },
+    {
+      "work_id": "uchenie-ob-emotsiyakh-istoriko-psikhologicheskoe-issledovanie-1933",
+      "title_ru": "Учение об эмоциях. Историко-психологическое исследование",
+      "year": "1933",
+      "priority_lookup_status": "official_variant_source_indexed",
+      "collection_status": "archive_or_manuscript_indexed",
+      "lookup_scope": "official_or_library_sources_only_no_download",
+      "results": [
+        {
+          "provider": "НЭБ",
+          "url": null,
+          "bibliographic_match": "uncertain",
+          "access_status": "not_found",
+          "format": "unknown",
+          "recommended_next_action": "defer",
+          "query": "site:https://rusneb.ru/ Выготский \"Учение об эмоциях. Историко-психологическое исследование\"",
+          "note": "No stable official/library result URL was captured during exact-title lookup in this round.",
+          "source_role": "lookup_attempt"
+        },
+        {
+          "provider": "RSL",
+          "url": "https://search.rsl.ru/ru/search#q=%D0%92%D1%8B%D0%B3%D0%BE%D1%82%D1%81%D0%BA%D0%B8%D0%B9%20%D0%A3%D1%87%D0%B5%D0%BD%D0%B8%D0%B5%20%D0%BE%D0%B1%20%D1%8D%D0%BC%D0%BE%D1%86%D0%B8%D1%8F%D1%85.%20%D0%98%D1%81%D1%82%D0%BE%D1%80%D0%B8%D0%BA%D0%BE-%D0%BF%D1%81%D0%B8%D1%85%D0%BE%D0%BB%D0%BE%D0%B3%D0%B8%D1%87%D0%B5%D1%81%D0%BA%D0%BE%D0%B5%20%D0%B8%D1%81%D1%81%D0%BB%D0%B5%D0%B4%D0%BE%D0%B2%D0%B0%D0%BD%D0%B8%D0%B5%201933",
+          "bibliographic_match": "uncertain",
+          "access_status": "catalogue_only",
+          "format": "catalogue",
+          "recommended_next_action": "manual_review",
+          "query": "Выготский Учение об эмоциях. Историко-психологическое исследование 1933",
+          "note": "Exact-title RSL search URL recorded for manual follow-up; no stable individual RSL record URL captured in this round.",
+          "is_search_query": true,
+          "source_role": "lookup_attempt"
+        },
+        {
+          "provider": "GNPBU",
+          "url": "https://elib.old.gnpbu.ru/text/vygotsky_ss-v-6tt_t6_1984/fs%2C1/",
+          "bibliographic_match": "variant",
+          "access_status": "online_reader",
+          "format": "unknown",
+          "recommended_next_action": "manual_review",
+          "note": "Six-volume collected works volume 6 is a later publication witness for the scientific legacy materials.",
+          "query": "Учение об эмоциях. Историко-психологическое исследование",
+          "source_role": "source_or_version_lead"
+        },
+        {
+          "provider": "psychlib.ru",
+          "url": null,
+          "bibliographic_match": "uncertain",
+          "access_status": "not_found",
+          "format": "unknown",
+          "recommended_next_action": "defer",
+          "query": "site:https://psychlib.ru/ Выготский \"Учение об эмоциях. Историко-психологическое исследование\"",
+          "note": "No stable official/library result URL was captured during exact-title lookup in this round.",
+          "source_role": "lookup_attempt"
+        },
+        {
+          "provider": "PsyJournals",
+          "url": "https://psyjournals.ru/authors/1035",
+          "bibliographic_match": "exact",
+          "access_status": "catalogue_only",
+          "format": "html",
+          "recommended_next_action": "index_only",
+          "note": "PsyJournals author bibliography is the primary bibliographic anchor for this work in the current master table.",
+          "query": "Учение об эмоциях. Историко-психологическое исследование",
+          "source_role": "bibliography_anchor"
+        }
+      ],
+      "notes": [],
+      "recommended_next_actions": [
+        "defer",
+        "index_only",
+        "manual_review"
+      ],
+      "known_source_count": 1
+    },
+    {
+      "work_id": "pedologiya-podrostka-1929",
+      "title_ru": "Педология подростка",
+      "year": "1929",
+      "priority_lookup_status": "official_variant_source_indexed",
+      "collection_status": "needs_library_lookup",
+      "lookup_scope": "official_or_library_sources_only_no_download",
+      "results": [
+        {
+          "provider": "НЭБ",
+          "url": null,
+          "bibliographic_match": "uncertain",
+          "access_status": "not_found",
+          "format": "unknown",
+          "recommended_next_action": "defer",
+          "query": "site:https://rusneb.ru/ Выготский \"Педология подростка\"",
+          "note": "No stable official/library result URL was captured during exact-title lookup in this round.",
+          "source_role": "lookup_attempt"
+        },
+        {
+          "provider": "RSL",
+          "url": "https://search.rsl.ru/ru/search#q=%D0%92%D1%8B%D0%B3%D0%BE%D1%82%D1%81%D0%BA%D0%B8%D0%B9%20%D0%9F%D0%B5%D0%B4%D0%BE%D0%BB%D0%BE%D0%B3%D0%B8%D1%8F%20%D0%BF%D0%BE%D0%B4%D1%80%D0%BE%D1%81%D1%82%D0%BA%D0%B0%201929",
+          "bibliographic_match": "uncertain",
+          "access_status": "catalogue_only",
+          "format": "catalogue",
+          "recommended_next_action": "manual_review",
+          "query": "Выготский Педология подростка 1929",
+          "note": "Exact-title RSL search URL recorded for manual follow-up; no stable individual RSL record URL captured in this round.",
+          "is_search_query": true,
+          "source_role": "lookup_attempt"
+        },
+        {
+          "provider": "GNPBU",
+          "url": "https://elib.old.gnpbu.ru/text/vygotsky_ss-v-6tt_t4_1984/fs%2C1/",
+          "bibliographic_match": "variant",
+          "access_status": "online_reader",
+          "format": "unknown",
+          "recommended_next_action": "manual_review",
+          "note": "Six-volume collected works volume 4 is a later child psychology/pedology witness; exact early issue still needs library lookup.",
+          "query": "Педология подростка",
+          "source_role": "source_or_version_lead"
+        },
+        {
+          "provider": "psychlib.ru",
+          "url": null,
+          "bibliographic_match": "uncertain",
+          "access_status": "not_found",
+          "format": "unknown",
+          "recommended_next_action": "defer",
+          "query": "site:https://psychlib.ru/ Выготский \"Педология подростка\"",
+          "note": "No stable official/library result URL was captured during exact-title lookup in this round.",
+          "source_role": "lookup_attempt"
+        },
+        {
+          "provider": "PsyJournals",
+          "url": "https://psyjournals.ru/authors/1035",
+          "bibliographic_match": "exact",
+          "access_status": "catalogue_only",
+          "format": "html",
+          "recommended_next_action": "index_only",
+          "note": "PsyJournals author bibliography is the primary bibliographic anchor for this work in the current master table.",
+          "query": "Педология подростка",
+          "source_role": "bibliography_anchor"
+        }
+      ],
+      "notes": [],
+      "recommended_next_actions": [
+        "defer",
+        "index_only",
+        "manual_review"
+      ],
+      "known_source_count": 1
+    },
+    {
+      "work_id": "orudie-i-znak-1930",
+      "title_ru": "Орудие и знак",
+      "year": "1930",
+      "priority_lookup_status": "official_variant_source_indexed",
+      "collection_status": "archive_or_manuscript_indexed",
+      "lookup_scope": "official_or_library_sources_only_no_download",
+      "results": [
+        {
+          "provider": "НЭБ",
+          "url": null,
+          "bibliographic_match": "uncertain",
+          "access_status": "not_found",
+          "format": "unknown",
+          "recommended_next_action": "defer",
+          "query": "site:https://rusneb.ru/ Выготский \"Орудие и знак\"",
+          "note": "No stable official/library result URL was captured during exact-title lookup in this round.",
+          "source_role": "lookup_attempt"
+        },
+        {
+          "provider": "RSL",
+          "url": "https://search.rsl.ru/ru/search#q=%D0%92%D1%8B%D0%B3%D0%BE%D1%82%D1%81%D0%BA%D0%B8%D0%B9%20%D0%9E%D1%80%D1%83%D0%B4%D0%B8%D0%B5%20%D0%B8%20%D0%B7%D0%BD%D0%B0%D0%BA%201930",
+          "bibliographic_match": "uncertain",
+          "access_status": "catalogue_only",
+          "format": "catalogue",
+          "recommended_next_action": "manual_review",
+          "query": "Выготский Орудие и знак 1930",
+          "note": "Exact-title RSL search URL recorded for manual follow-up; no stable individual RSL record URL captured in this round.",
+          "is_search_query": true,
+          "source_role": "lookup_attempt"
+        },
+        {
+          "provider": "GNPBU",
+          "url": "https://elib.old.gnpbu.ru/text/vygotsky_ss-v-6tt_t6_1984/fs%2C1/",
+          "bibliographic_match": "variant",
+          "access_status": "online_reader",
+          "format": "unknown",
+          "recommended_next_action": "manual_review",
+          "note": "Six-volume collected works volume 6 is a later witness for archival/scientific legacy materials.",
+          "query": "Орудие и знак",
+          "source_role": "source_or_version_lead"
+        },
+        {
+          "provider": "psychlib.ru",
+          "url": null,
+          "bibliographic_match": "uncertain",
+          "access_status": "not_found",
+          "format": "unknown",
+          "recommended_next_action": "defer",
+          "query": "site:https://psychlib.ru/ Выготский \"Орудие и знак\"",
+          "note": "No stable official/library result URL was captured during exact-title lookup in this round.",
+          "source_role": "lookup_attempt"
+        },
+        {
+          "provider": "PsyJournals",
+          "url": "https://psyjournals.ru/authors/1035",
+          "bibliographic_match": "exact",
+          "access_status": "catalogue_only",
+          "format": "html",
+          "recommended_next_action": "index_only",
+          "note": "PsyJournals author bibliography is the primary bibliographic anchor for this work in the current master table.",
+          "query": "Орудие и знак",
+          "source_role": "bibliography_anchor"
+        }
+      ],
+      "notes": [],
+      "recommended_next_actions": [
+        "defer",
+        "index_only",
+        "manual_review"
+      ],
+      "known_source_count": 1
+    },
+    {
+      "work_id": "igra-i-ee-rol-v-psikhicheskom-razvitii-rebenka-1933",
+      "title_ru": "Игра и ее роль в психическом развитии ребенка",
+      "year": "1933",
+      "priority_lookup_status": "official_variant_source_indexed",
+      "collection_status": "archive_or_manuscript_indexed",
+      "lookup_scope": "official_or_library_sources_only_no_download",
+      "results": [
+        {
+          "provider": "НЭБ",
+          "url": null,
+          "bibliographic_match": "uncertain",
+          "access_status": "not_found",
+          "format": "unknown",
+          "recommended_next_action": "defer",
+          "query": "site:https://rusneb.ru/ Выготский \"Игра и ее роль в психическом развитии ребенка\"",
+          "note": "No stable official/library result URL was captured during exact-title lookup in this round.",
+          "source_role": "lookup_attempt"
+        },
+        {
+          "provider": "RSL",
+          "url": "https://search.rsl.ru/ru/search#q=%D0%92%D1%8B%D0%B3%D0%BE%D1%82%D1%81%D0%BA%D0%B8%D0%B9%20%D0%98%D0%B3%D1%80%D0%B0%20%D0%B8%20%D0%B5%D0%B5%20%D1%80%D0%BE%D0%BB%D1%8C%20%D0%B2%20%D0%BF%D1%81%D0%B8%D1%85%D0%B8%D1%87%D0%B5%D1%81%D0%BA%D0%BE%D0%BC%20%D1%80%D0%B0%D0%B7%D0%B2%D0%B8%D1%82%D0%B8%D0%B8%20%D1%80%D0%B5%D0%B1%D0%B5%D0%BD%D0%BA%D0%B0%201933",
+          "bibliographic_match": "uncertain",
+          "access_status": "catalogue_only",
+          "format": "catalogue",
+          "recommended_next_action": "manual_review",
+          "query": "Выготский Игра и ее роль в психическом развитии ребенка 1933",
+          "note": "Exact-title RSL search URL recorded for manual follow-up; no stable individual RSL record URL captured in this round.",
+          "is_search_query": true,
+          "source_role": "lookup_attempt"
+        },
+        {
+          "provider": "GNPBU",
+          "url": "https://elib.old.gnpbu.ru/text/vygotsky_ss-v-6tt_t4_1984/fs%2C1/",
+          "bibliographic_match": "variant",
+          "access_status": "online_reader",
+          "format": "unknown",
+          "recommended_next_action": "manual_review",
+          "note": "Six-volume collected works volume 4 is a later child psychology witness.",
+          "query": "Игра и ее роль в психическом развитии ребенка",
+          "source_role": "source_or_version_lead"
+        },
+        {
+          "provider": "psychlib.ru",
+          "url": null,
+          "bibliographic_match": "uncertain",
+          "access_status": "not_found",
+          "format": "unknown",
+          "recommended_next_action": "defer",
+          "query": "site:https://psychlib.ru/ Выготский \"Игра и ее роль в психическом развитии ребенка\"",
+          "note": "No stable official/library result URL was captured during exact-title lookup in this round.",
+          "source_role": "lookup_attempt"
+        },
+        {
+          "provider": "PsyJournals",
+          "url": "https://psyjournals.ru/authors/1035",
+          "bibliographic_match": "exact",
+          "access_status": "catalogue_only",
+          "format": "html",
+          "recommended_next_action": "index_only",
+          "note": "PsyJournals author bibliography is the primary bibliographic anchor for this work in the current master table.",
+          "query": "Игра и ее роль в психическом развитии ребенка",
+          "source_role": "bibliography_anchor"
+        }
+      ],
+      "notes": [],
+      "recommended_next_actions": [
+        "defer",
+        "index_only",
+        "manual_review"
+      ],
+      "known_source_count": 1
+    },
+    {
+      "work_id": "problema-vozrasta-1934",
+      "title_ru": "Проблема возраста",
+      "year": "1934",
+      "priority_lookup_status": "official_variant_source_indexed",
+      "collection_status": "archive_or_manuscript_indexed",
+      "lookup_scope": "official_or_library_sources_only_no_download",
+      "results": [
+        {
+          "provider": "НЭБ",
+          "url": null,
+          "bibliographic_match": "uncertain",
+          "access_status": "not_found",
+          "format": "unknown",
+          "recommended_next_action": "defer",
+          "query": "site:https://rusneb.ru/ Выготский \"Проблема возраста\"",
+          "note": "No stable official/library result URL was captured during exact-title lookup in this round.",
+          "source_role": "lookup_attempt"
+        },
+        {
+          "provider": "RSL",
+          "url": "https://search.rsl.ru/ru/search#q=%D0%92%D1%8B%D0%B3%D0%BE%D1%82%D1%81%D0%BA%D0%B8%D0%B9%20%D0%9F%D1%80%D0%BE%D0%B1%D0%BB%D0%B5%D0%BC%D0%B0%20%D0%B2%D0%BE%D0%B7%D1%80%D0%B0%D1%81%D1%82%D0%B0%201934",
+          "bibliographic_match": "uncertain",
+          "access_status": "catalogue_only",
+          "format": "catalogue",
+          "recommended_next_action": "manual_review",
+          "query": "Выготский Проблема возраста 1934",
+          "note": "Exact-title RSL search URL recorded for manual follow-up; no stable individual RSL record URL captured in this round.",
+          "is_search_query": true,
+          "source_role": "lookup_attempt"
+        },
+        {
+          "provider": "GNPBU",
+          "url": "https://elib.old.gnpbu.ru/text/vygotsky_ss-v-6tt_t4_1984/fs%2C1/",
+          "bibliographic_match": "variant",
+          "access_status": "online_reader",
+          "format": "unknown",
+          "recommended_next_action": "manual_review",
+          "note": "Six-volume collected works volume 4 is a later child psychology witness.",
+          "query": "Проблема возраста",
+          "source_role": "source_or_version_lead"
+        },
+        {
+          "provider": "psychlib.ru",
+          "url": null,
+          "bibliographic_match": "uncertain",
+          "access_status": "not_found",
+          "format": "unknown",
+          "recommended_next_action": "defer",
+          "query": "site:https://psychlib.ru/ Выготский \"Проблема возраста\"",
+          "note": "No stable official/library result URL was captured during exact-title lookup in this round.",
+          "source_role": "lookup_attempt"
+        },
+        {
+          "provider": "PsyJournals",
+          "url": "https://psyjournals.ru/authors/1035",
+          "bibliographic_match": "exact",
+          "access_status": "catalogue_only",
+          "format": "html",
+          "recommended_next_action": "index_only",
+          "note": "PsyJournals author bibliography is the primary bibliographic anchor for this work in the current master table.",
+          "query": "Проблема возраста",
+          "source_role": "bibliography_anchor"
+        }
+      ],
+      "notes": [],
+      "recommended_next_actions": [
+        "defer",
+        "index_only",
+        "manual_review"
+      ],
+      "known_source_count": 1
+    },
+    {
+      "work_id": "problema-kulturnogo-razvitiya-rebenka-1928",
+      "title_ru": "Проблема культурного развития ребенка",
+      "year": "1928",
+      "priority_lookup_status": "official_variant_source_indexed",
+      "collection_status": "bibliography_indexed",
+      "lookup_scope": "official_or_library_sources_only_no_download",
+      "results": [
+        {
+          "provider": "НЭБ",
+          "url": null,
+          "bibliographic_match": "uncertain",
+          "access_status": "not_found",
+          "format": "unknown",
+          "recommended_next_action": "defer",
+          "query": "site:https://rusneb.ru/ Выготский \"Проблема культурного развития ребенка\"",
+          "note": "No stable official/library result URL was captured during exact-title lookup in this round.",
+          "source_role": "lookup_attempt"
+        },
+        {
+          "provider": "RSL",
+          "url": "https://search.rsl.ru/ru/search#q=%D0%92%D1%8B%D0%B3%D0%BE%D1%82%D1%81%D0%BA%D0%B8%D0%B9%20%D0%9F%D1%80%D0%BE%D0%B1%D0%BB%D0%B5%D0%BC%D0%B0%20%D0%BA%D1%83%D0%BB%D1%8C%D1%82%D1%83%D1%80%D0%BD%D0%BE%D0%B3%D0%BE%20%D1%80%D0%B0%D0%B7%D0%B2%D0%B8%D1%82%D0%B8%D1%8F%20%D1%80%D0%B5%D0%B1%D0%B5%D0%BD%D0%BA%D0%B0%201928",
+          "bibliographic_match": "uncertain",
+          "access_status": "catalogue_only",
+          "format": "catalogue",
+          "recommended_next_action": "manual_review",
+          "query": "Выготский Проблема культурного развития ребенка 1928",
+          "note": "Exact-title RSL search URL recorded for manual follow-up; no stable individual RSL record URL captured in this round.",
+          "is_search_query": true,
+          "source_role": "lookup_attempt"
+        },
+        {
+          "provider": "GNPBU",
+          "url": "https://elib.old.gnpbu.ru/text/vygotsky_ss-v-6tt_t3_1983/fs%2C1/",
+          "bibliographic_match": "variant",
+          "access_status": "online_reader",
+          "format": "unknown",
+          "recommended_next_action": "manual_review",
+          "note": "Six-volume collected works volume 3 is a later development-psychology witness.",
+          "query": "Проблема культурного развития ребенка",
+          "source_role": "source_or_version_lead"
+        },
+        {
+          "provider": "psychlib.ru",
+          "url": null,
+          "bibliographic_match": "uncertain",
+          "access_status": "not_found",
+          "format": "unknown",
+          "recommended_next_action": "defer",
+          "query": "site:https://psychlib.ru/ Выготский \"Проблема культурного развития ребенка\"",
+          "note": "No stable official/library result URL was captured during exact-title lookup in this round.",
+          "source_role": "lookup_attempt"
+        },
+        {
+          "provider": "PsyJournals",
+          "url": "https://psyjournals.ru/authors/1035",
+          "bibliographic_match": "exact",
+          "access_status": "catalogue_only",
+          "format": "html",
+          "recommended_next_action": "index_only",
+          "note": "PsyJournals author bibliography is the primary bibliographic anchor for this work in the current master table.",
+          "query": "Проблема культурного развития ребенка",
+          "source_role": "bibliography_anchor"
+        }
+      ],
+      "notes": [],
+      "recommended_next_actions": [
+        "defer",
+        "index_only",
+        "manual_review"
+      ],
+      "known_source_count": 1
+    },
+    {
+      "work_id": "lektsii-po-psikhologii-razvitiya-1928",
+      "title_ru": "Лекции по психологии развития",
+      "year": "1928",
+      "priority_lookup_status": "official_variant_source_indexed",
+      "collection_status": "archive_or_manuscript_indexed",
+      "lookup_scope": "official_or_library_sources_only_no_download",
+      "results": [
+        {
+          "provider": "НЭБ",
+          "url": null,
+          "bibliographic_match": "uncertain",
+          "access_status": "not_found",
+          "format": "unknown",
+          "recommended_next_action": "defer",
+          "query": "site:https://rusneb.ru/ Выготский \"Лекции по психологии развития\"",
+          "note": "No stable official/library result URL was captured during exact-title lookup in this round.",
+          "source_role": "lookup_attempt"
+        },
+        {
+          "provider": "RSL",
+          "url": "https://search.rsl.ru/ru/search#q=%D0%92%D1%8B%D0%B3%D0%BE%D1%82%D1%81%D0%BA%D0%B8%D0%B9%20%D0%9B%D0%B5%D0%BA%D1%86%D0%B8%D0%B8%20%D0%BF%D0%BE%20%D0%BF%D1%81%D0%B8%D1%85%D0%BE%D0%BB%D0%BE%D0%B3%D0%B8%D0%B8%20%D1%80%D0%B0%D0%B7%D0%B2%D0%B8%D1%82%D0%B8%D1%8F%201928",
+          "bibliographic_match": "uncertain",
+          "access_status": "catalogue_only",
+          "format": "catalogue",
+          "recommended_next_action": "manual_review",
+          "query": "Выготский Лекции по психологии развития 1928",
+          "note": "Exact-title RSL search URL recorded for manual follow-up; no stable individual RSL record URL captured in this round.",
+          "is_search_query": true,
+          "source_role": "lookup_attempt"
+        },
+        {
+          "provider": "GNPBU",
+          "url": null,
+          "bibliographic_match": "uncertain",
+          "access_status": "not_found",
+          "format": "unknown",
+          "recommended_next_action": "defer",
+          "query": "site:https://elib.old.gnpbu.ru/ Выготский \"Лекции по психологии развития\"",
+          "note": "No stable official/library result URL was captured during exact-title lookup in this round.",
+          "source_role": "lookup_attempt"
+        },
+        {
+          "provider": "psychlib.ru",
+          "url": null,
+          "bibliographic_match": "uncertain",
+          "access_status": "not_found",
+          "format": "unknown",
+          "recommended_next_action": "defer",
+          "query": "site:https://psychlib.ru/ Выготский \"Лекции по психологии развития\"",
+          "note": "No stable official/library result URL was captured during exact-title lookup in this round.",
+          "source_role": "lookup_attempt"
+        },
+        {
+          "provider": "PsyJournals",
+          "url": "https://psyjournals.ru/journals/chp/archive/2021_n2/Vygotsky",
+          "bibliographic_match": "variant",
+          "access_status": "online_reader",
+          "format": "html",
+          "recommended_next_action": "manual_review",
+          "note": "PsyJournals archival publication; later portal text requires version and rights review.",
+          "query": "Лекции по психологии развития",
+          "source_role": "source_or_version_lead"
+        }
+      ],
+      "notes": [],
+      "recommended_next_actions": [
+        "defer",
+        "manual_review"
+      ],
+      "known_source_count": 1
+    },
+    {
+      "work_id": "osnovy-pedologii-1934",
+      "title_ru": "Основы педологии",
+      "year": "1934",
+      "priority_lookup_status": "official_variant_source_indexed",
+      "collection_status": "archive_or_manuscript_indexed",
+      "lookup_scope": "official_or_library_sources_only_no_download",
+      "results": [
+        {
+          "provider": "НЭБ",
+          "url": null,
+          "bibliographic_match": "uncertain",
+          "access_status": "not_found",
+          "format": "unknown",
+          "recommended_next_action": "defer",
+          "query": "site:https://rusneb.ru/ Выготский \"Основы педологии\"",
+          "note": "No stable official/library result URL was captured during exact-title lookup in this round.",
+          "source_role": "lookup_attempt"
+        },
+        {
+          "provider": "RSL",
+          "url": "https://search.rsl.ru/ru/search#q=%D0%92%D1%8B%D0%B3%D0%BE%D1%82%D1%81%D0%BA%D0%B8%D0%B9%20%D0%9E%D1%81%D0%BD%D0%BE%D0%B2%D1%8B%20%D0%BF%D0%B5%D0%B4%D0%BE%D0%BB%D0%BE%D0%B3%D0%B8%D0%B8%201934",
+          "bibliographic_match": "uncertain",
+          "access_status": "catalogue_only",
+          "format": "catalogue",
+          "recommended_next_action": "manual_review",
+          "query": "Выготский Основы педологии 1934",
+          "note": "Exact-title RSL search URL recorded for manual follow-up; no stable individual RSL record URL captured in this round.",
+          "is_search_query": true,
+          "source_role": "lookup_attempt"
+        },
+        {
+          "provider": "GNPBU",
+          "url": "https://elib.old.gnpbu.ru/text/vygotsky_ss-v-6tt_t4_1984/fs%2C1/",
+          "bibliographic_match": "variant",
+          "access_status": "online_reader",
+          "format": "unknown",
+          "recommended_next_action": "manual_review",
+          "note": "Six-volume collected works volume 4 is a later pedology/child psychology witness; exact source still needs library lookup.",
+          "query": "Основы педологии",
+          "source_role": "source_or_version_lead"
+        },
+        {
+          "provider": "psychlib.ru",
+          "url": null,
+          "bibliographic_match": "uncertain",
+          "access_status": "not_found",
+          "format": "unknown",
+          "recommended_next_action": "defer",
+          "query": "site:https://psychlib.ru/ Выготский \"Основы педологии\"",
+          "note": "No stable official/library result URL was captured during exact-title lookup in this round.",
+          "source_role": "lookup_attempt"
+        },
+        {
+          "provider": "PsyJournals",
+          "url": "https://psyjournals.ru/authors/1035",
+          "bibliographic_match": "exact",
+          "access_status": "catalogue_only",
+          "format": "html",
+          "recommended_next_action": "index_only",
+          "note": "PsyJournals author bibliography is the primary bibliographic anchor for this work in the current master table.",
+          "query": "Основы педологии",
+          "source_role": "bibliography_anchor"
+        }
+      ],
+      "notes": [],
+      "recommended_next_actions": [
+        "defer",
+        "index_only",
+        "manual_review"
+      ],
+      "known_source_count": 1
+    },
+    {
+      "work_id": "pedologiya-yunosheskogo-vozrasta-osobennosti-povedeniya-podrostka-various",
+      "title_ru": "Педология юношеского возраста. Особенности поведения подростка",
+      "year": "various",
+      "priority_lookup_status": "official_variant_source_indexed",
+      "collection_status": "source_page_indexed_no_bulk_download",
+      "lookup_scope": "official_or_library_sources_only_no_download",
+      "results": [
+        {
+          "provider": "НЭБ",
+          "url": null,
+          "bibliographic_match": "uncertain",
+          "access_status": "not_found",
+          "format": "unknown",
+          "recommended_next_action": "defer",
+          "query": "site:https://rusneb.ru/ Выготский \"Педология юношеского возраста. Особенности поведения подростка\"",
+          "note": "No stable official/library result URL was captured during exact-title lookup in this round.",
+          "source_role": "lookup_attempt"
+        },
+        {
+          "provider": "RSL",
+          "url": "https://search.rsl.ru/ru/search#q=%D0%92%D1%8B%D0%B3%D0%BE%D1%82%D1%81%D0%BA%D0%B8%D0%B9%20%D0%9F%D0%B5%D0%B4%D0%BE%D0%BB%D0%BE%D0%B3%D0%B8%D1%8F%20%D1%8E%D0%BD%D0%BE%D1%88%D0%B5%D1%81%D0%BA%D0%BE%D0%B3%D0%BE%20%D0%B2%D0%BE%D0%B7%D1%80%D0%B0%D1%81%D1%82%D0%B0.%20%D0%9E%D1%81%D0%BE%D0%B1%D0%B5%D0%BD%D0%BD%D0%BE%D1%81%D1%82%D0%B8%20%D0%BF%D0%BE%D0%B2%D0%B5%D0%B4%D0%B5%D0%BD%D0%B8%D1%8F%20%D0%BF%D0%BE%D0%B4%D1%80%D0%BE%D1%81%D1%82%D0%BA%D0%B0",
+          "bibliographic_match": "uncertain",
+          "access_status": "catalogue_only",
+          "format": "catalogue",
+          "recommended_next_action": "manual_review",
+          "query": "Выготский Педология юношеского возраста. Особенности поведения подростка various",
+          "note": "Exact-title RSL search URL recorded for manual follow-up; no stable individual RSL record URL captured in this round.",
+          "is_search_query": true,
+          "source_role": "lookup_attempt"
+        },
+        {
+          "provider": "GNPBU",
+          "url": "https://elib.old.gnpbu.ru/text/vygotsky_ss-v-6tt_t4_1984/fs%2C1/",
+          "bibliographic_match": "variant",
+          "access_status": "online_reader",
+          "format": "unknown",
+          "recommended_next_action": "manual_review",
+          "note": "Six-volume collected works volume 4 is a later pedology/child psychology witness; exact early source remains unresolved.",
+          "query": "Педология юношеского возраста. Особенности поведения подростка",
+          "source_role": "source_or_version_lead"
+        },
+        {
+          "provider": "psychlib.ru",
+          "url": null,
+          "bibliographic_match": "uncertain",
+          "access_status": "not_found",
+          "format": "unknown",
+          "recommended_next_action": "defer",
+          "query": "site:https://psychlib.ru/ Выготский \"Педология юношеского возраста. Особенности поведения подростка\"",
+          "note": "No stable official/library result URL was captured during exact-title lookup in this round.",
+          "source_role": "lookup_attempt"
+        },
+        {
+          "provider": "PsyJournals",
+          "url": "https://psyjournals.ru/authors/1035",
+          "bibliographic_match": "exact",
+          "access_status": "catalogue_only",
+          "format": "html",
+          "recommended_next_action": "index_only",
+          "note": "PsyJournals author bibliography is the primary bibliographic anchor for this work in the current master table.",
+          "query": "Педология юношеского возраста. Особенности поведения подростка",
+          "source_role": "bibliography_anchor"
+        }
+      ],
+      "notes": [],
+      "recommended_next_actions": [
+        "defer",
+        "index_only",
+        "manual_review"
+      ],
+      "known_source_count": 1
+    },
+    {
+      "work_id": "trudnoe-detstvo-various",
+      "title_ru": "Трудное детство",
+      "year": "various",
+      "priority_lookup_status": "official_variant_source_indexed",
+      "collection_status": "source_page_indexed_no_bulk_download",
+      "lookup_scope": "official_or_library_sources_only_no_download",
+      "results": [
+        {
+          "provider": "НЭБ",
+          "url": null,
+          "bibliographic_match": "uncertain",
+          "access_status": "not_found",
+          "format": "unknown",
+          "recommended_next_action": "defer",
+          "query": "site:https://rusneb.ru/ Выготский \"Трудное детство\"",
+          "note": "No stable official/library result URL was captured during exact-title lookup in this round.",
+          "source_role": "lookup_attempt"
+        },
+        {
+          "provider": "RSL",
+          "url": "https://search.rsl.ru/ru/search#q=%D0%92%D1%8B%D0%B3%D0%BE%D1%82%D1%81%D0%BA%D0%B8%D0%B9%20%D0%A2%D1%80%D1%83%D0%B4%D0%BD%D0%BE%D0%B5%20%D0%B4%D0%B5%D1%82%D1%81%D1%82%D0%B2%D0%BE",
+          "bibliographic_match": "uncertain",
+          "access_status": "catalogue_only",
+          "format": "catalogue",
+          "recommended_next_action": "manual_review",
+          "query": "Выготский Трудное детство various",
+          "note": "Exact-title RSL search URL recorded for manual follow-up; no stable individual RSL record URL captured in this round.",
+          "is_search_query": true,
+          "source_role": "lookup_attempt"
+        },
+        {
+          "provider": "GNPBU",
+          "url": "https://elib.old.gnpbu.ru/text/vygotsky_ss-v-6tt_t5_1983/fs%2C1/",
+          "bibliographic_match": "variant",
+          "access_status": "online_reader",
+          "format": "unknown",
+          "recommended_next_action": "manual_review",
+          "note": "Six-volume collected works volume 5 is a later defectology witness; exact \"Трудное детство\" source still needs library lookup.",
+          "query": "Трудное детство",
+          "source_role": "source_or_version_lead"
+        },
+        {
+          "provider": "psychlib.ru",
+          "url": null,
+          "bibliographic_match": "uncertain",
+          "access_status": "not_found",
+          "format": "unknown",
+          "recommended_next_action": "defer",
+          "query": "site:https://psychlib.ru/ Выготский \"Трудное детство\"",
+          "note": "No stable official/library result URL was captured during exact-title lookup in this round.",
+          "source_role": "lookup_attempt"
+        },
+        {
+          "provider": "PsyJournals",
+          "url": "https://psyjournals.ru/authors/1035",
+          "bibliographic_match": "exact",
+          "access_status": "catalogue_only",
+          "format": "html",
+          "recommended_next_action": "index_only",
+          "note": "PsyJournals author bibliography is the primary bibliographic anchor for this work in the current master table.",
+          "query": "Трудное детство",
+          "source_role": "bibliography_anchor"
+        }
+      ],
+      "notes": [],
+      "recommended_next_actions": [
+        "defer",
+        "index_only",
+        "manual_review"
+      ],
+      "known_source_count": 1
+    },
+    {
+      "work_id": "fashizm-v-psikhonevrologii-1934",
+      "title_ru": "Фашизм в психоневрологии",
+      "year": "1934",
+      "priority_lookup_status": "official_exact_source_indexed",
+      "collection_status": "source_page_indexed_no_bulk_download",
+      "lookup_scope": "official_or_library_sources_only_no_download",
+      "results": [
+        {
+          "provider": "НЭБ / РНБ",
+          "url": "https://rusneb.ru/catalog/000200_000018_rc_2967098/",
+          "bibliographic_match": "exact",
+          "access_status": "catalogue_only",
+          "format": "catalogue",
+          "recommended_next_action": "index_only",
+          "source_role": "source_or_version_lead",
+          "note": "НЭБ/RNL catalogue page for `Фашизм в психоневрологии`, Moscow-Leningrad: Biomedgiz, 1934, compiled by L. S. Vygotsky, V. A. Gilyarovsky, M. O. Gurevich, M. B. Krol, A. S. Shmaryan and others. Page checked as HTML only; no file was downloaded.",
+          "query": "Фашизм в психоневрологии Выготский 1934"
+        },
+        {
+          "provider": "RSL",
+          "url": "https://search.rsl.ru/ru/search#q=%D0%92%D1%8B%D0%B3%D0%BE%D1%82%D1%81%D0%BA%D0%B8%D0%B9%20%D0%A4%D0%B0%D1%88%D0%B8%D0%B7%D0%BC%20%D0%B2%20%D0%BF%D1%81%D0%B8%D1%85%D0%BE%D0%BD%D0%B5%D0%B2%D1%80%D0%BE%D0%BB%D0%BE%D0%B3%D0%B8%D0%B8%201934",
+          "bibliographic_match": "uncertain",
+          "access_status": "catalogue_only",
+          "format": "catalogue",
+          "recommended_next_action": "manual_review",
+          "query": "Выготский Фашизм в психоневрологии 1934",
+          "note": "Exact-title RSL search URL recorded for manual follow-up; no stable individual RSL record URL captured in this round.",
+          "is_search_query": true,
+          "source_role": "lookup_attempt"
+        },
+        {
+          "provider": "GNPBU",
+          "url": null,
+          "bibliographic_match": "uncertain",
+          "access_status": "not_found",
+          "format": "unknown",
+          "recommended_next_action": "defer",
+          "query": "site:https://elib.old.gnpbu.ru/ Выготский \"Фашизм в психоневрологии\"",
+          "note": "No stable official/library result URL was captured during exact-title lookup in this round.",
+          "source_role": "lookup_attempt"
+        },
+        {
+          "provider": "psychlib.ru",
+          "url": null,
+          "bibliographic_match": "uncertain",
+          "access_status": "not_found",
+          "format": "unknown",
+          "recommended_next_action": "defer",
+          "query": "site:https://psychlib.ru/ Выготский \"Фашизм в психоневрологии\"",
+          "note": "No stable official/library result URL was captured during exact-title lookup in this round.",
+          "source_role": "lookup_attempt"
+        },
+        {
+          "provider": "PsyJournals",
+          "url": "https://psyjournals.ru/authors/1035",
+          "bibliographic_match": "exact",
+          "access_status": "catalogue_only",
+          "format": "html",
+          "recommended_next_action": "index_only",
+          "note": "PsyJournals author bibliography is the primary bibliographic anchor for this work in the current master table.",
+          "query": "Фашизм в психоневрологии",
+          "source_role": "bibliography_anchor"
+        }
+      ],
+      "notes": [
+        "Follow-up lookup on 2026-07-09 found an official НЭБ/RNL catalogue page; no files were downloaded or read."
+      ],
+      "recommended_next_actions": [
+        "defer",
+        "index_only",
+        "manual_review"
+      ],
+      "known_source_count": 1
+    },
+    {
+      "work_id": "praktikum-po-eksperimentalnoi-psikhologii-1927",
+      "title_ru": "Практикум по экспериментальной психологии",
+      "year": "1927",
+      "priority_lookup_status": "official_exact_source_indexed",
+      "collection_status": "source_page_indexed_no_bulk_download",
+      "lookup_scope": "official_or_library_sources_only_no_download",
+      "results": [
+        {
+          "provider": "НЭБ",
+          "url": "https://rusneb.ru/catalog/000200_000018_rc_2563828/",
+          "bibliographic_match": "exact",
+          "access_status": "catalogue_only",
+          "format": "catalogue",
+          "recommended_next_action": "index_only",
+          "query": "Практикум по экспериментальной психологии Выготский 1927",
+          "note": "НЭБ/RNL catalogue record for the 1927 Moscow-Leningrad edition, 231 pages; page was checked as HTML only, with no file download.",
+          "source_role": "source_or_version_lead"
+        },
+        {
+          "provider": "RSL",
+          "url": "https://search.rsl.ru/ru/search#q=%D0%92%D1%8B%D0%B3%D0%BE%D1%82%D1%81%D0%BA%D0%B8%D0%B9%20%D0%9F%D1%80%D0%B0%D0%BA%D1%82%D0%B8%D0%BA%D1%83%D0%BC%20%D0%BF%D0%BE%20%D1%8D%D0%BA%D1%81%D0%BF%D0%B5%D1%80%D0%B8%D0%BC%D0%B5%D0%BD%D1%82%D0%B0%D0%BB%D1%8C%D0%BD%D0%BE%D0%B9%20%D0%BF%D1%81%D0%B8%D1%85%D0%BE%D0%BB%D0%BE%D0%B3%D0%B8%D0%B8%201927",
+          "bibliographic_match": "uncertain",
+          "access_status": "catalogue_only",
+          "format": "catalogue",
+          "recommended_next_action": "manual_review",
+          "query": "Выготский Практикум по экспериментальной психологии 1927",
+          "note": "Exact-title RSL search URL recorded for manual follow-up; no stable individual RSL record URL captured in this round.",
+          "is_search_query": true,
+          "source_role": "lookup_attempt"
+        },
+        {
+          "provider": "GNPBU",
+          "url": null,
+          "bibliographic_match": "uncertain",
+          "access_status": "not_found",
+          "format": "unknown",
+          "recommended_next_action": "defer",
+          "query": "site:https://elib.old.gnpbu.ru/ Выготский \"Практикум по экспериментальной психологии\"",
+          "note": "No stable official/library result URL was captured during exact-title lookup in this round.",
+          "source_role": "lookup_attempt"
+        },
+        {
+          "provider": "psychlib.ru",
+          "url": null,
+          "bibliographic_match": "uncertain",
+          "access_status": "not_found",
+          "format": "unknown",
+          "recommended_next_action": "defer",
+          "query": "site:https://psychlib.ru/ Выготский \"Практикум по экспериментальной психологии\"",
+          "note": "No stable official/library result URL was captured during exact-title lookup in this round.",
+          "source_role": "lookup_attempt"
+        },
+        {
+          "provider": "PsyJournals",
+          "url": "https://psyjournals.ru/authors/1035",
+          "bibliographic_match": "exact",
+          "access_status": "catalogue_only",
+          "format": "html",
+          "recommended_next_action": "index_only",
+          "note": "PsyJournals author bibliography is the primary bibliographic anchor for this work in the current master table.",
+          "query": "Практикум по экспериментальной психологии",
+          "source_role": "bibliography_anchor"
+        }
+      ],
+      "notes": [
+        "Follow-up lookup on 2026-07-03 found an official НЭБ/RNL catalogue page; no files were downloaded or read."
+      ],
+      "recommended_next_actions": [
+        "defer",
+        "index_only",
+        "manual_review"
+      ],
+      "known_source_count": 1
+    },
+    {
+      "work_id": "psikhologicheskaya-khrestomatiya-1927",
+      "title_ru": "Психологическая хрестоматия",
+      "year": "1927",
+      "priority_lookup_status": "official_exact_source_indexed",
+      "collection_status": "source_page_indexed_no_bulk_download",
+      "lookup_scope": "official_or_library_sources_only_no_download",
+      "results": [
+        {
+          "provider": "НЭБ",
+          "url": "https://rusneb.ru/catalog/003673_000052_RU%2BNOVOSIBIRSK_BIBL_2000091084/",
+          "bibliographic_match": "exact",
+          "access_status": "catalogue_only",
+          "format": "catalogue",
+          "recommended_next_action": "index_only",
+          "query": "Психологическая хрестоматия Выготский 1927",
+          "note": "НЭБ catalogue page for the 1927 Moscow Gosizdat edition, with V. A. Artemov, L. S. Vygotsky, and N. F. Dobrynin as compilers and K. N. Kornilov as editor; page checked as HTML only, with no file download.",
+          "source_role": "source_or_version_lead"
+        },
+        {
+          "provider": "RSL",
+          "url": "https://search.rsl.ru/ru/search#q=%D0%92%D1%8B%D0%B3%D0%BE%D1%82%D1%81%D0%BA%D0%B8%D0%B9%20%D0%9F%D1%81%D0%B8%D1%85%D0%BE%D0%BB%D0%BE%D0%B3%D0%B8%D1%87%D0%B5%D1%81%D0%BA%D0%B0%D1%8F%20%D1%85%D1%80%D0%B5%D1%81%D1%82%D0%BE%D0%BC%D0%B0%D1%82%D0%B8%D1%8F%201927",
+          "bibliographic_match": "uncertain",
+          "access_status": "catalogue_only",
+          "format": "catalogue",
+          "recommended_next_action": "manual_review",
+          "query": "Выготский Психологическая хрестоматия 1927",
+          "note": "Exact-title RSL search URL recorded for manual follow-up; no stable individual RSL record URL captured in this round.",
+          "is_search_query": true,
+          "source_role": "lookup_attempt"
+        },
+        {
+          "provider": "GNPBU",
+          "url": null,
+          "bibliographic_match": "uncertain",
+          "access_status": "not_found",
+          "format": "unknown",
+          "recommended_next_action": "defer",
+          "query": "site:https://elib.old.gnpbu.ru/ Выготский \"Психологическая хрестоматия\"",
+          "note": "No stable official/library result URL was captured during exact-title lookup in this round.",
+          "source_role": "lookup_attempt"
+        },
+        {
+          "provider": "psychlib.ru",
+          "url": null,
+          "bibliographic_match": "uncertain",
+          "access_status": "not_found",
+          "format": "unknown",
+          "recommended_next_action": "defer",
+          "query": "site:https://psychlib.ru/ Выготский \"Психологическая хрестоматия\"",
+          "note": "No stable official/library result URL was captured during exact-title lookup in this round.",
+          "source_role": "lookup_attempt"
+        },
+        {
+          "provider": "PsyJournals",
+          "url": "https://psyjournals.ru/authors/1035",
+          "bibliographic_match": "exact",
+          "access_status": "catalogue_only",
+          "format": "html",
+          "recommended_next_action": "index_only",
+          "note": "PsyJournals author bibliography is the primary bibliographic anchor for this work in the current master table.",
+          "query": "Психологическая хрестоматия",
+          "source_role": "bibliography_anchor"
+        }
+      ],
+      "notes": [
+        "Follow-up lookup on 2026-07-04 found an official НЭБ catalogue page; no files were downloaded or read."
+      ],
+      "recommended_next_actions": [
+        "defer",
+        "index_only",
+        "manual_review"
+      ],
+      "known_source_count": 1
+    },
+    {
+      "work_id": "metodika-refleksologicheskogo-i-psikhologicheskogo-issledovaniya-1924",
+      "title_ru": "Методика рефлексологического и психологического исследования",
+      "year": "1924",
+      "priority_lookup_status": "psyjournals_bibliography_only",
+      "collection_status": "bibliography_indexed",
+      "lookup_scope": "official_or_library_sources_only_no_download",
+      "results": [
+        {
+          "provider": "НЭБ",
+          "url": null,
+          "bibliographic_match": "uncertain",
+          "access_status": "not_found",
+          "format": "unknown",
+          "recommended_next_action": "defer",
+          "query": "site:https://rusneb.ru/ Выготский \"Методика рефлексологического и психологического исследования\"",
+          "note": "No stable official/library result URL was captured during exact-title lookup in this round.",
+          "source_role": "lookup_attempt"
+        },
+        {
+          "provider": "RSL",
+          "url": "https://search.rsl.ru/ru/search#q=%D0%92%D1%8B%D0%B3%D0%BE%D1%82%D1%81%D0%BA%D0%B8%D0%B9%20%D0%9C%D0%B5%D1%82%D0%BE%D0%B4%D0%B8%D0%BA%D0%B0%20%D1%80%D0%B5%D1%84%D0%BB%D0%B5%D0%BA%D1%81%D0%BE%D0%BB%D0%BE%D0%B3%D0%B8%D1%87%D0%B5%D1%81%D0%BA%D0%BE%D0%B3%D0%BE%20%D0%B8%20%D0%BF%D1%81%D0%B8%D1%85%D0%BE%D0%BB%D0%BE%D0%B3%D0%B8%D1%87%D0%B5%D1%81%D0%BA%D0%BE%D0%B3%D0%BE%20%D0%B8%D1%81%D1%81%D0%BB%D0%B5%D0%B4%D0%BE%D0%B2%D0%B0%D0%BD%D0%B8%D1%8F%201924",
+          "bibliographic_match": "uncertain",
+          "access_status": "catalogue_only",
+          "format": "catalogue",
+          "recommended_next_action": "manual_review",
+          "query": "Выготский Методика рефлексологического и психологического исследования 1924",
+          "note": "Exact-title RSL search URL recorded for manual follow-up; no stable individual RSL record URL captured in this round.",
+          "is_search_query": true,
+          "source_role": "lookup_attempt"
+        },
+        {
+          "provider": "GNPBU",
+          "url": null,
+          "bibliographic_match": "uncertain",
+          "access_status": "not_found",
+          "format": "unknown",
+          "recommended_next_action": "defer",
+          "query": "site:https://elib.old.gnpbu.ru/ Выготский \"Методика рефлексологического и психологического исследования\"",
+          "note": "No stable official/library result URL was captured during exact-title lookup in this round.",
+          "source_role": "lookup_attempt"
+        },
+        {
+          "provider": "psychlib.ru",
+          "url": null,
+          "bibliographic_match": "uncertain",
+          "access_status": "not_found",
+          "format": "unknown",
+          "recommended_next_action": "defer",
+          "query": "site:https://psychlib.ru/ Выготский \"Методика рефлексологического и психологического исследования\"",
+          "note": "No stable official/library result URL was captured during exact-title lookup in this round.",
+          "source_role": "lookup_attempt"
+        },
+        {
+          "provider": "PsyJournals",
+          "url": "https://psyjournals.ru/authors/1035",
+          "bibliographic_match": "exact",
+          "access_status": "catalogue_only",
+          "format": "html",
+          "recommended_next_action": "index_only",
+          "note": "PsyJournals author bibliography is the primary bibliographic anchor for this work in the current master table.",
+          "query": "Методика рефлексологического и психологического исследования",
+          "source_role": "bibliography_anchor"
+        }
+      ],
+      "notes": [],
+      "recommended_next_actions": [
+        "defer",
+        "index_only",
+        "manual_review"
+      ],
+      "known_source_count": 0
+    },
+    {
+      "work_id": "soznanie-kak-problema-psikhologii-povedeniya-1925",
+      "title_ru": "Сознание как проблема психологии поведения",
+      "year": "1925",
+      "priority_lookup_status": "psyjournals_bibliography_only",
+      "collection_status": "bibliography_indexed",
+      "lookup_scope": "official_or_library_sources_only_no_download",
+      "results": [
+        {
+          "provider": "НЭБ",
+          "url": null,
+          "bibliographic_match": "uncertain",
+          "access_status": "not_found",
+          "format": "unknown",
+          "recommended_next_action": "defer",
+          "query": "site:https://rusneb.ru/ Выготский \"Сознание как проблема психологии поведения\"",
+          "note": "No stable official/library result URL was captured during exact-title lookup in this round.",
+          "source_role": "lookup_attempt"
+        },
+        {
+          "provider": "RSL",
+          "url": "https://search.rsl.ru/ru/search#q=%D0%92%D1%8B%D0%B3%D0%BE%D1%82%D1%81%D0%BA%D0%B8%D0%B9%20%D0%A1%D0%BE%D0%B7%D0%BD%D0%B0%D0%BD%D0%B8%D0%B5%20%D0%BA%D0%B0%D0%BA%20%D0%BF%D1%80%D0%BE%D0%B1%D0%BB%D0%B5%D0%BC%D0%B0%20%D0%BF%D1%81%D0%B8%D1%85%D0%BE%D0%BB%D0%BE%D0%B3%D0%B8%D0%B8%20%D0%BF%D0%BE%D0%B2%D0%B5%D0%B4%D0%B5%D0%BD%D0%B8%D1%8F%201925",
+          "bibliographic_match": "uncertain",
+          "access_status": "catalogue_only",
+          "format": "catalogue",
+          "recommended_next_action": "manual_review",
+          "query": "Выготский Сознание как проблема психологии поведения 1925",
+          "note": "Exact-title RSL search URL recorded for manual follow-up; no stable individual RSL record URL captured in this round.",
+          "is_search_query": true,
+          "source_role": "lookup_attempt"
+        },
+        {
+          "provider": "GNPBU",
+          "url": null,
+          "bibliographic_match": "uncertain",
+          "access_status": "not_found",
+          "format": "unknown",
+          "recommended_next_action": "defer",
+          "query": "site:https://elib.old.gnpbu.ru/ Выготский \"Сознание как проблема психологии поведения\"",
+          "note": "No stable official/library result URL was captured during exact-title lookup in this round.",
+          "source_role": "lookup_attempt"
+        },
+        {
+          "provider": "psychlib.ru",
+          "url": null,
+          "bibliographic_match": "uncertain",
+          "access_status": "not_found",
+          "format": "unknown",
+          "recommended_next_action": "defer",
+          "query": "site:https://psychlib.ru/ Выготский \"Сознание как проблема психологии поведения\"",
+          "note": "No stable official/library result URL was captured during exact-title lookup in this round.",
+          "source_role": "lookup_attempt"
+        },
+        {
+          "provider": "PsyJournals",
+          "url": "https://psyjournals.ru/authors/1035",
+          "bibliographic_match": "exact",
+          "access_status": "catalogue_only",
+          "format": "html",
+          "recommended_next_action": "index_only",
+          "note": "PsyJournals author bibliography is the primary bibliographic anchor for this work in the current master table.",
+          "query": "Сознание как проблема психологии поведения",
+          "source_role": "bibliography_anchor"
+        }
+      ],
+      "notes": [],
+      "recommended_next_actions": [
+        "defer",
+        "index_only",
+        "manual_review"
+      ],
+      "known_source_count": 0
+    },
+    {
+      "work_id": "instrumentalnyi-metod-v-psikhologii-1930",
+      "title_ru": "Инструментальный метод в психологии",
+      "year": "1930",
+      "priority_lookup_status": "official_variant_source_indexed",
+      "collection_status": "bibliography_indexed",
+      "lookup_scope": "official_or_library_sources_only_no_download",
+      "results": [
+        {
+          "provider": "НЭБ",
+          "url": null,
+          "bibliographic_match": "uncertain",
+          "access_status": "not_found",
+          "format": "unknown",
+          "recommended_next_action": "defer",
+          "query": "site:https://rusneb.ru/ Выготский \"Инструментальный метод в психологии\"",
+          "note": "No stable official/library result URL was captured during exact-title lookup in this round.",
+          "source_role": "lookup_attempt"
+        },
+        {
+          "provider": "RSL",
+          "url": "https://search.rsl.ru/ru/search#q=%D0%92%D1%8B%D0%B3%D0%BE%D1%82%D1%81%D0%BA%D0%B8%D0%B9%20%D0%98%D0%BD%D1%81%D1%82%D1%80%D1%83%D0%BC%D0%B5%D0%BD%D1%82%D0%B0%D0%BB%D1%8C%D0%BD%D1%8B%D0%B9%20%D0%BC%D0%B5%D1%82%D0%BE%D0%B4%20%D0%B2%20%D0%BF%D1%81%D0%B8%D1%85%D0%BE%D0%BB%D0%BE%D0%B3%D0%B8%D0%B8%201930",
+          "bibliographic_match": "uncertain",
+          "access_status": "catalogue_only",
+          "format": "catalogue",
+          "recommended_next_action": "manual_review",
+          "query": "Выготский Инструментальный метод в психологии 1930",
+          "note": "Exact-title RSL search URL recorded for manual follow-up; no stable individual RSL record URL captured in this round.",
+          "is_search_query": true,
+          "source_role": "lookup_attempt"
+        },
+        {
+          "provider": "GNPBU",
+          "url": "https://elib.old.gnpbu.ru/text/vygotsky_ss-v-6tt_t3_1983/fs%2C1/",
+          "bibliographic_match": "variant",
+          "access_status": "online_reader",
+          "format": "unknown",
+          "recommended_next_action": "manual_review",
+          "note": "Six-volume collected works volume 3 is a later development-psychology witness.",
+          "query": "Инструментальный метод в психологии",
+          "source_role": "source_or_version_lead"
+        },
+        {
+          "provider": "psychlib.ru",
+          "url": null,
+          "bibliographic_match": "uncertain",
+          "access_status": "not_found",
+          "format": "unknown",
+          "recommended_next_action": "defer",
+          "query": "site:https://psychlib.ru/ Выготский \"Инструментальный метод в психологии\"",
+          "note": "No stable official/library result URL was captured during exact-title lookup in this round.",
+          "source_role": "lookup_attempt"
+        },
+        {
+          "provider": "PsyJournals",
+          "url": "https://psyjournals.ru/authors/1035",
+          "bibliographic_match": "exact",
+          "access_status": "catalogue_only",
+          "format": "html",
+          "recommended_next_action": "index_only",
+          "note": "PsyJournals author bibliography is the primary bibliographic anchor for this work in the current master table.",
+          "query": "Инструментальный метод в психологии",
+          "source_role": "bibliography_anchor"
+        }
+      ],
+      "notes": [],
+      "recommended_next_actions": [
+        "defer",
+        "index_only",
+        "manual_review"
+      ],
+      "known_source_count": 1
+    },
+    {
+      "work_id": "problema-obucheniya-i-umstvennogo-razvitiya-v-shkolnom-vozraste-1934",
+      "title_ru": "Проблема обучения и умственного развития в школьном возрасте",
+      "year": "1934",
+      "priority_lookup_status": "official_variant_source_indexed",
+      "collection_status": "bibliography_indexed",
+      "lookup_scope": "official_or_library_sources_only_no_download",
+      "results": [
+        {
+          "provider": "НЭБ",
+          "url": null,
+          "bibliographic_match": "uncertain",
+          "access_status": "not_found",
+          "format": "unknown",
+          "recommended_next_action": "defer",
+          "query": "site:https://rusneb.ru/ Выготский \"Проблема обучения и умственного развития в школьном возрасте\"",
+          "note": "No stable official/library result URL was captured during exact-title lookup in this round.",
+          "source_role": "lookup_attempt"
+        },
+        {
+          "provider": "RSL",
+          "url": "https://search.rsl.ru/ru/search#q=%D0%92%D1%8B%D0%B3%D0%BE%D1%82%D1%81%D0%BA%D0%B8%D0%B9%20%D0%9F%D1%80%D0%BE%D0%B1%D0%BB%D0%B5%D0%BC%D0%B0%20%D0%BE%D0%B1%D1%83%D1%87%D0%B5%D0%BD%D0%B8%D1%8F%20%D0%B8%20%D1%83%D0%BC%D1%81%D1%82%D0%B2%D0%B5%D0%BD%D0%BD%D0%BE%D0%B3%D0%BE%20%D1%80%D0%B0%D0%B7%D0%B2%D0%B8%D1%82%D0%B8%D1%8F%20%D0%B2%20%D1%88%D0%BA%D0%BE%D0%BB%D1%8C%D0%BD%D0%BE%D0%BC%20%D0%B2%D0%BE%D0%B7%D1%80%D0%B0%D1%81%D1%82%D0%B5%201934",
+          "bibliographic_match": "uncertain",
+          "access_status": "catalogue_only",
+          "format": "catalogue",
+          "recommended_next_action": "manual_review",
+          "query": "Выготский Проблема обучения и умственного развития в школьном возрасте 1934",
+          "note": "Exact-title RSL search URL recorded for manual follow-up; no stable individual RSL record URL captured in this round.",
+          "is_search_query": true,
+          "source_role": "lookup_attempt"
+        },
+        {
+          "provider": "GNPBU",
+          "url": "https://elib.old.gnpbu.ru/text/vygotsky_ss-v-6tt_t4_1984/fs%2C1/",
+          "bibliographic_match": "variant",
+          "access_status": "online_reader",
+          "format": "unknown",
+          "recommended_next_action": "manual_review",
+          "note": "Six-volume collected works volume 4 is a later child psychology witness.",
+          "query": "Проблема обучения и умственного развития в школьном возрасте",
+          "source_role": "source_or_version_lead"
+        },
+        {
+          "provider": "psychlib.ru",
+          "url": null,
+          "bibliographic_match": "uncertain",
+          "access_status": "not_found",
+          "format": "unknown",
+          "recommended_next_action": "defer",
+          "query": "site:https://psychlib.ru/ Выготский \"Проблема обучения и умственного развития в школьном возрасте\"",
+          "note": "No stable official/library result URL was captured during exact-title lookup in this round.",
+          "source_role": "lookup_attempt"
+        },
+        {
+          "provider": "PsyJournals",
+          "url": "https://psyjournals.ru/journals/pse/archive/1996_n4/Vygotsky",
+          "bibliographic_match": "variant",
+          "access_status": "online_reader",
+          "format": "html",
+          "recommended_next_action": "manual_review",
+          "note": "PsyJournals republication/portal page; use as version evidence, not as a scan source.",
+          "query": "Проблема обучения и умственного развития в школьном возрасте",
+          "source_role": "source_or_version_lead"
+        }
+      ],
+      "notes": [],
+      "recommended_next_actions": [
+        "defer",
+        "manual_review"
+      ],
+      "known_source_count": 2
+    },
+    {
+      "work_id": "razvitie-zhiteiskikh-i-nauchnykh-ponyatii-v-shkolnom-vozraste-1933",
+      "title_ru": "Развитие житейских и научных понятий в школьном возрасте",
+      "year": "1933",
+      "priority_lookup_status": "official_variant_source_indexed",
+      "collection_status": "archive_or_manuscript_indexed",
+      "lookup_scope": "official_or_library_sources_only_no_download",
+      "results": [
+        {
+          "provider": "НЭБ",
+          "url": null,
+          "bibliographic_match": "uncertain",
+          "access_status": "not_found",
+          "format": "unknown",
+          "recommended_next_action": "defer",
+          "query": "site:https://rusneb.ru/ Выготский \"Развитие житейских и научных понятий в школьном возрасте\"",
+          "note": "No stable official/library result URL was captured during exact-title lookup in this round.",
+          "source_role": "lookup_attempt"
+        },
+        {
+          "provider": "RSL",
+          "url": "https://search.rsl.ru/ru/search#q=%D0%92%D1%8B%D0%B3%D0%BE%D1%82%D1%81%D0%BA%D0%B8%D0%B9%20%D0%A0%D0%B0%D0%B7%D0%B2%D0%B8%D1%82%D0%B8%D0%B5%20%D0%B6%D0%B8%D1%82%D0%B5%D0%B9%D1%81%D0%BA%D0%B8%D1%85%20%D0%B8%20%D0%BD%D0%B0%D1%83%D1%87%D0%BD%D1%8B%D1%85%20%D0%BF%D0%BE%D0%BD%D1%8F%D1%82%D0%B8%D0%B9%20%D0%B2%20%D1%88%D0%BA%D0%BE%D0%BB%D1%8C%D0%BD%D0%BE%D0%BC%20%D0%B2%D0%BE%D0%B7%D1%80%D0%B0%D1%81%D1%82%D0%B5%201933",
+          "bibliographic_match": "uncertain",
+          "access_status": "catalogue_only",
+          "format": "catalogue",
+          "recommended_next_action": "manual_review",
+          "query": "Выготский Развитие житейских и научных понятий в школьном возрасте 1933",
+          "note": "Exact-title RSL search URL recorded for manual follow-up; no stable individual RSL record URL captured in this round.",
+          "is_search_query": true,
+          "source_role": "lookup_attempt"
+        },
+        {
+          "provider": "GNPBU",
+          "url": "https://elib.old.gnpbu.ru/text/vygotsky_ss-v-6tt_t4_1984/fs%2C1/",
+          "bibliographic_match": "variant",
+          "access_status": "online_reader",
+          "format": "unknown",
+          "recommended_next_action": "manual_review",
+          "note": "Six-volume collected works volume 4 is a later child psychology witness.",
+          "query": "Развитие житейских и научных понятий в школьном возрасте",
+          "source_role": "source_or_version_lead"
+        },
+        {
+          "provider": "psychlib.ru",
+          "url": null,
+          "bibliographic_match": "uncertain",
+          "access_status": "not_found",
+          "format": "unknown",
+          "recommended_next_action": "defer",
+          "query": "site:https://psychlib.ru/ Выготский \"Развитие житейских и научных понятий в школьном возрасте\"",
+          "note": "No stable official/library result URL was captured during exact-title lookup in this round.",
+          "source_role": "lookup_attempt"
+        },
+        {
+          "provider": "PsyJournals",
+          "url": "https://psyjournals.ru/journals/pse/archive/1996_n1/Vygotsky",
+          "bibliographic_match": "variant",
+          "access_status": "online_reader",
+          "format": "html",
+          "recommended_next_action": "manual_review",
+          "note": "PsyJournals republication/portal page; use as version evidence, not as a scan source.",
+          "query": "Развитие житейских и научных понятий в школьном возрасте",
+          "source_role": "source_or_version_lead"
+        }
+      ],
+      "notes": [],
+      "recommended_next_actions": [
+        "defer",
+        "manual_review"
+      ],
+      "known_source_count": 2
+    },
+    {
+      "work_id": "problema-razvitiya-i-raspada-vysshikh-psikhicheskikh-funktsii-1934",
+      "title_ru": "Проблема развития и распада высших психических функций",
+      "year": "1934",
+      "priority_lookup_status": "official_variant_source_indexed",
+      "collection_status": "bibliography_indexed",
+      "lookup_scope": "official_or_library_sources_only_no_download",
+      "results": [
+        {
+          "provider": "НЭБ",
+          "url": null,
+          "bibliographic_match": "uncertain",
+          "access_status": "not_found",
+          "format": "unknown",
+          "recommended_next_action": "defer",
+          "query": "site:https://rusneb.ru/ Выготский \"Проблема развития и распада высших психических функций\"",
+          "note": "No stable official/library result URL was captured during exact-title lookup in this round.",
+          "source_role": "lookup_attempt"
+        },
+        {
+          "provider": "RSL",
+          "url": "https://search.rsl.ru/ru/search#q=%D0%92%D1%8B%D0%B3%D0%BE%D1%82%D1%81%D0%BA%D0%B8%D0%B9%20%D0%9F%D1%80%D0%BE%D0%B1%D0%BB%D0%B5%D0%BC%D0%B0%20%D1%80%D0%B0%D0%B7%D0%B2%D0%B8%D1%82%D0%B8%D1%8F%20%D0%B8%20%D1%80%D0%B0%D1%81%D0%BF%D0%B0%D0%B4%D0%B0%20%D0%B2%D1%8B%D1%81%D1%88%D0%B8%D1%85%20%D0%BF%D1%81%D0%B8%D1%85%D0%B8%D1%87%D0%B5%D1%81%D0%BA%D0%B8%D1%85%20%D1%84%D1%83%D0%BD%D0%BA%D1%86%D0%B8%D0%B9%201934",
+          "bibliographic_match": "uncertain",
+          "access_status": "catalogue_only",
+          "format": "catalogue",
+          "recommended_next_action": "manual_review",
+          "query": "Выготский Проблема развития и распада высших психических функций 1934",
+          "note": "Exact-title RSL search URL recorded for manual follow-up; no stable individual RSL record URL captured in this round.",
+          "is_search_query": true,
+          "source_role": "lookup_attempt"
+        },
+        {
+          "provider": "GNPBU",
+          "url": "https://elib.old.gnpbu.ru/text/vygotsky_ss-v-6tt_t3_1983/fs%2C1/",
+          "bibliographic_match": "variant",
+          "access_status": "online_reader",
+          "format": "unknown",
+          "recommended_next_action": "manual_review",
+          "note": "Six-volume collected works volume 3 is a later development-psychology witness.",
+          "query": "Проблема развития и распада высших психических функций",
+          "source_role": "source_or_version_lead"
+        },
+        {
+          "provider": "psychlib.ru",
+          "url": null,
+          "bibliographic_match": "uncertain",
+          "access_status": "not_found",
+          "format": "unknown",
+          "recommended_next_action": "defer",
+          "query": "site:https://psychlib.ru/ Выготский \"Проблема развития и распада высших психических функций\"",
+          "note": "No stable official/library result URL was captured during exact-title lookup in this round.",
+          "source_role": "lookup_attempt"
+        },
+        {
+          "provider": "PsyJournals",
+          "url": "https://psyjournals.ru/authors/1035",
+          "bibliographic_match": "exact",
+          "access_status": "catalogue_only",
+          "format": "html",
+          "recommended_next_action": "index_only",
+          "note": "PsyJournals author bibliography is the primary bibliographic anchor for this work in the current master table.",
+          "query": "Проблема развития и распада высших психических функций",
+          "source_role": "bibliography_anchor"
+        }
+      ],
+      "notes": [],
+      "recommended_next_actions": [
+        "defer",
+        "index_only",
+        "manual_review"
+      ],
+      "known_source_count": 1
+    },
+    {
+      "work_id": "psikhologiya-i-uchenie-o-lokalizatsii-psikhicheskikh-funktsii-1934",
+      "title_ru": "Психология и учение о локализации психических функций",
+      "year": "1934",
+      "priority_lookup_status": "official_variant_source_indexed",
+      "collection_status": "bibliography_indexed",
+      "lookup_scope": "official_or_library_sources_only_no_download",
+      "results": [
+        {
+          "provider": "НЭБ",
+          "url": null,
+          "bibliographic_match": "uncertain",
+          "access_status": "not_found",
+          "format": "unknown",
+          "recommended_next_action": "defer",
+          "query": "site:https://rusneb.ru/ Выготский \"Психология и учение о локализации психических функций\"",
+          "note": "No stable official/library result URL was captured during exact-title lookup in this round.",
+          "source_role": "lookup_attempt"
+        },
+        {
+          "provider": "RSL",
+          "url": "https://search.rsl.ru/ru/search#q=%D0%92%D1%8B%D0%B3%D0%BE%D1%82%D1%81%D0%BA%D0%B8%D0%B9%20%D0%9F%D1%81%D0%B8%D1%85%D0%BE%D0%BB%D0%BE%D0%B3%D0%B8%D1%8F%20%D0%B8%20%D1%83%D1%87%D0%B5%D0%BD%D0%B8%D0%B5%20%D0%BE%20%D0%BB%D0%BE%D0%BA%D0%B0%D0%BB%D0%B8%D0%B7%D0%B0%D1%86%D0%B8%D0%B8%20%D0%BF%D1%81%D0%B8%D1%85%D0%B8%D1%87%D0%B5%D1%81%D0%BA%D0%B8%D1%85%20%D1%84%D1%83%D0%BD%D0%BA%D1%86%D0%B8%D0%B9%201934",
+          "bibliographic_match": "uncertain",
+          "access_status": "catalogue_only",
+          "format": "catalogue",
+          "recommended_next_action": "manual_review",
+          "query": "Выготский Психология и учение о локализации психических функций 1934",
+          "note": "Exact-title RSL search URL recorded for manual follow-up; no stable individual RSL record URL captured in this round.",
+          "is_search_query": true,
+          "source_role": "lookup_attempt"
+        },
+        {
+          "provider": "GNPBU",
+          "url": "https://elib.old.gnpbu.ru/text/vygotsky_ss-v-6tt_t3_1983/fs%2C1/",
+          "bibliographic_match": "variant",
+          "access_status": "online_reader",
+          "format": "unknown",
+          "recommended_next_action": "manual_review",
+          "note": "Six-volume collected works volume 3 is a later neuropsychology/development witness.",
+          "query": "Психология и учение о локализации психических функций",
+          "source_role": "source_or_version_lead"
+        },
+        {
+          "provider": "psychlib.ru",
+          "url": null,
+          "bibliographic_match": "uncertain",
+          "access_status": "not_found",
+          "format": "unknown",
+          "recommended_next_action": "defer",
+          "query": "site:https://psychlib.ru/ Выготский \"Психология и учение о локализации психических функций\"",
+          "note": "No stable official/library result URL was captured during exact-title lookup in this round.",
+          "source_role": "lookup_attempt"
+        },
+        {
+          "provider": "PsyJournals",
+          "url": "https://psyjournals.ru/authors/1035",
+          "bibliographic_match": "exact",
+          "access_status": "catalogue_only",
+          "format": "html",
+          "recommended_next_action": "index_only",
+          "note": "PsyJournals author bibliography is the primary bibliographic anchor for this work in the current master table.",
+          "query": "Психология и учение о локализации психических функций",
+          "source_role": "bibliography_anchor"
+        }
+      ],
+      "notes": [],
+      "recommended_next_actions": [
+        "defer",
+        "index_only",
+        "manual_review"
+      ],
+      "known_source_count": 1
+    }
+  ],
+  "download_candidates_for_later_round": [],
+  "general_notes": [
+    "RSL direct result URLs were not captured reliably in this round; RSL query URLs are retained for manual follow-up where no individual record was confirmed.",
+    "GNPBU six-volume links are treated as later version witnesses unless a stable direct PDF/DjVu URL and contents position are separately confirmed.",
+    "PsyJournals portal republications are version evidence and bibliography leads, not scan downloads.",
+    "Third-party mirror full text was ignored during this round."
+  ],
+  "updated_at": "2026-07-09",
+  "followup_note": "2026-07-03 follow-up lookup updated `praktikum-po-eksperimentalnoi-psikhologii-1927` from PsyJournals-only to official НЭБ exact source indexed. No files were downloaded. 2026-07-04 follow-up lookup updated `psikhologicheskaya-khrestomatiya-1927` from PsyJournals-only to official НЭБ exact source indexed. No files were downloaded. 2026-07-09 follow-up lookup updated `fashizm-v-psikhonevrologii-1934` from PsyJournals-only to official НЭБ exact source indexed and synchronized two existing GNPBU variant records to source_page_indexed_no_bulk_download. No files were downloaded."
+}

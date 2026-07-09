@@ -1,0 +1,545 @@
+{
+  "schema_version": 1,
+  "generated_at": "2026-07-03",
+  "collection_id": "vygotsky",
+  "title": "Vygotsky follow-up official-library lookup manifest",
+  "policy": "Lookup-only manifest. No files were downloaded, no OCR was run, no PDF/DjVu text layer was read, and no Markdown corpus text was created.",
+  "summary": {
+    "records": 24,
+    "official_exact_sources": 7,
+    "official_variant_sources": 5,
+    "stable_download_candidates_not_downloaded": 2,
+    "new_files_downloaded": 0,
+    "source_scans_manifest_changed": false,
+    "no_stable_official_source_found": 10
+  },
+  "records": [
+    {
+      "work_id": "praktikum-po-eksperimentalnoi-psikhologii-1927",
+      "title_ru": "Практикум по экспериментальной психологии",
+      "year": "1927",
+      "lookup_scope": "official_or_library_sources_only_no_download",
+      "priority_lookup_status": "official_exact_source_indexed",
+      "collection_status": "source_page_indexed_no_bulk_download",
+      "results": [
+        {
+          "provider": "НЭБ",
+          "url": "https://rusneb.ru/catalog/000200_000018_rc_2563828/",
+          "bibliographic_match": "exact",
+          "access_status": "catalogue_only",
+          "format": "catalogue",
+          "recommended_next_action": "index_only",
+          "source_role": "source_or_version_lead",
+          "note": "НЭБ/RNL catalogue record for the 1927 Moscow-Leningrad edition, 231 pages; page was checked as HTML only, with no file download."
+        }
+      ],
+      "evidence_note": "НЭБ page records the coauthored 1927 Moscow-Leningrad Gosizdat edition, 231 pages, with RNL as source library."
+    },
+    {
+      "work_id": "voprosy-defektologii-1930",
+      "title_ru": "Вопросы дефектологии",
+      "year": "1930",
+      "lookup_scope": "official_or_library_sources_only_no_download",
+      "priority_lookup_status": "official_variant_source_indexed",
+      "collection_status": "source_page_indexed_no_bulk_download",
+      "results": [
+        {
+          "provider": "НЭБ",
+          "url": "https://rusneb.ru/catalog/000200_000018_RU_NLR_INFOCOMM16_1000015222/",
+          "bibliographic_match": "variant",
+          "access_status": "catalogue_only",
+          "format": "catalogue",
+          "recommended_next_action": "manual_review",
+          "source_role": "source_or_version_lead",
+          "note": "НЭБ/RNL periodical-family record for `Вопросы дефектологии` lists 1930 №6(12) as a component with description-only access; use as a source-family lead for the 1930 №6 record."
+        }
+      ],
+      "evidence_note": "НЭБ periodical-family page records `Вопросы дефектологии` for 1928-1931 and lists 1930 №6(12) as a component; exact issue review remains pending."
+    },
+    {
+      "work_id": "umstvenno-otstalyi-rebenok-1935",
+      "title_ru": "Умственно отсталый ребенок",
+      "year": "1935",
+      "lookup_scope": "official_or_library_sources_only_no_download",
+      "priority_lookup_status": "download_candidate_found",
+      "collection_status": "source_page_indexed_no_bulk_download",
+      "results": [
+        {
+          "provider": "НЭБ",
+          "url": "https://rusneb.ru/catalog/000199_000009_004909624/",
+          "bibliographic_match": "exact",
+          "access_status": "stable_download",
+          "format": "pdf",
+          "recommended_next_action": "manual_review",
+          "source_role": "source_or_version_lead",
+          "note": "НЭБ/RSL record for the 1935 collection edited by L. S. Vygotsky and I. I. Danyushevsky; page exposes read/download controls and MARC PDF link, but no file was downloaded or read in this round."
+        }
+      ],
+      "evidence_note": "НЭБ/RSL page records the 1935 collection and exposes a PDF download route. It is a candidate only; no download, OCR, or text-layer access occurred."
+    },
+    {
+      "work_id": "etyudy-po-istorii-povedeniya-obezyana-primitiv-rebenok-1930",
+      "title_ru": "Этюды по истории поведения. (Обезьяна. Примитив. Ребенок)",
+      "year": "1930",
+      "lookup_scope": "official_or_library_sources_only_no_download",
+      "priority_lookup_status": "official_exact_source_indexed",
+      "collection_status": "source_page_indexed_no_bulk_download",
+      "results": [
+        {
+          "provider": "psychlib.ru",
+          "url": "https://psychlib.ru/mgppu/VEp-1930/VEp-232.htm",
+          "bibliographic_match": "exact",
+          "access_status": "page_limited",
+          "format": "html_page_set",
+          "recommended_next_action": "index_only",
+          "source_role": "source_or_version_lead",
+          "note": "MSUPE psychlib page set for the 1930 Moscow-Leningrad Gosizdat edition, 232 pages; page sequence and rights restrictions require index-only treatment. No bulk capture or text conversion was performed."
+        }
+      ],
+      "evidence_note": "MSUPE psychlib page records the 1930 Moscow-Leningrad Gosizdat edition by Vygotsky and Luria, 232 pages. Indexed only; no bulk capture or text conversion."
+    },
+    {
+      "work_id": "voobrazhenie-i-tvorchestvo-v-detskom-vozraste-psikhologicheskii-ocherk-1930",
+      "title_ru": "Воображение и творчество в детском возрасте (психологический очерк)",
+      "year": "1930",
+      "lookup_scope": "official_or_library_sources_only_no_download",
+      "priority_lookup_status": "official_variant_source_indexed",
+      "collection_status": "source_page_indexed_no_bulk_download",
+      "results": [
+        {
+          "provider": "НЭБ",
+          "url": "https://rusneb.ru/catalog/000199_000009_001764510/",
+          "bibliographic_match": "variant",
+          "access_status": "reading_room_only",
+          "format": "catalogue",
+          "recommended_next_action": "manual_review",
+          "source_role": "source_or_version_lead",
+          "note": "НЭБ/RSL catalogue and reader page for the 1997 Союз edition, 91,[2] pages. Treat as a later version lead; the 1930 GIZ source still needs exact-source review."
+        }
+      ],
+      "evidence_note": "НЭБ/RSL page records a 1997 Союз edition. This is a later version lead, not the exact 1930 GIZ source."
+    },
+    {
+      "work_id": "pedologiya-podrostka-m-l-izd-vo-bzo-pri-pedfake-2-go-mgu-1931-504-s-na-pravakh-r-1931",
+      "title_ru": "Педология подростка. М.;Л.: ... 1931. 504 с.",
+      "year": "1931",
+      "lookup_scope": "official_or_library_sources_only_no_download",
+      "priority_lookup_status": "official_exact_source_indexed",
+      "collection_status": "source_page_indexed_no_bulk_download",
+      "results": [
+        {
+          "provider": "psychlib.ru",
+          "url": "https://psychlib.ru/mgppu/VPp-1929/VPp-504.htm",
+          "bibliographic_match": "exact",
+          "access_status": "page_limited",
+          "format": "html_page_set",
+          "recommended_next_action": "index_only",
+          "source_role": "source_or_version_lead",
+          "note": "MSUPE psychlib page set for `Педология подростка`, Moscow-Leningrad, Gosudarstvennoye uchebno-pedagogicheskoye izdatelstvo, 1931, 504 pages. No bulk capture or text conversion was performed."
+        }
+      ],
+      "evidence_note": "MSUPE psychlib page records the 1931 504-page `Педология подростка` edition. The separate 1929 `Педология подростка` record remains unresolved."
+    },
+    {
+      "work_id": "psikhologicheskaya-khrestomatiya-1927",
+      "title_ru": "Психологическая хрестоматия",
+      "year": "1927",
+      "lookup_scope": "official_or_library_sources_only_no_download",
+      "priority_lookup_status": "official_exact_source_indexed",
+      "collection_status": "source_page_indexed_no_bulk_download",
+      "results": [
+        {
+          "provider": "НЭБ",
+          "url": "https://rusneb.ru/catalog/003673_000052_RU%2BNOVOSIBIRSK_BIBL_2000091084/",
+          "bibliographic_match": "exact",
+          "access_status": "catalogue_only",
+          "format": "catalogue",
+          "recommended_next_action": "index_only",
+          "source_role": "source_or_version_lead",
+          "note": "НЭБ catalogue page for the 1927 Moscow Gosizdat edition, with V. A. Artemov, L. S. Vygotsky, and N. F. Dobrynin as compilers and K. N. Kornilov as editor; page checked as HTML only, with no file download."
+        }
+      ],
+      "evidence_note": "НЭБ page records the 1927 Moscow Gosizdat edition and compilers/editors. Catalogue page only; no file was downloaded."
+    },
+    {
+      "work_id": "pedologiya-shkolnogo-vozrasta-1928",
+      "title_ru": "Педология школьного возраста",
+      "year": "1928",
+      "lookup_scope": "official_or_library_sources_only_no_download",
+      "priority_lookup_status": "no_stable_official_source_found",
+      "collection_status": "needs_library_lookup",
+      "results": [
+        {
+          "provider": "НЭБ/RSL/GNPBU/psychlib lookup",
+          "url": null,
+          "bibliographic_match": "uncertain",
+          "access_status": "not_found",
+          "format": "unknown",
+          "recommended_next_action": "defer",
+          "source_role": "lookup_attempt",
+          "query": "Педология школьного возраста Выготский 1928 218",
+          "note": "No stable official/library source page for the 1928 218-page edition was confirmed in this round. Academia/manual acquisition and secondary bibliography hits were ignored as source records."
+        }
+      ],
+      "evidence_note": "Only non-official or secondary/bibliography hits were found; keep needs_library_lookup."
+    },
+    {
+      "work_id": "predmet-i-metody-sovremennoi-psikhologii-1929",
+      "title_ru": "Предмет и методы современной психологии",
+      "year": "1929",
+      "lookup_scope": "official_or_library_sources_only_no_download",
+      "priority_lookup_status": "no_stable_official_source_found",
+      "collection_status": "needs_library_lookup",
+      "results": [
+        {
+          "provider": "НЭБ/RSL/GNPBU/psychlib lookup",
+          "url": null,
+          "bibliographic_match": "uncertain",
+          "access_status": "not_found",
+          "format": "unknown",
+          "recommended_next_action": "defer",
+          "source_role": "lookup_attempt",
+          "query": "Предмет и методы современной психологии Выготский 1929 191",
+          "note": "No stable official/library source page for the 1929 191-page edited volume was confirmed in this round. PsyJournals remains the bibliography anchor only."
+        }
+      ],
+      "evidence_note": "GNPBU dates and PsyJournals bibliography hits were not treated as source pages; keep needs_library_lookup."
+    },
+    {
+      "work_id": "keler-v-issledovanie-intellekta-chelovekopodobnykh-obezyan-1930",
+      "title_ru": "Келер В. Исследование интеллекта человекоподобных обезьян",
+      "year": "1930",
+      "lookup_scope": "official_or_library_sources_only_no_download",
+      "priority_lookup_status": "no_stable_official_source_found",
+      "collection_status": "needs_library_lookup",
+      "results": [
+        {
+          "provider": "НЭБ/RSL/GNPBU/psychlib lookup",
+          "url": null,
+          "bibliographic_match": "uncertain",
+          "access_status": "not_found",
+          "format": "unknown",
+          "recommended_next_action": "defer",
+          "source_role": "lookup_attempt",
+          "query": "Келер Исследование интеллекта человекоподобных обезьян Выготский 1930",
+          "note": "No stable official/library source page for the 1930 Russian edition edited by Vygotsky was confirmed in this round. Third-party study/mirror pages were ignored."
+        }
+      ],
+      "evidence_note": "Only third-party or secondary references were found; keep needs_library_lookup."
+    },
+    {
+      "work_id": "psikhologicheskii-slovar-m-uchpedgiz-1931-206-s-sovm-s-b-e-varshava-to-zhe-1931",
+      "title_ru": "Психологический словарь",
+      "year": "1931",
+      "lookup_scope": "official_or_institutional_repository_metadata_only_no_download",
+      "priority_lookup_status": "official_exact_source_indexed",
+      "collection_status": "source_page_indexed_no_bulk_download",
+      "results": [
+        {
+          "provider": "eScriptorium / Karazin University repository",
+          "url": "https://escriptorium.karazin.ua/items/e84f90e1-9683-4cbd-94bc-1989c5da1071",
+          "bibliographic_match": "exact",
+          "access_status": "metadata_page_with_file_links_not_downloaded",
+          "format": "repository_metadata",
+          "recommended_next_action": "manual_review",
+          "source_role": "source_or_version_lead",
+          "note": "Karazin University eScriptorium metadata page records B. E. Varshava and L. S. Vygotsky, Moscow: State Educational-Pedagogical Publishing House, 1931, 206 pages. PDF file links were not opened or downloaded."
+        }
+      ],
+      "evidence_note": "Karazin University eScriptorium page records the 1931 206-page dictionary metadata and exposes PDF file links. Links were not opened or downloaded."
+    },
+    {
+      "work_id": "voprosy-vospitaniya-slepykh-glukhonemykh-i-umstvenno-otstalykh-detei-1924",
+      "title_ru": "Вопросы воспитания слепых, глухонемых и умственно отсталых детей",
+      "year": "1924",
+      "lookup_scope": "official_or_institutional_metadata_only_no_download",
+      "priority_lookup_status": "official_exact_source_indexed",
+      "collection_status": "source_page_indexed_no_bulk_download",
+      "results": [
+        {
+          "provider": "Витрина истории инклюзии / virtual museum",
+          "url": "https://museum.social-tech.ru/eksponat/4474108/",
+          "bibliographic_match": "exact",
+          "access_status": "museum_exhibit_metadata",
+          "format": "html_exhibit_page",
+          "recommended_next_action": "manual_review",
+          "source_role": "source_or_version_lead",
+          "note": "Virtual museum exhibit page records `Вопросы воспитания слепых, глухонемых и умственно-отсталых детей`, edited by L. S. Vygotsky, RSFSR 1924, with unique identifier 4474108. Treat as institutional object metadata, not a digitized text source."
+        }
+      ],
+      "evidence_note": "Institutional virtual museum page records the 1924 collection edited by Vygotsky and a unique exhibit identifier. It is metadata/object evidence only; no file was downloaded."
+    },
+    {
+      "work_id": "grafika-a-bykhovskogo-1926",
+      "title_ru": "Графика А. Быховского",
+      "year": "1926",
+      "lookup_scope": "official_or_library_sources_only_no_download",
+      "priority_lookup_status": "no_stable_official_source_found",
+      "collection_status": "needs_library_lookup",
+      "results": [
+        {
+          "provider": "НЭБ/RSL/GNPBU/psychlib/NLI lookup",
+          "url": null,
+          "bibliographic_match": "uncertain",
+          "access_status": "not_found",
+          "format": "unknown",
+          "recommended_next_action": "defer",
+          "source_role": "lookup_attempt",
+          "query": "Графика А. Быховского Выготский 1926",
+          "note": "Search surfaced an NLI Vygotsky topic page mentioning the title and a commercial auction page, but no stable individual official/library item page was confirmed in this round."
+        }
+      ],
+      "evidence_note": "No stable official/library item page confirmed; keep needs_library_lookup."
+    },
+    {
+      "work_id": "bekingem-b-r-issledovanie-pedagogicheskogo-protsessa-dlya-uchitelei-1930",
+      "title_ru": "Бекингем Б.Р. Исследование педагогического процесса для учителей",
+      "year": "1930",
+      "lookup_scope": "official_or_library_sources_only_no_download",
+      "priority_lookup_status": "no_stable_official_source_found",
+      "collection_status": "needs_library_lookup",
+      "results": [
+        {
+          "provider": "НЭБ/RSL/GNPBU/psychlib lookup",
+          "url": null,
+          "bibliographic_match": "uncertain",
+          "access_status": "not_found",
+          "format": "unknown",
+          "recommended_next_action": "defer",
+          "source_role": "lookup_attempt",
+          "query": "Бекингем Исследование педагогического процесса для учителей Выготский 1930",
+          "note": "Search surfaced secondary dissertation/bibliography references but no stable official/library source page for the 1930 Russian edition edited by Vygotsky and Nusenbaum."
+        }
+      ],
+      "evidence_note": "Only secondary bibliography hits found; keep needs_library_lookup."
+    },
+    {
+      "work_id": "byuler-k-ocherk-dukhovnogo-razvitiya-rebenka-1930",
+      "title_ru": "Бюлер К. Очерк духовного развития ребенка",
+      "year": "1930",
+      "lookup_scope": "official_or_library_sources_only_no_download",
+      "priority_lookup_status": "no_stable_official_source_found",
+      "collection_status": "needs_library_lookup",
+      "results": [
+        {
+          "provider": "НЭБ/RSL/GNPBU/psychlib lookup",
+          "url": null,
+          "bibliographic_match": "uncertain",
+          "access_status": "not_found",
+          "format": "unknown",
+          "recommended_next_action": "defer",
+          "source_role": "lookup_attempt",
+          "query": "Бюлер Очерк духовного развития ребенка Выготский 1930",
+          "note": "Search surfaced encyclopedic and GNPBU biography references but no stable official/library item page for the 1930 edition edited by Vygotsky."
+        }
+      ],
+      "evidence_note": "Only secondary/biographical references found; keep needs_library_lookup."
+    },
+    {
+      "work_id": "byuler-sh-i-dr-sotsialno-psikhologicheskoe-izuchenie-rebenka-pervogo-goda-zhizni-1931",
+      "title_ru": "Бюлер Ш. и др. Социально-психологическое изучение ребенка первого года жизни",
+      "year": "1931",
+      "lookup_scope": "official_or_library_sources_only_no_download",
+      "priority_lookup_status": "no_stable_official_source_found",
+      "collection_status": "needs_library_lookup",
+      "results": [
+        {
+          "provider": "НЭБ/RSL/GNPBU/psychlib lookup",
+          "url": null,
+          "bibliographic_match": "uncertain",
+          "access_status": "not_found",
+          "format": "unknown",
+          "recommended_next_action": "defer",
+          "source_role": "lookup_attempt",
+          "query": "Социально-психологическое изучение ребенка первого года жизни Выготский Лурия 1931",
+          "note": "Search surfaced PsyJournals bibliography and secondary/dissertation citations but no stable official/library item page for the 1931 Medgiz/Gosmedizdat edition."
+        }
+      ],
+      "evidence_note": "Only bibliography and secondary references found; keep needs_library_lookup."
+    },
+    {
+      "work_id": "predislovie-1925",
+      "title_ru": "Предисловие к книге З. Фрейда `По ту сторону принципа удовольствия`",
+      "year": "1925",
+      "lookup_scope": "official_or_library_sources_only_no_download",
+      "priority_lookup_status": "download_candidate_found",
+      "collection_status": "source_page_indexed_no_bulk_download",
+      "results": [
+        {
+          "provider": "НЭБ / РГБ",
+          "url": "https://rusneb.ru/catalog/000199_000009_007981140/",
+          "bibliographic_match": "exact",
+          "access_status": "stable_download_candidate_not_downloaded",
+          "format": "pdf",
+          "recommended_next_action": "manual_review",
+          "source_role": "source_or_version_lead",
+          "note": "НЭБ/RSL page for Freud, `По ту сторону принципа удовольствия`, Moscow: Sovremennye problemy, 1925, 110 pages. MARC lists L. S. Vygotsky and A. R. Luria as editors and preface authors; the page exposes read/download PDF controls, but no file was opened or downloaded."
+        }
+      ],
+      "evidence_note": "НЭБ/RSL page records the 1925 Freud volume and MARC names Vygotsky and Luria as editors/preface authors. PDF download controls were not opened or downloaded."
+    },
+    {
+      "work_id": "predislovie-1926-2",
+      "title_ru": "Предисловие к книге Р. Шульце `Практика экспериментальной психологии, педагогики и психотехники`",
+      "year": "1926",
+      "lookup_scope": "official_or_library_sources_only_no_download",
+      "priority_lookup_status": "no_stable_official_source_found",
+      "collection_status": "needs_library_lookup",
+      "results": [
+        {
+          "provider": "НЭБ/RSL/GNPBU/psychlib lookup",
+          "url": null,
+          "bibliographic_match": "uncertain",
+          "access_status": "not_found",
+          "format": "unknown",
+          "recommended_next_action": "defer",
+          "source_role": "lookup_attempt",
+          "query": "Шульце Практика экспериментальной психологии педагогики психотехники Выготский Лурия 1926",
+          "note": "No stable official/library source page for the 1926 Schultze volume or Vygotsky/Luria preface was confirmed in this round."
+        }
+      ],
+      "evidence_note": "No stable official/library source page confirmed; keep needs_library_lookup."
+    },
+    {
+      "work_id": "problemy-defektologii-1930",
+      "title_ru": "Проблемы дефектологии",
+      "year": "1930",
+      "lookup_scope": "official_or_library_sources_only_no_download",
+      "priority_lookup_status": "no_stable_official_source_found",
+      "collection_status": "needs_library_lookup",
+      "results": [
+        {
+          "provider": "НЭБ/RSL/GNPBU/psychlib lookup",
+          "url": null,
+          "bibliographic_match": "uncertain",
+          "access_status": "not_found",
+          "format": "unknown",
+          "recommended_next_action": "defer",
+          "source_role": "lookup_attempt",
+          "query": "Выготский Проблемы дефектологии Просвещение 1995 174 175",
+          "note": "No stable official/library source page for this `Проблемы дефектологии` fragment/reference was confirmed in this round."
+        }
+      ],
+      "evidence_note": "No stable official/library source page confirmed; keep needs_library_lookup."
+    },
+    {
+      "work_id": "predislovie-1932-2",
+      "title_ru": "Предисловие к книге А. Н. Леонтьева `Развитие памяти`",
+      "year": "1932",
+      "lookup_scope": "official_or_library_sources_only_no_download",
+      "priority_lookup_status": "official_variant_source_indexed",
+      "collection_status": "source_page_indexed_no_bulk_download",
+      "results": [
+        {
+          "provider": "НЭБ / РГБ",
+          "url": "https://rusneb.ru/catalog/000199_000009_001079033/",
+          "bibliographic_match": "variant",
+          "access_status": "reading_room_only",
+          "format": "catalogue",
+          "recommended_next_action": "manual_review",
+          "source_role": "source_or_version_lead",
+          "note": "НЭБ/RSL collected works volume 1 page lists `Предисловие к книге А. Н. Леонтьева \"Развитие памяти\"` in the contents at page 151. This is a later collected-works witness, not the exact 1932 separate offprint."
+        }
+      ],
+      "evidence_note": "НЭБ/RSL collected works volume 1 contents list this preface at page 151. The exact 1932 separate offprint remains unresolved."
+    },
+    {
+      "work_id": "k-voprosu-o-dementsii-pri-bolezni-pika-1934",
+      "title_ru": "К вопросу о деменции при болезни Пика",
+      "year": "1934",
+      "lookup_scope": "official_or_library_sources_only_no_download",
+      "priority_lookup_status": "no_stable_official_source_found",
+      "collection_status": "needs_library_lookup",
+      "results": [
+        {
+          "provider": "НЭБ/RSL/GNPBU/psychlib lookup",
+          "url": null,
+          "bibliographic_match": "uncertain",
+          "access_status": "not_found",
+          "format": "unknown",
+          "recommended_next_action": "defer",
+          "source_role": "lookup_attempt",
+          "query": "К вопросу о деменции при болезни Пика Советская невропатология психиатрия психогигиена 1934 3 6",
+          "note": "Search surfaced PsyJournals bibliography, Pedlib/third-party mirrors, and secondary references, but no stable official/library issue or article page for the 1934 journal publication was confirmed."
+        }
+      ],
+      "evidence_note": "No stable official/library source page confirmed; keep needs_library_lookup."
+    },
+    {
+      "work_id": "fashizm-v-psikhonevrologii-1934",
+      "title_ru": "Фашизм в психоневрологии",
+      "year": "1934",
+      "lookup_scope": "official_or_library_sources_only_no_download",
+      "priority_lookup_status": "official_exact_source_indexed",
+      "collection_status": "source_page_indexed_no_bulk_download",
+      "results": [
+        {
+          "provider": "НЭБ / РНБ",
+          "url": "https://rusneb.ru/catalog/000200_000018_rc_2967098/",
+          "bibliographic_match": "exact",
+          "access_status": "catalogue_only",
+          "format": "catalogue",
+          "recommended_next_action": "index_only",
+          "source_role": "source_or_version_lead",
+          "note": "НЭБ/RNL catalogue page for `Фашизм в психоневрологии`, Moscow-Leningrad: Biomedgiz, 1934, compiled by L. S. Vygotsky, V. A. Gilyarovsky, M. O. Gurevich, M. B. Krol, A. S. Shmaryan and others. Page checked as HTML only; no file was downloaded."
+        }
+      ],
+      "evidence_note": "НЭБ/RNL page records the 1934 Biomedgiz brochure and compilers. Catalogue page only; no file was downloaded."
+    },
+    {
+      "work_id": "pedologiya-yunosheskogo-vozrasta-osobennosti-povedeniya-podrostka-various",
+      "title_ru": "Педология юношеского возраста. Особенности поведения подростка",
+      "year": "various",
+      "lookup_scope": "official_or_library_sources_only_no_download",
+      "priority_lookup_status": "official_variant_source_indexed",
+      "collection_status": "source_page_indexed_no_bulk_download",
+      "results": [
+        {
+          "provider": "GNPBU",
+          "url": "https://elib.old.gnpbu.ru/text/vygotsky_ss-v-6tt_t4_1984/fs%2C1/",
+          "bibliographic_match": "variant",
+          "access_status": "online_reader",
+          "format": "unknown",
+          "recommended_next_action": "manual_review",
+          "source_role": "source_or_version_lead",
+          "note": "Six-volume collected works volume 4 is a later pedology/child psychology witness; exact early source remains unresolved."
+        }
+      ],
+      "evidence_note": "Existing GNPBU six-volume volume 4 source is a later pedology/child psychology witness. Exact early BZO source remains unresolved."
+    },
+    {
+      "work_id": "trudnoe-detstvo-various",
+      "title_ru": "Трудное детство",
+      "year": "various",
+      "lookup_scope": "official_or_library_sources_only_no_download",
+      "priority_lookup_status": "official_variant_source_indexed",
+      "collection_status": "source_page_indexed_no_bulk_download",
+      "results": [
+        {
+          "provider": "GNPBU",
+          "url": "https://elib.old.gnpbu.ru/text/vygotsky_ss-v-6tt_t5_1983/fs%2C1/",
+          "bibliographic_match": "variant",
+          "access_status": "online_reader",
+          "format": "unknown",
+          "recommended_next_action": "manual_review",
+          "source_role": "source_or_version_lead",
+          "note": "Six-volume collected works volume 5 is a later defectology witness; exact \"Трудное детство\" source still needs library lookup."
+        }
+      ],
+      "evidence_note": "Existing GNPBU six-volume volume 5 source is a later defectology witness. Exact early BZO source remains unresolved."
+    }
+  ],
+  "updated_at": "2026-07-09",
+  "notes": [
+    "The 1931 psychlib `Педология подростка` page was linked to the separate 1931 504-page work record, not to the unresolved 1929 `Педология подростка` record.",
+    "No PDF/DjVu/DOC files were downloaded, no text layers were read, and no OCR or Markdown conversion was performed.",
+    "2026-07-04 lookup round handled five planned targets: two upgraded to exact institutional/official source metadata, three retained as needs_library_lookup with lookup attempts only.",
+    "PDF links exposed by eScriptorium and any download controls exposed by library pages were not opened or downloaded.",
+    "2026-07-04 second lookup round handled five planned targets: one upgraded to exact institutional object metadata, four retained as needs_library_lookup with lookup attempts only.",
+    "Commercial auction pages, Wikisource text pages, social media posts, dissertation bibliographies, and third-party mirrors were not treated as source records.",
+    "2026-07-09 preface/journal lookup round handled five targets: one exact download candidate, one later collected-works variant witness, and three unresolved lookup attempts.",
+    "Download controls on the НЭБ Freud volume and collected-works reader were not opened or downloaded.",
+    "2026-07-09 final-tail lookup round updated `Фашизм в психоневрологии` to an exact НЭБ catalogue source and synchronized two existing GNPBU variant witnesses out of needs_library_lookup.",
+    "The exact early BZO sources for `Педология юношеского возраста` and `Трудное детство` remain unresolved; their status reflects later official/library variant witnesses only."
+  ]
+}

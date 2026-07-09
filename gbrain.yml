@@ -10,6 +10,7 @@ storage:
     - kedrov_markdown/
     - oizerman_markdown/
     - kopnin_markdown/
+    - vygotsky_markdown/
     - notes/
     - translation_workspace/
     - dialectical_logic/

@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "generated_at": "2026-06-21",
+  "generated_at": "2026-07-03",
   "author": "Ойзерман Теодор Ильич",
   "author_variants": [
     "Т. И. Ойзерман",
@@ -133,13 +133,43 @@
       "edition_notes": "初版 1969，第二版 1982。",
       "izbrannye_trudy_volume": null,
       "verified_against_bibliography": true,
+      "scan_candidate_priority": "registered_scan",
+      "scan_candidate_reason": "Klex/Phantastike DjVu scan is already downloaded and registered in source_scans_manifest.json.",
+      "source_scan_manifest_status": "registered_source_scan_unprocessed",
+      "source_scan_local_path": "source_scans/klex/problemy-istoriko-filosofskoy-nauki.djvu",
+      "recommended_next_action": "no_new_acquisition; compare registered scan edition against official bibliography and keep as source_scan_unprocessed unless a separate digitization project is approved",
       "known_sources": [
         {
           "site": "koob.ru",
           "url": "https://www.koob.ru/ojzerman/problemy_istor_filosof_nauki",
           "label": "作品页",
           "formats": [],
-          "verified": false
+          "verified": true,
+          "source_role": "discovery_lead",
+          "linked_sources": [
+            {
+              "url": "https://www.klex.ru/tsf",
+              "format": "klex_work_page",
+              "status": "http_200_page_checked"
+            },
+            {
+              "url": "https://www.phantastike.com/philosophy/problemy_istor_filosof_nauki/zip/",
+              "format": "zip",
+              "display_size": "5,7 Mb",
+              "status": "listed_not_downloaded"
+            },
+            {
+              "url": "https://www.phantastike.com/philosophy/problemy_istor_filosof_nauki/djvu/",
+              "format": "djvu",
+              "status": "listed_not_downloaded"
+            },
+            {
+              "url": "https://www.phantastike.com/philosophy/problemy_istor_filosof_nauki/djvu/view/",
+              "format": "online_djvu_view",
+              "status": "listed_not_opened"
+            }
+          ],
+          "recommended_next_action": "compare_with_registered_scans_and_official_bibliography_before_any_new_action"
         }
       ],
       "collection_status": "scan_downloaded"
@@ -159,13 +189,43 @@
       "edition_notes": "初版 1971，修订版 1984。",
       "izbrannye_trudy_volume": null,
       "verified_against_bibliography": true,
+      "scan_candidate_priority": "registered_scan",
+      "scan_candidate_reason": "Klex/Phantastike DjVu scan is already downloaded and registered in source_scans_manifest.json.",
+      "source_scan_manifest_status": "registered_source_scan_unprocessed",
+      "source_scan_local_path": "source_scans/klex/glavnye-filosofskie-napravleniya.djvu",
+      "recommended_next_action": "no_new_acquisition; compare registered scan edition against official bibliography and keep as source_scan_unprocessed unless a separate digitization project is approved",
       "known_sources": [
         {
           "site": "koob.ru",
           "url": "https://www.koob.ru/ojzerman/glavnie_filosofskie_napravleniya",
           "label": "作品页",
           "formats": [],
-          "verified": false
+          "verified": true,
+          "source_role": "discovery_lead",
+          "linked_sources": [
+            {
+              "url": "https://www.klex.ru/hat",
+              "format": "klex_work_page",
+              "status": "http_200_page_checked"
+            },
+            {
+              "url": "https://www.phantastike.com/philosophy/glavnie_filosofskie_napravleniya/zip/",
+              "format": "zip",
+              "display_size": "4,7 Mb",
+              "status": "listed_not_downloaded"
+            },
+            {
+              "url": "https://www.phantastike.com/philosophy/glavnie_filosofskie_napravleniya/djvu/",
+              "format": "djvu",
+              "status": "listed_not_downloaded"
+            },
+            {
+              "url": "https://www.phantastike.com/philosophy/glavnie_filosofskie_napravleniya/djvu/view/",
+              "format": "online_djvu_view",
+              "status": "listed_not_opened"
+            }
+          ],
+          "recommended_next_action": "compare_with_registered_scans_and_official_bibliography_before_any_new_action"
         }
       ],
       "collection_status": "scan_downloaded"

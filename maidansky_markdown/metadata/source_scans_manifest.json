@@ -646,7 +646,9 @@
       "text_status": "source_scan_unprocessed",
       "core_corpus_eligible": "false",
       "llm_wiki_eligible": "false",
-      "download_method": "manual_browser_download"
+      "download_method": "manual_browser_download",
+      "scan_completeness_status": "registered_partial_or_cover_file_full_text_not_found",
+      "completeness_note": "Bibliographic citation records 320 pages, while the registered local file has 9 pages. Keep as unprocessed source_scan lead only; do not treat as a full-book source."
     },
     {
       "title": "Konserwatywna rewolucja Michaił Lifszyc w szkole Hegla",
@@ -1159,7 +1161,9 @@
       "text_status": "source_scan_unprocessed",
       "core_corpus_eligible": "false",
       "llm_wiki_eligible": "false",
-      "download_method": "manual_browser_download"
+      "download_method": "manual_browser_download",
+      "scan_completeness_status": "registered_partial_or_cover_file_full_text_not_found",
+      "completeness_note": "Bibliographic citation records 320 pages, while the registered local file has 37 pages. Owner reported on 2026-07-03 that this Academia book-type file is not full body text. Keep as unprocessed source_scan lead only; do not treat as a full-book source."
     },
     {
       "title": "The Practical Essence of Man The Activity Approach in Late Soviet Philosophy",
@@ -1182,7 +1186,9 @@
       "text_status": "source_scan_unprocessed",
       "core_corpus_eligible": "false",
       "llm_wiki_eligible": "false",
-      "download_method": "manual_browser_download"
+      "download_method": "manual_browser_download",
+      "scan_completeness_status": "full_text_likely_page_count_matches_bibliography",
+      "completeness_note": "Registered local file has 210 pages. External bibliographic records list the Brill 2015 edition at 204 pages and the Haymarket 2017 paperback at 214 pages, so the local PDF page count is consistent with a full-book file. Keep as source_scan_unprocessed; do not read PDF text layer without separate approval."
     },
     {
       "title": "Interviews Rethinking the Foundations of Marxism Today",
@@ -1271,6 +1277,52 @@
       "text_status": "source_scan_unprocessed",
       "core_corpus_eligible": "false",
       "llm_wiki_eligible": "false"
+    },
+    {
+      "title": "Предисловие",
+      "author": "Кудрявцев Владимир Товиевич; Майданский Андрей Дмитриевич",
+      "publication_year": "2021",
+      "citation": "Культурно-историческая психология. 2021. Т. 17. № 3. С. 5",
+      "source_url": "https://psyjournals.ru/journals/chp/archive/2021_n3/foreword_publication",
+      "work_url": "https://psyjournals.ru/journals/chp/archive/2021_n3/foreword_publication",
+      "download_url": "https://psyjournals.ru/en/journals/chp/archive/2021_n3/chp_2021_n3_foreword_publication_en.pdf",
+      "download_date": "2026-07-02",
+      "local_path": "source_scans/psyjournals/chp-2021-n3-foreword-publication-en.pdf",
+      "pages": 1,
+      "bytes": 106683,
+      "sha256": "560c52d8a0a4cee07fa2f0fe4bb7b3f0b5ce830ba2e594705febeadf46b05399",
+      "source_format": "pdf",
+      "source_license": "CC-BY-NC-4.0",
+      "redistribution_approved": "false",
+      "rights_review_status": "unreviewed",
+      "text_role": "source_scan_unprocessed",
+      "text_status": "source_scan_unprocessed",
+      "core_corpus_eligible": "false",
+      "llm_wiki_eligible": "false",
+      "provenance_note": "PsyJournals page exposes only a fragment, not full HTML text; preserved the linked English PDF without OCR or PDF text extraction."
+    },
+    {
+      "title": "«Ревизионистская революция» и перспективы исследований Выготского",
+      "author": "Майданский Андрей Дмитриевич",
+      "publication_year": "2021",
+      "citation": "Культурно-историческая психология. 2021. Т. 17. № 2. С. 23–28",
+      "source_url": "https://psyjournals.ru/journals/chp/archive/2021_n2/Maidansky",
+      "work_url": "https://psyjournals.ru/journals/chp/archive/2021_n2/Maidansky",
+      "download_url": "https://psyjournals.ru/en/journals/chp/archive/2021_n2/chp_2021_n2_Maidansky_en.pdf",
+      "download_date": "2026-07-02",
+      "local_path": "source_scans/psyjournals/chp-2021-n2-maidansky-en.pdf",
+      "pages": 6,
+      "bytes": 157172,
+      "sha256": "2d7c136ef3d4f08fd0c31848d98df66670de5474dd50be4824b40c77dce03203",
+      "source_format": "pdf",
+      "source_license": "CC-BY-NC-4.0",
+      "redistribution_approved": "false",
+      "rights_review_status": "unreviewed",
+      "text_role": "source_scan_unprocessed",
+      "text_status": "source_scan_unprocessed",
+      "core_corpus_eligible": "false",
+      "llm_wiki_eligible": "false",
+      "provenance_note": "PsyJournals page has no full HTML article body; preserved the linked English PDF without OCR or PDF text extraction."
     },
     {
       "title": "Открытия домашнего архива Э.В. Ильенкова",

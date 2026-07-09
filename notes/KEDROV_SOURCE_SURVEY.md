@@ -1,7 +1,7 @@
 ---
 title: "B. M. Kedrov Text Source Survey"
 created: "2026-06-11"
-updated: "2026-06-22"
+updated: "2026-07-03"
 type: "analysis"
 tags: ["kedrov", "source-metadata", "dialectics", "philosophy-of-science"]
 language: "en"
@@ -12,7 +12,8 @@ gbrain_source: "project-markdown"
 
 # B. M. Kedrov Text Source Survey
 
-This document translates the existing survey; it does not record a new external source search.
+This document translates the existing survey and now records the first cross-person network
+discovery pass for Soviet philosophy source leads.
 
 ## Identity
 
@@ -32,6 +33,65 @@ and scientific methodology. Russian searches should use `Б. М. Кедров`,
 - The located sites state no clear open license for full-text redistribution.
 
 Treatment follows the [Source Policy](PHILOSOPHY_SOURCE_FORMAT_POLICY.md).
+
+## Network Discovery Round, 2026-07-03
+
+The cross-person discovery pass created
+[`soviet_philosophy_source_discovery.json`](../metadata/soviet_philosophy_source_discovery.json).
+For Kedrov, the next useful work is not immediate conversion but gap comparison:
+
+- `https://publ.lib.ru/ARCHIVES/K/KEDROV_Bonifatiy_Mihaylovich/_Kedrov_B.M..html` returned HTTP
+  200 and remains a broad catalogue/file lead for works not yet represented in Markdown.
+- Public Library explicitly lists ZIP-file leads and display sizes for `Беседы о диалектике`,
+  `Единство диалектики, логики и теории познания`, `Классификация наук` books 1-3, and
+  `О повторяемости в процессе развития`.
+- `https://www.klex.ru/author/kedrov_b/` returned HTTP 200 and remains a backup author-page lead
+  for missing scans and edition comparison.
+- Klex confirms work-page slugs for `Три аспекта атомистики` volumes 1-3, `Классификация наук`
+  books 1-3, `Единство диалектики, логики и теории познания`, and
+  `О повторяемости в процессе развития`.
+- The Russian Wikipedia bibliography is useful as a secondary title checklist for `Классификация
+  наук`, `Проблемы логики и методологии науки`, `Три аспекта атомистики`, and other unprocessed
+  or unlocated works, but it is not a body-text source.
+
+This pass also introduced a Kedrov bibliographic inventory at
+[`works_master.json`](../kedrov_markdown/metadata/works_master.json). It separates work-level
+records from RoyalLib conversion records and maps the high-value web leads as follows:
+
+| Work id | Title | Public Library status | Klex status | Local status |
+|---|---|---|---|---|
+| `edinstvo-dialektiki-logiki-i-teorii-poznaniya-2006` | `Единство диалектики, логики и теории познания` | 2006 DjV/PDF ZIP listed; PDF already registered | `/g2d` work page checked; ZIP/DjVu/view links listed | scan downloaded |
+| `klassifikaciya-nauk-kniga-1-1961` | `Классификация наук. Книга 1. Энгельс и его предшественники` | 1961 DjV ZIP listed | `/g2e` work page checked; ZIP/DjVu/view links listed | candidate, not downloaded |
+| `klassifikaciya-nauk-kniga-2-1965` | `Классификация наук. Книга 2. От Ленина до наших дней` | 1965 DjV ZIP listed | `/g2f` work page checked; ZIP/DjVu/view links listed | candidate, not downloaded |
+| `klassifikaciya-nauk-kniga-3-1985` | `Классификация наук. Книга 3. Прогноз К. Маркса о науке будущего` | 1985 DjV ZIP listed | `/g2g` work page checked; ZIP/DjVu/view links listed | candidate, not downloaded |
+| `o-povtoryaemosti-v-protsesse-razvitiya-2006` | `О повторяемости в процессе развития` | 2006 DjV/PDF ZIP listed | `/d8o` work page checked; ZIP/PDF links listed | candidate, not downloaded |
+| `tri-aspekta-atomistiki-tom-1` | `Три аспекта атомистики. Том 1`; part title `Парадокс Гиббса. Логический аспект` | not listed on checked Public Library page | `/21og` work page checked; ZIP/PDF links listed | candidate, not downloaded; 1969, Moscow: Nauka from secondary bibliography |
+| `tri-aspekta-atomistiki-tom-2` | `Три аспекта атомистики. Том 2`; part title `Учение Дальтона. Исторический аспект` | not listed on checked Public Library page | `/21oh` work page checked; ZIP/PDF links listed | candidate, not downloaded; 1969, Moscow: Nauka from secondary bibliography |
+| `tri-aspekta-atomistiki-tom-3` | `Три аспекта атомистики. Том 3`; part title `Закон Менделеева. Логико-исторический аспект` | not listed on checked Public Library page | `/21oi` work page checked; ZIP/PDF links listed | candidate, not downloaded; 1969, Moscow: Nauka from secondary bibliography |
+
+Secondary bibliography checks on the Shchedrovitskiy Kedrov page and Russian Wikipedia support
+`Три аспекта атомистики` as a 1969 work, and a philosophy-of-chemistry bibliography gives
+`М.: Наука, 1969`. These are not body-text sources and still need a library-catalog record before
+scan acquisition or edition-level promotion.
+
+## Future Scan Acquisition Queue
+
+This queue is a planning aid only. It does not authorize downloads, OCR, PDF/DjVu text-layer use,
+or Markdown conversion.
+
+| Priority | Work id | Reason | Next action |
+|---|---|---|---|
+| `registered_scan` | `edinstvo-dialektiki-logiki-i-teorii-poznaniya-2006` | Public Library PDF scan already registered in `source_scans_manifest.json`. | No new acquisition; use only as scan evidence unless a separate text-source review is opened. |
+| `priority_1` | `klassifikaciya-nauk-kniga-1-1961` | Core classification trilogy; Public Library and Klex/Phantastike expose matching DjVu leads. | If owner requests scan acquisition, verify exact file identity and rights basis before download. |
+| `priority_1` | `klassifikaciya-nauk-kniga-2-1965` | Core classification trilogy; Public Library and Klex/Phantastike expose matching DjVu leads. | If owner requests scan acquisition, verify exact file identity and rights basis before download. |
+| `priority_1` | `klassifikaciya-nauk-kniga-3-1985` | Core classification trilogy; Public Library and Klex/Phantastike expose matching DjVu leads. | If owner requests scan acquisition, verify exact file identity and rights basis before download. |
+| `priority_1` | `o-povtoryaemosti-v-protsesse-razvitiya-2006` | High-value dialectics work; Public Library and Klex/Phantastike expose PDF/archive leads. | If owner requests scan acquisition, verify exact file identity and rights basis before download. |
+| `priority_2_library_catalog_first` | `tri-aspekta-atomistiki-tom-1` | Klex/Phantastike expose a PDF lead, but checked bibliographic support is still secondary. | Confirm a library-catalog record before any scan acquisition. |
+| `priority_2_library_catalog_first` | `tri-aspekta-atomistiki-tom-2` | Klex/Phantastike expose a PDF lead, but checked bibliographic support is still secondary. | Confirm a library-catalog record before any scan acquisition. |
+| `priority_2_library_catalog_first` | `tri-aspekta-atomistiki-tom-3` | Klex/Phantastike expose a PDF lead, but checked bibliographic support is still secondary. | Confirm a library-catalog record before any scan acquisition. |
+
+No files were downloaded, no PDF/DjVu text layer was read, no OCR was run, and no Markdown body text
+was created in this round.
 
 ## Priority 1: HTML Converted To Markdown
 

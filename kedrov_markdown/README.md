@@ -19,6 +19,7 @@ Kedrov (Бонифатий Михайлович Кедров).
 - `kedrov_md/russian_web/royallib/`: Russian Markdown converted from genuine RoyalLib HTML.
 - `kedrov_md/russian_web/royallib/assets/`: body images from the HTML packages.
 - `source_scans/`: unprocessed, directly downloadable PDF/DjVu files.
+- `metadata/works_master.json`: bibliographic inventory and source-lead mapping.
 - `metadata/royallib_manifest.json`: source URLs, hashes, outputs, and conversion status.
 - `metadata/source_scans_manifest.json`: scan editions, URLs, hashes, and rights status.
 - `scripts/kedrov_royallib_convert.py`: reproducible HTML acquisition and conversion.

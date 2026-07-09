@@ -384,11 +384,12 @@
       "summary": "Сост., предисл., коммент. А. Майданского. М.: Издательство АСТ, 2019. – 320 с., ISBN 978-5-17-112... Сост., предисл., коммент. А. Майданского. М.: Издательство АСТ, 2019. – 320 с., ISBN 978-5-17-112346-8",
       "download_url": "https://www.academia.edu/attachments/62039975/download_file",
       "attachment_id": "62039975",
-      "status": "downloaded",
-      "error": "",
+      "status": "downloaded_partial_or_cover_file_full_text_not_found",
+      "error": "registered_file_not_full_book",
       "local_path": "source_scans/academia/benedikt-spinoza-moguschestvo-razuma.pdf",
       "sha256": "b0d716e43a5c09dfc204ad507f33dccada6a71f8813e166ebfdaede64be67879",
-      "bytes": 1054948
+      "bytes": 1054948,
+      "note": "Registered local file has 9 pages while the bibliographic citation records 320 pages. Treat as an unprocessed partial/source lead, not a full-book source."
     },
     {
       "work_id": "41913818",
@@ -645,9 +646,9 @@
       "summary": "",
       "download_url": "https://www.academia.edu/attachments/97813738/download_file",
       "attachment_id": "97813738",
-      "status": "source_unavailable",
-      "error": "not_found_online_after_manual_search",
-      "note": "User confirmed on 2026-06-17 that no available online resource could be found; attachment URL returns HTTP 403."
+      "status": "cover_only_found_full_text_not_found",
+      "error": "curl_cloudflare_403_or_full_text_unavailable",
+      "note": "User confirmed on 2026-06-17 that no usable attachment source could be found; attachment URL returned HTTP 403. Browser check on 2026-07-03 loaded the work page and showed 2022, 1 page, and 2 files. User reported on 2026-07-03 that the manually downloaded file is the book cover, not the body text. Full text remains unavailable and unreviewed."
     },
     {
       "work_id": "95705255",
@@ -658,11 +659,12 @@
       "summary": "Vygotsky L.S. Pedology of School Age. Lectures on Developmental Psychology Труды великого русско... Vygotsky L.S. Pedology of School Age. Lectures on Developmental Psychology Труды великого русского психолога Льва Семеновича Выготского (1896–1934) давно признаны научной классикой, переведены на десятки языков мира, однако многие его работы все еще остаются недоступными массовому читателю. В настоящем томе публикуются раритетные тексты 1928 года – пособие для учащихся педагогического факультета 2-го МГУ и стенографические записи лекций, читавшихся Выготским в Академии коммунистического воспитания. В это время закладывались основы научной теории, которая станет известна под названием «культурно-историческая психология» и принесет мировую славу ее творцу. Книга адресована психологам, педагогам, а также широкому кругу читателей, интересующихся проблемами развития человеческой личности, теорией и практикой воспитания ребенка.",
       "download_url": "https://www.academia.edu/attachments/97814140/download_file",
       "attachment_id": "97814140",
-      "status": "downloaded",
-      "error": "",
+      "status": "downloaded_partial_or_cover_file_full_text_not_found",
+      "error": "registered_file_not_full_book",
       "local_path": "source_scans/academia/vygotskii-l-s-pedologiya-shkolnogo-vozrasta-lektsii-po-psihologii-razvitiya.pdf",
       "sha256": "e4b36299adabc999c8ba3702a02e9f6bb53baa3cabec61e3eb472ff1928c0e7f",
-      "bytes": 1334736
+      "bytes": 1334736,
+      "note": "Registered local file has 37 pages while the bibliographic citation records 320 pages. Owner reported on 2026-07-03 that this Academia book-type file is not full body text. Treat as an unprocessed partial/source lead, not a full-book source."
     },
     {
       "work_id": "95705551",
@@ -677,7 +679,9 @@
       "error": "",
       "local_path": "source_scans/academia/the-practical-essence-of-man-the-activity-approach-in-late-soviet-philosophy.pdf",
       "sha256": "bbc965cf9a7e2bed142e74a737803685b92e6bd33024d994d1ed3b366fe7020f",
-      "bytes": 806961
+      "bytes": 806961,
+      "scan_completeness_status": "full_text_likely_page_count_matches_bibliography",
+      "note": "Registered local source scan has 210 pages. External bibliographic records list Brill 2015 at 204 pages and Haymarket 2017 paperback at 214 pages, so the local file is page-count consistent with a full-book scan. Keep as source_scan_unprocessed; do not read PDF text layer without separate approval."
     },
     {
       "work_id": "95705749",

@@ -98,6 +98,8 @@ these boundaries:
 - Public release: do not publish the working repository; controlled files require exact
   `rights_registry.json` path and SHA-256 matches; publish only through `scripts/publish_public.sh`
   from `dist/public/`.
+- Git commits: by default, split commits by logical task or change set; make a combined commit only
+  when the owner explicitly asks for one.
 
 ## 6. Hard Rules
 
@@ -124,7 +126,7 @@ these boundaries:
 
 | Tracked files | Markdown | Corpus md | Chapter files | Split works | Branch |
 |---:|---:|---:|---:|---:|:--|
-| 1127 | 696 | 638 | 337 | 15 | `main` |
+| 1165 | 714 | 654 | 337 | 15 | `main` |
 
 <!-- AGENTS-AUTO:END -->
 

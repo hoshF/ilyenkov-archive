@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "generated_at": "2026-06-27",
+  "generated_at": "2026-07-02",
   "source_profile_url": "https://scholar.google.com/citations?user=CQAYjuQAAAAJ&hl=zh-CN&oi=ao",
   "retrieval_notes": [
     "Google Scholar author profile was read through the in-app browser on 2026-06-27.",
@@ -25,15 +25,16 @@
   "comparison_sources": [
     "maidansky_markdown/metadata/maidansky_catalog_manifest.json",
     "maidansky_markdown/metadata/academia_manifest.json",
-    "maidansky_markdown/metadata/source_scans_manifest.json"
+    "maidansky_markdown/metadata/source_scans_manifest.json",
+    "maidansky_markdown/metadata/psyjournals_manifest.json"
   ],
   "classification_counts": {
-    "markdown_corpus": 29,
-    "source_scan": 36,
+    "markdown_corpus": 37,
+    "source_scan": 31,
     "bibliographic_lead": 16,
     "duplicate_or_variant": 34,
     "noise_or_uncertain": 32,
-    "source_gap": 89
+    "source_gap": 86
   },
   "items": [
     {
@@ -104,7 +105,7 @@
       "venue": "Studies in East European Thought 55 (3), 199-216, 2003",
       "year": "2003",
       "citations": "29",
-      "category": "source_scan",
+      "category": "markdown_corpus",
       "local_matches": [
         {
           "source": "markdown_corpus",
@@ -134,7 +135,7 @@
         }
       ],
       "priority": "none",
-      "notes": "Exact title match to an existing unprocessed source scan."
+      "notes": "Exact normalized title match to current Markdown corpus; bibliography gap resolved during PsyJournals/source index refresh."
     },
     {
       "scholar_rank": 6,
@@ -257,7 +258,7 @@
       "venue": "Вопросы философии, 127-133, 2010",
       "year": "2010",
       "citations": "19",
-      "category": "source_scan",
+      "category": "markdown_corpus",
       "local_matches": [
         {
           "source": "markdown_corpus",
@@ -287,7 +288,7 @@
         }
       ],
       "priority": "none",
-      "notes": "Exact title match to an existing unprocessed source scan."
+      "notes": "Exact normalized title match to current Markdown corpus; bibliography gap resolved during PsyJournals/source index refresh."
     },
     {
       "scholar_rank": 12,
@@ -377,8 +378,14 @@
       "venue": "Russian thought in Europe: Reception, polemics, development, 2013",
       "year": "2013",
       "citations": "16",
-      "category": "source_scan",
+      "category": "markdown_corpus",
       "local_matches": [
+        {
+          "source": "markdown_corpus",
+          "title": "The Dialectical Logic of Evald Ilyenkov and Western European Marxism",
+          "path": "maidansky_markdown/maidansky_md/istoriya-filosofii/istoriya-filosofii-the-dialectical-logic-of-evald-ilyenkov-and-western-european-marxism.md",
+          "match_type": "exact"
+        },
         {
           "source": "source_scans_manifest",
           "title": "The Dialectical Logic of Evald Ilyenkov and Western European Marxism",
@@ -395,7 +402,7 @@
         }
       ],
       "priority": "none",
-      "notes": "Exact title match to an existing unprocessed source scan."
+      "notes": "Exact normalized title match to current Markdown corpus; bibliography gap resolved during PsyJournals/source index refresh."
     },
     {
       "scholar_rank": 17,
@@ -810,10 +817,17 @@
       "venue": "Культурно-историческая психология 20 (3), 5-11, 2024",
       "year": "2024",
       "citations": "10",
-      "category": "source_gap",
-      "local_matches": [],
-      "priority": "high",
-      "notes": "Project-relevant Scholar record not found in local Markdown or source scans."
+      "category": "markdown_corpus",
+      "local_matches": [
+        {
+          "source": "markdown_corpus",
+          "title": "Сто лет развития культурно-исторической психологии: вехи и направления",
+          "path": "maidansky_markdown/maidansky_md/kulturno-istoricheskaya-psihologiya/kulturno-istoricheskaya-psihologiya-sto-let-razvitiya-kulturno-istoricheskoi-psihologii-vehi-i-napravleniya.md",
+          "match_type": "exact"
+        }
+      ],
+      "priority": "none",
+      "notes": "Exact normalized title match to current Markdown corpus; bibliography gap resolved during PsyJournals/source index refresh."
     },
     {
       "scholar_rank": 35,
@@ -1281,8 +1295,14 @@
       "venue": "Культурно-историческая психология 19 (3), 4-12, 2023",
       "year": "2023",
       "citations": "5",
-      "category": "source_scan",
+      "category": "markdown_corpus",
       "local_matches": [
+        {
+          "source": "markdown_corpus",
+          "title": "Мышление и труд (читая Выготского)",
+          "path": "maidansky_markdown/maidansky_md/kulturno-istoricheskaya-psihologiya/kulturno-istoricheskaya-psihologiya-myshlenie-i-trud-chitaya-vygotskogo.md",
+          "match_type": "exact"
+        },
         {
           "source": "source_scans_manifest",
           "title": "Мышление и труд читая Выготского",
@@ -1299,7 +1319,7 @@
         }
       ],
       "priority": "none",
-      "notes": "Exact title match to an existing unprocessed source scan."
+      "notes": "Exact normalized title match to current Markdown corpus; bibliography gap resolved during PsyJournals/source index refresh."
     },
     {
       "scholar_rank": 56,
@@ -1558,10 +1578,17 @@
       "venue": "Культурно-историческая психология 20 (3), 36-44, 2024",
       "year": "2024",
       "citations": "4",
-      "category": "source_gap",
-      "local_matches": [],
-      "priority": "high",
-      "notes": "Project-relevant Scholar record not found in local Markdown or source scans."
+      "category": "markdown_corpus",
+      "local_matches": [
+        {
+          "source": "markdown_corpus",
+          "title": "Понятие вращивания в теории развития высших психологических функций",
+          "path": "maidansky_markdown/maidansky_md/kulturno-istoricheskaya-psihologiya/kulturno-istoricheskaya-psihologiya-ponyatie-vraschivaniya-v-teorii-razvitiya-vysshih-psihologicheskih-funktsii.md",
+          "match_type": "exact"
+        }
+      ],
+      "priority": "none",
+      "notes": "Exact normalized title match to current Markdown corpus; bibliography gap resolved during PsyJournals/source index refresh."
     },
     {
       "scholar_rank": 69,
@@ -1609,8 +1636,14 @@
       "venue": "Monthly Review, 2020",
       "year": "2020",
       "citations": "4",
-      "category": "source_scan",
+      "category": "markdown_corpus",
       "local_matches": [
+        {
+          "source": "markdown_corpus",
+          "title": "Evald Ilyenkov and Soviet Philosophy",
+          "path": "maidansky_markdown/maidansky_md/istoriya-filosofii/istoriya-filosofii-evald-ilyenkov-and-soviet-philosophy.md",
+          "match_type": "exact"
+        },
         {
           "source": "source_scans_manifest",
           "title": "Evald Ilyenkov and Soviet Philosophy",
@@ -1627,7 +1660,7 @@
         }
       ],
       "priority": "none",
-      "notes": "Exact title match to an existing unprocessed source scan."
+      "notes": "Exact normalized title match to current Markdown corpus; bibliography gap resolved during PsyJournals/source index refresh."
     },
     {
       "scholar_rank": 72,
@@ -1968,10 +2001,17 @@
       "venue": "Культурно-историческая психология 21 (3), 4-14, 2025",
       "year": "2025",
       "citations": "2",
-      "category": "source_gap",
-      "local_matches": [],
-      "priority": "high",
-      "notes": "Project-relevant Scholar record not found in local Markdown or source scans."
+      "category": "markdown_corpus",
+      "local_matches": [
+        {
+          "source": "markdown_corpus",
+          "title": "О системе категорий культурно-исторической психологии",
+          "path": "maidansky_markdown/maidansky_md/kulturno-istoricheskaya-psihologiya/kulturno-istoricheskaya-psihologiya-o-sisteme-kategorii-kulturno-istoricheskoi-psihologii.md",
+          "match_type": "exact"
+        }
+      ],
+      "priority": "none",
+      "notes": "Exact normalized title match to current Markdown corpus; bibliography gap resolved during PsyJournals/source index refresh."
     },
     {
       "scholar_rank": 96,

@@ -2,15 +2,15 @@
   "schema_version": 2,
   "policy": "Project infrastructure, original documentation, and factual metadata are public by default. Source texts, translations, scans, media, and content-bearing metadata require approval in metadata/rights_registry.json for the exact path and SHA-256. Scans additionally require approval in their source manifest.",
   "audit_convention": "PUBLIC_EXPORT_AUDIT.json is generated together with the export and does not list itself; the export tree and the public git tree must equal the included paths plus this audit file.",
-  "included": 254,
-  "excluded": 756,
+  "included": 273,
+  "excluded": 777,
   "files": [
     {
       "path": ".DS_Store",
       "included": false,
       "reason": "repository_metadata",
       "bytes": 10244,
-      "sha256": "4f5d5c4e509d17ea0f75a0f7bc47e1e437704c488802cc87170db314d31980c7"
+      "sha256": "233ccde611d5ad2a7db90532717df4745e59ba4fb9b0e6d27f56984e164ff927"
     },
     {
       "path": ".claude/settings.local.json",
@@ -72,15 +72,15 @@
       "path": ".gitignore",
       "included": true,
       "reason": "project_file",
-      "bytes": 460,
-      "sha256": "040a85152ec987aa8e12f99e7e66237c5d22509b76b3713fd4af3eb784fbc390"
+      "bytes": 501,
+      "sha256": "515aa966c87c3e67b5a92f610b256bf920551a1d38ce0cce007e9819a9c6d170"
     },
     {
       "path": "AGENTS.md",
       "included": true,
       "reason": "project_file",
-      "bytes": 7201,
-      "sha256": "11546038188d5e442166fff33f8a457e2b11274413dd168e53a5150563a1e16a"
+      "bytes": 7343,
+      "sha256": "038cb6357458c469acf31934ed590fbadb544c0c2f779133dfe9914e9abc503e"
     },
     {
       "path": "CITATION.cff",
@@ -100,8 +100,8 @@
       "path": "COLLECTION_STATUS.md",
       "included": true,
       "reason": "project_file",
-      "bytes": 1982,
-      "sha256": "ac2148a26609438b5a0195b8aaf701afcd34da7a3a4aa28443fb60c390f48550"
+      "bytes": 2109,
+      "sha256": "f770fdb26736987be3429cbdbfb42a3aa7c32f37537edd5e0355c65432c45876"
     },
     {
       "path": "CONTRIBUTING.md",
@@ -179,6 +179,13 @@
       "reason": "project_file",
       "bytes": 4486,
       "sha256": "19a10bf94620d0fc5790976d6f82799f5aeee2802798146ffafcfc20d5d5cf04"
+    },
+    {
+      "path": "academia_cookie.txt",
+      "included": false,
+      "reason": "text_without_rights_review",
+      "bytes": 2604,
+      "sha256": "2b85aeed4f1a850b909b2937d3d6ee4fe914127c10da86b3e541da58faad15b5"
     },
     {
       "path": "dialectical_logic/README.md",
@@ -464,8 +471,8 @@
       "path": "gbrain.yml",
       "included": true,
       "reason": "project_file",
-      "bytes": 387,
-      "sha256": "00d9ad165f204744e098d7320cbc8d08f3f29a6728a8529dba0336c839953f79"
+      "bytes": 412,
+      "sha256": "82d328e57c173ded502bfbb69c6a018cc293749ed24b1916384dab3716a9e742"
     },
     {
       "path": "idols_ideals/README.md",
@@ -569,8 +576,8 @@
       "path": "ilyenkov_markdown/README.md",
       "included": true,
       "reason": "project_file",
-      "bytes": 2265,
-      "sha256": "c91b40f4ef2c6addd4119451b234d2dec64e3f99acec3524174c40851ae18588"
+      "bytes": 3492,
+      "sha256": "2625225140b62c8d1061fb3ecc681678e0aa80610c310257b446b9a95ef55745"
     },
     {
       "path": "ilyenkov_markdown/ilyenkov_md/already-done/dialectical_logic_ilyenkov_ru/README.md",
@@ -2865,8 +2872,8 @@
       "path": "kedrov_markdown/README.md",
       "included": true,
       "reason": "project_file",
-      "bytes": 2012,
-      "sha256": "f6dccebae09fec8154b01619087adeeb21c0b0b48cc39c4e33c99e2a201aa8de"
+      "bytes": 2093,
+      "sha256": "60043bb2427b8a3250cbe91a8d4cc7cf8875c139b95fb385cbfaebd5d99f3914"
     },
     {
       "path": "kedrov_markdown/kedrov_md/russian_web/royallib/assets/o_tvorchestve_v_nauke_i_tehnike/i_002.png",
@@ -3527,6 +3534,13 @@
       "sha256": "36953828cc174363109fdb34a12b236859a7a7f91b59f7bf250e431f2725cd4a"
     },
     {
+      "path": "kedrov_markdown/metadata/works_master.json",
+      "included": true,
+      "reason": "project_file",
+      "bytes": 25399,
+      "sha256": "6981ea5254814da2f0215f68304e8e521ed557127b52c870e496fda51d3e4f3f"
+    },
+    {
       "path": "kedrov_markdown/scripts/kedrov_royallib_convert.py",
       "included": true,
       "reason": "project_file",
@@ -3593,8 +3607,8 @@
       "path": "kopnin_markdown/metadata/works_master.json",
       "included": true,
       "reason": "project_file",
-      "bytes": 8829,
-      "sha256": "d577550f7a5f3152fde4efac9200277e268c76828b5c1737fc0d775d908bf967"
+      "bytes": 10964,
+      "sha256": "a68197be632872e40a7800bc43eacb6b780dbfea74378e098f7898893b2e7326"
     },
     {
       "path": "kopnin_markdown/scripts/klex_download.py",
@@ -3642,8 +3656,8 @@
       "path": "maidansky_markdown/README.md",
       "included": true,
       "reason": "project_file",
-      "bytes": 2751,
-      "sha256": "2073e01b7946fc95c26fcbcdcf1cc2cf90592c90af12bbddfad8782a05ef1874"
+      "bytes": 5392,
+      "sha256": "dd5e4c9758ebff0f5be65f503d1fafd0b4971bb71a56522439d477ee31f9a502"
     },
     {
       "path": "maidansky_markdown/maidansky_md/dialekticheskaya-logika/dialekticheskaya-logika-istinna-li-klassicheskaya-definitsiya-istiny.md",
@@ -3737,6 +3751,13 @@
       "sha256": "63dd55288aff56267d963883f067b5a0a512a795e9b1d25682c4429e7dc94302"
     },
     {
+      "path": "maidansky_markdown/maidansky_md/istoriya-filosofii/istoriya-filosofii-e-v-ilyenkov-o-svobode-voli.md",
+      "included": false,
+      "reason": "rights_review_not_approved",
+      "bytes": 62971,
+      "sha256": "19844ed6e69aff7ff63ef7a68471db0166a05fe4ffce54efad497bec6de4cf6d"
+    },
+    {
       "path": "maidansky_markdown/maidansky_md/istoriya-filosofii/istoriya-filosofii-estetika-mihaila-lifshitsa-i-sovremennost.md",
       "included": false,
       "reason": "rights_review_not_approved",
@@ -3772,11 +3793,25 @@
       "sha256": "04ca578a80ff7caa44df234cb27533ae5584b5f148ae51b1f600fc029fe5f918"
     },
     {
+      "path": "maidansky_markdown/maidansky_md/istoriya-filosofii/istoriya-filosofii-k-rabote-mescheryakova-posleslovie-i-primechaniya-a-d-mai-danskogo.md",
+      "included": false,
+      "reason": "rights_review_not_approved",
+      "bytes": 40404,
+      "sha256": "b4f78ed1deba983535539d254e3195646f4e7eb09a2df487fbe9c09c54b9ff81"
+    },
+    {
       "path": "maidansky_markdown/maidansky_md/istoriya-filosofii/istoriya-filosofii-kategoriya-suschestvovaniya-v-etike-spinozy.md",
       "included": false,
       "reason": "rights_review_not_approved",
       "bytes": 95221,
       "sha256": "c0c938e8a3d3dc563928fd5eb237ba19e049368fc842e10f7fcbb3e9d4e88a6f"
+    },
+    {
+      "path": "maidansky_markdown/maidansky_md/istoriya-filosofii/istoriya-filosofii-kulturnaya-psihologiya-l-s-vygotskogov-optike-spinozy-i-marksa.md",
+      "included": false,
+      "reason": "rights_review_not_approved",
+      "bytes": 34735,
+      "sha256": "83e9c91925e0fc24016b6fef24890fba4e62b53c241703a99c2e0a40a4862dd9"
     },
     {
       "path": "maidansky_markdown/maidansky_md/istoriya-filosofii/istoriya-filosofii-logicheskii-metod-spinozy/README.md",
@@ -3887,8 +3922,8 @@
       "path": "maidansky_markdown/maidansky_md/istoriya-filosofii/istoriya-filosofii-otkrytiya-domashnego-arhiva-e-v-ilenkova.md",
       "included": false,
       "reason": "rights_review_not_approved",
-      "bytes": 68991,
-      "sha256": "310be922645df3eb8125d419579094d63071fdf0ce16d2f4994ebcab01172eef"
+      "bytes": 69100,
+      "sha256": "b4dec89d7f8434f1cf3ede464739f647c951b03d63c663654a935bce1cca7d3f"
     },
     {
       "path": "maidansky_markdown/maidansky_md/istoriya-filosofii/istoriya-filosofii-ponyatie-istiny-v-dialekticheskoi-logike-ilenkova.md",
@@ -3903,6 +3938,13 @@
       "reason": "rights_review_not_approved",
       "bytes": 60917,
       "sha256": "4f76a7b9a28f6aad7575941b1d17ed665fd105ef20b22a386af129e72ed00a41"
+    },
+    {
+      "path": "maidansky_markdown/maidansky_md/istoriya-filosofii/istoriya-filosofii-prakticheskii-materializm-v-ponimanii-myshleniya-e-v-ilenkov-i-f-t-mihai-lov.md",
+      "included": false,
+      "reason": "rights_review_not_approved",
+      "bytes": 29443,
+      "sha256": "1064434821c6d7b22de7c3a0ce943800dd1f038f3f0200b390101d16f445cb4f"
     },
     {
       "path": "maidansky_markdown/maidansky_md/istoriya-filosofii/istoriya-filosofii-principium-coexsistentiae-ili-istoriya-odnogo-snovideniya-magistra-imma.md",
@@ -3996,6 +4038,48 @@
       "sha256": "033fafe44f501b7868a576778d4bc76e8f95e4bcac3fb229e0b9249ee0ab6073"
     },
     {
+      "path": "maidansky_markdown/maidansky_md/kulturno-istoricheskaya-psihologiya/kulturno-istoricheskaya-psihologiya-a-i-mescheryakov-o-formirovanii-chelovecheskoi-psihiki-u-slepogluhih-detei.md",
+      "included": false,
+      "reason": "rights_review_not_approved",
+      "bytes": 55208,
+      "sha256": "4a23dc707bc15c51b1b1d3ad22e855c7f2b45e5f582aca35d4cc3ed1324ac30c"
+    },
+    {
+      "path": "maidansky_markdown/maidansky_md/kulturno-istoricheskaya-psihologiya/kulturno-istoricheskaya-psihologiya-l-s-vygotskii-o-psihologicheskoi-fiziologii.md",
+      "included": false,
+      "reason": "rights_review_not_approved",
+      "bytes": 10768,
+      "sha256": "60dff69d8ae3c9eb7405c827a2d53673d0fc381a4da377ab1cea25c5097754e8"
+    },
+    {
+      "path": "maidansky_markdown/maidansky_md/kulturno-istoricheskaya-psihologiya/kulturno-istoricheskaya-psihologiya-myshlenie-i-trud-chitaya-vygotskogo.md",
+      "included": false,
+      "reason": "rights_review_not_approved",
+      "bytes": 8572,
+      "sha256": "2e7d062bdc1c38e346d1d0ae38da0f65717bd6bc750a1eabe748edabb8884814"
+    },
+    {
+      "path": "maidansky_markdown/maidansky_md/kulturno-istoricheskaya-psihologiya/kulturno-istoricheskaya-psihologiya-o-sisteme-kategorii-kulturno-istoricheskoi-psihologii.md",
+      "included": false,
+      "reason": "rights_review_not_approved",
+      "bytes": 17682,
+      "sha256": "01a77306de0d80c73949eef57cc3e06ab557663c5ef91c518219bc8400185f47"
+    },
+    {
+      "path": "maidansky_markdown/maidansky_md/kulturno-istoricheskaya-psihologiya/kulturno-istoricheskaya-psihologiya-ponyatie-vraschivaniya-v-teorii-razvitiya-vysshih-psihologicheskih-funktsii.md",
+      "included": false,
+      "reason": "rights_review_not_approved",
+      "bytes": 7821,
+      "sha256": "96a71a5f8c8ad79db7c0ea2f72ee05badae73482c71bfed7f0ce89e8f344811e"
+    },
+    {
+      "path": "maidansky_markdown/maidansky_md/kulturno-istoricheskaya-psihologiya/kulturno-istoricheskaya-psihologiya-sto-let-razvitiya-kulturno-istoricheskoi-psihologii-vehi-i-napravleniya.md",
+      "included": false,
+      "reason": "rights_review_not_approved",
+      "bytes": 5994,
+      "sha256": "69463e4436e188204ead3bdba774f37417b4cba430cb230c11cd62c75ceed5dc"
+    },
+    {
       "path": "maidansky_markdown/maidansky_md/miniatyury/miniatyury-atomistika-i-problematika-chistogo-razuma-v-filosofii-anaksagora.md",
       "included": false,
       "reason": "rights_review_not_approved",
@@ -4087,6 +4171,13 @@
       "sha256": "3f6f43e59161d22ccdfc786daf5013cc37fb1535cf50c99c06c320c3f8eb80f0"
     },
     {
+      "path": "maidansky_markdown/maidansky_md/retsenzii/retsenzii-retsenziya-na-knigu-delo-vygotskogo.md",
+      "included": false,
+      "reason": "rights_review_not_approved",
+      "bytes": 1498,
+      "sha256": "b48fca40436ec110c06b2ad4cd387c009c410adad9af857fd26c3ca0ea2abc09"
+    },
+    {
       "path": "maidansky_markdown/maidansky_md/stati-v-entsiklopediyah/stati-v-entsiklopediyah-ilenkov-evald-vasilevich-novaya-rossii-skaya-entsiklopediya.md",
       "included": false,
       "reason": "rights_review_not_approved",
@@ -4153,22 +4244,29 @@
       "path": "maidansky_markdown/metadata/academia_manifest.json",
       "included": true,
       "reason": "project_file",
-      "bytes": 75106,
-      "sha256": "d72c3d88dc875c6c4564dc41cb96e51208a41a284d0ef60005c8c9c6daeeddb8"
+      "bytes": 76341,
+      "sha256": "f93fdf2805277db95552416224848b93d77e4bb0e288d95659a016dab557d9ed"
+    },
+    {
+      "path": "maidansky_markdown/metadata/academia_manual_acquisition_queue.json",
+      "included": true,
+      "reason": "project_file",
+      "bytes": 10413,
+      "sha256": "9d8f761707edf1248ec4b972b75cf7164c21c07d2479e27b2639ac573c1b59c7"
     },
     {
       "path": "maidansky_markdown/metadata/academia_manual_queue.json",
       "included": true,
       "reason": "project_file",
-      "bytes": 1049,
-      "sha256": "a8b98e42c3f42867521842447d69a2f795e502761a56b5ceab68371edbad59d6"
+      "bytes": 3860,
+      "sha256": "a9b289472d0b7caf3bfa9be563d523653a01c5d7c81d7dced7cac3c2fbcffafe"
     },
     {
       "path": "maidansky_markdown/metadata/glossary.json",
       "included": true,
       "reason": "project_file",
-      "bytes": 12790,
-      "sha256": "dbb49084c928f9e341df34b1256552021e94e948ac0b49efc8a1ccd9ab12b4ca"
+      "bytes": 12824,
+      "sha256": "47754e345116d1bf2c54a4063e51188ba08137e3afaa5a9379a2607cd658bff3"
     },
     {
       "path": "maidansky_markdown/metadata/maidansky_bulk_state.json",
@@ -4192,18 +4290,25 @@
       "sha256": "fd8cc93f5b7a20fe74ef665541dfa0316c36b59874ab3852adf1c38779501a50"
     },
     {
+      "path": "maidansky_markdown/metadata/psyjournals_manifest.json",
+      "included": true,
+      "reason": "project_file",
+      "bytes": 12524,
+      "sha256": "5f9b771f9dfd3c0514a82a9226ece576d214b2ffae12d795f326fbcaa95ee35a"
+    },
+    {
       "path": "maidansky_markdown/metadata/scholar_bibliography_gap_manifest.json",
       "included": true,
       "reason": "project_file",
-      "bytes": 171902,
-      "sha256": "ce2712b6be5b23a50c0ee06f2f19e55455f2cbcb36bad87b034e1efc457e1022"
+      "bytes": 174746,
+      "sha256": "4fd456e9b6472f5451b0a1470d7355664827135fc1c64981778836d94712d1d0"
     },
     {
       "path": "maidansky_markdown/metadata/source_scans_manifest.json",
       "included": true,
       "reason": "project_file",
-      "bytes": 75671,
-      "sha256": "8e42561a0fd17565439c9de5f35b22eb58c082f81d69b33c3909a88fec317365"
+      "bytes": 79497,
+      "sha256": "ac225e0ecb0ad8eee78fd716fd246b3bb817c7747b68eb847dc23905f01a3a0f"
     },
     {
       "path": "maidansky_markdown/scripts/academia_download.py",
@@ -4225,6 +4330,13 @@
       "reason": "project_file",
       "bytes": 23466,
       "sha256": "e3037822ac1246600a120c4c9b0e9d5b6a243419cd7597231ef4f0613b4095b7"
+    },
+    {
+      "path": "maidansky_markdown/scripts/psyjournals_convert.py",
+      "included": true,
+      "reason": "project_file",
+      "bytes": 19150,
+      "sha256": "c2b136c0b59086c055ac3caf4432ac509abe84b7a83d17858388507b428b9e8c"
     },
     {
       "path": "maidansky_markdown/source_scans/.DS_Store",
@@ -4619,6 +4731,20 @@
       "sha256": "fd346e60d219cc5adfb0c66cedbd09314059451291bf0d6d8566f9a02fb07f2e"
     },
     {
+      "path": "maidansky_markdown/source_scans/psyjournals/chp-2021-n2-maidansky-en.pdf",
+      "included": false,
+      "reason": "source_scan_not_approved",
+      "bytes": 157172,
+      "sha256": "2d7c136ef3d4f08fd0c31848d98df66670de5474dd50be4824b40c77dce03203"
+    },
+    {
+      "path": "maidansky_markdown/source_scans/psyjournals/chp-2021-n3-foreword-publication-en.pdf",
+      "included": false,
+      "reason": "source_scan_not_approved",
+      "bytes": 106683,
+      "sha256": "560c52d8a0a4cee07fa2f0fe4bb7b3f0b5ce830ba2e594705febeadf46b05399"
+    },
+    {
       "path": "maidansky_markdown/source_scans/psyjournals/e-v-ilyenkov-o-svobode-voli.pdf",
       "included": false,
       "reason": "source_scan_not_approved",
@@ -4636,8 +4762,8 @@
       "path": "metadata/collections.json",
       "included": true,
       "reason": "project_file",
-      "bytes": 6870,
-      "sha256": "4935f76dff41887fcb34d2813ae4e488a2fb896e40ac2870149ab7c3ceca62df"
+      "bytes": 7994,
+      "sha256": "8b217a681432d386219ae8aba47cab034d8c2c6c3b5d24fa7c6e0bc3aecad011"
     },
     {
       "path": "metadata/licensing_policy.json",
@@ -4724,6 +4850,20 @@
       "sha256": "6b9ef3588378b67b53fa8edc11d820dc8593a14f38c03a8df6a3162bba7c674e"
     },
     {
+      "path": "metadata/soviet_philosophy_source_discovery.json",
+      "included": true,
+      "reason": "project_file",
+      "bytes": 77598,
+      "sha256": "2768b0bf378bd2ae73eaeb8a8beece478ff713942c1f72c1716941fc805faa3c"
+    },
+    {
+      "path": "notes/ACADEMIA_403_INVESTIGATION.md",
+      "included": true,
+      "reason": "project_file",
+      "bytes": 4162,
+      "sha256": "336e54f1c42907f4d76242a338375a68e3701d4d6883160e29f0eeba9de791c0"
+    },
+    {
       "path": "notes/COLLECTION_ARCHITECTURE.md",
       "included": true,
       "reason": "project_file",
@@ -4741,15 +4881,15 @@
       "path": "notes/KEDROV_SOURCE_SURVEY.md",
       "included": true,
       "reason": "project_file",
-      "bytes": 9052,
-      "sha256": "9a4223c750c8c6a00347c4ca8ec8574c0fdab2fbaefe1b93c5b1a5a62ea20581"
+      "bytes": 15921,
+      "sha256": "445ff1ade18ee7473900dcbee4c233e359cf247733e84926fe43de105676743d"
     },
     {
       "path": "notes/KOPNIN_SOURCE_SURVEY.md",
       "included": true,
       "reason": "project_file",
-      "bytes": 4322,
-      "sha256": "5646f68c494fbf4072b884de5c2d115bea9c2c5758c794a013067bdf6cac04e5"
+      "bytes": 6378,
+      "sha256": "137140e4a462be35ca868a4f914be42466c043ae2339ced1415c8dc5198bdee4"
     },
     {
       "path": "notes/MAIDANSKY_SOURCE_ATTRIBUTION.md",
@@ -4762,8 +4902,8 @@
       "path": "notes/OIZERMAN_SOURCE_SURVEY.md",
       "included": true,
       "reason": "project_file",
-      "bytes": 7264,
-      "sha256": "c72d2ff5fff38a3ee0389a1e9b783f2b0d9286cabafd94a7131e30c936e6a78a"
+      "bytes": 9750,
+      "sha256": "4d8c573047033388c76f33a442c28b34eb4f5c4bd6fac3f155c7f3f1a25a047b"
     },
     {
       "path": "notes/OPERATIONS_CHECKLIST.md",
@@ -4813,6 +4953,20 @@
       "reason": "project_file",
       "bytes": 1332,
       "sha256": "d6c94a7ddc6ba934fb53017c72bf7ca39cce2f2acef1a9ffe9b1db6be5130ea6"
+    },
+    {
+      "path": "notes/VYGOTSKY_SOURCE_SURVEY.md",
+      "included": true,
+      "reason": "project_file",
+      "bytes": 27391,
+      "sha256": "3feb96eeed01ad8bea18d71ccc916c1b77c67bbfca3c54b592017bc26c9d2aaa"
+    },
+    {
+      "path": "notes/WEB_DESIGN_REQUIREMENTS.md",
+      "included": true,
+      "reason": "project_file",
+      "bytes": 14946,
+      "sha256": "9b9872a813b38d93cbfd6dd89696588ec0549f964a3c49745e5562f655670c31"
     },
     {
       "path": "notes/community/DISCUSSIONS.md",
@@ -4874,8 +5028,8 @@
       "path": "notes/terminology/maidansky.md",
       "included": true,
       "reason": "project_file",
-      "bytes": 4964,
-      "sha256": "8776078182e3cafb9a7c52fa83df048aa5e4d31cbd76c1987c6e0abd200a9c35"
+      "bytes": 4961,
+      "sha256": "a41066f7617fed448642d04174abedb6bc62c52a03cb62caa3ef4243c804477e"
     },
     {
       "path": "notes/terminology/spinoza.md",
@@ -4916,8 +5070,8 @@
       "path": "oizerman_markdown/metadata/works_master.json",
       "included": true,
       "reason": "project_file",
-      "bytes": 21569,
-      "sha256": "e96e75427d83fbc38c6281490fe272ea68a0515a85f9d5cbf3d6c9c098ab0d4c"
+      "bytes": 24770,
+      "sha256": "9d016e380f222534362971cb0bbce8b4e9e18c86348838956c2b0bc4d5c721e3"
     },
     {
       "path": "oizerman_markdown/scripts/klex_download.py",
@@ -7074,6 +7228,132 @@
       "reason": "project_file",
       "bytes": 338,
       "sha256": "1fc6ba83b9b54b8e3e08fc8d08e457e723b2bda8e88a90da3b6384901f83acc4"
+    },
+    {
+      "path": "vygotsky_markdown/README.md",
+      "included": true,
+      "reason": "project_file",
+      "bytes": 1065,
+      "sha256": "1ffc641d0488ece3a082e5ef4cb814e666a395c8e8a256bfbb5a047589fabb13"
+    },
+    {
+      "path": "vygotsky_markdown/bibliography/.gitkeep",
+      "included": true,
+      "reason": "project_file",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "vygotsky_markdown/metadata/.gitkeep",
+      "included": true,
+      "reason": "project_file",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "vygotsky_markdown/metadata/html_candidate_review_manifest.json",
+      "included": true,
+      "reason": "project_file",
+      "bytes": 6387,
+      "sha256": "a81654f63a116a8f16daa8a705229023f6b25730cbb26dd2d635afbaae3ec769"
+    },
+    {
+      "path": "vygotsky_markdown/metadata/library_lookup_followup_manifest.json",
+      "included": true,
+      "reason": "project_file",
+      "bytes": 30791,
+      "sha256": "f8d607e756f392110312232e4c44cb6901ed891de25393fa02ac9fb87a6b1683"
+    },
+    {
+      "path": "vygotsky_markdown/metadata/priority_lookup_manifest.json",
+      "included": true,
+      "reason": "project_file",
+      "bytes": 97708,
+      "sha256": "80d2275b7d0b5c240185223da6649222fb2ed58c23f58cd047f09ed764bbae6a"
+    },
+    {
+      "path": "vygotsky_markdown/metadata/psyjournals_manifest.json",
+      "included": true,
+      "reason": "project_file",
+      "bytes": 4412,
+      "sha256": "961253c7f1629f30a5da940eee79abc773b8c0e34b915794bc3a43b0db6a01ca"
+    },
+    {
+      "path": "vygotsky_markdown/metadata/source_scans_manifest.json",
+      "included": true,
+      "reason": "project_file",
+      "bytes": 1588,
+      "sha256": "2d0b843a6f25b4c79641d3c0b5cf3def0eb8c85bb6ebd70e4426a76783b5ecbb"
+    },
+    {
+      "path": "vygotsky_markdown/metadata/works_master.json",
+      "included": true,
+      "reason": "project_file",
+      "bytes": 250934,
+      "sha256": "2d2ff6310211e79fcfd67a46ed037160896b1c7a993aa1b5345b403ff208156a"
+    },
+    {
+      "path": "vygotsky_markdown/scripts/.gitkeep",
+      "included": true,
+      "reason": "project_file",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "vygotsky_markdown/scripts/psyjournals_convert.py",
+      "included": true,
+      "reason": "project_file",
+      "bytes": 17184,
+      "sha256": "6413a3207c907b3d59f98c7778017b4280bcaaf727a909f7fbaea3a03c4512e9"
+    },
+    {
+      "path": "vygotsky_markdown/source_scans/.gitkeep",
+      "included": false,
+      "reason": "source_scan_not_approved",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "vygotsky_markdown/source_scans/rusneb/diagnostika-razvitiya-i-pedologicheskaya-klinika-trudnogo-detstva-1936.pdf",
+      "included": false,
+      "reason": "source_scan_not_approved",
+      "bytes": 35072213,
+      "sha256": "59601f5e46f212d3ea1d2c97e4358cdc196bebf91d1a68981280c1fd081fdccd"
+    },
+    {
+      "path": "vygotsky_markdown/vygotsky_md/.gitkeep",
+      "included": false,
+      "reason": "corpus_asset_without_rights_review",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "vygotsky_markdown/vygotsky_md/kulturno-istoricheskaya-psikhologiya/kulturno-istoricheskaya-psikhologiya-lektsii-po-psihologii-razvitiya.md",
+      "included": false,
+      "reason": "rights_review_not_approved",
+      "bytes": 139801,
+      "sha256": "d4d06770204b5d1dd7d92b8f308f1e3a1807eda380e415980df8daeb67284cc9"
+    },
+    {
+      "path": "vygotsky_markdown/vygotsky_md/psikhologicheskaya-nauka-i-obrazovanie/psikhologicheskaya-nauka-i-obrazovanie-istoriya-razvitiya-vysshih-psihicheskih-funktsii.md",
+      "included": false,
+      "reason": "rights_review_not_approved",
+      "bytes": 23238,
+      "sha256": "29055c08d4086d593eae98646450146ce282c328efa2970279071df6dd1bbd8b"
+    },
+    {
+      "path": "vygotsky_markdown/vygotsky_md/psikhologicheskaya-nauka-i-obrazovanie/psikhologicheskaya-nauka-i-obrazovanie-problema-obucheniya-i-umstvennogo-razvitiya-v-shkolnom-vozraste.md",
+      "included": false,
+      "reason": "rights_review_not_approved",
+      "bytes": 81857,
+      "sha256": "96da6d7f303482056bcca9fd57892c743906db27ff8bf3e58cf722f0a4cc74b3"
+    },
+    {
+      "path": "vygotsky_markdown/vygotsky_md/psikhologicheskaya-nauka-i-obrazovanie/psikhologicheskaya-nauka-i-obrazovanie-razvitie-zhitei-skih-i-nauchnyh-ponyatii-v-shkolnom-vozraste.md",
+      "included": false,
+      "reason": "rights_review_not_approved",
+      "bytes": 104972,
+      "sha256": "ed2abaca5b7a1fb1a70c9072bd704b25d6a2564d60df9ec033cb864803f66185"
     }
   ]
 }

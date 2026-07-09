@@ -1,0 +1,67 @@
+{
+  "source": "https://psyjournals.ru/authors/1035",
+  "generated_at": "2026-07-03T05:08:52+00:00",
+  "policy": "Converted only from genuine PsyJournals HTML full-text sections; no PDF text layer or OCR was used.",
+  "items": [
+    {
+      "work_id": "lektsii-po-psikhologii-razvitiya-1928",
+      "title": "Лекции по психологии развития",
+      "authors": "Л.С. Выготский",
+      "url": "https://psyjournals.ru/journals/chp/archive/2021_n2/Vygotsky",
+      "doi": "https://doi.org/10.17759/chp.2021170201",
+      "published_in": "Выготский, Л.С. (2021). Лекции по психологии развития. Культурно-историческая психология, 17(2), 5–22. URL: https://psyjournals.ru/journals/chp/archive/2021_n2/Vygotsky",
+      "markdown_path": "vygotsky_md/kulturno-istoricheskaya-psikhologiya/kulturno-istoricheskaya-psikhologiya-lektsii-po-psihologii-razvitiya.md",
+      "status": "converted",
+      "text_role": "text_witness",
+      "text_status": "html_conversion_unverified",
+      "source_license": "CC-BY-NC-4.0",
+      "core_corpus_eligible": "false",
+      "llm_wiki_eligible": "true"
+    },
+    {
+      "work_id": "istoriya-razvitiya-vysshikh-psikhicheskikh-funktsii-1931",
+      "title": "История развития высших психических функций",
+      "authors": "Л.С. Выготский",
+      "url": "https://psyjournals.ru/journals/pse/archive/1996_n2/Vygotsky",
+      "doi": "",
+      "published_in": "Выготский, Л.С. (1996). История развития высших психических функций. Психологическая наука и образование, 1(2), 5–8. URL: https://psyjournals.ru/journals/pse/archive/1996_n2/Vygotsky",
+      "markdown_path": "vygotsky_md/psikhologicheskaya-nauka-i-obrazovanie/psikhologicheskaya-nauka-i-obrazovanie-istoriya-razvitiya-vysshih-psihicheskih-funktsii.md",
+      "status": "converted",
+      "text_role": "text_witness",
+      "text_status": "html_conversion_unverified",
+      "source_license": "CC-BY-NC-4.0",
+      "core_corpus_eligible": "false",
+      "llm_wiki_eligible": "true"
+    },
+    {
+      "work_id": "razvitie-zhiteiskikh-i-nauchnykh-ponyatii-v-shkolnom-vozraste-1933",
+      "title": "Развитие житейских и научных понятий в школьном возрасте",
+      "authors": "Л.С. Выготский",
+      "url": "https://psyjournals.ru/journals/pse/archive/1996_n1/Vygotsky",
+      "doi": "",
+      "published_in": "Выготский, Л.С. (1996). Развитие житейских и научных понятий в школьном возрасте. Психологическая наука и образование, 1(1), 5–19. URL: https://psyjournals.ru/journals/pse/archive/1996_n1/Vygotsky",
+      "markdown_path": "vygotsky_md/psikhologicheskaya-nauka-i-obrazovanie/psikhologicheskaya-nauka-i-obrazovanie-razvitie-zhitei-skih-i-nauchnyh-ponyatii-v-shkolnom-vozraste.md",
+      "status": "converted",
+      "text_role": "text_witness",
+      "text_status": "html_conversion_unverified",
+      "source_license": "CC-BY-NC-4.0",
+      "core_corpus_eligible": "false",
+      "llm_wiki_eligible": "true"
+    },
+    {
+      "work_id": "problema-obucheniya-i-umstvennogo-razvitiya-v-shkolnom-vozraste-1934",
+      "title": "Проблема обучения и умственного развития в школьном возрасте",
+      "authors": "Л.С. Выготский",
+      "url": "https://psyjournals.ru/journals/pse/archive/1996_n4/Vygotsky",
+      "doi": "",
+      "published_in": "Выготский, Л.С. (1996). Проблема обучения и умственного развития в школьном возрасте. Психологическая наука и образование, 1(4), 5–18. URL: https://psyjournals.ru/journals/pse/archive/1996_n4/Vygotsky",
+      "markdown_path": "vygotsky_md/psikhologicheskaya-nauka-i-obrazovanie/psikhologicheskaya-nauka-i-obrazovanie-problema-obucheniya-i-umstvennogo-razvitiya-v-shkolnom-vozraste.md",
+      "status": "converted",
+      "text_role": "text_witness",
+      "text_status": "html_conversion_unverified",
+      "source_license": "CC-BY-NC-4.0",
+      "core_corpus_eligible": "false",
+      "llm_wiki_eligible": "true"
+    }
+  ]
+}

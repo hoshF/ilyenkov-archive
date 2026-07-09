@@ -175,8 +175,8 @@
       "category": "work",
       "canonical": "Диалектика идеального",
       "forms": ["Dialectics of the Ideal"],
-      "zh_preferred": "《理想的东西的辩证法》",
-      "zh_alternatives": ["《理想性辩证法》"],
+      "zh_preferred": "《观念东西的辩证法》",
+      "zh_alternatives": ["《理想的东西的辩证法》", "《理想性辩证法》"],
       "status": "needs_review",
       "notes": "伊里因科夫核心文本，中文题名需与 Ilyenkov 术语表统一。",
       "evidence": [{"corpus_path": "maidansky_markdown/maidansky_md/", "note": "关键作品名。"}]
@@ -230,8 +230,8 @@
       "category": "concept",
       "canonical": "идеальное",
       "forms": ["ideal", "идеального", "idealnoe"],
-      "zh_preferred": "理想的东西",
-      "zh_alternatives": ["理想性", "观念的东西"],
+      "zh_preferred": "观念的东西",
+      "zh_alternatives": ["理想的东西", "理想性"],
       "status": "needs_review",
       "notes": "需与 Ilyenkov 术语表统一。",
       "evidence": [{"corpus_path": "maidansky_markdown/maidansky_md/", "note": "高频概念。"}]

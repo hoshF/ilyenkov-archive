@@ -1,0 +1,562 @@
+{
+  "schema_version": 1,
+  "generated_at": "2026-07-03",
+  "author": "Кедров Бонифатий Михайлович",
+  "author_variants": [
+    "Б. М. Кедров",
+    "Кедров Б. М.",
+    "Бонифатий Михайлович Кедров",
+    "Bonifaty Kedrov",
+    "B. M. Kedrov"
+  ],
+  "life": "1903—1985",
+  "policy": "Bibliographic master table. No new full text is admitted from these records without separate source and rights review. Source scans are registered separately in source_scans_manifest.json; PDF/DjVu text layers and OCR derivatives are not corpus sources.",
+  "works": [
+    {
+      "id": "besedy-o-dialektike-1983",
+      "title_ru": "Беседы о диалектике",
+      "title_zh": "辩证法谈话",
+      "years": ["1983", "2007"],
+      "place_publisher": "Москва: КомКнига, 2007, 3-е стереотипное изд.",
+      "responsibility": "monograph",
+      "known_sources": [
+        {
+          "site": "royallib.com",
+          "url": "https://royallib.com/book/kedrov_bonifatiy/besedi_o_dialektike.html",
+          "label": "HTML source converted to Markdown",
+          "formats": ["html"],
+          "verified": true,
+          "source_role": "markdown_source"
+        },
+        {
+          "site": "publ.lib.ru",
+          "url": "https://publ.lib.ru/ARCHIVES/K/KEDROV_Bonifatiy_Mihaylovich/_Kedrov_B.M..html",
+          "label": "2007 scan catalogue lead",
+          "formats": ["djv_zip", "pdf_zip"],
+          "verified": true,
+          "source_role": "edition_evidence_lead",
+          "status": "listed_not_downloaded"
+        },
+        {
+          "site": "klex.ru",
+          "url": "https://www.klex.ru/g2c",
+          "label": "Klex work-page route from author page",
+          "formats": [],
+          "verified": false,
+          "source_role": "discovery_lead"
+        }
+      ],
+      "collection_status": "markdown_converted"
+    },
+    {
+      "id": "o-dialektike-prirody-engelsa-1973",
+      "title_ru": "О «Диалектике природы» Энгельса",
+      "title_zh": "论恩格斯《自然辩证法》",
+      "years": ["1973"],
+      "place_publisher": "Москва, 1973",
+      "responsibility": "monograph",
+      "known_sources": [
+        {
+          "site": "royallib.com",
+          "url": "https://royallib.com/book/kedrov_bonifatiy/o_dialektike_prirodi_engelsa.html",
+          "label": "HTML source converted to Markdown",
+          "formats": ["html"],
+          "verified": true,
+          "source_role": "markdown_source"
+        },
+        {
+          "site": "archive.org",
+          "url": "https://archive.org/details/o_dialektike_prirody_engelsa",
+          "label": "registered scan evidence",
+          "formats": ["pdf"],
+          "verified": true,
+          "source_role": "source_scan"
+        },
+        {
+          "site": "klex.ru",
+          "url": "https://www.klex.ru/1bjt",
+          "label": "Klex work-page route from author page",
+          "formats": [],
+          "verified": false,
+          "source_role": "discovery_lead"
+        }
+      ],
+      "collection_status": "markdown_converted_scan_preserved"
+    },
+    {
+      "id": "o-tvorchestve-v-nauke-i-tekhnike-1987",
+      "title_ru": "О творчестве в науке и технике",
+      "title_zh": "论科学与技术中的创造",
+      "years": ["1987"],
+      "place_publisher": "not_stated",
+      "responsibility": "monograph",
+      "known_sources": [
+        {
+          "site": "royallib.com",
+          "url": "https://royallib.com/book/kedrov_bonifatiy/o_tvorchestve_v_nauke_i_tehnike.html",
+          "label": "HTML source converted to Markdown",
+          "formats": ["html"],
+          "verified": true,
+          "source_role": "markdown_source"
+        },
+        {
+          "site": "phantastike.com",
+          "url": "https://www.phantastike.com/superlearning/o_tvorch_v_nauke/html/",
+          "label": "HTML backup listed in survey",
+          "formats": ["html"],
+          "verified": true,
+          "source_role": "backup_source"
+        },
+        {
+          "site": "klex.ru",
+          "url": "https://www.klex.ru/1wo",
+          "label": "Klex work-page route from author page",
+          "formats": [],
+          "verified": false,
+          "source_role": "discovery_lead"
+        }
+      ],
+      "collection_status": "markdown_converted"
+    },
+    {
+      "id": "lenin-i-nauchnye-revolyutsii-1980",
+      "title_ru": "Ленин и научные революции",
+      "title_zh": "列宁与科学革命",
+      "years": ["1980"],
+      "place_publisher": "Москва: Наука",
+      "responsibility": "monograph",
+      "known_sources": [
+        {
+          "site": "archive.org",
+          "url": "https://archive.org/details/B-001-038-009-ALL",
+          "label": "registered scan; OCR EPUB rejected",
+          "formats": ["pdf"],
+          "verified": true,
+          "source_role": "source_scan"
+        }
+      ],
+      "collection_status": "scan_downloaded_ocr_epub_rejected"
+    },
+    {
+      "id": "friedrich-engels-razvitie-vzglyadov-1970",
+      "title_ru": "Фридрих Энгельс. Развитие его взглядов на диалектику естествознания",
+      "title_zh": "弗里德里希·恩格斯：其自然科学辩证法观点的发展",
+      "years": ["1970"],
+      "place_publisher": "not_stated",
+      "responsibility": "monograph",
+      "known_sources": [
+        {
+          "site": "archive.org",
+          "url": "https://archive.org/details/ao-114-friedrich-engels-developing-his-views-on-the-dialectic-of-natural-science-kedrov-1970",
+          "label": "registered scan",
+          "formats": ["pdf"],
+          "verified": true,
+          "source_role": "source_scan"
+        },
+        {
+          "site": "klex.ru",
+          "url": "https://www.klex.ru/1z9f",
+          "label": "Klex work-page route from author page",
+          "formats": [],
+          "verified": false,
+          "source_role": "discovery_lead"
+        }
+      ],
+      "collection_status": "scan_downloaded"
+    },
+    {
+      "id": "edinstvo-dialektiki-logiki-i-teorii-poznaniya-2006",
+      "title_ru": "Единство диалектики, логики и теории познания",
+      "title_zh": "辩证法、逻辑和认识论的统一",
+      "years": ["2006"],
+      "place_publisher": "Москва: КомКнига, 2006, 2-е стереотипное изд.",
+      "responsibility": "monograph",
+      "scan_candidate_priority": "registered_scan",
+      "scan_candidate_reason": "Public Library PDF scan is already downloaded and registered; no new acquisition needed.",
+      "known_sources": [
+        {
+          "site": "publ.lib.ru",
+          "url": "https://publ.lib.ru/ARCHIVES/K/KEDROV_Bonifatiy_Mihaylovich/_Kedrov_B.M..html",
+          "label": "registered Public Library scan",
+          "formats": ["djv_zip", "pdf_zip"],
+          "verified": true,
+          "source_role": "source_scan",
+          "status": "pdf_downloaded_registered"
+        },
+        {
+          "site": "klex.ru",
+          "url": "https://www.klex.ru/g2d",
+          "label": "Klex work page checked",
+          "formats": ["zip", "djvu", "online_djvu_view"],
+          "verified": true,
+          "source_role": "discovery_lead",
+          "linked_sources": [
+            {"url": "https://www.phantastike.com/philosophy/dialectics_logic/zip/", "format": "zip", "display_size": "15,2 Mb", "status": "listed_not_downloaded"},
+            {"url": "https://www.phantastike.com/philosophy/dialectics_logic/djvu/", "format": "djvu", "status": "listed_not_downloaded"},
+            {"url": "https://www.phantastike.com/philosophy/dialectics_logic/djvu/view/", "format": "online_djvu_view", "status": "listed_not_opened"}
+          ]
+        }
+      ],
+      "collection_status": "scan_downloaded"
+    },
+    {
+      "id": "o-metode-izlozheniya-dialektiki-tri-velikikh-zamysla-1983",
+      "title_ru": "О методе изложения диалектики. Три великих замысла",
+      "title_zh": "论辩证法的叙述方法：三个伟大构想",
+      "years": ["1983"],
+      "place_publisher": "Москва: Наука",
+      "responsibility": "monograph",
+      "known_sources": [
+        {
+          "site": "klex.ru",
+          "url": "https://www.klex.ru/1of5",
+          "label": "registered scan source route",
+          "formats": ["pdf"],
+          "verified": true,
+          "source_role": "source_scan"
+        }
+      ],
+      "collection_status": "scan_downloaded"
+    },
+    {
+      "id": "dialektika-i-logika-zakony-myshleniya-1962",
+      "title_ru": "Диалектика и логика. Законы мышления",
+      "title_zh": "辩证法与逻辑：思维规律",
+      "years": ["1962"],
+      "place_publisher": "Москва: Издательство АН СССР",
+      "responsibility": "edited_collection",
+      "known_sources": [
+        {
+          "site": "klex.ru",
+          "url": "https://www.klex.ru/g2i",
+          "label": "registered scan source route",
+          "formats": ["djvu"],
+          "verified": true,
+          "source_role": "source_scan"
+        }
+      ],
+      "collection_status": "scan_downloaded"
+    },
+    {
+      "id": "dialektika-i-logika-formy-myshleniya-1962",
+      "title_ru": "Диалектика и логика. Формы мышления",
+      "title_zh": "辩证法与逻辑：思维形式",
+      "years": ["1962"],
+      "place_publisher": "Москва: Издательство АН СССР",
+      "responsibility": "edited_collection",
+      "known_sources": [
+        {
+          "site": "klex.ru",
+          "url": "https://www.klex.ru/g2j",
+          "label": "registered scan source route",
+          "formats": ["pdf"],
+          "verified": true,
+          "source_role": "source_scan"
+        }
+      ],
+      "collection_status": "scan_downloaded"
+    },
+    {
+      "id": "klassifikaciya-nauk-kniga-1-1961",
+      "title_ru": "Классификация наук. Книга 1. Энгельс и его предшественники",
+      "title_zh": "科学分类 第一卷：恩格斯及其先驱",
+      "years": ["1961"],
+      "place_publisher": "Москва: Издательство ВПШ и АОН при ЦК КПСС",
+      "responsibility": "monograph",
+      "scan_candidate_priority": "priority_1",
+      "scan_candidate_reason": "Core three-volume classification work; Public Library and Klex/Phantastike independently expose matching DjVu leads.",
+      "scan_acquisition_status": "not_requested",
+      "known_sources": [
+        {
+          "site": "publ.lib.ru",
+          "url": "https://publ.lib.ru/ARCHIVES/K/KEDROV_Bonifatiy_Mihaylovich/_Kedrov_B.M..html",
+          "label": "Public Library catalogue lead",
+          "formats": ["djv_zip"],
+          "verified": true,
+          "source_role": "discovery_lead",
+          "status": "listed_not_downloaded"
+        },
+        {
+          "site": "klex.ru",
+          "url": "https://www.klex.ru/g2e",
+          "label": "Klex work page checked",
+          "formats": ["zip", "djvu", "online_djvu_view"],
+          "verified": true,
+          "source_role": "discovery_lead",
+          "linked_sources": [
+            {"url": "https://www.phantastike.com/philosophy/classification_1/zip/", "format": "zip", "display_size": "9 Mb", "status": "listed_not_downloaded"},
+            {"url": "https://www.phantastike.com/philosophy/classification_1/djvu/", "format": "djvu", "status": "listed_not_downloaded"},
+            {"url": "https://www.phantastike.com/philosophy/classification_1/djvu/view/", "format": "online_djvu_view", "status": "listed_not_opened"}
+          ]
+        }
+      ],
+      "collection_status": "candidate_not_downloaded"
+    },
+    {
+      "id": "klassifikaciya-nauk-kniga-2-1965",
+      "title_ru": "Классификация наук. Книга 2. От Ленина до наших дней",
+      "title_zh": "科学分类 第二卷：从列宁到当代",
+      "years": ["1965"],
+      "place_publisher": "Москва: Мысль",
+      "responsibility": "monograph",
+      "scan_candidate_priority": "priority_1",
+      "scan_candidate_reason": "Core three-volume classification work; Public Library and Klex/Phantastike independently expose matching DjVu leads.",
+      "scan_acquisition_status": "not_requested",
+      "known_sources": [
+        {
+          "site": "publ.lib.ru",
+          "url": "https://publ.lib.ru/ARCHIVES/K/KEDROV_Bonifatiy_Mihaylovich/_Kedrov_B.M..html",
+          "label": "Public Library catalogue lead",
+          "formats": ["djv_zip"],
+          "verified": true,
+          "source_role": "discovery_lead",
+          "status": "listed_not_downloaded"
+        },
+        {
+          "site": "klex.ru",
+          "url": "https://www.klex.ru/g2f",
+          "label": "Klex work page checked",
+          "formats": ["zip", "djvu", "online_djvu_view"],
+          "verified": true,
+          "source_role": "discovery_lead",
+          "linked_sources": [
+            {"url": "https://www.phantastike.com/philosophy/classification_2/zip/", "format": "zip", "display_size": "9,6 Mb", "status": "listed_not_downloaded"},
+            {"url": "https://www.phantastike.com/philosophy/classification_2/djvu/", "format": "djvu", "status": "listed_not_downloaded"},
+            {"url": "https://www.phantastike.com/philosophy/classification_2/djvu/view/", "format": "online_djvu_view", "status": "listed_not_opened"}
+          ]
+        }
+      ],
+      "collection_status": "candidate_not_downloaded"
+    },
+    {
+      "id": "klassifikaciya-nauk-kniga-3-1985",
+      "title_ru": "Классификация наук. Книга 3. Прогноз К. Маркса о науке будущего",
+      "title_zh": "科学分类 第三卷：马克思关于未来科学的预见",
+      "years": ["1985"],
+      "place_publisher": "Москва: Мысль",
+      "responsibility": "monograph",
+      "scan_candidate_priority": "priority_1",
+      "scan_candidate_reason": "Core three-volume classification work; Public Library and Klex/Phantastike independently expose matching DjVu leads.",
+      "scan_acquisition_status": "not_requested",
+      "known_sources": [
+        {
+          "site": "publ.lib.ru",
+          "url": "https://publ.lib.ru/ARCHIVES/K/KEDROV_Bonifatiy_Mihaylovich/_Kedrov_B.M..html",
+          "label": "Public Library catalogue lead",
+          "formats": ["djv_zip"],
+          "verified": true,
+          "source_role": "discovery_lead",
+          "status": "listed_not_downloaded"
+        },
+        {
+          "site": "klex.ru",
+          "url": "https://www.klex.ru/g2g",
+          "label": "Klex work page checked",
+          "formats": ["zip", "djvu", "online_djvu_view"],
+          "verified": true,
+          "source_role": "discovery_lead",
+          "linked_sources": [
+            {"url": "https://www.phantastike.com/philosophy/classification_3/zip/", "format": "zip", "display_size": "8,1 Mb", "status": "listed_not_downloaded"},
+            {"url": "https://www.phantastike.com/philosophy/classification_3/djvu/", "format": "djvu", "status": "listed_not_downloaded"},
+            {"url": "https://www.phantastike.com/philosophy/classification_3/djvu/view/", "format": "online_djvu_view", "status": "listed_not_opened"}
+          ]
+        }
+      ],
+      "collection_status": "candidate_not_downloaded"
+    },
+    {
+      "id": "o-povtoryaemosti-v-protsesse-razvitiya-2006",
+      "title_ru": "О повторяемости в процессе развития",
+      "title_zh": "论发展过程中的重复性",
+      "years": ["2006"],
+      "place_publisher": "Москва: КомКнига, 2006, 2-е стереотипное изд.",
+      "responsibility": "monograph",
+      "scan_candidate_priority": "priority_1",
+      "scan_candidate_reason": "High-value dialectics work; Public Library and Klex/Phantastike expose matching PDF or archive leads.",
+      "scan_acquisition_status": "not_requested",
+      "known_sources": [
+        {
+          "site": "publ.lib.ru",
+          "url": "https://publ.lib.ru/ARCHIVES/K/KEDROV_Bonifatiy_Mihaylovich/_Kedrov_B.M..html",
+          "label": "Public Library catalogue lead",
+          "formats": ["djv_zip", "pdf_zip"],
+          "verified": true,
+          "source_role": "discovery_lead",
+          "status": "listed_not_downloaded"
+        },
+        {
+          "site": "klex.ru",
+          "url": "https://www.klex.ru/d8o",
+          "label": "Klex work page checked",
+          "formats": ["zip", "pdf"],
+          "verified": true,
+          "source_role": "discovery_lead",
+          "linked_sources": [
+            {"url": "https://www.phantastike.com/philosophy/repeatability/zip/", "format": "zip", "display_size": "11,2 Mb", "status": "listed_not_downloaded"},
+            {"url": "https://www.phantastike.com/philosophy/repeatability/pdf/", "format": "pdf", "status": "listed_not_downloaded"}
+          ]
+        }
+      ],
+      "collection_status": "candidate_not_downloaded"
+    },
+    {
+      "id": "tri-aspekta-atomistiki-tom-1",
+      "title_ru": "Три аспекта атомистики. Том 1",
+      "part_title_ru": "Парадокс Гиббса. Логический аспект",
+      "title_zh": "原子论的三个方面 第一卷",
+      "years": ["1969"],
+      "place_publisher": "Москва: Наука, 1969",
+      "responsibility": "monograph",
+      "edition_notes": "Secondary bibliography treats the three volumes as parts of one 1969 work: part 1 is `Парадокс Гиббса. Логический аспект`; library-catalog confirmation still pending.",
+      "library_catalog_status": "needs_library_catalog_confirmation",
+      "scan_candidate_priority": "priority_2_library_catalog_first",
+      "scan_candidate_reason": "High-value atomistics work with Klex/Phantastike PDF lead, but the checked bibliographic support is secondary; confirm a library catalogue record before scan acquisition.",
+      "scan_acquisition_status": "not_requested",
+      "known_sources": [
+        {
+          "site": "klex.ru",
+          "url": "https://www.klex.ru/21og",
+          "label": "Klex work page checked",
+          "formats": ["zip", "pdf"],
+          "verified": true,
+          "source_role": "discovery_lead",
+          "linked_sources": [
+            {"url": "https://www.phantastike.com/philosophy/tri_aspekta_atomistiki_1/zip/", "format": "zip", "display_size": "60,9 Mb", "status": "listed_not_downloaded"},
+            {"url": "https://www.phantastike.com/philosophy/tri_aspekta_atomistiki_1/pdf/", "format": "pdf", "status": "listed_not_downloaded"}
+          ]
+        },
+        {
+          "site": "shchedrovitskiy.com",
+          "url": "https://shchedrovitskiy.com/bonifatiy-mikhajlovich-kedrov/",
+          "label": "Kedrov bibliography lists `Три аспекта атомистики` (1969)",
+          "formats": ["html"],
+          "verified": true,
+          "source_role": "secondary_bibliography"
+        },
+        {
+          "site": "ru.wikipedia.org",
+          "url": "https://ru.wikipedia.org/wiki/Кедров,_Бонифатий_Михайлович",
+          "label": "Secondary works list gives 1969 parts and subtitles",
+          "formats": ["html"],
+          "verified": true,
+          "source_role": "secondary_bibliography"
+        },
+        {
+          "site": "ru.wikipedia.org",
+          "url": "https://ru.wikipedia.org/wiki/Философия_химии",
+          "label": "Bibliography entry gives `М.: Наука 1969`",
+          "formats": ["html"],
+          "verified": true,
+          "source_role": "secondary_bibliography"
+        }
+      ],
+      "collection_status": "candidate_not_downloaded"
+    },
+    {
+      "id": "tri-aspekta-atomistiki-tom-2",
+      "title_ru": "Три аспекта атомистики. Том 2",
+      "part_title_ru": "Учение Дальтона. Исторический аспект",
+      "title_zh": "原子论的三个方面 第二卷",
+      "years": ["1969"],
+      "place_publisher": "Москва: Наука, 1969",
+      "responsibility": "monograph",
+      "edition_notes": "Secondary bibliography treats the three volumes as parts of one 1969 work: part 2 is `Учение Дальтона. Исторический аспект`; library-catalog confirmation still pending.",
+      "library_catalog_status": "needs_library_catalog_confirmation",
+      "scan_candidate_priority": "priority_2_library_catalog_first",
+      "scan_candidate_reason": "High-value atomistics work with Klex/Phantastike PDF lead, but the checked bibliographic support is secondary; confirm a library catalogue record before scan acquisition.",
+      "scan_acquisition_status": "not_requested",
+      "known_sources": [
+        {
+          "site": "klex.ru",
+          "url": "https://www.klex.ru/21oh",
+          "label": "Klex work page checked",
+          "formats": ["zip", "pdf"],
+          "verified": true,
+          "source_role": "discovery_lead",
+          "linked_sources": [
+            {"url": "https://www.phantastike.com/philosophy/tri_aspekta_atomistiki_2/zip/", "format": "zip", "display_size": "57,6 Mb", "status": "listed_not_downloaded"},
+            {"url": "https://www.phantastike.com/philosophy/tri_aspekta_atomistiki_2/pdf/", "format": "pdf", "status": "listed_not_downloaded"}
+          ]
+        },
+        {
+          "site": "shchedrovitskiy.com",
+          "url": "https://shchedrovitskiy.com/bonifatiy-mikhajlovich-kedrov/",
+          "label": "Kedrov bibliography lists `Три аспекта атомистики` (1969)",
+          "formats": ["html"],
+          "verified": true,
+          "source_role": "secondary_bibliography"
+        },
+        {
+          "site": "ru.wikipedia.org",
+          "url": "https://ru.wikipedia.org/wiki/Кедров,_Бонифатий_Михайлович",
+          "label": "Secondary works list gives 1969 parts and subtitles",
+          "formats": ["html"],
+          "verified": true,
+          "source_role": "secondary_bibliography"
+        },
+        {
+          "site": "ru.wikipedia.org",
+          "url": "https://ru.wikipedia.org/wiki/Философия_химии",
+          "label": "Bibliography entry gives `М.: Наука 1969`",
+          "formats": ["html"],
+          "verified": true,
+          "source_role": "secondary_bibliography"
+        }
+      ],
+      "collection_status": "candidate_not_downloaded"
+    },
+    {
+      "id": "tri-aspekta-atomistiki-tom-3",
+      "title_ru": "Три аспекта атомистики. Том 3",
+      "part_title_ru": "Закон Менделеева. Логико-исторический аспект",
+      "title_zh": "原子论的三个方面 第三卷",
+      "years": ["1969"],
+      "place_publisher": "Москва: Наука, 1969",
+      "responsibility": "monograph",
+      "edition_notes": "Secondary bibliography treats the three volumes as parts of one 1969 work: part 3 is `Закон Менделеева. Логико-исторический аспект`; library-catalog confirmation still pending.",
+      "library_catalog_status": "needs_library_catalog_confirmation",
+      "scan_candidate_priority": "priority_2_library_catalog_first",
+      "scan_candidate_reason": "High-value atomistics work with Klex/Phantastike PDF lead, but the checked bibliographic support is secondary; confirm a library catalogue record before scan acquisition.",
+      "scan_acquisition_status": "not_requested",
+      "known_sources": [
+        {
+          "site": "klex.ru",
+          "url": "https://www.klex.ru/21oi",
+          "label": "Klex work page checked",
+          "formats": ["zip", "pdf"],
+          "verified": true,
+          "source_role": "discovery_lead",
+          "linked_sources": [
+            {"url": "https://www.phantastike.com/philosophy/tri_aspekta_atomistiki_3/zip/", "format": "zip", "display_size": "54,8 Mb", "status": "listed_not_downloaded"},
+            {"url": "https://www.phantastike.com/philosophy/tri_aspekta_atomistiki_3/pdf/", "format": "pdf", "status": "listed_not_downloaded"}
+          ]
+        },
+        {
+          "site": "shchedrovitskiy.com",
+          "url": "https://shchedrovitskiy.com/bonifatiy-mikhajlovich-kedrov/",
+          "label": "Kedrov bibliography lists `Три аспекта атомистики` (1969)",
+          "formats": ["html"],
+          "verified": true,
+          "source_role": "secondary_bibliography"
+        },
+        {
+          "site": "ru.wikipedia.org",
+          "url": "https://ru.wikipedia.org/wiki/Кедров,_Бонифатий_Михайлович",
+          "label": "Secondary works list gives 1969 parts and subtitles",
+          "formats": ["html"],
+          "verified": true,
+          "source_role": "secondary_bibliography"
+        },
+        {
+          "site": "ru.wikipedia.org",
+          "url": "https://ru.wikipedia.org/wiki/Философия_химии",
+          "label": "Bibliography entry gives `М.: Наука 1969`",
+          "formats": ["html"],
+          "verified": true,
+          "source_role": "secondary_bibliography"
+        }
+      ],
+      "collection_status": "candidate_not_downloaded"
+    }
+  ]
+}

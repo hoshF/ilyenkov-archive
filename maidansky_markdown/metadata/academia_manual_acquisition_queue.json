@@ -1,0 +1,146 @@
+{
+  "schema_version": 1,
+  "generated_at": "2026-07-03",
+  "policy": "Manual acquisition queue only. The agent records leads, metadata, relation tags, priority, and registration status. The owner manually collects files in a normal browser session when needed. Do not automate attachment downloads, read PDF text layers, run OCR, or convert files to Markdown from this queue.",
+  "coverage_summary": {
+    "academia_manifest_items": 57,
+    "manifest_items_with_registered_source_scan_or_partial_file": 56,
+    "manual_acquisition_items": 3,
+    "basis": "Compared maidansky_markdown/metadata/academia_manifest.json work IDs and URLs against registered source_scans_manifest entries; owner reports two book-type Academia files are cover-only or otherwise not full body text, and a local audit found one additional 9-page file against a 320-page book citation."
+  },
+  "items": [
+    {
+      "work_id": "41913797",
+      "title": "Бенедикт Спиноза. Могущество разума",
+      "manifest_title": "Бенедикт Спиноза Могущество разума",
+      "work_url": "https://www.academia.edu/41913797/%D0%91%D0%B5%D0%BD%D0%B5%D0%B4%D0%B8%D0%BA%D1%82_%D0%A1%D0%BF%D0%B8%D0%BD%D0%BE%D0%B7%D0%B0_%D0%9C%D0%BE%D0%B3%D1%83%D1%89%D0%B5%D1%81%D1%82%D0%B2%D0%BE_%D1%80%D0%B0%D0%B7%D1%83%D0%BC%D0%B0",
+      "download_url": "https://www.academia.edu/attachments/62039975/download_file",
+      "attachment_id": "62039975",
+      "existing_local_record": {
+        "local_path": "maidansky_markdown/source_scans/academia/benedikt-spinoza-moguschestvo-razuma.pdf",
+        "registered_pages": 9,
+        "registered_bytes": 1054948,
+        "registered_sha256": "b0d716e43a5c09dfc204ad507f33dccada6a71f8813e166ebfdaede64be67879",
+        "download_method": "manual_browser_download"
+      },
+      "bibliographic_identification": {
+        "title": "Бенедикт Спиноза. Могущество разума",
+        "editor_or_compiler": "А. Д. Майданский",
+        "publisher": "АСТ",
+        "publication_year": "2019",
+        "page_count_notes": "Academia manifest citation records 320 pages; registered local file has 9 pages, so it is not a full-book scan.",
+        "citation": "Сост., предисл., коммент. А. Майданского. М.: Издательство АСТ, 2019. – 320 с., ISBN 978-5-17-112346-8"
+      },
+      "relation_tags": [
+        "maidansky",
+        "spinoza",
+        "book_lead",
+        "manual_acquisition_needed"
+      ],
+      "priority": "priority_1_manual_acquisition",
+      "reason": "Current local Academia file is registered but has 9 pages against a 320-page bibliographic record; treat as partial/cover-like lead, not full text.",
+      "manual_acquisition_status": "registered_partial_or_cover_file_full_text_not_found",
+      "owner_supplied_local_path": "",
+      "suggested_staging_path": "maidansky_markdown/source_scans/academia/benedikt-spinoza-moguschestvo-razuma-full.*",
+      "registration_status": "registered_partial_file_full_scan_pending",
+      "rights_review_status": "unreviewed",
+      "core_corpus_eligible": "false",
+      "llm_wiki_eligible": "false",
+      "notes": "Keep the existing file as an unprocessed source_scan lead, but do not treat it as a full 320-page book source. If a complete scan is later supplied, register it separately with exact source URL, bytes, SHA-256, format, and rights fields. Do not read the file text layer."
+    },
+    {
+      "work_id": "95705255",
+      "title": "Выготский Л.С. Педология школьного возраста. Лекции по психологии развития",
+      "manifest_title": "Выготский Л С Педология школьного возраста Лекции по психологии развития",
+      "work_url": "https://www.academia.edu/95705255/%D0%92%D1%8B%D0%B3%D0%BE%D1%82%D1%81%D0%BA%D0%B8%D0%B9_%D0%9B_%D0%A1_%D0%9F%D0%B5%D0%B4%D0%BE%D0%BB%D0%BE%D0%B3%D0%B8%D1%8F_%D1%88%D0%BA%D0%BE%D0%BB%D1%8C%D0%BD%D0%BE%D0%B3%D0%BE_%D0%B2%D0%BE%D0%B7%D1%80%D0%B0%D1%81%D1%82%D0%B0_%D0%9B%D0%B5%D0%BA%D1%86%D0%B8%D0%B8_%D0%BF%D0%BE_%D0%BF%D1%81%D0%B8%D1%85%D0%BE%D0%BB%D0%BE%D0%B3%D0%B8%D0%B8_%D1%80%D0%B0%D0%B7%D0%B2%D0%B8%D1%82%D0%B8%D1%8F",
+      "download_url": "https://www.academia.edu/attachments/97814140/download_file",
+      "attachment_id": "97814140",
+      "existing_local_record": {
+        "local_path": "maidansky_markdown/source_scans/academia/vygotskii-l-s-pedologiya-shkolnogo-vozrasta-lektsii-po-psihologii-razvitiya.pdf",
+        "registered_pages": 37,
+        "registered_bytes": 1334736,
+        "registered_sha256": "e4b36299adabc999c8ba3702a02e9f6bb53baa3cabec61e3eb472ff1928c0e7f",
+        "download_method": "manual_browser_download"
+      },
+      "bibliographic_identification": {
+        "title": "Выготский Л.С. Педология школьного возраста. Лекции по психологии развития",
+        "publisher": "Канон+",
+        "publication_year": "2022",
+        "page_count_notes": "Academia manifest citation records 320 pages; registered local file has 37 pages, so it is not a full-book scan.",
+        "citation": "М.: Канон+, 2022. – 320 с."
+      },
+      "relation_tags": [
+        "vygotsky",
+        "maidansky_academia_book_lead",
+        "cultural_historical_psychology",
+        "developmental_psychology"
+      ],
+      "priority": "priority_1_manual_acquisition",
+      "reason": "Current local Academia file is registered but appears incomplete against the 320-page bibliographic record; owner reports the Academia book-type file is not body text/full content.",
+      "manual_acquisition_status": "registered_partial_or_cover_file_full_text_not_found",
+      "owner_supplied_local_path": "",
+      "suggested_staging_path": "maidansky_markdown/source_scans/academia/vygotskii-l-s-pedologiya-shkolnogo-vozrasta-lektsii-po-psihologii-razvitiya-full.*",
+      "registration_status": "registered_partial_file_full_scan_pending",
+      "rights_review_status": "unreviewed",
+      "core_corpus_eligible": "false",
+      "llm_wiki_eligible": "false",
+      "notes": "Keep the existing file as an unprocessed source_scan lead, but do not treat it as a full 320-page book source. If a complete scan is later supplied, register it separately with exact source URL, bytes, SHA-256, format, and rights fields. Do not read the file text layer."
+    },
+    {
+      "work_id": "95704694",
+      "title": "Культурно-историческая психология: Истоки и новая реальность",
+      "manifest_title": "Культурно историческая психология Истоки и новая реальность",
+      "work_url": "https://www.academia.edu/95704694/%D0%9A%D1%83%D0%BB%D1%8C%D1%82%D1%83%D1%80%D0%BD%D0%BE_%D0%B8%D1%81%D1%82%D0%BE%D1%80%D0%B8%D1%87%D0%B5%D1%81%D0%BA%D0%B0%D1%8F_%D0%BF%D1%81%D0%B8%D1%85%D0%BE%D0%BB%D0%BE%D0%B3%D0%B8%D1%8F_%D0%98%D1%81%D1%82%D0%BE%D0%BA%D0%B8_%D0%B8_%D0%BD%D0%BE%D0%B2%D0%B0%D1%8F_%D1%80%D0%B5%D0%B0%D0%BB%D1%8C%D0%BD%D0%BE%D1%81%D1%82%D1%8C",
+      "download_url": "https://www.academia.edu/attachments/97813738/download_file",
+      "attachment_id": "97813738",
+      "visible_metadata": {
+        "browser_checked_at": "2026-07-03",
+        "page_title": "(PDF) Культурно-историческая психология: Истоки и новая реальность",
+        "publication_year": "2022",
+        "visible_pages": "1 page",
+        "visible_files": "2 files"
+      },
+      "bibliographic_identification": {
+        "title": "Культурно-историческая психология: истоки и новая реальность",
+        "editor": "А. Д. Майданский",
+        "publisher": "Канон+ / РООИ «Реабилитация»",
+        "publication_year_notes": "PsyJournals and publisher/bookshop listings give 2022; Google Books and some reseller/library records give 2023.",
+        "page_count_notes": "Google Books lists 397 pages; publisher/bookshop records list 400 pages.",
+        "isbn": "978-5-88373-744-1"
+      },
+      "bibliographic_sources": [
+        {
+          "url": "https://books.google.com/books/about/%D0%9A%D1%83%D0%BB%D1%8C%D1%82%D1%83%D1%80%D0%BD%D0%BE_%D0%B8%D1%81%D1%82%D0%BE%D1%80%D0%B8%D1%87%D0%B5%D1%81%D0%BA.html?id=Ty0u0AEACAAJ",
+          "role": "bibliographic_page",
+          "evidence": "Editor, publisher, ISBN, and 397-page book record."
+        },
+        {
+          "url": "https://psyjournals.ru/authors/8305",
+          "role": "author_bibliography",
+          "evidence": "PsyJournals author bibliography lists the book as edited by A. D. Maidansky, Moscow: Kanon+, 2022."
+        },
+        {
+          "url": "https://www.gnosisbooks.ru/books/psikhologiya/kulturno_istoricheskaya_psikhologiya_istoki_i_novaya_realnost/",
+          "role": "publisher_or_bookseller_page",
+          "evidence": "Book listing gives year 2022, 400 pages, ISBN 978-5-88373-744-1, and publisher Kanon+."
+        }
+      ],
+      "relation_tags": [
+        "maidansky",
+        "vygotsky_network",
+        "cultural_historical_psychology",
+        "soviet_psychology"
+      ],
+      "priority": "priority_1_manual_acquisition",
+      "reason": "Only Academia manifest item not matched to a registered local source scan. Browser work page is accessible, while CLI/curl access is blocked by Cloudflare challenge. Owner reports the manually downloaded file is only the book cover, not the text.",
+      "manual_acquisition_status": "cover_only_found_full_text_not_found",
+      "owner_supplied_local_path": "",
+      "suggested_staging_path": "maidansky_markdown/source_scans/academia/kulturno-istoricheskaya-psihologiya-istoki-i-novaya-realnost.*",
+      "registration_status": "pending_owner_supplied_file",
+      "rights_review_status": "unreviewed",
+      "core_corpus_eligible": "false",
+      "llm_wiki_eligible": "false",
+      "notes": "Do not register the cover-only download as a body-text source scan. If the owner later supplies a full book scan or a verified legitimate source, register each file separately as source_scan_unprocessed with exact source URL, download/source date, bytes, SHA-256, format, and rights fields. Do not read the file text layer."
+    }
+  ]
+}
