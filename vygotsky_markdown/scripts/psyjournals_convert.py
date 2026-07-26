@@ -268,6 +268,7 @@ def markdown_for(source: str, config: dict) -> tuple[str, dict[str, str]]:
         'text_role: "text_witness"',
         'core_corpus_eligible: "false"',
         'source_format: "html"',
+        'transcription_mode: "agent_canonical_markdown"',
         'source_license: "CC-BY-NC-4.0"',
         'redistribution_approved: "false"',
         'rights_review_status: "unreviewed"',

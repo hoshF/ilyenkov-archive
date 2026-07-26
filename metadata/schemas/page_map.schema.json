@@ -10,15 +10,26 @@
       "type": "array",
       "items": {
         "type": "object",
-        "required": ["file_page_index", "scan_page_id", "printed_page"],
+        "required": ["scan_page_id"],
         "properties": {
           "file_page_index": { "type": "integer", "minimum": 0 },
+          "pdf_page_index": { "type": "integer", "minimum": 1 },
           "scan_page_id": { "type": "string" },
           "printed_page": { "type": ["string", "null"] },
-          "note": { "type": "string" }
-        }
+          "note": { "type": "string" },
+          "scope": { "type": "string" },
+          "status": { "type": "string" }
+        },
+        "anyOf": [
+          { "required": ["file_page_index"] },
+          { "required": ["pdf_page_index"] }
+        ],
+        "additionalProperties": false
       }
-    }
+    },
+    "work_id": { "type": "string" },
+    "source_scan": { "type": "string" },
+    "page_basis": { "type": "string" }
   },
   "additionalProperties": false
 }

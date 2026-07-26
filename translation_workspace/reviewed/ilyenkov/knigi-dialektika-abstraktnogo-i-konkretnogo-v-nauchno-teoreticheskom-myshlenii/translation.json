@@ -1,0 +1,1145 @@
+{
+  "schema_version": 3,
+  "author_id": "ilyenkov",
+  "work_id": "knigi-dialektika-abstraktnogo-i-konkretnogo-v-nauchno-teoreticheskom-myshlenii",
+  "created_at": "2026-07-20",
+  "updated_at": "2026-07-25",
+  "target_language": "zh",
+  "source_units": [
+    {
+      "id": "ch000",
+      "status": "reviewed",
+      "source_segments": [
+        {
+          "source_path": "ilyenkov_markdown/ilyenkov_md/knigi/knigi-dialektika-abstraktnogo-i-konkretnogo-v-nauchno-teoreticheskom-myshlenii/knigi-dialektika-abstraktnogo-i-konkretnogo-v-nauchno-teoreticheskom-myshlenii-ch000.md",
+          "source_url": "http://filorus.ru/ilyenkov/texts/daik/index.html",
+          "source_version": "1997年完整版（filorus.ru，Maidansky 站点 HTML 转换，html_conversion_unverified）",
+          "source_sha256": "115261af5c032c5b23114170b7d97e30b62ac15203a181e440a10026df4a9efa",
+          "source_block_start": 1,
+          "source_block_end": 45
+        }
+      ],
+      "paragraph_count": 45,
+      "accuracy_review": {
+        "reviewer": "hoshF",
+        "reviewed_at": "2026-07-25",
+        "result": "passed",
+        "scope_sha256": "6020b9c4f15a47ca10e995d1a3fab57b5febd982699edd3a9bec632760f18da5"
+      },
+      "language_review": {
+        "reviewer": "hoshF",
+        "reviewed_at": "2026-07-25",
+        "result": "passed",
+        "scope_sha256": "2bd26796563ab6e60f08de347cef1edc1b5f19f26c91c98926dc233a0ce40299"
+      }
+    },
+    {
+      "id": "ch001",
+      "source_segments": [
+        {
+          "source_path": "ilyenkov_markdown/ilyenkov_md/knigi/knigi-dialektika-abstraktnogo-i-konkretnogo-v-nauchno-teoreticheskom-myshlenii/knigi-dialektika-abstraktnogo-i-konkretnogo-v-nauchno-teoreticheskom-myshlenii-ch001.md",
+          "source_url": "http://filorus.ru/ilyenkov/texts/daik/index.html",
+          "source_version": "1997年完整版（filorus.ru，Maidansky 站点 HTML 转换，html_conversion_unverified）",
+          "source_sha256": "2489c776ff6ca8bd3de2a2cdce3df027730edbf679520a3bee53d785246c562b",
+          "source_block_start": 1,
+          "source_block_end": 7
+        }
+      ],
+      "paragraph_count": 7,
+      "status": "reviewed",
+      "accuracy_review": {
+        "reviewer": "hoshF",
+        "reviewed_at": "2026-07-22",
+        "result": "passed",
+        "scope_sha256": "e3470b99800599398863591adae8951f5a84550f61794906a802eea809ab0e76"
+      },
+      "language_review": {
+        "reviewer": "hoshF",
+        "reviewed_at": "2026-07-22",
+        "result": "passed",
+        "scope_sha256": "c7ba9a09f7beada298747b9c17f6e8badf2124bc36f8772d147fda0a73a9ce24"
+      }
+    },
+    {
+      "id": "ch002",
+      "status": "reviewed",
+      "source_segments": [
+        {
+          "source_path": "ilyenkov_markdown/ilyenkov_md/knigi/knigi-dialektika-abstraktnogo-i-konkretnogo-v-nauchno-teoreticheskom-myshlenii/knigi-dialektika-abstraktnogo-i-konkretnogo-v-nauchno-teoreticheskom-myshlenii-ch002.md",
+          "source_url": "http://filorus.ru/ilyenkov/texts/daik/index.html",
+          "source_version": "1997年完整版（filorus.ru，Maidansky 站点 HTML 转换，html_conversion_unverified）",
+          "source_sha256": "7cb7659f9fc9348b6b6fe0c8c2c636e048364dee02d51e072588083f5ace1aa3",
+          "source_block_start": 1,
+          "source_block_end": 20
+        }
+      ],
+      "paragraph_count": 20,
+      "accuracy_review": {
+        "reviewer": "hoshF",
+        "reviewed_at": "2026-07-22",
+        "result": "passed",
+        "scope_sha256": "c085f7b55dc72fdfaab5bfeaef416250163c1ffc66db52a55385da0ab456c65a"
+      },
+      "language_review": {
+        "reviewer": "hoshF",
+        "reviewed_at": "2026-07-22",
+        "result": "passed",
+        "scope_sha256": "99ee3a7fa8e01a29a3333aec422b9a88d3ea12e5729968df4de87d79941471ca"
+      }
+    },
+    {
+      "id": "ch003",
+      "status": "reviewed",
+      "source_segments": [
+        {
+          "source_path": "ilyenkov_markdown/ilyenkov_md/knigi/knigi-dialektika-abstraktnogo-i-konkretnogo-v-nauchno-teoreticheskom-myshlenii/knigi-dialektika-abstraktnogo-i-konkretnogo-v-nauchno-teoreticheskom-myshlenii-ch003.md",
+          "source_url": "http://filorus.ru/ilyenkov/texts/daik/index.html",
+          "source_version": "1997年完整版（filorus.ru，Maidansky 站点 HTML 转换，html_conversion_unverified）",
+          "source_sha256": "136a94e7be0029f5f6af3848cca0e888e42d50e8039716adb8efc1432b4c2860",
+          "source_block_start": 1,
+          "source_block_end": 19
+        }
+      ],
+      "paragraph_count": 19,
+      "accuracy_review": {
+        "reviewer": "hoshF",
+        "reviewed_at": "2026-07-25",
+        "result": "passed",
+        "scope_sha256": "c2b891d89ce692d271ff3b6e4cbd90247afddfbf23c0475ad578de414cba39a7"
+      },
+      "language_review": {
+        "reviewer": "hoshF",
+        "reviewed_at": "2026-07-25",
+        "result": "passed",
+        "scope_sha256": "4543d66c2e80ecff212aa4dfbee1d5abd43a4187bd74e5fcd6ac9f56fe16d58a"
+      }
+    },
+    {
+      "id": "ch004",
+      "status": "reviewed",
+      "source_segments": [
+        {
+          "source_path": "ilyenkov_markdown/ilyenkov_md/knigi/knigi-dialektika-abstraktnogo-i-konkretnogo-v-nauchno-teoreticheskom-myshlenii/knigi-dialektika-abstraktnogo-i-konkretnogo-v-nauchno-teoreticheskom-myshlenii-ch004.md",
+          "source_url": "http://filorus.ru/ilyenkov/texts/daik/index.html",
+          "source_version": "1997年完整版（filorus.ru，Maidansky 站点 HTML 转换，html_conversion_unverified）",
+          "source_sha256": "7e332278c638476a88e1b47071437c547ed760ed09c0e01ff6dfa1e656113c0f",
+          "source_block_start": 1,
+          "source_block_end": 44
+        }
+      ],
+      "paragraph_count": 44,
+      "accuracy_review": {
+        "reviewer": "hoshF",
+        "reviewed_at": "2026-07-25",
+        "result": "passed",
+        "scope_sha256": "6fc384b7db21ea4852c495aaec11183e899a4052aedd27d2264b64205b7cc196"
+      },
+      "language_review": {
+        "reviewer": "hoshF",
+        "reviewed_at": "2026-07-25",
+        "result": "passed",
+        "scope_sha256": "c08ff5f73693fc70e4d6c5a6d0564c9a75cd1e8a45c65a77ada2a6c00941bbc1"
+      }
+    },
+    {
+      "id": "ch005",
+      "status": "reviewed",
+      "source_segments": [
+        {
+          "source_path": "ilyenkov_markdown/ilyenkov_md/knigi/knigi-dialektika-abstraktnogo-i-konkretnogo-v-nauchno-teoreticheskom-myshlenii/knigi-dialektika-abstraktnogo-i-konkretnogo-v-nauchno-teoreticheskom-myshlenii-ch005.md",
+          "source_url": "http://filorus.ru/ilyenkov/texts/daik/index.html",
+          "source_version": "1997年完整版（filorus.ru，Maidansky 站点 HTML 转换，html_conversion_unverified）",
+          "source_sha256": "2db8b10f3d1ad2e307d1d2824e88a290ec51252121c3aeec947920964e38cb11",
+          "source_block_start": 1,
+          "source_block_end": 19
+        }
+      ],
+      "paragraph_count": 19,
+      "accuracy_review": {
+        "reviewer": "hoshF",
+        "reviewed_at": "2026-07-25",
+        "result": "passed",
+        "scope_sha256": "b6a22e26c439e05c495a8b861d772cd72a4aa966d110a79f270ceab2863eebb3"
+      },
+      "language_review": {
+        "reviewer": "hoshF",
+        "reviewed_at": "2026-07-25",
+        "result": "passed",
+        "scope_sha256": "47f972a0baab96fd6540dfe34ce7b775ce9e2980a841090fcace14c5b1862ed0"
+      }
+    },
+    {
+      "id": "ch006",
+      "status": "reviewed",
+      "source_segments": [
+        {
+          "source_path": "ilyenkov_markdown/ilyenkov_md/knigi/knigi-dialektika-abstraktnogo-i-konkretnogo-v-nauchno-teoreticheskom-myshlenii/knigi-dialektika-abstraktnogo-i-konkretnogo-v-nauchno-teoreticheskom-myshlenii-ch006.md",
+          "source_url": "http://filorus.ru/ilyenkov/texts/daik/index.html",
+          "source_version": "1997年完整版（filorus.ru，Maidansky 站点 HTML 转换，html_conversion_unverified）",
+          "source_sha256": "2a3ddbb1dff01681def7944aa1d172d1d2b4445483651694cc4b03209877846f",
+          "source_block_start": 1,
+          "source_block_end": 10
+        }
+      ],
+      "paragraph_count": 10,
+      "accuracy_review": {
+        "reviewer": "hoshF",
+        "reviewed_at": "2026-07-25",
+        "result": "passed",
+        "scope_sha256": "0673f2861a9ad93c3ca1652c0896a6a2d1b4d594002e31320b532bcb8109a81c"
+      },
+      "language_review": {
+        "reviewer": "hoshF",
+        "reviewed_at": "2026-07-25",
+        "result": "passed",
+        "scope_sha256": "908bf53c3339c6b1c536f321aeb658ce9cda88fea1c9ddbccd7ad59a278367b2"
+      }
+    },
+    {
+      "id": "ch007",
+      "status": "reviewed",
+      "source_segments": [
+        {
+          "source_path": "ilyenkov_markdown/ilyenkov_md/knigi/knigi-dialektika-abstraktnogo-i-konkretnogo-v-nauchno-teoreticheskom-myshlenii/knigi-dialektika-abstraktnogo-i-konkretnogo-v-nauchno-teoreticheskom-myshlenii-ch007.md",
+          "source_url": "http://filorus.ru/ilyenkov/texts/daik/index.html",
+          "source_version": "1997年完整版（filorus.ru，Maidansky 站点 HTML 转换，html_conversion_unverified）",
+          "source_sha256": "7a0d1bc2750b0606f48471b33c76ab98d2eb7077e11aa7e3d9cc31b9c35fb976",
+          "source_block_start": 1,
+          "source_block_end": 40
+        }
+      ],
+      "paragraph_count": 40,
+      "accuracy_review": {
+        "reviewer": "hoshF",
+        "reviewed_at": "2026-07-25",
+        "result": "passed",
+        "scope_sha256": "f8e2f79cbce7b2f18e1cff370a14497898f0c0bdaa2c5035e9a5fcbff4af2152"
+      },
+      "language_review": {
+        "reviewer": "hoshF",
+        "reviewed_at": "2026-07-25",
+        "result": "passed",
+        "scope_sha256": "0e61e1dcd31a3b5bc20a21acaa903ca04a3faad8db5103848732ba3708656e58"
+      }
+    },
+    {
+      "id": "ch008",
+      "status": "reviewed",
+      "source_segments": [
+        {
+          "source_path": "ilyenkov_markdown/ilyenkov_md/knigi/knigi-dialektika-abstraktnogo-i-konkretnogo-v-nauchno-teoreticheskom-myshlenii/knigi-dialektika-abstraktnogo-i-konkretnogo-v-nauchno-teoreticheskom-myshlenii-ch008.md",
+          "source_url": "http://filorus.ru/ilyenkov/texts/daik/index.html",
+          "source_version": "1997年完整版（filorus.ru，Maidansky 站点 HTML 转换，html_conversion_unverified）",
+          "source_sha256": "96b86bf2822165f3e1f5204620fc94f15053f56e7a232e25d80ff33df6b8682b",
+          "source_block_start": 1,
+          "source_block_end": 19
+        }
+      ],
+      "paragraph_count": 19,
+      "accuracy_review": {
+        "reviewer": "hoshF",
+        "reviewed_at": "2026-07-25",
+        "result": "passed",
+        "scope_sha256": "5840e967aa1ede1c312d618633b824b98c40f830ce7328f059448023585aa9e5"
+      },
+      "language_review": {
+        "reviewer": "hoshF",
+        "reviewed_at": "2026-07-25",
+        "result": "passed",
+        "scope_sha256": "ba771a3e347da34dfbcd073126fdd45e878e8be1c617d06a494e934560028f77"
+      }
+    },
+    {
+      "id": "ch009",
+      "status": "reviewed",
+      "source_segments": [
+        {
+          "source_path": "ilyenkov_markdown/ilyenkov_md/knigi/knigi-dialektika-abstraktnogo-i-konkretnogo-v-nauchno-teoreticheskom-myshlenii/knigi-dialektika-abstraktnogo-i-konkretnogo-v-nauchno-teoreticheskom-myshlenii-ch009.md",
+          "source_url": "http://filorus.ru/ilyenkov/texts/daik/index.html",
+          "source_version": "1997年完整版（filorus.ru，Maidansky 站点 HTML 转换，html_conversion_unverified）",
+          "source_sha256": "644b51c2c8177ab8633e4d2627573f183e454c802b36e460e00fc75164ac30ae",
+          "source_block_start": 1,
+          "source_block_end": 46
+        }
+      ],
+      "paragraph_count": 46,
+      "accuracy_review": {
+        "reviewer": "hoshF",
+        "reviewed_at": "2026-07-25",
+        "result": "passed",
+        "scope_sha256": "7f7bda9cc20db358b801a52e505a3b8fef16c07f58e678efe2e67a1bede6812c"
+      },
+      "language_review": {
+        "reviewer": "hoshF",
+        "reviewed_at": "2026-07-25",
+        "result": "passed",
+        "scope_sha256": "07f3d40b4f62628e1de4c45b67e663a79c24ac08f012a6d36644b0ae61919f83"
+      }
+    },
+    {
+      "id": "ch010",
+      "status": "reviewed",
+      "source_segments": [
+        {
+          "source_path": "ilyenkov_markdown/ilyenkov_md/knigi/knigi-dialektika-abstraktnogo-i-konkretnogo-v-nauchno-teoreticheskom-myshlenii/knigi-dialektika-abstraktnogo-i-konkretnogo-v-nauchno-teoreticheskom-myshlenii-ch010.md",
+          "source_url": "http://filorus.ru/ilyenkov/texts/daik/index.html",
+          "source_version": "1997年完整版（filorus.ru，Maidansky 站点 HTML 转换，html_conversion_unverified）",
+          "source_sha256": "69729bacc18173483e0dc5c3b42de57e58c307b35531c684e3075d2a72177263",
+          "source_block_start": 1,
+          "source_block_end": 11
+        }
+      ],
+      "paragraph_count": 11,
+      "accuracy_review": {
+        "reviewer": "hoshF",
+        "reviewed_at": "2026-07-25",
+        "result": "passed",
+        "scope_sha256": "76c1ec456064218d9091a36e909a9ef25f4a3e5deb76f6954d82b611061c74d4"
+      },
+      "language_review": {
+        "reviewer": "hoshF",
+        "reviewed_at": "2026-07-25",
+        "result": "passed",
+        "scope_sha256": "cd111df8ca20ecde0070c972dfafdc41ca12a545d910da70cdc15119d9bcc273"
+      }
+    },
+    {
+      "id": "ch011",
+      "status": "reviewed",
+      "source_segments": [
+        {
+          "source_path": "ilyenkov_markdown/ilyenkov_md/knigi/knigi-dialektika-abstraktnogo-i-konkretnogo-v-nauchno-teoreticheskom-myshlenii/knigi-dialektika-abstraktnogo-i-konkretnogo-v-nauchno-teoreticheskom-myshlenii-ch011.md",
+          "source_url": "http://filorus.ru/ilyenkov/texts/daik/index.html",
+          "source_version": "1997年完整版（filorus.ru，Maidansky 站点 HTML 转换，html_conversion_unverified）",
+          "source_sha256": "33b3504b0d4232225ef89fa5ee626e672f80294127ea35966aa6e857cdd9bf8c",
+          "source_block_start": 1,
+          "source_block_end": 26
+        }
+      ],
+      "paragraph_count": 26,
+      "accuracy_review": {
+        "reviewer": "hoshF",
+        "reviewed_at": "2026-07-25",
+        "result": "passed",
+        "scope_sha256": "7ed4fd288809980a4891837bba119a1f8fdb8465dc8975b77d8469df6b2683c0"
+      },
+      "language_review": {
+        "reviewer": "hoshF",
+        "reviewed_at": "2026-07-25",
+        "result": "passed",
+        "scope_sha256": "a467ae0477ec420f37a67aa7236b96c0097d6c957ba96dfe94bf172fb69ff12e"
+      }
+    },
+    {
+      "id": "ch012",
+      "status": "reviewed",
+      "source_segments": [
+        {
+          "source_path": "ilyenkov_markdown/ilyenkov_md/knigi/knigi-dialektika-abstraktnogo-i-konkretnogo-v-nauchno-teoreticheskom-myshlenii/knigi-dialektika-abstraktnogo-i-konkretnogo-v-nauchno-teoreticheskom-myshlenii-ch012.md",
+          "source_url": "http://filorus.ru/ilyenkov/texts/daik/index.html",
+          "source_version": "1997年完整版（filorus.ru，Maidansky 站点 HTML 转换，html_conversion_unverified）",
+          "source_sha256": "fb842fa4f482fd8a19d503049cb942ad4c45489d024f3d4c6c80f6d39142e3be",
+          "source_block_start": 1,
+          "source_block_end": 85
+        }
+      ],
+      "paragraph_count": 85,
+      "accuracy_review": {
+        "reviewer": "hoshF",
+        "reviewed_at": "2026-07-25",
+        "result": "passed",
+        "scope_sha256": "7bab0d467929c1aa44222f6845099d8a819e3c20e47db70ae9000b17a08f5f16"
+      },
+      "language_review": {
+        "reviewer": "hoshF",
+        "reviewed_at": "2026-07-25",
+        "result": "passed",
+        "scope_sha256": "1a7b30a9fd01909a4ac9927a4b4e08266fd01570a7b79040409bc024053b99ec"
+      }
+    },
+    {
+      "id": "ch013",
+      "status": "reviewed",
+      "source_segments": [
+        {
+          "source_path": "ilyenkov_markdown/ilyenkov_md/knigi/knigi-dialektika-abstraktnogo-i-konkretnogo-v-nauchno-teoreticheskom-myshlenii/knigi-dialektika-abstraktnogo-i-konkretnogo-v-nauchno-teoreticheskom-myshlenii-ch013.md",
+          "source_url": "http://filorus.ru/ilyenkov/texts/daik/index.html",
+          "source_version": "1997年完整版（filorus.ru，Maidansky 站点 HTML 转换，html_conversion_unverified）",
+          "source_sha256": "5fefeb6c37e9b7f230725baaf1a645fa13f10f15dd1cbd9986ad836af4cce79e",
+          "source_block_start": 1,
+          "source_block_end": 78
+        }
+      ],
+      "paragraph_count": 78,
+      "accuracy_review": {
+        "reviewer": "hoshF",
+        "reviewed_at": "2026-07-25",
+        "result": "passed",
+        "scope_sha256": "c682d735e48ed398bce59d4150679041e2763247fbac1d8f9e1c51b0e549950a"
+      },
+      "language_review": {
+        "reviewer": "hoshF",
+        "reviewed_at": "2026-07-25",
+        "result": "passed",
+        "scope_sha256": "a6c1d30316f2cb68701c0cbc09f22019f9d9098a260e2f6a04b5366372ec2e43"
+      }
+    },
+    {
+      "id": "ch014",
+      "status": "reviewed",
+      "source_segments": [
+        {
+          "source_path": "ilyenkov_markdown/ilyenkov_md/knigi/knigi-dialektika-abstraktnogo-i-konkretnogo-v-nauchno-teoreticheskom-myshlenii/knigi-dialektika-abstraktnogo-i-konkretnogo-v-nauchno-teoreticheskom-myshlenii-ch014.md",
+          "source_url": "http://filorus.ru/ilyenkov/texts/daik/index.html",
+          "source_version": "1997年完整版（filorus.ru，Maidansky 站点 HTML 转换，html_conversion_unverified）",
+          "source_sha256": "d33816b2eb99b395c557879405935c6f55050f2bb429c001d744b8dc937ca2ce",
+          "source_block_start": 1,
+          "source_block_end": 107
+        }
+      ],
+      "paragraph_count": 107,
+      "accuracy_review": {
+        "reviewer": "hoshF",
+        "reviewed_at": "2026-07-25",
+        "result": "passed",
+        "scope_sha256": "9214f5364b9715ed16857c7a5c4606e083f5a2cb93fd9a054f60a802a8af3494"
+      },
+      "language_review": {
+        "reviewer": "hoshF",
+        "reviewed_at": "2026-07-25",
+        "result": "passed",
+        "scope_sha256": "8aad82302679dcd98ad3791ef5f96f4a4563a19bfd63872b16c6cf9ce556a97e"
+      }
+    },
+    {
+      "id": "ch015",
+      "status": "reviewed",
+      "source_segments": [
+        {
+          "source_path": "ilyenkov_markdown/ilyenkov_md/knigi/knigi-dialektika-abstraktnogo-i-konkretnogo-v-nauchno-teoreticheskom-myshlenii/knigi-dialektika-abstraktnogo-i-konkretnogo-v-nauchno-teoreticheskom-myshlenii-ch015.md",
+          "source_url": "http://filorus.ru/ilyenkov/texts/daik/index.html",
+          "source_version": "1997年完整版（filorus.ru，Maidansky 站点 HTML 转换，html_conversion_unverified）",
+          "source_sha256": "1b7ca1e468b75c4af6e92064f98074781cfaa46c9b559ba02901f09fdad2fe8a",
+          "source_block_start": 1,
+          "source_block_end": 26
+        }
+      ],
+      "paragraph_count": 26,
+      "accuracy_review": {
+        "reviewer": "hoshF",
+        "reviewed_at": "2026-07-25",
+        "result": "passed",
+        "scope_sha256": "fc9b9bc3e4c306cbbcd5c3d30913dd797f9c4fe993c623fd312205ea024fd756"
+      },
+      "language_review": {
+        "reviewer": "hoshF",
+        "reviewed_at": "2026-07-25",
+        "result": "passed",
+        "scope_sha256": "26d129c5fe6acccfa56032e7ec32d4d25a6bcb3c8778dc9bd5065e9c47bb5f2d"
+      }
+    },
+    {
+      "id": "ch016",
+      "status": "reviewed",
+      "source_segments": [
+        {
+          "source_path": "ilyenkov_markdown/ilyenkov_md/knigi/knigi-dialektika-abstraktnogo-i-konkretnogo-v-nauchno-teoreticheskom-myshlenii/knigi-dialektika-abstraktnogo-i-konkretnogo-v-nauchno-teoreticheskom-myshlenii-ch016.md",
+          "source_url": "http://filorus.ru/ilyenkov/texts/daik/index.html",
+          "source_version": "1997年完整版（filorus.ru，Maidansky 站点 HTML 转换，html_conversion_unverified）",
+          "source_sha256": "b231b4fc36a14fe8f24c60def0540e8493d661ec6fddce255013fbffa9eb6b75",
+          "source_block_start": 1,
+          "source_block_end": 190
+        }
+      ],
+      "paragraph_count": 190,
+      "accuracy_review": {
+        "reviewer": "hoshF",
+        "reviewed_at": "2026-07-25",
+        "result": "passed",
+        "scope_sha256": "719fcaf0096500ca56eb79b9810d74527017d01627fc299215f9c9a07a4284a7"
+      },
+      "language_review": {
+        "reviewer": "hoshF",
+        "reviewed_at": "2026-07-25",
+        "result": "passed",
+        "scope_sha256": "1e565960608bf9050ede505072b41099695d1366d50bb0c17660db73c070d405"
+      }
+    },
+    {
+      "id": "ch017",
+      "status": "reviewed",
+      "source_segments": [
+        {
+          "source_path": "ilyenkov_markdown/ilyenkov_md/knigi/knigi-dialektika-abstraktnogo-i-konkretnogo-v-nauchno-teoreticheskom-myshlenii/knigi-dialektika-abstraktnogo-i-konkretnogo-v-nauchno-teoreticheskom-myshlenii-ch017.md",
+          "source_url": "http://filorus.ru/ilyenkov/texts/daik/index.html",
+          "source_version": "1997年完整版（filorus.ru，Maidansky 站点 HTML 转换，html_conversion_unverified）",
+          "source_sha256": "5e5b12feb13ef449994699a2c438047b2f359a60ad7f230dc9be8217c40a968d",
+          "source_block_start": 1,
+          "source_block_end": 103
+        }
+      ],
+      "paragraph_count": 103,
+      "accuracy_review": {
+        "reviewer": "hoshF",
+        "reviewed_at": "2026-07-25",
+        "result": "passed",
+        "scope_sha256": "1fb571b019c5271172be1f0ea19ed9a7eb4a2cde81225d658697516066b11d77"
+      },
+      "language_review": {
+        "reviewer": "hoshF",
+        "reviewed_at": "2026-07-25",
+        "result": "passed",
+        "scope_sha256": "0e6d2e24302607848bf7dc05a4daa35a889032115ca349d41585fa02bc4794f3"
+      }
+    },
+    {
+      "id": "ch018",
+      "status": "reviewed",
+      "source_segments": [
+        {
+          "source_path": "ilyenkov_markdown/ilyenkov_md/knigi/knigi-dialektika-abstraktnogo-i-konkretnogo-v-nauchno-teoreticheskom-myshlenii/knigi-dialektika-abstraktnogo-i-konkretnogo-v-nauchno-teoreticheskom-myshlenii-ch018.md",
+          "source_url": "http://filorus.ru/ilyenkov/texts/daik/index.html",
+          "source_version": "1997年完整版（filorus.ru，Maidansky 站点 HTML 转换，html_conversion_unverified）",
+          "source_sha256": "3215ac3891c7d4b3e5b7abd09e1e276d40742fd0e08c7ddbfe5d6a4bc11d18d7",
+          "source_block_start": 1,
+          "source_block_end": 74
+        }
+      ],
+      "paragraph_count": 74,
+      "accuracy_review": {
+        "reviewer": "hoshF",
+        "reviewed_at": "2026-07-25",
+        "result": "passed",
+        "scope_sha256": "f57263436b57d712f7469339dae20018807631ba364bb8e720112a8d0feba797"
+      },
+      "language_review": {
+        "reviewer": "hoshF",
+        "reviewed_at": "2026-07-25",
+        "result": "passed",
+        "scope_sha256": "27c59c3a016ccc9c2352a3f66cf2cb643ca1bf85e2ca562a63c1463679a31209"
+      }
+    },
+    {
+      "id": "ch019",
+      "status": "reviewed",
+      "source_segments": [
+        {
+          "source_path": "ilyenkov_markdown/ilyenkov_md/knigi/knigi-dialektika-abstraktnogo-i-konkretnogo-v-nauchno-teoreticheskom-myshlenii/knigi-dialektika-abstraktnogo-i-konkretnogo-v-nauchno-teoreticheskom-myshlenii-ch019.md",
+          "source_url": "http://filorus.ru/ilyenkov/texts/daik/index.html",
+          "source_version": "1997年完整版（filorus.ru，Maidansky 站点 HTML 转换，html_conversion_unverified）",
+          "source_sha256": "5f8e7124607bd2e2a0f67b18b8d5c0d77e26c84985ae0bdb09312c08d777c9ec",
+          "source_block_start": 1,
+          "source_block_end": 52
+        }
+      ],
+      "paragraph_count": 52,
+      "accuracy_review": {
+        "reviewer": "hoshF",
+        "reviewed_at": "2026-07-25",
+        "result": "passed",
+        "scope_sha256": "74d493f21481b09bf9be8285b45618eb00328c466c5243927dfc32699d2a0068"
+      },
+      "language_review": {
+        "reviewer": "hoshF",
+        "reviewed_at": "2026-07-25",
+        "result": "passed",
+        "scope_sha256": "6334ae5020efb7248e14a236bc9ad2ee013de1a5e978de815f25944b1e43a1e1"
+      }
+    },
+    {
+      "id": "ch020",
+      "status": "reviewed",
+      "source_segments": [
+        {
+          "source_path": "ilyenkov_markdown/ilyenkov_md/knigi/knigi-dialektika-abstraktnogo-i-konkretnogo-v-nauchno-teoreticheskom-myshlenii/knigi-dialektika-abstraktnogo-i-konkretnogo-v-nauchno-teoreticheskom-myshlenii-ch020.md",
+          "source_url": "http://filorus.ru/ilyenkov/texts/daik/index.html",
+          "source_version": "1997年完整版（filorus.ru，Maidansky 站点 HTML 转换，html_conversion_unverified）",
+          "source_sha256": "9e1b10a1852f3cceaca25adb142bf8e3182677b416ab0c39e79e4a24206fa8bd",
+          "source_block_start": 1,
+          "source_block_end": 28
+        }
+      ],
+      "paragraph_count": 28,
+      "accuracy_review": {
+        "reviewer": "hoshF",
+        "reviewed_at": "2026-07-25",
+        "result": "passed",
+        "scope_sha256": "58ba55c663309623c15f3bb415393db67a290481015a3a2501258c5f625d851c"
+      },
+      "language_review": {
+        "reviewer": "hoshF",
+        "reviewed_at": "2026-07-25",
+        "result": "passed",
+        "scope_sha256": "7d4678cbc6e58e48e14bbeddb6ed121d6f8e99ae421ced5219b3f2efdf4013ba"
+      }
+    },
+    {
+      "id": "ch021",
+      "status": "reviewed",
+      "source_segments": [
+        {
+          "source_path": "ilyenkov_markdown/ilyenkov_md/knigi/knigi-dialektika-abstraktnogo-i-konkretnogo-v-nauchno-teoreticheskom-myshlenii/knigi-dialektika-abstraktnogo-i-konkretnogo-v-nauchno-teoreticheskom-myshlenii-ch021.md",
+          "source_url": "http://filorus.ru/ilyenkov/texts/daik/index.html",
+          "source_version": "1997年完整版（filorus.ru，Maidansky 站点 HTML 转换，html_conversion_unverified）",
+          "source_sha256": "60f206a81a8269c5a85a20e56c667b9968c88198cbc9f0c8930b19c99c661a44",
+          "source_block_start": 1,
+          "source_block_end": 51
+        }
+      ],
+      "paragraph_count": 51,
+      "accuracy_review": {
+        "reviewer": "hoshF",
+        "reviewed_at": "2026-07-25",
+        "result": "passed",
+        "scope_sha256": "c8147981e9cea2a386215027dd3fc233b732158446a4c5a1a56745bbb387688f"
+      },
+      "language_review": {
+        "reviewer": "hoshF",
+        "reviewed_at": "2026-07-25",
+        "result": "passed",
+        "scope_sha256": "44ed8034b56b9ecbbf9022806819fddc08f0823a0319409852e51daa2fc57ef5"
+      }
+    },
+    {
+      "id": "ch022",
+      "status": "reviewed",
+      "source_segments": [
+        {
+          "source_path": "ilyenkov_markdown/ilyenkov_md/knigi/knigi-dialektika-abstraktnogo-i-konkretnogo-v-nauchno-teoreticheskom-myshlenii/knigi-dialektika-abstraktnogo-i-konkretnogo-v-nauchno-teoreticheskom-myshlenii-ch022.md",
+          "source_url": "http://filorus.ru/ilyenkov/texts/daik/index.html",
+          "source_version": "1997年完整版（filorus.ru，Maidansky 站点 HTML 转换，html_conversion_unverified）",
+          "source_sha256": "7d5e00a88d434a23815e3a1d11a44a73941fedb7c80eff5f2242e25a74586aa9",
+          "source_block_start": 1,
+          "source_block_end": 68
+        }
+      ],
+      "paragraph_count": 68,
+      "accuracy_review": {
+        "reviewer": "hoshF",
+        "reviewed_at": "2026-07-25",
+        "result": "passed",
+        "scope_sha256": "ab38a589148ebcd0fadc1540608f3c5d209a09d3d7ec71b5c5f33d6b84c8a895"
+      },
+      "language_review": {
+        "reviewer": "hoshF",
+        "reviewed_at": "2026-07-25",
+        "result": "passed",
+        "scope_sha256": "9b4427dfb1594b6fadcb3b2c712e462fa54bf18b64139334634731436c2160fc"
+      }
+    },
+    {
+      "id": "ch023",
+      "status": "reviewed",
+      "source_segments": [
+        {
+          "source_path": "ilyenkov_markdown/ilyenkov_md/knigi/knigi-dialektika-abstraktnogo-i-konkretnogo-v-nauchno-teoreticheskom-myshlenii/knigi-dialektika-abstraktnogo-i-konkretnogo-v-nauchno-teoreticheskom-myshlenii-ch023.md",
+          "source_url": "http://filorus.ru/ilyenkov/texts/daik/index.html",
+          "source_version": "1997年完整版（filorus.ru，Maidansky 站点 HTML 转换，html_conversion_unverified）",
+          "source_sha256": "2eee92a567147ffffd94c48dc52c27d9521e99d5f66df04b8ad1f37062fd1d60",
+          "source_block_start": 1,
+          "source_block_end": 78
+        }
+      ],
+      "paragraph_count": 78,
+      "accuracy_review": {
+        "reviewer": "hoshF",
+        "reviewed_at": "2026-07-25",
+        "result": "passed",
+        "scope_sha256": "651b4fe60278d3fd9e9c8561135d2029135f92cbf7590b4c4a0d2ab716054600"
+      },
+      "language_review": {
+        "reviewer": "hoshF",
+        "reviewed_at": "2026-07-25",
+        "result": "passed",
+        "scope_sha256": "257f442b04d2b3ee82cdfbb0c8468ed2ea12f72cd34af74eafe5d248b546e22d"
+      }
+    },
+    {
+      "id": "ch024",
+      "status": "reviewed",
+      "source_segments": [
+        {
+          "source_path": "ilyenkov_markdown/ilyenkov_md/knigi/knigi-dialektika-abstraktnogo-i-konkretnogo-v-nauchno-teoreticheskom-myshlenii/knigi-dialektika-abstraktnogo-i-konkretnogo-v-nauchno-teoreticheskom-myshlenii-ch024.md",
+          "source_url": "http://filorus.ru/ilyenkov/texts/daik/index.html",
+          "source_version": "1997年完整版（filorus.ru，Maidansky 站点 HTML 转换，html_conversion_unverified）",
+          "source_sha256": "7d5937049096054bdbf5aad0a7f39b258c41ebfd835973039fa3e0ecf5366811",
+          "source_block_start": 1,
+          "source_block_end": 125
+        }
+      ],
+      "paragraph_count": 125,
+      "accuracy_review": {
+        "reviewer": "hoshF",
+        "reviewed_at": "2026-07-25",
+        "result": "passed",
+        "scope_sha256": "51dcc8b840f790a8f43add5dc034b828c7ad90767ece655cf06822380150bdc6"
+      },
+      "language_review": {
+        "reviewer": "hoshF",
+        "reviewed_at": "2026-07-25",
+        "result": "passed",
+        "scope_sha256": "17c2b1bfc6b6073c218f3c7f01c3a351a2b1ddcfe6067679846545da7987ed26"
+      }
+    },
+    {
+      "id": "ch025",
+      "status": "reviewed",
+      "source_segments": [
+        {
+          "source_path": "ilyenkov_markdown/ilyenkov_md/knigi/knigi-dialektika-abstraktnogo-i-konkretnogo-v-nauchno-teoreticheskom-myshlenii/knigi-dialektika-abstraktnogo-i-konkretnogo-v-nauchno-teoreticheskom-myshlenii-ch025.md",
+          "source_url": "http://filorus.ru/ilyenkov/texts/daik/index.html",
+          "source_version": "1997年完整版（filorus.ru，Maidansky 站点 HTML 转换，html_conversion_unverified）",
+          "source_sha256": "4ecd722dea5e9e468c40b27c69241f445ecd53dea2f8de35b1689ce1a8e7d763",
+          "source_block_start": 1,
+          "source_block_end": 92
+        }
+      ],
+      "paragraph_count": 92,
+      "accuracy_review": {
+        "reviewer": "hoshF",
+        "reviewed_at": "2026-07-25",
+        "result": "passed",
+        "scope_sha256": "bcb27bb5d63b2edf8a69f2bcf13d79a3cc540b6b952726bd0593d6a5bafc4623"
+      },
+      "language_review": {
+        "reviewer": "hoshF",
+        "reviewed_at": "2026-07-25",
+        "result": "passed",
+        "scope_sha256": "296bea2acd1014d00bbd9854071a68e3315b7baf374ff144e8813086ad74aec4"
+      }
+    },
+    {
+      "id": "ch026",
+      "status": "reviewed",
+      "source_segments": [
+        {
+          "source_path": "ilyenkov_markdown/ilyenkov_md/knigi/knigi-dialektika-abstraktnogo-i-konkretnogo-v-nauchno-teoreticheskom-myshlenii/knigi-dialektika-abstraktnogo-i-konkretnogo-v-nauchno-teoreticheskom-myshlenii-ch026.md",
+          "source_url": "http://filorus.ru/ilyenkov/texts/daik/index.html",
+          "source_version": "1997年完整版（filorus.ru，Maidansky 站点 HTML 转换，html_conversion_unverified）",
+          "source_sha256": "fe69afbaa3bfb86367b268180f33bf14e069ae5e6a2afc521628b6cfe31addc6",
+          "source_block_start": 1,
+          "source_block_end": 101
+        }
+      ],
+      "paragraph_count": 101,
+      "accuracy_review": {
+        "reviewer": "hoshF",
+        "reviewed_at": "2026-07-25",
+        "result": "passed",
+        "scope_sha256": "1405ba8ec7f4cf3820ca3dfb90d46cdb4e62b43f7554049ca19f7ae18a7554f1"
+      },
+      "language_review": {
+        "reviewer": "hoshF",
+        "reviewed_at": "2026-07-25",
+        "result": "passed",
+        "scope_sha256": "e29f53201f4d70b334a6d9e9ad76cf83b01e498d18f76cafb7c889aab2f9cb87"
+      }
+    },
+    {
+      "id": "ch027",
+      "status": "reviewed",
+      "source_segments": [
+        {
+          "source_path": "ilyenkov_markdown/ilyenkov_md/knigi/knigi-dialektika-abstraktnogo-i-konkretnogo-v-nauchno-teoreticheskom-myshlenii/knigi-dialektika-abstraktnogo-i-konkretnogo-v-nauchno-teoreticheskom-myshlenii-ch027.md",
+          "source_url": "http://filorus.ru/ilyenkov/texts/daik/index.html",
+          "source_version": "1997年完整版（filorus.ru，Maidansky 站点 HTML 转换，html_conversion_unverified）",
+          "source_sha256": "69a3238d6d5fc1e93be112bfa519e669e40d9b01adbac952b62dd1ae8b481487",
+          "source_block_start": 1,
+          "source_block_end": 128
+        }
+      ],
+      "paragraph_count": 128,
+      "accuracy_review": {
+        "reviewer": "hoshF",
+        "reviewed_at": "2026-07-25",
+        "result": "passed",
+        "scope_sha256": "29bdda5ed8c8cdc22ee39cdbf8a058f1d12fbc334be94959706c20fc4dd9a36e"
+      },
+      "language_review": {
+        "reviewer": "hoshF",
+        "reviewed_at": "2026-07-25",
+        "result": "passed",
+        "scope_sha256": "e1e8a7eb61bcc8588befcad596fbb3dbe3519a85cf31e0c714a3e3d30ac43806"
+      }
+    },
+    {
+      "id": "ch028",
+      "status": "reviewed",
+      "source_segments": [
+        {
+          "source_path": "ilyenkov_markdown/ilyenkov_md/knigi/knigi-dialektika-abstraktnogo-i-konkretnogo-v-nauchno-teoreticheskom-myshlenii/knigi-dialektika-abstraktnogo-i-konkretnogo-v-nauchno-teoreticheskom-myshlenii-ch028.md",
+          "source_url": "http://filorus.ru/ilyenkov/texts/daik/index.html",
+          "source_version": "1997年完整版（filorus.ru，Maidansky 站点 HTML 转换，html_conversion_unverified）",
+          "source_sha256": "8275af580dcd6e95c450fd7909d2c07986613b42b48b6475ca873cb270264466",
+          "source_block_start": 1,
+          "source_block_end": 74
+        }
+      ],
+      "paragraph_count": 74,
+      "accuracy_review": {
+        "reviewer": "hoshF",
+        "reviewed_at": "2026-07-23",
+        "result": "passed",
+        "scope_sha256": "bc506f806ed972b92e3df1cfd3573ac2c7553f0385767b055476933787b90ed6"
+      },
+      "language_review": {
+        "reviewer": "hoshF",
+        "reviewed_at": "2026-07-23",
+        "result": "passed",
+        "scope_sha256": "f975c5d7b84c6cf59d12889fb328ed48a952ea6ad9e886e5081a681c0e3c9922"
+      }
+    },
+    {
+      "id": "ch029",
+      "status": "reviewed",
+      "source_segments": [
+        {
+          "source_path": "ilyenkov_markdown/ilyenkov_md/knigi/knigi-dialektika-abstraktnogo-i-konkretnogo-v-nauchno-teoreticheskom-myshlenii/knigi-dialektika-abstraktnogo-i-konkretnogo-v-nauchno-teoreticheskom-myshlenii-ch029.md",
+          "source_url": "http://filorus.ru/ilyenkov/texts/daik/index.html",
+          "source_version": "1997年完整版（filorus.ru，Maidansky 站点 HTML 转换，html_conversion_unverified）",
+          "source_sha256": "b59770f7f0adda304a0ddafbc62ea4f8e9aadc801434f96e733d2c150ea4613d",
+          "source_block_start": 1,
+          "source_block_end": 47
+        }
+      ],
+      "paragraph_count": 47,
+      "accuracy_review": {
+        "reviewer": "hoshF",
+        "reviewed_at": "2026-07-23",
+        "result": "passed",
+        "scope_sha256": "d49559676b9a601f85657e2994049e4ba4d3543fecad988f09964d2ecf1d190e"
+      },
+      "language_review": {
+        "reviewer": "hoshF",
+        "reviewed_at": "2026-07-23",
+        "result": "passed",
+        "scope_sha256": "4a0dc73da7118a2a08f9da4164b167be296e0881689ef3e62c8ed40e2fccf4f6"
+      }
+    },
+    {
+      "id": "ch030",
+      "status": "reviewed",
+      "source_segments": [
+        {
+          "source_path": "ilyenkov_markdown/ilyenkov_md/knigi/knigi-dialektika-abstraktnogo-i-konkretnogo-v-nauchno-teoreticheskom-myshlenii/knigi-dialektika-abstraktnogo-i-konkretnogo-v-nauchno-teoreticheskom-myshlenii-ch030.md",
+          "source_url": "http://filorus.ru/ilyenkov/texts/daik/index.html",
+          "source_version": "1997年完整版（filorus.ru，Maidansky 站点 HTML 转换，html_conversion_unverified）",
+          "source_sha256": "30a08df81b3cf64dcdcfffcd17b367a6599fd8418a2de1a81f7c2127cb3fa4bc",
+          "source_block_start": 1,
+          "source_block_end": 35
+        }
+      ],
+      "paragraph_count": 35,
+      "accuracy_review": {
+        "reviewer": "hoshF",
+        "reviewed_at": "2026-07-23",
+        "result": "passed",
+        "scope_sha256": "dc085675c9141e2759f867dcc2f2e9ec85c95385f5d8f6509847528c5192cfc5"
+      },
+      "language_review": {
+        "reviewer": "hoshF",
+        "reviewed_at": "2026-07-23",
+        "result": "passed",
+        "scope_sha256": "b942ebf334e5d1a1eeca636a7659c7f0b1770c1cc9a14995191fd1e2e5d27979"
+      }
+    },
+    {
+      "id": "ch031",
+      "status": "reviewed",
+      "source_segments": [
+        {
+          "source_path": "ilyenkov_markdown/ilyenkov_md/knigi/knigi-dialektika-abstraktnogo-i-konkretnogo-v-nauchno-teoreticheskom-myshlenii/knigi-dialektika-abstraktnogo-i-konkretnogo-v-nauchno-teoreticheskom-myshlenii-ch031.md",
+          "source_url": "http://filorus.ru/ilyenkov/texts/daik/index.html",
+          "source_version": "1997年完整版（filorus.ru，Maidansky 站点 HTML 转换，html_conversion_unverified）",
+          "source_sha256": "6a8115f8542d4e2b6347e701e33d1cf54027e47c25d3deaf87ee39f3b8dc3818",
+          "source_block_start": 1,
+          "source_block_end": 70
+        }
+      ],
+      "paragraph_count": 70,
+      "accuracy_review": {
+        "reviewer": "hoshF",
+        "reviewed_at": "2026-07-23",
+        "result": "passed",
+        "scope_sha256": "64943ff586ca3287da7424d31e8d6409109c4ab4401fc875ba6ab0224ade924e"
+      },
+      "language_review": {
+        "reviewer": "hoshF",
+        "reviewed_at": "2026-07-23",
+        "result": "passed",
+        "scope_sha256": "0b84bb3eb25f2530901ac441f75214a6d8c328ee18c75923b22afdbe71689dcb"
+      }
+    },
+    {
+      "id": "ch032",
+      "status": "reviewed",
+      "source_segments": [
+        {
+          "source_path": "ilyenkov_markdown/ilyenkov_md/knigi/knigi-dialektika-abstraktnogo-i-konkretnogo-v-nauchno-teoreticheskom-myshlenii/knigi-dialektika-abstraktnogo-i-konkretnogo-v-nauchno-teoreticheskom-myshlenii-ch032.md",
+          "source_url": "http://filorus.ru/ilyenkov/texts/daik/index.html",
+          "source_version": "1997年完整版（filorus.ru，Maidansky 站点 HTML 转换，html_conversion_unverified）",
+          "source_sha256": "027094c5b2923b6783d9d171a26816b0a4b6fe5fd1c304ddd8fbcc1f1293959b",
+          "source_block_start": 1,
+          "source_block_end": 104
+        }
+      ],
+      "paragraph_count": 104,
+      "accuracy_review": {
+        "reviewer": "hoshF",
+        "reviewed_at": "2026-07-23",
+        "result": "passed",
+        "scope_sha256": "e4efd8d9ba658ca0ccf4c88e93c934c28a20d3e8572f0dbdf2e9ba8bbf90856f"
+      },
+      "language_review": {
+        "reviewer": "hoshF",
+        "reviewed_at": "2026-07-23",
+        "result": "passed",
+        "scope_sha256": "176bc97a9799ca5a9fb71ed05bc2d6caf7366509fb86c9720e02350dd9ae1a86"
+      }
+    },
+    {
+      "id": "ch033",
+      "status": "reviewed",
+      "source_segments": [
+        {
+          "source_path": "ilyenkov_markdown/ilyenkov_md/knigi/knigi-dialektika-abstraktnogo-i-konkretnogo-v-nauchno-teoreticheskom-myshlenii/knigi-dialektika-abstraktnogo-i-konkretnogo-v-nauchno-teoreticheskom-myshlenii-ch033.md",
+          "source_url": "http://filorus.ru/ilyenkov/texts/daik/index.html",
+          "source_version": "1997年完整版（filorus.ru，Maidansky 站点 HTML 转换，html_conversion_unverified）",
+          "source_sha256": "149ed774724bfd8b1f7b319237046b0c49ee22f0d0bedbe760c0c4a7d1e9e132",
+          "source_block_start": 1,
+          "source_block_end": 29
+        }
+      ],
+      "paragraph_count": 29,
+      "accuracy_review": {
+        "reviewer": "hoshF",
+        "reviewed_at": "2026-07-23",
+        "result": "passed",
+        "scope_sha256": "a1fa9673a3ab41388dd397b5c15943227a4525f6adb9fb24e61fd164a3fe7c5d"
+      },
+      "language_review": {
+        "reviewer": "hoshF",
+        "reviewed_at": "2026-07-23",
+        "result": "passed",
+        "scope_sha256": "7382bf2ba47999ee97071c0e39b3e20778b8ac127a55dec3aa7452ffea99ce87"
+      }
+    },
+    {
+      "id": "ch034",
+      "status": "reviewed",
+      "source_segments": [
+        {
+          "source_path": "ilyenkov_markdown/ilyenkov_md/knigi/knigi-dialektika-abstraktnogo-i-konkretnogo-v-nauchno-teoreticheskom-myshlenii/knigi-dialektika-abstraktnogo-i-konkretnogo-v-nauchno-teoreticheskom-myshlenii-ch034.md",
+          "source_url": "http://filorus.ru/ilyenkov/texts/daik/index.html",
+          "source_version": "1997年完整版（filorus.ru，Maidansky 站点 HTML 转换，html_conversion_unverified）",
+          "source_sha256": "86e4d7597b59e091ca159411839e41b859324697c37b4f37f69a43c87efe6c59",
+          "source_block_start": 1,
+          "source_block_end": 125
+        }
+      ],
+      "paragraph_count": 125,
+      "accuracy_review": {
+        "reviewer": "hoshF",
+        "reviewed_at": "2026-07-23",
+        "result": "passed",
+        "scope_sha256": "c780aaf72aaed5e4c53a9190a4cc00f199996c4049b4ce05c45ba9184a8e9a53"
+      },
+      "language_review": {
+        "reviewer": "hoshF",
+        "reviewed_at": "2026-07-23",
+        "result": "passed",
+        "scope_sha256": "73ec654f04090af8d4871e65669757d9dc9da60696e27420c0869c8812612fac"
+      }
+    },
+    {
+      "id": "ch035",
+      "status": "reviewed",
+      "source_segments": [
+        {
+          "source_path": "ilyenkov_markdown/ilyenkov_md/knigi/knigi-dialektika-abstraktnogo-i-konkretnogo-v-nauchno-teoreticheskom-myshlenii/knigi-dialektika-abstraktnogo-i-konkretnogo-v-nauchno-teoreticheskom-myshlenii-ch035.md",
+          "source_url": "http://filorus.ru/ilyenkov/texts/daik/index.html",
+          "source_version": "1997年完整版（filorus.ru，Maidansky 站点 HTML 转换，html_conversion_unverified）",
+          "source_sha256": "d6f6c686fdcf196882f66c7a64e245c545cb247f3523719c9970acd0bd24cb21",
+          "source_block_start": 1,
+          "source_block_end": 264
+        }
+      ],
+      "paragraph_count": 264,
+      "accuracy_review": {
+        "reviewer": "hoshF",
+        "reviewed_at": "2026-07-25",
+        "result": "passed",
+        "scope_sha256": "0f1b1cdd432a41a7e7a7cde9a84e40b67e9fb3ee91043b635229d9839f1d6261"
+      },
+      "language_review": {
+        "reviewer": "hoshF",
+        "reviewed_at": "2026-07-25",
+        "result": "passed",
+        "scope_sha256": "a6a2db7f5d79ebbb1ff3996a83f3b8a5fdb7b9f2bcc713a73ae179d7f8d50c56"
+      }
+    },
+    {
+      "id": "ch036",
+      "status": "reviewed",
+      "source_segments": [
+        {
+          "source_path": "ilyenkov_markdown/ilyenkov_md/knigi/knigi-dialektika-abstraktnogo-i-konkretnogo-v-nauchno-teoreticheskom-myshlenii/knigi-dialektika-abstraktnogo-i-konkretnogo-v-nauchno-teoreticheskom-myshlenii-ch036.md",
+          "source_url": "http://filorus.ru/ilyenkov/texts/daik/index.html",
+          "source_version": "1997年完整版（filorus.ru，Maidansky 站点 HTML 转换，html_conversion_unverified）",
+          "source_sha256": "02a2fae23e26d6635b8da9f843a5792d585333e289b7f9b08612ba38bb7911a0",
+          "source_block_start": 1,
+          "source_block_end": 204
+        }
+      ],
+      "paragraph_count": 204,
+      "accuracy_review": {
+        "reviewer": "hoshF",
+        "reviewed_at": "2026-07-25",
+        "result": "passed",
+        "scope_sha256": "25580ed3cc11c0459a9dc0c94500eda505393ef84643acdac799d7d3e4998e31"
+      },
+      "language_review": {
+        "reviewer": "hoshF",
+        "reviewed_at": "2026-07-25",
+        "result": "passed",
+        "scope_sha256": "cb27d14a13fb6a95a5b27a66f029f6379bfb214124a84501ab0409457a0f2f9b"
+      }
+    },
+    {
+      "id": "ch037",
+      "status": "reviewed",
+      "source_segments": [
+        {
+          "source_path": "ilyenkov_markdown/ilyenkov_md/knigi/knigi-dialektika-abstraktnogo-i-konkretnogo-v-nauchno-teoreticheskom-myshlenii/knigi-dialektika-abstraktnogo-i-konkretnogo-v-nauchno-teoreticheskom-myshlenii-ch037.md",
+          "source_url": "http://filorus.ru/ilyenkov/texts/daik/index.html",
+          "source_version": "1997年完整版（filorus.ru，Maidansky 站点 HTML 转换，html_conversion_unverified）",
+          "source_sha256": "4f4aa33481b9876c7aec08c8bd213874c9415564b49d17675722201d35fbc96e",
+          "source_block_start": 1,
+          "source_block_end": 75
+        }
+      ],
+      "paragraph_count": 75,
+      "accuracy_review": {
+        "reviewer": "hoshF",
+        "reviewed_at": "2026-07-25",
+        "result": "passed",
+        "scope_sha256": "deee8e92a213b0e38796d29bc5bbda8a7ce8886547dab4601318f97507d1d2ce"
+      },
+      "language_review": {
+        "reviewer": "hoshF",
+        "reviewed_at": "2026-07-25",
+        "result": "passed",
+        "scope_sha256": "5d8ba4c88fc3443cfe18e2299e82033353babcde31c040182b52a4fff4ed459e"
+      }
+    },
+    {
+      "id": "ch038",
+      "status": "reviewed",
+      "source_segments": [
+        {
+          "source_path": "ilyenkov_markdown/ilyenkov_md/knigi/knigi-dialektika-abstraktnogo-i-konkretnogo-v-nauchno-teoreticheskom-myshlenii/knigi-dialektika-abstraktnogo-i-konkretnogo-v-nauchno-teoreticheskom-myshlenii-ch038.md",
+          "source_url": "http://filorus.ru/ilyenkov/texts/daik/index.html",
+          "source_version": "1997年完整版（filorus.ru，Maidansky 站点 HTML 转换，html_conversion_unverified）",
+          "source_sha256": "ccd591c1bc3c6d830df31db6737e62701c3eb0fdfe33304567ac8f535de34950",
+          "source_block_start": 1,
+          "source_block_end": 158
+        }
+      ],
+      "paragraph_count": 158,
+      "accuracy_review": {
+        "reviewer": "hoshF",
+        "reviewed_at": "2026-07-25",
+        "result": "passed",
+        "scope_sha256": "7c7a2a40cbace69edf54fa315f808ee36bd3a4d98bb46daaef552f712be5278b"
+      },
+      "language_review": {
+        "reviewer": "hoshF",
+        "reviewed_at": "2026-07-25",
+        "result": "passed",
+        "scope_sha256": "8398f6ba9937c21d7f67f9e8bbe4c1fa63a202a10615268bab8433d88268f928"
+      }
+    },
+    {
+      "id": "ch039",
+      "status": "reviewed",
+      "source_segments": [
+        {
+          "source_path": "ilyenkov_markdown/ilyenkov_md/knigi/knigi-dialektika-abstraktnogo-i-konkretnogo-v-nauchno-teoreticheskom-myshlenii/knigi-dialektika-abstraktnogo-i-konkretnogo-v-nauchno-teoreticheskom-myshlenii-ch039.md",
+          "source_url": "http://filorus.ru/ilyenkov/texts/daik/index.html",
+          "source_version": "1997年完整版（filorus.ru，Maidansky 站点 HTML 转换，html_conversion_unverified）",
+          "source_sha256": "b12d719afedeca02eab3865ee5a961e123d96479c4a957e62ec6af7c4c2774e1",
+          "source_block_start": 1,
+          "source_block_end": 36
+        }
+      ],
+      "paragraph_count": 36,
+      "accuracy_review": {
+        "reviewer": "hoshF",
+        "reviewed_at": "2026-07-25",
+        "result": "passed",
+        "scope_sha256": "b6dd308e5c0f3bb3a0a4469ccd18ad94829c4a19ecaecf6642a4d4b1955c453d"
+      },
+      "language_review": {
+        "reviewer": "hoshF",
+        "reviewed_at": "2026-07-25",
+        "result": "passed",
+        "scope_sha256": "872195e9e671123e7e486ab0e8b663e481044cc64702dd84e3cc8a4e808077b5"
+      }
+    },
+    {
+      "id": "ch040",
+      "status": "reviewed",
+      "source_segments": [
+        {
+          "source_path": "ilyenkov_markdown/ilyenkov_md/knigi/knigi-dialektika-abstraktnogo-i-konkretnogo-v-nauchno-teoreticheskom-myshlenii/knigi-dialektika-abstraktnogo-i-konkretnogo-v-nauchno-teoreticheskom-myshlenii-ch040.md",
+          "source_url": "http://filorus.ru/ilyenkov/texts/daik/index.html",
+          "source_version": "1997年完整版（filorus.ru，Maidansky 站点 HTML 转换，html_conversion_unverified）",
+          "source_sha256": "d89a5cf42c4c61661dfb855362fff868c182a31fb880c65d8084e3723061989e",
+          "source_block_start": 1,
+          "source_block_end": 33
+        }
+      ],
+      "paragraph_count": 33,
+      "accuracy_review": {
+        "reviewer": "hoshF",
+        "reviewed_at": "2026-07-25",
+        "result": "passed",
+        "scope_sha256": "49507fe15acc16210b0d8f6c7dbd9d8513bd204589a9a5114cb09e0d65fdade3"
+      },
+      "language_review": {
+        "reviewer": "hoshF",
+        "reviewed_at": "2026-07-25",
+        "result": "passed",
+        "scope_sha256": "480bc343bb3e25652ba8a4b73d47091b9083a09f0bef616b7dac77962a52f59a"
+      }
+    },
+    {
+      "id": "ch041",
+      "status": "reviewed",
+      "source_segments": [
+        {
+          "source_path": "ilyenkov_markdown/ilyenkov_md/knigi/knigi-dialektika-abstraktnogo-i-konkretnogo-v-nauchno-teoreticheskom-myshlenii/knigi-dialektika-abstraktnogo-i-konkretnogo-v-nauchno-teoreticheskom-myshlenii-ch041.md",
+          "source_url": "http://filorus.ru/ilyenkov/texts/daik/index.html",
+          "source_version": "1997年完整版（filorus.ru，Maidansky 站点 HTML 转换，html_conversion_unverified）",
+          "source_sha256": "ddeec40363b1dd57e7ab74cf78a9934aa372efb9d72ca067e5864dc2d88e2656",
+          "source_block_start": 1,
+          "source_block_end": 48
+        }
+      ],
+      "paragraph_count": 48,
+      "accuracy_review": {
+        "reviewer": "hoshF",
+        "reviewed_at": "2026-07-25",
+        "result": "passed",
+        "scope_sha256": "d4aa29f445386153599cbf1f3b2c250eedcaf31269ba4ee1e1ae9c9295467e10"
+      },
+      "language_review": {
+        "reviewer": "hoshF",
+        "reviewed_at": "2026-07-25",
+        "result": "passed",
+        "scope_sha256": "d7cfe1bf3ef4b79885bc6eeed9de91832558f6af3d74f9781cd89e71977f821f"
+      }
+    }
+  ],
+  "work_complete": true
+}

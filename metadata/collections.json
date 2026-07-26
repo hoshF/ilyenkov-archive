@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "generated_at": "2026-07-02",
+  "generated_at": "2026-07-10",
   "project": {
     "focus_person_id": "ilyenkov",
     "large_binary_threshold_bytes": 78643200,
@@ -90,6 +90,29 @@
       "default_text_role": "author_original",
       "default_language": "ru",
       "collection_name": "ilyenkov-russian"
+    },
+    {
+      "id": "ilyenkov-biography",
+      "person_id": "ilyenkov",
+      "kind": "biography_research",
+      "root": "ilyenkov_markdown",
+      "layout": "legacy",
+      "stage": "markdown_corpus",
+      "readme": "ilyenkov_markdown/README.md",
+      "corpus_paths": [
+        "ilyenkov_markdown/ilyenkov_biography_md/"
+      ],
+      "scan_paths": [
+        "ilyenkov_markdown/source_scans/"
+      ],
+      "scan_manifest": "ilyenkov_markdown/metadata/source_scans_manifest.json",
+      "works_manifest": "ilyenkov_markdown/metadata/ilyenkov_biography_manifest.json",
+      "bibliography_paths": [],
+      "source_survey": "notes/ILYENKOV_BIOGRAPHY_SOURCE_SURVEY.md",
+      "gbrain_tracked": true,
+      "default_text_role": "research",
+      "default_language": "ru",
+      "collection_name": "ilyenkov-biography"
     },
     {
       "id": "maidansky-research",

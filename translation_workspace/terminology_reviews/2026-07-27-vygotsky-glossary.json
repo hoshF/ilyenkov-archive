@@ -1,0 +1,1409 @@
+{
+  "schema_version": 1,
+  "audit_only": true,
+  "record_format": "legacy_migrated",
+  "batch_id": "2026-07-27-vygotsky-glossary",
+  "batch_kind": "glossary_initialization",
+  "date": "2026-07-27",
+  "primary_author_id": "vygotsky",
+  "related_author_ids": [
+    "maidansky"
+  ],
+  "work_id": "collection-glossary-initialization",
+  "article_slug": "vygotsky-glossary",
+  "inputs": [
+    {
+      "role": "registry",
+      "path": "metadata/collections.json",
+      "sha256": "c9ba710da2ce303519b38e45930d98d0af0e91819758f01ebfb782df86cfbb80",
+      "size": 8821
+    },
+    {
+      "role": "source_survey",
+      "path": "notes/VYGOTSKY_SOURCE_SURVEY.md",
+      "sha256": "3feb96eeed01ad8bea18d71ccc916c1b77c67bbfca3c54b592017bc26c9d2aaa",
+      "size": 27391
+    },
+    {
+      "role": "works_manifest",
+      "path": "vygotsky_markdown/metadata/works_master.json",
+      "sha256": "2d2ff6310211e79fcfd67a46ed037160896b1c7a993aa1b5345b403ff208156a",
+      "size": 250934
+    }
+  ],
+  "review": {
+    "accuracy": {
+      "full_pass": false,
+      "coverage": "完整范围见迁移保留的旧日志段落。"
+    },
+    "language": {
+      "full_pass": false,
+      "coverage": "完整范围见迁移保留的旧日志段落。"
+    },
+    "final_translation_sha256": null,
+    "blockers": []
+  },
+  "operation_counts": {
+    "add": 34,
+    "modify": 3,
+    "delete": 0,
+    "status": 0,
+    "reject": 0,
+    "no_formal_glossary": 0
+  },
+  "decisions": [
+    {
+      "proposal_id": "legacy-001",
+      "term_ids": [
+        "vygotsky"
+      ],
+      "target_author_ids": [
+        "vygotsky"
+      ],
+      "canonical": "Лев Семенович Выготский",
+      "forms": [],
+      "suggested_zh": "列夫·维果茨基 4 篇文本见证署名及 collection registry",
+      "operations": [
+        "add"
+      ],
+      "before": "",
+      "after": "",
+      "article_evidence": {
+        "summary": "该批旧日志未单列本文频次；完整信息保存在 legacy_cells。"
+      },
+      "corpus_evidence": {
+        "summary": "4 篇文本见证署名及 collection registry；项目统一人名",
+        "representative_contexts": []
+      },
+      "rationale": "`add` → 列夫·维果茨基；4 篇文本见证署名及 collection registry；项目统一人名",
+      "final_status_by_author": {
+        "legacy": "approved"
+      },
+      "affected_translation_locations": [],
+      "affected_translation_summary": "该批旧日志未单列译文位置；完整信息保存在 legacy_cells。",
+      "heuristic_forms_pending": [],
+      "legacy_cells": {
+        "词条 ID": "`vygotsky`",
+        "原词": "`Лев Семенович Выготский`",
+        "操作与中文首选": "`add` → 列夫·维果茨基",
+        "证据位置与理由": "4 篇文本见证署名及 collection registry；项目统一人名",
+        "最终状态": "`approved`"
+      }
+    },
+    {
+      "proposal_id": "legacy-002",
+      "term_ids": [
+        "thinking-and-speech"
+      ],
+      "target_author_ids": [],
+      "canonical": "Мышление и речь",
+      "forms": [],
+      "suggested_zh": "《思维与语言》 `works_master.json` 登记 1934 年著作",
+      "operations": [
+        "add"
+      ],
+      "before": "",
+      "after": "",
+      "article_evidence": {
+        "summary": "该批旧日志未单列本文频次；完整信息保存在 legacy_cells。"
+      },
+      "corpus_evidence": {
+        "summary": "`works_master.json` 登记 1934 年著作；通行书名不使正文 `речь` 改译“语言”",
+        "representative_contexts": []
+      },
+      "rationale": "`add` → 《思维与语言》；`works_master.json` 登记 1934 年著作；通行书名不使正文 `речь` 改译“语言”",
+      "final_status_by_author": {
+        "legacy": "approved"
+      },
+      "affected_translation_locations": [],
+      "affected_translation_summary": "该批旧日志未单列译文位置；完整信息保存在 legacy_cells。",
+      "heuristic_forms_pending": [],
+      "legacy_cells": {
+        "词条 ID": "`thinking-and-speech`",
+        "原词": "`Мышление и речь`",
+        "操作与中文首选": "`add` → 《思维与语言》",
+        "证据位置与理由": "`works_master.json` 登记 1934 年著作；通行书名不使正文 `речь` 改译“语言”",
+        "最终状态": "`approved`"
+      }
+    },
+    {
+      "proposal_id": "legacy-003",
+      "term_ids": [
+        "history-higher-psychological-functions"
+      ],
+      "target_author_ids": [],
+      "canonical": "История развития высших психических функций",
+      "forms": [],
+      "suggested_zh": "《高级心理功能发展史》 同名文本见证",
+      "operations": [
+        "add"
+      ],
+      "before": "",
+      "after": "",
+      "article_evidence": {
+        "summary": "该批旧日志未单列本文频次；完整信息保存在 legacy_cells。"
+      },
+      "corpus_evidence": {
+        "summary": "同名文本见证；“功能/机能”仍待版本核对",
+        "representative_contexts": []
+      },
+      "rationale": "`add` → 《高级心理功能发展史》；同名文本见证；“功能/机能”仍待版本核对",
+      "final_status_by_author": {
+        "legacy": "provisional"
+      },
+      "affected_translation_locations": [],
+      "affected_translation_summary": "该批旧日志未单列译文位置；完整信息保存在 legacy_cells。",
+      "heuristic_forms_pending": [],
+      "legacy_cells": {
+        "词条 ID": "`history-higher-psychological-functions`",
+        "原词": "`История развития высших психических функций`",
+        "操作与中文首选": "`add` → 《高级心理功能发展史》",
+        "证据位置与理由": "同名文本见证；“功能/机能”仍待版本核对",
+        "最终状态": "`provisional`"
+      }
+    },
+    {
+      "proposal_id": "legacy-004",
+      "term_ids": [
+        "lectures-developmental-psychology"
+      ],
+      "target_author_ids": [],
+      "canonical": "Лекции по психологии развития",
+      "forms": [],
+      "suggested_zh": "《发展心理学讲义》 2021 年档案发表文本见证",
+      "operations": [
+        "add"
+      ],
+      "before": "",
+      "after": "",
+      "article_evidence": {
+        "summary": "该批旧日志未单列本文频次；完整信息保存在 legacy_cells。"
+      },
+      "corpus_evidence": {
+        "summary": "2021 年档案发表文本见证；“讲义/讲座”待核",
+        "representative_contexts": []
+      },
+      "rationale": "`add` → 《发展心理学讲义》；2021 年档案发表文本见证；“讲义/讲座”待核",
+      "final_status_by_author": {
+        "legacy": "provisional"
+      },
+      "affected_translation_locations": [],
+      "affected_translation_summary": "该批旧日志未单列译文位置；完整信息保存在 legacy_cells。",
+      "heuristic_forms_pending": [],
+      "legacy_cells": {
+        "词条 ID": "`lectures-developmental-psychology`",
+        "原词": "`Лекции по психологии развития`",
+        "操作与中文首选": "`add` → 《发展心理学讲义》",
+        "证据位置与理由": "2021 年档案发表文本见证；“讲义/讲座”待核",
+        "最终状态": "`provisional`"
+      }
+    },
+    {
+      "proposal_id": "legacy-005",
+      "term_ids": [
+        "learning-mental-development-school-age"
+      ],
+      "target_author_ids": [],
+      "canonical": "Проблема обучения и умственного развития в школьном возрасте",
+      "forms": [],
+      "suggested_zh": "《学龄期教学与智力发展问题》 同名文本见证",
+      "operations": [
+        "add"
+      ],
+      "before": "",
+      "after": "",
+      "article_evidence": {
+        "summary": "该批旧日志未单列本文频次；完整信息保存在 legacy_cells。"
+      },
+      "corpus_evidence": {
+        "summary": "同名文本见证；`обучение` 与 `умственное` 均有真实译法选择",
+        "representative_contexts": []
+      },
+      "rationale": "`add` → 《学龄期教学与智力发展问题》；同名文本见证；`обучение` 与 `умственное` 均有真实译法选择",
+      "final_status_by_author": {
+        "legacy": "provisional"
+      },
+      "affected_translation_locations": [],
+      "affected_translation_summary": "该批旧日志未单列译文位置；完整信息保存在 legacy_cells。",
+      "heuristic_forms_pending": [],
+      "legacy_cells": {
+        "词条 ID": "`learning-mental-development-school-age`",
+        "原词": "`Проблема обучения и умственного развития в школьном возрасте`",
+        "操作与中文首选": "`add` → 《学龄期教学与智力发展问题》",
+        "证据位置与理由": "同名文本见证；`обучение` 与 `умственное` 均有真实译法选择",
+        "最终状态": "`provisional`"
+      }
+    },
+    {
+      "proposal_id": "legacy-006",
+      "term_ids": [
+        "development-everyday-scientific-concepts"
+      ],
+      "target_author_ids": [],
+      "canonical": "Развитие житейских и научных понятий в школьном возрасте",
+      "forms": [],
+      "suggested_zh": "《学龄期日常概念与科学概念的发展》 同名文本见证",
+      "operations": [
+        "add"
+      ],
+      "before": "",
+      "after": "",
+      "article_evidence": {
+        "summary": "该批旧日志未单列本文频次；完整信息保存在 legacy_cells。"
+      },
+      "corpus_evidence": {
+        "summary": "同名文本见证；待核既有中文题名",
+        "representative_contexts": []
+      },
+      "rationale": "`add` → 《学龄期日常概念与科学概念的发展》；同名文本见证；待核既有中文题名",
+      "final_status_by_author": {
+        "legacy": "provisional"
+      },
+      "affected_translation_locations": [],
+      "affected_translation_summary": "该批旧日志未单列译文位置；完整信息保存在 legacy_cells。",
+      "heuristic_forms_pending": [],
+      "legacy_cells": {
+        "词条 ID": "`development-everyday-scientific-concepts`",
+        "原词": "`Развитие житейских и научных понятий в школьном возрасте`",
+        "操作与中文首选": "`add` → 《学龄期日常概念与科学概念的发展》",
+        "证据位置与理由": "同名文本见证；待核既有中文题名",
+        "最终状态": "`provisional`"
+      }
+    },
+    {
+      "proposal_id": "legacy-007",
+      "term_ids": [
+        "development"
+      ],
+      "target_author_ids": [],
+      "canonical": "развитие",
+      "forms": [],
+      "suggested_zh": "发展 全部文本见证",
+      "operations": [
+        "add"
+      ],
+      "before": "",
+      "after": "",
+      "article_evidence": {
+        "summary": "`развитие` 词族约 459/4 篇"
+      },
+      "corpus_evidence": {
+        "summary": "该批旧日志未单列作者语料频次；完整信息保存在 legacy_cells。",
+        "representative_contexts": []
+      },
+      "rationale": "`add` → 发展；全部文本见证；仅生理语境考虑“发育”",
+      "final_status_by_author": {
+        "legacy": "approved"
+      },
+      "affected_translation_locations": [],
+      "affected_translation_summary": "全部文本见证；仅生理语境考虑“发育”",
+      "heuristic_forms_pending": [],
+      "legacy_cells": {
+        "词条 ID": "`development`",
+        "原词与当前语料频次": "`развитие` 词族约 459/4 篇",
+        "操作与中文首选": "`add` → 发展",
+        "上下文、范围与受影响位置": "全部文本见证；仅生理语境考虑“发育”",
+        "最终状态": "`approved`"
+      }
+    },
+    {
+      "proposal_id": "legacy-008",
+      "term_ids": [
+        "cultural-development"
+      ],
+      "target_author_ids": [],
+      "canonical": "культурное развитие",
+      "forms": [],
+      "suggested_zh": "文化发展 符号和社会文化手段介入的发展路线 `approved`",
+      "operations": [
+        "add"
+      ],
+      "before": "",
+      "after": "",
+      "article_evidence": {
+        "summary": "`культурное развитие` 约 28/2 篇"
+      },
+      "corpus_evidence": {
+        "summary": "该批旧日志未单列作者语料频次；完整信息保存在 legacy_cells。",
+        "representative_contexts": []
+      },
+      "rationale": "`add` → 文化发展；符号和社会文化手段介入的发展路线",
+      "final_status_by_author": {
+        "legacy": "approved"
+      },
+      "affected_translation_locations": [],
+      "affected_translation_summary": "符号和社会文化手段介入的发展路线",
+      "heuristic_forms_pending": [],
+      "legacy_cells": {
+        "词条 ID": "`cultural-development`",
+        "原词与当前语料频次": "`культурное развитие` 约 28/2 篇",
+        "操作与中文首选": "`add` → 文化发展",
+        "上下文、范围与受影响位置": "符号和社会文化手段介入的发展路线",
+        "最终状态": "`approved`"
+      }
+    },
+    {
+      "proposal_id": "legacy-009",
+      "term_ids": [
+        "natural-development"
+      ],
+      "target_author_ids": [],
+      "canonical": "естественное развитие",
+      "forms": [],
+      "suggested_zh": "自然发展 与文化发展对举",
+      "operations": [
+        "add"
+      ],
+      "before": "",
+      "after": "",
+      "article_evidence": {
+        "summary": "`естественное развитие` 1/1 篇"
+      },
+      "corpus_evidence": {
+        "summary": "该批旧日志未单列作者语料频次；完整信息保存在 legacy_cells。",
+        "representative_contexts": []
+      },
+      "rationale": "`add` → 自然发展；与文化发展对举；其他版本词形待补",
+      "final_status_by_author": {
+        "legacy": "provisional"
+      },
+      "affected_translation_locations": [],
+      "affected_translation_summary": "与文化发展对举；其他版本词形待补",
+      "heuristic_forms_pending": [],
+      "legacy_cells": {
+        "词条 ID": "`natural-development`",
+        "原词与当前语料频次": "`естественное развитие` 1/1 篇",
+        "操作与中文首选": "`add` → 自然发展",
+        "上下文、范围与受影响位置": "与文化发展对举；其他版本词形待补",
+        "最终状态": "`provisional`"
+      }
+    },
+    {
+      "proposal_id": "legacy-010",
+      "term_ids": [
+        "higher-psychological-functions"
+      ],
+      "target_author_ids": [],
+      "canonical": "两个俄文变体约 15/4 篇",
+      "forms": [],
+      "suggested_zh": "高级心理功能 `высшие психические / психологические функции` 合并维护",
+      "operations": [
+        "add"
+      ],
+      "before": "",
+      "after": "",
+      "article_evidence": {
+        "summary": "两个俄文变体约 15/4 篇"
+      },
+      "corpus_evidence": {
+        "summary": "该批旧日志未单列作者语料频次；完整信息保存在 legacy_cells。",
+        "representative_contexts": []
+      },
+      "rationale": "`add` → 高级心理功能；`высшие психические / психологические функции` 合并维护；“功能/机能”待主要中译本复核",
+      "final_status_by_author": {
+        "legacy": "provisional"
+      },
+      "affected_translation_locations": [],
+      "affected_translation_summary": "`высшие психические / психологические функции` 合并维护；“功能/机能”待主要中译本复核",
+      "heuristic_forms_pending": [],
+      "legacy_cells": {
+        "词条 ID": "`higher-psychological-functions`",
+        "原词与当前语料频次": "两个俄文变体约 15/4 篇",
+        "操作与中文首选": "`add` → 高级心理功能",
+        "上下文、范围与受影响位置": "`высшие психические / психологические функции` 合并维护；“功能/机能”待主要中译本复核",
+        "最终状态": "`provisional`"
+      }
+    },
+    {
+      "proposal_id": "legacy-011",
+      "term_ids": [
+        "sign"
+      ],
+      "target_author_ids": [],
+      "canonical": "знак",
+      "forms": [],
+      "suggested_zh": "符号 作为重组心理过程的文化手段 `approved`",
+      "operations": [
+        "add"
+      ],
+      "before": "",
+      "after": "",
+      "article_evidence": {
+        "summary": "`знак` 词族约 16/2 篇"
+      },
+      "corpus_evidence": {
+        "summary": "该批旧日志未单列作者语料频次；完整信息保存在 legacy_cells。",
+        "representative_contexts": []
+      },
+      "rationale": "`add` → 符号；作为重组心理过程的文化手段",
+      "final_status_by_author": {
+        "legacy": "approved"
+      },
+      "affected_translation_locations": [],
+      "affected_translation_summary": "作为重组心理过程的文化手段",
+      "heuristic_forms_pending": [],
+      "legacy_cells": {
+        "词条 ID": "`sign`",
+        "原词与当前语料频次": "`знак` 词族约 16/2 篇",
+        "操作与中文首选": "`add` → 符号",
+        "上下文、范围与受影响位置": "作为重组心理过程的文化手段",
+        "最终状态": "`approved`"
+      }
+    },
+    {
+      "proposal_id": "legacy-012",
+      "term_ids": [
+        "mediation"
+      ],
+      "target_author_ids": [],
+      "canonical": "опосредств-",
+      "forms": [],
+      "suggested_zh": "中介作用 直接反应转为以辅助刺激为中介的反应 `provisional`",
+      "operations": [
+        "add"
+      ],
+      "before": "",
+      "after": "",
+      "article_evidence": {
+        "summary": "`опосредств-` 词族约 6/2 篇"
+      },
+      "corpus_evidence": {
+        "summary": "该批旧日志未单列作者语料频次；完整信息保存在 legacy_cells。",
+        "representative_contexts": []
+      },
+      "rationale": "`add` → 中介作用；直接反应转为以辅助刺激为中介的反应",
+      "final_status_by_author": {
+        "legacy": "provisional"
+      },
+      "affected_translation_locations": [],
+      "affected_translation_summary": "直接反应转为以辅助刺激为中介的反应",
+      "heuristic_forms_pending": [],
+      "legacy_cells": {
+        "词条 ID": "`mediation`",
+        "原词与当前语料频次": "`опосредств-` 词族约 6/2 篇",
+        "操作与中文首选": "`add` → 中介作用",
+        "上下文、范围与受影响位置": "直接反应转为以辅助刺激为中介的反应",
+        "最终状态": "`provisional`"
+      }
+    },
+    {
+      "proposal_id": "legacy-013",
+      "term_ids": [
+        "interiorization"
+      ],
+      "target_author_ids": [],
+      "canonical": "интериоризация",
+      "forms": [],
+      "suggested_zh": "内化 外部、人际形式转为内部心理形式",
+      "operations": [
+        "add"
+      ],
+      "before": "",
+      "after": "",
+      "article_evidence": {
+        "summary": "`интериоризация` 1/1 篇"
+      },
+      "corpus_evidence": {
+        "summary": "该批旧日志未单列作者语料频次；完整信息保存在 legacy_cells。",
+        "representative_contexts": []
+      },
+      "rationale": "`add` → 内化；外部、人际形式转为内部心理形式；同 `вращивание` 区分",
+      "final_status_by_author": {
+        "legacy": "provisional"
+      },
+      "affected_translation_locations": [],
+      "affected_translation_summary": "外部、人际形式转为内部心理形式；同 `вращивание` 区分",
+      "heuristic_forms_pending": [],
+      "legacy_cells": {
+        "词条 ID": "`interiorization`",
+        "原词与当前语料频次": "`интериоризация` 1/1 篇",
+        "操作与中文首选": "`add` → 内化",
+        "上下文、范围与受影响位置": "外部、人际形式转为内部心理形式；同 `вращивание` 区分",
+        "最终状态": "`provisional`"
+      }
+    },
+    {
+      "proposal_id": "legacy-014",
+      "term_ids": [
+        "vrashchivanie"
+      ],
+      "target_author_ids": [
+        "maidansky",
+        "vygotsky"
+      ],
+      "canonical": "当前 Vygotsky 正文 0；关联语料 20/10 篇",
+      "forms": [],
+      "suggested_zh": "内长化 以 Maidansky 专题研究为首批证据",
+      "operations": [
+        "add"
+      ],
+      "before": "",
+      "after": "",
+      "article_evidence": {
+        "summary": "当前 Vygotsky 正文 0；关联语料 20/10 篇"
+      },
+      "corpus_evidence": {
+        "summary": "该批旧日志未单列作者语料频次；完整信息保存在 legacy_cells。",
+        "representative_contexts": []
+      },
+      "rationale": "`add` → 内长化；以 Maidansky 专题研究为首批证据；当前作者文本见证尚未直接覆盖",
+      "final_status_by_author": {
+        "legacy": "provisional"
+      },
+      "affected_translation_locations": [],
+      "affected_translation_summary": "以 Maidansky 专题研究为首批证据；当前作者文本见证尚未直接覆盖",
+      "heuristic_forms_pending": [],
+      "legacy_cells": {
+        "词条 ID": "`vrashchivanie`",
+        "原词与当前语料频次": "当前 Vygotsky 正文 0；关联语料 20/10 篇",
+        "操作与中文首选": "`add` → 内长化",
+        "上下文、范围与受影响位置": "以 Maidansky 专题研究为首批证据；当前作者文本见证尚未直接覆盖",
+        "最终状态": "`provisional`"
+      }
+    },
+    {
+      "proposal_id": "legacy-015",
+      "term_ids": [
+        "speech"
+      ],
+      "target_author_ids": [],
+      "canonical": "речь",
+      "forms": [],
+      "suggested_zh": "言语 与 `язык`“语言系统”区分",
+      "operations": [
+        "add"
+      ],
+      "before": "",
+      "after": "",
+      "article_evidence": {
+        "summary": "`речь` 词族约 51/4 篇"
+      },
+      "corpus_evidence": {
+        "summary": "该批旧日志未单列作者语料频次；完整信息保存在 legacy_cells。",
+        "representative_contexts": []
+      },
+      "rationale": "`add` → 言语；与 `язык`“语言系统”区分；著作通行题名例外",
+      "final_status_by_author": {
+        "legacy": "approved"
+      },
+      "affected_translation_locations": [],
+      "affected_translation_summary": "与 `язык`“语言系统”区分；著作通行题名例外",
+      "heuristic_forms_pending": [],
+      "legacy_cells": {
+        "词条 ID": "`speech`",
+        "原词与当前语料频次": "`речь` 词族约 51/4 篇",
+        "操作与中文首选": "`add` → 言语",
+        "上下文、范围与受影响位置": "与 `язык`“语言系统”区分；著作通行题名例外",
+        "最终状态": "`approved`"
+      }
+    },
+    {
+      "proposal_id": "legacy-016",
+      "term_ids": [
+        "inner-speech"
+      ],
+      "target_author_ids": [],
+      "canonical": "внутренняя речь",
+      "forms": [],
+      "suggested_zh": "内部言语 内部心理形式，不作一般“内心想法” `provisional`",
+      "operations": [
+        "add"
+      ],
+      "before": "",
+      "after": "",
+      "article_evidence": {
+        "summary": "`внутренняя речь` 3/2 篇"
+      },
+      "corpus_evidence": {
+        "summary": "该批旧日志未单列作者语料频次；完整信息保存在 legacy_cells。",
+        "representative_contexts": []
+      },
+      "rationale": "`add` → 内部言语；内部心理形式，不作一般“内心想法”",
+      "final_status_by_author": {
+        "legacy": "provisional"
+      },
+      "affected_translation_locations": [],
+      "affected_translation_summary": "内部心理形式，不作一般“内心想法”",
+      "heuristic_forms_pending": [],
+      "legacy_cells": {
+        "词条 ID": "`inner-speech`",
+        "原词与当前语料频次": "`внутренняя речь` 3/2 篇",
+        "操作与中文首选": "`add` → 内部言语",
+        "上下文、范围与受影响位置": "内部心理形式，不作一般“内心想法”",
+        "最终状态": "`provisional`"
+      }
+    },
+    {
+      "proposal_id": "legacy-017",
+      "term_ids": [
+        "thinking"
+      ],
+      "target_author_ids": [],
+      "canonical": "мышление",
+      "forms": [],
+      "suggested_zh": "思维 同具体思想内容 `мысль` 区分 `approved`",
+      "operations": [
+        "add"
+      ],
+      "before": "",
+      "after": "",
+      "article_evidence": {
+        "summary": "`мышление` 词族约 93/3 篇"
+      },
+      "corpus_evidence": {
+        "summary": "该批旧日志未单列作者语料频次；完整信息保存在 legacy_cells。",
+        "representative_contexts": []
+      },
+      "rationale": "`add` → 思维；同具体思想内容 `мысль` 区分",
+      "final_status_by_author": {
+        "legacy": "approved"
+      },
+      "affected_translation_locations": [],
+      "affected_translation_summary": "同具体思想内容 `мысль` 区分",
+      "heuristic_forms_pending": [],
+      "legacy_cells": {
+        "词条 ID": "`thinking`",
+        "原词与当前语料频次": "`мышление` 词族约 93/3 篇",
+        "操作与中文首选": "`add` → 思维",
+        "上下文、范围与受影响位置": "同具体思想内容 `мысль` 区分",
+        "最终状态": "`approved`"
+      }
+    },
+    {
+      "proposal_id": "legacy-018",
+      "term_ids": [
+        "consciousness"
+      ],
+      "target_author_ids": [],
+      "canonical": "сознание",
+      "forms": [],
+      "suggested_zh": "意识 整体心理系统和结构语境 `approved`",
+      "operations": [
+        "add"
+      ],
+      "before": "",
+      "after": "",
+      "article_evidence": {
+        "summary": "`сознание` 词族约 6/2 篇"
+      },
+      "corpus_evidence": {
+        "summary": "该批旧日志未单列作者语料频次；完整信息保存在 legacy_cells。",
+        "representative_contexts": []
+      },
+      "rationale": "`add` → 意识；整体心理系统和结构语境",
+      "final_status_by_author": {
+        "legacy": "approved"
+      },
+      "affected_translation_locations": [],
+      "affected_translation_summary": "整体心理系统和结构语境",
+      "heuristic_forms_pending": [],
+      "legacy_cells": {
+        "词条 ID": "`consciousness`",
+        "原词与当前语料频次": "`сознание` 词族约 6/2 篇",
+        "操作与中文首选": "`add` → 意识",
+        "上下文、范围与受影响位置": "整体心理系统和结构语境",
+        "最终状态": "`approved`"
+      }
+    },
+    {
+      "proposal_id": "legacy-019",
+      "term_ids": [
+        "concept"
+      ],
+      "target_author_ids": [],
+      "canonical": "понятие",
+      "forms": [],
+      "suggested_zh": "概念 概念形成和发展研究基本单位 `approved`",
+      "operations": [
+        "add"
+      ],
+      "before": "",
+      "after": "",
+      "article_evidence": {
+        "summary": "`понятие` 词族约 288/4 篇"
+      },
+      "corpus_evidence": {
+        "summary": "该批旧日志未单列作者语料频次；完整信息保存在 legacy_cells。",
+        "representative_contexts": []
+      },
+      "rationale": "`add` → 概念；概念形成和发展研究基本单位",
+      "final_status_by_author": {
+        "legacy": "approved"
+      },
+      "affected_translation_locations": [],
+      "affected_translation_summary": "概念形成和发展研究基本单位",
+      "heuristic_forms_pending": [],
+      "legacy_cells": {
+        "词条 ID": "`concept`",
+        "原词与当前语料频次": "`понятие` 词族约 288/4 篇",
+        "操作与中文首选": "`add` → 概念",
+        "上下文、范围与受影响位置": "概念形成和发展研究基本单位",
+        "最终状态": "`approved`"
+      }
+    },
+    {
+      "proposal_id": "legacy-020",
+      "term_ids": [
+        "everyday-concept"
+      ],
+      "target_author_ids": [],
+      "canonical": "житейское понятие",
+      "forms": [],
+      "suggested_zh": "日常概念 与科学概念成对维护 `approved`",
+      "operations": [
+        "add"
+      ],
+      "before": "",
+      "after": "",
+      "article_evidence": {
+        "summary": "`житейское понятие` 约 43/1 篇"
+      },
+      "corpus_evidence": {
+        "summary": "该批旧日志未单列作者语料频次；完整信息保存在 legacy_cells。",
+        "representative_contexts": []
+      },
+      "rationale": "`add` → 日常概念；与科学概念成对维护",
+      "final_status_by_author": {
+        "legacy": "approved"
+      },
+      "affected_translation_locations": [],
+      "affected_translation_summary": "与科学概念成对维护",
+      "heuristic_forms_pending": [],
+      "legacy_cells": {
+        "词条 ID": "`everyday-concept`",
+        "原词与当前语料频次": "`житейское понятие` 约 43/1 篇",
+        "操作与中文首选": "`add` → 日常概念",
+        "上下文、范围与受影响位置": "与科学概念成对维护",
+        "最终状态": "`approved`"
+      }
+    },
+    {
+      "proposal_id": "legacy-021",
+      "term_ids": [
+        "scientific-concept"
+      ],
+      "target_author_ids": [],
+      "canonical": "научное понятие",
+      "forms": [],
+      "suggested_zh": "科学概念 与日常概念成对维护 `approved`",
+      "operations": [
+        "add"
+      ],
+      "before": "",
+      "after": "",
+      "article_evidence": {
+        "summary": "`научное понятие` 约 94/1 篇"
+      },
+      "corpus_evidence": {
+        "summary": "该批旧日志未单列作者语料频次；完整信息保存在 legacy_cells。",
+        "representative_contexts": []
+      },
+      "rationale": "`add` → 科学概念；与日常概念成对维护",
+      "final_status_by_author": {
+        "legacy": "approved"
+      },
+      "affected_translation_locations": [],
+      "affected_translation_summary": "与日常概念成对维护",
+      "heuristic_forms_pending": [],
+      "legacy_cells": {
+        "词条 ID": "`scientific-concept`",
+        "原词与当前语料频次": "`научное понятие` 约 94/1 篇",
+        "操作与中文首选": "`add` → 科学概念",
+        "上下文、范围与受影响位置": "与日常概念成对维护",
+        "最终状态": "`approved`"
+      }
+    },
+    {
+      "proposal_id": "legacy-022",
+      "term_ids": [
+        "word-meaning"
+      ],
+      "target_author_ids": [],
+      "canonical": "значение слова",
+      "forms": [],
+      "suggested_zh": "词义 作为思维与言语统一体",
+      "operations": [
+        "add"
+      ],
+      "before": "",
+      "after": "",
+      "article_evidence": {
+        "summary": "`значение слова` 约 12/3 篇"
+      },
+      "corpus_evidence": {
+        "summary": "该批旧日志未单列作者语料频次；完整信息保存在 legacy_cells。",
+        "representative_contexts": []
+      },
+      "rationale": "`add` → 词义；作为思维与言语统一体；不无条件合并 `значение / смысл`",
+      "final_status_by_author": {
+        "legacy": "approved"
+      },
+      "affected_translation_locations": [],
+      "affected_translation_summary": "作为思维与言语统一体；不无条件合并 `значение / смысл`",
+      "heuristic_forms_pending": [],
+      "legacy_cells": {
+        "词条 ID": "`word-meaning`",
+        "原词与当前语料频次": "`значение слова` 约 12/3 篇",
+        "操作与中文首选": "`add` → 词义",
+        "上下文、范围与受影响位置": "作为思维与言语统一体；不无条件合并 `значение / смысл`",
+        "最终状态": "`approved`"
+      }
+    },
+    {
+      "proposal_id": "legacy-023",
+      "term_ids": [
+        "instruction-learning"
+      ],
+      "target_author_ids": [],
+      "canonical": "обучение",
+      "forms": [],
+      "suggested_zh": "教学 可依施教、受教和儿童主体语境分译“学习/教与学” `provisional`",
+      "operations": [
+        "add"
+      ],
+      "before": "",
+      "after": "",
+      "article_evidence": {
+        "summary": "`обучение` 词族约 168/2 篇"
+      },
+      "corpus_evidence": {
+        "summary": "该批旧日志未单列作者语料频次；完整信息保存在 legacy_cells。",
+        "representative_contexts": []
+      },
+      "rationale": "`add` → 教学；可依施教、受教和儿童主体语境分译“学习/教与学”",
+      "final_status_by_author": {
+        "legacy": "provisional"
+      },
+      "affected_translation_locations": [],
+      "affected_translation_summary": "可依施教、受教和儿童主体语境分译“学习/教与学”",
+      "heuristic_forms_pending": [],
+      "legacy_cells": {
+        "词条 ID": "`instruction-learning`",
+        "原词与当前语料频次": "`обучение` 词族约 168/2 篇",
+        "操作与中文首选": "`add` → 教学",
+        "上下文、范围与受影响位置": "可依施教、受教和儿童主体语境分译“学习/教与学”",
+        "最终状态": "`provisional`"
+      }
+    },
+    {
+      "proposal_id": "legacy-024",
+      "term_ids": [
+        "mental-development"
+      ],
+      "target_author_ids": [],
+      "canonical": "умственное развитие",
+      "forms": [],
+      "suggested_zh": "智力发展 “智力/心智/思维发展”存在语境选择 `provisional`",
+      "operations": [
+        "add"
+      ],
+      "before": "",
+      "after": "",
+      "article_evidence": {
+        "summary": "`умственное развитие` 约 27/3 篇"
+      },
+      "corpus_evidence": {
+        "summary": "该批旧日志未单列作者语料频次；完整信息保存在 legacy_cells。",
+        "representative_contexts": []
+      },
+      "rationale": "`add` → 智力发展；“智力/心智/思维发展”存在语境选择",
+      "final_status_by_author": {
+        "legacy": "provisional"
+      },
+      "affected_translation_locations": [],
+      "affected_translation_summary": "“智力/心智/思维发展”存在语境选择",
+      "heuristic_forms_pending": [],
+      "legacy_cells": {
+        "词条 ID": "`mental-development`",
+        "原词与当前语料频次": "`умственное развитие` 约 27/3 篇",
+        "操作与中文首选": "`add` → 智力发展",
+        "上下文、范围与受影响位置": "“智力/心智/思维发展”存在语境选择",
+        "最终状态": "`provisional`"
+      }
+    },
+    {
+      "proposal_id": "legacy-025",
+      "term_ids": [
+        "zone-proximal-development"
+      ],
+      "target_author_ids": [],
+      "canonical": "зона ближайшего развития",
+      "forms": [],
+      "suggested_zh": "最近发展区 独立完成水平与指导、合作水平之间的发展范围 `approved`",
+      "operations": [
+        "add"
+      ],
+      "before": "",
+      "after": "",
+      "article_evidence": {
+        "summary": "`зона ближайшего развития` 15/2 篇"
+      },
+      "corpus_evidence": {
+        "summary": "该批旧日志未单列作者语料频次；完整信息保存在 legacy_cells。",
+        "representative_contexts": []
+      },
+      "rationale": "`add` → 最近发展区；独立完成水平与指导、合作水平之间的发展范围",
+      "final_status_by_author": {
+        "legacy": "approved"
+      },
+      "affected_translation_locations": [],
+      "affected_translation_summary": "独立完成水平与指导、合作水平之间的发展范围",
+      "heuristic_forms_pending": [],
+      "legacy_cells": {
+        "词条 ID": "`zone-proximal-development`",
+        "原词与当前语料频次": "`зона ближайшего развития` 15/2 篇",
+        "操作与中文首选": "`add` → 最近发展区",
+        "上下文、范围与受影响位置": "独立完成水平与指导、合作水平之间的发展范围",
+        "最终状态": "`approved`"
+      }
+    },
+    {
+      "proposal_id": "legacy-026",
+      "term_ids": [
+        "functional-double-stimulation"
+      ],
+      "target_author_ids": [],
+      "canonical": "固定表达 4/1 篇",
+      "forms": [],
+      "suggested_zh": "功能性双重刺激法 对象刺激与辅助手段两组刺激的研究方法 `provisional`",
+      "operations": [
+        "add"
+      ],
+      "before": "",
+      "after": "",
+      "article_evidence": {
+        "summary": "固定表达 4/1 篇"
+      },
+      "corpus_evidence": {
+        "summary": "该批旧日志未单列作者语料频次；完整信息保存在 legacy_cells。",
+        "representative_contexts": []
+      },
+      "rationale": "`add` → 功能性双重刺激法；对象刺激与辅助手段两组刺激的研究方法",
+      "final_status_by_author": {
+        "legacy": "provisional"
+      },
+      "affected_translation_locations": [],
+      "affected_translation_summary": "对象刺激与辅助手段两组刺激的研究方法",
+      "heuristic_forms_pending": [],
+      "legacy_cells": {
+        "词条 ID": "`functional-double-stimulation`",
+        "原词与当前语料频次": "固定表达 4/1 篇",
+        "操作与中文首选": "`add` → 功能性双重刺激法",
+        "上下文、范围与受影响位置": "对象刺激与辅助手段两组刺激的研究方法",
+        "最终状态": "`provisional`"
+      }
+    },
+    {
+      "proposal_id": "legacy-027",
+      "term_ids": [
+        "interpsychological-function"
+      ],
+      "target_author_ids": [],
+      "canonical": "成对表达 2/当前语料",
+      "forms": [],
+      "suggested_zh": "人际心理机能 高级心理功能首先在人际、社会层面出现 `provisional`",
+      "operations": [
+        "add"
+      ],
+      "before": "",
+      "after": "",
+      "article_evidence": {
+        "summary": "成对表达 2/当前语料"
+      },
+      "corpus_evidence": {
+        "summary": "该批旧日志未单列作者语料频次；完整信息保存在 legacy_cells。",
+        "representative_contexts": []
+      },
+      "rationale": "`add` → 人际心理机能；高级心理功能首先在人际、社会层面出现",
+      "final_status_by_author": {
+        "legacy": "provisional"
+      },
+      "affected_translation_locations": [],
+      "affected_translation_summary": "高级心理功能首先在人际、社会层面出现",
+      "heuristic_forms_pending": [],
+      "legacy_cells": {
+        "词条 ID": "`interpsychological-function`",
+        "原词与当前语料频次": "成对表达 2/当前语料",
+        "操作与中文首选": "`add` → 人际心理机能",
+        "上下文、范围与受影响位置": "高级心理功能首先在人际、社会层面出现",
+        "最终状态": "`provisional`"
+      }
+    },
+    {
+      "proposal_id": "legacy-028",
+      "term_ids": [
+        "intrapsychological-function"
+      ],
+      "target_author_ids": [],
+      "canonical": "成对表达 2/当前语料",
+      "forms": [],
+      "suggested_zh": "个体内心理机能 人际形式随后转入儿童内部 `provisional`",
+      "operations": [
+        "add"
+      ],
+      "before": "",
+      "after": "",
+      "article_evidence": {
+        "summary": "成对表达 2/当前语料"
+      },
+      "corpus_evidence": {
+        "summary": "该批旧日志未单列作者语料频次；完整信息保存在 legacy_cells。",
+        "representative_contexts": []
+      },
+      "rationale": "`add` → 个体内心理机能；人际形式随后转入儿童内部",
+      "final_status_by_author": {
+        "legacy": "provisional"
+      },
+      "affected_translation_locations": [],
+      "affected_translation_summary": "人际形式随后转入儿童内部",
+      "heuristic_forms_pending": [],
+      "legacy_cells": {
+        "词条 ID": "`intrapsychological-function`",
+        "原词与当前语料频次": "成对表达 2/当前语料",
+        "操作与中文首选": "`add` → 个体内心理机能",
+        "上下文、范围与受影响位置": "人际形式随后转入儿童内部",
+        "最终状态": "`provisional`"
+      }
+    },
+    {
+      "proposal_id": "legacy-029",
+      "term_ids": [
+        "imitation"
+      ],
+      "target_author_ids": [],
+      "canonical": "подражание",
+      "forms": [],
+      "suggested_zh": "模仿 合作中完成超出独立水平活动的机制 `approved`",
+      "operations": [
+        "add"
+      ],
+      "before": "",
+      "after": "",
+      "article_evidence": {
+        "summary": "`подражание` 词族约 10/3 篇"
+      },
+      "corpus_evidence": {
+        "summary": "该批旧日志未单列作者语料频次；完整信息保存在 legacy_cells。",
+        "representative_contexts": []
+      },
+      "rationale": "`add` → 模仿；合作中完成超出独立水平活动的机制",
+      "final_status_by_author": {
+        "legacy": "approved"
+      },
+      "affected_translation_locations": [],
+      "affected_translation_summary": "合作中完成超出独立水平活动的机制",
+      "heuristic_forms_pending": [],
+      "legacy_cells": {
+        "词条 ID": "`imitation`",
+        "原词与当前语料频次": "`подражание` 词族约 10/3 篇",
+        "操作与中文首选": "`add` → 模仿",
+        "上下文、范围与受影响位置": "合作中完成超出独立水平活动的机制",
+        "最终状态": "`approved`"
+      }
+    },
+    {
+      "proposal_id": "legacy-030",
+      "term_ids": [
+        "personality"
+      ],
+      "target_author_ids": [],
+      "canonical": "личность",
+      "forms": [],
+      "suggested_zh": "人格 社会关系和文化发展中形成的人格 `approved`",
+      "operations": [
+        "add"
+      ],
+      "before": "",
+      "after": "",
+      "article_evidence": {
+        "summary": "`личность` 词族约 12/1 篇"
+      },
+      "corpus_evidence": {
+        "summary": "该批旧日志未单列作者语料频次；完整信息保存在 legacy_cells。",
+        "representative_contexts": []
+      },
+      "rationale": "`add` → 人格；社会关系和文化发展中形成的人格",
+      "final_status_by_author": {
+        "legacy": "approved"
+      },
+      "affected_translation_locations": [],
+      "affected_translation_summary": "社会关系和文化发展中形成的人格",
+      "heuristic_forms_pending": [],
+      "legacy_cells": {
+        "词条 ID": "`personality`",
+        "原词与当前语料频次": "`личность` 词族约 12/1 篇",
+        "操作与中文首选": "`add` → 人格",
+        "上下文、范围与受影响位置": "社会关系和文化发展中形成的人格",
+        "最终状态": "`approved`"
+      }
+    },
+    {
+      "proposal_id": "legacy-031",
+      "term_ids": [
+        "perezhivanie"
+      ],
+      "target_author_ids": [],
+      "canonical": "переживание",
+      "forms": [],
+      "suggested_zh": "体验 中文传统存在“体验/经历”等分歧，当前证据不足 `needs_review`",
+      "operations": [
+        "add"
+      ],
+      "before": "",
+      "after": "",
+      "article_evidence": {
+        "summary": "`переживание` 词族 3/2 篇"
+      },
+      "corpus_evidence": {
+        "summary": "该批旧日志未单列作者语料频次；完整信息保存在 legacy_cells。",
+        "representative_contexts": []
+      },
+      "rationale": "`add` → 体验；中文传统存在“体验/经历”等分歧，当前证据不足",
+      "final_status_by_author": {
+        "legacy": "needs_review"
+      },
+      "affected_translation_locations": [],
+      "affected_translation_summary": "中文传统存在“体验/经历”等分歧，当前证据不足",
+      "heuristic_forms_pending": [],
+      "legacy_cells": {
+        "词条 ID": "`perezhivanie`",
+        "原词与当前语料频次": "`переживание` 词族 3/2 篇",
+        "操作与中文首选": "`add` → 体验",
+        "上下文、范围与受影响位置": "中文传统存在“体验/经历”等分歧，当前证据不足",
+        "最终状态": "`needs_review`"
+      }
+    },
+    {
+      "proposal_id": "legacy-032",
+      "term_ids": [
+        "will"
+      ],
+      "target_author_ids": [],
+      "canonical": "воля",
+      "forms": [],
+      "suggested_zh": "意志 高级心理功能与人格发展语境",
+      "operations": [
+        "add"
+      ],
+      "before": "",
+      "after": "",
+      "article_evidence": {
+        "summary": "`воля` 词族 4/2 篇"
+      },
+      "corpus_evidence": {
+        "summary": "该批旧日志未单列作者语料频次；完整信息保存在 legacy_cells。",
+        "representative_contexts": []
+      },
+      "rationale": "`add` → 意志；高级心理功能与人格发展语境；同“自由意志”区分",
+      "final_status_by_author": {
+        "legacy": "approved"
+      },
+      "affected_translation_locations": [],
+      "affected_translation_summary": "高级心理功能与人格发展语境；同“自由意志”区分",
+      "heuristic_forms_pending": [],
+      "legacy_cells": {
+        "词条 ID": "`will`",
+        "原词与当前语料频次": "`воля` 词族 4/2 篇",
+        "操作与中文首选": "`add` → 意志",
+        "上下文、范围与受影响位置": "高级心理功能与人格发展语境；同“自由意志”区分",
+        "最终状态": "`approved`"
+      }
+    },
+    {
+      "proposal_id": "legacy-033",
+      "term_ids": [
+        "new-formation"
+      ],
+      "target_author_ids": [],
+      "canonical": "новообразование",
+      "forms": [],
+      "suggested_zh": "新生结构 年龄阶段的新心理结构",
+      "operations": [
+        "add"
+      ],
+      "before": "",
+      "after": "",
+      "article_evidence": {
+        "summary": "`новообразование` 1/1 篇"
+      },
+      "corpus_evidence": {
+        "summary": "该批旧日志未单列作者语料频次；完整信息保存在 legacy_cells。",
+        "representative_contexts": []
+      },
+      "rationale": "`add` → 新生结构；年龄阶段的新心理结构；中文传统分歧仍大",
+      "final_status_by_author": {
+        "legacy": "needs_review"
+      },
+      "affected_translation_locations": [],
+      "affected_translation_summary": "年龄阶段的新心理结构；中文传统分歧仍大",
+      "heuristic_forms_pending": [],
+      "legacy_cells": {
+        "词条 ID": "`new-formation`",
+        "原词与当前语料频次": "`новообразование` 1/1 篇",
+        "操作与中文首选": "`add` → 新生结构",
+        "上下文、范围与受影响位置": "年龄阶段的新心理结构；中文传统分歧仍大",
+        "最终状态": "`needs_review`"
+      }
+    },
+    {
+      "proposal_id": "legacy-034",
+      "term_ids": [
+        "cultural-historical-psychology"
+      ],
+      "target_author_ids": [],
+      "canonical": "collection 与文本主题",
+      "forms": [],
+      "suggested_zh": "文化—历史心理学 项目统一理论名称和连接号 `approved`",
+      "operations": [
+        "add"
+      ],
+      "before": "",
+      "after": "",
+      "article_evidence": {
+        "summary": "collection 与文本主题"
+      },
+      "corpus_evidence": {
+        "summary": "该批旧日志未单列作者语料频次；完整信息保存在 legacy_cells。",
+        "representative_contexts": []
+      },
+      "rationale": "`add` → 文化—历史心理学；项目统一理论名称和连接号",
+      "final_status_by_author": {
+        "legacy": "approved"
+      },
+      "affected_translation_locations": [],
+      "affected_translation_summary": "项目统一理论名称和连接号",
+      "heuristic_forms_pending": [],
+      "legacy_cells": {
+        "词条 ID": "`cultural-historical-psychology`",
+        "原词与当前语料频次": "collection 与文本主题",
+        "操作与中文首选": "`add` → 文化—历史心理学",
+        "上下文、范围与受影响位置": "项目统一理论名称和连接号",
+        "最终状态": "`approved`"
+      }
+    },
+    {
+      "proposal_id": "legacy-035",
+      "term_ids": [
+        "vrashchivanie"
+      ],
+      "target_author_ids": [
+        "maidansky",
+        "vygotsky"
+      ],
+      "canonical": "vrashchivanie",
+      "forms": [],
+      "suggested_zh": "",
+      "operations": [
+        "modify"
+      ],
+      "before": "“Vygotsky 暂无正式 glossary” → “另见 Vygotsky 正式 glossary”",
+      "after": "“Vygotsky 暂无正式 glossary” → “另见 Vygotsky 正式 glossary”",
+      "article_evidence": {
+        "summary": "该批旧日志未单列本文频次；完整信息保存在 legacy_cells。"
+      },
+      "corpus_evidence": {
+        "summary": "该批旧日志未单列作者语料频次；完整信息保存在 legacy_cells。",
+        "representative_contexts": []
+      },
+      "rationale": "`modify`；移除已过时的当前状态说明，保留译法与证据",
+      "final_status_by_author": {},
+      "affected_translation_locations": [],
+      "affected_translation_summary": "该批旧日志未单列译文位置；完整信息保存在 legacy_cells。",
+      "heuristic_forms_pending": [],
+      "legacy_cells": {
+        "术语表": "Maidansky",
+        "词条 ID": "`vrashchivanie`",
+        "操作": "`modify`",
+        "修改前 → 修改后": "“Vygotsky 暂无正式 glossary” → “另见 Vygotsky 正式 glossary”",
+        "理由": "移除已过时的当前状态说明，保留译法与证据"
+      }
+    },
+    {
+      "proposal_id": "legacy-036",
+      "term_ids": [
+        "inner-speech"
+      ],
+      "target_author_ids": [
+        "maidansky"
+      ],
+      "canonical": "inner-speech",
+      "forms": [],
+      "suggested_zh": "",
+      "operations": [
+        "modify"
+      ],
+      "before": "同上",
+      "after": "同上",
+      "article_evidence": {
+        "summary": "该批旧日志未单列本文频次；完整信息保存在 legacy_cells。"
+      },
+      "corpus_evidence": {
+        "summary": "该批旧日志未单列作者语料频次；完整信息保存在 legacy_cells。",
+        "representative_contexts": []
+      },
+      "rationale": "`modify`；建立作者术语表之间的明确引用关系",
+      "final_status_by_author": {},
+      "affected_translation_locations": [],
+      "affected_translation_summary": "该批旧日志未单列译文位置；完整信息保存在 legacy_cells。",
+      "heuristic_forms_pending": [],
+      "legacy_cells": {
+        "术语表": "Maidansky",
+        "词条 ID": "`inner-speech`",
+        "操作": "`modify`",
+        "修改前 → 修改后": "同上",
+        "理由": "建立作者术语表之间的明确引用关系"
+      }
+    },
+    {
+      "proposal_id": "legacy-037",
+      "term_ids": [
+        "higher-psychological-functions"
+      ],
+      "target_author_ids": [
+        "maidansky"
+      ],
+      "canonical": "higher-psychological-functions",
+      "forms": [],
+      "suggested_zh": "",
+      "operations": [
+        "modify"
+      ],
+      "before": "同上",
+      "after": "同上",
+      "article_evidence": {
+        "summary": "该批旧日志未单列本文频次；完整信息保存在 legacy_cells。"
+      },
+      "corpus_evidence": {
+        "summary": "该批旧日志未单列作者语料频次；完整信息保存在 legacy_cells。",
+        "representative_contexts": []
+      },
+      "rationale": "`modify`；新正式词条采用相同首选译法并保留暂定状态",
+      "final_status_by_author": {},
+      "affected_translation_locations": [],
+      "affected_translation_summary": "该批旧日志未单列译文位置；完整信息保存在 legacy_cells。",
+      "heuristic_forms_pending": [],
+      "legacy_cells": {
+        "术语表": "Maidansky",
+        "词条 ID": "`higher-psychological-functions`",
+        "操作": "`modify`",
+        "修改前 → 修改后": "同上",
+        "理由": "新正式词条采用相同首选译法并保留暂定状态"
+      }
+    }
+  ],
+  "owner_review": {
+    "status": "approved",
+    "reviewer": "hoshF",
+    "reviewed_at": "2026-07-27",
+    "note": "由原 Markdown 审核记录迁移；不表示正式翻译项目 reviewed 状态。"
+  },
+  "legacy_migration": {
+    "source_sha256": "3df924e517d7bb717de9b81035a1951cb208748dbab93189a057867e373286a1",
+    "source_heading": "2026-07-27 — `vygotsky` / `collection-glossary-initialization` / `vygotsky-glossary`",
+    "sections": {
+      "批次信息": "- 审核者：Codex（collection 注册信息、4 篇俄文文本见证、works master、关联作者语料复核）\n- 项目所有者决定：正式创建 Vygotsky glossary\n- 文章 slug：不适用；本批是 collection 级初始化，不伪造任何翻译项目的 `reviewed` 状态\n- 稳定来源位置：`vygotsky_markdown/vygotsky_md/` 下 4 篇已登记文本见证；\n  `vygotsky_markdown/metadata/works_master.json`；必要时使用已登记的 Maidansky 关联研究\n- 正式术语表：`vygotsky_markdown/metadata/glossary.json`\n- 关联术语表：`maidansky_markdown/metadata/glossary.json`、\n  `ilyenkov_markdown/metadata/glossary.json`\n- 语料边界：现有 4 篇正文均为后出期刊网页文本见证，`text_status` 为\n  `html_conversion_unverified`，尚未核成作者原文核心语料；因此版本敏感和存在中文传统分歧的\n  词条保留为 `provisional` 或 `needs_review`\n- 批次结论：新增 34 条（人物 1、著作 5、概念 28）；其中 `approved` 17、\n  `provisional` 15、`needs_review` 2；修改 Maidansky 关联词条说明 3 条；删除 0\n- 历史说明：此前日志中“Vygotsky 无正式 glossary”准确描述了当时状态；本批起由新建\n  glossary 承担维果茨基术语源记录，不回写篡改旧批次的历史判断",
+      "验证与版本": "- 生成视图：已生成，`render_glossaries.py --check` 通过\n- glossary 检查：`check_glossaries.py --check` 通过（5 份 glossary，0 errors）\n- prompt 模板检查：`render_prompt_template.py --check` 通过\n- 翻译项目检查：`check_translations.py --check` 通过（1 个项目，0 errors）\n- collection 与项目文档检查：`manage_collections.py check`、`check_project_docs.py` 均通过\n- commit：待本批独立提交\n- push：本地 `main` 在本批开始前已有 1 个未推送提交，须在推送前单独处理"
+    },
+    "decision_rows": 37
+  }
+}

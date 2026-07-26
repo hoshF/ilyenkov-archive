@@ -21,7 +21,19 @@
     "verified_scan_pages": { "type": "array", "items": { "type": "string" } },
     "source_scan_sha256": { "type": "string", "pattern": "^[0-9a-f]{64}$" },
     "final_markdown": { "type": "string" },
-    "final_markdown_sha256": { "type": "string", "pattern": "^[0-9a-f]{64}$" }
+    "final_markdown_sha256": { "type": "string", "pattern": "^[0-9a-f]{64}$" },
+    "work_id": { "type": "string" },
+    "source_scan": { "type": "string" },
+    "provenance": { "type": "string" },
+    "transcription_mode": {
+      "enum": [
+        "agent_canonical_markdown",
+        "faithful_normalized_markdown",
+        "normalized_markdown_not_diplomatic",
+        "normalized_markdown"
+      ]
+    },
+    "rights_note": { "type": "string" }
   },
   "additionalProperties": false
 }

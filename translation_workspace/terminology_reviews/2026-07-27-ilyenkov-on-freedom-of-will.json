@@ -1,0 +1,1936 @@
+{
+  "schema_version": 1,
+  "audit_only": true,
+  "record_format": "legacy_migrated",
+  "batch_id": "2026-07-27-ilyenkov-on-freedom-of-will",
+  "batch_kind": "article_review",
+  "date": "2026-07-27",
+  "primary_author_id": "maidansky",
+  "related_author_ids": [
+    "ilyenkov",
+    "spinoza",
+    "vygotsky"
+  ],
+  "work_id": "e-v-ilyenkov-o-svobode-voli",
+  "article_slug": "ilyenkov-on-freedom-of-will",
+  "inputs": [
+    {
+      "role": "source",
+      "path": "maidansky_markdown/maidansky_md/istoriya-filosofii/istoriya-filosofii-e-v-ilyenkov-o-svobode-voli.md",
+      "sha256": "19844ed6e69aff7ff63ef7a68471db0166a05fe4ffce54efad497bec6de4cf6d",
+      "size": 62971
+    },
+    {
+      "role": "translation",
+      "path": "blog:content/posts/ilyenkov-on-freedom-of-will.md",
+      "sha256": "12630ff777e8b17c9ed7a085178f6d66c40ea710a45fc6e1d5852cad5b96f767",
+      "size": 36035
+    },
+    {
+      "role": "suggestions",
+      "path": "upload:《伊利延科夫论自由意志》术语收录建议表.md",
+      "sha256": null,
+      "unavailable_at_migration": true
+    }
+  ],
+  "review": {
+    "accuracy": {
+      "full_pass": true,
+      "coverage": "完整范围见迁移保留的旧日志段落。"
+    },
+    "language": {
+      "full_pass": true,
+      "coverage": "完整范围见迁移保留的旧日志段落。"
+    },
+    "final_translation_sha256": "12630ff777e8b17c9ed7a085178f6d66c40ea710a45fc6e1d5852cad5b96f767",
+    "blockers": []
+  },
+  "operation_counts": {
+    "add": 26,
+    "modify": 4,
+    "delete": 0,
+    "status": 4,
+    "reject": 18,
+    "no_formal_glossary": 4
+  },
+  "decisions": [
+    {
+      "proposal_id": "legacy-001",
+      "term_ids": [
+        "freedom-of-will"
+      ],
+      "target_author_ids": [
+        "vygotsky",
+        "spinoza"
+      ],
+      "canonical": "свобода воли",
+      "forms": [],
+      "suggested_zh": "",
+      "operations": [
+        "add"
+      ],
+      "before": "无 → 自由意志",
+      "after": "无 → 自由意志",
+      "article_evidence": {
+        "summary": "27；块 1、8、11—12、16、19、37—38、46、48—49、51、53—55、58—59、73"
+      },
+      "corpus_evidence": {
+        "summary": "54/14 篇；《俄罗斯的斯宾诺莎主义者》与维果茨基—斯宾诺莎研究均复现",
+        "representative_contexts": []
+      },
+      "rationale": "54/14 篇；《俄罗斯的斯宾诺莎主义者》与维果茨基—斯宾诺莎研究均复现；全文中心问题名称，译法稳定；`approved`",
+      "final_status_by_author": {
+        "legacy": "approved"
+      },
+      "affected_translation_locations": [],
+      "affected_translation_summary": "标题、摘要、各正文节、结论及参考文献统一“自由意志”",
+      "heuristic_forms_pending": [],
+      "legacy_cells": {
+        "词条 ID": "`freedom-of-will`",
+        "原词及词形": "`свобода воли` 及屈折形式",
+        "修改前 → 修改后": "无 → 自由意志",
+        "本文频次与全部位置": "27；块 1、8、11—12、16、19、37—38、46、48—49、51、53—55、58—59、73",
+        "作者语料频次与代表性上下文": "54/14 篇；《俄罗斯的斯宾诺莎主义者》与维果茨基—斯宾诺莎研究均复现",
+        "上下文、决定理由与最终状态": "全文中心问题名称，译法稳定；`approved`",
+        "译文受影响位置及实际修改": "标题、摘要、各正文节、结论及参考文献统一“自由意志”"
+      }
+    },
+    {
+      "proposal_id": "legacy-002",
+      "term_ids": [
+        "will"
+      ],
+      "target_author_ids": [
+        "vygotsky",
+        "ilyenkov",
+        "spinoza"
+      ],
+      "canonical": "воля",
+      "forms": [
+        "волевой"
+      ],
+      "suggested_zh": "",
+      "operations": [
+        "add"
+      ],
+      "before": "无 → 意志",
+      "after": "无 → 意志",
+      "article_evidence": {
+        "summary": "60；块 1、8、11—13、16—19、37—38、43—49、51、53—55、58—59、73、76、79"
+      },
+      "corpus_evidence": {
+        "summary": "至少 151 次；斯宾诺莎、维果茨基和伊里因科夫研究高频",
+        "representative_contexts": []
+      },
+      "rationale": "至少 151 次；斯宾诺莎、维果茨基和伊里因科夫研究高频；心理功能术语，不以主观色彩更强的“意愿”替代；`approved`",
+      "final_status_by_author": {
+        "legacy": "approved"
+      },
+      "affected_translation_locations": [],
+      "affected_translation_summary": "全文保持“意志/意志的”",
+      "heuristic_forms_pending": [],
+      "legacy_cells": {
+        "词条 ID": "`will`",
+        "原词及词形": "`воля`、`волевой` 及屈折形式",
+        "修改前 → 修改后": "无 → 意志",
+        "本文频次与全部位置": "60；块 1、8、11—13、16—19、37—38、43—49、51、53—55、58—59、73、76、79",
+        "作者语料频次与代表性上下文": "至少 151 次；斯宾诺莎、维果茨基和伊里因科夫研究高频",
+        "上下文、决定理由与最终状态": "心理功能术语，不以主观色彩更强的“意愿”替代；`approved`",
+        "译文受影响位置及实际修改": "全文保持“意志/意志的”"
+      }
+    },
+    {
+      "proposal_id": "legacy-003",
+      "term_ids": [
+        "known-necessity"
+      ],
+      "target_author_ids": [],
+      "canonical": "познанная необходимость",
+      "forms": [],
+      "suggested_zh": "",
+      "operations": [
+        "add"
+      ],
+      "before": "无 → 被认识了的必然性",
+      "after": "无 → 被认识了的必然性",
+      "article_evidence": {
+        "summary": "3；块 14—16"
+      },
+      "corpus_evidence": {
+        "summary": "当前文章为集中证据",
+        "representative_contexts": []
+      },
+      "rationale": "当前文章为集中证据；固定自由公式，非引文可用“认识到的必然性”；`provisional`",
+      "final_status_by_author": {
+        "legacy": "provisional"
+      },
+      "affected_translation_locations": [],
+      "affected_translation_summary": "“意志王国”节统一",
+      "heuristic_forms_pending": [],
+      "legacy_cells": {
+        "词条 ID": "`known-necessity`",
+        "原词及词形": "`познанная необходимость`",
+        "修改前 → 修改后": "无 → 被认识了的必然性",
+        "本文频次与全部位置": "3；块 14—16",
+        "作者语料频次与代表性上下文": "当前文章为集中证据",
+        "上下文、决定理由与最终状态": "固定自由公式，非引文可用“认识到的必然性”；`provisional`",
+        "译文受影响位置及实际修改": "“意志王国”节统一"
+      }
+    },
+    {
+      "proposal_id": "legacy-004",
+      "term_ids": [
+        "free-necessity"
+      ],
+      "target_author_ids": [],
+      "canonical": "свободная необходимость",
+      "forms": [
+        "libera necessitas"
+      ],
+      "suggested_zh": "",
+      "operations": [
+        "add"
+      ],
+      "before": "无 → 自由的必然性",
+      "after": "无 → 自由的必然性",
+      "article_evidence": {
+        "summary": "1 个概念位置、2 个表面词形；块 15"
+      },
+      "corpus_evidence": {
+        "summary": "当前文章为集中证据",
+        "representative_contexts": []
+      },
+      "rationale": "当前文章为集中证据；与被迫的必然性成对，低频但理论关键；`needs_review`",
+      "final_status_by_author": {
+        "legacy": "needs_review"
+      },
+      "affected_translation_locations": [],
+      "affected_translation_summary": "块 15 采用首选译法并保留拉丁文",
+      "heuristic_forms_pending": [],
+      "legacy_cells": {
+        "词条 ID": "`free-necessity`",
+        "原词及词形": "`свободная необходимость`、`libera necessitas`",
+        "修改前 → 修改后": "无 → 自由的必然性",
+        "本文频次与全部位置": "1 个概念位置、2 个表面词形；块 15",
+        "作者语料频次与代表性上下文": "当前文章为集中证据",
+        "上下文、决定理由与最终状态": "与被迫的必然性成对，低频但理论关键；`needs_review`",
+        "译文受影响位置及实际修改": "块 15 采用首选译法并保留拉丁文"
+      }
+    },
+    {
+      "proposal_id": "legacy-005",
+      "term_ids": [
+        "coerced-necessity"
+      ],
+      "target_author_ids": [],
+      "canonical": "вынужденная необходимость",
+      "forms": [
+        "coacta necessitas"
+      ],
+      "suggested_zh": "",
+      "operations": [
+        "add"
+      ],
+      "before": "无 → 被迫的必然性",
+      "after": "无 → 被迫的必然性",
+      "article_evidence": {
+        "summary": "1 个概念位置、2 个表面词形；块 15"
+      },
+      "corpus_evidence": {
+        "summary": "当前文章为集中证据",
+        "representative_contexts": []
+      },
+      "rationale": "当前文章为集中证据；与自由的必然性成对；`needs_review`",
+      "final_status_by_author": {
+        "legacy": "needs_review"
+      },
+      "affected_translation_locations": [],
+      "affected_translation_summary": "将“受强制的必然性”改为“被迫的必然性”",
+      "heuristic_forms_pending": [],
+      "legacy_cells": {
+        "词条 ID": "`coerced-necessity`",
+        "原词及词形": "`вынужденная необходимость`、`coacta necessitas`",
+        "修改前 → 修改后": "无 → 被迫的必然性",
+        "本文频次与全部位置": "1 个概念位置、2 个表面词形；块 15",
+        "作者语料频次与代表性上下文": "当前文章为集中证据",
+        "上下文、决定理由与最终状态": "与自由的必然性成对；`needs_review`",
+        "译文受影响位置及实际修改": "将“受强制的必然性”改为“被迫的必然性”"
+      }
+    },
+    {
+      "proposal_id": "legacy-006",
+      "term_ids": [
+        "self-activity"
+      ],
+      "target_author_ids": [
+        "ilyenkov"
+      ],
+      "canonical": "самодеятельность",
+      "forms": [],
+      "suggested_zh": "",
+      "operations": [
+        "add"
+      ],
+      "before": "无 → 自主活动",
+      "after": "无 → 自主活动",
+      "article_evidence": {
+        "summary": "1；块 15"
+      },
+      "corpus_evidence": {
+        "summary": "10/7 篇；历史理论和伊里因科夫研究中复现",
+        "representative_contexts": []
+      },
+      "rationale": "10/7 篇；历史理论和伊里因科夫研究中复现；有真实译法选择，避免“自发活动”和现代文娱义；`provisional`",
+      "final_status_by_author": {
+        "legacy": "provisional"
+      },
+      "affected_translation_locations": [],
+      "affected_translation_summary": "块 15 将“自我活动”改为“自主活动”",
+      "heuristic_forms_pending": [],
+      "legacy_cells": {
+        "词条 ID": "`self-activity`",
+        "原词及词形": "`самодеятельность`",
+        "修改前 → 修改后": "无 → 自主活动",
+        "本文频次与全部位置": "1；块 15",
+        "作者语料频次与代表性上下文": "10/7 篇；历史理论和伊里因科夫研究中复现",
+        "上下文、决定理由与最终状态": "有真实译法选择，避免“自发活动”和现代文娱义；`provisional`",
+        "译文受影响位置及实际修改": "块 15 将“自我活动”改为“自主活动”"
+      }
+    },
+    {
+      "proposal_id": "legacy-007",
+      "term_ids": [
+        "objective-activity"
+      ],
+      "target_author_ids": [
+        "ilyenkov"
+      ],
+      "canonical": "предметная деятельность",
+      "forms": [],
+      "suggested_zh": "",
+      "operations": [
+        "add"
+      ],
+      "before": "无 → 对象性活动",
+      "after": "无 → 对象性活动",
+      "article_evidence": {
+        "summary": "3；块 37、43、67"
+      },
+      "corpus_evidence": {
+        "summary": "本篇 3 次；Ilyenkov glossary 有对应词条",
+        "representative_contexts": []
+      },
+      "rationale": "本篇 3 次；Ilyenkov glossary 有对应词条；活动理论固定概念，不能泛译“客观活动”；`provisional`",
+      "final_status_by_author": {
+        "legacy": "provisional"
+      },
+      "affected_translation_locations": [],
+      "affected_translation_summary": "三处保持“对象性活动”",
+      "heuristic_forms_pending": [],
+      "legacy_cells": {
+        "词条 ID": "`objective-activity`",
+        "原词及词形": "`предметная деятельность`",
+        "修改前 → 修改后": "无 → 对象性活动",
+        "本文频次与全部位置": "3；块 37、43、67",
+        "作者语料频次与代表性上下文": "本篇 3 次；Ilyenkov glossary 有对应词条",
+        "上下文、决定理由与最终状态": "活动理论固定概念，不能泛译“客观活动”；`provisional`",
+        "译文受影响位置及实际修改": "三处保持“对象性活动”"
+      }
+    },
+    {
+      "proposal_id": "legacy-008",
+      "term_ids": [
+        "thinking-body"
+      ],
+      "target_author_ids": [],
+      "canonical": "мыслящее тело",
+      "forms": [],
+      "suggested_zh": "",
+      "operations": [
+        "add"
+      ],
+      "before": "无 → 思维着的身体",
+      "after": "无 → 思维着的身体",
+      "article_evidence": {
+        "summary": "12；块 22—23、26、32、46、48—49、53"
+      },
+      "corpus_evidence": {
+        "summary": "119/16 篇；“思维着的身体”论争语料高频",
+        "representative_contexts": []
+      },
+      "rationale": "119/16 篇；“思维着的身体”论争语料高频；保留活动过程性；`approved`",
+      "final_status_by_author": {
+        "legacy": "approved"
+      },
+      "affected_translation_locations": [],
+      "affected_translation_summary": "全文统一“思维着的身体”",
+      "heuristic_forms_pending": [],
+      "legacy_cells": {
+        "词条 ID": "`thinking-body`",
+        "原词及词形": "`мыслящее тело` 及屈折形式",
+        "修改前 → 修改后": "无 → 思维着的身体",
+        "本文频次与全部位置": "12；块 22—23、26、32、46、48—49、53",
+        "作者语料频次与代表性上下文": "119/16 篇；“思维着的身体”论争语料高频",
+        "上下文、决定理由与最终状态": "保留活动过程性；`approved`",
+        "译文受影响位置及实际修改": "全文统一“思维着的身体”"
+      }
+    },
+    {
+      "proposal_id": "legacy-009",
+      "term_ids": [
+        "res-cogitans"
+      ],
+      "target_author_ids": [
+        "spinoza"
+      ],
+      "canonical": "res cogitans",
+      "forms": [
+        "мыслящая вещь"
+      ],
+      "suggested_zh": "",
+      "operations": [
+        "add"
+      ],
+      "before": "无 → 思维之物",
+      "after": "无 → 思维之物",
+      "article_evidence": {
+        "summary": "3 个概念位置；块 22、39、77"
+      },
+      "corpus_evidence": {
+        "summary": "多篇笛卡尔—斯宾诺莎研究复现",
+        "representative_contexts": []
+      },
+      "rationale": "多篇笛卡尔—斯宾诺莎研究复现；不预先加入“实体”解释；`provisional`",
+      "final_status_by_author": {
+        "legacy": "provisional"
+      },
+      "affected_translation_locations": [],
+      "affected_translation_summary": "正文与注释统一“思维之物”",
+      "heuristic_forms_pending": [],
+      "legacy_cells": {
+        "词条 ID": "`res-cogitans`",
+        "原词及词形": "`res cogitans`、`мыслящая вещь`",
+        "修改前 → 修改后": "无 → 思维之物",
+        "本文频次与全部位置": "3 个概念位置；块 22、39、77",
+        "作者语料频次与代表性上下文": "多篇笛卡尔—斯宾诺莎研究复现",
+        "上下文、决定理由与最终状态": "不预先加入“实体”解释；`provisional`",
+        "译文受影响位置及实际修改": "正文与注释统一“思维之物”"
+      }
+    },
+    {
+      "proposal_id": "legacy-010",
+      "term_ids": [
+        "res-extensa"
+      ],
+      "target_author_ids": [
+        "spinoza"
+      ],
+      "canonical": "res extensa",
+      "forms": [],
+      "suggested_zh": "",
+      "operations": [
+        "add"
+      ],
+      "before": "无 → 广延之物",
+      "after": "无 → 广延之物",
+      "article_evidence": {
+        "summary": "1；块 77"
+      },
+      "corpus_evidence": {
+        "summary": "笛卡尔—斯宾诺莎研究复现",
+        "representative_contexts": []
+      },
+      "rationale": "笛卡尔—斯宾诺莎研究复现；与 `res-cogitans` 成对；`provisional`",
+      "final_status_by_author": {
+        "legacy": "provisional"
+      },
+      "affected_translation_locations": [],
+      "affected_translation_summary": "注释统一“广延之物”",
+      "heuristic_forms_pending": [],
+      "legacy_cells": {
+        "词条 ID": "`res-extensa`",
+        "原词及词形": "`res extensa`",
+        "修改前 → 修改后": "无 → 广延之物",
+        "本文频次与全部位置": "1；块 77",
+        "作者语料频次与代表性上下文": "笛卡尔—斯宾诺莎研究复现",
+        "上下文、决定理由与最终状态": "与 `res-cogitans` 成对；`provisional`",
+        "译文受影响位置及实际修改": "注释统一“广延之物”"
+      }
+    },
+    {
+      "proposal_id": "legacy-011",
+      "term_ids": [
+        "interiorization"
+      ],
+      "target_author_ids": [],
+      "canonical": "интериоризация",
+      "forms": [],
+      "suggested_zh": "",
+      "operations": [
+        "add"
+      ],
+      "before": "无 → 内化",
+      "after": "无 → 内化",
+      "article_evidence": {
+        "summary": "4；块 20—22、27"
+      },
+      "corpus_evidence": {
+        "summary": "15/9 篇；文化—历史心理学语料复现",
+        "representative_contexts": []
+      },
+      "rationale": "15/9 篇；文化—历史心理学语料复现；与 `вращивание` 相关但不等同；`approved`",
+      "final_status_by_author": {
+        "legacy": "approved"
+      },
+      "affected_translation_locations": [],
+      "affected_translation_summary": "“意志王国”节四处统一“内化”",
+      "heuristic_forms_pending": [],
+      "legacy_cells": {
+        "词条 ID": "`interiorization`",
+        "原词及词形": "`интериоризация` 及屈折形式",
+        "修改前 → 修改后": "无 → 内化",
+        "本文频次与全部位置": "4；块 20—22、27",
+        "作者语料频次与代表性上下文": "15/9 篇；文化—历史心理学语料复现",
+        "上下文、决定理由与最终状态": "与 `вращивание` 相关但不等同；`approved`",
+        "译文受影响位置及实际修改": "“意志王国”节四处统一“内化”"
+      }
+    },
+    {
+      "proposal_id": "legacy-012",
+      "term_ids": [
+        "vrashchivanie"
+      ],
+      "target_author_ids": [
+        "vygotsky"
+      ],
+      "canonical": "вращивание",
+      "forms": [],
+      "suggested_zh": "",
+      "operations": [
+        "add"
+      ],
+      "before": "无 → 内长化",
+      "after": "无 → 内长化",
+      "article_evidence": {
+        "summary": "1；块 20"
+      },
+      "corpus_evidence": {
+        "summary": "19/10 篇；专题论文《高级心理功能发展理论中的内长化概念》10 次",
+        "representative_contexts": []
+      },
+      "rationale": "19/10 篇；专题论文《高级心理功能发展理论中的内长化概念》10 次；保留向内生长隐喻；Vygotsky 无正式 glossary，译法仍需复核；`provisional`",
+      "final_status_by_author": {
+        "legacy": "provisional"
+      },
+      "affected_translation_locations": [],
+      "affected_translation_summary": "将旧稿“内生”和新版“向内生长”统一为“内长化”",
+      "heuristic_forms_pending": [],
+      "legacy_cells": {
+        "词条 ID": "`vrashchivanie`",
+        "原词及词形": "`вращивание`",
+        "修改前 → 修改后": "无 → 内长化",
+        "本文频次与全部位置": "1；块 20",
+        "作者语料频次与代表性上下文": "19/10 篇；专题论文《高级心理功能发展理论中的内长化概念》10 次",
+        "上下文、决定理由与最终状态": "保留向内生长隐喻；Vygotsky 无正式 glossary，译法仍需复核；`provisional`",
+        "译文受影响位置及实际修改": "将旧稿“内生”和新版“向内生长”统一为“内长化”"
+      }
+    },
+    {
+      "proposal_id": "legacy-013",
+      "term_ids": [
+        "exteriorization"
+      ],
+      "target_author_ids": [],
+      "canonical": "экстериоризация",
+      "forms": [],
+      "suggested_zh": "",
+      "operations": [
+        "add"
+      ],
+      "before": "无 → 外化",
+      "after": "无 → 外化",
+      "article_evidence": {
+        "summary": "1；块 21"
+      },
+      "corpus_evidence": {
+        "summary": "1/1 篇",
+        "representative_contexts": []
+      },
+      "rationale": "1/1 篇；与“内化”构成论证对，但作者语料不足；`needs_review`",
+      "final_status_by_author": {
+        "legacy": "needs_review"
+      },
+      "affected_translation_locations": [],
+      "affected_translation_summary": "块 21 采用“外化”",
+      "heuristic_forms_pending": [],
+      "legacy_cells": {
+        "词条 ID": "`exteriorization`",
+        "原词及词形": "`экстериоризация`",
+        "修改前 → 修改后": "无 → 外化",
+        "本文频次与全部位置": "1；块 21",
+        "作者语料频次与代表性上下文": "1/1 篇",
+        "上下文、决定理由与最终状态": "与“内化”构成论证对，但作者语料不足；`needs_review`",
+        "译文受影响位置及实际修改": "块 21 采用“外化”"
+      }
+    },
+    {
+      "proposal_id": "legacy-014",
+      "term_ids": [
+        "purposiveness"
+      ],
+      "target_author_ids": [
+        "spinoza"
+      ],
+      "canonical": "целесообразность",
+      "forms": [],
+      "suggested_zh": "",
+      "operations": [
+        "add"
+      ],
+      "before": "无 → 合目的性",
+      "after": "无 → 合目的性",
+      "article_evidence": {
+        "summary": "8；块 8、37—39、46、57"
+      },
+      "corpus_evidence": {
+        "summary": "79/13 篇；客观目的论与斯宾诺莎研究高频",
+        "representative_contexts": []
+      },
+      "rationale": "79/13 篇；客观目的论与斯宾诺莎研究高频；不等于“合理性”或泛化的“目的性”；`approved`",
+      "final_status_by_author": {
+        "legacy": "approved"
+      },
+      "affected_translation_locations": [],
+      "affected_translation_summary": "摘要及相关正文统一“合目的性/合目的的”",
+      "heuristic_forms_pending": [],
+      "legacy_cells": {
+        "词条 ID": "`purposiveness`",
+        "原词及词形": "`целесообразность` 词族",
+        "修改前 → 修改后": "无 → 合目的性",
+        "本文频次与全部位置": "8；块 8、37—39、46、57",
+        "作者语料频次与代表性上下文": "79/13 篇；客观目的论与斯宾诺莎研究高频",
+        "上下文、决定理由与最终状态": "不等于“合理性”或泛化的“目的性”；`approved`",
+        "译文受影响位置及实际修改": "摘要及相关正文统一“合目的性/合目的的”"
+      }
+    },
+    {
+      "proposal_id": "legacy-015",
+      "term_ids": [
+        "whole-conformity"
+      ],
+      "target_author_ids": [
+        "ilyenkov"
+      ],
+      "canonical": "целосообразность",
+      "forms": [],
+      "suggested_zh": "",
+      "operations": [
+        "add"
+      ],
+      "before": "无 → 合整体性",
+      "after": "无 → 合整体性",
+      "article_evidence": {
+        "summary": "2；块 39—40"
+      },
+      "corpus_evidence": {
+        "summary": "2/1 篇",
+        "representative_contexts": []
+      },
+      "rationale": "2/1 篇；伊里因科夫有意造词，低频但概念关键；`provisional`",
+      "final_status_by_author": {
+        "legacy": "provisional"
+      },
+      "affected_translation_locations": [],
+      "affected_translation_summary": "首次出现保留俄文解释，两处统一“合整体性”",
+      "heuristic_forms_pending": [],
+      "legacy_cells": {
+        "词条 ID": "`whole-conformity`",
+        "原词及词形": "`целосообразность`",
+        "修改前 → 修改后": "无 → 合整体性",
+        "本文频次与全部位置": "2；块 39—40",
+        "作者语料频次与代表性上下文": "2/1 篇",
+        "上下文、决定理由与最终状态": "伊里因科夫有意造词，低频但概念关键；`provisional`",
+        "译文受影响位置及实际修改": "首次出现保留俄文解释，两处统一“合整体性”"
+      }
+    },
+    {
+      "proposal_id": "legacy-016",
+      "term_ids": [
+        "goal-of-genus"
+      ],
+      "target_author_ids": [],
+      "canonical": "цель рода",
+      "forms": [],
+      "suggested_zh": "",
+      "operations": [
+        "add"
+      ],
+      "before": "无 → 类的目的",
+      "after": "无 → 类的目的",
+      "article_evidence": {
+        "summary": "4；块 8、36、41"
+      },
+      "corpus_evidence": {
+        "summary": "4/1 篇",
+        "representative_contexts": []
+      },
+      "rationale": "4/1 篇；指人类共同体的利益与完善目的；`provisional`",
+      "final_status_by_author": {
+        "legacy": "provisional"
+      },
+      "affected_translation_locations": [],
+      "affected_translation_summary": "标题、摘要和正文统一“类的目的”",
+      "heuristic_forms_pending": [],
+      "legacy_cells": {
+        "词条 ID": "`goal-of-genus`",
+        "原词及词形": "`цель рода` 及屈折形式",
+        "修改前 → 修改后": "无 → 类的目的",
+        "本文频次与全部位置": "4；块 8、36、41",
+        "作者语料频次与代表性上下文": "4/1 篇",
+        "上下文、决定理由与最终状态": "指人类共同体的利益与完善目的；`provisional`",
+        "译文受影响位置及实际修改": "标题、摘要和正文统一“类的目的”"
+      }
+    },
+    {
+      "proposal_id": "legacy-017",
+      "term_ids": [
+        "genus"
+      ],
+      "target_author_ids": [
+        "ilyenkov"
+      ],
+      "canonical": "род",
+      "forms": [
+        "родовой",
+        "Gattung"
+      ],
+      "suggested_zh": "",
+      "operations": [
+        "add"
+      ],
+      "before": "无 → 类",
+      "after": "无 → 类",
+      "article_evidence": {
+        "summary": "11 个表面词形；块 8、32、36、40—43、49"
+      },
+      "corpus_evidence": {
+        "summary": "本篇集中出现；Ilyenkov glossary 有对应词条",
+        "representative_contexts": []
+      },
+      "rationale": "本篇集中出现；Ilyenkov glossary 有对应词条；哲学社会性概念，不机械用于分类学；`provisional`",
+      "final_status_by_author": {
+        "legacy": "provisional"
+      },
+      "affected_translation_locations": [],
+      "affected_translation_summary": "“类”“类生活”统一，保留 `Gattung`",
+      "heuristic_forms_pending": [],
+      "legacy_cells": {
+        "词条 ID": "`genus`",
+        "原词及词形": "`род`、`родовой`、`Gattung`",
+        "修改前 → 修改后": "无 → 类",
+        "本文频次与全部位置": "11 个表面词形；块 8、32、36、40—43、49",
+        "作者语料频次与代表性上下文": "本篇集中出现；Ilyenkov glossary 有对应词条",
+        "上下文、决定理由与最终状态": "哲学社会性概念，不机械用于分类学；`provisional`",
+        "译文受影响位置及实际修改": "“类”“类生活”统一，保留 `Gattung`"
+      }
+    },
+    {
+      "proposal_id": "legacy-018",
+      "term_ids": [
+        "universal-need"
+      ],
+      "target_author_ids": [],
+      "canonical": "всеобщая потребность",
+      "forms": [],
+      "suggested_zh": "",
+      "operations": [
+        "add"
+      ],
+      "before": "无 → 普遍需要",
+      "after": "无 → 普遍需要",
+      "article_evidence": {
+        "summary": "1；块 48"
+      },
+      "corpus_evidence": {
+        "summary": "3/3 篇；历史理论语料复现",
+        "representative_contexts": []
+      },
+      "rationale": "3/3 篇；历史理论语料复现；辩证法语境中的“普遍”，不弱化为“一般”；`provisional`",
+      "final_status_by_author": {
+        "legacy": "provisional"
+      },
+      "affected_translation_locations": [],
+      "affected_translation_summary": "块 48 统一“普遍需要”",
+      "heuristic_forms_pending": [],
+      "legacy_cells": {
+        "词条 ID": "`universal-need`",
+        "原词及词形": "`всеобщая потребность`",
+        "修改前 → 修改后": "无 → 普遍需要",
+        "本文频次与全部位置": "1；块 48",
+        "作者语料频次与代表性上下文": "3/3 篇；历史理论语料复现",
+        "上下文、决定理由与最终状态": "辩证法语境中的“普遍”，不弱化为“一般”；`provisional`",
+        "译文受影响位置及实际修改": "块 48 统一“普遍需要”"
+      }
+    },
+    {
+      "proposal_id": "legacy-019",
+      "term_ids": [
+        "affect"
+      ],
+      "target_author_ids": [
+        "vygotsky",
+        "spinoza"
+      ],
+      "canonical": "аффект",
+      "forms": [
+        "аффективный"
+      ],
+      "suggested_zh": "",
+      "operations": [
+        "add"
+      ],
+      "before": "无 → 情感",
+      "after": "无 → 情感",
+      "article_evidence": {
+        "summary": "12；块 8、15、17—18、43、45"
+      },
+      "corpus_evidence": {
+        "summary": "102/19 篇；维果茨基—斯宾诺莎研究高频",
+        "representative_contexts": []
+      },
+      "rationale": "102/19 篇；维果茨基—斯宾诺莎研究高频；与 `страсть`（激情）区分；主动/被动作为搭配维护；`provisional`",
+      "final_status_by_author": {
+        "legacy": "provisional"
+      },
+      "affected_translation_locations": [],
+      "affected_translation_summary": "全文保持“情感”，`страсть` 保留“激情”",
+      "heuristic_forms_pending": [],
+      "legacy_cells": {
+        "词条 ID": "`affect`",
+        "原词及词形": "`аффект`、`аффективный`",
+        "修改前 → 修改后": "无 → 情感",
+        "本文频次与全部位置": "12；块 8、15、17—18、43、45",
+        "作者语料频次与代表性上下文": "102/19 篇；维果茨基—斯宾诺莎研究高频",
+        "上下文、决定理由与最终状态": "与 `страсть`（激情）区分；主动/被动作为搭配维护；`provisional`",
+        "译文受影响位置及实际修改": "全文保持“情感”，`страсть` 保留“激情”"
+      }
+    },
+    {
+      "proposal_id": "legacy-020",
+      "term_ids": [
+        "adequate-idea"
+      ],
+      "target_author_ids": [
+        "spinoza"
+      ],
+      "canonical": "адекватная идея",
+      "forms": [],
+      "suggested_zh": "",
+      "operations": [
+        "add"
+      ],
+      "before": "无 → 充分观念",
+      "after": "无 → 充分观念",
+      "article_evidence": {
+        "summary": "3；块 26、31、34"
+      },
+      "corpus_evidence": {
+        "summary": "37/15 篇；斯宾诺莎认识论与“思维着的身体”论争复现",
+        "representative_contexts": []
+      },
+      "rationale": "37/15 篇；斯宾诺莎认识论与“思维着的身体”论争复现；现译突出对原因和规律的充分表达，仍需同“不充分观念”成对复核；`provisional`",
+      "final_status_by_author": {
+        "legacy": "provisional"
+      },
+      "affected_translation_locations": [],
+      "affected_translation_summary": "将“恰当观念”统一改为“充分观念”",
+      "heuristic_forms_pending": [],
+      "legacy_cells": {
+        "词条 ID": "`adequate-idea`",
+        "原词及词形": "`адекватная идея` 及屈折形式",
+        "修改前 → 修改后": "无 → 充分观念",
+        "本文频次与全部位置": "3；块 26、31、34",
+        "作者语料频次与代表性上下文": "37/15 篇；斯宾诺莎认识论与“思维着的身体”论争复现",
+        "上下文、决定理由与最终状态": "现译突出对原因和规律的充分表达，仍需同“不充分观念”成对复核；`provisional`",
+        "译文受影响位置及实际修改": "将“恰当观念”统一改为“充分观念”"
+      }
+    },
+    {
+      "proposal_id": "legacy-021",
+      "term_ids": [
+        "imagination"
+      ],
+      "target_author_ids": [
+        "spinoza"
+      ],
+      "canonical": "воображение",
+      "forms": [
+        "imaginatio",
+        "имагинация"
+      ],
+      "suggested_zh": "",
+      "operations": [
+        "add"
+      ],
+      "before": "无 → 想象",
+      "after": "无 → 想象",
+      "article_evidence": {
+        "summary": "4 个概念位置、5 个表面词形；块 27、39"
+      },
+      "corpus_evidence": {
+        "summary": "124/29 篇；斯宾诺莎研究高频",
+        "representative_contexts": []
+      },
+      "rationale": "124/29 篇；斯宾诺莎研究高频；作为认识层级术语译法稳定；`approved`",
+      "final_status_by_author": {
+        "legacy": "approved"
+      },
+      "affected_translation_locations": [],
+      "affected_translation_summary": "正文统一“想象”，保留首次拉丁文",
+      "heuristic_forms_pending": [],
+      "legacy_cells": {
+        "词条 ID": "`imagination`",
+        "原词及词形": "`воображение`、`imaginatio`、`имагинация`",
+        "修改前 → 修改后": "无 → 想象",
+        "本文频次与全部位置": "4 个概念位置、5 个表面词形；块 27、39",
+        "作者语料频次与代表性上下文": "124/29 篇；斯宾诺莎研究高频",
+        "上下文、决定理由与最终状态": "作为认识层级术语译法稳定；`approved`",
+        "译文受影响位置及实际修改": "正文统一“想象”，保留首次拉丁文"
+      }
+    },
+    {
+      "proposal_id": "legacy-022",
+      "term_ids": [
+        "higher-psychological-functions"
+      ],
+      "target_author_ids": [
+        "vygotsky"
+      ],
+      "canonical": "высшие психологические функции",
+      "forms": [
+        "высшие психические функции"
+      ],
+      "suggested_zh": "",
+      "operations": [
+        "add"
+      ],
+      "before": "无 → 高级心理功能",
+      "after": "无 → 高级心理功能",
+      "article_evidence": {
+        "summary": "2；块 37、42"
+      },
+      "corpus_evidence": {
+        "summary": "9/5 篇；文化—历史心理学语料复现",
+        "representative_contexts": []
+      },
+      "rationale": "9/5 篇；文化—历史心理学语料复现；两个俄文变体中文统一；Vygotsky 无正式 glossary；`provisional`",
+      "final_status_by_author": {
+        "legacy": "provisional"
+      },
+      "affected_translation_locations": [],
+      "affected_translation_summary": "全文统一“高级心理功能”",
+      "heuristic_forms_pending": [],
+      "legacy_cells": {
+        "词条 ID": "`higher-psychological-functions`",
+        "原词及词形": "`высшие психологические функции`、`высшие психические функции`",
+        "修改前 → 修改后": "无 → 高级心理功能",
+        "本文频次与全部位置": "2；块 37、42",
+        "作者语料频次与代表性上下文": "9/5 篇；文化—历史心理学语料复现",
+        "上下文、决定理由与最终状态": "两个俄文变体中文统一；Vygotsky 无正式 glossary；`provisional`",
+        "译文受影响位置及实际修改": "全文统一“高级心理功能”"
+      }
+    },
+    {
+      "proposal_id": "legacy-023",
+      "term_ids": [
+        "psychological-physiology"
+      ],
+      "target_author_ids": [],
+      "canonical": "психологическая физиология",
+      "forms": [],
+      "suggested_zh": "",
+      "operations": [
+        "add"
+      ],
+      "before": "无 → 心理学的生理学",
+      "after": "无 → 心理学的生理学",
+      "article_evidence": {
+        "summary": "4；块 50、69、71、82"
+      },
+      "corpus_evidence": {
+        "summary": "7/2 篇；另有 2026 年专题论文",
+        "representative_contexts": []
+      },
+      "rationale": "7/2 篇；另有 2026 年专题论文；研究方向由心理学发现指向生理组织；`provisional`",
+      "final_status_by_author": {
+        "legacy": "provisional"
+      },
+      "affected_translation_locations": [],
+      "affected_translation_summary": "标题、正文和注释四处统一",
+      "heuristic_forms_pending": [],
+      "legacy_cells": {
+        "词条 ID": "`psychological-physiology`",
+        "原词及词形": "`психологическая физиология`",
+        "修改前 → 修改后": "无 → 心理学的生理学",
+        "本文频次与全部位置": "4；块 50、69、71、82",
+        "作者语料频次与代表性上下文": "7/2 篇；另有 2026 年专题论文",
+        "上下文、决定理由与最终状态": "研究方向由心理学发现指向生理组织；`provisional`",
+        "译文受影响位置及实际修改": "标题、正文和注释四处统一"
+      }
+    },
+    {
+      "proposal_id": "legacy-024",
+      "term_ids": [
+        "physiological-psychology"
+      ],
+      "target_author_ids": [],
+      "canonical": "физиологическая психология",
+      "forms": [],
+      "suggested_zh": "",
+      "operations": [
+        "add"
+      ],
+      "before": "无 → 生理心理学",
+      "after": "无 → 生理心理学",
+      "article_evidence": {
+        "summary": "1；块 69"
+      },
+      "corpus_evidence": {
+        "summary": "1/1 篇",
+        "representative_contexts": []
+      },
+      "rationale": "1/1 篇；与“心理学的生理学”构成必要对照；`needs_review`",
+      "final_status_by_author": {
+        "legacy": "needs_review"
+      },
+      "affected_translation_locations": [],
+      "affected_translation_summary": "修正新版误译“生理学的心理学”",
+      "heuristic_forms_pending": [],
+      "legacy_cells": {
+        "词条 ID": "`physiological-psychology`",
+        "原词及词形": "`физиологическая психология`",
+        "修改前 → 修改后": "无 → 生理心理学",
+        "本文频次与全部位置": "1；块 69",
+        "作者语料频次与代表性上下文": "1/1 篇",
+        "上下文、决定理由与最终状态": "与“心理学的生理学”构成必要对照；`needs_review`",
+        "译文受影响位置及实际修改": "修正新版误译“生理学的心理学”"
+      }
+    },
+    {
+      "proposal_id": "legacy-025",
+      "term_ids": [
+        "search-orientation-activity"
+      ],
+      "target_author_ids": [
+        "ilyenkov"
+      ],
+      "canonical": "поисково-ориентировочная деятельность",
+      "forms": [],
+      "suggested_zh": "",
+      "operations": [
+        "add"
+      ],
+      "before": "无 → 探索—定向活动",
+      "after": "无 → 探索—定向活动",
+      "article_evidence": {
+        "summary": "1；块 56"
+      },
+      "corpus_evidence": {
+        "summary": "5/5 篇；心理学和伊里因科夫研究中复现",
+        "representative_contexts": []
+      },
+      "rationale": "5/5 篇；心理学和伊里因科夫研究中复现；有“探索/搜索”选择，作者语料有复现但中文证据有限；`needs_review`",
+      "final_status_by_author": {
+        "legacy": "needs_review"
+      },
+      "affected_translation_locations": [],
+      "affected_translation_summary": "将旧稿“搜索—定向活动”改为“探索—定向活动”",
+      "heuristic_forms_pending": [],
+      "legacy_cells": {
+        "词条 ID": "`search-orientation-activity`",
+        "原词及词形": "`поисково-ориентировочная деятельность`",
+        "修改前 → 修改后": "无 → 探索—定向活动",
+        "本文频次与全部位置": "1；块 56",
+        "作者语料频次与代表性上下文": "5/5 篇；心理学和伊里因科夫研究中复现",
+        "上下文、决定理由与最终状态": "有“探索/搜索”选择，作者语料有复现但中文证据有限；`needs_review`",
+        "译文受影响位置及实际修改": "将旧稿“搜索—定向活动”改为“探索—定向活动”"
+      }
+    },
+    {
+      "proposal_id": "legacy-026",
+      "term_ids": [
+        "ensemble-of-social-relations"
+      ],
+      "target_author_ids": [
+        "ilyenkov"
+      ],
+      "canonical": "ансамбль общественных отношений",
+      "forms": [],
+      "suggested_zh": "",
+      "operations": [
+        "add"
+      ],
+      "before": "无 → 社会关系的总和",
+      "after": "无 → 社会关系的总和",
+      "article_evidence": {
+        "summary": "2；块 33、48"
+      },
+      "corpus_evidence": {
+        "summary": "29/14 篇；伊里因科夫及马克思研究高频",
+        "representative_contexts": []
+      },
+      "rationale": "29/14 篇；伊里因科夫及马克思研究高频；已固定的马克思表述；`approved`",
+      "final_status_by_author": {
+        "legacy": "approved"
+      },
+      "affected_translation_locations": [],
+      "affected_translation_summary": "正文两处统一“社会关系的总和”",
+      "heuristic_forms_pending": [],
+      "legacy_cells": {
+        "词条 ID": "`ensemble-of-social-relations`",
+        "原词及词形": "`ансамбль общественных отношений`",
+        "修改前 → 修改后": "无 → 社会关系的总和",
+        "本文频次与全部位置": "2；块 33、48",
+        "作者语料频次与代表性上下文": "29/14 篇；伊里因科夫及马克思研究高频",
+        "上下文、决定理由与最终状态": "已固定的马克思表述；`approved`",
+        "译文受影响位置及实际修改": "正文两处统一“社会关系的总和”"
+      }
+    },
+    {
+      "proposal_id": "legacy-027",
+      "term_ids": [
+        "dialectics-of-the-ideal"
+      ],
+      "target_author_ids": [
+        "ilyenkov"
+      ],
+      "canonical": "Диалектика идеального",
+      "forms": [],
+      "suggested_zh": "",
+      "operations": [
+        "status"
+      ],
+      "before": "`needs_review` → `approved`；说明改为与 Ilyenkov glossary 已统一",
+      "after": "`needs_review` → `approved`；说明改为与 Ilyenkov glossary 已统一",
+      "article_evidence": {
+        "summary": "本篇正文 0；参考文献未出现该题名"
+      },
+      "corpus_evidence": {
+        "summary": "现有 Ilyenkov glossary 已批准《观念东西的辩证法》，不再保留虚假不确定性",
+        "representative_contexts": []
+      },
+      "rationale": "`status`；现有 Ilyenkov glossary 已批准《观念东西的辩证法》，不再保留虚假不确定性",
+      "final_status_by_author": {
+        "legacy": "needs_review"
+      },
+      "affected_translation_locations": [],
+      "affected_translation_summary": "本篇无改动",
+      "heuristic_forms_pending": [],
+      "legacy_cells": {
+        "词条 ID": "`dialectics-of-the-ideal`",
+        "原词": "`Диалектика идеального`",
+        "操作": "`status`",
+        "修改前 → 修改后": "`needs_review` → `approved`；说明改为与 Ilyenkov glossary 已统一",
+        "本文频次与全部位置": "本篇正文 0；参考文献未出现该题名",
+        "作者语料证据与决定理由": "现有 Ilyenkov glossary 已批准《观念东西的辩证法》，不再保留虚假不确定性",
+        "译文受影响位置": "本篇无改动"
+      }
+    },
+    {
+      "proposal_id": "legacy-028",
+      "term_ids": [
+        "mode"
+      ],
+      "target_author_ids": [
+        "spinoza"
+      ],
+      "canonical": "модус",
+      "forms": [],
+      "suggested_zh": "",
+      "operations": [
+        "status"
+      ],
+      "before": "`needs_review` → `approved`；限定斯宾诺莎语境",
+      "after": "`needs_review` → `approved`；限定斯宾诺莎语境",
+      "article_evidence": {
+        "summary": "2；块 30、68"
+      },
+      "corpus_evidence": {
+        "summary": "338/36 篇，斯宾诺莎研究中稳定复现",
+        "representative_contexts": []
+      },
+      "rationale": "`status`；338/36 篇，斯宾诺莎研究中稳定复现",
+      "final_status_by_author": {
+        "legacy": "needs_review"
+      },
+      "affected_translation_locations": [],
+      "affected_translation_summary": "两处统一“样态”",
+      "heuristic_forms_pending": [],
+      "legacy_cells": {
+        "词条 ID": "`mode`",
+        "原词": "`модус`",
+        "操作": "`status`",
+        "修改前 → 修改后": "`needs_review` → `approved`；限定斯宾诺莎语境",
+        "本文频次与全部位置": "2；块 30、68",
+        "作者语料证据与决定理由": "338/36 篇，斯宾诺莎研究中稳定复现",
+        "译文受影响位置": "两处统一“样态”"
+      }
+    },
+    {
+      "proposal_id": "legacy-029",
+      "term_ids": [
+        "ideal"
+      ],
+      "target_author_ids": [
+        "ilyenkov"
+      ],
+      "canonical": "идеальное",
+      "forms": [],
+      "suggested_zh": "",
+      "operations": [
+        "modify",
+        "status"
+      ],
+      "before": "`needs_review` → `approved`；删除“理想的东西/理想性”替代项，补充普通形容词分义",
+      "after": "`needs_review` → `approved`；删除“理想的东西/理想性”替代项，补充普通形容词分义",
+      "article_evidence": {
+        "summary": "3；块 28、34、48"
+      },
+      "corpus_evidence": {
+        "summary": "859 个词族表面形式；Ilyenkov glossary 已批准“观念的东西”",
+        "representative_contexts": []
+      },
+      "rationale": "`status`、`modify`；859 个词族表面形式；Ilyenkov glossary 已批准“观念的东西”",
+      "final_status_by_author": {
+        "legacy": "needs_review"
+      },
+      "affected_translation_locations": [],
+      "affected_translation_summary": "块 28、34 改“观念的东西”；块 48 的普通 `идеальным` 保持“理想的”",
+      "heuristic_forms_pending": [],
+      "legacy_cells": {
+        "词条 ID": "`ideal`",
+        "原词": "`идеальное`",
+        "操作": "`status`、`modify`",
+        "修改前 → 修改后": "`needs_review` → `approved`；删除“理想的东西/理想性”替代项，补充普通形容词分义",
+        "本文频次与全部位置": "3；块 28、34、48",
+        "作者语料证据与决定理由": "859 个词族表面形式；Ilyenkov glossary 已批准“观念的东西”",
+        "译文受影响位置": "块 28、34 改“观念的东西”；块 48 的普通 `идеальным` 保持“理想的”"
+      }
+    },
+    {
+      "proposal_id": "legacy-030",
+      "term_ids": [
+        "activity"
+      ],
+      "target_author_ids": [],
+      "canonical": "деятельность",
+      "forms": [],
+      "suggested_zh": "",
+      "operations": [
+        "modify",
+        "status"
+      ],
+      "before": "`needs_review` → `approved`；补充固定搭配说明",
+      "after": "`needs_review` → `approved`；补充固定搭配说明",
+      "article_evidence": {
+        "summary": "33；块 8、11、15、18、20、33、37—38、40、42—43、47—48、53、56、60—61、64、67—69"
+      },
+      "corpus_evidence": {
+        "summary": "作者语料高频，基本译法稳定",
+        "representative_contexts": []
+      },
+      "rationale": "`status`、`modify`；作者语料高频，基本译法稳定",
+      "final_status_by_author": {
+        "legacy": "needs_review"
+      },
+      "affected_translation_locations": [],
+      "affected_translation_summary": "全文及“活动心理学”搭配复核一致",
+      "heuristic_forms_pending": [],
+      "legacy_cells": {
+        "词条 ID": "`activity`",
+        "原词": "`деятельность`",
+        "操作": "`status`、`modify`",
+        "修改前 → 修改后": "`needs_review` → `approved`；补充固定搭配说明",
+        "本文频次与全部位置": "33；块 8、11、15、18、20、33、37—38、40、42—43、47—48、53、56、60—61、64、67—69",
+        "作者语料证据与决定理由": "作者语料高频，基本译法稳定",
+        "译文受影响位置": "全文及“活动心理学”搭配复核一致"
+      }
+    },
+    {
+      "proposal_id": "legacy-031",
+      "term_ids": [
+        "freedom-generic"
+      ],
+      "target_author_ids": [],
+      "canonical": "свобода; свободный; свободно",
+      "forms": [],
+      "suggested_zh": "",
+      "operations": [
+        "reject"
+      ],
+      "before": "",
+      "after": "",
+      "article_evidence": {
+        "summary": "95；贯穿标题、摘要、全部正文节和结论"
+      },
+      "corpus_evidence": {
+        "summary": "高频但语义跨度极大；`freedom-of-will` 已独立",
+        "representative_contexts": []
+      },
+      "rationale": "`reject`；基础多义词缺少单一约束价值；译文逐句按语境处理",
+      "final_status_by_author": {},
+      "affected_translation_locations": [],
+      "affected_translation_summary": "基础多义词缺少单一约束价值；译文逐句按语境处理",
+      "heuristic_forms_pending": [],
+      "legacy_cells": {
+        "候选 ID": "`freedom-generic`",
+        "原词": "`свобода; свободный; свободно`",
+        "建议译法": "自由词族",
+        "操作": "`reject`",
+        "本文频次与位置": "95；贯穿标题、摘要、全部正文节和结论",
+        "作者语料与相邻概念": "高频但语义跨度极大；`freedom-of-will` 已独立",
+        "拒绝理由及译文处理": "基础多义词缺少单一约束价值；译文逐句按语境处理"
+      }
+    },
+    {
+      "proposal_id": "legacy-032",
+      "term_ids": [
+        "activity-psychology"
+      ],
+      "target_author_ids": [],
+      "canonical": "деятельностная психология",
+      "forms": [],
+      "suggested_zh": "",
+      "operations": [
+        "reject"
+      ],
+      "before": "",
+      "after": "",
+      "article_evidence": {
+        "summary": "2；块 8、18"
+      },
+      "corpus_evidence": {
+        "summary": "上位 `activity` 已收录",
+        "representative_contexts": []
+      },
+      "rationale": "`reject`；可由上位词条稳定生成，已写入 `activity` notes",
+      "final_status_by_author": {},
+      "affected_translation_locations": [],
+      "affected_translation_summary": "可由上位词条稳定生成，已写入 `activity` notes",
+      "heuristic_forms_pending": [],
+      "legacy_cells": {
+        "候选 ID": "`activity-psychology`",
+        "原词": "`деятельностная психология`",
+        "建议译法": "活动心理学",
+        "操作": "`reject`",
+        "本文频次与位置": "2；块 8、18",
+        "作者语料与相邻概念": "上位 `activity` 已收录",
+        "拒绝理由及译文处理": "可由上位词条稳定生成，已写入 `activity` notes"
+      }
+    },
+    {
+      "proposal_id": "legacy-033",
+      "term_ids": [
+        "external-objective-activity"
+      ],
+      "target_author_ids": [],
+      "canonical": "внешняя предметная деятельность",
+      "forms": [],
+      "suggested_zh": "",
+      "operations": [
+        "reject"
+      ],
+      "before": "",
+      "after": "",
+      "article_evidence": {
+        "summary": "1；块 67"
+      },
+      "corpus_evidence": {
+        "summary": "`objective-activity` 下位搭配",
+        "representative_contexts": []
+      },
+      "rationale": "`reject`；一次性透明组合，不另建词条；译文保留",
+      "final_status_by_author": {},
+      "affected_translation_locations": [],
+      "affected_translation_summary": "一次性透明组合，不另建词条；译文保留",
+      "heuristic_forms_pending": [],
+      "legacy_cells": {
+        "候选 ID": "`external-objective-activity`",
+        "原词": "`внешняя предметная деятельность`",
+        "建议译法": "外部对象性活动",
+        "操作": "`reject`",
+        "本文频次与位置": "1；块 67",
+        "作者语料与相邻概念": "`objective-activity` 下位搭配",
+        "拒绝理由及译文处理": "一次性透明组合，不另建词条；译文保留"
+      }
+    },
+    {
+      "proposal_id": "legacy-034",
+      "term_ids": [
+        "active-passive-affect"
+      ],
+      "target_author_ids": [],
+      "canonical": "активный/пассивный аффект",
+      "forms": [],
+      "suggested_zh": "",
+      "operations": [
+        "reject"
+      ],
+      "before": "",
+      "after": "",
+      "article_evidence": {
+        "summary": "各 1；块 15、17"
+      },
+      "corpus_evidence": {
+        "summary": "上位 `affect` 102/19 篇",
+        "representative_contexts": []
+      },
+      "rationale": "`reject`；作为成对搭配写入 `affect` notes，不重复建条目",
+      "final_status_by_author": {},
+      "affected_translation_locations": [],
+      "affected_translation_summary": "作为成对搭配写入 `affect` notes，不重复建条目",
+      "heuristic_forms_pending": [],
+      "legacy_cells": {
+        "候选 ID": "`active-passive-affect`",
+        "原词": "`активный/пассивный аффект`",
+        "建议译法": "主动/被动情感",
+        "操作": "`reject`",
+        "本文频次与位置": "各 1；块 15、17",
+        "作者语料与相邻概念": "上位 `affect` 102/19 篇",
+        "拒绝理由及译文处理": "作为成对搭配写入 `affect` notes，不重复建条目"
+      }
+    },
+    {
+      "proposal_id": "legacy-035",
+      "term_ids": [
+        "cultural-development"
+      ],
+      "target_author_ids": [],
+      "canonical": "культурное развитие",
+      "forms": [],
+      "suggested_zh": "",
+      "operations": [
+        "reject"
+      ],
+      "before": "",
+      "after": "",
+      "article_evidence": {
+        "summary": "3；块 8、43、49"
+      },
+      "corpus_evidence": {
+        "summary": "6/4 篇",
+        "representative_contexts": []
+      },
+      "rationale": "`reject`；标准透明组合，独立约束价值不足；译文保留",
+      "final_status_by_author": {},
+      "affected_translation_locations": [],
+      "affected_translation_summary": "标准透明组合，独立约束价值不足；译文保留",
+      "heuristic_forms_pending": [],
+      "legacy_cells": {
+        "候选 ID": "`cultural-development`",
+        "原词": "`культурное развитие`",
+        "建议译法": "文化发展",
+        "操作": "`reject`",
+        "本文频次与位置": "3；块 8、43、49",
+        "作者语料与相邻概念": "6/4 篇",
+        "拒绝理由及译文处理": "标准透明组合，独立约束价值不足；译文保留"
+      }
+    },
+    {
+      "proposal_id": "legacy-036",
+      "term_ids": [
+        "target-will"
+      ],
+      "target_author_ids": [
+        "vygotsky"
+      ],
+      "canonical": "целевая воля",
+      "forms": [],
+      "suggested_zh": "",
+      "operations": [
+        "no_formal_glossary"
+      ],
+      "before": "",
+      "after": "",
+      "article_evidence": {
+        "summary": "2；块 45"
+      },
+      "corpus_evidence": {
+        "summary": "当前仅本篇；Vygotsky 无正式 glossary",
+        "representative_contexts": []
+      },
+      "rationale": "`no_formal_glossary`；维果茨基专项层级术语，证据不足；译文采用“目的意志”并在日志跟踪",
+      "final_status_by_author": {},
+      "affected_translation_locations": [],
+      "affected_translation_summary": "维果茨基专项层级术语，证据不足；译文采用“目的意志”并在日志跟踪",
+      "heuristic_forms_pending": [],
+      "legacy_cells": {
+        "候选 ID": "`target-will`",
+        "原词": "`целевая воля`",
+        "建议译法": "目的意志",
+        "操作": "`no_formal_glossary`",
+        "本文频次与位置": "2；块 45",
+        "作者语料与相邻概念": "当前仅本篇；Vygotsky 无正式 glossary",
+        "拒绝理由及译文处理": "维果茨基专项层级术语，证据不足；译文采用“目的意志”并在日志跟踪"
+      }
+    },
+    {
+      "proposal_id": "legacy-037",
+      "term_ids": [
+        "hypobulic-stage"
+      ],
+      "target_author_ids": [
+        "maidansky",
+        "vygotsky"
+      ],
+      "canonical": "гипобулическая стадия",
+      "forms": [],
+      "suggested_zh": "",
+      "operations": [
+        "no_formal_glossary"
+      ],
+      "before": "",
+      "after": "",
+      "article_evidence": {
+        "summary": "1；块 45"
+      },
+      "corpus_evidence": {
+        "summary": "当前仅本篇；Vygotsky 无正式 glossary",
+        "representative_contexts": []
+      },
+      "rationale": "`no_formal_glossary`；低频专项词，暂不导入 Maidansky 核心 glossary；译文保留解释性译法",
+      "final_status_by_author": {},
+      "affected_translation_locations": [],
+      "affected_translation_summary": "低频专项词，暂不导入 Maidansky 核心 glossary；译文保留解释性译法",
+      "heuristic_forms_pending": [],
+      "legacy_cells": {
+        "候选 ID": "`hypobulic-stage`",
+        "原词": "`гипобулическая стадия`",
+        "建议译法": "低意志阶段",
+        "操作": "`no_formal_glossary`",
+        "本文频次与位置": "1；块 45",
+        "作者语料与相邻概念": "当前仅本篇；Vygotsky 无正式 glossary",
+        "拒绝理由及译文处理": "低频专项词，暂不导入 Maidansky 核心 glossary；译文保留解释性译法"
+      }
+    },
+    {
+      "proposal_id": "legacy-038",
+      "term_ids": [
+        "freedom-reflex"
+      ],
+      "target_author_ids": [],
+      "canonical": "рефлекс свободы",
+      "forms": [],
+      "suggested_zh": "",
+      "operations": [
+        "reject"
+      ],
+      "before": "",
+      "after": "",
+      "article_evidence": {
+        "summary": "3；块 25、52、58"
+      },
+      "corpus_evidence": {
+        "summary": "当前集中于本篇及作品题名",
+        "representative_contexts": []
+      },
+      "rationale": "`reject`；巴甫洛夫文章论证关键词而非跨篇作者术语；译文统一但不收录",
+      "final_status_by_author": {},
+      "affected_translation_locations": [],
+      "affected_translation_summary": "巴甫洛夫文章论证关键词而非跨篇作者术语；译文统一但不收录",
+      "heuristic_forms_pending": [],
+      "legacy_cells": {
+        "候选 ID": "`freedom-reflex`",
+        "原词": "`рефлекс свободы`",
+        "建议译法": "自由反射",
+        "操作": "`reject`",
+        "本文频次与位置": "3；块 25、52、58",
+        "作者语料与相邻概念": "当前集中于本篇及作品题名",
+        "拒绝理由及译文处理": "巴甫洛夫文章论证关键词而非跨篇作者术语；译文统一但不收录"
+      }
+    },
+    {
+      "proposal_id": "legacy-039",
+      "term_ids": [
+        "automatism"
+      ],
+      "target_author_ids": [],
+      "canonical": "автоматизм",
+      "forms": [],
+      "suggested_zh": "",
+      "operations": [
+        "reject"
+      ],
+      "before": "",
+      "after": "",
+      "article_evidence": {
+        "summary": "2；块 67—68"
+      },
+      "corpus_evidence": {
+        "summary": "当前仅本篇",
+        "representative_contexts": []
+      },
+      "rationale": "`reject`；语境透明且没有稳定的独立译法冲突；译文保留“自动化层次”",
+      "final_status_by_author": {},
+      "affected_translation_locations": [],
+      "affected_translation_summary": "语境透明且没有稳定的独立译法冲突；译文保留“自动化层次”",
+      "heuristic_forms_pending": [],
+      "legacy_cells": {
+        "候选 ID": "`automatism`",
+        "原词": "`автоматизм`",
+        "建议译法": "自动化",
+        "操作": "`reject`",
+        "本文频次与位置": "2；块 67—68",
+        "作者语料与相邻概念": "当前仅本篇",
+        "拒绝理由及译文处理": "语境透明且没有稳定的独立译法冲突；译文保留“自动化层次”"
+      }
+    },
+    {
+      "proposal_id": "legacy-040",
+      "term_ids": [
+        "psychological-illusion"
+      ],
+      "target_author_ids": [],
+      "canonical": "психологическая иллюзия",
+      "forms": [],
+      "suggested_zh": "",
+      "operations": [
+        "reject"
+      ],
+      "before": "",
+      "after": "",
+      "article_evidence": {
+        "summary": "2；块 8、53"
+      },
+      "corpus_evidence": {
+        "summary": "当前仅本篇",
+        "representative_contexts": []
+      },
+      "rationale": "`reject`；文章论证性描述，不构成跨篇术语；译文保留",
+      "final_status_by_author": {},
+      "affected_translation_locations": [],
+      "affected_translation_summary": "文章论证性描述，不构成跨篇术语；译文保留",
+      "heuristic_forms_pending": [],
+      "legacy_cells": {
+        "候选 ID": "`psychological-illusion`",
+        "原词": "`психологическая иллюзия`",
+        "建议译法": "心理幻觉",
+        "操作": "`reject`",
+        "本文频次与位置": "2；块 8、53",
+        "作者语料与相邻概念": "当前仅本篇",
+        "拒绝理由及译文处理": "文章论证性描述，不构成跨篇术语；译文保留"
+      }
+    },
+    {
+      "proposal_id": "legacy-041",
+      "term_ids": [
+        "summit-psychology"
+      ],
+      "target_author_ids": [
+        "vygotsky"
+      ],
+      "canonical": "вершинная психология",
+      "forms": [],
+      "suggested_zh": "",
+      "operations": [
+        "no_formal_glossary"
+      ],
+      "before": "",
+      "after": "",
+      "article_evidence": {
+        "summary": "1；块 24"
+      },
+      "corpus_evidence": {
+        "summary": "Vygotsky 无正式 glossary",
+        "representative_contexts": []
+      },
+      "rationale": "`no_formal_glossary`；专项引文表达，留待维果茨基语料规划；译文保留",
+      "final_status_by_author": {},
+      "affected_translation_locations": [],
+      "affected_translation_summary": "专项引文表达，留待维果茨基语料规划；译文保留",
+      "heuristic_forms_pending": [],
+      "legacy_cells": {
+        "候选 ID": "`summit-psychology`",
+        "原词": "`вершинная психология`",
+        "建议译法": "顶峰心理学",
+        "操作": "`no_formal_glossary`",
+        "本文频次与位置": "1；块 24",
+        "作者语料与相邻概念": "Vygotsky 无正式 glossary",
+        "拒绝理由及译文处理": "专项引文表达，留待维果茨基语料规划；译文保留"
+      }
+    },
+    {
+      "proposal_id": "legacy-042",
+      "term_ids": [
+        "social-situation-of-development"
+      ],
+      "target_author_ids": [
+        "vygotsky"
+      ],
+      "canonical": "социальная ситуация развития",
+      "forms": [],
+      "suggested_zh": "",
+      "operations": [
+        "no_formal_glossary"
+      ],
+      "before": "",
+      "after": "",
+      "article_evidence": {
+        "summary": "1；块 46"
+      },
+      "corpus_evidence": {
+        "summary": "Vygotsky 无正式 glossary",
+        "representative_contexts": []
+      },
+      "rationale": "`no_formal_glossary`；理论重要但本批不能替代作者专项审核；译文保留",
+      "final_status_by_author": {},
+      "affected_translation_locations": [],
+      "affected_translation_summary": "理论重要但本批不能替代作者专项审核；译文保留",
+      "heuristic_forms_pending": [],
+      "legacy_cells": {
+        "候选 ID": "`social-situation-of-development`",
+        "原词": "`социальная ситуация развития`",
+        "建议译法": "发展的社会情境",
+        "操作": "`no_formal_glossary`",
+        "本文频次与位置": "1；块 46",
+        "作者语料与相邻概念": "Vygotsky 无正式 glossary",
+        "拒绝理由及译文处理": "理论重要但本批不能替代作者专项审核；译文保留"
+      }
+    },
+    {
+      "proposal_id": "legacy-043",
+      "term_ids": [
+        "anthropomorphization-of-nature"
+      ],
+      "target_author_ids": [],
+      "canonical": "антропоморфизация природы",
+      "forms": [],
+      "suggested_zh": "",
+      "operations": [
+        "reject"
+      ],
+      "before": "",
+      "after": "",
+      "article_evidence": {
+        "summary": "1；块 37"
+      },
+      "corpus_evidence": {
+        "summary": "当前仅本篇",
+        "representative_contexts": []
+      },
+      "rationale": "`reject`；作者的局部概括，非稳定术语；译文保留",
+      "final_status_by_author": {},
+      "affected_translation_locations": [],
+      "affected_translation_summary": "作者的局部概括，非稳定术语；译文保留",
+      "heuristic_forms_pending": [],
+      "legacy_cells": {
+        "候选 ID": "`anthropomorphization-of-nature`",
+        "原词": "`антропоморфизация природы`",
+        "建议译法": "自然的人化",
+        "操作": "`reject`",
+        "本文频次与位置": "1；块 37",
+        "作者语料与相邻概念": "当前仅本篇",
+        "拒绝理由及译文处理": "作者的局部概括，非稳定术语；译文保留"
+      }
+    },
+    {
+      "proposal_id": "legacy-044",
+      "term_ids": [
+        "intuitive-knowledge"
+      ],
+      "target_author_ids": [
+        "maidansky",
+        "spinoza"
+      ],
+      "canonical": "интуитивное знание",
+      "forms": [],
+      "suggested_zh": "",
+      "operations": [
+        "reject"
+      ],
+      "before": "",
+      "after": "",
+      "article_evidence": {
+        "summary": "1；块 26"
+      },
+      "corpus_evidence": {
+        "summary": "Spinoza glossary 已有 `scientia-intuitiva`",
+        "representative_contexts": []
+      },
+      "rationale": "`reject`；不在 Maidansky glossary 重复；译文按斯宾诺莎词条处理",
+      "final_status_by_author": {},
+      "affected_translation_locations": [],
+      "affected_translation_summary": "不在 Maidansky glossary 重复；译文按斯宾诺莎词条处理",
+      "heuristic_forms_pending": [],
+      "legacy_cells": {
+        "候选 ID": "`intuitive-knowledge`",
+        "原词": "`интуитивное знание`",
+        "建议译法": "直观知识",
+        "操作": "`reject`",
+        "本文频次与位置": "1；块 26",
+        "作者语料与相邻概念": "Spinoza glossary 已有 `scientia-intuitiva`",
+        "拒绝理由及译文处理": "不在 Maidansky glossary 重复；译文按斯宾诺莎词条处理"
+      }
+    },
+    {
+      "proposal_id": "legacy-045",
+      "term_ids": [
+        "confusa"
+      ],
+      "target_author_ids": [],
+      "canonical": "смутное, смешанное; confusa",
+      "forms": [],
+      "suggested_zh": "",
+      "operations": [
+        "reject"
+      ],
+      "before": "",
+      "after": "",
+      "article_evidence": {
+        "summary": "1；块 27"
+      },
+      "corpus_evidence": {
+        "summary": "与 `imagination` 相邻",
+        "representative_contexts": []
+      },
+      "rationale": "`reject`；引文内局部限定语；译文保留拉丁文",
+      "final_status_by_author": {},
+      "affected_translation_locations": [],
+      "affected_translation_summary": "引文内局部限定语；译文保留拉丁文",
+      "heuristic_forms_pending": [],
+      "legacy_cells": {
+        "候选 ID": "`confusa`",
+        "原词": "`смутное, смешанное; confusa`",
+        "建议译法": "模糊而混杂",
+        "操作": "`reject`",
+        "本文频次与位置": "1；块 27",
+        "作者语料与相邻概念": "与 `imagination` 相邻",
+        "拒绝理由及译文处理": "引文内局部限定语；译文保留拉丁文"
+      }
+    },
+    {
+      "proposal_id": "legacy-046",
+      "term_ids": [
+        "spontaneous-movement"
+      ],
+      "target_author_ids": [],
+      "canonical": "самопроизвольное движение",
+      "forms": [],
+      "suggested_zh": "",
+      "operations": [
+        "reject"
+      ],
+      "before": "",
+      "after": "",
+      "article_evidence": {
+        "summary": "1；块 56"
+      },
+      "corpus_evidence": {
+        "summary": "与 `self-movement` 相邻但不等同",
+        "representative_contexts": []
+      },
+      "rationale": "`reject`；一次性透明表达；译文按上下文处理",
+      "final_status_by_author": {},
+      "affected_translation_locations": [],
+      "affected_translation_summary": "一次性透明表达；译文按上下文处理",
+      "heuristic_forms_pending": [],
+      "legacy_cells": {
+        "候选 ID": "`spontaneous-movement`",
+        "原词": "`самопроизвольное движение`",
+        "建议译法": "自发运动",
+        "操作": "`reject`",
+        "本文频次与位置": "1；块 56",
+        "作者语料与相邻概念": "与 `self-movement` 相邻但不等同",
+        "拒绝理由及译文处理": "一次性透明表达；译文按上下文处理"
+      }
+    },
+    {
+      "proposal_id": "legacy-047",
+      "term_ids": [
+        "self-movement"
+      ],
+      "target_author_ids": [],
+      "canonical": "самодвижение",
+      "forms": [],
+      "suggested_zh": "",
+      "operations": [
+        "reject"
+      ],
+      "before": "",
+      "after": "",
+      "article_evidence": {
+        "summary": "1；块 66"
+      },
+      "corpus_evidence": {
+        "summary": "作者语料 7/7 篇但语境分散，指身体、语言、理念等不同对象",
+        "representative_contexts": []
+      },
+      "rationale": "`reject`；当前缺乏单一中文约束；译文用“自主运动”",
+      "final_status_by_author": {},
+      "affected_translation_locations": [],
+      "affected_translation_summary": "当前缺乏单一中文约束；译文用“自主运动”",
+      "heuristic_forms_pending": [],
+      "legacy_cells": {
+        "候选 ID": "`self-movement`",
+        "原词": "`самодвижение`",
+        "建议译法": "自主运动",
+        "操作": "`reject`",
+        "本文频次与位置": "1；块 66",
+        "作者语料与相邻概念": "作者语料 7/7 篇但语境分散，指身体、语言、理念等不同对象",
+        "拒绝理由及译文处理": "当前缺乏单一中文约束；译文用“自主运动”"
+      }
+    },
+    {
+      "proposal_id": "legacy-048",
+      "term_ids": [
+        "object-of-need"
+      ],
+      "target_author_ids": [],
+      "canonical": "предмет потребности",
+      "forms": [],
+      "suggested_zh": "",
+      "operations": [
+        "reject"
+      ],
+      "before": "",
+      "after": "",
+      "article_evidence": {
+        "summary": "1；块 60"
+      },
+      "corpus_evidence": {
+        "summary": "活动理论普通组合",
+        "representative_contexts": []
+      },
+      "rationale": "`reject`；透明搭配，无须独立词条；译文保留",
+      "final_status_by_author": {},
+      "affected_translation_locations": [],
+      "affected_translation_summary": "透明搭配，无须独立词条；译文保留",
+      "heuristic_forms_pending": [],
+      "legacy_cells": {
+        "候选 ID": "`object-of-need`",
+        "原词": "`предмет потребности`",
+        "建议译法": "需要对象",
+        "操作": "`reject`",
+        "本文频次与位置": "1；块 60",
+        "作者语料与相邻概念": "活动理论普通组合",
+        "拒绝理由及译文处理": "透明搭配，无须独立词条；译文保留"
+      }
+    }
+  ],
+  "owner_review": {
+    "status": "approved",
+    "reviewer": "hoshF",
+    "reviewed_at": "2026-07-27",
+    "note": "由原 Markdown 审核记录迁移；不表示正式翻译项目 reviewed 状态。"
+  },
+  "legacy_migration": {
+    "source_sha256": "3df924e517d7bb717de9b81035a1951cb208748dbab93189a057867e373286a1",
+    "source_heading": "2026-07-27 — `maidansky` / `e-v-ilyenkov-o-svobode-voli` / `ilyenkov-on-freedom-of-will`",
+    "sections": {
+      "批次信息": "- 审核者：Codex（原文—双译本对照、作者语料复核）\n- 项目所有者复核：2026-07-27 审核通过\n- 原文：`maidansky_markdown/maidansky_md/istoriya-filosofii/istoriya-filosofii-e-v-ilyenkov-o-svobode-voli.md`；范围为标题、摘要、正文与注释块 1—82，不含参考文献\n- 译文：博客文章 `ilyenkov-on-freedom-of-will`；范围为全文各节、注释与参考文献\n- 正式术语表：`maidansky_markdown/metadata/glossary.json`\n- 关联术语表：`ilyenkov_markdown/metadata/glossary.json`、`spinoza_markdown/metadata/glossary.json`\n- 无正式术语表：Vygotsky collection；相关候选依据 collection README、source survey、works records 和迈丹斯基作者语料审核，未创建新的 Vygotsky glossary\n- 建议表：`《伊利延科夫论自由意志》术语收录建议表.md`\n- 频次口径：本文合并俄语屈折词形；作者语料统计 81 篇 Maidansky 正文，去除 front matter 和 `## Литература` 之后的参考文献部分；同一位置并列俄语与拉丁语时注明表面词形数\n- 批次结论：新增 26；修改 4；删除 0；状态调整 4；拒绝独立收录 18",
+      "拒绝独立收录": "以下候选均已检查上下文、本文位置与作者语料。它们不是从译文中删除，而是不新增为独立\nglossary entry；必要搭配已写入上位词条说明。",
+      "验证与版本": "- 生成视图：已生成；Maidansky 视图由 27 条更新为 53 条，术语索引同步更新\n- glossary 检查：`glossaries=4 errors=0`\n- prompt 模板检查：通过（起草方错误 25/37 条，术语 43/53 条）\n- 翻译项目检查：`translation_projects=1 errors=0`\n- 项目文档检查：`project and AI documentation: OK`\n- 译文一致性：已将必须修正项回写博客稿，并完成核心术语全文复核\n- commit：本批独立术语提交\n- push：未执行；提交前本地 `main` 已领先远端 110 个提交，按流程停在推送前"
+    },
+    "decision_rows": 48
+  }
+}

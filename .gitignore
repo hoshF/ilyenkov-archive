@@ -39,6 +39,11 @@ dist/
 *.swp
 ~$*
 
+# Codex translation interaction files (prompts and reports; never committed)
+tmp/codex/
+tmp/translation_reviews/
+tmp/translation_review_cache/
+
 # Keep PDFs, Markdown sources, images, and philosopher Markdown roots tracked.
 !*.pdf
 !*.md

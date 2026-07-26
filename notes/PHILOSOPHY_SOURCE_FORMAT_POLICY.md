@@ -1,7 +1,7 @@
 ---
 title: "Philosophical Text Source, OCR Admission, And Publication Policy"
 created: "2026-06-11"
-updated: "2026-06-22"
+updated: "2026-07-27"
 type: "project"
 tags: ["source-policy", "markdown", "source-scan", "ocr-gate", "copyright"]
 language: "en"
@@ -39,6 +39,44 @@ permanent reason for rejection.
 An extension does not prove source quality. EPUB or HTML generated through hOCR, ABBYY, or another
 recognition pipeline remains OCR-derived.
 
+## Agent-Canonical Markdown
+
+New conversions from HTML, native EPUB, PDF, DjVu, or image scans use:
+
+```yaml
+transcription_mode: "agent_canonical_markdown"
+```
+
+This mode describes how the Markdown is organized. It does not assert that the text is complete,
+human verified, core-corpus eligible, or approved for redistribution; those decisions remain under
+`text_status`, `text_role`, the verification manifest, and rights metadata.
+
+Agent-canonical Markdown is the semantic working text for search, chunking, citation, and model
+reasoning. The immutable source file or snapshot remains the edition evidence. The canonical body:
+
+- preserves all source wording except recorded corrections of clear source errors;
+- preserves semantic paragraphs, headings, quotation hierarchy, meaningful emphasis, notes,
+  tables, formulas, references, and author or publication information;
+- removes layout line breaks, page-break hyphenation, headers, footers, isolated page numbers,
+  decorative typography, duplicate spacing, and OCR noise;
+- uses unique Markdown note identifiers instead of reproducing page-local display numbering;
+- does not place page-boundary comments inside words, sentences, or other semantic blocks.
+
+Clear source typographical errors may be corrected for machine readability only when the source
+reading, canonical reading, locator, and rationale are preserved in the canonical text map.
+Ambiguous or philosophically material readings remain unchanged and are recorded as uncertain.
+Routine whitespace, lineation, page-break, and hyphenation cleanup does not require an individual
+textual note.
+
+Before human-verified promotion, each semantic block in a page-based conversion has a stable
+`<!-- block-id: b0001 -->` comment and a matching entry in `canonical_text_map.json`. The map, not
+inline page markers, binds headings, paragraphs, quotations, list items, notes, tables, and formulas
+to source pages or structured-source locations.
+
+Existing `faithful_normalized_markdown`, `normalized_markdown_not_diplomatic`, and
+`normalized_markdown` records remain valid legacy modes. Their bodies and verification hashes are
+not changed merely to adopt this policy.
+
 ## OCR Admission Gate
 
 1. OCR origin does not permanently disqualify a text; quality and verification records control
@@ -74,6 +112,11 @@ manifest preserves that status. Research texts digitized from PDF or image scans
 verification. All verified OCR must preserve source hashes, reviewer, date, scope, final Markdown
 SHA-256, and OCR provenance.
 
+New scan digitization projects use `project.json` schema v2 with
+`output_profile: "agent_canonical_markdown"`. A human-verified v2 text must bind its final Markdown
+path and SHA-256 to a valid `canonical_text_map.json`. Schema v1 projects and their verified
+Markdown remain valid legacy records and are not rewritten merely to adopt the new profile.
+
 ## Source Scans
 
 Important PDF/DjVu files that are freely accessible without bypassing restrictions may be preserved:
@@ -101,6 +144,15 @@ Corpus Markdown requires:
 - `rights_review_status`
 - `text_status`
 - `source_url`
+
+All new source conversions also require:
+
+- `transcription_mode: "agent_canonical_markdown"`
+
+The legacy values `faithful_normalized_markdown`, `normalized_markdown_not_diplomatic`, and
+`normalized_markdown` remain accepted only for existing compatibility records. They do not define
+the default for new conversions and must not be used to avoid the v2 mapping and review
+requirements.
 
 Controlled `text_role` values are `author_original`, `historical_translation`, `text_witness`,
 `modern_translation`, `research`, `ai_reference`, `source_scan_unprocessed`, and `ocr_unverified`.

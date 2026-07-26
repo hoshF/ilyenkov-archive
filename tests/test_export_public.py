@@ -1,5 +1,6 @@
 import importlib.util
 import json
+import subprocess
 import tempfile
 import unittest
 from pathlib import Path
@@ -337,6 +338,24 @@ class ExportPublicTests(unittest.TestCase):
             listed = {path.relative_to(root).as_posix() for path in MODULE.source_files(root)}
             self.assertNotIn(".fulltext/ilyenkov_markdown/ilyenkov_md/work.md", listed)
             self.assertNotIn(".fulltext", {Path(p).parts[0] for p in listed})
+
+    def test_git_repository_export_universe_contains_only_tracked_files(self):
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            subprocess.run(["git", "init", "-q", str(root)], check=True)
+            tracked = root / "README.md"
+            tracked.write_text("# Tracked\n", encoding="utf-8")
+            untracked = root / "tmp/report.md"
+            untracked.parent.mkdir()
+            untracked.write_text("# Untracked\n", encoding="utf-8")
+            subprocess.run(["git", "-C", str(root), "add", "README.md"], check=True)
+
+            listed = {
+                path.relative_to(root).as_posix()
+                for path in MODULE.source_files(root)
+            }
+
+            self.assertEqual(listed, {"README.md"})
 
     def test_build_exports_manifest_approved_asset(self):
         with tempfile.TemporaryDirectory() as directory:

@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
   "author_id": "ilyenkov",
-  "updated_at": "2026-07-01",
+  "updated_at": "2026-07-21",
   "source_corpus_paths": [
     "ilyenkov_markdown/ilyenkov_md/"
   ],
@@ -221,8 +221,8 @@
       "forms": ["ideal", "идеального", "идеальная реальность"],
       "zh_preferred": "观念的东西",
       "zh_alternatives": ["观念性"],
-      "status": "needs_review",
-      "notes": "伊里因科夫核心术语，须结合上下文判断。",
+      "status": "approved",
+      "notes": "伊里因科夫核心术语，须结合上下文判断。形容词 идеальный 译“观念的”（如 идеальный мир→观念的世界），**不得译“理想的”**——价值义是该词最常见的误译陷阱。但**方法论上的理想化极限情形是第三义，仍作“理想的”**：ch026 块 28 恩格斯论萨迪·卡诺 `создал идеальную паровую машину (или газовую машину)`，紧接着说它同“几何线或几何面”一样实践中造不出、却起着“这些数学抽象”那样的作用，指的是理想化模型（汉语物理学的固定说法即“理想热机”“理想气体”），并非伊里因科夫的“观念的东西”。判据：与“实践中做不到／数学抽象”对举时取第三义。起草方机械套用本条把它译成“观念的蒸汽机”，是本条只写了两义所致。**第四义不存在——“心理的／想象的”是明确被排除的读法**：ch041（《论 Wert 一词的翻译》）整篇就是为此而写，作者指控俄译者斯克沃尔佐夫—斯捷潘诺夫把德文 `ideell`／`vorgestellt` 译成 `мысленно-представляемый`（思想上设想的），“等于把马克思变成了十足的贝克莱主义者”。判据见 ch041 块 25：`«Представленная» тут в совершенно объективном смысле`——金是在**经济关系的现实中**、而**绝不是在人的脑袋或想象中**充当铁与麻布的代表者。**本条选“观念的”而不选“理想的／想象的”，理论根据即在该篇**，成书时若需为本术语作译者说明，应引 ch041。**2026-07-24 定为 approved**：全书译竣后定案，理论根据见 ch041（该篇即为驳斥“心理的／想象的”读法而写）。",
       "evidence": [{"corpus_path": "ilyenkov_markdown/ilyenkov_md/", "note": "由原 notes/TERMS.md 迁入。"}]
     },
     {
@@ -253,9 +253,9 @@
       "canonical": "всеобщее",
       "forms": ["universal", "всеобщего"],
       "zh_preferred": "普遍物",
-      "zh_alternatives": ["普遍性", "一般", "普遍者"],
-      "status": "needs_review",
-      "notes": "与抽象、具体、特殊关系密切。",
+      "zh_alternatives": ["普遍性", "普遍者"],
+      "status": "approved",
+      "notes": "всеобщее（具体的普遍）→普遍物；须与 общее（抽象的一般）→一般 区分，见 general 条目。**2026-07-24 定为 approved**：全书译竣后定案。与 `общее`→一般 的分工经「一般—特殊—个别」六词家族（DECISIONS 第 23 行）全程检验，ch027 块 79／117 是判据最清楚的一处。",
       "evidence": [{"corpus_path": "ilyenkov_markdown/ilyenkov_md/", "note": "由原 notes/TERMS.md 迁入。"}]
     },
     {
@@ -265,9 +265,20 @@
       "forms": ["abstract", "абстрактного"],
       "zh_preferred": "抽象的东西",
       "zh_alternatives": ["抽象", "抽象物"],
-      "status": "needs_review",
-      "notes": "与“具体”成对。",
-      "evidence": [{"corpus_path": "ilyenkov_markdown/ilyenkov_md/", "note": "由原 notes/TERMS.md 迁入。"}]
+      "status": "approved",
+      "notes": "与“具体”成对，四分用法同 concrete。经 ch004、ch005 确认。名词 отвлеченность（全书 3 次：ch007、ch020、ch032）不是 абстрактность 的自由异名：与 абстрактность→抽象性 并列时作“空泛性”（ch020 块 10 敌对论者的两项指控），只有 ch007 那种 абстрактная отвлеченность 的同义叠用语境才作“抽象的抽象性”。**2026-07-24 定为 approved**：全书 42 单元 2994 块译竣、所有者逐批认可，本条与 concrete 条的四分用法经全程检验未再改动。",
+      "evidence": [{"corpus_path": "ilyenkov_markdown/ilyenkov_md/", "note": "由原 notes/TERMS.md 迁入。"}, {"corpus_path": "ilyenkov_markdown/ilyenkov_md/knigi/knigi-dialektika-abstraktnogo-i-konkretnogo-v-nauchno-teoreticheskom-myshlenii/knigi-dialektika-abstraktnogo-i-konkretnogo-v-nauchno-teoreticheskom-myshlenii-ch005.md", "note": "ch005 块 9、块 12—13 用例。"}]
+    },
+    {
+      "id": "coincidence",
+      "category": "concept",
+      "canonical": "совпадение",
+      "forms": ["coincidence", "совпадать", "совпадает", "совпадения"],
+      "zh_preferred": "重合",
+      "zh_alternatives": ["相重合"],
+      "status": "approved",
+      "notes": "全书 125 次、遍及 26 章，是第三章的支点概念（章题即“抽象与具体的重合”）。须与 единство→统一 分开：二者常在同一段并现（ch020 块 26“对立面的重合”与“同对立面的统一”）。动词 совпадать 作谓语时须保持“相重合”，**不得压成“就是”“意味着”**——ch020 块 23 在该词首次出现处就这样丢失过一次，而同块第二处、下一块三处都译作“重合”。",
+      "evidence": [{"corpus_path": "ilyenkov_markdown/ilyenkov_md/knigi/knigi-dialektika-abstraktnogo-i-konkretnogo-v-nauchno-teoreticheskom-myshlenii/knigi-dialektika-abstraktnogo-i-konkretnogo-v-nauchno-teoreticheskom-myshlenii-ch020.md", "note": "ch020 块 23（首现被压平）、块 26（三处，与 единство 同段并现）。"}]
     },
     {
       "id": "concrete",
@@ -276,9 +287,9 @@
       "forms": ["concrete", "конкретного"],
       "zh_preferred": "具体的东西",
       "zh_alternatives": ["具体", "具体物"],
-      "status": "needs_review",
-      "notes": "注意区别经验直观意义和辩证逻辑意义。",
-      "evidence": [{"corpus_path": "ilyenkov_markdown/ilyenkov_md/", "note": "由原 notes/TERMS.md 迁入。"}]
+      "status": "approved",
+      "notes": "四分用法：名词范畴→具体的东西；术语提及→“具体”；形容词→具体的；-ность→具体性。经 ch004（经验主义）、ch005（理性主义）两章确认。**2026-07-24 定为 approved**：全书 42 单元 2994 块译竣、所有者逐批认可；四分用法自 ch004／ch005 确立后全程未再调整，是全书出现最密的一对范畴词。",
+      "evidence": [{"corpus_path": "ilyenkov_markdown/ilyenkov_md/", "note": "由原 notes/TERMS.md 迁入。"}, {"corpus_path": "ilyenkov_markdown/ilyenkov_md/knigi/knigi-dialektika-abstraktnogo-i-konkretnogo-v-nauchno-teoreticheskom-myshlenii/knigi-dialektika-abstraktnogo-i-konkretnogo-v-nauchno-teoreticheskom-myshlenii-ch005.md", "note": "ch005 块 9 稳定使用名词/术语/形容词区分。"}]
     },
     {
       "id": "objective-activity",
@@ -330,10 +341,10 @@
       "canonical": "логика",
       "forms": ["logic", "логики"],
       "zh_preferred": "逻辑",
-      "zh_alternatives": [],
+      "zh_alternatives": ["逻辑学"],
       "status": "approved",
-      "notes": "形式逻辑、辩证逻辑和逻辑史语境均需区分。",
-      "evidence": [{"corpus_path": "ilyenkov_markdown/ilyenkov_md/", "note": "高频概念。"}]
+      "notes": "形式逻辑、辩证逻辑和逻辑史语境均需区分。语境规则：作为学科或“思维的一般理论”译“逻辑学”；作为思维的客观规律（原文首字母大写的 Логика）译大写的“逻辑”；一般情况下译“逻辑”。注意：位于句首的大写不构成判据，须按上下文判断（ch007 块 17 句首 Логика 指学科，块 20 句中 Логики 才是大写的“逻辑”）。中文行文：标准形式为“大写的‘逻辑’”，但**前后任何一侧紧邻“的”字时**都省去内部的“的”，作“……的大写‘逻辑’”“大写‘逻辑’的……”，以免“的”字叠用（ch016 块 80 是后一侧的例子）（ch013 全章 24 次，其中 11 处需如此处理）。**句中大写但由 `в области`（在……领域）一类词限定为学科时，仍作“逻辑学”不作大写“逻辑”**：ch032 块 6 `предшественников Маркса в области Логики`→马克思在逻辑学领域的先驱（同句另有两处小写 `логика`→逻辑）。",
+      "evidence": [{"corpus_path": "ilyenkov_markdown/ilyenkov_md/", "note": "高频概念。"}, {"corpus_path": "ilyenkov_markdown/ilyenkov_md/knigi/knigi-dialektika-abstraktnogo-i-konkretnogo-v-nauchno-teoreticheskom-myshlenii/knigi-dialektika-abstraktnogo-i-konkretnogo-v-nauchno-teoreticheskom-myshlenii-ch006.md", "note": "ch006 块 9 同段并现 Логика（作为科学）与 гегелевская логика。"}]
     },
     {
       "id": "contradiction",
@@ -343,8 +354,30 @@
       "zh_preferred": "矛盾",
       "zh_alternatives": ["矛盾性"],
       "status": "provisional",
-      "notes": "具体译法取决于逻辑关系或社会历史关系。",
+      "notes": "具体译法取决于逻辑关系或社会历史关系。`«логическое противоречие»`→“逻辑矛盾”（带引号照转）；固定搭配 `взаимоисключающие определения`→**互相排斥的规定**（ch032 块 101、ch033 已如此定稿）。须与 `антиномия`→二律背反（见 antinomy 条）分别译出，二者常在同章并现（ch033 块 4 起讲“矛盾”、块 29 收于“二律背反”），不得为章内整齐而混用。形式逻辑的 `закон запрещения противоречия`／`закон запрета противоречия`→**矛盾禁律**（不作“不矛盾律”“禁止矛盾律”，全书 5 次遍及 ch033—ch034 两章）。",
       "evidence": [{"corpus_path": "ilyenkov_markdown/ilyenkov_md/", "note": "高频概念。"}]
+    },
+    {
+      "id": "nature",
+      "category": "concept",
+      "canonical": "природа",
+      "forms": ["nature", "природы", "природе", "природу"],
+      "zh_preferred": "本性",
+      "zh_alternatives": ["自然"],
+      "status": "approved",
+      "notes": "**全书 282 次、是最高频的两义陷阱词之一，此前一直无独立条目**（仅在 essence 条里以“与 сущность→本质 分别译出”被提及）。两义须逐处判：(1) `природа вещи／человека／субъекта`、`внутренняя природа`、`реальная природа`、`конкретно-всеобщая природа` 等→**本性**（与 `сущность`→本质 分别译出，DECISIONS 第 18 行）；(2) `предмет／тело природы`（自然物）、`от／из природы`、`законы природы`、`в природе`、书名《自然辩证法》等→**自然（界）**。判据：修饰某物、指其“是什么样”时作本性；指自然界、与人相对时作自然。ch032 一章 23 处两义交错（康德讨论多为“自然物”、马克思费尔巴哈引文为“自然”、`природа вещи` 为本性），是判据最密集的一章。",
+      "evidence": [{"corpus_path": "ilyenkov_markdown/ilyenkov_md/knigi/knigi-dialektika-abstraktnogo-i-konkretnogo-v-nauchno-teoreticheskom-myshlenii/knigi-dialektika-abstraktnogo-i-konkretnogo-v-nauchno-teoreticheskom-myshlenii-ch032.md", "note": "ch032 природа 23 块两义交错；ch033 块 7 реальная природа→现实本性。"}]
+    },
+    {
+      "id": "presupposition",
+      "category": "concept",
+      "canonical": "предпосылка",
+      "forms": ["предпосылки", "предпосылок", "предпосылкой", "предпосылками"],
+      "zh_preferred": "前提",
+      "zh_alternatives": [],
+      "status": "approved",
+      "notes": "**全书 67 次、遍及 21 章，此前无条目**（ch039 起草方建议登记，采纳）。**须与 `условие`→条件 始终分开**：前者是某物**产生**所必需、且**先于并独立于**它而存在的东西，后者是它**存在**所需的东西——这一区分本身就是论证。判据见 ch039 块 25：`Маркс … различает *предпосылки* возникновения известного явления от *реальных условий бытия* этого самого явления`（马克思区分某一现象产生的**前提**与该现象**存在的现实条件**），两词在同一句里正面对举、且都带斜体。ch039 整篇（16 次）即建立在此区分上：《资本论》第一篇考察的是资本诞生的**前提**，不是资本主义发展的内在**条件**；前提被资本主义以自身运动再生产出来后才转化为结果。搭配 `условия рождения`（诞生条件）按字面作条件，不并入前提。登记时已核：前 39 个单元含 предпосыл* 的 52 块，译文全部作“前提”，无漂移，本条属补记而非纠错。",
+      "evidence": [{"corpus_path": "ilyenkov_markdown/ilyenkov_md/knigi/knigi-dialektika-abstraktnogo-i-konkretnogo-v-nauchno-teoreticheskom-myshlenii/knigi-dialektika-abstraktnogo-i-konkretnogo-v-nauchno-teoreticheskom-myshlenii-ch039.md", "note": "ch039 块 25 两词正面对举，是判据最清楚的一处；同篇 16 次。"}]
     },
     {
       "id": "consciousness",
@@ -400,6 +433,380 @@
       "status": "approved",
       "notes": "苏联哲学期刊。",
       "evidence": [{"corpus_path": "ilyenkov_markdown/ilyenkov_md/", "note": "高频期刊名。"}]
+    },
+    {
+      "id": "general",
+      "category": "concept",
+      "canonical": "общее",
+      "forms": ["общее", "общего", "general"],
+      "zh_preferred": "一般",
+      "zh_alternatives": ["一般性"],
+      "status": "provisional",
+      "notes": "抽象的一般；与 всеобщее（普遍物）相区分。对立面 единичное（单一/个别）。搭配 существенное общее→“本质的一般”，是概念区别于一般术语的初始判据。",
+      "evidence": [{"corpus_path": "ilyenkov_markdown/ilyenkov_md/knigi/knigi-dialektika-abstraktnogo-i-konkretnogo-v-nauchno-teoreticheskom-myshlenii/knigi-dialektika-abstraktnogo-i-konkretnogo-v-nauchno-teoreticheskom-myshlenii-ch005.md", "note": "ch005 块 9 反复以 общее/единичное 对举。"}]
+    },
+    {
+      "id": "sozertsanie",
+      "category": "concept",
+      "canonical": "созерцание",
+      "forms": ["созерцание", "созерцания", "чувственно созерцаемое"],
+      "zh_preferred": "直观",
+      "zh_alternatives": ["感性直观"],
+      "status": "provisional",
+      "notes": "康德 Anschauung 传统译名；含 эмпирическое созерцание（经验直观）。解决 ch004 遗留 ISSUE-0003。",
+      "evidence": [{"corpus_path": "ilyenkov_markdown/ilyenkov_md/knigi/knigi-dialektika-abstraktnogo-i-konkretnogo-v-nauchno-teoreticheskom-myshlenii/knigi-dialektika-abstraktnogo-i-konkretnogo-v-nauchno-teoreticheskom-myshlenii-ch005.md", "note": "ch005 块 5、10、13 用例，块 17 转入康德。"}]
+    },
+    {
+      "id": "reason",
+      "category": "concept",
+      "canonical": "разум",
+      "forms": ["разум", "разума"],
+      "zh_preferred": "理性",
+      "zh_alternatives": ["理智"],
+      "status": "provisional",
+      "notes": "Vernunft；与 рассудок（知性）相区分，后者俟其在译章出现再登记。",
+      "evidence": [{"corpus_path": "ilyenkov_markdown/ilyenkov_md/knigi/knigi-dialektika-abstraktnogo-i-konkretnogo-v-nauchno-teoreticheskom-myshlenii/knigi-dialektika-abstraktnogo-i-konkretnogo-v-nauchno-teoreticheskom-myshlenii-ch005.md", "note": "ch005 块 6、13、14 用 разум。"}]
+    },
+    {
+      "id": "individual",
+      "category": "concept",
+      "canonical": "индивидуальное",
+      "forms": ["индивидуальное", "индивидуального"],
+      "zh_preferred": "个别",
+      "zh_alternatives": ["个体的"],
+      "status": "provisional",
+      "notes": "与 единичное（单一）、общее（一般）三者须分别译出；原文用 индивидуальное 时不得并入“单一”。另有 единое（一，与 многое“多”成对的古典范畴）与 единство（统一），四词形近而不同，均不得互换：ch003 块 7 的 «единого» и «многого» 曾被误作“统一”与“多”。",
+      "evidence": [{"corpus_path": "ilyenkov_markdown/ilyenkov_md/knigi/knigi-dialektika-abstraktnogo-i-konkretnogo-v-nauchno-teoreticheskom-myshlenii/knigi-dialektika-abstraktnogo-i-konkretnogo-v-nauchno-teoreticheskom-myshlenii-ch006.md", "note": "ch006 块 6、9 用 индивидуальное，块 5 同章另用 единичное。"}]
+    },
+    {
+      "id": "sublation",
+      "category": "concept",
+      "canonical": "снятие",
+      "forms": ["sublation", "снимать", "снимаются", "снятый"],
+      "zh_preferred": "扬弃",
+      "zh_alternatives": [],
+      "status": "approved",
+      "notes": "黑格尔 Aufhebung 的固定译名，兼“取消／保存／提高”三义，**不得译作“取消”“消除”“扬弃掉”**。全书 `снят*` 出现于 ch012、ch015、ch016、ch024—ch027、ch030、ch031、ch034、ch035 共 11 章，ch012、ch016 已如此定稿。派生形态照译：`снятые противоположности`→被扬弃的对立面、`снятое противоречие`→被扬弃的矛盾（ch024 块 63）。",
+      "evidence": [{"corpus_path": "ilyenkov_markdown/ilyenkov_md/knigi/knigi-dialektika-abstraktnogo-i-konkretnogo-v-nauchno-teoreticheskom-myshlenii/knigi-dialektika-abstraktnogo-i-konkretnogo-v-nauchno-teoreticheskom-myshlenii-ch024.md", "note": "ch024 块 56、63：两个片面表象在概念中被“扬弃”为“环节”。"}]
+    },
+    {
+      "id": "modus",
+      "category": "concept",
+      "canonical": "модус",
+      "forms": ["modus", "модусы", "модусов"],
+      "zh_preferred": "样式",
+      "zh_alternatives": [],
+      "status": "approved",
+      "notes": "斯宾诺莎—黑格尔一系的术语，与 `субстанция`→实体 成对：实体是自因，样式是实体的有限表现。《伦理学》中译成例作“样式”，**不作“模态”“样态”**。全书 10 次，遍及 ch024（4 次）、ch025、ch027、ch034、ch036。ch024 块 90—103 用它讲黑格尔把经济、法、政治都说成“合目的地活动的意志”这一实体的“样式”。原文带引号处照录引号。**但形式逻辑语境是例外，作“式”**：`по модусу «Barbara»`（三段论第一格的 Barbara 式）与斯宾诺莎义毫不相干，ch027 块 83 与同章块 31 的斯宾诺莎义“样式”**同章并现**，是判据最清楚的一对。凡 `модус` 出现在三段论、格、式、前提一类上下文里，一律作“式”，`«Barbara»` 等拉丁记忆词保留原文不音译。",
+      "evidence": [{"corpus_path": "ilyenkov_markdown/ilyenkov_md/knigi/knigi-dialektika-abstraktnogo-i-konkretnogo-v-nauchno-teoreticheskom-myshlenii/knigi-dialektika-abstraktnogo-i-konkretnogo-v-nauchno-teoreticheskom-myshlenii-ch024.md", "note": "ch024 块 90、91、98、103，与 субстанция 同段并现。"}]
+    },
+    {
+      "id": "right-law",
+      "category": "concept",
+      "canonical": "право",
+      "forms": ["right", "правовой", "правовая норма"],
+      "zh_preferred": "法",
+      "zh_alternatives": ["法律"],
+      "status": "approved",
+      "notes": "**黑格尔法哲学语境作“法”**（`философия государственного права`→国家法哲学，与《法哲学原理》《黑格尔法哲学批判》的固定译名一致；`правовая действительность`→法的现实）；**具体立法与规范语境作“法律”**（`правовая норма`→法律规范，ch022 块 43—47 已如此定稿）。**不作“法权”**——ch024 起草稿曾用“法权”，却在同章的“国家法哲学”里用“法”，一章之内自相矛盾。全书 `прав*` 遍及 ch007、ch012、ch013、ch016、ch019、ch022（31 次）、ch024、ch027—ch041。",
+      "evidence": [{"corpus_path": "ilyenkov_markdown/ilyenkov_md/knigi/knigi-dialektika-abstraktnogo-i-konkretnogo-v-nauchno-teoreticheskom-myshlenii/knigi-dialektika-abstraktnogo-i-konkretnogo-v-nauchno-teoreticheskom-myshlenii-ch024.md", "note": "ch024 块 84—94 黑格尔法哲学；ch022 块 43—47 法律规范。"}]
+    },
+    {
+      "id": "relative-independence",
+      "category": "concept",
+      "canonical": "относительная самостоятельность",
+      "forms": ["relative independence", "относительно самостоятельный", "самостоятельность"],
+      "zh_preferred": "相对独立性",
+      "zh_alternatives": ["相对独立的"],
+      "status": "approved",
+      "notes": "全书 `самостоятельн*` 50 次、遍及 17 章，ch022 一章即 22 次（该章标题词：“相对独立性作为‘抽象的东西’的客观原型”），ch036 另有 7 次。名词作“相对独立性”，形容词 `относительно самостоятельный` 作“相对独立的”，**不得改作“相对自主性”“相对自立”等变体**。同族的 `относительная независимость`（相对的不依赖性）与它并列出现时分别译出（ch022 块 6、9）；`абсолютная самостоятельность`（绝对独立性）是黑格尔的对立主张，见 ch022 块 53、61。",
+      "evidence": [{"corpus_path": "ilyenkov_markdown/ilyenkov_md/knigi/knigi-dialektika-abstraktnogo-i-konkretnogo-v-nauchno-teoreticheskom-myshlenii/knigi-dialektika-abstraktnogo-i-konkretnogo-v-nauchno-teoreticheskom-myshlenii-ch022.md", "note": "ch022 全章 22 次，块 1／3 即标题词。"}]
+    },
+    {
+      "id": "technology",
+      "category": "concept",
+      "canonical": "технология",
+      "forms": ["technology", "технологии"],
+      "zh_preferred": "工艺学",
+      "zh_alternatives": ["生产技术"],
+      "status": "approved",
+      "notes": "作**学科名**时译“工艺学”——《资本论》中译本的固定译名（“工艺学揭示出人对自然的能动关系”），**不作“技术学”**（非汉语学科名）。ch022 块 21 正是以它同政治经济学对举：研究生产力自身发展的那门科学。作定语的 `технология производства` 则按语境作“生产技术”（ch019 已如此处理），二者不冲突。全书仅 4 次，遍及 ch019、ch022、ch038。",
+      "evidence": [{"corpus_path": "ilyenkov_markdown/ilyenkov_md/knigi/knigi-dialektika-abstraktnogo-i-konkretnogo-v-nauchno-teoreticheskom-myshlenii/knigi-dialektika-abstraktnogo-i-konkretnogo-v-nauchno-teoreticheskom-myshlenii-ch022.md", "note": "ch022 块 21 «Это – предмет другой науки, технологии»。"}]
+    },
+    {
+      "id": "particular",
+      "category": "concept",
+      "canonical": "частное",
+      "forms": ["particular", "частности", "частного"],
+      "zh_preferred": "个别内容",
+      "zh_alternatives": [],
+      "status": "approved",
+      "notes": "**不译“个别”**——“个别”是 индивидуальное 的译名，一个词只能许一次。全书 частн* 出现 106 次、遍及 26 章，与 индивидуальное 迟早同章并现。ch016 块 156—161 首次判定（列宁语“把种种个别内容的丰富性纳入自身”），ch018 块 31 重犯一次后重判。原文 частному → частностей 由单到多的递进照译，中文的重复不算冗余。",
+      "evidence": [{"corpus_path": "ilyenkov_markdown/ilyenkov_md/knigi/knigi-dialektika-abstraktnogo-i-konkretnogo-v-nauchno-teoreticheskom-myshlenii/knigi-dialektika-abstraktnogo-i-konkretnogo-v-nauchno-teoreticheskom-myshlenii-ch018.md", "note": "ch018 块 31 к «частному», к массе частностей 曾译“个别”，与 индивидуальное 撞名。"}]
+    },
+    {
+      "id": "concrete-historical",
+      "category": "concept",
+      "canonical": "конкретно-исторический",
+      "forms": ["concrete-historical", "конкретно-историческое", "конкретно-исторические"],
+      "zh_preferred": "具体历史的",
+      "zh_alternatives": [],
+      "status": "approved",
+      "notes": "形容词，全书 51 次、遍及 12 章。**须与 `конкретно-всеобщее`→具体的普遍物／具体普遍的（见 concrete-universal 条）分别译出**，二者在 ch030 等章密集并现且极易相混：`конкретно-историческое целое`→具体历史的整体、`конкретно-исторические абстракции`→具体历史的抽象、`конкретно-историческая форма`→具体历史的形式。`историзм`→历史主义、`исторический`→历史的 亦须与本条一致，不得一处“具体历史的”一处“具体的历史的”。",
+      "evidence": [{"corpus_path": "ilyenkov_markdown/ilyenkov_md/knigi/knigi-dialektika-abstraktnogo-i-konkretnogo-v-nauchno-teoreticheskom-myshlenii/knigi-dialektika-abstraktnogo-i-konkretnogo-v-nauchno-teoreticheskom-myshlenii-ch030.md", "note": "ch030 块 9、12、25、27、28 конкретно-исторический 与块 24 конкретно-всеобщие 同章并现。"}]
+    },
+    {
+      "id": "protein-body",
+      "category": "concept",
+      "canonical": "белковое тело",
+      "forms": ["protein body", "белкового тела", "белковое"],
+      "zh_preferred": "蛋白体",
+      "zh_alternatives": [],
+      "status": "approved",
+      "notes": "恩格斯给生命下的定义（“生命是蛋白体的存在方式”）的固定术语，全书 4 次、遍及 2 章。**统一作“蛋白体”，不作“蛋白质体”“蛋白质物体”**——恩格斯的 Eiweißkörper 中译传统即“蛋白体”。ch030 块 31、32 讲最简单的蛋白体如何作为化学作用（`химизм`）的产物出现。",
+      "evidence": [{"corpus_path": "ilyenkov_markdown/ilyenkov_md/knigi/knigi-dialektika-abstraktnogo-i-konkretnogo-v-nauchno-teoreticheskom-myshlenii/knigi-dialektika-abstraktnogo-i-konkretnogo-v-nauchno-teoreticheskom-myshlenii-ch030.md", "note": "ch030 块 31、32 простейшее белковое тело。"}]
+    },
+    {
+      "id": "rational-kernel",
+      "category": "concept",
+      "canonical": "рациональное зерно",
+      "forms": ["rational kernel", "рационального зерна", "рациональное зерно"],
+      "zh_preferred": "合理内核",
+      "zh_alternatives": [],
+      "status": "approved",
+      "notes": "黑格尔评价的固定说法（马克思“剥去神秘外壳、取出合理内核”），全书 17 次、遍及 11 章，原文几乎总带引号 `«рациональное зерно»`，引号照转中文。**统一作“合理内核”，不作“合理的内核”**——ch011 曾漂成“合理的内核”一次，这是登记的直接原因。带引号处不要再叠加着重号。",
+      "evidence": [{"corpus_path": "ilyenkov_markdown/ilyenkov_md/knigi/knigi-dialektika-abstraktnogo-i-konkretnogo-v-nauchno-teoreticheskom-myshlenii/knigi-dialektika-abstraktnogo-i-konkretnogo-v-nauchno-teoreticheskom-myshlenii-ch011.md", "note": "ch011 作“合理的内核”，与其余各章“合理内核”不一致；ch029 三处（块 17、24、40）统一为“合理内核”。"}]
+    },
+    {
+      "id": "separate",
+      "category": "concept",
+      "canonical": "отдельное",
+      "forms": ["separate", "отдельный", "отдельные", "отдельного"],
+      "zh_preferred": "单个",
+      "zh_alternatives": [],
+      "status": "approved",
+      "notes": "「一般—特殊—个别」家族的第六个词（DECISIONS 第 23 行），**此前一直未登记而全书 `отдельн*` 出现 134 次、遍及 24 章**，属遗漏。须与 `единичное`→单一、`индивидуальное`→个别、`частное`→个别内容 分别译出。ch027 是判据最清楚的一章：块 79 作 `диалектике «всеобщего, особенного и отдельного»`（普遍物、特殊和**单个**），块 117 同一个三元组却作 `всеобщего — к особенному и единичному`（普遍物……特殊和**单一**）——**原文第三项换了词，中文必须跟着换**，不得为求整齐把两处统一。",
+      "evidence": [{"corpus_path": "ilyenkov_markdown/ilyenkov_md/knigi/knigi-dialektika-abstraktnogo-i-konkretnogo-v-nauchno-teoreticheskom-myshlenii/knigi-dialektika-abstraktnogo-i-konkretnogo-v-nauchno-teoreticheskom-myshlenii-ch027.md", "note": "ch027 块 79 与块 117 是同一三元组的两次表述，第三项分用 отдельное／единичное。"}]
+    },
+    {
+      "id": "specific",
+      "category": "concept",
+      "canonical": "специфика",
+      "forms": ["specific", "специфический", "специфически", "специфическая"],
+      "zh_preferred": "特有的",
+      "zh_alternatives": ["特性", "独特性"],
+      "status": "approved",
+      "notes": "全书 `специфи*` 126 次、遍及 32 章。**不得作“特殊”——“特殊”是 `особенное` 的译名**（DECISIONS 第 23 行），而本书的论证正建立在「普遍—特殊—单一」这套范畴上，把一个非范畴词也叫“特殊”，读者无从分辨哪一处是范畴。名词作“特性／独特性”，形容词作“特有的”。判据见 ch027 块 87：`специфику («особенность») каждой частной категории` 是作者用自己的范畴词给 специфика 作同位释义，两词若都译“特殊性”，这个释义就成了同义反复（起草稿正是如此，已改作「特性（“特殊性”）」）。同章块 24、97、105 一并改作“特有”。",
+      "evidence": [{"corpus_path": "ilyenkov_markdown/ilyenkov_md/knigi/knigi-dialektika-abstraktnogo-i-konkretnogo-v-nauchno-teoreticheskom-myshlenii/knigi-dialektika-abstraktnogo-i-konkretnogo-v-nauchno-teoreticheskom-myshlenii-ch027.md", "note": "ch027 块 87 специфику («особенность») 同位释义，两词不得同名。"}]
+    },
+    {
+      "id": "modification",
+      "category": "concept",
+      "canonical": "модификация",
+      "forms": ["modification", "модификации", "модификацией", "модифицировать"],
+      "zh_preferred": "变化形式",
+      "zh_alternatives": ["变态"],
+      "status": "approved",
+      "notes": "李嘉图—马克思脉络里“同一实体的变化形式”。全书 13 次、遍及 6 章。**须与 `модус`→样式、`превращенная форма`→转化形式 三分**，三者都讲“某物的另一种形态”，中文合并即无法还原论证。判据见 ch027 块 61：`понять каждую особенную категорию как превращенную форму стоимости, как сложную модификацию труда` ——**两词同句并现**（价值的转化形式／劳动的复杂变化形式）。不取“变态”是因为当代汉语歧义太强，虽然《资本论》中译有此传统。同族动词 `модифицировать`（ch031 块 42 马克思引文 `модифицирует их в их особенностях`）按句法译**“改变／使……变态”**，不必机械译成“使成为变化形式”。",
+      "evidence": [{"corpus_path": "ilyenkov_markdown/ilyenkov_md/knigi/knigi-dialektika-abstraktnogo-i-konkretnogo-v-nauchno-teoreticheskom-myshlenii/knigi-dialektika-abstraktnogo-i-konkretnogo-v-nauchno-teoreticheskom-myshlenii-ch027.md", "note": "ch027 块 30、44、52、61、77 共 5 处；块 61 与 превращенная форма 同句。"}]
+    },
+    {
+      "id": "alienation",
+      "category": "concept",
+      "canonical": "отчуждение",
+      "forms": ["alienation", "отчуждения", "отчужденный"],
+      "zh_preferred": "异化",
+      "zh_alternatives": ["让渡"],
+      "status": "approved",
+      "notes": "哲学语境作**异化**（与 `опредмечивание`→对象化、`овеществление`→物化 分别译出，见 objectification 条）。**但经济交换语境作“让渡”**：ch027 块 28 `труд, который совершается с целью отчуждения его продукта на «свободном рынке»`（为了在“自由市场”上让渡其产品而进行的劳动）说的是商品出让这一商业行为，作“异化”即不通，《资本论》中译此处固定作“让渡”。全书 6 次、遍及 6 章，此前 3 处“异化”都是哲学义，ch027 块 28 是第一处经济义。判据：看主语是不是产品／商品在市场上易手。派生词 `самоотчуждение`（自我异化）是黑格尔 Selbstentäusserung 的固定译名，**永远取哲学义、不作“自我让渡”**：ch028 块 58 讥讽黑格尔式的“一般果实概念自我异化出梨和苹果”，全书仅此 1 见。",
+      "evidence": [{"corpus_path": "ilyenkov_markdown/ilyenkov_md/knigi/knigi-dialektika-abstraktnogo-i-konkretnogo-v-nauchno-teoreticheskom-myshlenii/knigi-dialektika-abstraktnogo-i-konkretnogo-v-nauchno-teoreticheskom-myshlenii-ch027.md", "note": "ch027 块 28 отчуждения его продукта на «свободном рынке» 是经济义首例。"}]
+    },
+    {
+      "id": "particular-case",
+      "category": "concept",
+      "canonical": "частный случай",
+      "forms": ["particular case", "частного случая", "частных случаев"],
+      "zh_preferred": "个案",
+      "zh_alternatives": ["特定情形"],
+      "status": "approved",
+      "notes": "形容词＋случай 的固定搭配，与名词 частное→个别内容（见 particular 条）不同形态，**另立译名**。全书 8 次、遍及 4 章。取“个案”而不取“个别情形”，是因为“个别”已许给 индивидуальное；不取“特定情形”，是它会加进原文没有的特定性。本章（ch026）块 29 两处、块 37 一处，与 всеобщее 普遍物／общее 一般／единичное 单一／особенное 特殊／одинаковое 相同的东西 五词在同段并行，是六路必须同时区分得开的语境。",
+      "evidence": [{"corpus_path": "ilyenkov_markdown/ilyenkov_md/knigi/knigi-dialektika-abstraktnogo-i-konkretnogo-v-nauchno-teoreticheskom-myshlenii/knigi-dialektika-abstraktnogo-i-konkretnogo-v-nauchno-teoreticheskom-myshlenii-ch026.md", "note": "ch026 块 29 «общее» для всех частных случаев 与 анализ одного частного случая 同块对举。"}]
+    },
+    {
+      "id": "comprehension",
+      "category": "concept",
+      "canonical": "понимание",
+      "forms": ["comprehension", "понять", "понимать", "понимания"],
+      "zh_preferred": "理解",
+      "zh_alternatives": [],
+      "status": "approved",
+      "notes": "全书 понимани* 295 次、遍及 36 章，是与 понятие→概念 同根的一条词族：`понять`／`понимать`→理解（动词）、`понимание`→理解（名词）、`понятие`→概念。**三者须始终同族对译，不得因中文求变改用“懂得”“明白”“弄懂”“把握”**——ch026 块 87—89 把「理解一个现象，就是要……」连作两句排比、块 89 收为“形成概念、形成理解的一般公式”，词形一散，排比与收束都不成立。ch026 起登记（此前 25 章一直未收，属遗漏而非有意省略）。",
+      "evidence": [{"corpus_path": "ilyenkov_markdown/ilyenkov_md/knigi/knigi-dialektika-abstraktnogo-i-konkretnogo-v-nauchno-teoreticheskom-myshlenii/knigi-dialektika-abstraktnogo-i-konkretnogo-v-nauchno-teoreticheskom-myshlenii-ch026.md", "note": "ch026 块 67—95 以该词族构造全章论证，块 80 三处斜体 *понять*／*понятии*／*отличить*。"}]
+    },
+    {
+      "id": "apriori",
+      "category": "concept",
+      "canonical": "априорный",
+      "forms": ["apriori", "априорное", "априори"],
+      "zh_preferred": "先天的",
+      "zh_alternatives": [],
+      "status": "provisional",
+      "notes": "康德术语 a priori→**先天的**（`априорное устройство`→先天结构）。**须与 `трансцендентальный`→先验的（transcendental）分别译出，不得都作“先验”**——二者是康德中译里一对确定而不同的词，本章（ch032 块 54 `априорное`、块 55 `трансцендентальная природа`）相邻出现，合并即抹去区别。全书 `априорн*` 7 次遍及 3 章、`трансцендентальн*` 2 次。`апостериорный`（后天的）俟其出现再登记。",
+      "evidence": [{"corpus_path": "ilyenkov_markdown/ilyenkov_md/knigi/knigi-dialektika-abstraktnogo-i-konkretnogo-v-nauchno-teoreticheskom-myshlenii/knigi-dialektika-abstraktnogo-i-konkretnogo-v-nauchno-teoreticheskom-myshlenii-ch032.md", "note": "ch032 块 54 априорное устройство／块 55 трансцендентальная природа 相邻出现。"}]
+    },
+    {
+      "id": "antinomy",
+      "category": "concept",
+      "canonical": "антиномия",
+      "forms": ["антиномия", "антиномии", "антиномический"],
+      "zh_preferred": "二律背反",
+      "zh_alternatives": [],
+      "status": "provisional",
+      "notes": "康德术语；形容词 антиномический 译“二律背反式的”。伊里因科夫用它指形而上学思维内部的对立被收进同一体系。",
+      "evidence": [{"corpus_path": "ilyenkov_markdown/ilyenkov_md/knigi/knigi-dialektika-abstraktnogo-i-konkretnogo-v-nauchno-teoreticheskom-myshlenii/knigi-dialektika-abstraktnogo-i-konkretnogo-v-nauchno-teoreticheskom-myshlenii-ch006.md", "note": "ch006 块 4、5、6 反复出现。"}]
+    },
+    {
+      "id": "objectification",
+      "category": "concept",
+      "canonical": "опредмечивание",
+      "forms": ["опредмечивание", "опредметить", "опредмечивания"],
+      "zh_preferred": "对象化",
+      "zh_alternatives": ["对象性化"],
+      "status": "provisional",
+      "notes": "马克思—黑格尔脉络的核心概念。须与 овеществление（物化）、отчуждение（异化）分别译出，三者在中文里极易混同，不得合并。参见 objective-activity（对象性活动）。",
+      "evidence": [{"corpus_path": "ilyenkov_markdown/ilyenkov_md/knigi/knigi-dialektika-abstraktnogo-i-konkretnogo-v-nauchno-teoreticheskom-myshlenii/knigi-dialektika-abstraktnogo-i-konkretnogo-v-nauchno-teoreticheskom-myshlenii-ch007.md", "note": "ch007 块 24、28 用 опредмечивание，块 25 用 овеществление，块 24 另有 отчужденные образы，三者同章并现。"}]
+    },
+    {
+      "id": "sense-certainty",
+      "category": "concept",
+      "canonical": "чувственная достоверность",
+      "forms": ["чувственная достоверность", "чувственной достоверности"],
+      "zh_preferred": "感性确定性",
+      "zh_alternatives": ["感性确实性"],
+      "status": "provisional",
+      "notes": "黑格尔《精神现象学》开篇术语（Sinnliche Gewissheit）的通行中译。",
+      "evidence": [{"corpus_path": "ilyenkov_markdown/ilyenkov_md/knigi/knigi-dialektika-abstraktnogo-i-konkretnogo-v-nauchno-teoreticheskom-myshlenii/knigi-dialektika-abstraktnogo-i-konkretnogo-v-nauchno-teoreticheskom-myshlenii-ch008.md", "note": "ch008 块 4 与 ch004 块 9 均用此语。"}]
+    },
+    {
+      "id": "representation",
+      "category": "concept",
+      "canonical": "представление",
+      "forms": ["представление", "представления", "представляемый"],
+      "zh_preferred": "表象",
+      "zh_alternatives": [],
+      "status": "provisional",
+      "notes": "康德—黑格尔认识论序列中的一环，须与 образ（形象）、созерцание（直观）分别译出，不得合并。日常义的 представление о X（对某事的看法、见解）不译“表象”，按语境作“X 观／对 X 的理解／看法”；只有作为 Vorstellung 这一认识环节时才用“表象”。",
+      "evidence": [{"corpus_path": "ilyenkov_markdown/ilyenkov_md/knigi/knigi-dialektika-abstraktnogo-i-konkretnogo-v-nauchno-teoreticheskom-myshlenii/knigi-dialektika-abstraktnogo-i-konkretnogo-v-nauchno-teoreticheskom-myshlenii-ch008.md", "note": "ch008 块 12 三词同句并现。"}, {"corpus_path": "ilyenkov_markdown/ilyenkov_md/knigi/knigi-dialektika-abstraktnogo-i-konkretnogo-v-nauchno-teoreticheskom-myshlenii/knigi-dialektika-abstraktnogo-i-konkretnogo-v-nauchno-teoreticheskom-myshlenii-ch014.md", "note": "ch014 块 33、84 用日常义（黑格尔对概念的看法），块 103 同章用术语义（流行的经验表象）。"}]
+    },
+    {
+      "id": "reflection",
+      "category": "concept",
+      "canonical": "отражение",
+      "forms": ["отражение", "отражения", "отражательный"],
+      "zh_preferred": "反映",
+      "zh_alternatives": [],
+      "status": "provisional",
+      "notes": "苏联认识论核心范畴（反映论）。**不得译“反射”**——рефлекс（условный рефлекс 条件反射）才是反射，二者常在同章并现。固定搭配 отражательный аппарат→反映器官、отражательная деятельность→反映活动（均不得作“反射”）。与 образ（形象）、представление（表象）构成序列。",
+      "evidence": [{"corpus_path": "ilyenkov_markdown/ilyenkov_md/knigi/knigi-dialektika-abstraktnogo-i-konkretnogo-v-nauchno-teoreticheskom-myshlenii/knigi-dialektika-abstraktnogo-i-konkretnogo-v-nauchno-teoreticheskom-myshlenii-ch009.md", "note": "ch009 全章贯穿；块 24 与条件反射同段并现。"}]
+    },
+    {
+      "id": "understanding",
+      "category": "concept",
+      "canonical": "рассудок",
+      "forms": ["рассудок", "рассудочный", "рассудочная деятельность"],
+      "zh_preferred": "知性",
+      "zh_alternatives": ["理智"],
+      "status": "provisional",
+      "notes": "Verstand；与 reason（разум→理性）成对固定。рассудочная деятельность→知性活动。本书第 12 章专论此区分。",
+      "evidence": [{"corpus_path": "ilyenkov_markdown/ilyenkov_md/knigi/knigi-dialektika-abstraktnogo-i-konkretnogo-v-nauchno-teoreticheskom-myshlenii/knigi-dialektika-abstraktnogo-i-konkretnogo-v-nauchno-teoreticheskom-myshlenii-ch009.md", "note": "ch009 块 46 脚注首次出现 рассудочной деятельности，兑现 ch005 的暂缓登记。"}]
+    },
+    {
+      "id": "concrete-universal",
+      "category": "concept",
+      "canonical": "конкретно-всеобщее",
+      "forms": ["конкретно-всеобщее", "конкретно-всеобщего", "конкретно-всеобщий"],
+      "zh_preferred": "具体的普遍物",
+      "zh_alternatives": ["具体普遍的"],
+      "status": "provisional",
+      "notes": "由 всеобщее（普遍物）复合而来，用法随词性分译：形容词修饰名词时作“具体普遍的……”（конкретно-всеобщее определение→具体普遍的规定）；名词化时作“具体的普遍物”。**与 абстрактно-всеобщее（抽象的普遍物／抽象普遍的，见 abstract-universal 条）成对对立**——二者是本书第二章第 4 节以后的主线，是对立项而非同一词的变体，不得互换或与 общее（一般）合并（原先把 абстрактно-всеобщее 列作本条 form，ch031 拆出另立）。名词 всеобщность 作“普遍性”（见 ch014 块 44 的“抽象普遍性／具体普遍性”）。ch016 首见，并贯穿 ch017—ch019、ch030—ch036。",
+      "evidence": [{"corpus_path": "ilyenkov_markdown/ilyenkov_md/knigi/knigi-dialektika-abstraktnogo-i-konkretnogo-v-nauchno-teoreticheskom-myshlenii/knigi-dialektika-abstraktnogo-i-konkretnogo-v-nauchno-teoreticheskom-myshlenii-ch016.md", "note": "ch016 块 62、70、71、161、173 等处反复出现；全书共 10 章使用。"}]
+    },
+    {
+      "id": "abstract-universal",
+      "category": "concept",
+      "canonical": "абстрактно-всеобщее",
+      "forms": ["абстрактно-всеобщее", "абстрактно-всеобщий", "абстрактно-всеобщих"],
+      "zh_preferred": "抽象的普遍物",
+      "zh_alternatives": ["抽象普遍的"],
+      "status": "provisional",
+      "notes": "**是 конкретно-всеобщее（具体的普遍物，见 concrete-universal 条）的对立项，不是它的变体**——原先误列作该条的 form，ch031 拆出另立，以便机器逐项对照。用法随词性分译同 concrete-universal：形容词作“抽象普遍的……”（абстрактно-всеобщих законов→抽象普遍的规律），名词化作“抽象的普遍物”。指仅从各特殊现象抽出的“共同点”，与 общее（一般）近但不合并。ch031 块 45 与 конкретно-всеобщее 紧邻并现、正相对立，是判据最清楚的一处。",
+      "evidence": [{"corpus_path": "ilyenkov_markdown/ilyenkov_md/knigi/knigi-dialektika-abstraktnogo-i-konkretnogo-v-nauchno-teoreticheskom-myshlenii/knigi-dialektika-abstraktnogo-i-konkretnogo-v-nauchno-teoreticheskom-myshlenii-ch031.md", "note": "ch031 块 45 абстрактно-всеобщих законов，与全章 конкретно-всеобщее 成对。"}]
+    },
+    {
+      "id": "substance",
+      "category": "concept",
+      "canonical": "субстанция",
+      "forms": ["субстанция", "субстанции", "субстанциальный"],
+      "zh_preferred": "实体",
+      "zh_alternatives": [],
+      "status": "provisional",
+      "notes": "须与 сущность（本质）分别译出，二者常在同一句内并现且不同义：сущность 是「是什么」，субстанция 是「由什么构成、以什么为基础」。全书出现 107 次、遍及 20 章，ch017 一章即 28 次（该章正是围绕亚里士多德的「实体」范畴与马克思以劳动为「实体」展开）。ch004、ch006、ch007 已作“实体”，不得改译为“本体”“基质”。黑格尔的 субъект-субстанция 作“主体—实体”（ch007）。",
+      "evidence": [{"corpus_path": "ilyenkov_markdown/ilyenkov_md/knigi/knigi-dialektika-abstraktnogo-i-konkretnogo-v-nauchno-teoreticheskom-myshlenii/knigi-dialektika-abstraktnogo-i-konkretnogo-v-nauchno-teoreticheskom-myshlenii-ch017.md", "note": "ch017 块 46、69、75、84 等处 сущность 与 субстанция 同句并现。"}]
+    },
+    {
+      "id": "essence",
+      "category": "concept",
+      "canonical": "сущность",
+      "forms": ["сущность", "сущности", "сущностный"],
+      "zh_preferred": "本质",
+      "zh_alternatives": [],
+      "status": "provisional",
+      "notes": "须与 природа（本性）分别译出，不得合并：全书 сущность 出现 114 次、природа 282 次，二者常在同一段内并现（ch015 块 5 的 суть его специфической природы 紧接块 7 起反复出现的 сущность человека）。“人的本质”是 ch015 全章的核心说法，若开篇把 природа 也叫“本质”，读者无从分辨后文的“本质”是否同一个词。",
+      "evidence": [{"corpus_path": "ilyenkov_markdown/ilyenkov_md/knigi/knigi-dialektika-abstraktnogo-i-konkretnogo-v-nauchno-teoreticheskom-myshlenii/knigi-dialektika-abstraktnogo-i-konkretnogo-v-nauchno-teoreticheskom-myshlenii-ch015.md", "note": "ch015 块 5 природа 与块 7、18—22 的 сущность 同章并现。"}]
+    },
+    {
+      "id": "genus",
+      "category": "concept",
+      "canonical": "родовое",
+      "forms": ["родовое", "родовой", "родовое понятие"],
+      "zh_preferred": "类",
+      "zh_alternatives": ["属"],
+      "status": "provisional",
+      "notes": "按语境分译：指人的类本质（общественное «родовое»）译“类”；逻辑分类术语 родовое понятие 译“属概念”。同一章内已出现两义，不得统一。",
+      "evidence": [{"corpus_path": "ilyenkov_markdown/ilyenkov_md/knigi/knigi-dialektika-abstraktnogo-i-konkretnogo-v-nauchno-teoreticheskom-myshlenii/knigi-dialektika-abstraktnogo-i-konkretnogo-v-nauchno-teoreticheskom-myshlenii-ch009.md", "note": "ch009 块 31 作“类”、块 46 脚注作“属概念”。"}]
+    },
+    {
+      "id": "sensuousness",
+      "category": "concept",
+      "canonical": "чувственность",
+      "forms": ["чувственность", "чувственности", "чувственное восприятие"],
+      "zh_preferred": "感性",
+      "zh_alternatives": ["感受性"],
+      "status": "provisional",
+      "notes": "须与 ощущение（感觉）、чувственное восприятие（感性知觉）分别译出，三者构成认识论层级，中文合并即无法还原论证。",
+      "evidence": [{"corpus_path": "ilyenkov_markdown/ilyenkov_md/knigi/knigi-dialektika-abstraktnogo-i-konkretnogo-v-nauchno-teoreticheskom-myshlenii/knigi-dialektika-abstraktnogo-i-konkretnogo-v-nauchno-teoreticheskom-myshlenii-ch010.md", "note": "ch010 章题即 Чувственность и сознание；块 5、9 与 ощущение、чувственные данные 并现。"}]
+    },
+    {
+      "id": "reflexion-mirror",
+      "category": "concept",
+      "canonical": "рефлектироваться",
+      "forms": ["reflexion", "рефлектированный", "рефлектируется", "рефлектировать"],
+      "zh_preferred": "反射",
+      "zh_alternatives": ["映现"],
+      "status": "approved",
+      "notes": "黑格尔 Reflexion（映现/反射入他物）在价值形式分析中的用法，全书 12 次、遍及 3 章。**取“反射”（镜像义），与 `отражение`→反映（反映论，见 reflection 条）、`размышление`→反思（Nachdenken，见 reflection-nachdenken 条）三词分开**——三者中文都带“反”字、最易相混，而伊里因科夫恰恰靠这一区分说明马克思唯物主义地使用黑格尔的 Reflexion 范畴。ch035（第六章第 4 节，价值形式分析）块 47、49、50、51、109 是价值“如同映照在镜中，即被‘反射’”的语境，作“反射”；**但作及物动词“对……加以反思／思忖”时（`рефлектировать по поводу…`）取反思义**（ch035 块 77、114）。判据：主语是价值/形式“被反射到他物”时作“反射”，主语是人“反复思忖某形式”时作“反思”。",
+      "evidence": [{"corpus_path": "ilyenkov_markdown/ilyenkov_md/knigi/knigi-dialektika-abstraktnogo-i-konkretnogo-v-nauchno-teoreticheskom-myshlenii/knigi-dialektika-abstraktnogo-i-konkretnogo-v-nauchno-teoreticheskom-myshlenii-ch035.md", "note": "ch035 块 47、49、50、51、109 价值形式的“反射”（起草稿曾误作“反映”，同 отражение 撞名，审计改回“反射”）。"}]
+    },
+    {
+      "id": "reflection-nachdenken",
+      "category": "concept",
+      "canonical": "размышление",
+      "forms": ["размышление", "размышлять", "поразмыслить"],
+      "zh_preferred": "反思",
+      "zh_alternatives": ["思索"],
+      "status": "provisional",
+      "notes": "黑格尔 Nachdenken 的中译传统。与 отражение（反映）、рефлектироваться（反射，见 reflexion-mirror 条）均无关，勿因中文“反”字相混。同一派生词链（размышлять／поразмыслить）须一并作“反思”，避免同章漂移。",
+      "evidence": [{"corpus_path": "ilyenkov_markdown/ilyenkov_md/knigi/knigi-dialektika-abstraktnogo-i-konkretnogo-v-nauchno-teoreticheskom-myshlenii/knigi-dialektika-abstraktnogo-i-konkretnogo-v-nauchno-teoreticheskom-myshlenii-ch012.md", "note": "ch012 块 42 明确系于黑格尔对其形式结构的表述；块 11、12、41 为同一派生词链。"}]
     }
   ]
 }

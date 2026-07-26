@@ -1,0 +1,102 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "canonical_text_map.schema.json",
+  "title": "Agent-Canonical Markdown Source Map",
+  "type": "object",
+  "required": [
+    "schema_version",
+    "work_id",
+    "final_markdown",
+    "final_markdown_sha256",
+    "blocks",
+    "textual_notes"
+  ],
+  "properties": {
+    "schema_version": { "const": 1 },
+    "work_id": { "type": "string", "pattern": "^[a-z0-9-]+$" },
+    "final_markdown": { "type": "string", "minLength": 1 },
+    "final_markdown_sha256": { "type": "string", "pattern": "^[0-9a-f]{64}$" },
+    "blocks": {
+      "type": "array",
+      "minItems": 1,
+      "items": { "$ref": "#/$defs/block" }
+    },
+    "textual_notes": {
+      "type": "array",
+      "items": { "$ref": "#/$defs/textual_note" }
+    }
+  },
+  "additionalProperties": false,
+  "$defs": {
+    "locator": {
+      "type": "object",
+      "properties": {
+        "scan_page_id": { "type": "string", "minLength": 1 },
+        "printed_page": { "type": ["string", "null"] },
+        "html_fragment": { "type": "string", "minLength": 1 },
+        "epub_location": { "type": "string", "minLength": 1 }
+      },
+      "anyOf": [
+        { "required": ["scan_page_id"] },
+        { "required": ["html_fragment"] },
+        { "required": ["epub_location"] }
+      ],
+      "additionalProperties": false
+    },
+    "block": {
+      "type": "object",
+      "required": ["block_id", "kind", "source_locators"],
+      "properties": {
+        "block_id": { "type": "string", "pattern": "^b[0-9]{4,}$" },
+        "kind": {
+          "enum": [
+            "heading",
+            "paragraph",
+            "blockquote",
+            "list_item",
+            "footnote",
+            "table",
+            "formula"
+          ]
+        },
+        "source_locators": {
+          "type": "array",
+          "minItems": 1,
+          "items": { "$ref": "#/$defs/locator" }
+        }
+      },
+      "additionalProperties": false
+    },
+    "textual_note": {
+      "type": "object",
+      "required": [
+        "block_id",
+        "category",
+        "source_reading",
+        "canonical_reading",
+        "source_locators",
+        "rationale"
+      ],
+      "properties": {
+        "block_id": { "type": "string", "pattern": "^b[0-9]{4,}$" },
+        "category": {
+          "enum": [
+            "source_typo",
+            "source_anomaly",
+            "uncertain_reading",
+            "editorial_expansion"
+          ]
+        },
+        "source_reading": { "type": "string" },
+        "canonical_reading": { "type": "string" },
+        "source_locators": {
+          "type": "array",
+          "minItems": 1,
+          "items": { "$ref": "#/$defs/locator" }
+        },
+        "rationale": { "type": "string", "minLength": 1 }
+      },
+      "additionalProperties": false
+    }
+  }
+}

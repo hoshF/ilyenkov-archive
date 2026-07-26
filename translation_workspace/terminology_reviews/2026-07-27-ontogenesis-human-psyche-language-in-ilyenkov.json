@@ -1,0 +1,1848 @@
+{
+  "schema_version": 1,
+  "audit_only": true,
+  "record_format": "legacy_migrated",
+  "batch_id": "2026-07-27-ontogenesis-human-psyche-language-in-ilyenkov",
+  "batch_kind": "article_review",
+  "date": "2026-07-27",
+  "primary_author_id": "maidansky",
+  "related_author_ids": [
+    "ilyenkov",
+    "spinoza",
+    "vygotsky"
+  ],
+  "work_id": "ontogenez-chelovecheskoi-psihiki-i-yazyka-v-rabotah-e-v-ilenkova",
+  "article_slug": "ontogenesis-human-psyche-language-in-ilyenkov",
+  "inputs": [
+    {
+      "role": "source",
+      "path": "maidansky_markdown/maidansky_md/kulturno-istoricheskaya-psihologiya/kulturno-istoricheskaya-psihologiya-ontogenez-chelovecheskoi-psihiki-i-yazyka-v-rabotah-e-v-ilenkova.md",
+      "sha256": "6619beb0557acc3cffaada5bde5d53dfcb13ead6b1064608d8088eb532d86764",
+      "size": 58403
+    },
+    {
+      "role": "translation",
+      "path": "blog:content/posts/ontogenesis-human-psyche-language-in-ilyenkov.md",
+      "sha256": "240369200f5284c52d59b120befd75bc401d5cfc0e9809fd20367daa3e4d137d",
+      "size": 28845
+    },
+    {
+      "role": "suggestions",
+      "path": "upload:《伊里因科夫著作中的人类心理与语言的个体发生》术语收录建议表.md",
+      "sha256": "1e91064833c68f61adad611d939146650668f0a7f388c10dd8bcbe2f2cf935f2",
+      "size": 20315
+    }
+  ],
+  "review": {
+    "accuracy": {
+      "full_pass": true,
+      "coverage": "完整范围见迁移保留的旧日志段落。"
+    },
+    "language": {
+      "full_pass": true,
+      "coverage": "完整范围见迁移保留的旧日志段落。"
+    },
+    "final_translation_sha256": "240369200f5284c52d59b120befd75bc401d5cfc0e9809fd20367daa3e4d137d",
+    "blockers": []
+  },
+  "operation_counts": {
+    "add": 35,
+    "modify": 4,
+    "delete": 0,
+    "status": 0,
+    "reject": 16,
+    "no_formal_glossary": 0
+  },
+  "decisions": [
+    {
+      "proposal_id": "legacy-001",
+      "term_ids": [],
+      "target_author_ids": [
+        "maidansky"
+      ],
+      "canonical": "психика",
+      "forms": [],
+      "suggested_zh": "心理",
+      "operations": [
+        "modify"
+      ],
+      "before": "`modify` Maidansky `psyche`：更新证据并强化同 `душа` 的边界",
+      "after": "`modify` Maidansky `psyche`：更新证据并强化同 `душа` 的边界",
+      "article_evidence": {
+        "summary": "36；块 1、6、10、17、21—22、26—27、29、32、35、37、40、46、48、52、55"
+      },
+      "corpus_evidence": {
+        "summary": "M 189/25 篇；I 663/74 篇",
+        "representative_contexts": []
+      },
+      "rationale": "`modify` Maidansky `psyche`：更新证据并强化同 `душа` 的边界",
+      "final_status_by_author": {
+        "legacy": "approved"
+      },
+      "affected_translation_locations": [],
+      "affected_translation_summary": "`approved`；全文保持“心理”",
+      "heuristic_forms_pending": [],
+      "legacy_cells": {
+        "#": "1",
+        "候选与建议译法": "`психика` → 心理",
+        "本文频次与全部位置": "36；块 1、6、10、17、21—22、26—27、29、32、35、37、40、46、48、52、55",
+        "作者语料频次": "M 189/25 篇；I 663/74 篇",
+        "操作、修改前 → 修改后与理由": "`modify` Maidansky `psyche`：更新证据并强化同 `душа` 的边界",
+        "最终状态及译文影响": "`approved`；全文保持“心理”"
+      }
+    },
+    {
+      "proposal_id": "legacy-002",
+      "term_ids": [],
+      "target_author_ids": [
+        "maidansky"
+      ],
+      "canonical": "душа",
+      "forms": [],
+      "suggested_zh": "心灵",
+      "operations": [
+        "add"
+      ],
+      "before": "`add` Maidansky `soul`；与心理有稳定概念分工",
+      "after": "`add` Maidansky `soul`；与心理有稳定概念分工",
+      "article_evidence": {
+        "summary": "9；块 21、23、40—42、45"
+      },
+      "corpus_evidence": {
+        "summary": "M 550/45；I 542/106",
+        "representative_contexts": []
+      },
+      "rationale": "`add` Maidansky `soul`；与心理有稳定概念分工",
+      "final_status_by_author": {
+        "legacy": "approved"
+      },
+      "affected_translation_locations": [],
+      "affected_translation_summary": "`approved`；保留“心灵”",
+      "heuristic_forms_pending": [],
+      "legacy_cells": {
+        "#": "2",
+        "候选与建议译法": "`душа` → 心灵",
+        "本文频次与全部位置": "9；块 21、23、40—42、45",
+        "作者语料频次": "M 550/45；I 542/106",
+        "操作、修改前 → 修改后与理由": "`add` Maidansky `soul`；与心理有稳定概念分工",
+        "最终状态及译文影响": "`approved`；保留“心灵”"
+      }
+    },
+    {
+      "proposal_id": "legacy-003",
+      "term_ids": [],
+      "target_author_ids": [
+        "maidansky",
+        "vygotsky"
+      ],
+      "canonical": "язык",
+      "forms": [],
+      "suggested_zh": "语言",
+      "operations": [
+        "add"
+      ],
+      "before": "`add` Maidansky、Vygotsky `language`；与言语、词分开",
+      "after": "`add` Maidansky、Vygotsky `language`；与言语、词分开",
+      "article_evidence": {
+        "summary": "19；块 1、6、10—11、13、15、17、19、31、41、49"
+      },
+      "corpus_evidence": {
+        "summary": "M 344/48；V 33/3；I 1716/169",
+        "representative_contexts": []
+      },
+      "rationale": "`add` Maidansky、Vygotsky `language`；与言语、词分开",
+      "final_status_by_author": {
+        "legacy": "approved"
+      },
+      "affected_translation_locations": [],
+      "affected_translation_summary": "`approved`；保持“语言”",
+      "heuristic_forms_pending": [],
+      "legacy_cells": {
+        "#": "3",
+        "候选与建议译法": "`язык` → 语言",
+        "本文频次与全部位置": "19；块 1、6、10—11、13、15、17、19、31、41、49",
+        "作者语料频次": "M 344/48；V 33/3；I 1716/169",
+        "操作、修改前 → 修改后与理由": "`add` Maidansky、Vygotsky `language`；与言语、词分开",
+        "最终状态及译文影响": "`approved`；保持“语言”"
+      }
+    },
+    {
+      "proposal_id": "legacy-004",
+      "term_ids": [],
+      "target_author_ids": [
+        "maidansky",
+        "vygotsky"
+      ],
+      "canonical": "речь",
+      "forms": [],
+      "suggested_zh": "言语",
+      "operations": [
+        "add"
+      ],
+      "before": "`add` Maidansky `speech`；Vygotsky 已有同名词条，不重复",
+      "after": "`add` Maidansky `speech`；Vygotsky 已有同名词条，不重复",
+      "article_evidence": {
+        "summary": "6；块 14、18、32—33、49"
+      },
+      "corpus_evidence": {
+        "summary": "M 255/51；V 51/4；I 1092/183",
+        "representative_contexts": []
+      },
+      "rationale": "`add` Maidansky `speech`；Vygotsky 已有同名词条，不重复",
+      "final_status_by_author": {
+        "legacy": "approved"
+      },
+      "affected_translation_locations": [],
+      "affected_translation_summary": "`approved`；口头/非言语等处保持“言语”",
+      "heuristic_forms_pending": [],
+      "legacy_cells": {
+        "#": "4",
+        "候选与建议译法": "`речь` → 言语",
+        "本文频次与全部位置": "6；块 14、18、32—33、49",
+        "作者语料频次": "M 255/51；V 51/4；I 1092/183",
+        "操作、修改前 → 修改后与理由": "`add` Maidansky `speech`；Vygotsky 已有同名词条，不重复",
+        "最终状态及译文影响": "`approved`；口头/非言语等处保持“言语”"
+      }
+    },
+    {
+      "proposal_id": "legacy-005",
+      "term_ids": [],
+      "target_author_ids": [
+        "maidansky",
+        "vygotsky"
+      ],
+      "canonical": "деятельность",
+      "forms": [],
+      "suggested_zh": "活动",
+      "operations": [
+        "add"
+      ],
+      "before": "`add` Vygotsky `activity`；Maidansky 已有 `activity`",
+      "after": "`add` Vygotsky `activity`；Maidansky 已有 `activity`",
+      "article_evidence": {
+        "summary": "35；块 6—7、17、19、21—25、28—30、32、35、39、41、45—46、49、51—52"
+      },
+      "corpus_evidence": {
+        "summary": "M 761/50；V 35/4；I 2564/195",
+        "representative_contexts": []
+      },
+      "rationale": "`add` Vygotsky `activity`；Maidansky 已有 `activity`",
+      "final_status_by_author": {
+        "legacy": "approved"
+      },
+      "affected_translation_locations": [],
+      "affected_translation_summary": "`approved`；全文保持“活动”",
+      "heuristic_forms_pending": [],
+      "legacy_cells": {
+        "#": "5",
+        "候选与建议译法": "`деятельность` → 活动",
+        "本文频次与全部位置": "35；块 6—7、17、19、21—25、28—30、32、35、39、41、45—46、49、51—52",
+        "作者语料频次": "M 761/50；V 35/4；I 2564/195",
+        "操作、修改前 → 修改后与理由": "`add` Vygotsky `activity`；Maidansky 已有 `activity`",
+        "最终状态及译文影响": "`approved`；全文保持“活动”"
+      }
+    },
+    {
+      "proposal_id": "legacy-006",
+      "term_ids": [],
+      "target_author_ids": [],
+      "canonical": "действие",
+      "forms": [],
+      "suggested_zh": "行动/动作",
+      "operations": [
+        "add"
+      ],
+      "before": "`add` 两表 `action`；活动环节作“行动”，身体运动作“动作”",
+      "after": "`add` 两表 `action`；活动环节作“行动”，身体运动作“动作”",
+      "article_evidence": {
+        "summary": "26；块 14、17—18、21、26、30—31、38、41、45—46、49、51、55、57—58"
+      },
+      "corpus_evidence": {
+        "summary": "M 1156/64；V 50/4；I 5209/253",
+        "representative_contexts": []
+      },
+      "rationale": "`add` 两表 `action`；活动环节作“行动”，身体运动作“动作”",
+      "final_status_by_author": {
+        "legacy": "provisional"
+      },
+      "affected_translation_locations": [],
+      "affected_translation_summary": "`provisional`；全文按语境分译",
+      "heuristic_forms_pending": [],
+      "legacy_cells": {
+        "#": "6",
+        "候选与建议译法": "`действие` → 行动/动作",
+        "本文频次与全部位置": "26；块 14、17—18、21、26、30—31、38、41、45—46、49、51、55、57—58",
+        "作者语料频次": "M 1156/64；V 50/4；I 5209/253",
+        "操作、修改前 → 修改后与理由": "`add` 两表 `action`；活动环节作“行动”，身体运动作“动作”",
+        "最终状态及译文影响": "`provisional`；全文按语境分译"
+      }
+    },
+    {
+      "proposal_id": "legacy-007",
+      "term_ids": [],
+      "target_author_ids": [
+        "maidansky"
+      ],
+      "canonical": "предметная деятельность",
+      "forms": [],
+      "suggested_zh": "对象性活动",
+      "operations": [
+        "reject"
+      ],
+      "before": "`reject` 重复：Maidansky `objective-activity` 已 `approved`",
+      "after": "`reject` 重复：Maidansky `objective-activity` 已 `approved`",
+      "article_evidence": {
+        "summary": "精确 8；块 7、17、21、25、39、49、52；另有复合短语 6"
+      },
+      "corpus_evidence": {
+        "summary": "M 49/16；I 107/43",
+        "representative_contexts": []
+      },
+      "rationale": "`reject` 重复：Maidansky `objective-activity` 已 `approved`",
+      "final_status_by_author": {
+        "legacy": "approved"
+      },
+      "affected_translation_locations": [],
+      "affected_translation_summary": "`approved`；保持“对象性活动”",
+      "heuristic_forms_pending": [],
+      "legacy_cells": {
+        "#": "7",
+        "候选与建议译法": "`предметная деятельность` → 对象性活动",
+        "本文频次与全部位置": "精确 8；块 7、17、21、25、39、49、52；另有复合短语 6",
+        "作者语料频次": "M 49/16；I 107/43",
+        "操作、修改前 → 修改后与理由": "`reject` 重复：Maidansky `objective-activity` 已 `approved`",
+        "最终状态及译文影响": "`approved`；保持“对象性活动”"
+      }
+    },
+    {
+      "proposal_id": "legacy-008",
+      "term_ids": [],
+      "target_author_ids": [
+        "maidansky"
+      ],
+      "canonical": "предметно-практическая деятельность",
+      "forms": [],
+      "suggested_zh": "对象性实践活动",
+      "operations": [
+        "reject"
+      ],
+      "before": "`reject` 重复：Maidansky 已有正式词条",
+      "after": "`reject` 重复：Maidansky 已有正式词条",
+      "article_evidence": {
+        "summary": "6；块 29—30、32、35、41、51"
+      },
+      "corpus_evidence": {
+        "summary": "M 22/13；I 25/16",
+        "representative_contexts": []
+      },
+      "rationale": "`reject` 重复：Maidansky 已有正式词条",
+      "final_status_by_author": {
+        "legacy": "approved"
+      },
+      "affected_translation_locations": [],
+      "affected_translation_summary": "`approved`；保持“对象性实践活动”",
+      "heuristic_forms_pending": [],
+      "legacy_cells": {
+        "#": "8",
+        "候选与建议译法": "`предметно-практическая деятельность` → 对象性实践活动",
+        "本文频次与全部位置": "6；块 29—30、32、35、41、51",
+        "作者语料频次": "M 22/13；I 25/16",
+        "操作、修改前 → 修改后与理由": "`reject` 重复：Maidansky 已有正式词条",
+        "最终状态及译文影响": "`approved`；保持“对象性实践活动”"
+      }
+    },
+    {
+      "proposal_id": "legacy-009",
+      "term_ids": [],
+      "target_author_ids": [
+        "maidansky"
+      ],
+      "canonical": "деятельностный подход",
+      "forms": [],
+      "suggested_zh": "活动论进路",
+      "operations": [
+        "add"
+      ],
+      "before": "`add` Maidansky `activity-approach`；“进路/取向”存在真实选择",
+      "after": "`add` Maidansky `activity-approach`；“进路/取向”存在真实选择",
+      "article_evidence": {
+        "summary": "2；块 24、46"
+      },
+      "corpus_evidence": {
+        "summary": "M 17/5",
+        "representative_contexts": []
+      },
+      "rationale": "`add` Maidansky `activity-approach`；“进路/取向”存在真实选择",
+      "final_status_by_author": {
+        "legacy": "provisional"
+      },
+      "affected_translation_locations": [],
+      "affected_translation_summary": "`provisional`；保持“活动论进路”",
+      "heuristic_forms_pending": [],
+      "legacy_cells": {
+        "#": "9",
+        "候选与建议译法": "`деятельностный подход` → 活动论进路",
+        "本文频次与全部位置": "2；块 24、46",
+        "作者语料频次": "M 17/5",
+        "操作、修改前 → 修改后与理由": "`add` Maidansky `activity-approach`；“进路/取向”存在真实选择",
+        "最终状态及译文影响": "`provisional`；保持“活动论进路”"
+      }
+    },
+    {
+      "proposal_id": "legacy-010",
+      "term_ids": [],
+      "target_author_ids": [
+        "maidansky"
+      ],
+      "canonical": "предметное действие",
+      "forms": [],
+      "suggested_zh": "对象动作",
+      "operations": [
+        "add"
+      ],
+      "before": "`add` Maidansky `object-action`；不得同对象性活动合并",
+      "after": "`add` Maidansky `object-action`；不得同对象性活动合并",
+      "article_evidence": {
+        "summary": "2；块 14、17"
+      },
+      "corpus_evidence": {
+        "summary": "M 19/10；I 37/28",
+        "representative_contexts": []
+      },
+      "rationale": "`add` Maidansky `object-action`；不得同对象性活动合并",
+      "final_status_by_author": {
+        "legacy": "provisional"
+      },
+      "affected_translation_locations": [],
+      "affected_translation_summary": "`provisional`；保持“对象动作”",
+      "heuristic_forms_pending": [],
+      "legacy_cells": {
+        "#": "10",
+        "候选与建议译法": "`предметное действие` → 对象动作",
+        "本文频次与全部位置": "2；块 14、17",
+        "作者语料频次": "M 19/10；I 37/28",
+        "操作、修改前 → 修改后与理由": "`add` Maidansky `object-action`；不得同对象性活动合并",
+        "最终状态及译文影响": "`provisional`；保持“对象动作”"
+      }
+    },
+    {
+      "proposal_id": "legacy-011",
+      "term_ids": [],
+      "target_author_ids": [
+        "maidansky"
+      ],
+      "canonical": "аффект",
+      "forms": [],
+      "suggested_zh": "情感",
+      "operations": [
+        "modify"
+      ],
+      "before": "`modify` Maidansky `affect`：补“情动”异译及本文证据",
+      "after": "`modify` Maidansky `affect`：补“情动”异译及本文证据",
+      "article_evidence": {
+        "summary": "39；块 6—7、18—19、21—26、30—32、34、38—42、51"
+      },
+      "corpus_evidence": {
+        "summary": "M 140/19；I 8/8",
+        "representative_contexts": []
+      },
+      "rationale": "`modify` Maidansky `affect`：补“情动”异译及本文证据",
+      "final_status_by_author": {
+        "legacy": "provisional"
+      },
+      "affected_translation_locations": [],
+      "affected_translation_summary": "`provisional`；与 `эмоция`“情绪”分开",
+      "heuristic_forms_pending": [],
+      "legacy_cells": {
+        "#": "11",
+        "候选与建议译法": "`аффект` → 情感",
+        "本文频次与全部位置": "39；块 6—7、18—19、21—26、30—32、34、38—42、51",
+        "作者语料频次": "M 140/19；I 8/8",
+        "操作、修改前 → 修改后与理由": "`modify` Maidansky `affect`：补“情动”异译及本文证据",
+        "最终状态及译文影响": "`provisional`；与 `эмоция`“情绪”分开"
+      }
+    },
+    {
+      "proposal_id": "legacy-012",
+      "term_ids": [],
+      "target_author_ids": [
+        "maidansky"
+      ],
+      "canonical": "эмоция",
+      "forms": [],
+      "suggested_zh": "情绪",
+      "operations": [
+        "add"
+      ],
+      "before": "`add` Maidansky `emotion`；作者明确说明心理学中可同 affect 同义",
+      "after": "`add` Maidansky `emotion`；作者明确说明心理学中可同 affect 同义",
+      "article_evidence": {
+        "summary": "15；块 6、18—19、21、30、33—35、38、51"
+      },
+      "corpus_evidence": {
+        "summary": "M 75/11；I 74/28",
+        "representative_contexts": []
+      },
+      "rationale": "`add` Maidansky `emotion`；作者明确说明心理学中可同 affect 同义",
+      "final_status_by_author": {
+        "legacy": "approved"
+      },
+      "affected_translation_locations": [],
+      "affected_translation_summary": "`approved`；复合词仍按句法处理",
+      "heuristic_forms_pending": [],
+      "legacy_cells": {
+        "#": "12",
+        "候选与建议译法": "`эмоция` → 情绪",
+        "本文频次与全部位置": "15；块 6、18—19、21、30、33—35、38、51",
+        "作者语料频次": "M 75/11；I 74/28",
+        "操作、修改前 → 修改后与理由": "`add` Maidansky `emotion`；作者明确说明心理学中可同 affect 同义",
+        "最终状态及译文影响": "`approved`；复合词仍按句法处理"
+      }
+    },
+    {
+      "proposal_id": "legacy-013",
+      "term_ids": [],
+      "target_author_ids": [
+        "maidansky",
+        "vygotsky"
+      ],
+      "canonical": "общение",
+      "forms": [],
+      "suggested_zh": "交往",
+      "operations": [
+        "add"
+      ],
+      "before": "`add` Maidansky、Vygotsky `communication`",
+      "after": "`add` Maidansky、Vygotsky `communication`",
+      "article_evidence": {
+        "summary": "33；块 6—7、14、17、19、27、31—33、35—39、49、51、58"
+      },
+      "corpus_evidence": {
+        "summary": "M 261/23；V 8/2；I 85/45",
+        "representative_contexts": []
+      },
+      "rationale": "`add` Maidansky、Vygotsky `communication`",
+      "final_status_by_author": {
+        "legacy": "approved"
+      },
+      "affected_translation_locations": [],
+      "affected_translation_summary": "`approved`；全文保持“交往”",
+      "heuristic_forms_pending": [],
+      "legacy_cells": {
+        "#": "13",
+        "候选与建议译法": "`общение` → 交往",
+        "本文频次与全部位置": "33；块 6—7、14、17、19、27、31—33、35—39、49、51、58",
+        "作者语料频次": "M 261/23；V 8/2；I 85/45",
+        "操作、修改前 → 修改后与理由": "`add` Maidansky、Vygotsky `communication`",
+        "最终状态及译文影响": "`approved`；全文保持“交往”"
+      }
+    },
+    {
+      "proposal_id": "legacy-014",
+      "term_ids": [],
+      "target_author_ids": [
+        "maidansky"
+      ],
+      "canonical": "эмоциональное общение",
+      "forms": [],
+      "suggested_zh": "情绪性交往",
+      "operations": [
+        "add"
+      ],
+      "before": "`add` Maidansky `emotional-communication`；低频但为本文核心反论点",
+      "after": "`add` Maidansky `emotional-communication`；低频但为本文核心反论点",
+      "article_evidence": {
+        "summary": "2；块 33、35"
+      },
+      "corpus_evidence": {
+        "summary": "M 2/1",
+        "representative_contexts": []
+      },
+      "rationale": "`add` Maidansky `emotional-communication`；低频但为本文核心反论点",
+      "final_status_by_author": {
+        "legacy": "provisional"
+      },
+      "affected_translation_locations": [],
+      "affected_translation_summary": "`provisional`；保持“情绪性交往”",
+      "heuristic_forms_pending": [],
+      "legacy_cells": {
+        "#": "14",
+        "候选与建议译法": "`эмоциональное общение` → 情绪性交往",
+        "本文频次与全部位置": "2；块 33、35",
+        "作者语料频次": "M 2/1",
+        "操作、修改前 → 修改后与理由": "`add` Maidansky `emotional-communication`；低频但为本文核心反论点",
+        "最终状态及译文影响": "`provisional`；保持“情绪性交往”"
+      }
+    },
+    {
+      "proposal_id": "legacy-015",
+      "term_ids": [],
+      "target_author_ids": [
+        "maidansky",
+        "vygotsky"
+      ],
+      "canonical": "знак",
+      "forms": [],
+      "suggested_zh": "符号",
+      "operations": [
+        "add"
+      ],
+      "before": "`add` Maidansky `sign`；Vygotsky 已有正式词条",
+      "after": "`add` Maidansky `sign`；Vygotsky 已有正式词条",
+      "article_evidence": {
+        "summary": "13；块 6—7、16—17、45—47、49、55"
+      },
+      "corpus_evidence": {
+        "summary": "M 154/38；V 16/2；I 611/134",
+        "representative_contexts": []
+      },
+      "rationale": "`add` Maidansky `sign`；Vygotsky 已有正式词条",
+      "final_status_by_author": {
+        "legacy": "approved"
+      },
+      "affected_translation_locations": [],
+      "affected_translation_summary": "`approved`；同信号分开",
+      "heuristic_forms_pending": [],
+      "legacy_cells": {
+        "#": "15",
+        "候选与建议译法": "`знак` → 符号",
+        "本文频次与全部位置": "13；块 6—7、16—17、45—47、49、55",
+        "作者语料频次": "M 154/38；V 16/2；I 611/134",
+        "操作、修改前 → 修改后与理由": "`add` Maidansky `sign`；Vygotsky 已有正式词条",
+        "最终状态及译文影响": "`approved`；同信号分开"
+      }
+    },
+    {
+      "proposal_id": "legacy-016",
+      "term_ids": [],
+      "target_author_ids": [],
+      "canonical": "условный знак",
+      "forms": [],
+      "suggested_zh": "约定符号",
+      "operations": [
+        "reject"
+      ],
+      "before": "`reject`：可由“约定的+符号”组合，暂无跨篇约束价值",
+      "after": "`reject`：可由“约定的+符号”组合，暂无跨篇约束价值",
+      "article_evidence": {
+        "summary": "1；块 17"
+      },
+      "corpus_evidence": {
+        "summary": "M 1/1；I 2/2",
+        "representative_contexts": []
+      },
+      "rationale": "`reject`：可由“约定的+符号”组合，暂无跨篇约束价值",
+      "final_status_by_author": {},
+      "affected_translation_locations": [],
+      "affected_translation_summary": "`not_applicable`；本篇保持“约定符号”",
+      "heuristic_forms_pending": [],
+      "legacy_cells": {
+        "#": "16",
+        "候选与建议译法": "`условный знак` → 约定符号",
+        "本文频次与全部位置": "1；块 17",
+        "作者语料频次": "M 1/1；I 2/2",
+        "操作、修改前 → 修改后与理由": "`reject`：可由“约定的+符号”组合，暂无跨篇约束价值",
+        "最终状态及译文影响": "`not_applicable`；本篇保持“约定符号”"
+      }
+    },
+    {
+      "proposal_id": "legacy-017",
+      "term_ids": [],
+      "target_author_ids": [
+        "maidansky",
+        "vygotsky"
+      ],
+      "canonical": "жест",
+      "forms": [],
+      "suggested_zh": "手势",
+      "operations": [
+        "add"
+      ],
+      "before": "`add` Maidansky、Vygotsky `gesture`",
+      "after": "`add` Maidansky、Vygotsky `gesture`",
+      "article_evidence": {
+        "summary": "23；块 7、14、17—19、29—30、47、49、58—59"
+      },
+      "corpus_evidence": {
+        "summary": "M 80/15；V 10/1；I 114/68",
+        "representative_contexts": []
+      },
+      "rationale": "`add` Maidansky、Vygotsky `gesture`",
+      "final_status_by_author": {
+        "legacy": "approved"
+      },
+      "affected_translation_locations": [],
+      "affected_translation_summary": "M `approved`、V `provisional`；保持“手势”",
+      "heuristic_forms_pending": [],
+      "legacy_cells": {
+        "#": "17",
+        "候选与建议译法": "`жест` → 手势",
+        "本文频次与全部位置": "23；块 7、14、17—19、29—30、47、49、58—59",
+        "作者语料频次": "M 80/15；V 10/1；I 114/68",
+        "操作、修改前 → 修改后与理由": "`add` Maidansky、Vygotsky `gesture`",
+        "最终状态及译文影响": "M `approved`、V `provisional`；保持“手势”"
+      }
+    },
+    {
+      "proposal_id": "legacy-018",
+      "term_ids": [],
+      "target_author_ids": [],
+      "canonical": "указательный жест",
+      "forms": [],
+      "suggested_zh": "指示手势",
+      "operations": [
+        "reject"
+      ],
+      "before": "`reject`：普通限定组合，正式词条 `gesture` 已足够约束",
+      "after": "`reject`：普通限定组合，正式词条 `gesture` 已足够约束",
+      "article_evidence": {
+        "summary": "3；块 18—19"
+      },
+      "corpus_evidence": {
+        "summary": "M 3/1；V 6/1",
+        "representative_contexts": []
+      },
+      "rationale": "`reject`：普通限定组合，正式词条 `gesture` 已足够约束",
+      "final_status_by_author": {},
+      "affected_translation_locations": [],
+      "affected_translation_summary": "`not_applicable`；保持“指示手势”",
+      "heuristic_forms_pending": [],
+      "legacy_cells": {
+        "#": "18",
+        "候选与建议译法": "`указательный жест` → 指示手势",
+        "本文频次与全部位置": "3；块 18—19",
+        "作者语料频次": "M 3/1；V 6/1",
+        "操作、修改前 → 修改后与理由": "`reject`：普通限定组合，正式词条 `gesture` 已足够约束",
+        "最终状态及译文影响": "`not_applicable`；保持“指示手势”"
+      }
+    },
+    {
+      "proposal_id": "legacy-019",
+      "term_ids": [],
+      "target_author_ids": [
+        "maidansky",
+        "vygotsky"
+      ],
+      "canonical": "слово",
+      "forms": [],
+      "suggested_zh": "词",
+      "operations": [
+        "add",
+        "modify"
+      ],
+      "before": "`modify` Maidansky `word` 的语境规则；`add` Vygotsky `word`",
+      "after": "`modify` Maidansky `word` 的语境规则；`add` Vygotsky `word`",
+      "article_evidence": {
+        "summary": "16；块 6—7、13、29、31、36、38、45—49、51、55"
+      },
+      "corpus_evidence": {
+        "summary": "M 891/66；V 80/4；I 3344/231",
+        "representative_contexts": []
+      },
+      "rationale": "`modify` Maidansky `word` 的语境规则；`add` Vygotsky `word`",
+      "final_status_by_author": {
+        "legacy": "provisional"
+      },
+      "affected_translation_locations": [],
+      "affected_translation_summary": "M `provisional`、V `approved`；本文统一“词”，不覆盖“行动—思想—言语”公式",
+      "heuristic_forms_pending": [],
+      "legacy_cells": {
+        "#": "19",
+        "候选与建议译法": "`слово` → 词",
+        "本文频次与全部位置": "16；块 6—7、13、29、31、36、38、45—49、51、55",
+        "作者语料频次": "M 891/66；V 80/4；I 3344/231",
+        "操作、修改前 → 修改后与理由": "`modify` Maidansky `word` 的语境规则；`add` Vygotsky `word`",
+        "最终状态及译文影响": "M `provisional`、V `approved`；本文统一“词”，不覆盖“行动—思想—言语”公式"
+      }
+    },
+    {
+      "proposal_id": "legacy-020",
+      "term_ids": [],
+      "target_author_ids": [],
+      "canonical": "значение",
+      "forms": [],
+      "suggested_zh": "意义",
+      "operations": [
+        "add"
+      ],
+      "before": "`add` 两表 `meaning`；明确排除英文摘要的 `values`",
+      "after": "`add` 两表 `meaning`；明确排除英文摘要的 `values`",
+      "article_evidence": {
+        "summary": "6；块 6、33、47、49、55"
+      },
+      "corpus_evidence": {
+        "summary": "M 192/48；V 37/4；I 1064/185",
+        "representative_contexts": []
+      },
+      "rationale": "`add` 两表 `meaning`；明确排除英文摘要的 `values`",
+      "final_status_by_author": {
+        "legacy": "provisional"
+      },
+      "affected_translation_locations": [],
+      "affected_translation_summary": "`provisional`；正文保持“意义”",
+      "heuristic_forms_pending": [],
+      "legacy_cells": {
+        "#": "20",
+        "候选与建议译法": "`значение` → 意义",
+        "本文频次与全部位置": "6；块 6、33、47、49、55",
+        "作者语料频次": "M 192/48；V 37/4；I 1064/185",
+        "操作、修改前 → 修改后与理由": "`add` 两表 `meaning`；明确排除英文摘要的 `values`",
+        "最终状态及译文影响": "`provisional`；正文保持“意义”"
+      }
+    },
+    {
+      "proposal_id": "legacy-021",
+      "term_ids": [],
+      "target_author_ids": [],
+      "canonical": "система значений",
+      "forms": [],
+      "suggested_zh": "意义系统",
+      "operations": [
+        "reject"
+      ],
+      "before": "`reject`：可组合且无独立译法选择",
+      "after": "`reject`：可组合且无独立译法选择",
+      "article_evidence": {
+        "summary": "1；块 47"
+      },
+      "corpus_evidence": {
+        "summary": "M 1/1；I 8/6",
+        "representative_contexts": []
+      },
+      "rationale": "`reject`：可组合且无独立译法选择",
+      "final_status_by_author": {},
+      "affected_translation_locations": [],
+      "affected_translation_summary": "`not_applicable`；保持“意义系统”",
+      "heuristic_forms_pending": [],
+      "legacy_cells": {
+        "#": "21",
+        "候选与建议译法": "`система значений` → 意义系统",
+        "本文频次与全部位置": "1；块 47",
+        "作者语料频次": "M 1/1；I 8/6",
+        "操作、修改前 → 修改后与理由": "`reject`：可组合且无独立译法选择",
+        "最终状态及译文影响": "`not_applicable`；保持“意义系统”"
+      }
+    },
+    {
+      "proposal_id": "legacy-022",
+      "term_ids": [],
+      "target_author_ids": [],
+      "canonical": "образ",
+      "forms": [],
+      "suggested_zh": "表象",
+      "operations": [
+        "reject"
+      ],
+      "before": "`reject` 建议：普通词高度多义，不能一律定为“表象”",
+      "after": "`reject` 建议：普通词高度多义，不能一律定为“表象”",
+      "article_evidence": {
+        "summary": "11；块 7、25—26、30—32、49、52、58"
+      },
+      "corpus_evidence": {
+        "summary": "M 887/62；V 86/4；I 3245/239",
+        "representative_contexts": []
+      },
+      "rationale": "`reject` 建议：普通词高度多义，不能一律定为“表象”",
+      "final_status_by_author": {},
+      "affected_translation_locations": [],
+      "affected_translation_summary": "`not_applicable`；关键词及概念用例改“形象”",
+      "heuristic_forms_pending": [],
+      "legacy_cells": {
+        "#": "22",
+        "候选与建议译法": "`образ` → 表象",
+        "本文频次与全部位置": "11；块 7、25—26、30—32、49、52、58",
+        "作者语料频次": "M 887/62；V 86/4；I 3245/239",
+        "操作、修改前 → 修改后与理由": "`reject` 建议：普通词高度多义，不能一律定为“表象”",
+        "最终状态及译文影响": "`not_applicable`；关键词及概念用例改“形象”"
+      }
+    },
+    {
+      "proposal_id": "legacy-023",
+      "term_ids": [],
+      "target_author_ids": [
+        "maidansky"
+      ],
+      "canonical": "психический образ",
+      "forms": [],
+      "suggested_zh": "心理表象",
+      "operations": [
+        "add"
+      ],
+      "before": "`add` Maidansky `psychic-image`，首选“心理形象”",
+      "after": "`add` Maidansky `psychic-image`，首选“心理形象”",
+      "article_evidence": {
+        "summary": "1；块 25"
+      },
+      "corpus_evidence": {
+        "summary": "M 3/2；I 7/7",
+        "representative_contexts": []
+      },
+      "rationale": "`add` Maidansky `psychic-image`，首选“心理形象”",
+      "final_status_by_author": {
+        "legacy": "provisional"
+      },
+      "affected_translation_locations": [],
+      "affected_translation_summary": "`provisional`；译文“心理表象”改“心理形象”",
+      "heuristic_forms_pending": [],
+      "legacy_cells": {
+        "#": "23",
+        "候选与建议译法": "`психический образ` → 心理表象",
+        "本文频次与全部位置": "1；块 25",
+        "作者语料频次": "M 3/2；I 7/7",
+        "操作、修改前 → 修改后与理由": "`add` Maidansky `psychic-image`，首选“心理形象”",
+        "最终状态及译文影响": "`provisional`；译文“心理表象”改“心理形象”"
+      }
+    },
+    {
+      "proposal_id": "legacy-024",
+      "term_ids": [],
+      "target_author_ids": [],
+      "canonical": "образ чувств",
+      "forms": [],
+      "suggested_zh": "感性表象",
+      "operations": [
+        "modify"
+      ],
+      "before": "`modify` `sensory-image`：增列该词形，维持“感性形象”首选",
+      "after": "`modify` `sensory-image`：增列该词形，维持“感性形象”首选",
+      "article_evidence": {
+        "summary": "3；块 26、49、52"
+      },
+      "corpus_evidence": {
+        "summary": "M 12/9；I 2/2；连同 `чувственный образ` 为 M 62/23",
+        "representative_contexts": []
+      },
+      "rationale": "`modify` `sensory-image`：增列该词形，维持“感性形象”首选",
+      "final_status_by_author": {
+        "legacy": "provisional"
+      },
+      "affected_translation_locations": [],
+      "affected_translation_summary": "`provisional`；三处“感性表象”改“感性形象”",
+      "heuristic_forms_pending": [],
+      "legacy_cells": {
+        "#": "24",
+        "候选与建议译法": "`образ чувств` → 感性表象",
+        "本文频次与全部位置": "3；块 26、49、52",
+        "作者语料频次": "M 12/9；I 2/2；连同 `чувственный образ` 为 M 62/23",
+        "操作、修改前 → 修改后与理由": "`modify` `sensory-image`：增列该词形，维持“感性形象”首选",
+        "最终状态及译文影响": "`provisional`；三处“感性表象”改“感性形象”"
+      }
+    },
+    {
+      "proposal_id": "legacy-025",
+      "term_ids": [],
+      "target_author_ids": [],
+      "canonical": "интериоризация",
+      "forms": [],
+      "suggested_zh": "内化",
+      "operations": [
+        "reject"
+      ],
+      "before": "`reject` 重复：两表已有词条",
+      "after": "`reject` 重复：两表已有词条",
+      "article_evidence": {
+        "summary": "5；块 9、17、40、45"
+      },
+      "corpus_evidence": {
+        "summary": "M 19/9；V 1/1；I 12/4",
+        "representative_contexts": []
+      },
+      "rationale": "`reject` 重复：两表已有词条",
+      "final_status_by_author": {
+        "legacy": "approved"
+      },
+      "affected_translation_locations": [],
+      "affected_translation_summary": "M `approved`、V `provisional`；保持“内化”",
+      "heuristic_forms_pending": [],
+      "legacy_cells": {
+        "#": "25",
+        "候选与建议译法": "`интериоризация` → 内化",
+        "本文频次与全部位置": "5；块 9、17、40、45",
+        "作者语料频次": "M 19/9；V 1/1；I 12/4",
+        "操作、修改前 → 修改后与理由": "`reject` 重复：两表已有词条",
+        "最终状态及译文影响": "M `approved`、V `provisional`；保持“内化”"
+      }
+    },
+    {
+      "proposal_id": "legacy-026",
+      "term_ids": [],
+      "target_author_ids": [],
+      "canonical": "идеальное",
+      "forms": [],
+      "suggested_zh": "观念性东西",
+      "operations": [
+        "reject"
+      ],
+      "before": "`reject` 建议译法：两表正式首选均为“观念的东西”",
+      "after": "`reject` 建议译法：两表正式首选均为“观念的东西”",
+      "article_evidence": {
+        "summary": "7；块 10、39—41、45、47"
+      },
+      "corpus_evidence": {
+        "summary": "M 864/49；I 1719/110",
+        "representative_contexts": []
+      },
+      "rationale": "`reject` 建议译法：两表正式首选均为“观念的东西”",
+      "final_status_by_author": {
+        "legacy": "approved"
+      },
+      "affected_translation_locations": [],
+      "affected_translation_summary": "`approved`；名词性三处改“观念的东西”",
+      "heuristic_forms_pending": [],
+      "legacy_cells": {
+        "#": "26",
+        "候选与建议译法": "`идеальное` → 观念性东西",
+        "本文频次与全部位置": "7；块 10、39—41、45、47",
+        "作者语料频次": "M 864/49；I 1719/110",
+        "操作、修改前 → 修改后与理由": "`reject` 建议译法：两表正式首选均为“观念的东西”",
+        "最终状态及译文影响": "`approved`；名词性三处改“观念的东西”"
+      }
+    },
+    {
+      "proposal_id": "legacy-027",
+      "term_ids": [],
+      "target_author_ids": [],
+      "canonical": "идеальные формы",
+      "forms": [],
+      "suggested_zh": "观念性形式",
+      "operations": [
+        "reject"
+      ],
+      "before": "`reject` 独立词条：由 `ideal` 按句法生成“观念形式/观念的形式”",
+      "after": "`reject` 独立词条：由 `ideal` 按句法生成“观念形式/观念的形式”",
+      "article_evidence": {
+        "summary": "3；块 40、45"
+      },
+      "corpus_evidence": {
+        "summary": "M 72/24；I 63/7",
+        "representative_contexts": []
+      },
+      "rationale": "`reject` 独立词条：由 `ideal` 按句法生成“观念形式/观念的形式”",
+      "final_status_by_author": {},
+      "affected_translation_locations": [],
+      "affected_translation_summary": "`not_applicable`；译文统一“观念形式”",
+      "heuristic_forms_pending": [],
+      "legacy_cells": {
+        "#": "27",
+        "候选与建议译法": "`идеальные формы` → 观念性形式",
+        "本文频次与全部位置": "3；块 40、45",
+        "作者语料频次": "M 72/24；I 63/7",
+        "操作、修改前 → 修改后与理由": "`reject` 独立词条：由 `ideal` 按句法生成“观念形式/观念的形式”",
+        "最终状态及译文影响": "`not_applicable`；译文统一“观念形式”"
+      }
+    },
+    {
+      "proposal_id": "legacy-028",
+      "term_ids": [],
+      "target_author_ids": [
+        "maidansky"
+      ],
+      "canonical": "идея",
+      "forms": [],
+      "suggested_zh": "观念",
+      "operations": [
+        "reject"
+      ],
+      "before": "`reject` 重复：Maidansky 已有 `idea`",
+      "after": "`reject` 重复：Maidansky 已有 `idea`",
+      "article_evidence": {
+        "summary": "9；块 28、39、41—45"
+      },
+      "corpus_evidence": {
+        "summary": "M 1230/56；V 5/1；I 867/158",
+        "representative_contexts": []
+      },
+      "rationale": "`reject` 重复：Maidansky 已有 `idea`",
+      "final_status_by_author": {
+        "legacy": "provisional"
+      },
+      "affected_translation_locations": [],
+      "affected_translation_summary": "`provisional`；保持“观念”",
+      "heuristic_forms_pending": [],
+      "legacy_cells": {
+        "#": "28",
+        "候选与建议译法": "`идея` → 观念",
+        "本文频次与全部位置": "9；块 28、39、41—45",
+        "作者语料频次": "M 1230/56；V 5/1；I 867/158",
+        "操作、修改前 → 修改后与理由": "`reject` 重复：Maidansky 已有 `idea`",
+        "最终状态及译文影响": "`provisional`；保持“观念”"
+      }
+    },
+    {
+      "proposal_id": "legacy-029",
+      "term_ids": [],
+      "target_author_ids": [
+        "maidansky",
+        "vygotsky",
+        "ilyenkov"
+      ],
+      "canonical": "сознание",
+      "forms": [],
+      "suggested_zh": "意识",
+      "operations": [
+        "add"
+      ],
+      "before": "`add` Maidansky `consciousness`；Vygotsky、Ilyenkov 已有",
+      "after": "`add` Maidansky `consciousness`；Vygotsky、Ilyenkov 已有",
+      "article_evidence": {
+        "summary": "9；块 36、41、43、48—49"
+      },
+      "corpus_evidence": {
+        "summary": "M 275/42；V 6/2；I 2526/194",
+        "representative_contexts": []
+      },
+      "rationale": "`add` Maidansky `consciousness`；Vygotsky、Ilyenkov 已有",
+      "final_status_by_author": {
+        "legacy": "approved"
+      },
+      "affected_translation_locations": [],
+      "affected_translation_summary": "`approved`；保持“意识”",
+      "heuristic_forms_pending": [],
+      "legacy_cells": {
+        "#": "29",
+        "候选与建议译法": "`сознание` → 意识",
+        "本文频次与全部位置": "9；块 36、41、43、48—49",
+        "作者语料频次": "M 275/42；V 6/2；I 2526/194",
+        "操作、修改前 → 修改后与理由": "`add` Maidansky `consciousness`；Vygotsky、Ilyenkov 已有",
+        "最终状态及译文影响": "`approved`；保持“意识”"
+      }
+    },
+    {
+      "proposal_id": "legacy-030",
+      "term_ids": [],
+      "target_author_ids": [
+        "maidansky"
+      ],
+      "canonical": "акт сознания",
+      "forms": [],
+      "suggested_zh": "意识行为",
+      "operations": [
+        "add"
+      ],
+      "before": "`add` Maidansky `act-of-consciousness`；存在行为/活动选择",
+      "after": "`add` Maidansky `act-of-consciousness`；存在行为/活动选择",
+      "article_evidence": {
+        "summary": "2；块 36、49"
+      },
+      "corpus_evidence": {
+        "summary": "M 3/2；I 2/2",
+        "representative_contexts": []
+      },
+      "rationale": "`add` Maidansky `act-of-consciousness`；存在行为/活动选择",
+      "final_status_by_author": {
+        "legacy": "provisional"
+      },
+      "affected_translation_locations": [],
+      "affected_translation_summary": "`provisional`；本篇保持“意识行为”",
+      "heuristic_forms_pending": [],
+      "legacy_cells": {
+        "#": "30",
+        "候选与建议译法": "`акт сознания` → 意识行为",
+        "本文频次与全部位置": "2；块 36、49",
+        "作者语料频次": "M 3/2；I 2/2",
+        "操作、修改前 → 修改后与理由": "`add` Maidansky `act-of-consciousness`；存在行为/活动选择",
+        "最终状态及译文影响": "`provisional`；本篇保持“意识行为”"
+      }
+    },
+    {
+      "proposal_id": "legacy-031",
+      "term_ids": [],
+      "target_author_ids": [],
+      "canonical": "свобода",
+      "forms": [],
+      "suggested_zh": "自由",
+      "operations": [
+        "reject"
+      ],
+      "before": "`reject`：标准固定译法；“自由意志”另有正式词条",
+      "after": "`reject`：标准固定译法；“自由意志”另有正式词条",
+      "article_evidence": {
+        "summary": "10；块 23—24、36、42—44"
+      },
+      "corpus_evidence": {
+        "summary": "M 364/47；V 1/1；I 713/115",
+        "representative_contexts": []
+      },
+      "rationale": "`reject`：标准固定译法；“自由意志”另有正式词条",
+      "final_status_by_author": {},
+      "affected_translation_locations": [],
+      "affected_translation_summary": "`not_applicable`；“意志自由”改“自由意志”",
+      "heuristic_forms_pending": [],
+      "legacy_cells": {
+        "#": "31",
+        "候选与建议译法": "`свобода` → 自由",
+        "本文频次与全部位置": "10；块 23—24、36、42—44",
+        "作者语料频次": "M 364/47；V 1/1；I 713/115",
+        "操作、修改前 → 修改后与理由": "`reject`：标准固定译法；“自由意志”另有正式词条",
+        "最终状态及译文影响": "`not_applicable`；“意志自由”改“自由意志”"
+      }
+    },
+    {
+      "proposal_id": "legacy-032",
+      "term_ids": [],
+      "target_author_ids": [
+        "vygotsky"
+      ],
+      "canonical": "вершинная психология",
+      "forms": [],
+      "suggested_zh": "顶峰心理学",
+      "operations": [
+        "add"
+      ],
+      "before": "`add` Vygotsky `peak-psychology`；理论关键但作者文本见证未直接覆盖",
+      "after": "`add` Vygotsky `peak-psychology`；理论关键但作者文本见证未直接覆盖",
+      "article_evidence": {
+        "summary": "2；块 24、43"
+      },
+      "corpus_evidence": {
+        "summary": "M 2/1；V 当前正文 0",
+        "representative_contexts": []
+      },
+      "rationale": "`add` Vygotsky `peak-psychology`；理论关键但作者文本见证未直接覆盖",
+      "final_status_by_author": {
+        "legacy": "needs_review"
+      },
+      "affected_translation_locations": [],
+      "affected_translation_summary": "`needs_review`；本篇保持“顶峰心理学”",
+      "heuristic_forms_pending": [],
+      "legacy_cells": {
+        "#": "32",
+        "候选与建议译法": "`вершинная психология` → 顶峰心理学",
+        "本文频次与全部位置": "2；块 24、43",
+        "作者语料频次": "M 2/1；V 当前正文 0",
+        "操作、修改前 → 修改后与理由": "`add` Vygotsky `peak-psychology`；理论关键但作者文本见证未直接覆盖",
+        "最终状态及译文影响": "`needs_review`；本篇保持“顶峰心理学”"
+      }
+    },
+    {
+      "proposal_id": "legacy-033",
+      "term_ids": [],
+      "target_author_ids": [
+        "maidansky"
+      ],
+      "canonical": "совместно-разделенное действие",
+      "forms": [],
+      "suggested_zh": "共同—分担行动",
+      "operations": [
+        "add"
+      ],
+      "before": "`add` Maidansky `jointly-divided-action`；与既有“共同—分担活动”分层",
+      "after": "`add` Maidansky `jointly-divided-action`；与既有“共同—分担活动”分层",
+      "article_evidence": {
+        "summary": "1；块 17"
+      },
+      "corpus_evidence": {
+        "summary": "M 1/1",
+        "representative_contexts": []
+      },
+      "rationale": "`add` Maidansky `jointly-divided-action`；与既有“共同—分担活动”分层",
+      "final_status_by_author": {
+        "legacy": "provisional"
+      },
+      "affected_translation_locations": [],
+      "affected_translation_summary": "`provisional`；保留俄文首次见证",
+      "heuristic_forms_pending": [],
+      "legacy_cells": {
+        "#": "33",
+        "候选与建议译法": "`совместно-разделенное действие` → 共同—分担行动",
+        "本文频次与全部位置": "1；块 17",
+        "作者语料频次": "M 1/1",
+        "操作、修改前 → 修改后与理由": "`add` Maidansky `jointly-divided-action`；与既有“共同—分担活动”分层",
+        "最终状态及译文影响": "`provisional`；保留俄文首次见证"
+      }
+    },
+    {
+      "proposal_id": "legacy-034",
+      "term_ids": [],
+      "target_author_ids": [],
+      "canonical": "вторая сигнальная система",
+      "forms": [],
+      "suggested_zh": "第二信号系统",
+      "operations": [
+        "reject"
+      ],
+      "before": "`reject`：巴甫洛夫标准术语，本篇无新译法约束",
+      "after": "`reject`：巴甫洛夫标准术语，本篇无新译法约束",
+      "article_evidence": {
+        "summary": "1；块 31"
+      },
+      "corpus_evidence": {
+        "summary": "M 1/1；I 14/8",
+        "representative_contexts": []
+      },
+      "rationale": "`reject`：巴甫洛夫标准术语，本篇无新译法约束",
+      "final_status_by_author": {},
+      "affected_translation_locations": [],
+      "affected_translation_summary": "`not_applicable`；保持“第二信号系统”",
+      "heuristic_forms_pending": [],
+      "legacy_cells": {
+        "#": "34",
+        "候选与建议译法": "`вторая сигнальная система` → 第二信号系统",
+        "本文频次与全部位置": "1；块 31",
+        "作者语料频次": "M 1/1；I 14/8",
+        "操作、修改前 → 修改后与理由": "`reject`：巴甫洛夫标准术语，本篇无新译法约束",
+        "最终状态及译文影响": "`not_applicable`；保持“第二信号系统”"
+      }
+    },
+    {
+      "proposal_id": "legacy-035",
+      "term_ids": [],
+      "target_author_ids": [
+        "maidansky"
+      ],
+      "canonical": "сигнал",
+      "forms": [],
+      "suggested_zh": "信号",
+      "operations": [
+        "add"
+      ],
+      "before": "`add` Maidansky `signal`；须同符号分开",
+      "after": "`add` Maidansky `signal`；须同符号分开",
+      "article_evidence": {
+        "summary": "8；块 19、30—32、59"
+      },
+      "corpus_evidence": {
+        "summary": "M 14/3；V 2/1；I 96/28",
+        "representative_contexts": []
+      },
+      "rationale": "`add` Maidansky `signal`；须同符号分开",
+      "final_status_by_author": {
+        "legacy": "provisional"
+      },
+      "affected_translation_locations": [],
+      "affected_translation_summary": "`provisional`；保持“信号”",
+      "heuristic_forms_pending": [],
+      "legacy_cells": {
+        "#": "35",
+        "候选与建议译法": "`сигнал` → 信号",
+        "本文频次与全部位置": "8；块 19、30—32、59",
+        "作者语料频次": "M 14/3；V 2/1；I 96/28",
+        "操作、修改前 → 修改后与理由": "`add` Maidansky `signal`；须同符号分开",
+        "最终状态及译文影响": "`provisional`；保持“信号”"
+      }
+    },
+    {
+      "proposal_id": "legacy-036",
+      "term_ids": [],
+      "target_author_ids": [],
+      "canonical": "потребность",
+      "forms": [],
+      "suggested_zh": "需要",
+      "operations": [
+        "reject"
+      ],
+      "before": "`reject`：标准固定译法，暂无真实译法选择",
+      "after": "`reject`：标准固定译法，暂无真实译法选择",
+      "article_evidence": {
+        "summary": "5；块 17、37—38"
+      },
+      "corpus_evidence": {
+        "summary": "M 256/28；V 1/1；I 711/112",
+        "representative_contexts": []
+      },
+      "rationale": "`reject`：标准固定译法，暂无真实译法选择",
+      "final_status_by_author": {},
+      "affected_translation_locations": [],
+      "affected_translation_summary": "`not_applicable`；保持“需要”",
+      "heuristic_forms_pending": [],
+      "legacy_cells": {
+        "#": "36",
+        "候选与建议译法": "`потребность` → 需要",
+        "本文频次与全部位置": "5；块 17、37—38",
+        "作者语料频次": "M 256/28；V 1/1；I 711/112",
+        "操作、修改前 → 修改后与理由": "`reject`：标准固定译法，暂无真实译法选择",
+        "最终状态及译文影响": "`not_applicable`；保持“需要”"
+      }
+    },
+    {
+      "proposal_id": "legacy-037",
+      "term_ids": [],
+      "target_author_ids": [],
+      "canonical": "психологическая формация",
+      "forms": [],
+      "suggested_zh": "心理构成",
+      "operations": [
+        "reject"
+      ],
+      "before": "`reject`：低频篇章分类语，尚无跨篇固定含义",
+      "after": "`reject`：低频篇章分类语，尚无跨篇固定含义",
+      "article_evidence": {
+        "summary": "1；块 51"
+      },
+      "corpus_evidence": {
+        "summary": "M 3/2",
+        "representative_contexts": []
+      },
+      "rationale": "`reject`：低频篇章分类语，尚无跨篇固定含义",
+      "final_status_by_author": {},
+      "affected_translation_locations": [],
+      "affected_translation_summary": "`not_applicable`；保持“心理构成”",
+      "heuristic_forms_pending": [],
+      "legacy_cells": {
+        "#": "37",
+        "候选与建议译法": "`психологическая формация` → 心理构成",
+        "本文频次与全部位置": "1；块 51",
+        "作者语料频次": "M 3/2",
+        "操作、修改前 → 修改后与理由": "`reject`：低频篇章分类语，尚无跨篇固定含义",
+        "最终状态及译文影响": "`not_applicable`；保持“心理构成”"
+      }
+    },
+    {
+      "proposal_id": "legacy-038",
+      "term_ids": [],
+      "target_author_ids": [
+        "maidansky"
+      ],
+      "canonical": "клеточка",
+      "forms": [],
+      "suggested_zh": "细胞",
+      "operations": [
+        "add"
+      ],
+      "before": "`add` Maidansky `cell`；俄文与英文 `germ cell` 不相互覆盖",
+      "after": "`add` Maidansky `cell`；俄文与英文 `germ cell` 不相互覆盖",
+      "article_evidence": {
+        "summary": "3；块 17、21、26"
+      },
+      "corpus_evidence": {
+        "summary": "M 13/4；V 1/1；I 33/20",
+        "representative_contexts": []
+      },
+      "rationale": "`add` Maidansky `cell`；俄文与英文 `germ cell` 不相互覆盖",
+      "final_status_by_author": {
+        "legacy": "provisional"
+      },
+      "affected_translation_locations": [],
+      "affected_translation_summary": "`provisional`；正文“细胞”、英文摘要“胚芽细胞”",
+      "heuristic_forms_pending": [],
+      "legacy_cells": {
+        "#": "38",
+        "候选与建议译法": "`клеточка` → 细胞",
+        "本文频次与全部位置": "3；块 17、21、26",
+        "作者语料频次": "M 13/4；V 1/1；I 33/20",
+        "操作、修改前 → 修改后与理由": "`add` Maidansky `cell`；俄文与英文 `germ cell` 不相互覆盖",
+        "最终状态及译文影响": "`provisional`；正文“细胞”、英文摘要“胚芽细胞”"
+      }
+    },
+    {
+      "proposal_id": "legacy-039",
+      "term_ids": [],
+      "target_author_ids": [
+        "vygotsky"
+      ],
+      "canonical": "психологическое орудие",
+      "forms": [],
+      "suggested_zh": "心理工具",
+      "operations": [
+        "add"
+      ],
+      "before": "`add` Vygotsky `psychological-tool`，以关联研究跟踪",
+      "after": "`add` Vygotsky `psychological-tool`，以关联研究跟踪",
+      "article_evidence": {
+        "summary": "1；块 45"
+      },
+      "corpus_evidence": {
+        "summary": "M 1/1；V 当前正文 0",
+        "representative_contexts": []
+      },
+      "rationale": "`add` Vygotsky `psychological-tool`，以关联研究跟踪",
+      "final_status_by_author": {
+        "legacy": "needs_review"
+      },
+      "affected_translation_locations": [],
+      "affected_translation_summary": "`needs_review`；保持“心理工具”",
+      "heuristic_forms_pending": [],
+      "legacy_cells": {
+        "#": "39",
+        "候选与建议译法": "`психологическое орудие` → 心理工具",
+        "本文频次与全部位置": "1；块 45",
+        "作者语料频次": "M 1/1；V 当前正文 0",
+        "操作、修改前 → 修改后与理由": "`add` Vygotsky `psychological-tool`，以关联研究跟踪",
+        "最终状态及译文影响": "`needs_review`；保持“心理工具”"
+      }
+    },
+    {
+      "proposal_id": "legacy-040",
+      "term_ids": [],
+      "target_author_ids": [
+        "maidansky"
+      ],
+      "canonical": "самоцель",
+      "forms": [],
+      "suggested_zh": "自我目的",
+      "operations": [
+        "add"
+      ],
+      "before": "`add` Maidansky `self-end`；存在“自我目的/目的本身”选择",
+      "after": "`add` Maidansky `self-end`；存在“自我目的/目的本身”选择",
+      "article_evidence": {
+        "summary": "3；块 37—38、42"
+      },
+      "corpus_evidence": {
+        "summary": "M 18/13；I 39/26",
+        "representative_contexts": []
+      },
+      "rationale": "`add` Maidansky `self-end`；存在“自我目的/目的本身”选择",
+      "final_status_by_author": {
+        "legacy": "provisional"
+      },
+      "affected_translation_locations": [],
+      "affected_translation_summary": "`provisional`；保持“自我目的”",
+      "heuristic_forms_pending": [],
+      "legacy_cells": {
+        "#": "40",
+        "候选与建议译法": "`самоцель` → 自我目的",
+        "本文频次与全部位置": "3；块 37—38、42",
+        "作者语料频次": "M 18/13；I 39/26",
+        "操作、修改前 → 修改后与理由": "`add` Maidansky `self-end`；存在“自我目的/目的本身”选择",
+        "最终状态及译文影响": "`provisional`；保持“自我目的”"
+      }
+    },
+    {
+      "proposal_id": "legacy-041",
+      "term_ids": [],
+      "target_author_ids": [
+        "maidansky",
+        "ilyenkov"
+      ],
+      "canonical": "конкретно-всеобщий",
+      "forms": [],
+      "suggested_zh": "具体—普遍的",
+      "operations": [
+        "add"
+      ],
+      "before": "`add` Maidansky `concrete-universal`，同 Ilyenkov 正式词条对齐",
+      "after": "`add` Maidansky `concrete-universal`，同 Ilyenkov 正式词条对齐",
+      "article_evidence": {
+        "summary": "2；块 35、52"
+      },
+      "corpus_evidence": {
+        "summary": "M 12/8；I 162/44",
+        "representative_contexts": []
+      },
+      "rationale": "`add` Maidansky `concrete-universal`，同 Ilyenkov 正式词条对齐",
+      "final_status_by_author": {
+        "legacy": "provisional"
+      },
+      "affected_translation_locations": [],
+      "affected_translation_summary": "`provisional`；两处改“具体普遍的”",
+      "heuristic_forms_pending": [],
+      "legacy_cells": {
+        "#": "41",
+        "候选与建议译法": "`конкретно-всеобщий` → 具体—普遍的",
+        "本文频次与全部位置": "2；块 35、52",
+        "作者语料频次": "M 12/8；I 162/44",
+        "操作、修改前 → 修改后与理由": "`add` Maidansky `concrete-universal`，同 Ilyenkov 正式词条对齐",
+        "最终状态及译文影响": "`provisional`；两处改“具体普遍的”"
+      }
+    },
+    {
+      "proposal_id": "legacy-042",
+      "term_ids": [],
+      "target_author_ids": [
+        "maidansky"
+      ],
+      "canonical": "для-себя-бытие",
+      "forms": [],
+      "suggested_zh": "自为存在",
+      "operations": [
+        "add"
+      ],
+      "before": "`add` Maidansky `being-for-self`；低频但跨篇复现且有译法约束",
+      "after": "`add` Maidansky `being-for-self`；低频但跨篇复现且有译法约束",
+      "article_evidence": {
+        "summary": "1；块 27"
+      },
+      "corpus_evidence": {
+        "summary": "M 6/5；I 11/4",
+        "representative_contexts": []
+      },
+      "rationale": "`add` Maidansky `being-for-self`；低频但跨篇复现且有译法约束",
+      "final_status_by_author": {
+        "legacy": "provisional"
+      },
+      "affected_translation_locations": [],
+      "affected_translation_summary": "`provisional`；保持“自为存在”",
+      "heuristic_forms_pending": [],
+      "legacy_cells": {
+        "#": "42",
+        "候选与建议译法": "`для-себя-бытие` → 自为存在",
+        "本文频次与全部位置": "1；块 27",
+        "作者语料频次": "M 6/5；I 11/4",
+        "操作、修改前 → 修改后与理由": "`add` Maidansky `being-for-self`；低频但跨篇复现且有译法约束",
+        "最终状态及译文影响": "`provisional`；保持“自为存在”"
+      }
+    },
+    {
+      "proposal_id": "legacy-043",
+      "term_ids": [],
+      "target_author_ids": [
+        "maidansky"
+      ],
+      "canonical": "в-себе-и-для-себя",
+      "forms": [],
+      "suggested_zh": "自在而自为",
+      "operations": [
+        "add"
+      ],
+      "before": "`add` Maidansky `in-and-for-itself`",
+      "after": "`add` Maidansky `in-and-for-itself`",
+      "article_evidence": {
+        "summary": "1；块 30"
+      },
+      "corpus_evidence": {
+        "summary": "M 4/3；I 11/10",
+        "representative_contexts": []
+      },
+      "rationale": "`add` Maidansky `in-and-for-itself`",
+      "final_status_by_author": {
+        "legacy": "provisional"
+      },
+      "affected_translation_locations": [],
+      "affected_translation_summary": "`provisional`；保持“自在而自为”",
+      "heuristic_forms_pending": [],
+      "legacy_cells": {
+        "#": "43",
+        "候选与建议译法": "`в-себе-и-для-себя` → 自在而自为",
+        "本文频次与全部位置": "1；块 30",
+        "作者语料频次": "M 4/3；I 11/10",
+        "操作、修改前 → 修改后与理由": "`add` Maidansky `in-and-for-itself`",
+        "最终状态及译文影响": "`provisional`；保持“自在而自为”"
+      }
+    },
+    {
+      "proposal_id": "legacy-044",
+      "term_ids": [],
+      "target_author_ids": [
+        "maidansky"
+      ],
+      "canonical": "свое иное",
+      "forms": [],
+      "suggested_zh": "自身的他者",
+      "operations": [
+        "add"
+      ],
+      "before": "`add` Maidansky `own-other`；不得弱化为普通“另一个”",
+      "after": "`add` Maidansky `own-other`；不得弱化为普通“另一个”",
+      "article_evidence": {
+        "summary": "1；块 27"
+      },
+      "corpus_evidence": {
+        "summary": "M 31/14；I 72/50",
+        "representative_contexts": []
+      },
+      "rationale": "`add` Maidansky `own-other`；不得弱化为普通“另一个”",
+      "final_status_by_author": {
+        "legacy": "provisional"
+      },
+      "affected_translation_locations": [],
+      "affected_translation_summary": "`provisional`；保持“自身的他者”",
+      "heuristic_forms_pending": [],
+      "legacy_cells": {
+        "#": "44",
+        "候选与建议译法": "`свое иное` → 自身的他者",
+        "本文频次与全部位置": "1；块 27",
+        "作者语料频次": "M 31/14；I 72/50",
+        "操作、修改前 → 修改后与理由": "`add` Maidansky `own-other`；不得弱化为普通“另一个”",
+        "最终状态及译文影响": "`provisional`；保持“自身的他者”"
+      }
+    },
+    {
+      "proposal_id": "legacy-045",
+      "term_ids": [],
+      "target_author_ids": [
+        "maidansky"
+      ],
+      "canonical": "отражение / отображение",
+      "forms": [],
+      "suggested_zh": "反映/映现",
+      "operations": [
+        "add"
+      ],
+      "before": "`add` Maidansky `reflection` 仅收 `отражение`；拒绝把两个俄词并成一条",
+      "after": "`add` Maidansky `reflection` 仅收 `отражение`；拒绝把两个俄词并成一条",
+      "article_evidence": {
+        "summary": "合计 6；块 21、25、27、32、41"
+      },
+      "corpus_evidence": {
+        "summary": "M 分别 48/21、1/1；I 466/132、21/20",
+        "representative_contexts": []
+      },
+      "rationale": "`add` Maidansky `reflection` 仅收 `отражение`；拒绝把两个俄词并成一条",
+      "final_status_by_author": {
+        "legacy": "provisional"
+      },
+      "affected_translation_locations": [],
+      "affected_translation_summary": "`provisional`；本篇分别译“反映/映现”",
+      "heuristic_forms_pending": [],
+      "legacy_cells": {
+        "#": "45",
+        "候选与建议译法": "`отражение / отображение` → 反映/映现",
+        "本文频次与全部位置": "合计 6；块 21、25、27、32、41",
+        "作者语料频次": "M 分别 48/21、1/1；I 466/132、21/20",
+        "操作、修改前 → 修改后与理由": "`add` Maidansky `reflection` 仅收 `отражение`；拒绝把两个俄词并成一条",
+        "最终状态及译文影响": "`provisional`；本篇分别译“反映/映现”"
+      }
+    },
+    {
+      "proposal_id": "legacy-046",
+      "term_ids": [],
+      "target_author_ids": [
+        "maidansky",
+        "ilyenkov"
+      ],
+      "canonical": "опредмеченный",
+      "forms": [],
+      "suggested_zh": "对象化的",
+      "operations": [
+        "add"
+      ],
+      "before": "`add` Maidansky `objectification`，同 Ilyenkov 词条对齐",
+      "after": "`add` Maidansky `objectification`，同 Ilyenkov 词条对齐",
+      "article_evidence": {
+        "summary": "1；块 28"
+      },
+      "corpus_evidence": {
+        "summary": "M 44/14；I 189/59",
+        "representative_contexts": []
+      },
+      "rationale": "`add` Maidansky `objectification`，同 Ilyenkov 词条对齐",
+      "final_status_by_author": {
+        "legacy": "provisional"
+      },
+      "affected_translation_locations": [],
+      "affected_translation_summary": "`provisional`；保持“对象化的”",
+      "heuristic_forms_pending": [],
+      "legacy_cells": {
+        "#": "46",
+        "候选与建议译法": "`опредмеченный` → 对象化的",
+        "本文频次与全部位置": "1；块 28",
+        "作者语料频次": "M 44/14；I 189/59",
+        "操作、修改前 → 修改后与理由": "`add` Maidansky `objectification`，同 Ilyenkov 词条对齐",
+        "最终状态及译文影响": "`provisional`；保持“对象化的”"
+      }
+    },
+    {
+      "proposal_id": "legacy-047",
+      "term_ids": [],
+      "target_author_ids": [
+        "maidansky"
+      ],
+      "canonical": "присвоение",
+      "forms": [],
+      "suggested_zh": "掌握",
+      "operations": [
+        "add"
+      ],
+      "before": "`add` Maidansky `appropriation`；文化掌握与经济占有分语境",
+      "after": "`add` Maidansky `appropriation`；文化掌握与经济占有分语境",
+      "article_evidence": {
+        "summary": "1；块 45"
+      },
+      "corpus_evidence": {
+        "summary": "M 40/11；I 75/29",
+        "representative_contexts": []
+      },
+      "rationale": "`add` Maidansky `appropriation`；文化掌握与经济占有分语境",
+      "final_status_by_author": {
+        "legacy": "provisional"
+      },
+      "affected_translation_locations": [],
+      "affected_translation_summary": "`provisional`；保持“掌握”",
+      "heuristic_forms_pending": [],
+      "legacy_cells": {
+        "#": "47",
+        "候选与建议译法": "`присвоение` → 掌握",
+        "本文频次与全部位置": "1；块 45",
+        "作者语料频次": "M 40/11；I 75/29",
+        "操作、修改前 → 修改后与理由": "`add` Maidansky `appropriation`；文化掌握与经济占有分语境",
+        "最终状态及译文影响": "`provisional`；保持“掌握”"
+      }
+    },
+    {
+      "proposal_id": "legacy-048",
+      "term_ids": [],
+      "target_author_ids": [],
+      "canonical": "деятельные силы",
+      "forms": [],
+      "suggested_zh": "能动力量",
+      "operations": [
+        "reject"
+      ],
+      "before": "`reject`：篇章依赖强，尚不足以从“活动力量/能动力量”中定型",
+      "after": "`reject`：篇章依赖强，尚不足以从“活动力量/能动力量”中定型",
+      "article_evidence": {
+        "summary": "1；块 38"
+      },
+      "corpus_evidence": {
+        "summary": "M 2/2；I 16/11",
+        "representative_contexts": []
+      },
+      "rationale": "`reject`：篇章依赖强，尚不足以从“活动力量/能动力量”中定型",
+      "final_status_by_author": {},
+      "affected_translation_locations": [],
+      "affected_translation_summary": "`not_applicable`；本篇暂保留“能动力量”",
+      "heuristic_forms_pending": [],
+      "legacy_cells": {
+        "#": "48",
+        "候选与建议译法": "`деятельные силы` → 能动力量",
+        "本文频次与全部位置": "1；块 38",
+        "作者语料频次": "M 2/2；I 16/11",
+        "操作、修改前 → 修改后与理由": "`reject`：篇章依赖强，尚不足以从“活动力量/能动力量”中定型",
+        "最终状态及译文影响": "`not_applicable`；本篇暂保留“能动力量”"
+      }
+    },
+    {
+      "proposal_id": "legacy-049",
+      "term_ids": [],
+      "target_author_ids": [
+        "spinoza"
+      ],
+      "canonical": "страсти души / рабство аффектов",
+      "forms": [],
+      "suggested_zh": "心灵的激情/情感的奴役",
+      "operations": [
+        "reject"
+      ],
+      "before": "`reject` 独立合并条目：两个短语不构成同一术语，已有 `soul`、`affect` 和 Spinoza `affectus` 约束",
+      "after": "`reject` 独立合并条目：两个短语不构成同一术语，已有 `soul`、`affect` 和 Spinoza `affectus` 约束",
+      "article_evidence": {
+        "summary": "各 1；块 41"
+      },
+      "corpus_evidence": {
+        "summary": "M 4/4、1/1",
+        "representative_contexts": []
+      },
+      "rationale": "`reject` 独立合并条目：两个短语不构成同一术语，已有 `soul`、`affect` 和 Spinoza `affectus` 约束",
+      "final_status_by_author": {},
+      "affected_translation_locations": [],
+      "affected_translation_summary": "`not_applicable`；本篇保持现译",
+      "heuristic_forms_pending": [],
+      "legacy_cells": {
+        "#": "49",
+        "候选与建议译法": "`страсти души / рабство аффектов` → 心灵的激情/情感的奴役",
+        "本文频次与全部位置": "各 1；块 41",
+        "作者语料频次": "M 4/4、1/1",
+        "操作、修改前 → 修改后与理由": "`reject` 独立合并条目：两个短语不构成同一术语，已有 `soul`、`affect` 和 Spinoza `affectus` 约束",
+        "最终状态及译文影响": "`not_applicable`；本篇保持现译"
+      }
+    }
+  ],
+  "owner_review": {
+    "status": "approved",
+    "reviewer": "hoshF",
+    "reviewed_at": "2026-07-27",
+    "note": "由原 Markdown 审核记录迁移；不表示正式翻译项目 reviewed 状态。"
+  },
+  "legacy_migration": {
+    "source_sha256": "3df924e517d7bb717de9b81035a1951cb208748dbab93189a057867e373286a1",
+    "source_heading": "2026-07-27 — `maidansky` / `ontogenez-chelovecheskoi-psihiki-i-yazyka-v-rabotah-e-v-ilenkova` / `ontogenesis-human-psyche-language-in-ilyenkov`",
+    "sections": {
+      "批次信息": "- 审核者：Codex（俄文原文—中文译稿 47 个正文内容块逐项对照，并复核注释、参考文献和英文重复摘要）\n- 原文：`maidansky_markdown/maidansky_md/kulturno-istoricheskaya-psihologiya/kulturno-istoricheskaya-psihologiya-ontogenez-chelovecheskoi-psihiki-i-yazyka-v-rabotah-e-v-ilenkova.md`；术语位置按从俄文标题起、截至脚注末尾的稳定内容块编号\n- 译文：待发布文章 `ontogenesis-human-psyche-language-in-ilyenkov`；逐段审校稿保留原刊页码标记和内部来源元数据，博客稿另行清理\n- 正式术语表：`maidansky_markdown/metadata/glossary.json`\n- 关联术语表：`ilyenkov_markdown/metadata/glossary.json`、`vygotsky_markdown/metadata/glossary.json`、`spinoza_markdown/metadata/glossary.json`\n- 建议表：`《伊里因科夫著作中的人类心理与语言的个体发生》术语收录建议表.md`\n- 频次口径：本文合并俄语屈折词形，范围为标题、俄文摘要、关键词、正文和脚注；作者语料统计 83 篇 Maidansky Markdown 或 4 篇 Vygotsky 文本见证，去除 front matter 和首个参考文献区之后的内容\n- 批次结论：Maidansky glossary 新增 26、修改 4、删除 0、状态调整 0；Vygotsky glossary 新增 9；16 项建议因重复、可组合、标准固定或篇章依赖而拒绝另立词条",
+      "逐项审定": "表中 `M`、`V`、`I` 分别表示 Maidansky、Vygotsky、Ilyenkov 作者语料；“拒绝”是拒绝\n**另立词条**，不表示否定该处译文。本文位置列出了候选全部命中块；短语命中属于组成词命中的\n子集，不相加。",
+      "译文实质修改": "- 将名词性 `идеальное` 的“观念性东西”改为项目批准的“观念的东西”，形容词短语\n  `идеальные формы` 改为“观念形式”；英文摘要的 `system of values` 仍忠实保留为“价值系统”。\n- 将关键词和 `образ / психический образ / образ чувств` 的概念用例按上下文改为“形象、\n  心理形象、感性形象”，不接受建议表的一律“表象”方案。\n- 修正《论梅谢里亚科夫的工作》引文中主体—客体句的错误句法：原译误成“区分对象本身的\n  行为”，现改为“把主体（行动）同客体即对象本身区别开来的活动”。\n- 修正“普遍原则”“以对象性活动为基础的交往”“词的手指语/书写/有声形式”“以社会关系\n  网络为中介”“具体普遍的条件/形式”等语义或中文表达问题。\n- 正文首字母按项目体例音译；十卷本文集中的 `Э.И.` 异常不擅自改成 `Э.В.`，而明确标注\n  “姓名首字母原文如此”。\n- 俄中结构仍为 47 个正文内容块；7 条脚注和两套各 16 条参考文献完整。未伪造正式翻译项目\n  的 `reviewed` 状态。",
+      "验证与版本": "- 生成视图：已生成，`render_glossaries.py --check` 通过\n- glossary 检查：`check_glossaries.py --check` 通过（5 份 glossary，0 errors）\n- prompt 模板检查：`render_prompt_template.py --check` 通过\n- 翻译项目检查：`check_translations.py --check` 通过（1 个项目，0 errors）\n- collection 与项目文档检查：`manage_collections.py check`、`check_project_docs.py` 均通过\n- commit：待本批独立提交\n- push：本地 `main` 在本批开始前已有 2 个未推送提交，须在推送前由项目所有者明确处理"
+    },
+    "decision_rows": 49
+  }
+}

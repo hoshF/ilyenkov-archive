@@ -17,7 +17,7 @@ from collection_registry import collection_for_path, corpus_paths
 ROOT = Path(__file__).resolve().parents[1]
 SKIP_PARTS = {
     ".git", ".github", ".obsidian", ".codex", ".fulltext", "node_modules", "dist",
-    "cache", "digitization", "source_scans", "source_pdfs",
+    "cache", "digitization", "source_scans", "source_pdfs", "tmp",
 }
 METADATA_DATE = "2026-06-11"
 
@@ -63,6 +63,15 @@ HUMAN_COLLATED_OCR_STATUS = "ocr_draft_human_collated"
 HUMAN_VERIFIED_OCR_STATUS = "ocr_human_verified"
 HUMAN_VERIFIED_OCR_STATUSES = {HUMAN_COLLATED_OCR_STATUS, HUMAN_VERIFIED_OCR_STATUS}
 HUMAN_COLLATED_OCR_PROVENANCE = "ocr_initial_then_manual_collation_against_source_images"
+CANONICAL_TRANSCRIPTION_MODE = "agent_canonical_markdown"
+LEGACY_TRANSCRIPTION_MODES = {
+    "faithful_normalized_markdown",
+    "normalized_markdown_not_diplomatic",
+    "normalized_markdown",
+}
+TRANSCRIPTION_MODES = LEGACY_TRANSCRIPTION_MODES | {CANONICAL_TRANSCRIPTION_MODE}
+CANONICAL_SOURCE_FORMATS = {"html", "native_epub", "pdf", "djvu", "image_scan"}
+BLOCK_ID_RE = re.compile(r"<!--\s*block-id:\s*(b[0-9]{4,})\s*-->")
 CHAPTER_FIELDS = ("work_id", "chapter_index", "chapter_title")
 MAX_CHAPTER_BYTES = 500_000
 TEXT_STATUSES = {
@@ -78,6 +87,7 @@ TEXT_STATUSES = {
     "partial_web_transcription",
     "source_scan_unprocessed",
     "translation_draft",
+    "translation_reviewed",
     "web_transcription_edition_identified_unverified",
     "web_transcription_unverified",
 }
@@ -131,6 +141,7 @@ def verified_ocr_entry(path: Path, root: Path = ROOT) -> dict[str, object] | Non
         if data.get("final_markdown") == rel:
             project_path = manifest_path.parent / "project.json"
             project = json.loads(project_path.read_text(encoding="utf-8")) if project_path.is_file() else {}
+            canonical_map_path = manifest_path.parent / "canonical_text_map.json"
             return {
                 "markdown_path": data.get("final_markdown"),
                 "markdown_sha256": data.get("final_markdown_sha256"),
@@ -139,14 +150,59 @@ def verified_ocr_entry(path: Path, root: Path = ROOT) -> dict[str, object] | Non
                 "manifest_type": "digitization",
                 "project_status": project.get("status"),
                 "ocr_activated": project.get("ocr_activated"),
+                "project_schema_version": project.get("schema_version"),
+                "output_profile": project.get("output_profile"),
+                "canonical_map_valid": canonical_text_map_matches(
+                    path,
+                    canonical_map_path,
+                    data,
+                    root,
+                ),
             }
     return None
 
 
+def canonical_text_map_matches(
+    markdown_path: Path,
+    map_path: Path,
+    verification: dict[str, object],
+    root: Path = ROOT,
+) -> bool:
+    if not map_path.is_file():
+        return False
+    try:
+        canonical_map = json.loads(map_path.read_text(encoding="utf-8"))
+    except (json.JSONDecodeError, OSError):
+        return False
+    rel = relative_name(markdown_path, root)
+    if (
+        canonical_map.get("schema_version") != 1
+        or canonical_map.get("final_markdown") != rel
+        or canonical_map.get("final_markdown_sha256") != sha256(markdown_path)
+        or canonical_map.get("final_markdown_sha256") != verification.get("final_markdown_sha256")
+    ):
+        return False
+    markdown_ids = BLOCK_ID_RE.findall(markdown_path.read_text(encoding="utf-8"))
+    blocks = canonical_map.get("blocks")
+    if not markdown_ids or len(markdown_ids) != len(set(markdown_ids)) or not isinstance(blocks, list):
+        return False
+    mapped_ids = [
+        block.get("block_id")
+        for block in blocks
+        if isinstance(block, dict) and isinstance(block.get("block_id"), str)
+    ]
+    return len(mapped_ids) == len(set(mapped_ids)) and set(markdown_ids) == set(mapped_ids)
+
+
 def is_corpus_markdown(path: Path, root: Path = ROOT) -> bool:
     rel = relative_name(path, root)
-    prefixes = corpus_paths(root) + TRANSLATION_PREFIXES
-    return rel.startswith(prefixes) and path.name.lower() != "readme.md"
+    translation_artifact = (
+        rel.startswith(TRANSLATION_PREFIXES)
+        and path.name.lower() in {"draft.md", "final.md"}
+    )
+    return (
+        rel.startswith(corpus_paths(root)) or translation_artifact
+    ) and path.name.lower() != "readme.md"
 
 
 def has_front_matter(text: str) -> bool:
@@ -431,6 +487,16 @@ def validate_file(path: Path, text: str, root: Path = ROOT) -> list[str]:
     source_format = metadata.get("source_format")
     if source_format and source_format not in SOURCE_FORMATS:
         errors.append(f"{rel}: invalid source_format={source_format}")
+    transcription_mode = metadata.get("transcription_mode")
+    if transcription_mode and transcription_mode not in TRANSCRIPTION_MODES:
+        errors.append(f"{rel}: invalid transcription_mode={transcription_mode}")
+    if (
+        transcription_mode == CANONICAL_TRANSCRIPTION_MODE
+        and source_format not in CANONICAL_SOURCE_FORMATS
+    ):
+        errors.append(
+            f"{rel}: agent_canonical_markdown requires an HTML, EPUB, PDF, DjVu, or image source"
+        )
     for field in BOOLEAN_FIELDS:
         value = metadata.get(field)
         if value and value not in {"true", "false"}:
@@ -468,6 +534,18 @@ def validate_file(path: Path, text: str, root: Path = ROOT) -> list[str]:
         and metadata.get("provenance") != HUMAN_COLLATED_OCR_PROVENANCE
     ):
         errors.append(f"{rel}: verified OCR requires permanent OCR provenance")
+    if (
+        metadata.get("text_status") in HUMAN_VERIFIED_OCR_STATUSES
+        and source_format in {"pdf", "djvu", "image_scan"}
+    ):
+        verified_entry = verified_ocr_entry(path, root)
+        if verified_entry and verified_entry.get("project_schema_version") == 2:
+            if transcription_mode != CANONICAL_TRANSCRIPTION_MODE:
+                errors.append(f"{rel}: verified v2 digitization requires agent_canonical_markdown")
+            if verified_entry.get("output_profile") != CANONICAL_TRANSCRIPTION_MODE:
+                errors.append(f"{rel}: verified v2 digitization has an invalid output_profile")
+            if verified_entry.get("canonical_map_valid") is not True:
+                errors.append(f"{rel}: verified v2 digitization requires a valid canonical_text_map.json")
     if metadata.get("core_corpus_eligible") == "true" and metadata.get("source_format") == "image_scan":
         entry = verified_ocr_entry(path, root)
         if metadata.get("text_status") not in HUMAN_VERIFIED_OCR_STATUSES:

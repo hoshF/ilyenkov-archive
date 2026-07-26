@@ -1,7 +1,7 @@
 ---
 title: "Collection Architecture And Extension Guide"
 created: "2026-06-21"
-updated: "2026-07-01"
+updated: "2026-07-18"
 type: "project"
 tags: ["collections", "architecture", "corpus", "maintenance"]
 language: "en"
@@ -99,3 +99,11 @@ translation_workspace/<stage>/<author_id>/<work_id>/
 Each project keeps `translation.json` with the source path, version, and SHA-256. The schema and
 template are `metadata/schemas/translation_project.schema.json` and
 `translation_workspace/templates/translation.json`.
+
+Create a translation record with `scripts/manage_collections.py init-translation`. Translation
+sources must be visible corpus Markdown read by GBrain, never `.fulltext/`, source snapshots,
+scans, or digitization isolation files. Split long works remain governed by `work_manifest.json`;
+translation units select non-overlapping Markdown block ranges from those visible chapter files so
+semantic chapters do not have to mirror technical file-size splits. One semantic unit may bind
+multiple ordered segments from the same work manifest. Validate the complete workflow with
+`scripts/check_translations.py --check`.

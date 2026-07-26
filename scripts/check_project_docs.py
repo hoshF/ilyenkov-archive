@@ -149,7 +149,7 @@ MISSION_REQUIREMENTS = {
         "# Operations Checklist",
         "## 1. Adding Corpus Markdown",
         "## 2. Adding Source Scans",
-        "## 3. Public Release",
+        "Public Release",
     ),
     "AGENTS.md": ("source-text digitization and research platform", "Chinese translation"),
     "TRANSLATION_PLAN.md": ("长期重点", "伊里因科夫", "选择性翻译"),
@@ -444,6 +444,72 @@ def claude_errors(root: Path) -> list[str]:
     return errors
 
 
+def handoff_length_errors(root: Path) -> list[str]:
+    """交接手册不得随章数增长。
+
+    HANDOFF.md 每个新会话都要读一遍，是启动开销里唯一按进度线性增长的部分。
+    它一度累积到 453 行（其中进度快照 305 行），而那些内容的正本本来就在
+    units/chNNN/issues.md、translation.json、DECISIONS.md 与术语表里。
+    文字规则挡不住这类回潮（错误清单第 27 条已有先例），所以改为机器检查。
+    """
+
+    path = root / "translation_workspace" / "HANDOFF.md"
+    if not path.is_file():
+        return ["缺少 translation_workspace/HANDOFF.md"]
+    lines = path.read_text(encoding="utf-8").splitlines()
+    errors: list[str] = []
+    if len(lines) > 220:
+        errors.append(
+            f"HANDOFF.md 共 {len(lines)} 行，超过 220 行上限："
+            "逐章记录应写进 units/chNNN/issues.md，本文件只留“下一步”"
+        )
+    section: str | None = None
+    section_lines = 0
+    for line in lines + ["## "]:
+        if line.startswith("## "):
+            if section and section_lines > 60:
+                errors.append(
+                    f"HANDOFF.md 的“{section}”共 {section_lines} 行，超过 60 行上限："
+                    "本节写成了逐章日志，请移回对应的 issues.md"
+                )
+            section = line[3:].strip()
+            section_lines = 0
+        else:
+            section_lines += 1
+    return errors
+
+
+def decisions_numbering_errors(root: Path) -> list[str]:
+    """DECISIONS.md 的裁定编号必须唯一。
+
+    编号是这份索引唯一的寻址方式：各章 issues.md、glossary.json 的 notes、起草 prompt
+    都用“DECISIONS 第 N 行”互相引用。编号一旦重复，这些引用就指向两处不同的裁定，
+    而引用方无从察觉——ch033 的 issues.md 与 ch035 的 issues.md 都写着“第 52 行”，
+    指的却分别是 `природа` 两义 与 三个“反”字，重号存在了两章之久无人发现（2026-07-24 修）。
+    追加一行时凭记忆续号必然再犯，故改为机器检查。
+    """
+
+    path = root / "translation_workspace" / "DECISIONS.md"
+    if not path.is_file():
+        return ["缺少 translation_workspace/DECISIONS.md"]
+    seen: dict[int, int] = {}
+    errors: list[str] = []
+    for lineno, line in enumerate(path.read_text(encoding="utf-8").splitlines(), 1):
+        match = re.match(r"^\| (\d+) \|", line)
+        if not match:
+            continue
+        number = int(match.group(1))
+        if number in seen:
+            errors.append(
+                f"DECISIONS.md 第 {number} 号裁定重复："
+                f"第 {seen[number]} 行与第 {lineno} 行同号，"
+                "各章 issues.md 用编号互相引用，重号会让引用指向两处不同的裁定"
+            )
+        else:
+            seen[number] = lineno
+    return errors
+
+
 def agents_errors(root: Path) -> list[str]:
     path = root / "AGENTS.md"
     if not path.is_file():
@@ -689,6 +755,8 @@ def check(root: Path = ROOT) -> list[str]:
     errors: list[str] = []
     errors.extend(local_link_errors(root, controlled_documents()))
     errors.extend(claude_errors(root))
+    errors.extend(handoff_length_errors(root))
+    errors.extend(decisions_numbering_errors(root))
     errors.extend(agents_errors(root))
     errors.extend(terminology_errors(root))
     errors.extend(status_snapshot_errors(root))

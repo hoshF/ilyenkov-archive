@@ -164,6 +164,20 @@ def export_decision(
 
 
 def source_files(root: Path) -> list[Path]:
+    tracked = subprocess.run(
+        ["git", "-C", str(root), "ls-files", "-z"],
+        capture_output=True,
+    )
+    if tracked.returncode == 0:
+        return sorted(
+            path
+            for item in tracked.stdout.split(b"\0")
+            if item
+            for path in [root / item.decode("utf-8")]
+            if path.is_file()
+            and not path.is_symlink()
+            and not SKIP_PARTS.intersection(path.relative_to(root).parts)
+        )
     return sorted(
         path
         for path in root.rglob("*")

@@ -361,6 +361,7 @@ def convert_work(work: dict[str, str], check: bool) -> dict[str, object]:
         "source_download_url": url,
         "source_site": "RoyalLib",
         "source_format": "html",
+        "transcription_mode": "agent_canonical_markdown",
         "source_encoding": "windows-1251",
         "source_license": "not_stated",
         "conversion_date": fetched_date,

@@ -15,10 +15,11 @@ gbrain_source: "project-markdown"
 
 | 哲学家 | 视图 | 源数据 | 词条数 |
 |---|---|---|---:|
-| 埃瓦尔德·伊里因科夫 | [ilyenkov.md](ilyenkov.md) | `../../ilyenkov_markdown/metadata/glossary.json` | 34 |
-| 安德烈·迈丹斯基 | [maidansky.md](maidansky.md) | `../../maidansky_markdown/metadata/glossary.json` | 27 |
+| 埃瓦尔德·伊里因科夫 | [ilyenkov.md](ilyenkov.md) | `../../ilyenkov_markdown/metadata/glossary.json` | 71 |
+| 安德烈·迈丹斯基 | [maidansky.md](maidansky.md) | `../../maidansky_markdown/metadata/glossary.json` | 94 |
 | 巴鲁赫·斯宾诺莎 | [spinoza.md](spinoza.md) | `../../spinoza_markdown/metadata/glossary.json` | 24 |
 | 博尼法季·凯德洛夫 | [kedrov.md](kedrov.md) | `../../kedrov_markdown/metadata/glossary.json` | 25 |
+| 列夫·维果茨基 | [vygotsky.md](vygotsky.md) | `../../vygotsky_markdown/metadata/glossary.json` | 43 |
 
 ## 状态说明
 

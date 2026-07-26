@@ -1,6 +1,7 @@
 ---
 title: "已有中文译本 PDF"
 created: "2026-06-11"
+updated: "2026-07-18"
 type: "project"
 tags: ["project", "documentation"]
 language: "zh"
@@ -34,3 +35,10 @@ gbrain_source: "project-markdown"
 ## 来源说明
 
 俄文原文和大量整理资料历史上来自 `caute.ru`，当前推荐引用入口为 [filorus.ru/ilyenkov](http://filorus.ru/ilyenkov/) (at the website by Andrey Maidansky)。外部已有中文 PDF 的具体流传来源、版本质量和版权状态需要后续继续核查。
+
+## 流程边界
+
+本目录中的 PDF 是参考资料或历史编译产物，不属于 `translation_workspace` 的审校状态机。
+它们可以在 `issues.md` 中作为辅助证据引用，但不能替代原文、同作者语料和项目术语表，也
+不能仅凭文件名或排版质量认定为准确译本。需要正式纳入项目时，必须新建可追溯翻译项目并
+完成两次人工审校。

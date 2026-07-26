@@ -1,0 +1,69 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Terminology Review Audit Batch",
+  "description": "Audit-only evidence and decisions. This schema is not a glossary and never overrides glossary JSON.",
+  "type": "object",
+  "required": [
+    "schema_version",
+    "audit_only",
+    "record_format",
+    "batch_id",
+    "batch_kind",
+    "date",
+    "primary_author_id",
+    "work_id",
+    "article_slug",
+    "inputs",
+    "review",
+    "operation_counts",
+    "decisions",
+    "owner_review"
+  ],
+  "additionalProperties": true,
+  "properties": {
+    "schema_version": {
+      "const": 1
+    },
+    "audit_only": {
+      "const": true
+    },
+    "record_format": {
+      "enum": ["native", "legacy_migrated"]
+    },
+    "batch_id": {
+      "type": "string",
+      "pattern": "^\\d{4}-\\d{2}-\\d{2}-[a-z0-9][a-z0-9-]*$"
+    },
+    "batch_kind": {
+      "enum": ["article_review", "glossary_initialization"]
+    },
+    "date": {
+      "type": "string",
+      "pattern": "^\\d{4}-\\d{2}-\\d{2}$"
+    },
+    "primary_author_id": {
+      "type": "string"
+    },
+    "work_id": {
+      "type": "string"
+    },
+    "article_slug": {
+      "type": "string"
+    },
+    "inputs": {
+      "type": "array"
+    },
+    "review": {
+      "type": "object"
+    },
+    "operation_counts": {
+      "type": "object"
+    },
+    "decisions": {
+      "type": "array"
+    },
+    "owner_review": {
+      "type": "object"
+    }
+  }
+}

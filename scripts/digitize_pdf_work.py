@@ -20,12 +20,20 @@ from typing import Any
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 from collection_registry import collection_for_path, load_registry
-from manage_collections import source_scan_entry
+from manage_collections import (
+    CANONICAL_BLOCK_KINDS,
+    TEXTUAL_NOTE_CATEGORIES,
+    duplicate_footnote_ids,
+    inline_page_boundary_markers,
+    source_scan_entry,
+)
 
 
 ROOT = Path(__file__).resolve().parents[1]
 PROVENANCE = "ocr_initial_then_manual_collation_against_source_images"
+OUTPUT_PROFILE = "agent_canonical_markdown"
 FORBIDDEN_PATH_PATTERNS = ("/Users/", ".codex/attachments")
+BLOCK_ID_RE = re.compile(r"<!--\s*block-id:\s*(b[0-9]{4,})\s*-->")
 
 
 class DigitizationError(ValueError):
@@ -90,8 +98,208 @@ def strip_front_matter(text: str) -> str:
     return text[match.end() :].lstrip("\n") if match else text
 
 
-def strip_html_comments(text: str) -> str:
-    return re.sub(r"<!--.*?-->\s*", "", text, flags=re.DOTALL)
+def strip_workflow_comment(text: str) -> str:
+    return re.sub(
+        r"<!--\s*Experimental digitizable-PDF workflow:.*?-->\s*",
+        "",
+        text,
+        count=1,
+        flags=re.DOTALL,
+    )
+
+
+def markdown_block_kind(lines: list[str], index: int) -> str:
+    line = lines[index]
+    if re.match(r"^#{1,6}\s+", line):
+        return "heading"
+    if re.match(r"^\[\^[^]]+\]:", line):
+        return "footnote"
+    if re.match(r"^\s*>", line):
+        return "blockquote"
+    if re.match(r"^\s*(?:[-+*]|\d+[.)])\s+", line):
+        return "list_item"
+    if line.strip().startswith(("$$", "\\[")):
+        return "formula"
+    if "|" in line and index + 1 < len(lines) and re.match(
+        r"^\s*\|?\s*:?-{3,}", lines[index + 1]
+    ):
+        return "table"
+    return "paragraph"
+
+
+def assign_block_ids(body: str) -> tuple[str, list[dict[str, Any]]]:
+    cleaned = BLOCK_ID_RE.sub("", body)
+    lines = cleaned.strip().splitlines()
+    output: list[str] = []
+    blocks: list[dict[str, Any]] = []
+    index = 0
+    block_number = 1
+    while index < len(lines):
+        if not lines[index].strip():
+            if output and output[-1] != "":
+                output.append("")
+            index += 1
+            continue
+        kind = markdown_block_kind(lines, index)
+        start = index
+        if kind == "heading":
+            index += 1
+        elif kind == "blockquote":
+            while index < len(lines) and lines[index].lstrip().startswith(">"):
+                index += 1
+        elif kind == "list_item":
+            index += 1
+            while (
+                index < len(lines)
+                and lines[index].strip()
+                and not re.match(r"^\s*(?:[-+*]|\d+[.)])\s+", lines[index])
+            ):
+                index += 1
+        elif kind == "footnote":
+            index += 1
+            while index < len(lines) and (
+                not lines[index].strip() or re.match(r"^\s{2,}\S", lines[index])
+            ):
+                index += 1
+        elif kind == "formula":
+            opener = lines[start].strip()
+            closer = "$$" if opener.startswith("$$") else "\\]"
+            index += 1
+            if opener == closer:
+                while index < len(lines):
+                    current = lines[index]
+                    index += 1
+                    if current.strip().endswith(closer):
+                        break
+        elif kind == "table":
+            while index < len(lines) and lines[index].strip() and "|" in lines[index]:
+                index += 1
+        else:
+            index += 1
+            while index < len(lines) and lines[index].strip():
+                next_kind = markdown_block_kind(lines, index)
+                if next_kind != "paragraph":
+                    break
+                index += 1
+        block_id = f"b{block_number:04d}"
+        output.extend([f"<!-- block-id: {block_id} -->", *lines[start:index], ""])
+        blocks.append({"block_id": block_id, "kind": kind, "source_locators": []})
+        block_number += 1
+    return "\n".join(output).rstrip() + "\n", blocks
+
+
+def validate_reviewed_map(
+    canonical_map: dict[str, Any],
+    body: str,
+    work_id: str,
+    verified_pages: list[str],
+) -> None:
+    if canonical_map.get("work_id") != work_id:
+        raise DigitizationError("canonical text map work_id does not match")
+    if canonical_map.get("schema_version") != 1:
+        raise DigitizationError("canonical text map schema_version must be 1")
+    markdown_ids = BLOCK_ID_RE.findall(body)
+    if not markdown_ids or len(markdown_ids) != len(set(markdown_ids)):
+        raise DigitizationError("reviewed Markdown must contain unique block IDs")
+    blocks = canonical_map.get("blocks")
+    if not isinstance(blocks, list) or not blocks:
+        raise DigitizationError("canonical text map must contain blocks")
+    mapped_ids = [item.get("block_id") for item in blocks if isinstance(item, dict)]
+    if len(mapped_ids) != len(blocks) or len(mapped_ids) != len(set(mapped_ids)):
+        raise DigitizationError("canonical text map contains invalid or duplicate block IDs")
+    if set(mapped_ids) != set(markdown_ids):
+        raise DigitizationError("canonical text map does not map every Markdown block")
+    valid_pages = set(verified_pages)
+    for block in blocks:
+        if block.get("kind") not in CANONICAL_BLOCK_KINDS:
+            raise DigitizationError(f"{block.get('block_id')} has an invalid block kind")
+        locators = block.get("source_locators")
+        if not isinstance(locators, list) or not locators:
+            raise DigitizationError(f"{block.get('block_id')} has no source locator")
+        if any(
+            not isinstance(locator, dict) or locator.get("scan_page_id") not in valid_pages
+            for locator in locators
+        ):
+            raise DigitizationError(f"{block.get('block_id')} refers to an unverified source page")
+    notes = canonical_map.get("textual_notes")
+    if not isinstance(notes, list):
+        raise DigitizationError("canonical text map textual_notes must be an array")
+    for note in notes:
+        if not isinstance(note, dict) or note.get("block_id") not in set(mapped_ids):
+            raise DigitizationError("canonical text map has a textual note for an unmapped block")
+        if note.get("category") not in TEXTUAL_NOTE_CATEGORIES:
+            raise DigitizationError("canonical text map has an invalid textual note category")
+        if any(not isinstance(note.get(field), str) for field in (
+            "source_reading", "canonical_reading", "rationale"
+        )):
+            raise DigitizationError("canonical text map has an incomplete textual note")
+        locators = note.get("source_locators")
+        if not isinstance(locators, list) or not locators or any(
+            not isinstance(locator, dict) or locator.get("scan_page_id") not in valid_pages
+            for locator in locators
+        ):
+            raise DigitizationError("canonical text map textual note has an invalid source page")
+
+
+def write_review_packet(
+    root: Path,
+    args: argparse.Namespace,
+    source: Path,
+    draft: Path,
+    canonical_map: Path,
+    project_dir: Path,
+) -> Path | None:
+    review_dir = review_packet_dir(args)
+    if review_dir is None:
+        return None
+    if review_dir.exists():
+        raise DigitizationError(f"review folder already exists: {review_dir}")
+    review_dir.mkdir(parents=True)
+    copies = [
+        (source, review_dir / source.name),
+        (draft, review_dir / draft.name),
+        (canonical_map, review_dir / canonical_map.name),
+    ]
+    for original, copied in copies:
+        shutil.copyfile(original, copied)
+        if sha256(original) != sha256(copied):
+            raise DigitizationError(f"review packet copy hash mismatch: {copied.name}")
+    instructions = review_dir / "REVIEW_INSTRUCTIONS.md"
+    instructions.write_text(
+        "# Digitization Review\n\n"
+        "Compare every source page with the Markdown. Preserve complete wording, semantic "
+        "structure, meaningful emphasis, quotations, unique footnotes, tables, formulas, and "
+        "references while removing layout-only artifacts and OCR noise. Complete every "
+        "`source_locators` entry in `canonical_text_map.json`, record clear source typos and "
+        "uncertain readings, and do not remove or duplicate block IDs. Do not insert page markers "
+        "inside semantic text. Return the reviewed Markdown and map together.\n",
+        encoding="utf-8",
+    )
+    downloads_root = review_dir.parent
+    default_downloads = (Path.home() / "Downloads").resolve()
+    recorded_dir = (
+        f"~/Downloads/{review_dir.name}"
+        if downloads_root.resolve() == default_downloads
+        else str(review_dir)
+    )
+    write_json(
+        project_dir / "review_handoff.json",
+        {
+            "schema_version": 1,
+            "review_handoff_dir": recorded_dir,
+            "files": [copied.name for _, copied in copies] + [instructions.name],
+        },
+    )
+    return review_dir
+
+
+def review_packet_dir(args: argparse.Namespace) -> Path | None:
+    if getattr(args, "no_review_package", False):
+        return None
+    downloads_root = Path(
+        getattr(args, "downloads_root", None) or (Path.home() / "Downloads")
+    ).expanduser()
+    return downloads_root / f"{args.author_id}_{args.work_id}_digitization_review"
 
 
 def parse_labeled_path(value: str) -> tuple[str, Path]:
@@ -175,6 +383,9 @@ def prepare_review(root: Path, args: argparse.Namespace) -> Path:
     ai_drafts = [parse_labeled_path(item) for item in args.ai_draft]
     if len(ai_drafts) < 2:
         raise DigitizationError("prepare-review requires at least two --ai-draft entries")
+    review_dir = review_packet_dir(args)
+    if review_dir and review_dir.exists():
+        raise DigitizationError(f"review folder already exists: {review_dir}")
     project_dir = project_dir_for(root, collection, args.work_id)
     raw_dir = project_dir / "raw_ai_conversions"
     raw_dir.mkdir(parents=True, exist_ok=True)
@@ -189,7 +400,9 @@ def prepare_review(root: Path, args: argparse.Namespace) -> Path:
 
     primary_label, primary_path, primary_sha = raw_records[0]
     secondary = [record[2] for record in raw_records[1:]]
-    body = strip_front_matter((raw_dir / primary_path.name).read_text(encoding="utf-8"))
+    body, blocks = assign_block_ids(
+        strip_front_matter((raw_dir / primary_path.name).read_text(encoding="utf-8"))
+    )
     title = args.title or str(entry.get("title") or args.work_id.replace("-", " ").title())
     author = args.author or str(entry.get("author") or "not_stated")
     source_version = args.source_version or str(entry.get("citation") or entry.get("title") or title)
@@ -208,6 +421,7 @@ def prepare_review(root: Path, args: argparse.Namespace) -> Path:
         f"rights_review_status: {q(str(entry.get('rights_review_status', 'unreviewed')))}",
         'source_format: "pdf"',
         'text_status: "human_review_draft"',
+        f'transcription_mode: "{OUTPUT_PROFILE}"',
         f"source_url: {q(source_url_from(entry))}",
         f"source_scan: {q(args.source_scan)}",
         f"source_sha256: {q(source_sha)}",
@@ -231,9 +445,29 @@ def prepare_review(root: Path, args: argparse.Namespace) -> Path:
     draft = project_dir / "human_review_draft.md"
     draft.write_text("\n".join(front_matter) + body.rstrip() + "\n", encoding="utf-8")
     assert_no_forbidden_paths(draft.read_text(encoding="utf-8"), draft.relative_to(root).as_posix())
+    canonical_map = project_dir / "canonical_text_map.json"
+    write_json(
+        canonical_map,
+        {
+            "schema_version": 1,
+            "work_id": args.work_id,
+            "final_markdown": draft.relative_to(root).as_posix(),
+            "final_markdown_sha256": sha256(draft),
+            "blocks": blocks,
+            "textual_notes": [],
+        },
+    )
 
     if args.render_pages:
         render_pdf_pages(root, args.source_scan, project_dir / "rendered_pages")
+    write_review_packet(
+        root,
+        args,
+        root / args.source_scan,
+        draft,
+        canonical_map,
+        project_dir,
+    )
     return draft
 
 
@@ -271,7 +505,11 @@ def promote_verified(root: Path, args: argparse.Namespace) -> Path:
 
     draft_text = draft.read_text(encoding="utf-8")
     draft_meta = parse_front_matter(draft_text)
-    body = strip_html_comments(strip_front_matter(draft_text)).strip()
+    body = strip_workflow_comment(strip_front_matter(draft_text)).strip()
+    if inline_page_boundary_markers(body):
+        raise DigitizationError("reviewed Markdown contains an inline page-boundary comment")
+    if duplicate_footnote_ids(body):
+        raise DigitizationError("reviewed Markdown contains duplicate footnote IDs")
     title = args.title or draft_meta.get("title") or str(entry.get("title") or args.work_id)
     author = args.author or draft_meta.get("author") or str(entry.get("author") or "not_stated")
     language = args.language or draft_meta.get("language") or "en"
@@ -282,6 +520,14 @@ def promote_verified(root: Path, args: argparse.Namespace) -> Path:
     topics = args.topics or []
     places = args.places or []
     verified_pages = parse_page_ids(args.verified_pages)
+    reviewed_map_value = getattr(args, "canonical_text_map", None)
+    map_path = Path(reviewed_map_value).expanduser() if reviewed_map_value else (
+        project_dir / "canonical_text_map.json"
+    )
+    if not map_path.is_file():
+        raise DigitizationError("promotion requires a reviewed canonical_text_map.json")
+    canonical_map = json.loads(map_path.read_text(encoding="utf-8"))
+    validate_reviewed_map(canonical_map, body, args.work_id, verified_pages)
 
     front_matter = [
         "---",
@@ -312,7 +558,7 @@ def promote_verified(root: Path, args: argparse.Namespace) -> Path:
             f"source_scan: {q(args.source_scan)}",
             f"source_sha256: {q(source_sha)}",
             f"provenance: {q(PROVENANCE)}",
-            'transcription_mode: "normalized_markdown_not_diplomatic"',
+            f'transcription_mode: "{OUTPUT_PROFILE}"',
             (
                 'editorial_note: "Generated by experimental digitizable-PDF helper; '
                 'human verification remains the source of authority."'
@@ -335,7 +581,8 @@ def promote_verified(root: Path, args: argparse.Namespace) -> Path:
     page_items = [
         {
             "scan_page_id": page_id,
-            "pdf_page_index": int(page_id.removeprefix("pdf-page-")),
+            "file_page_index": int(page_id.removeprefix("pdf-page-")) - 1,
+            "printed_page": None,
             "scope": "article",
             "status": "human_verified",
         }
@@ -388,15 +635,29 @@ def promote_verified(root: Path, args: argparse.Namespace) -> Path:
             "checks": {
                 "verified_pages": verified_pages,
                 "source_scan_sha256_verified": True,
+                "canonical_text_map_valid": True,
+                "all_mapped_pages_human_verified": True,
                 "experimental_digitizable_pdf_workflow": True,
             },
             "notes": "Experimental helper generated this report after explicit human verification.",
         },
     )
     write_json(
+        project_dir / "canonical_text_map.json",
+        {
+            **canonical_map,
+            "schema_version": 1,
+            "work_id": args.work_id,
+            "final_markdown": args.target_corpus_path,
+            "final_markdown_sha256": sha256(target),
+        },
+    )
+    handoff_path = project_dir / "review_handoff.json"
+    handoff = json.loads(handoff_path.read_text(encoding="utf-8")) if handoff_path.is_file() else {}
+    write_json(
         project_dir / "project.json",
         {
-            "schema_version": 1,
+            "schema_version": 2,
             "author_id": args.author_id,
             "work_id": args.work_id,
             "source_scan": args.source_scan,
@@ -405,11 +666,17 @@ def promote_verified(root: Path, args: argparse.Namespace) -> Path:
             "status": "human_verified",
             "created": args.date,
             "ocr_activated": True,
+            "output_profile": OUTPUT_PROFILE,
             "activation_note": (
                 "Experimental digitizable-PDF helper used after project-owner activation and "
                 f"explicit human verification on {args.date}."
             ),
             "final_markdown": args.target_corpus_path,
+            **(
+                {"review_handoff_dir": handoff["review_handoff_dir"]}
+                if isinstance(handoff.get("review_handoff_dir"), str)
+                else {}
+            ),
         },
     )
     write_json(
@@ -426,7 +693,7 @@ def promote_verified(root: Path, args: argparse.Namespace) -> Path:
             "source_scan_sha256": source_sha,
             "verified_scan_pages": verified_pages,
             "provenance": PROVENANCE,
-            "transcription_mode": "normalized_markdown_not_diplomatic",
+            "transcription_mode": OUTPUT_PROFILE,
             "rights_note": "Human verification of text accuracy does not change redistribution approval status.",
         },
     )
@@ -437,6 +704,7 @@ def promote_verified(root: Path, args: argparse.Namespace) -> Path:
         project_dir / "ocr_runs.json",
         project_dir / "ocr_review_log.json",
         project_dir / "quality_report.json",
+        project_dir / "canonical_text_map.json",
         project_dir / "human_verification_manifest.json",
     ]:
         assert_no_forbidden_paths(generated.read_text(encoding="utf-8"), generated.relative_to(root).as_posix())
@@ -465,6 +733,8 @@ def build_parser() -> argparse.ArgumentParser:
     prepare.add_argument("--source-version")
     prepare.add_argument("--date", default="2026-07-01")
     prepare.add_argument("--render-pages", action="store_true")
+    prepare.add_argument("--downloads-root")
+    prepare.add_argument("--no-review-package", action="store_true")
 
     promote = sub.add_parser("promote-verified")
     promote.add_argument("--author-id", required=True)
@@ -484,6 +754,10 @@ def build_parser() -> argparse.ArgumentParser:
     promote.add_argument("--tags", type=split_csv)
     promote.add_argument("--topics", type=split_csv)
     promote.add_argument("--places", type=split_csv)
+    promote.add_argument(
+        "--canonical-text-map",
+        help="Reviewed canonical_text_map.json; defaults to the project copy",
+    )
     return parser
 
 
@@ -498,7 +772,7 @@ def main() -> int:
         elif args.command == "promote-verified":
             path = promote_verified(root, args)
             print(f"promoted verified text: {path.relative_to(root).as_posix()}")
-    except (DigitizationError, subprocess.CalledProcessError) as error:
+    except (DigitizationError, json.JSONDecodeError, subprocess.CalledProcessError) as error:
         print(f"error: {error}", file=sys.stderr)
         return 1
     return 0

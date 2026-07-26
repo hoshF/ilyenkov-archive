@@ -4,64 +4,64 @@
       "bytes": 26315,
       "image_path": "ilyenkov_md/newspaper/images/newspaper-adskoe-plamya-i-ogon-mysli-otvet-ottsu-georgiyu.jpg",
       "output_path": "ilyenkov_md/newspaper/newspaper-adskoe-plamya-i-ogon-mysli-otvet-ottsu-georgiyu.md",
-      "reason": "User-provided recognized Markdown imported from ~/Downloads/files",
-      "source_md_path": "/Users/hoshf/Downloads/files/adskoe-plamya-i-ogon-mysli-otvet-ottsu-georgiyu.md",
+      "reason": "User-provided recognized Markdown imported from owner-provided local files",
       "status": "recognized_md_added",
-      "updated_at": "2026-06-09T02:02:52+00:00"
+      "updated_at": "2026-06-09T02:02:52+00:00",
+      "source_md_note": "owner-provided recognized Markdown; original machine-local acquisition path is intentionally not recorded"
     },
     "newspaper-dumat": {
       "bytes": 29698,
       "image_path": "ilyenkov_md/newspaper/images/newspaper-dumat.jpg",
       "output_path": "ilyenkov_md/newspaper/newspaper-dumat.md",
-      "reason": "User-provided recognized Markdown imported from ~/Downloads/files",
-      "source_md_path": "/Users/hoshf/Downloads/files/dumat.md",
+      "reason": "User-provided recognized Markdown imported from owner-provided local files",
       "status": "recognized_md_added",
-      "updated_at": "2026-06-09T02:02:52+00:00"
+      "updated_at": "2026-06-09T02:02:52+00:00",
+      "source_md_note": "owner-provided recognized Markdown; original machine-local acquisition path is intentionally not recorded"
     },
     "newspaper-estetika-oruzhie-borby": {
       "bytes": 19223,
       "image_path": "ilyenkov_md/newspaper/images/newspaper-estetika-oruzhie-borby.jpg",
       "output_path": "ilyenkov_md/newspaper/newspaper-estetika-oruzhie-borby.md",
-      "reason": "User-provided recognized Markdown imported from ~/Downloads/files",
-      "source_md_path": "/Users/hoshf/Downloads/files/estetika-oruzhie-borby.md",
+      "reason": "User-provided recognized Markdown imported from owner-provided local files",
       "status": "recognized_md_added",
-      "updated_at": "2026-06-09T02:02:52+00:00"
+      "updated_at": "2026-06-09T02:02:52+00:00",
+      "source_md_note": "owner-provided recognized Markdown; original machine-local acquisition path is intentionally not recorded"
     },
     "newspaper-gegel-i-sovremennost": {
       "bytes": 20866,
       "image_path": "ilyenkov_md/newspaper/images/newspaper-gegel-i-sovremennost.jpg",
       "output_path": "ilyenkov_md/newspaper/newspaper-gegel-i-sovremennost.md",
-      "reason": "User-provided recognized Markdown imported from ~/Downloads/files",
-      "source_md_path": "/Users/hoshf/Downloads/files/gegel-i-sovremennost.md",
+      "reason": "User-provided recognized Markdown imported from owner-provided local files",
       "status": "recognized_md_added",
-      "updated_at": "2026-06-09T02:02:52+00:00"
+      "updated_at": "2026-06-09T02:02:52+00:00",
+      "source_md_note": "owner-provided recognized Markdown; original machine-local acquisition path is intentionally not recorded"
     },
     "newspaper-gvardei-skie-minomety-vyhodyat-v-pole": {
       "bytes": 10541,
       "image_path": "ilyenkov_md/newspaper/images/newspaper-gvardei-skie-minomety-vyhodyat-v-pole.jpg",
       "output_path": "ilyenkov_md/newspaper/newspaper-gvardei-skie-minomety-vyhodyat-v-pole.md",
-      "reason": "User-provided recognized Markdown imported from ~/Downloads/files",
-      "source_md_path": "/Users/hoshf/Downloads/files/gvardeiskie-minomety-vyhodyat-v-pole.md",
+      "reason": "User-provided recognized Markdown imported from owner-provided local files",
       "status": "recognized_md_added",
-      "updated_at": "2026-06-09T02:02:52+00:00"
+      "updated_at": "2026-06-09T02:02:52+00:00",
+      "source_md_note": "owner-provided recognized Markdown; original machine-local acquisition path is intentionally not recorded"
     },
     "newspaper-mnogoznanie-umu-ne-nauchaet": {
       "bytes": 22717,
       "image_path": "ilyenkov_md/newspaper/images/newspaper-mnogoznanie-umu-ne-nauchaet.jpg",
       "output_path": "ilyenkov_md/newspaper/newspaper-mnogoznanie-umu-ne-nauchaet.md",
-      "reason": "User-provided recognized Markdown imported from ~/Downloads/files",
-      "source_md_path": "/Users/hoshf/Downloads/files/mnogoznanie-umu-ne-nauchaet.md",
+      "reason": "User-provided recognized Markdown imported from owner-provided local files",
       "status": "recognized_md_added",
-      "updated_at": "2026-06-09T02:02:52+00:00"
+      "updated_at": "2026-06-09T02:02:52+00:00",
+      "source_md_note": "owner-provided recognized Markdown; original machine-local acquisition path is intentionally not recorded"
     },
     "newspaper-moguchii-soyuznik-v-borbe-za-kommunizm": {
       "bytes": 13165,
       "image_path": "ilyenkov_md/newspaper/images/newspaper-moguchii-soyuznik-v-borbe-za-kommunizm.jpg",
       "output_path": "ilyenkov_md/newspaper/newspaper-moguchii-soyuznik-v-borbe-za-kommunizm.md",
-      "reason": "User-provided recognized Markdown imported from ~/Downloads/files",
-      "source_md_path": "/Users/hoshf/Downloads/files/moguchii-soyuznik-v-borbe-za-kommunizm.md",
+      "reason": "User-provided recognized Markdown imported from owner-provided local files",
       "status": "recognized_md_added",
-      "updated_at": "2026-06-09T02:02:52+00:00"
+      "updated_at": "2026-06-09T02:02:52+00:00",
+      "source_md_note": "owner-provided recognized Markdown; original machine-local acquisition path is intentionally not recorded"
     },
     "newspaper-muzhestvo-mysli": {
       "clean_md_path": "outputs/ilyenkov_md/dialogi-i-intervyu/dialogi-i-intervyu-muzhestvo-mysli.md",
@@ -72,10 +72,10 @@
       "bytes": 11119,
       "image_path": "ilyenkov_md/newspaper/images/newspaper-orudiya-proryva.jpg",
       "output_path": "ilyenkov_md/newspaper/newspaper-orudiya-proryva.md",
-      "reason": "User-provided recognized Markdown imported from ~/Downloads/files",
-      "source_md_path": "/Users/hoshf/Downloads/files/orudiya-proryva.md",
+      "reason": "User-provided recognized Markdown imported from owner-provided local files",
       "status": "recognized_md_added",
-      "updated_at": "2026-06-09T02:02:52+00:00"
+      "updated_at": "2026-06-09T02:02:52+00:00",
+      "source_md_note": "owner-provided recognized Markdown; original machine-local acquisition path is intentionally not recorded"
     },
     "newspaper-pravo-na-tvorchestvo": {
       "clean_md_path": "outputs/ilyenkov_md/dialogi-i-intervyu/dialogi-i-intervyu-pravo-na-tvorchestvo.md",
@@ -91,46 +91,46 @@
       "bytes": 9463,
       "image_path": "ilyenkov_md/newspaper/images/newspaper-u-miniatyur-poligona.jpg",
       "output_path": "ilyenkov_md/newspaper/newspaper-u-miniatyur-poligona.md",
-      "reason": "User-provided recognized Markdown imported from ~/Downloads/files",
-      "source_md_path": "/Users/hoshf/Downloads/files/u-miniatyur-poligona.md",
+      "reason": "User-provided recognized Markdown imported from owner-provided local files",
       "status": "recognized_md_added",
-      "updated_at": "2026-06-09T02:02:52+00:00"
+      "updated_at": "2026-06-09T02:02:52+00:00",
+      "source_md_note": "owner-provided recognized Markdown; original machine-local acquisition path is intentionally not recorded"
     },
     "newspaper-v-shkole-serzhantov": {
       "bytes": 9818,
       "image_path": "ilyenkov_md/newspaper/images/newspaper-v-shkole-serzhantov.jpg",
       "output_path": "ilyenkov_md/newspaper/newspaper-v-shkole-serzhantov.md",
-      "reason": "User-provided recognized Markdown imported from ~/Downloads/files",
-      "source_md_path": "/Users/hoshf/Downloads/files/v-shkole-serzhantov.md",
+      "reason": "User-provided recognized Markdown imported from owner-provided local files",
       "status": "recognized_md_added",
-      "updated_at": "2026-06-09T02:02:52+00:00"
+      "updated_at": "2026-06-09T02:02:52+00:00",
+      "source_md_note": "owner-provided recognized Markdown; original machine-local acquisition path is intentionally not recorded"
     },
     "newspaper-velikii-gumanist": {
       "bytes": 10917,
       "image_path": "ilyenkov_md/newspaper/images/newspaper-velikii-gumanist.jpg",
       "output_path": "ilyenkov_md/newspaper/newspaper-velikii-gumanist.md",
-      "reason": "User-provided recognized Markdown imported from ~/Downloads/files",
-      "source_md_path": "/Users/hoshf/Downloads/files/velikii-gumanist.md",
+      "reason": "User-provided recognized Markdown imported from owner-provided local files",
       "status": "recognized_md_added",
-      "updated_at": "2026-06-09T02:02:52+00:00"
+      "updated_at": "2026-06-09T02:02:52+00:00",
+      "source_md_note": "owner-provided recognized Markdown; original machine-local acquisition path is intentionally not recorded"
     },
     "newspaper-zanyatiya-po-strelkovo-artillerii-skoi-podgotovke": {
       "bytes": 8740,
       "image_path": "ilyenkov_md/newspaper/images/newspaper-zanyatiya-po-strelkovo-artillerii-skoi-podgotovke.jpg",
       "output_path": "ilyenkov_md/newspaper/newspaper-zanyatiya-po-strelkovo-artillerii-skoi-podgotovke.md",
-      "reason": "User-provided recognized Markdown imported from ~/Downloads/files",
-      "source_md_path": "/Users/hoshf/Downloads/files/zanyatiya-po-strelkovo-artilleriiskoi-podgotovke.md",
+      "reason": "User-provided recognized Markdown imported from owner-provided local files",
       "status": "recognized_md_added",
-      "updated_at": "2026-06-09T02:02:52+00:00"
+      "updated_at": "2026-06-09T02:02:52+00:00",
+      "source_md_note": "owner-provided recognized Markdown; original machine-local acquisition path is intentionally not recorded"
     },
     "newspaper-znanie-i-myshlenie": {
       "bytes": 23332,
       "image_path": "ilyenkov_md/newspaper/images/newspaper-znanie-i-myshlenie.jpg",
       "output_path": "ilyenkov_md/newspaper/newspaper-znanie-i-myshlenie.md",
-      "reason": "User-provided recognized Markdown imported from ~/Downloads/files",
-      "source_md_path": "/Users/hoshf/Downloads/files/znanie-i-myshlenie.md",
+      "reason": "User-provided recognized Markdown imported from owner-provided local files",
       "status": "recognized_md_added",
-      "updated_at": "2026-06-09T02:02:52+00:00"
+      "updated_at": "2026-06-09T02:02:52+00:00",
+      "source_md_note": "owner-provided recognized Markdown; original machine-local acquisition path is intentionally not recorded"
     }
   }
 }

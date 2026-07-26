@@ -1,7 +1,7 @@
 ---
 title: "Scan Digitization Workflow"
 created: "2026-06-21"
-updated: "2026-07-01"
+updated: "2026-07-27"
 type: "project"
 status: "approved-workflow-work-activated"
 tags: ["source-scan", "ocr", "human-collation", "workflow"]
@@ -76,6 +76,14 @@ If any requirement is unmet, keep the file as an unprocessed scan.
 
 ## 3. Standard Workflow
 
+Newly activated projects use `project.json` schema v2 and
+`output_profile: "agent_canonical_markdown"`. Existing schema v1 projects continue under their
+recorded legacy rules. The v2 workflow is:
+
+source registration and activation → dual OCR or structured conversion → semantic normalization →
+stable block IDs → source mapping and textual notes → page-by-page human review → automated quality
+checks → owner handoff → promotion, commit, and recoverable cleanup.
+
 ### 3.1 Immutable Baseline
 
 Keep the source file unchanged. Record its SHA-256, tool versions, date, and configuration in an
@@ -117,7 +125,38 @@ The reviewer sees the scan and both raw outputs. Each correction records page ID
 final text, reasoning, reviewer, and date. Mark unreadable content; do not guess. Models may suggest
 readings but cannot make the final decision.
 
-### 3.6 Automated Quality Report
+The reviewed body follows the agent-canonical profile: preserve all words, semantic paragraphs,
+heading hierarchy, quotations, meaningful emphasis, note relationships, tables, formulas, and
+references. Remove line-wrap artifacts, page-break hyphenation, running heads and footers,
+non-semantic decoration, and OCR noise. Markdown footnote IDs are unique across the work and do not
+imitate display numbers that restart on each page.
+
+Correct an evident source typo in the canonical body only when the reading is unambiguous, and
+record the source and canonical readings in `canonical_text_map.json`. Preserve an ambiguous
+reading and record it as `uncertain_reading`; do not guess.
+
+### 3.6 Canonical Blocks And Source Map
+
+Place a stable marker such as `<!-- block-id: b0001 -->` immediately before every heading,
+paragraph, quotation, list item, footnote, table, and formula. IDs are unique within the work and
+must not be reused after later editorial changes.
+
+Create `canonical_text_map.json` and map every block to one or more source locations. Scan
+locators use page IDs present in `page_map.json`; structured-source locators use an HTML fragment or
+EPUB location. The map binds the final Markdown path and SHA-256 and records only material textual
+decisions:
+
+- `source_typo`
+- `source_anomaly`
+- `uncertain_reading`
+- `editorial_expansion`
+
+Each textual note records its block ID, source reading, canonical reading, source location, and
+rationale. Do not log ordinary whitespace, line-wrap, hyphenation, or layout cleanup item by item.
+Page information belongs in the sidecar map: do not insert page-boundary comments inside a word,
+sentence, or semantic block.
+
+### 3.7 Automated Quality Report
 
 Generate `quality_report.json` covering:
 
@@ -130,13 +169,13 @@ Generate `quality_report.json` covering:
 
 Multilingual quotations require language-aware checks or explicit allowlists.
 
-### 3.7 Content And Structure Validation
+### 3.8 Content And Structure Validation
 
 Preserve raw engine output, human corrections, and clean text. Automated cleanup must produce a
 reviewable diff. Compare page-level hashes or normalized diffs as well as structural counts.
 Unexplained differences block chapter splitting.
 
-### 3.8 Reversible Chapter Splitting
+### 3.9 Reversible Chapter Splitting
 
 Split at real heading boundaries, never fixed byte or page counts. Chapters inherit source, role,
 and rights fields and add `work_id`, three-digit `chapter_index`, `chapter_title`, and traceable page
@@ -145,22 +184,61 @@ boundaries. Each chapter stays under 500,000 UTF-8 bytes.
 `work_manifest.json` records order, body boundaries, and SHA-256. Reversibility applies to the
 defined body payload; generated front matter and wrappers are removed during reconstruction.
 
-### 3.9 Isolated Storage
+### 3.10 Isolated Storage
 
 Passing automated checks does not imply complete human verification. Until every page is reviewed,
 keep `ocr_unverified` output outside GBrain with both eligibility fields set to `false`.
 
-### 3.10 Promotion
+### 3.11 Owner Review Handoff Copy
+
+After the review draft and quality report are ready, create a new work-specific folder under the
+project owner's `~/Downloads/` directory. Copy all of the following files into it:
+
+- the registered source PDF, unchanged;
+- the isolated Markdown file awaiting human review.
+- `canonical_text_map.json`;
+- a concise review note describing the agent-canonical rules, open textual questions, and the files
+  that must be returned.
+
+Use a stable folder name based on the author and work ID, preserve descriptive filenames, and
+verify that each copy has the same SHA-256 as its repository source. Do not overwrite an existing
+review folder without owner instruction.
+
+The Downloads folder is a convenience packet for side-by-side review, not a source of record.
+Corrections made to the copied Markdown do not change the repository draft until they are
+explicitly reconciled. Creating the packet does not alter text status, eligibility, rights review,
+or redistribution approval.
+
+### 3.12 Promotion
 
 Human review covers every scan page, not only risk and sample pages. The owner reviews the
 verification manifest; machine checks must match source scan, final Markdown, page map, coverage,
-and hashes before promotion. Only authorial-language texts may be promoted to `author_original`;
-digitized research remains `text_role: "research"` and outside the core corpus.
+canonical block map, quality report, and hashes before promotion. Every mapped scan page must be
+included in the completed human verification scope. Only authorial-language texts may be promoted
+to `author_original`; digitized research remains `text_role: "research"` and outside the core
+corpus.
 
 Any later body change invalidates the final hash and requires renewed verification. A partial edit
 cannot silently retain whole-book verification.
 
-## 3.11 Experimental Digitizable PDF Helper
+### 3.13 Post-Commit Review Folder Cleanup
+
+After the owner confirms that human review is complete:
+
+1. compare the Markdown in the Downloads review folder with the repository draft and reconcile all
+   owner edits before promotion;
+2. complete the required verification records and repository checks;
+3. commit the reviewed work as a logically scoped Git change;
+4. only after the commit succeeds, confirm that the cleanup target exactly matches the
+   work-specific folder recorded in `project.json`;
+5. move that Downloads review folder to the system Trash and report both the commit and cleanup.
+
+Never clean up the folder before the reviewed Markdown has been reconciled and the commit has
+succeeded. If reconciliation, validation, or commit fails, retain the folder unchanged. Moving to
+Trash is the default recoverable deletion method; permanent deletion requires a separate explicit
+owner instruction.
+
+### 3.14 Experimental Digitizable PDF Helper
 
 `scripts/digitize_pdf_work.py` is an experimental, unstable helper for a narrow case: registered
 PDFs that already have usable AI/Markdown conversions and can be checked against rendered page
@@ -193,6 +271,7 @@ The implemented schemas cover:
 
 - source scan manifest;
 - `page_map.json`;
+- `canonical_text_map.json`;
 - two raw OCR streams and execution metadata;
 - page-level diff and risk classification;
 - `ocr_review_log.json`;
@@ -208,6 +287,10 @@ completeness. `scripts/prepare_gbrain_markdown.py` and manifest checks enforce t
 - No OCR without work-level activation.
 - No controlled, encrypted, or access-bypassed source.
 - No OCR in the corpus or GBrain before complete page-by-page review.
+- Every human-review handoff includes matching PDF, Markdown, canonical map, and review note copies
+  in a new work-specific `~/Downloads/` folder; those copies are non-authoritative.
+- Owner confirmation that human review is complete authorizes reconciliation, validation, commit,
+  and post-commit recoverable cleanup of only the exact work-specific review folder.
 - Verified authorial-language OCR may enter the core only with permanent provenance.
 - Cleanup cannot silently add, remove, summarize, translate, or modernize text.
 - Chapter splitting must reconstruct the defined body payload.

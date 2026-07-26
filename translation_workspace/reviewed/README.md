@@ -1,6 +1,7 @@
 ---
 title: "reviewed"
 created: "2026-06-11"
+updated: "2026-07-20"
 type: "writing"
 tags: ["translation", "workspace"]
 language: "zh"
@@ -10,8 +11,11 @@ gbrain_source: "project-markdown"
 ---
 # reviewed
 
-人工读过并初步校订的中文稿目录。
+完成人工准确性审校和语言审校的中文稿目录。
 
-只有经过人工阅读和修订的译稿才进入这里。
-目录固定为 `reviewed/<author_id>/<work_id>/`，并将 `translation.json` 的
-`status` 更新为 `reviewed`。
+只有全部单元的两次审校均记录为 `passed`、两稿段落完整对应且没有未解决阻断问题的
+项目才进入这里。目录固定为 `reviewed/<author_id>/<work_id>/`，每个单元的 `status` 均为
+`reviewed`。各单元审校记录的 `scope_sha256` 必须与当前译稿文件完全一致。
+
+本目录中的 `final.md` 是排版和导出的唯一正文来源。后续发现问题时，先在 `issues.md`
+登记并将项目退回 `drafts/` 的相应状态，不能直接在 LaTeX 或 PDF 工程中修改译文。

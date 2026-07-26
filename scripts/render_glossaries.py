@@ -16,6 +16,7 @@ GLOSSARY_PATHS = (
     "maidansky_markdown/metadata/glossary.json",
     "spinoza_markdown/metadata/glossary.json",
     "kedrov_markdown/metadata/glossary.json",
+    "vygotsky_markdown/metadata/glossary.json",
 )
 CATEGORY_LABELS = {
     "person": "人物",

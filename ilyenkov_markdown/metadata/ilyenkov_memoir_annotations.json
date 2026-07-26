@@ -1,0 +1,693 @@
+{
+  "schema_version": 1,
+  "updated": "2026-07-10",
+  "work_id": "evald-ilyenkov-v-vospominaniyakh-2004",
+  "title": "Эвальд Васильевич Ильенков в воспоминаниях",
+  "annotation_policy": "Manual research annotations for navigation and bibliography only. This file does not override generated manifest records and does not promote memoirs into the Ilyenkov author-original corpus.",
+  "source_author_page": "https://filorus.ru/ilyenkov/biog/rem/auctores.html",
+  "sensitive_topic_values": [
+    "personal_life",
+    "death_circumstances",
+    "family",
+    "political_sanctions",
+    "academic_controversy"
+  ],
+  "sample_reviewed_items": [
+    "evald-ilyenkov-v-vospominaniyakh-2004-ch001",
+    "evald-ilyenkov-v-vospominaniyakh-2004-ch003",
+    "evald-ilyenkov-v-vospominaniyakh-2004-ch004",
+    "evald-ilyenkov-v-vospominaniyakh-2004-ch005",
+    "evald-ilyenkov-v-vospominaniyakh-2004-ch010",
+    "evald-ilyenkov-v-vospominaniyakh-2004-ch021"
+  ],
+  "items": [
+    {
+      "item_id": "evald-ilyenkov-v-vospominaniyakh-2004-ch001",
+      "chapter_index": "001",
+      "author": "Лобастов Г.В.",
+      "author_identity": "Doctor of philosophy, professor; president of the Philosophical Society 'Dialectics and Culture' and chair of the Ilyenkov Readings organizing committee.",
+      "relation_to_ilyenkov": "Editor-compiler of the 2004 memoir volume and organizer of Ilyenkov memorial/research activity.",
+      "title": "О воспоминаниях (предисловие)",
+      "text_type": "editorial preface",
+      "main_period": "Retrospective framing from the twenty-five years after Ilyenkov's death.",
+      "major_events": [
+        "Explains the memoir genre and the volume's purpose.",
+        "Frames Ilyenkov as a center of intellectual and personal memory.",
+        "Connects memoir writing with the need for a creative biography."
+      ],
+      "sensitive_topics": [],
+      "cross_references": [
+        "evald-ilyenkov-v-vospominaniyakh-2004-ch020",
+        "evald-ilyenkov-v-vospominaniyakh-2004-ch024"
+      ],
+      "local_path": "ilyenkov_markdown/ilyenkov_biography_md/memoirs/evald-ilyenkov-v-vospominaniyakh-2004/evald-ilyenkov-v-vospominaniyakh-2004-ch001.md",
+      "source_pages": "3-6",
+      "review_status": "sample_reviewed",
+      "review_notes": "Front matter, source citation, page range, and body start were checked; no footnotes are present."
+    },
+    {
+      "item_id": "evald-ilyenkov-v-vospominaniyakh-2004-ch002",
+      "chapter_index": "002",
+      "author": "Салимова О.И.",
+      "author_identity": "Doctor of pedagogical sciences; corresponding member of the Russian Academy of Education.",
+      "relation_to_ilyenkov": "Close memorial correspondent; records family and domestic-biographical details.",
+      "title": "Письмо Игорю Мануйлову",
+      "text_type": "letter-memoir",
+      "main_period": "Posthumous memorial period and family recollections.",
+      "major_events": [
+        "Thanks Igor Manuilov for care around Ilyenkov's grave at Novodevichy.",
+        "Records plans to prepare a book about Ilyenkov.",
+        "Gives family, parents, ancestry, daily work, and home-life details."
+      ],
+      "sensitive_topics": [
+        "personal_life",
+        "family"
+      ],
+      "cross_references": [
+        "evald-ilyenkov-v-vospominaniyakh-2004-ch010",
+        "evald-ilyenkov-v-vospominaniyakh-2004-ch012"
+      ],
+      "local_path": "ilyenkov_markdown/ilyenkov_biography_md/memoirs/evald-ilyenkov-v-vospominaniyakh-2004/evald-ilyenkov-v-vospominaniyakh-2004-ch002.md",
+      "source_pages": "7-10",
+      "review_status": "not_sample_reviewed",
+      "review_notes": "Registered for bibliography; not part of the first sample-review set."
+    },
+    {
+      "item_id": "evald-ilyenkov-v-vospominaniyakh-2004-ch003",
+      "chapter_index": "003",
+      "author": "Суворов А.В.",
+      "author_identity": "Doctor of psychological sciences, professor, academician of the International Academy of Informatization under the UN; honorary international doctor of humane letters at Susquehanna University.",
+      "relation_to_ilyenkov": "Zagorsk deafblind student, friend, and direct participant in the Meshcheryakov-Ilyenkov educational context.",
+      "title": "Средоточие боли",
+      "text_type": "extended poetic memoir and direct address",
+      "main_period": "Zagorsk experiment, university years, and the days around Ilyenkov's death in March 1979.",
+      "major_events": [
+        "Recollects funeral speech and refusal to say final farewell.",
+        "Discusses Mescheryakov, Zagorsk, deafblind education, autonomy, and moral development.",
+        "Gives a direct, emotionally intense account of Ilyenkov's final depression and death."
+      ],
+      "sensitive_topics": [
+        "personal_life",
+        "death_circumstances",
+        "political_sanctions"
+      ],
+      "cross_references": [
+        "evald-ilyenkov-v-vospominaniyakh-2004-ch007",
+        "evald-ilyenkov-v-vospominaniyakh-2004-ch010",
+        "evald-ilyenkov-v-vospominaniyakh-2004-ch017"
+      ],
+      "local_path": "ilyenkov_markdown/ilyenkov_biography_md/memoirs/evald-ilyenkov-v-vospominaniyakh-2004/evald-ilyenkov-v-vospominaniyakh-2004-ch003.md",
+      "source_pages": "11-51",
+      "review_status": "sample_reviewed",
+      "review_notes": "Chapter headings from the long source text are preserved; no Markdown footnote refs/defs are present in this conversion sample."
+    },
+    {
+      "item_id": "evald-ilyenkov-v-vospominaniyakh-2004-ch004",
+      "chapter_index": "004",
+      "author": "Михайлов Ф.Т.",
+      "author_identity": "Doctor of philosophy, professor, academician of the Russian Academy of Education.",
+      "relation_to_ilyenkov": "Friend and close philosophical contemporary; recalls personal meetings, shared circles, and philosophical discussions.",
+      "title": "Опять о нем и про него",
+      "text_type": "personal memoir with philosophical portrait",
+      "main_period": "Late 1950s through Ilyenkov's final days, with wider recollections of the 1960s-1970s Soviet philosophical milieu.",
+      "major_events": [
+        "Describes first impressions, meetings at Ilyenkov's home, and the wider Moscow philosophical circle.",
+        "Discusses official persecution, institutional non-acceptance of Ilyenkov's planned works, and disputes around Marxism and positivism.",
+        "Records late-life signs, Ilyenkov's daughter Elena, and the phone call reporting his death."
+      ],
+      "sensitive_topics": [
+        "personal_life",
+        "death_circumstances",
+        "family",
+        "political_sanctions",
+        "academic_controversy"
+      ],
+      "cross_references": [
+        "evald-ilyenkov-v-vospominaniyakh-2004-ch005",
+        "evald-ilyenkov-v-vospominaniyakh-2004-ch010",
+        "evald-ilyenkov-v-vospominaniyakh-2004-ch021"
+      ],
+      "local_path": "ilyenkov_markdown/ilyenkov_biography_md/memoirs/evald-ilyenkov-v-vospominaniyakh-2004/evald-ilyenkov-v-vospominaniyakh-2004-ch004.md",
+      "source_pages": "52-79",
+      "review_status": "sample_reviewed_repaired",
+      "review_notes": "Front matter, headings, emphasis, and early footnotes were checked. A conversion defect at the end was repaired on 2026-07-10 by broadening the converter's table matching and rerunning the 2004 memoir conversion; source footnotes 28-30 are now present in local Markdown."
+    },
+    {
+      "item_id": "evald-ilyenkov-v-vospominaniyakh-2004-ch005",
+      "chapter_index": "005",
+      "author": "Науменко Л.К.",
+      "author_identity": "Doctor of philosophy, professor.",
+      "relation_to_ilyenkov": "Student, coauthor, and close participant in Ilyenkov's philosophical circle.",
+      "title": "Об Эвальде Ильенкове, о времени и немного о себе",
+      "text_type": "memoir and philosophical interpretation",
+      "main_period": "1954 first acquaintance through later debates over Spinoza, Marxism, and Ilyenkov's death.",
+      "major_events": [
+        "Describes meeting Ilyenkov at the Moscow State University philosophy faculty.",
+        "Discusses Spinoza, 'thinking body', Zagorsk, and the formation of personality.",
+        "Reflects on Ilyenkov's late crisis, death, relation to Marxism, and the political-philosophical environment."
+      ],
+      "sensitive_topics": [
+        "personal_life",
+        "death_circumstances",
+        "political_sanctions",
+        "academic_controversy"
+      ],
+      "cross_references": [
+        "evald-ilyenkov-v-vospominaniyakh-2004-ch004",
+        "evald-ilyenkov-v-vospominaniyakh-2004-ch015",
+        "evald-ilyenkov-v-vospominaniyakh-2004-ch021"
+      ],
+      "local_path": "ilyenkov_markdown/ilyenkov_biography_md/memoirs/evald-ilyenkov-v-vospominaniyakh-2004/evald-ilyenkov-v-vospominaniyakh-2004-ch005.md",
+      "source_pages": "80-112",
+      "review_status": "sample_reviewed",
+      "review_notes": "Source citation, page range, body continuity, and emphasis samples were checked; no Markdown footnote refs/defs are present."
+    },
+    {
+      "item_id": "evald-ilyenkov-v-vospominaniyakh-2004-ch006",
+      "chapter_index": "006",
+      "author": "Зайдель Г.",
+      "author_identity": "Doctor of philosophy, professor; Germany, Leipzig.",
+      "relation_to_ilyenkov": "German philosophical interlocutor and witness to the practice debate context.",
+      "title": "Тридцать пять лет назад – воспоминания",
+      "text_type": "historical-philosophical recollection",
+      "main_period": "Mid-1950s debates on Hegel, practice, and Marxist philosophy in the USSR and GDR.",
+      "major_events": [
+        "Frames the prehistory of the 'second discussion on practice'.",
+        "Links Soviet and East German debates around Hegel, Lukacs, Bloch, and Stalinist doctrine.",
+        "Recalls a 1956 student group around Ilyenkov."
+      ],
+      "sensitive_topics": [
+        "political_sanctions",
+        "academic_controversy"
+      ],
+      "cross_references": [
+        "evald-ilyenkov-v-vospominaniyakh-2004-ch015",
+        "evald-ilyenkov-v-vospominaniyakh-2004-ch021",
+        "evald-ilyenkov-v-vospominaniyakh-2004-ch022"
+      ],
+      "local_path": "ilyenkov_markdown/ilyenkov_biography_md/memoirs/evald-ilyenkov-v-vospominaniyakh-2004/evald-ilyenkov-v-vospominaniyakh-2004-ch006.md",
+      "source_pages": "113-119",
+      "review_status": "not_sample_reviewed",
+      "review_notes": "Registered for bibliography; not part of the first sample-review set."
+    },
+    {
+      "item_id": "evald-ilyenkov-v-vospominaniyakh-2004-ch007",
+      "chapter_index": "007",
+      "author": "Водолазов Г.Г.",
+      "author_identity": "Doctor of philosophy, professor; vice-president of the Academy of Political Sciences; academician of the Russian Academy of Natural Sciences.",
+      "relation_to_ilyenkov": "Friend and direct memoir witness; recalls first meeting, friendship, and shared people in Ilyenkov's circle.",
+      "title": "Эвальд (штрихи к портрету)",
+      "text_type": "portrait memoir",
+      "main_period": "1960s-1970s personal encounters and later memorial reflection.",
+      "major_events": [
+        "Describes first encounter through Ilyenkov's work and then in person.",
+        "Includes portrait sections on tears, doctoral defense, Lifshits, and Alexander Suvorov.",
+        "Connects Ilyenkov's personal warmth with philosophical seriousness."
+      ],
+      "sensitive_topics": [
+        "personal_life",
+        "academic_controversy"
+      ],
+      "cross_references": [
+        "evald-ilyenkov-v-vospominaniyakh-2004-ch003",
+        "evald-ilyenkov-v-vospominaniyakh-2004-ch008",
+        "evald-ilyenkov-v-vospominaniyakh-2004-ch017"
+      ],
+      "local_path": "ilyenkov_markdown/ilyenkov_biography_md/memoirs/evald-ilyenkov-v-vospominaniyakh-2004/evald-ilyenkov-v-vospominaniyakh-2004-ch007.md",
+      "source_pages": "120-131",
+      "review_status": "not_sample_reviewed",
+      "review_notes": "Registered for bibliography; not part of the first sample-review set."
+    },
+    {
+      "item_id": "evald-ilyenkov-v-vospominaniyakh-2004-ch008",
+      "chapter_index": "008",
+      "author": "Лифшиц М.А.",
+      "author_identity": "Mikhail Lifshits (1905-1983); doctor of philosophy, professor, academician of the Academy of Arts.",
+      "relation_to_ilyenkov": "Senior Marxist aesthetician and intellectual ally.",
+      "title": "Памяти Эвальда Ильенкова",
+      "text_type": "memorial essay",
+      "main_period": "Postwar and posthumous assessment of Ilyenkov's philosophical role.",
+      "major_events": [
+        "Presents Ilyenkov as a significant personality whose word and deed did not diverge.",
+        "Recalls reading the early manuscript on dialectics in Marx's Capital.",
+        "Situates Ilyenkov against orthodox and modernizing distortions of Marxism."
+      ],
+      "sensitive_topics": [
+        "academic_controversy"
+      ],
+      "cross_references": [
+        "evald-ilyenkov-v-vospominaniyakh-2004-ch007",
+        "evald-ilyenkov-v-vospominaniyakh-2004-ch019",
+        "evald-ilyenkov-v-vospominaniyakh-2004-ch021"
+      ],
+      "local_path": "ilyenkov_markdown/ilyenkov_biography_md/memoirs/evald-ilyenkov-v-vospominaniyakh-2004/evald-ilyenkov-v-vospominaniyakh-2004-ch008.md",
+      "source_pages": "132-135",
+      "review_status": "not_sample_reviewed",
+      "review_notes": "Registered for bibliography; not part of the first sample-review set."
+    },
+    {
+      "item_id": "evald-ilyenkov-v-vospominaniyakh-2004-ch009",
+      "chapter_index": "009",
+      "author": "Лобастов Г.В.",
+      "author_identity": "Doctor of philosophy, professor; president of the Philosophical Society 'Dialectics and Culture' and chair of the Ilyenkov Readings organizing committee.",
+      "relation_to_ilyenkov": "Student/younger colleague shaped by Ilyenkov and later organizer of Ilyenkov memorial work.",
+      "title": "На пути к Ильенкову",
+      "text_type": "intellectual autobiography and memoir",
+      "main_period": "Author's path to Ilyenkov, especially university years, 1970s encounters, and later reflection.",
+      "major_events": [
+        "Narrates the author's path from life-choice questions to Ilyenkov's philosophy.",
+        "Records meetings, music, Kaliningrad/Konigsberg, and Ilyenkov's philosophical presence.",
+        "Discusses loneliness, Zagorsk, ideality, and personal formation."
+      ],
+      "sensitive_topics": [
+        "personal_life",
+        "academic_controversy"
+      ],
+      "cross_references": [
+        "evald-ilyenkov-v-vospominaniyakh-2004-ch001",
+        "evald-ilyenkov-v-vospominaniyakh-2004-ch020",
+        "evald-ilyenkov-v-vospominaniyakh-2004-ch024"
+      ],
+      "local_path": "ilyenkov_markdown/ilyenkov_biography_md/memoirs/evald-ilyenkov-v-vospominaniyakh-2004/evald-ilyenkov-v-vospominaniyakh-2004-ch009.md",
+      "source_pages": "136-164",
+      "review_status": "not_sample_reviewed",
+      "review_notes": "Registered for bibliography; not part of the first sample-review set."
+    },
+    {
+      "item_id": "evald-ilyenkov-v-vospominaniyakh-2004-ch010",
+      "chapter_index": "010",
+      "author": "Полищук В.",
+      "author_identity": "Doctor of philosophy, professor; Nizhnevartovsk.",
+      "relation_to_ilyenkov": "Graduate student accepted and supervised by Ilyenkov near the end of Ilyenkov's life.",
+      "title": "Страждущий демон философа",
+      "text_type": "late-life student memoir",
+      "main_period": "1977-1979, especially Ilyenkov's last graduate supervision and final weeks.",
+      "major_events": [
+        "Describes being accepted as Ilyenkov's graduate student.",
+        "Records Ilyenkov's pedagogical severity and reflections on Zagorsk.",
+        "Gives one of the most direct accounts of Ilyenkov's final illness, last phone call, death announcement, funeral, and obituary wording."
+      ],
+      "sensitive_topics": [
+        "personal_life",
+        "death_circumstances",
+        "family",
+        "political_sanctions",
+        "academic_controversy"
+      ],
+      "cross_references": [
+        "evald-ilyenkov-v-vospominaniyakh-2004-ch003",
+        "evald-ilyenkov-v-vospominaniyakh-2004-ch004",
+        "evald-ilyenkov-v-vospominaniyakh-2004-ch012"
+      ],
+      "local_path": "ilyenkov_markdown/ilyenkov_biography_md/memoirs/evald-ilyenkov-v-vospominaniyakh-2004/evald-ilyenkov-v-vospominaniyakh-2004-ch010.md",
+      "source_pages": "165-171",
+      "review_status": "sample_reviewed",
+      "review_notes": "Source citation, page range, body continuity, and late-life/death passages were checked; no Markdown footnote refs/defs are present."
+    },
+    {
+      "item_id": "evald-ilyenkov-v-vospominaniyakh-2004-ch011",
+      "chapter_index": "011",
+      "author": "Хамидов А.",
+      "author_identity": "Doctor of philosophy; Almaty.",
+      "relation_to_ilyenkov": "Philosophical visitor and memoir witness whose first contact came through the Institute of Philosophy and Batischev's circle.",
+      "title": "Из памяти об Э.В. Ильенкове",
+      "text_type": "personal-philosophical memoir",
+      "main_period": "1970s encounters and later philosophical assessment.",
+      "major_events": [
+        "Describes first seeing Ilyenkov in January 1973.",
+        "Reflects on Ilyenkov's personality, literary/artistic ability, and manual work.",
+        "Discusses the conditions imposed by the party-state philosophical environment."
+      ],
+      "sensitive_topics": [
+        "personal_life",
+        "political_sanctions",
+        "academic_controversy"
+      ],
+      "cross_references": [
+        "evald-ilyenkov-v-vospominaniyakh-2004-ch009",
+        "evald-ilyenkov-v-vospominaniyakh-2004-ch014",
+        "evald-ilyenkov-v-vospominaniyakh-2004-ch021"
+      ],
+      "local_path": "ilyenkov_markdown/ilyenkov_biography_md/memoirs/evald-ilyenkov-v-vospominaniyakh-2004/evald-ilyenkov-v-vospominaniyakh-2004-ch011.md",
+      "source_pages": "172-188",
+      "review_status": "not_sample_reviewed",
+      "review_notes": "Registered for bibliography; not part of the first sample-review set."
+    },
+    {
+      "item_id": "evald-ilyenkov-v-vospominaniyakh-2004-ch012",
+      "chapter_index": "012",
+      "author": "Мареев С.М.",
+      "author_identity": "Doctor of philosophy, professor; the filorus author page lists 'Мареев С.Н.', while the converted item records 'Мареев С.М.' and should be checked against the source edition before normalizing.",
+      "relation_to_ilyenkov": "Student, friend, and major later writer on Ilyenkov.",
+      "title": "Начало и конец",
+      "text_type": "student and friendship memoir",
+      "main_period": "First meetings in the 1960s through the 1978 trip to Pitsunda/Yerevan and the end of Ilyenkov's life.",
+      "major_events": [
+        "Describes first seeing Ilyenkov at Moscow State University seminars.",
+        "Narrates a 1978 trip with Ilyenkov to Pitsunda and Yerevan.",
+        "Treats the beginning and end of a personal-philosophical friendship."
+      ],
+      "sensitive_topics": [
+        "personal_life",
+        "death_circumstances",
+        "academic_controversy"
+      ],
+      "cross_references": [
+        "evald-ilyenkov-v-vospominaniyakh-2004-ch002",
+        "evald-ilyenkov-v-vospominaniyakh-2004-ch010",
+        "evald-ilyenkov-v-vospominaniyakh-2004-ch024"
+      ],
+      "local_path": "ilyenkov_markdown/ilyenkov_biography_md/memoirs/evald-ilyenkov-v-vospominaniyakh-2004/evald-ilyenkov-v-vospominaniyakh-2004-ch012.md",
+      "source_pages": "189-206",
+      "review_status": "not_sample_reviewed",
+      "review_notes": "Registered for bibliography; not part of the first sample-review set."
+    },
+    {
+      "item_id": "evald-ilyenkov-v-vospominaniyakh-2004-ch013",
+      "chapter_index": "013",
+      "author": "Шимина А.Н.",
+      "author_identity": "Doctor of philosophy, professor; Voronezh.",
+      "relation_to_ilyenkov": "Reader and occasional interlocutor shaped by Ilyenkov's work and personal support.",
+      "title": "Мои встречи с Э.В. Ильенковым",
+      "text_type": "short encounter memoir",
+      "main_period": "Reception of Ilyenkov's 1960 book and later meetings.",
+      "major_events": [
+        "Describes the effect of reading 'Диалектика абстрактного и конкретного'.",
+        "Records contact with young teachers and readers influenced by Ilyenkov.",
+        "Emphasizes Ilyenkov's humanity and attention to pedagogy."
+      ],
+      "sensitive_topics": [
+        "personal_life"
+      ],
+      "cross_references": [
+        "evald-ilyenkov-v-vospominaniyakh-2004-ch018",
+        "evald-ilyenkov-v-vospominaniyakh-2004-ch020"
+      ],
+      "local_path": "ilyenkov_markdown/ilyenkov_biography_md/memoirs/evald-ilyenkov-v-vospominaniyakh-2004/evald-ilyenkov-v-vospominaniyakh-2004-ch013.md",
+      "source_pages": "207-210",
+      "review_status": "not_sample_reviewed",
+      "review_notes": "Registered for bibliography; not part of the first sample-review set."
+    },
+    {
+      "item_id": "evald-ilyenkov-v-vospominaniyakh-2004-ch014",
+      "chapter_index": "014",
+      "author": "Косолапов Р.И.",
+      "author_identity": "Doctor of philosophy, professor.",
+      "relation_to_ilyenkov": "Philosophical contemporary with limited direct meetings and editorial/political memory of the Soviet philosophical field.",
+      "title": "Об Ильенкове: почти мемуары",
+      "text_type": "short memoir and historical judgment",
+      "main_period": "1954 encounters, 1960s-1970s Institute context, and later reassessment.",
+      "major_events": [
+        "Reports three meetings with Ilyenkov.",
+        "Reflects on Ilyenkov's position between official philosophy and cheap dissidence.",
+        "Mentions publications connected with the editorial field and the deafblind experiment."
+      ],
+      "sensitive_topics": [
+        "political_sanctions",
+        "academic_controversy"
+      ],
+      "cross_references": [
+        "evald-ilyenkov-v-vospominaniyakh-2004-ch015",
+        "evald-ilyenkov-v-vospominaniyakh-2004-ch016",
+        "evald-ilyenkov-v-vospominaniyakh-2004-ch021"
+      ],
+      "local_path": "ilyenkov_markdown/ilyenkov_biography_md/memoirs/evald-ilyenkov-v-vospominaniyakh-2004/evald-ilyenkov-v-vospominaniyakh-2004-ch014.md",
+      "source_pages": "211-215",
+      "review_status": "not_sample_reviewed",
+      "review_notes": "Registered for bibliography; not part of the first sample-review set."
+    },
+    {
+      "item_id": "evald-ilyenkov-v-vospominaniyakh-2004-ch015",
+      "chapter_index": "015",
+      "author": "Коровиков В.И.",
+      "author_identity": "Candidate of philosophy; member of the Union of Journalists of Russia.",
+      "relation_to_ilyenkov": "Close friend, coauthor of the 1954 theses, and fellow participant in the first major institutional conflict.",
+      "title": "Начало и первый погром",
+      "text_type": "early-life and political-institutional memoir",
+      "main_period": "Postwar Moscow State University years through expulsion from the faculty.",
+      "major_events": [
+        "Describes postwar student and faculty years with Ilyenkov.",
+        "Records the Ilyenkov-Korovikov teaching tandem and seminars around primary sources.",
+        "Documents the first 'pogrom' and expulsion from the philosophy faculty."
+      ],
+      "sensitive_topics": [
+        "political_sanctions",
+        "academic_controversy"
+      ],
+      "cross_references": [
+        "evald-ilyenkov-v-vospominaniyakh-2004-ch004",
+        "evald-ilyenkov-v-vospominaniyakh-2004-ch006",
+        "evald-ilyenkov-v-vospominaniyakh-2004-ch019"
+      ],
+      "local_path": "ilyenkov_markdown/ilyenkov_biography_md/memoirs/evald-ilyenkov-v-vospominaniyakh-2004/evald-ilyenkov-v-vospominaniyakh-2004-ch015.md",
+      "source_pages": "216-223",
+      "review_status": "not_sample_reviewed",
+      "review_notes": "Registered for bibliography; not part of the first sample-review set."
+    },
+    {
+      "item_id": "evald-ilyenkov-v-vospominaniyakh-2004-ch016",
+      "chapter_index": "016",
+      "author": "Потемкин А.В.",
+      "author_identity": "Candidate of philosophy, professor; Rostov-on-Don.",
+      "relation_to_ilyenkov": "Research witness to the publication and reception of Ilyenkov's 'Тайна черного ящика'.",
+      "title": "О «тайне черного ящика»",
+      "text_type": "publication-history note",
+      "main_period": "1960s publication and dissertation reception context.",
+      "major_events": [
+        "Discusses variants and publication history of 'Тайна черного ящика'.",
+        "Links the pamphlet to debates over logic, cybernetics, information theory, and Ilyenkov's dissertation.",
+        "Records assessments of the originality and style of Ilyenkov's work."
+      ],
+      "sensitive_topics": [
+        "academic_controversy"
+      ],
+      "cross_references": [
+        "evald-ilyenkov-v-vospominaniyakh-2004-ch014",
+        "evald-ilyenkov-v-vospominaniyakh-2004-ch020",
+        "evald-ilyenkov-v-vospominaniyakh-2004-ch023"
+      ],
+      "local_path": "ilyenkov_markdown/ilyenkov_biography_md/memoirs/evald-ilyenkov-v-vospominaniyakh-2004/evald-ilyenkov-v-vospominaniyakh-2004-ch016.md",
+      "source_pages": "224-228",
+      "review_status": "not_sample_reviewed",
+      "review_notes": "Registered for bibliography; not part of the first sample-review set."
+    },
+    {
+      "item_id": "evald-ilyenkov-v-vospominaniyakh-2004-ch017",
+      "chapter_index": "017",
+      "author": "Левитин К.",
+      "author_identity": "Writer.",
+      "relation_to_ilyenkov": "Writer and observer of the Mescheryakov-Ilyenkov work with deafblind students.",
+      "title": "Лучший путь к человеку",
+      "text_type": "literary-biographical essay",
+      "main_period": "Zagorsk experiment and the broader question of education and personhood.",
+      "major_events": [
+        "Uses Shaw's 'Pygmalion' as a frame for thinking about education.",
+        "Discusses Mescheryakov and Ilyenkov in relation to deafblind education.",
+        "Treats the formation of a human personality as a philosophical and pedagogical problem."
+      ],
+      "sensitive_topics": [],
+      "cross_references": [
+        "evald-ilyenkov-v-vospominaniyakh-2004-ch003",
+        "evald-ilyenkov-v-vospominaniyakh-2004-ch007",
+        "evald-ilyenkov-v-vospominaniyakh-2004-ch022"
+      ],
+      "local_path": "ilyenkov_markdown/ilyenkov_biography_md/memoirs/evald-ilyenkov-v-vospominaniyakh-2004/evald-ilyenkov-v-vospominaniyakh-2004-ch017.md",
+      "source_pages": "229-239",
+      "review_status": "not_sample_reviewed",
+      "review_notes": "Registered for bibliography; not part of the first sample-review set."
+    },
+    {
+      "item_id": "evald-ilyenkov-v-vospominaniyakh-2004-ch018",
+      "chapter_index": "018",
+      "author": "Ананченко А.Б.",
+      "author_identity": "Candidate of historical sciences.",
+      "relation_to_ilyenkov": "Later reader influenced by Ilyenkov after the philosopher's death.",
+      "title": "Философия настоящего и будущего",
+      "text_type": "reception memoir",
+      "main_period": "Early 1980s student reception and later philosophical development.",
+      "major_events": [
+        "Describes discovering 'Учитесь мыслить смолоду' after Ilyenkov's death.",
+        "Records the effect of Ilyenkov's texts on a circle of young readers.",
+        "Frames Ilyenkov as a philosophy of the present and future."
+      ],
+      "sensitive_topics": [
+        "academic_controversy"
+      ],
+      "cross_references": [
+        "evald-ilyenkov-v-vospominaniyakh-2004-ch013",
+        "evald-ilyenkov-v-vospominaniyakh-2004-ch020",
+        "evald-ilyenkov-v-vospominaniyakh-2004-ch024"
+      ],
+      "local_path": "ilyenkov_markdown/ilyenkov_biography_md/memoirs/evald-ilyenkov-v-vospominaniyakh-2004/evald-ilyenkov-v-vospominaniyakh-2004-ch018.md",
+      "source_pages": "240-248",
+      "review_status": "not_sample_reviewed",
+      "review_notes": "Registered for bibliography; not part of the first sample-review set."
+    },
+    {
+      "item_id": "evald-ilyenkov-v-vospominaniyakh-2004-ch019",
+      "chapter_index": "019",
+      "author": "Ванслов В.В.",
+      "author_identity": "Doctor of philosophy, professor, academician of the Academy of Arts.",
+      "relation_to_ilyenkov": "Institute colleague and friend in the 1950s; shared aesthetic and musical interests.",
+      "title": "О философе Э.В. Ильенкове",
+      "text_type": "colleague memoir",
+      "main_period": "1950-1958 Institute of Philosophy context and later reflection.",
+      "major_events": [
+        "Describes the early 1950s atmosphere at the Institute of Philosophy.",
+        "Recalls Ilyenkov's arrival with a younger group from Moscow State University.",
+        "Records friendship, music, and shared opposition to conservative philosophical forces."
+      ],
+      "sensitive_topics": [
+        "personal_life",
+        "political_sanctions",
+        "academic_controversy"
+      ],
+      "cross_references": [
+        "evald-ilyenkov-v-vospominaniyakh-2004-ch008",
+        "evald-ilyenkov-v-vospominaniyakh-2004-ch015",
+        "evald-ilyenkov-v-vospominaniyakh-2004-ch021"
+      ],
+      "local_path": "ilyenkov_markdown/ilyenkov_biography_md/memoirs/evald-ilyenkov-v-vospominaniyakh-2004/evald-ilyenkov-v-vospominaniyakh-2004-ch019.md",
+      "source_pages": "249-260",
+      "review_status": "not_sample_reviewed",
+      "review_notes": "Registered for bibliography; not part of the first sample-review set."
+    },
+    {
+      "item_id": "evald-ilyenkov-v-vospominaniyakh-2004-ch020",
+      "chapter_index": "020",
+      "author": "Лобастов Г.В.",
+      "author_identity": "Doctor of philosophy, professor; president of the Philosophical Society 'Dialectics and Culture' and chair of the Ilyenkov Readings organizing committee.",
+      "relation_to_ilyenkov": "Later philosophical interpreter and memorial organizer.",
+      "title": "Ильенков как философ",
+      "text_type": "philosophical interpretation",
+      "main_period": "General interpretation of Ilyenkov's philosophical position.",
+      "major_events": [
+        "Discusses Ilyenkov as idealist, Hegelian, Marxist, and thinker of thinking.",
+        "Frames thinking as social-historical human capacity rather than subjective association.",
+        "Connects Ilyenkov's philosophical self-measure to history."
+      ],
+      "sensitive_topics": [
+        "academic_controversy"
+      ],
+      "cross_references": [
+        "evald-ilyenkov-v-vospominaniyakh-2004-ch001",
+        "evald-ilyenkov-v-vospominaniyakh-2004-ch009",
+        "evald-ilyenkov-v-vospominaniyakh-2004-ch021"
+      ],
+      "local_path": "ilyenkov_markdown/ilyenkov_biography_md/memoirs/evald-ilyenkov-v-vospominaniyakh-2004/evald-ilyenkov-v-vospominaniyakh-2004-ch020.md",
+      "source_pages": "261-274",
+      "review_status": "not_sample_reviewed",
+      "review_notes": "Registered for bibliography; not part of the first sample-review set."
+    },
+    {
+      "item_id": "evald-ilyenkov-v-vospominaniyakh-2004-ch021",
+      "chapter_index": "021",
+      "author": "Межуев В.М.",
+      "author_identity": "Doctor of philosophy, professor, academician of the Russian Academy of Humanities.",
+      "relation_to_ilyenkov": "Postwar Soviet philosophical contemporary and interpreter of Ilyenkov's place in Russian Marxism.",
+      "title": "Эвальд Ильенков и конец в России классической марксистской философии",
+      "text_type": "intellectual-historical essay",
+      "main_period": "1950s-1960s Soviet philosophy and post-Soviet retrospective judgment.",
+      "major_events": [
+        "Presents Ilyenkov as a leader of the philosophical thaw and the last original thinker of Russian Marxist philosophy.",
+        "Analyzes conflict with official ideology, positivism, formal logic, and censorship.",
+        "Frames Ilyenkov as a defender of culture, personality, and dialectical reason against bourgeois-civilizational rationality."
+      ],
+      "sensitive_topics": [
+        "political_sanctions",
+        "academic_controversy"
+      ],
+      "cross_references": [
+        "evald-ilyenkov-v-vospominaniyakh-2004-ch004",
+        "evald-ilyenkov-v-vospominaniyakh-2004-ch005",
+        "evald-ilyenkov-v-vospominaniyakh-2004-ch020"
+      ],
+      "local_path": "ilyenkov_markdown/ilyenkov_biography_md/memoirs/evald-ilyenkov-v-vospominaniyakh-2004/evald-ilyenkov-v-vospominaniyakh-2004-ch021.md",
+      "source_pages": "275-284",
+      "review_status": "sample_reviewed",
+      "review_notes": "Front matter, source citation, page range, body continuity, and thesis paragraphs were checked; no Markdown footnote refs/defs are present."
+    },
+    {
+      "item_id": "evald-ilyenkov-v-vospominaniyakh-2004-ch022",
+      "chapter_index": "022",
+      "author": "Рихтер Г.",
+      "author_identity": "Doctor of philosophy; Germany, Berlin.",
+      "relation_to_ilyenkov": "German scholar and translator/mediator of Ilyenkov, Soviet psychology, and the cultural-historical school.",
+      "title": "Несколько замечаний о восприятии философии Э.В. Ильенкова и культурно-исторической школы советской психологии в Германии",
+      "text_type": "international reception survey",
+      "main_period": "1971 Moscow contact, GDR reception, and 1990s-early 2000s German/Finnish research context.",
+      "major_events": [
+        "Describes work at the GDR Academy of Sciences and visits to the Institute of Philosophy in Moscow.",
+        "Surveys German reception of Ilyenkov, Vygotsky, Leontiev, Luria, and Mescheryakov.",
+        "Records the role of Helsinki, Bremen, and international Ilyenkov Readings."
+      ],
+      "sensitive_topics": [
+        "academic_controversy"
+      ],
+      "cross_references": [
+        "evald-ilyenkov-v-vospominaniyakh-2004-ch006",
+        "evald-ilyenkov-v-vospominaniyakh-2004-ch017",
+        "evald-ilyenkov-v-vospominaniyakh-2004-ch024"
+      ],
+      "local_path": "ilyenkov_markdown/ilyenkov_biography_md/memoirs/evald-ilyenkov-v-vospominaniyakh-2004/evald-ilyenkov-v-vospominaniyakh-2004-ch022.md",
+      "source_pages": "285-296",
+      "review_status": "not_sample_reviewed",
+      "review_notes": "Registered for bibliography; not part of the first sample-review set."
+    },
+    {
+      "item_id": "evald-ilyenkov-v-vospominaniyakh-2004-ch023",
+      "chapter_index": "023",
+      "author": "Никаноров С.П.",
+      "author_identity": "Physicist; academician of the International Academy of Informatization under the UN.",
+      "relation_to_ilyenkov": "Technical-scientific interlocutor through P. G. Kuznetsov and methodological discussions in the 1960s.",
+      "title": "Носить подмышкой «Капитал»?",
+      "text_type": "episode memoir and methodological note",
+      "main_period": "1963-1965 methodological discussions around applied tasks, planning, and dialectical methodology.",
+      "major_events": [
+        "Introduces P. G. Kuznetsov, his conviction/exile, and later scientific work.",
+        "Records a 1965 meeting with Ilyenkov on whether dialectical methodology could guide applied tasks.",
+        "Preserves the episode behind the question of carrying Marx's Capital under one's arm."
+      ],
+      "sensitive_topics": [
+        "political_sanctions",
+        "academic_controversy"
+      ],
+      "cross_references": [
+        "evald-ilyenkov-v-vospominaniyakh-2004-ch016",
+        "evald-ilyenkov-v-vospominaniyakh-2004-ch020",
+        "evald-ilyenkov-v-vospominaniyakh-2004-ch021"
+      ],
+      "local_path": "ilyenkov_markdown/ilyenkov_biography_md/memoirs/evald-ilyenkov-v-vospominaniyakh-2004/evald-ilyenkov-v-vospominaniyakh-2004-ch023.md",
+      "source_pages": "297-301",
+      "review_status": "not_sample_reviewed",
+      "review_notes": "Registered for bibliography; not part of the first sample-review set."
+    },
+    {
+      "item_id": "evald-ilyenkov-v-vospominaniyakh-2004-ch024",
+      "chapter_index": "024",
+      "author": "Лобастов Г.В.",
+      "author_identity": "Doctor of philosophy, professor; president of the Philosophical Society 'Dialectics and Culture' and chair of the Ilyenkov Readings organizing committee.",
+      "relation_to_ilyenkov": "Organizer and historian of posthumous Ilyenkov Readings.",
+      "title": "Из истории Ильенковских чтений",
+      "text_type": "institutional history",
+      "main_period": "1980 memorial seminar through the 1990s and early internationalization of the Ilyenkov Readings.",
+      "major_events": [
+        "Records the 1980 memorial seminar at the Institute of Philosophy.",
+        "Describes S. N. Mareev's 1990 initiative and the annual Ilyenkov Readings.",
+        "Tracks institutional movement, publication of materials, and international status."
+      ],
+      "sensitive_topics": [
+        "academic_controversy"
+      ],
+      "cross_references": [
+        "evald-ilyenkov-v-vospominaniyakh-2004-ch001",
+        "evald-ilyenkov-v-vospominaniyakh-2004-ch012",
+        "evald-ilyenkov-v-vospominaniyakh-2004-ch022"
+      ],
+      "local_path": "ilyenkov_markdown/ilyenkov_biography_md/memoirs/evald-ilyenkov-v-vospominaniyakh-2004/evald-ilyenkov-v-vospominaniyakh-2004-ch024.md",
+      "source_pages": "302-307",
+      "review_status": "not_sample_reviewed",
+      "review_notes": "Registered for bibliography; not part of the first sample-review set."
+    }
+  ]
+}

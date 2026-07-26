@@ -1,7 +1,7 @@
 ---
 title: "Ilyenkov Repository AI Operations Guide"
 created: "2026-06-17"
-updated: "2026-07-01"
+updated: "2026-07-27"
 type: "agent-guide"
 tags: ["agents", "entry-point", "navigation", "read-on-demand"]
 language: "en"
@@ -49,7 +49,11 @@ Sources of record, in priority order:
 | Scan digitization | [notes/SCAN_DIGITIZATION_WORKFLOW.md](notes/SCAN_DIGITIZATION_WORKFLOW.md) | OCR only for registered, activated works |
 | GBrain / LLM Wiki | [LLM_WIKI.md](LLM_WIKI.md) | Use the wrapper scripts |
 | Terminology and proper names | [notes/TERMS.md](notes/TERMS.md) | JSON source records generate Markdown views |
+| Article translation review and publishing | [translation_workspace/ARTICLE_REVIEW_WORKFLOW.md](translation_workspace/ARTICLE_REVIEW_WORKFLOW.md) | Fast path for source/translation/suggestion batches; does not create formal review status |
+| Terminology review history | [translation_workspace/TERMINOLOGY_CHANGELOG.md](translation_workspace/TERMINOLOGY_CHANGELOG.md) | Generated compact index; query structured batches instead of reading all history |
 | Chinese translation plan | [TRANSLATION_PLAN.md](TRANSLATION_PLAN.md) | Translation layer; Ilyenkov remains the priority |
+| Chinese translation workflow and resume | [translation_workspace/HANDOFF.md](translation_workspace/HANDOFF.md) | The assigned auditor owns each review batch and glossary writeback; live status via `check_translations.py --status` |
+| Ilyenkov biography, memoirs, and archives | [notes/ILYENKOV_BIOGRAPHY_PROJECT_PLAN.md](notes/ILYENKOV_BIOGRAPHY_PROJECT_PLAN.md), [notes/ILYENKOV_BIOGRAPHY_SOURCE_SURVEY.md](notes/ILYENKOV_BIOGRAPHY_SOURCE_SURVEY.md) | Research layer; do not mix memoirs into author-original corpus |
 | Daily maintenance | [notes/OPERATIONS_CHECKLIST.md](notes/OPERATIONS_CHECKLIST.md) | Short workflows for texts, scans, and public release |
 | Public release and rights | [notes/OPERATIONS_CHECKLIST.md](notes/OPERATIONS_CHECKLIST.md), [RIGHTS.md](RIGHTS.md) | Use `publish_public.sh` only |
 | Maidansky source attribution | [notes/MAIDANSKY_SOURCE_ATTRIBUTION.md](notes/MAIDANSKY_SOURCE_ATTRIBUTION.md) | Citation host guidance |
@@ -71,6 +75,14 @@ python3 scripts/verify_corpus_manifests.py
 # Terminology source records and generated views
 python3 scripts/check_glossaries.py --check
 python3 scripts/render_glossaries.py --check
+
+# Chinese translation projects and review gates
+python3 scripts/check_translations.py --check
+
+# Article review work package, targeted history, and unified validation
+python3 scripts/prepare_article_review.py --help
+python3 scripts/query_terminology_reviews.py --help
+python3 scripts/check_article_review.py --help
 
 # Project and AI documentation consistency
 python3 scripts/check_project_docs.py
@@ -95,6 +107,12 @@ these boundaries:
 - Adding source scans: use only registered `source_scans/` paths and manifests; do not read PDF/DjVu
   text layers or start OCR outside an activated digitization project; then run
   `verify_corpus_manifests.py`.
+- Translation projects: bind only visible split corpus Markdown read by GBrain, use source block
+  ranges when semantic chapters differ from technical splits, and run `check_translations.py --check`.
+- Translation terminology review: use `translation_workspace/ARTICLE_REVIEW_WORKFLOW.md`. The agent
+  performing the source-to-Chinese audit owns the corresponding glossary review and writeback.
+  Record every proposal in a structured audit batch; the project owner retains final review and may
+  override a decision, but routine glossary maintenance does not require prior approval.
 - Public release: do not publish the working repository; controlled files require exact
   `rights_registry.json` path and SHA-256 matches; publish only through `scripts/publish_public.sh`
   from `dist/public/`.
@@ -113,6 +131,11 @@ these boundaries:
   `metadata/rights_registry.json` by exact path, SHA-256, and rights basis.
 - Do not move or rename registered corpus paths without updating `metadata/collections.json`,
   manifests, generated status, and validation tests in the same change.
+- Keep root project documentation, code identifiers, and commit messages in English. Chinese is
+  allowed only in translation-specific artifacts, including translation plans, workspace records,
+  style guidance, translations, terminology data, and terminology review logs.
+- Glossary JSON files are the terminology sources of record. Generated Markdown views and the
+  terminology changelog must never override them.
 - Do not duplicate corpus text into a second wiki or translation-source tree; cite original paths and
   hashes.
 - If user or external changes are present, work with them and do not revert them without instruction.
@@ -126,7 +149,7 @@ these boundaries:
 
 | Tracked files | Markdown | Corpus md | Chapter files | Split works | Branch |
 |---:|---:|---:|---:|---:|:--|
-| 1165 | 714 | 654 | 337 | 15 | `main` |
+| 1439 | 883 | 685 | 361 | 15 | `main` |
 
 <!-- AGENTS-AUTO:END -->
 

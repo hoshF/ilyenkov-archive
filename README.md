@@ -103,6 +103,12 @@ Chinese translation, terminology research, and close reading are a long-term pro
 source-text archive. Ilyenkov is the continuing priority. Translations must remain traceable to a
 specific original-language file, version, source URL, and review status.
 
+Formal projects bind the visible split Markdown that GBrain reads, use `work_manifest.json` for
+long-work identity, and map each semantic translation unit to one or more ordered, deterministic
+source-block ranges. They retain a structural draft, a Chinese scholarly final, an issue record,
+and separate hash-bound accuracy and language reviews. Earlier LaTeX/PDF projects remain historical
+artifacts until they are migrated through this workflow.
+
 - `dialectical_logic/`: Chinese LaTeX project for the 1974 first edition of *Dialectical Logic*.
 - `idols_ideals/`: Chinese LaTeX project for *On Idols and Ideals*.
 - [`existing_translations/`](existing_translations/README.md): existing Chinese PDFs and project

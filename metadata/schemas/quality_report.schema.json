@@ -7,8 +7,23 @@
   "properties": {
     "schema_version": { "const": 1 },
     "status": { "enum": ["pending", "failed", "passed"] },
-    "checks": { "type": "array", "items": { "type": "object" } },
-    "unresolved_issues": { "type": "array", "items": { "type": "object" } }
+    "checks": {
+      "oneOf": [
+        { "type": "object" },
+        { "type": "array", "items": { "type": "object" } }
+      ]
+    },
+    "unresolved_issues": {
+      "type": "array",
+      "items": {
+        "oneOf": [
+          { "type": "string" },
+          { "type": "object" }
+        ]
+      }
+    },
+    "review_date": { "type": "string" },
+    "notes": { "type": "string" }
   },
-  "additionalProperties": false
+  "additionalProperties": true
 }

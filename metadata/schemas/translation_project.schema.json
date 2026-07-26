@@ -7,23 +7,141 @@
     "schema_version",
     "author_id",
     "work_id",
-    "source_path",
-    "source_url",
-    "source_version",
-    "source_sha256",
+    "created_at",
+    "updated_at",
     "target_language",
-    "status"
+    "source_units"
   ],
+  "additionalProperties": false,
   "properties": {
-    "schema_version": { "const": 1 },
-    "author_id": { "type": "string", "pattern": "^[a-z0-9-]+$" },
-    "work_id": { "type": "string", "pattern": "^[a-z0-9-]+$" },
-    "source_path": { "type": "string" },
-    "source_url": { "type": "string" },
-    "source_version": { "type": "string" },
-    "source_sha256": { "type": "string", "pattern": "^[0-9a-f]{64}$" },
-    "target_language": { "type": "string" },
-    "status": { "enum": ["planned", "drafts", "reviewed"] }
+    "schema_version": {
+      "const": 3
+    },
+    "author_id": {
+      "type": "string",
+      "pattern": "^[a-z][a-z0-9_-]*$"
+    },
+    "work_id": {
+      "type": "string",
+      "pattern": "^[a-z0-9][a-z0-9_-]*$"
+    },
+    "created_at": {
+      "type": "string",
+      "format": "date"
+    },
+    "updated_at": {
+      "type": "string",
+      "format": "date"
+    },
+    "target_language": {
+      "const": "zh"
+    },
+    "work_complete": {
+      "type": "boolean",
+      "description": "True only when every unit of the work is registered and reviewed. Long works are registered unit by unit, so an all-reviewed unit list does not by itself mean the work is finished; reviewed/ requires this flag."
+    },
+    "source_units": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "required": [
+          "id",
+          "status",
+          "source_segments",
+          "paragraph_count",
+          "accuracy_review",
+          "language_review"
+        ],
+        "additionalProperties": false,
+        "properties": {
+          "id": {
+            "type": "string",
+            "pattern": "^[a-z][a-z0-9_-]*$"
+          },
+          "status": {
+            "enum": ["planned", "drafting", "accuracy_review", "language_review", "reviewed"]
+          },
+          "source_segments": {
+            "type": "array",
+            "minItems": 1,
+            "items": {
+              "$ref": "#/$defs/source_segment"
+            }
+          },
+          "paragraph_count": {
+            "type": "integer",
+            "minimum": 1
+          },
+          "accuracy_review": {
+            "$ref": "#/$defs/review"
+          },
+          "language_review": {
+            "$ref": "#/$defs/review"
+          }
+        }
+      }
+    }
   },
-  "additionalProperties": true
+  "$defs": {
+    "source_segment": {
+      "type": "object",
+      "required": [
+        "source_path",
+        "source_url",
+        "source_version",
+        "source_sha256",
+        "source_block_start",
+        "source_block_end"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "source_path": {
+          "type": "string",
+          "minLength": 1
+        },
+        "source_url": {
+          "type": "string",
+          "minLength": 1
+        },
+        "source_version": {
+          "type": "string",
+          "minLength": 1
+        },
+        "source_sha256": {
+          "type": "string",
+          "pattern": "^[0-9a-f]{64}$"
+        },
+        "source_block_start": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "source_block_end": {
+          "type": "integer",
+          "minimum": 1
+        }
+      }
+    },
+    "review": {
+      "type": "object",
+      "required": ["reviewer", "reviewed_at", "result", "scope_sha256"],
+      "additionalProperties": false,
+      "properties": {
+        "reviewer": {
+          "type": ["string", "null"]
+        },
+        "reviewed_at": {
+          "type": ["string", "null"],
+          "format": "date"
+        },
+        "result": {
+          "enum": ["pending", "passed", "changes_required"]
+        },
+        "scope_sha256": {
+          "type": ["string", "null"],
+          "pattern": "^[0-9a-f]{64}$"
+        }
+      }
+    }
+  }
 }

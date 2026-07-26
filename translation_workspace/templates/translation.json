@@ -1,11 +1,37 @@
 {
-  "schema_version": 1,
+  "schema_version": 3,
   "author_id": "author-id",
   "work_id": "work-id",
-  "source_path": "author_markdown/author_md/work.md",
-  "source_url": "not_stated",
-  "source_version": "待核验版本",
-  "source_sha256": "0000000000000000000000000000000000000000000000000000000000000000",
+  "created_at": "YYYY-MM-DD",
+  "updated_at": "YYYY-MM-DD",
   "target_language": "zh",
-  "status": "planned"
+  "source_units": [
+    {
+      "id": "full",
+      "status": "planned",
+      "source_segments": [
+        {
+          "source_path": "author_markdown/author_md/work.md",
+          "source_url": "not_stated",
+          "source_version": "待核验版本",
+          "source_sha256": "0000000000000000000000000000000000000000000000000000000000000000",
+          "source_block_start": 1,
+          "source_block_end": 1
+        }
+      ],
+      "paragraph_count": 1,
+      "accuracy_review": {
+        "reviewer": null,
+        "reviewed_at": null,
+        "result": "pending",
+        "scope_sha256": null
+      },
+      "language_review": {
+        "reviewer": null,
+        "reviewed_at": null,
+        "result": "pending",
+        "scope_sha256": null
+      }
+    }
+  ]
 }

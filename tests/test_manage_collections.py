@@ -57,6 +57,128 @@ class ManageCollectionsTests(unittest.TestCase):
             json.dumps(self.registry(), ensure_ascii=False), encoding="utf-8"
         )
 
+    def v2_digitization_fixture(self, root: Path) -> tuple[Path, Path, Path]:
+        self.fixture(root)
+        data = self.registry()
+        data["collections"].append({
+            "id": "test-texts",
+            "person_id": "test",
+            "kind": "author_texts",
+            "root": "test_markdown",
+            "layout": "legacy",
+            "stage": "markdown_and_scans",
+            "readme": None,
+            "corpus_paths": ["test_markdown/test_md/"],
+            "scan_paths": ["test_markdown/source_scans/"],
+            "scan_manifest": "test_markdown/metadata/source_scans_manifest.json",
+            "works_manifest": None,
+            "bibliography_paths": [],
+            "source_survey": None,
+            "gbrain_tracked": True,
+        })
+        (root / "metadata/collections.json").write_text(json.dumps(data), encoding="utf-8")
+        scan = root / "test_markdown/source_scans/book.pdf"
+        scan.parent.mkdir(parents=True)
+        scan.write_bytes(b"scan")
+        metadata = root / "test_markdown/metadata"
+        metadata.mkdir()
+        (metadata / "source_scans_manifest.json").write_text(json.dumps({"items": [{
+            "local_path": "source_scans/book.pdf"
+        }]}), encoding="utf-8")
+        final = root / "test_markdown/test_md/book.md"
+        final.parent.mkdir()
+        final.write_text(
+            "---\n"
+            'transcription_mode: "agent_canonical_markdown"\n'
+            "---\n\n"
+            "<!-- block-id: b0001 -->\n"
+            "# Heading\n\n"
+            "<!-- block-id: b0002 -->\n"
+            "A paragraph crossing pages without layout markers.\n",
+            encoding="utf-8",
+        )
+        project = root / "test_markdown/digitization/book"
+        project.mkdir(parents=True)
+        (project / "project.json").write_text(json.dumps({
+            "schema_version": 2,
+            "author_id": "test",
+            "work_id": "book",
+            "source_scan": "test_markdown/source_scans/book.pdf",
+            "source_sha256": MANAGER.sha256(scan),
+            "source_version": "first",
+            "status": "human_verified",
+            "created": "2026-07-27",
+            "ocr_activated": True,
+            "output_profile": "agent_canonical_markdown",
+        }), encoding="utf-8")
+        pages = [
+            {"file_page_index": 0, "scan_page_id": "pdf-page-001", "printed_page": "1"},
+            {"file_page_index": 1, "scan_page_id": "pdf-page-002", "printed_page": "2"},
+        ]
+        (project / "page_map.json").write_text(json.dumps({
+            "schema_version": 1,
+            "pages": pages,
+        }), encoding="utf-8")
+        (project / "ocr_runs.json").write_text(json.dumps({
+            "schema_version": 1,
+            "runs": [
+                {"engine": "one", "version": "1"},
+                {"engine": "two", "version": "1"},
+            ],
+        }), encoding="utf-8")
+        (project / "ocr_review_log.json").write_text(json.dumps({
+            "schema_version": 1,
+            "reviews": [],
+        }), encoding="utf-8")
+        (project / "quality_report.json").write_text(json.dumps({
+            "schema_version": 1,
+            "status": "passed",
+            "checks": {"canonical_text_map_valid": True},
+            "unresolved_issues": [],
+        }), encoding="utf-8")
+        final_hash = MANAGER.sha256(final)
+        (project / "human_verification_manifest.json").write_text(json.dumps({
+            "schema_version": 1,
+            "verification_status": "human_verified",
+            "reviewer": "owner",
+            "verification_date": "2026-07-27",
+            "verified_scan_pages": ["pdf-page-001", "pdf-page-002"],
+            "source_scan_sha256": MANAGER.sha256(scan),
+            "final_markdown": "test_markdown/test_md/book.md",
+            "final_markdown_sha256": final_hash,
+        }), encoding="utf-8")
+        canonical_map = project / "canonical_text_map.json"
+        canonical_map.write_text(json.dumps({
+            "schema_version": 1,
+            "work_id": "book",
+            "final_markdown": "test_markdown/test_md/book.md",
+            "final_markdown_sha256": final_hash,
+            "blocks": [
+                {
+                    "block_id": "b0001",
+                    "kind": "heading",
+                    "source_locators": [{"scan_page_id": "pdf-page-001"}],
+                },
+                {
+                    "block_id": "b0002",
+                    "kind": "paragraph",
+                    "source_locators": [
+                        {"scan_page_id": "pdf-page-001"},
+                        {"scan_page_id": "pdf-page-002"},
+                    ],
+                },
+            ],
+            "textual_notes": [{
+                "block_id": "b0002",
+                "category": "source_typo",
+                "source_reading": "teh",
+                "canonical_reading": "the",
+                "source_locators": [{"scan_page_id": "pdf-page-002"}],
+                "rationale": "Unambiguous typographical error.",
+            }],
+        }), encoding="utf-8")
+        return project, final, canonical_map
+
     def test_duplicate_and_unsafe_paths_are_rejected(self):
         with tempfile.TemporaryDirectory() as directory:
             root = Path(directory)
@@ -174,6 +296,48 @@ class ManageCollectionsTests(unittest.TestCase):
             }), encoding="utf-8")
             self.assertEqual(MANAGER.validate_digitization(root), [])
 
+    def test_init_digitization_defaults_to_v2_agent_canonical_profile(self):
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            self.fixture(root)
+            data = self.registry()
+            data["collections"].append({
+                "id": "test-texts",
+                "person_id": "test",
+                "kind": "author_texts",
+                "root": "test_markdown",
+                "layout": "legacy",
+                "stage": "source_scans",
+                "corpus_paths": [],
+                "scan_paths": ["test_markdown/source_scans/"],
+                "scan_manifest": "test_markdown/metadata/source_scans_manifest.json",
+                "bibliography_paths": [],
+                "gbrain_tracked": True,
+            })
+            (root / "metadata/collections.json").write_text(json.dumps(data), encoding="utf-8")
+            scan = root / "test_markdown/source_scans/book.pdf"
+            scan.parent.mkdir(parents=True)
+            scan.write_bytes(b"scan")
+            metadata = root / "test_markdown/metadata"
+            metadata.mkdir()
+            (metadata / "source_scans_manifest.json").write_text(json.dumps({"items": [{
+                "local_path": "source_scans/book.pdf",
+                "sha256": MANAGER.sha256(scan),
+            }]}), encoding="utf-8")
+            MANAGER.init_digitization(root, SimpleNamespace(
+                author_id="test",
+                work_id="book",
+                source_scan="test_markdown/source_scans/book.pdf",
+                source_version="first edition",
+                date="2026-07-27",
+            ))
+            project = json.loads((
+                root / "test_markdown/digitization/book/project.json"
+            ).read_text())
+            self.assertEqual(project["schema_version"], 2)
+            self.assertEqual(project["output_profile"], "agent_canonical_markdown")
+            self.assertEqual(MANAGER.validate_digitization(root), [])
+
     def test_human_verified_digitization_requires_final_files(self):
         with tempfile.TemporaryDirectory() as directory:
             root = Path(directory)
@@ -220,27 +384,204 @@ class ManageCollectionsTests(unittest.TestCase):
             errors = MANAGER.validate_digitization(root)
             self.assertTrue(any("缺少 page_map.json" in error for error in errors))
 
+    def test_v2_human_verified_digitization_accepts_complete_canonical_map(self):
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            self.v2_digitization_fixture(root)
+            self.assertEqual(MANAGER.validate_digitization(root), [])
+
+    def test_v2_digitization_rejects_missing_output_profile_and_map(self):
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            project, _final, canonical_map = self.v2_digitization_fixture(root)
+            project_data = json.loads((project / "project.json").read_text())
+            project_data.pop("output_profile")
+            (project / "project.json").write_text(json.dumps(project_data), encoding="utf-8")
+            canonical_map.unlink()
+            errors = MANAGER.validate_digitization(root)
+            self.assertTrue(any("output_profile" in error for error in errors))
+            self.assertTrue(any("canonical_text_map.json" in error for error in errors))
+
+    def test_v2_digitization_rejects_duplicate_unmapped_invalid_page_and_hash(self):
+        mutations = {
+            "duplicate": "重复 block ID",
+            "unmapped": "映射不完整",
+            "invalid_page": "无效 scan_page_id",
+            "hash": "SHA-256 不匹配",
+            "inline_page": "页界注释",
+            "missing_id": "未分配 block ID",
+            "duplicate_footnote": "重复脚注 ID",
+        }
+        for mutation, expected in mutations.items():
+            with self.subTest(mutation=mutation), tempfile.TemporaryDirectory() as directory:
+                root = Path(directory)
+                project, final, canonical_map_path = self.v2_digitization_fixture(root)
+                canonical_map = json.loads(canonical_map_path.read_text())
+                verification_path = project / "human_verification_manifest.json"
+                verification = json.loads(verification_path.read_text())
+                if mutation == "duplicate":
+                    final.write_text(final.read_text().replace("b0002", "b0001"), encoding="utf-8")
+                elif mutation == "unmapped":
+                    canonical_map["blocks"].pop()
+                elif mutation == "invalid_page":
+                    canonical_map["blocks"][1]["source_locators"] = [
+                        {"scan_page_id": "pdf-page-999"}
+                    ]
+                elif mutation == "hash":
+                    canonical_map["final_markdown_sha256"] = "0" * 64
+                elif mutation == "inline_page":
+                    final.write_text(
+                        final.read_text().replace(
+                            "crossing pages",
+                            "cross<!-- source-page: pdf-page-002 -->ing pages",
+                        ),
+                        encoding="utf-8",
+                    )
+                elif mutation == "missing_id":
+                    final.write_text(
+                        final.read_text().replace("<!-- block-id: b0002 -->\n", ""),
+                        encoding="utf-8",
+                    )
+                elif mutation == "duplicate_footnote":
+                    final.write_text(
+                        final.read_text()
+                        + "\n<!-- block-id: b0003 -->\n[^note]: First.\n"
+                        + "\n<!-- block-id: b0004 -->\n[^note]: Second.\n",
+                        encoding="utf-8",
+                    )
+                    canonical_map["blocks"].extend([
+                        {
+                            "block_id": "b0003",
+                            "kind": "footnote",
+                            "source_locators": [{"scan_page_id": "pdf-page-001"}],
+                        },
+                        {
+                            "block_id": "b0004",
+                            "kind": "footnote",
+                            "source_locators": [{"scan_page_id": "pdf-page-002"}],
+                        },
+                    ])
+                if mutation in {
+                    "duplicate", "inline_page", "missing_id", "duplicate_footnote"
+                }:
+                    final_hash = MANAGER.sha256(final)
+                    canonical_map["final_markdown_sha256"] = final_hash
+                    verification["final_markdown_sha256"] = final_hash
+                    verification_path.write_text(json.dumps(verification), encoding="utf-8")
+                canonical_map_path.write_text(json.dumps(canonical_map), encoding="utf-8")
+                errors = MANAGER.validate_digitization(root)
+                self.assertTrue(any(expected in error for error in errors), errors)
+
     def test_translation_project_requires_matching_source_hash(self):
         with tempfile.TemporaryDirectory() as directory:
             root = Path(directory)
-            source = root / "author/work.md"
-            source.parent.mkdir()
-            source.write_text("# Work\n", encoding="utf-8")
-            project = root / "translation_workspace/planned/author/work"
+            self.fixture(root)
+            data = self.registry()
+            data["collections"].append({
+                "id": "test-texts",
+                "person_id": "test",
+                "corpus_paths": ["test_markdown/test_md/"],
+            })
+            (root / "metadata/collections.json").write_text(json.dumps(data), encoding="utf-8")
+            schema = root / "metadata/schemas/translation_project.schema.json"
+            schema.parent.mkdir()
+            schema.write_text("{}\n", encoding="utf-8")
+            source = root / "test_markdown/test_md/work.md"
+            source.parent.mkdir(parents=True)
+            source.write_text(
+                "---\ntext_role: \"author_original\"\n"
+                "core_corpus_eligible: \"true\"\n"
+                "llm_wiki_eligible: \"true\"\n"
+                "gbrain_source: \"project-markdown\"\n"
+                "source_url: \"https://example.test\"\n---\n# Work\n",
+                encoding="utf-8",
+            )
+            project = root / "translation_workspace/planned/test/work"
             project.mkdir(parents=True)
             (project / "translation.json").write_text(json.dumps({
-                "schema_version": 1,
-                "author_id": "author",
+                "schema_version": 3,
+                "author_id": "test",
                 "work_id": "work",
-                "source_path": "author/work.md",
-                "source_url": "https://example.test",
-                "source_version": "first",
-                "source_sha256": "0" * 64,
+                "created_at": "2026-07-18",
+                "updated_at": "2026-07-18",
                 "target_language": "zh",
-                "status": "planned",
+                "source_units": [{
+                    "id": "full",
+                    "status": "planned",
+                    "source_segments": [{
+                        "source_path": "test_markdown/test_md/work.md",
+                        "source_url": "https://example.test",
+                        "source_version": "first",
+                        "source_sha256": "0" * 64,
+                        "source_block_start": 1,
+                        "source_block_end": 1,
+                    }],
+                    "paragraph_count": 1,
+                    "accuracy_review": {
+                        "reviewer": None,
+                        "reviewed_at": None,
+                        "result": "pending",
+                        "scope_sha256": None,
+                    },
+                    "language_review": {
+                        "reviewer": None,
+                        "reviewed_at": None,
+                        "result": "pending",
+                        "scope_sha256": None,
+                    },
+                }],
             }), encoding="utf-8")
             errors = MANAGER.validate_translation_projects(root)
-            self.assertTrue(any("source_sha256 不匹配" in error for error in errors))
+            self.assertTrue(any("source SHA-256 mismatch" in error for error in errors))
+
+    def test_init_translation_derives_source_hash_and_blocks(self):
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            self.fixture(root)
+            data = self.registry()
+            data["collections"].append({
+                "id": "test-texts",
+                "person_id": "test",
+                "corpus_paths": ["test_markdown/test_md/"],
+            })
+            (root / "metadata/collections.json").write_text(json.dumps(data), encoding="utf-8")
+            schema = root / "metadata/schemas/translation_project.schema.json"
+            schema.parent.mkdir()
+            schema.write_text("{}\n", encoding="utf-8")
+            source = root / "test_markdown/test_md/work.md"
+            source.parent.mkdir(parents=True)
+            source.write_text(
+                "---\ntext_role: \"author_original\"\n"
+                "core_corpus_eligible: \"true\"\n"
+                "llm_wiki_eligible: \"true\"\n"
+                "gbrain_source: \"project-markdown\"\n"
+                "source_url: \"https://example.test\"\n---\n"
+                "# Work\n\nParagraph.\n",
+                encoding="utf-8",
+            )
+            args = SimpleNamespace(
+                author_id="test",
+                work_id="work",
+                source_version="first edition",
+                source_unit=[
+                    ["full", "test_markdown/test_md/work.md", "1-1"],
+                    ["full", "test_markdown/test_md/work.md", "2-2"],
+                ],
+                date="2026-07-18",
+            )
+
+            MANAGER.init_translation(root, args)
+
+            metadata = json.loads((
+                root / "translation_workspace/planned/test/work/translation.json"
+            ).read_text(encoding="utf-8"))
+            self.assertEqual(metadata["source_units"][0]["paragraph_count"], 2)
+            self.assertEqual(len(metadata["source_units"][0]["source_segments"]), 2)
+            self.assertEqual(
+                metadata["source_units"][0]["source_segments"][0]["source_sha256"],
+                MANAGER.sha256(source),
+            )
+            self.assertEqual(MANAGER.validate_translation_projects(root), [])
 
 
 if __name__ == "__main__":

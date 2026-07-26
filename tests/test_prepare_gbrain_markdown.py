@@ -151,6 +151,139 @@ class PrepareGbrainMarkdownTests(unittest.TestCase):
 
             self.assertEqual(MODULE.validate_file(path, path.read_text(), root), [])
 
+    def test_v2_verified_ocr_requires_canonical_mode_and_matching_map(self):
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            path = root / "test_markdown/test_md/work.md"
+            path.parent.mkdir(parents=True)
+            path.write_text(
+                '---\ncreated: "2026-07-27"\ntext_role: "author_original"\n'
+                'core_corpus_eligible: "true"\nllm_wiki_eligible: "true"\n'
+                'source_format: "image_scan"\nsource_license: "not_stated"\n'
+                'redistribution_approved: "false"\nrights_review_status: "unreviewed"\n'
+                'text_status: "ocr_human_verified"\nsource_url: "not_stated"\n'
+                'provenance: "ocr_initial_then_manual_collation_against_source_images"\n'
+                'transcription_mode: "agent_canonical_markdown"\n'
+                '---\n<!-- block-id: b0001 -->\n# Work\n',
+                encoding="utf-8",
+            )
+            project_dir = root / "test_markdown/digitization/work"
+            project_dir.mkdir(parents=True)
+            (project_dir / "project.json").write_text(json.dumps({
+                "schema_version": 2,
+                "author_id": "test",
+                "work_id": "work",
+                "source_scan": "test_markdown/source_scans/work.pdf",
+                "source_sha256": "0" * 64,
+                "source_version": "test scan",
+                "status": "human_verified",
+                "created": "2026-07-27",
+                "ocr_activated": True,
+                "output_profile": "agent_canonical_markdown",
+            }), encoding="utf-8")
+            manifest = {
+                "schema_version": 1,
+                "verification_status": "human_verified",
+                "reviewer": "tester",
+                "verification_date": "2026-07-27",
+                "verified_scan_pages": ["p001"],
+                "source_scan_sha256": "0" * 64,
+                "final_markdown": path.relative_to(root).as_posix(),
+                "final_markdown_sha256": hashlib.sha256(path.read_bytes()).hexdigest(),
+            }
+            (project_dir / "human_verification_manifest.json").write_text(
+                json.dumps(manifest), encoding="utf-8"
+            )
+            canonical_map = project_dir / "canonical_text_map.json"
+            canonical_map.write_text(json.dumps({
+                "schema_version": 1,
+                "work_id": "work",
+                "final_markdown": path.relative_to(root).as_posix(),
+                "final_markdown_sha256": hashlib.sha256(path.read_bytes()).hexdigest(),
+                "blocks": [{
+                    "block_id": "b0001",
+                    "kind": "heading",
+                    "source_locators": [{"scan_page_id": "p001"}],
+                }],
+                "textual_notes": [],
+            }), encoding="utf-8")
+
+            self.assertEqual(MODULE.validate_file(path, path.read_text(), root), [])
+
+            canonical_map.unlink()
+            errors = MODULE.validate_file(path, path.read_text(), root)
+            self.assertTrue(any("valid canonical_text_map.json" in error for error in errors))
+
+    def test_transcription_modes_accept_legacy_and_reject_misspelling(self):
+        base = [
+            'created: "2026-06-11"',
+            'text_role: "research"',
+            'core_corpus_eligible: "false"',
+            'llm_wiki_eligible: "true"',
+            'source_format: "html"',
+            'source_license: "not_stated"',
+            'redistribution_approved: "false"',
+            'rights_review_status: "unreviewed"',
+            'text_status: "html_conversion_unverified"',
+            'source_url: "not_stated"',
+        ]
+        for mode in sorted(MODULE.LEGACY_TRANSCRIPTION_MODES):
+            with self.subTest(mode=mode), tempfile.TemporaryDirectory() as directory:
+                root = Path(directory)
+                path = self.write_corpus(
+                    root,
+                    "\n".join(base + [f'transcription_mode: "{mode}"']),
+                )
+                self.assertEqual(MODULE.validate_file(path, path.read_text(), root), [])
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            path = self.write_corpus(
+                root,
+                "\n".join(base + ['transcription_mode: "agent_canonical_markdonw"']),
+            )
+            errors = MODULE.validate_file(path, path.read_text(), root)
+            self.assertTrue(any("invalid transcription_mode" in error for error in errors))
+
+    def test_translation_issue_log_is_not_treated_as_corpus_text(self):
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            path = root / "translation_workspace/reviewed/test/work/units/ch001/issues.md"
+            path.parent.mkdir(parents=True)
+            path.write_text(
+                "---\n"
+                'title: "Review Issues"\n'
+                'created: "2026-07-27"\n'
+                'type: "note"\n'
+                'tags: ["translation", "audit"]\n'
+                'language: "zh"\n'
+                'collection: "translation-workspace"\n'
+                'llm_wiki_eligible: "true"\n'
+                'gbrain_source: "project-markdown"\n'
+                "---\n# Review Issues\n",
+                encoding="utf-8",
+            )
+            self.assertEqual(MODULE.validate_file(path, path.read_text(), root), [])
+
+    def test_translation_reviewed_is_a_valid_text_status(self):
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            fields = "\n".join(
+                [
+                    'created: "2026-07-27"',
+                    'text_role: "modern_translation"',
+                    'core_corpus_eligible: "false"',
+                    'llm_wiki_eligible: "true"',
+                    'source_format: "markdown"',
+                    'source_license: "not_stated"',
+                    'redistribution_approved: "false"',
+                    'rights_review_status: "unreviewed"',
+                    'text_status: "translation_reviewed"',
+                    'source_url: "not_stated"',
+                ]
+            )
+            path = self.write_corpus(root, fields)
+            self.assertEqual(MODULE.validate_file(path, path.read_text(), root), [])
+
     def test_core_image_scan_without_manifest_is_rejected(self):
         with tempfile.TemporaryDirectory() as directory:
             root = Path(directory)

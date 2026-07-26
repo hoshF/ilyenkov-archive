@@ -1,7 +1,7 @@
 ---
 title: "Corpus Resolver"
 created: "2026-06-11"
-updated: "2026-06-22"
+updated: "2026-07-18"
 type: "project"
 tags: ["corpus", "resolver", "gbrain"]
 language: "en"
@@ -42,9 +42,12 @@ of truth for people and paths.
    manifest or an activated digitization project with retained OCR provenance.
 7. Do not describe unverified web transcription or AI output as a critical edition.
 8. Do not duplicate the corpus into a second wiki or translation-source tree.
-9. Current Maidansky-site citations use
+9. Translation projects bind only visible corpus Markdown read by GBrain. For long works, use the
+   registered split chapter files plus `work_manifest.json`; never bind `.fulltext/`, source
+   snapshots, scans, or digitization isolation files.
+10. Current Maidansky-site citations use
    `http://filorus.ru/ilyenkov/... (at the website by Andrey Maidansky)`.
-10. Register all new people and corpus paths in `metadata/collections.json`, then run
+11. Register all new people and corpus paths in `metadata/collections.json`, then run
     `manage_collections.py sync`.
 
 See [Source Policy](notes/PHILOSOPHY_SOURCE_FORMAT_POLICY.md).

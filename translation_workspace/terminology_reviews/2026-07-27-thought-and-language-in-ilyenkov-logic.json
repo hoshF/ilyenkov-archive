@@ -1,0 +1,1168 @@
+{
+  "schema_version": 1,
+  "audit_only": true,
+  "record_format": "legacy_migrated",
+  "batch_id": "2026-07-27-thought-and-language-in-ilyenkov-logic",
+  "batch_kind": "article_review",
+  "date": "2026-07-27",
+  "primary_author_id": "maidansky",
+  "related_author_ids": [
+    "ilyenkov",
+    "spinoza",
+    "vygotsky"
+  ],
+  "work_id": "myshlenie-i-yazyk-v-logike-ilenkova",
+  "article_slug": "thought-and-language-in-ilyenkov-logic",
+  "inputs": [
+    {
+      "role": "source",
+      "path": "maidansky_markdown/maidansky_md/dialekticheskaya-logika/dialekticheskaya-logika-myshlenie-i-yazyk-v-logike-ilenkova.md",
+      "sha256": "38a11c0325dd37a646f6656ece774074e7e4939463cc0afcf576b386e6b8e8a2",
+      "size": 60800
+    },
+    {
+      "role": "translation",
+      "path": "blog:content/posts/thought-and-language-in-ilyenkov-logic.md",
+      "sha256": "59f912af91cdd3e77d5d2972f085ddbb8829146eff9283898a8faebd093de717",
+      "size": 35294
+    },
+    {
+      "role": "suggestions",
+      "path": "upload:《伊里因科夫逻辑学中的思维与语言》术语收录建议表.md",
+      "sha256": null,
+      "unavailable_at_migration": true
+    }
+  ],
+  "review": {
+    "accuracy": {
+      "full_pass": true,
+      "coverage": "完整范围见迁移保留的旧日志段落。"
+    },
+    "language": {
+      "full_pass": true,
+      "coverage": "完整范围见迁移保留的旧日志段落。"
+    },
+    "final_translation_sha256": "59f912af91cdd3e77d5d2972f085ddbb8829146eff9283898a8faebd093de717",
+    "blockers": []
+  },
+  "operation_counts": {
+    "add": 15,
+    "modify": 1,
+    "delete": 0,
+    "status": 4,
+    "reject": 47,
+    "no_formal_glossary": 2
+  },
+  "decisions": [
+    {
+      "proposal_id": "legacy-001",
+      "term_ids": [
+        "thought-content"
+      ],
+      "target_author_ids": [
+        "ilyenkov",
+        "spinoza"
+      ],
+      "canonical": "мысль",
+      "forms": [],
+      "suggested_zh": "",
+      "operations": [
+        "add"
+      ],
+      "before": "无 → 思想",
+      "after": "无 → 思想",
+      "article_evidence": {
+        "summary": "20；段落 2、4、7、11—13、16—17、22、26、31、37、43、46"
+      },
+      "corpus_evidence": {
+        "summary": "455/61 篇；逻辑史、斯宾诺莎与伊里因科夫研究中广泛复现",
+        "representative_contexts": []
+      },
+      "rationale": "与 `мышление`“思维”及 `идея`“观念”存在真实分工；`approved`",
+      "final_status_by_author": {
+        "legacy": "approved"
+      },
+      "affected_translation_locations": [],
+      "affected_translation_summary": "全文三词分流复核一致",
+      "heuristic_forms_pending": [],
+      "legacy_cells": {
+        "词条 ID": "`thought-content`",
+        "原词及词形": "`мысль` 及屈折形式",
+        "修改前 → 修改后": "无 → 思想",
+        "本文频次与全部位置": "20；段落 2、4、7、11—13、16—17、22、26、31、37、43、46",
+        "作者语料频次、范围与代表性位置": "455/61 篇；逻辑史、斯宾诺莎与伊里因科夫研究中广泛复现",
+        "上下文、决定理由与最终状态": "与 `мышление`“思维”及 `идея`“观念”存在真实分工；`approved`",
+        "译文受影响位置及实际修改": "全文三词分流复核一致"
+      }
+    },
+    {
+      "proposal_id": "legacy-002",
+      "term_ids": [
+        "word"
+      ],
+      "target_author_ids": [],
+      "canonical": "Слово / слово",
+      "forms": [],
+      "suggested_zh": "",
+      "operations": [
+        "add"
+      ],
+      "before": "无 → 言语；具体词项作“词语”",
+      "after": "无 → 言语；具体词项作“词语”",
+      "article_evidence": {
+        "summary": "26；段落 2、4—8、11、13—14、23、26、31、37、46—47、54、60"
+      },
+      "corpus_evidence": {
+        "summary": "普通词形 664/63 篇，但概念用法集中于本篇及相关逻辑研究",
+        "representative_contexts": []
+      },
+      "rationale": "公式和“言语逻辑”用“言语”，记号操作语境用“词语”；`provisional`",
+      "final_status_by_author": {
+        "legacy": "provisional"
+      },
+      "affected_translation_locations": [],
+      "affected_translation_summary": "摘要、公式、黑格尔段及形式逻辑段按语境分译",
+      "heuristic_forms_pending": [],
+      "legacy_cells": {
+        "词条 ID": "`word`",
+        "原词及词形": "`Слово / слово` 及屈折形式",
+        "修改前 → 修改后": "无 → 言语；具体词项作“词语”",
+        "本文频次与全部位置": "26；段落 2、4—8、11、13—14、23、26、31、37、46—47、54、60",
+        "作者语料频次、范围与代表性位置": "普通词形 664/63 篇，但概念用法集中于本篇及相关逻辑研究",
+        "上下文、决定理由与最终状态": "公式和“言语逻辑”用“言语”，记号操作语境用“词语”；`provisional`",
+        "译文受影响位置及实际修改": "摘要、公式、黑格尔段及形式逻辑段按语境分译"
+      }
+    },
+    {
+      "proposal_id": "legacy-003",
+      "term_ids": [
+        "idea"
+      ],
+      "target_author_ids": [
+        "ilyenkov",
+        "spinoza"
+      ],
+      "canonical": "идея",
+      "forms": [
+        "cogitationes"
+      ],
+      "suggested_zh": "",
+      "operations": [
+        "add"
+      ],
+      "before": "无 → 观念",
+      "after": "无 → 观念",
+      "article_evidence": {
+        "summary": "15；段落 4、17、25—27、33、41、54、57"
+      },
+      "corpus_evidence": {
+        "summary": "1086/51 篇；斯宾诺莎认识论和伊里因科夫研究高频",
+        "representative_contexts": []
+      },
+      "rationale": "与思想、思维和观念的东西分开；`provisional`",
+      "final_status_by_author": {
+        "legacy": "provisional"
+      },
+      "affected_translation_locations": [],
+      "affected_translation_summary": "斯宾诺莎段、观念形式段及注释统一“观念”",
+      "heuristic_forms_pending": [],
+      "legacy_cells": {
+        "词条 ID": "`idea`",
+        "原词及词形": "`идея`、`cogitationes`",
+        "修改前 → 修改后": "无 → 观念",
+        "本文频次与全部位置": "15；段落 4、17、25—27、33、41、54、57",
+        "作者语料频次、范围与代表性位置": "1086/51 篇；斯宾诺莎认识论和伊里因科夫研究高频",
+        "上下文、决定理由与最终状态": "与思想、思维和观念的东西分开；`provisional`",
+        "译文受影响位置及实际修改": "斯宾诺莎段、观念形式段及注释统一“观念”"
+      }
+    },
+    {
+      "proposal_id": "legacy-004",
+      "term_ids": [
+        "deed-thought-word"
+      ],
+      "target_author_ids": [],
+      "canonical": "Дело — Мысль — Слово",
+      "forms": [],
+      "suggested_zh": "",
+      "operations": [
+        "add"
+      ],
+      "before": "无 → 行动—思想—言语",
+      "after": "无 → 行动—思想—言语",
+      "article_evidence": {
+        "summary": "2；段落 4、31"
+      },
+      "corpus_evidence": {
+        "summary": "当前固定公式只见本篇；相关“行动逻辑”在作者语料复现",
+        "representative_contexts": []
+      },
+      "rationale": "顺序构成全文论证，英文摘要对应 Action—Thought—Word；`provisional`",
+      "final_status_by_author": {
+        "legacy": "provisional"
+      },
+      "affected_translation_locations": [],
+      "affected_translation_summary": "公式及其后教育心理学复现处统一",
+      "heuristic_forms_pending": [],
+      "legacy_cells": {
+        "词条 ID": "`deed-thought-word`",
+        "原词及词形": "`Дело — Мысль — Слово`",
+        "修改前 → 修改后": "无 → 行动—思想—言语",
+        "本文频次与全部位置": "2；段落 4、31",
+        "作者语料频次、范围与代表性位置": "当前固定公式只见本篇；相关“行动逻辑”在作者语料复现",
+        "上下文、决定理由与最终状态": "顺序构成全文论证，英文摘要对应 Action—Thought—Word；`provisional`",
+        "译文受影响位置及实际修改": "公式及其后教育心理学复现处统一"
+      }
+    },
+    {
+      "proposal_id": "legacy-005",
+      "term_ids": [
+        "logic-of-deed"
+      ],
+      "target_author_ids": [
+        "spinoza"
+      ],
+      "canonical": "логика Дела",
+      "forms": [],
+      "suggested_zh": "",
+      "operations": [
+        "add"
+      ],
+      "before": "无 → 行动逻辑",
+      "after": "无 → 行动逻辑",
+      "article_evidence": {
+        "summary": "3；段落 2、6"
+      },
+      "corpus_evidence": {
+        "summary": "16/8 篇；真理、活动和斯宾诺莎研究中复现",
+        "representative_contexts": []
+      },
+      "rationale": "同“言语逻辑”成对，指实践—劳动发生路线；`provisional`",
+      "final_status_by_author": {
+        "legacy": "provisional"
+      },
+      "affected_translation_locations": [],
+      "affected_translation_summary": "摘要和黑格尔段统一",
+      "heuristic_forms_pending": [],
+      "legacy_cells": {
+        "词条 ID": "`logic-of-deed`",
+        "原词及词形": "`логика Дела`",
+        "修改前 → 修改后": "无 → 行动逻辑",
+        "本文频次与全部位置": "3；段落 2、6",
+        "作者语料频次、范围与代表性位置": "16/8 篇；真理、活动和斯宾诺莎研究中复现",
+        "上下文、决定理由与最终状态": "同“言语逻辑”成对，指实践—劳动发生路线；`provisional`",
+        "译文受影响位置及实际修改": "摘要和黑格尔段统一"
+      }
+    },
+    {
+      "proposal_id": "legacy-006",
+      "term_ids": [
+        "logic-of-word"
+      ],
+      "target_author_ids": [
+        "ilyenkov"
+      ],
+      "canonical": "логика Слова",
+      "forms": [],
+      "suggested_zh": "",
+      "operations": [
+        "add"
+      ],
+      "before": "无 → 言语逻辑",
+      "after": "无 → 言语逻辑",
+      "article_evidence": {
+        "summary": "3；段落 2、6"
+      },
+      "corpus_evidence": {
+        "summary": "4/2 篇；本篇及《伊里因科夫辩证逻辑中的真理概念》",
+        "representative_contexts": []
+      },
+      "rationale": "不是狭义词汇逻辑；`provisional`",
+      "final_status_by_author": {
+        "legacy": "provisional"
+      },
+      "affected_translation_locations": [],
+      "affected_translation_summary": "摘要和黑格尔段统一",
+      "heuristic_forms_pending": [],
+      "legacy_cells": {
+        "词条 ID": "`logic-of-word`",
+        "原词及词形": "`логика Слова`",
+        "修改前 → 修改后": "无 → 言语逻辑",
+        "本文频次与全部位置": "3；段落 2、6",
+        "作者语料频次、范围与代表性位置": "4/2 篇；本篇及《伊里因科夫辩证逻辑中的真理概念》",
+        "上下文、决定理由与最终状态": "不是狭义词汇逻辑；`provisional`",
+        "译文受影响位置及实际修改": "摘要和黑格尔段统一"
+      }
+    },
+    {
+      "proposal_id": "legacy-007",
+      "term_ids": [
+        "object-practical-activity"
+      ],
+      "target_author_ids": [
+        "ilyenkov",
+        "spinoza"
+      ],
+      "canonical": "предметно-практическая деятельность / жизнедеятельность",
+      "forms": [],
+      "suggested_zh": "",
+      "operations": [
+        "add"
+      ],
+      "before": "无 → 对象性实践活动",
+      "after": "无 → 对象性实践活动",
+      "article_evidence": {
+        "summary": "5；段落 2、5、28、37、40"
+      },
+      "corpus_evidence": {
+        "summary": "17/12 篇；实践概念、俄罗斯斯宾诺莎主义和文化心理学语料复现；Ilyenkov 语料 27/18 篇",
+        "representative_contexts": []
+      },
+      "rationale": "不译“客观实践活动”，与对象性活动分层；`approved`",
+      "final_status_by_author": {
+        "legacy": "approved"
+      },
+      "affected_translation_locations": [],
+      "affected_translation_summary": "摘要、引文、劳动主体段和婴儿段统一",
+      "heuristic_forms_pending": [],
+      "legacy_cells": {
+        "词条 ID": "`object-practical-activity`",
+        "原词及词形": "`предметно-практическая деятельность / жизнедеятельность`",
+        "修改前 → 修改后": "无 → 对象性实践活动",
+        "本文频次与全部位置": "5；段落 2、5、28、37、40",
+        "作者语料频次、范围与代表性位置": "17/12 篇；实践概念、俄罗斯斯宾诺莎主义和文化心理学语料复现；Ilyenkov 语料 27/18 篇",
+        "上下文、决定理由与最终状态": "不译“客观实践活动”，与对象性活动分层；`approved`",
+        "译文受影响位置及实际修改": "摘要、引文、劳动主体段和婴儿段统一"
+      }
+    },
+    {
+      "proposal_id": "legacy-008",
+      "term_ids": [
+        "labor"
+      ],
+      "target_author_ids": [],
+      "canonical": "труд",
+      "forms": [],
+      "suggested_zh": "",
+      "operations": [
+        "add"
+      ],
+      "before": "无 → 劳动",
+      "after": "无 → 劳动",
+      "article_evidence": {
+        "summary": "15；段落 2、4、28、45—47；注释中的 `труды`“著作”不计"
+      },
+      "corpus_evidence": {
+        "summary": "约 1244/53 篇；马克思主义、教育和心理学研究高频",
+        "representative_contexts": []
+      },
+      "rationale": "与普通“工作”和复数“著作”分义；`approved`",
+      "final_status_by_author": {
+        "legacy": "approved"
+      },
+      "affected_translation_locations": [],
+      "affected_translation_summary": "摘要、劳动主体段和扎戈尔斯克段统一",
+      "heuristic_forms_pending": [],
+      "legacy_cells": {
+        "词条 ID": "`labor`",
+        "原词及词形": "`труд` 及劳动义词形",
+        "修改前 → 修改后": "无 → 劳动",
+        "本文频次与全部位置": "15；段落 2、4、28、45—47；注释中的 `труды`“著作”不计",
+        "作者语料频次、范围与代表性位置": "约 1244/53 篇；马克思主义、教育和心理学研究高频",
+        "上下文、决定理由与最终状态": "与普通“工作”和复数“著作”分义；`approved`",
+        "译文受影响位置及实际修改": "摘要、劳动主体段和扎戈尔斯克段统一"
+      }
+    },
+    {
+      "proposal_id": "legacy-009",
+      "term_ids": [
+        "personality"
+      ],
+      "target_author_ids": [],
+      "canonical": "личность",
+      "forms": [],
+      "suggested_zh": "",
+      "operations": [
+        "add"
+      ],
+      "before": "无 → 人格",
+      "after": "无 → 人格",
+      "article_evidence": {
+        "summary": "5；段落 2、44—45"
+      },
+      "corpus_evidence": {
+        "summary": "196/40 篇；人格形成和文化—历史心理学语料高频",
+        "representative_contexts": []
+      },
+      "rationale": "与个体、个人和性格区分；`approved`",
+      "final_status_by_author": {
+        "legacy": "approved"
+      },
+      "affected_translation_locations": [],
+      "affected_translation_summary": "摘要、作者信息和扎戈尔斯克段统一",
+      "heuristic_forms_pending": [],
+      "legacy_cells": {
+        "词条 ID": "`personality`",
+        "原词及词形": "`личность` 及屈折形式",
+        "修改前 → 修改后": "无 → 人格",
+        "本文频次与全部位置": "5；段落 2、44—45",
+        "作者语料频次、范围与代表性位置": "196/40 篇；人格形成和文化—历史心理学语料高频",
+        "上下文、决定理由与最终状态": "与个体、个人和性格区分；`approved`",
+        "译文受影响位置及实际修改": "摘要、作者信息和扎戈尔斯克段统一"
+      }
+    },
+    {
+      "proposal_id": "legacy-010",
+      "term_ids": [
+        "jointly-divided-activity"
+      ],
+      "target_author_ids": [
+        "ilyenkov"
+      ],
+      "canonical": "совместно-разделенная деятельность",
+      "forms": [],
+      "suggested_zh": "",
+      "operations": [
+        "add"
+      ],
+      "before": "无 → 共同—分担活动",
+      "after": "无 → 共同—分担活动",
+      "article_evidence": {
+        "summary": "2；段落 2、45"
+      },
+      "corpus_evidence": {
+        "summary": "4/3 篇；梅谢里亚科夫和“观念的东西的变形”研究；Ilyenkov 人格形成语料复现",
+        "representative_contexts": []
+      },
+      "rationale": "成人与儿童共同承担并逐步转移份额，低频但理论关键；`provisional`",
+      "final_status_by_author": {
+        "legacy": "provisional"
+      },
+      "affected_translation_locations": [],
+      "affected_translation_summary": "摘要、扎戈尔斯克结论段统一",
+      "heuristic_forms_pending": [],
+      "legacy_cells": {
+        "词条 ID": "`jointly-divided-activity`",
+        "原词及词形": "`совместно-разделенная деятельность`",
+        "修改前 → 修改后": "无 → 共同—分担活动",
+        "本文频次与全部位置": "2；段落 2、45",
+        "作者语料频次、范围与代表性位置": "4/3 篇；梅谢里亚科夫和“观念的东西的变形”研究；Ilyenkov 人格形成语料复现",
+        "上下文、决定理由与最终状态": "成人与儿童共同承担并逐步转移份额，低频但理论关键；`provisional`",
+        "译文受影响位置及实际修改": "摘要、扎戈尔斯克结论段统一"
+      }
+    },
+    {
+      "proposal_id": "legacy-011",
+      "term_ids": [
+        "practical-communication"
+      ],
+      "target_author_ids": [
+        "ilyenkov"
+      ],
+      "canonical": "деловое общение",
+      "forms": [],
+      "suggested_zh": "",
+      "operations": [
+        "add"
+      ],
+      "before": "无 → 实践性交往",
+      "after": "无 → 实践性交往",
+      "article_evidence": {
+        "summary": "5 个正文位置；段落 2、44—45；连同关键词共 6"
+      },
+      "corpus_evidence": {
+        "summary": "当前作者正文集中于本篇；Ilyenkov 原文明确解释为围绕共同事情进行的交往",
+        "representative_contexts": []
+      },
+      "rationale": "排除“商务交流”，同共同—分担活动互释；`provisional`",
+      "final_status_by_author": {
+        "legacy": "provisional"
+      },
+      "affected_translation_locations": [],
+      "affected_translation_summary": "摘要、关键词、用勺洗手穿衣引文与结论统一",
+      "heuristic_forms_pending": [],
+      "legacy_cells": {
+        "词条 ID": "`practical-communication`",
+        "原词及词形": "`деловое общение`",
+        "修改前 → 修改后": "无 → 实践性交往",
+        "本文频次与全部位置": "5 个正文位置；段落 2、44—45；连同关键词共 6",
+        "作者语料频次、范围与代表性位置": "当前作者正文集中于本篇；Ilyenkov 原文明确解释为围绕共同事情进行的交往",
+        "上下文、决定理由与最终状态": "排除“商务交流”，同共同—分担活动互释；`provisional`",
+        "译文受影响位置及实际修改": "摘要、关键词、用勺洗手穿衣引文与结论统一"
+      }
+    },
+    {
+      "proposal_id": "legacy-012",
+      "term_ids": [
+        "sensory-image"
+      ],
+      "target_author_ids": [
+        "spinoza"
+      ],
+      "canonical": "чувственный образ",
+      "forms": [],
+      "suggested_zh": "",
+      "operations": [
+        "add"
+      ],
+      "before": "无 → 感性形象",
+      "after": "无 → 感性形象",
+      "article_evidence": {
+        "summary": "2；段落 26、32"
+      },
+      "corpus_evidence": {
+        "summary": "50/21 篇；斯宾诺莎逻辑改革、哲学人类学等语料复现",
+        "representative_contexts": []
+      },
+      "rationale": "有“形象/表象”选择，本文必须与观念分开；`provisional`",
+      "final_status_by_author": {
+        "legacy": "provisional"
+      },
+      "affected_translation_locations": [],
+      "affected_translation_summary": "斯宾诺莎批评段和感觉运动图式段统一",
+      "heuristic_forms_pending": [],
+      "legacy_cells": {
+        "词条 ID": "`sensory-image`",
+        "原词及词形": "`чувственный образ`",
+        "修改前 → 修改后": "无 → 感性形象",
+        "本文频次与全部位置": "2；段落 26、32",
+        "作者语料频次、范围与代表性位置": "50/21 篇；斯宾诺莎逻辑改革、哲学人类学等语料复现",
+        "上下文、决定理由与最终状态": "有“形象/表象”选择，本文必须与观念分开；`provisional`",
+        "译文受影响位置及实际修改": "斯宾诺莎批评段和感觉运动图式段统一"
+      }
+    },
+    {
+      "proposal_id": "legacy-013",
+      "term_ids": [
+        "sensorimotor-schema"
+      ],
+      "target_author_ids": [],
+      "canonical": "сенсомоторная схема",
+      "forms": [],
+      "suggested_zh": "",
+      "operations": [
+        "add"
+      ],
+      "before": "无 → 感觉运动图式",
+      "after": "无 → 感觉运动图式",
+      "article_evidence": {
+        "summary": "10 个正文概念位置；段落 32—35、42；注释 10 另有 1 次"
+      },
+      "corpus_evidence": {
+        "summary": "当前作者正文集中于本篇；皮亚杰—乔姆斯基论证连续复现",
+        "representative_contexts": []
+      },
+      "rationale": "外部作者技术术语但在本文承担核心论证，需跟踪；`provisional`",
+      "final_status_by_author": {
+        "legacy": "provisional"
+      },
+      "affected_translation_locations": [],
+      "affected_translation_summary": "感觉运动图式、深层结构和逻辑运算段统一",
+      "heuristic_forms_pending": [],
+      "legacy_cells": {
+        "词条 ID": "`sensorimotor-schema`",
+        "原词及词形": "`сенсомоторная схема` 及倒装复数形式",
+        "修改前 → 修改后": "无 → 感觉运动图式",
+        "本文频次与全部位置": "10 个正文概念位置；段落 32—35、42；注释 10 另有 1 次",
+        "作者语料频次、范围与代表性位置": "当前作者正文集中于本篇；皮亚杰—乔姆斯基论证连续复现",
+        "上下文、决定理由与最终状态": "外部作者技术术语但在本文承担核心论证，需跟踪；`provisional`",
+        "译文受影响位置及实际修改": "感觉运动图式、深层结构和逻辑运算段统一"
+      }
+    },
+    {
+      "proposal_id": "legacy-014",
+      "term_ids": [
+        "inner-speech"
+      ],
+      "target_author_ids": [
+        "vygotsky"
+      ],
+      "canonical": "внутренняя речь",
+      "forms": [],
+      "suggested_zh": "",
+      "operations": [
+        "add"
+      ],
+      "before": "无 → 内部言语",
+      "after": "无 → 内部言语",
+      "article_evidence": {
+        "summary": "3；段落 2、23—24"
+      },
+      "corpus_evidence": {
+        "summary": "4/2 篇；另一处见人物定义史研究",
+        "representative_contexts": []
+      },
+      "rationale": "与逻辑形式混同正是本文批判对象；Vygotsky 无正式 glossary；`provisional`",
+      "final_status_by_author": {
+        "legacy": "provisional"
+      },
+      "affected_translation_locations": [],
+      "affected_translation_summary": "摘要、心理主义段统一",
+      "heuristic_forms_pending": [],
+      "legacy_cells": {
+        "词条 ID": "`inner-speech`",
+        "原词及词形": "`внутренняя речь`",
+        "修改前 → 修改后": "无 → 内部言语",
+        "本文频次与全部位置": "3；段落 2、23—24",
+        "作者语料频次、范围与代表性位置": "4/2 篇；另一处见人物定义史研究",
+        "上下文、决定理由与最终状态": "与逻辑形式混同正是本文批判对象；Vygotsky 无正式 glossary；`provisional`",
+        "译文受影响位置及实际修改": "摘要、心理主义段统一"
+      }
+    },
+    {
+      "proposal_id": "legacy-015",
+      "term_ids": [
+        "psyche"
+      ],
+      "target_author_ids": [
+        "spinoza"
+      ],
+      "canonical": "психика",
+      "forms": [],
+      "suggested_zh": "",
+      "operations": [
+        "add"
+      ],
+      "before": "无 → 心理；必要时“心理生活/心理系统”",
+      "after": "无 → 心理；必要时“心理生活/心理系统”",
+      "article_evidence": {
+        "summary": "8；段落 22、31、38、44—45、56"
+      },
+      "corpus_evidence": {
+        "summary": "153/24 篇；文化—历史心理学与斯宾诺莎研究高频",
+        "representative_contexts": []
+      },
+      "rationale": "不等同于意识或灵魂；`approved`",
+      "final_status_by_author": {
+        "legacy": "approved"
+      },
+      "affected_translation_locations": [],
+      "affected_translation_summary": "“心理为零”、婴儿心理、聋盲儿童人格形成和注释统一",
+      "heuristic_forms_pending": [],
+      "legacy_cells": {
+        "词条 ID": "`psyche`",
+        "原词及词形": "`психика` 及屈折形式",
+        "修改前 → 修改后": "无 → 心理；必要时“心理生活/心理系统”",
+        "本文频次与全部位置": "8；段落 22、31、38、44—45、56",
+        "作者语料频次、范围与代表性位置": "153/24 篇；文化—历史心理学与斯宾诺莎研究高频",
+        "上下文、决定理由与最终状态": "不等同于意识或灵魂；`approved`",
+        "译文受影响位置及实际修改": "“心理为零”、婴儿心理、聋盲儿童人格形成和注释统一"
+      }
+    },
+    {
+      "proposal_id": "legacy-016",
+      "term_ids": [
+        "thought"
+      ],
+      "target_author_ids": [],
+      "canonical": "status",
+      "forms": [],
+      "suggested_zh": "",
+      "operations": [
+        "status"
+      ],
+      "before": "`provisional` → `approved`；补充同 `мысль / идея` 的分工",
+      "after": "`provisional` → `approved`；补充同 `мысль / идея` 的分工",
+      "article_evidence": {
+        "summary": "本文 48；1028/63 篇"
+      },
+      "corpus_evidence": {
+        "summary": "本文 48；1028/63 篇",
+        "representative_contexts": []
+      },
+      "rationale": "`status`；译法和概念边界证据充分；全文保持“思维”",
+      "final_status_by_author": {
+        "legacy": "provisional"
+      },
+      "affected_translation_locations": [],
+      "affected_translation_summary": "译法和概念边界证据充分；全文保持“思维”",
+      "heuristic_forms_pending": [],
+      "legacy_cells": {
+        "词条 ID": "`thought`",
+        "操作": "`status`",
+        "修改前 → 修改后": "`provisional` → `approved`；补充同 `мысль / идея` 的分工",
+        "本文证据与作者语料": "本文 48；1028/63 篇",
+        "决定理由、最终状态及译文影响": "译法和概念边界证据充分；全文保持“思维”"
+      }
+    },
+    {
+      "proposal_id": "legacy-017",
+      "term_ids": [
+        "objective-activity"
+      ],
+      "target_author_ids": [
+        "ilyenkov"
+      ],
+      "canonical": "status",
+      "forms": [],
+      "suggested_zh": "",
+      "operations": [
+        "status"
+      ],
+      "before": "`provisional` → `approved`",
+      "after": "`provisional` → `approved`",
+      "article_evidence": {
+        "summary": "本文 1；41/15 篇，Ilyenkov 语料另有 107/43 篇"
+      },
+      "corpus_evidence": {
+        "summary": "本文 1；41/15 篇，Ilyenkov 语料另有 107/43 篇",
+        "representative_contexts": []
+      },
+      "rationale": "`status`；“对象性活动”已稳定，不译“客观活动”",
+      "final_status_by_author": {
+        "legacy": "provisional"
+      },
+      "affected_translation_locations": [],
+      "affected_translation_summary": "“对象性活动”已稳定，不译“客观活动”",
+      "heuristic_forms_pending": [],
+      "legacy_cells": {
+        "词条 ID": "`objective-activity`",
+        "操作": "`status`",
+        "修改前 → 修改后": "`provisional` → `approved`",
+        "本文证据与作者语料": "本文 1；41/15 篇，Ilyenkov 语料另有 107/43 篇",
+        "决定理由、最终状态及译文影响": "“对象性活动”已稳定，不译“客观活动”"
+      }
+    },
+    {
+      "proposal_id": "legacy-018",
+      "term_ids": [
+        "vrashchivanie"
+      ],
+      "target_author_ids": [],
+      "canonical": "status",
+      "forms": [],
+      "suggested_zh": "",
+      "operations": [
+        "status"
+      ],
+      "before": "`provisional` → `approved`",
+      "after": "`provisional` → `approved`",
+      "article_evidence": {
+        "summary": "本文名词、分词各 1；20/10 篇，专题论文集中复现"
+      },
+      "corpus_evidence": {
+        "summary": "本文名词、分词各 1；20/10 篇，专题论文集中复现",
+        "representative_contexts": []
+      },
+      "rationale": "`status`；与 `интериоризация` 明确并现而不等同；译稿两处“向内生长”改“内长化/内长化进来”",
+      "final_status_by_author": {
+        "legacy": "provisional"
+      },
+      "affected_translation_locations": [],
+      "affected_translation_summary": "与 `интериоризация` 明确并现而不等同；译稿两处“向内生长”改“内长化/内长化进来”",
+      "heuristic_forms_pending": [],
+      "legacy_cells": {
+        "词条 ID": "`vrashchivanie`",
+        "操作": "`status`",
+        "修改前 → 修改后": "`provisional` → `approved`",
+        "本文证据与作者语料": "本文名词、分词各 1；20/10 篇，专题论文集中复现",
+        "决定理由、最终状态及译文影响": "与 `интериоризация` 明确并现而不等同；译稿两处“向内生长”改“内长化/内长化进来”"
+      }
+    },
+    {
+      "proposal_id": "legacy-019",
+      "term_ids": [
+        "search-orientation-activity"
+      ],
+      "target_author_ids": [],
+      "canonical": "status",
+      "forms": [
+        "modify"
+      ],
+      "suggested_zh": "",
+      "operations": [
+        "modify",
+        "status"
+      ],
+      "before": "`needs_review` → `provisional`；说明“探索”相对“搜索”的边界",
+      "after": "`needs_review` → `provisional`；说明“探索”相对“搜索”的边界",
+      "article_evidence": {
+        "summary": "本文 1；5/5 篇"
+      },
+      "corpus_evidence": {
+        "summary": "本文 1；5/5 篇",
+        "representative_contexts": []
+      },
+      "rationale": "`status`、`modify`；第二篇连续语境支持现译，但仍待中文专项文献；译稿“搜索—定向活动/搜索活动”改“探索—定向活动/探索活动”",
+      "final_status_by_author": {
+        "legacy": "needs_review"
+      },
+      "affected_translation_locations": [],
+      "affected_translation_summary": "第二篇连续语境支持现译，但仍待中文专项文献；译稿“搜索—定向活动/搜索活动”改“探索—定向活动/探索活动”",
+      "heuristic_forms_pending": [],
+      "legacy_cells": {
+        "词条 ID": "`search-orientation-activity`",
+        "操作": "`status`、`modify`",
+        "修改前 → 修改后": "`needs_review` → `provisional`；说明“探索”相对“搜索”的边界",
+        "本文证据与作者语料": "本文 1；5/5 篇",
+        "决定理由、最终状态及译文影响": "第二篇连续语境支持现译，但仍待中文专项文献；译稿“搜索—定向活动/搜索活动”改“探索—定向活动/探索活动”"
+      }
+    },
+    {
+      "proposal_id": "legacy-020",
+      "term_ids": [
+        "self-activity"
+      ],
+      "target_author_ids": [],
+      "canonical": "modify",
+      "forms": [],
+      "suggested_zh": "",
+      "operations": [
+        "modify"
+      ],
+      "before": "仅说明“自身内在原因” → 增补儿童文化主动性和自主承担活动的语境",
+      "after": "仅说明“自身内在原因” → 增补儿童文化主动性和自主承担活动的语境",
+      "article_evidence": {
+        "summary": "本文 1；9/6 篇"
+      },
+      "corpus_evidence": {
+        "summary": "本文 1；9/6 篇",
+        "representative_contexts": []
+      },
+      "rationale": "`modify`；同一词在自由论和教育语境侧重点不同；保持 `provisional`，译文仍作“自主活动”",
+      "final_status_by_author": {
+        "legacy": "provisional"
+      },
+      "affected_translation_locations": [],
+      "affected_translation_summary": "同一词在自由论和教育语境侧重点不同；保持 `provisional`，译文仍作“自主活动”",
+      "heuristic_forms_pending": [],
+      "legacy_cells": {
+        "词条 ID": "`self-activity`",
+        "操作": "`modify`",
+        "修改前 → 修改后": "仅说明“自身内在原因” → 增补儿童文化主动性和自主承担活动的语境",
+        "本文证据与作者语料": "本文 1；9/6 篇",
+        "决定理由、最终状态及译文影响": "同一词在自由论和教育语境侧重点不同；保持 `provisional`，译文仍作“自主活动”"
+      }
+    },
+    {
+      "proposal_id": "legacy-021",
+      "term_ids": [
+        "基础多义词"
+      ],
+      "target_author_ids": [],
+      "canonical": "язык",
+      "forms": [
+        "Дело / дело",
+        "Логика / логика",
+        "деятельность"
+      ],
+      "suggested_zh": "",
+      "operations": [
+        "reject"
+      ],
+      "before": "",
+      "after": "",
+      "article_evidence": {
+        "summary": "`язык` 43（贯穿全文）；普通 `Дело / дело` 14（段落 2、4、6—7、10—11、28、31、37、42、44）；`Логика / логика` 44（贯穿全文）；`деятельность` 20（贯穿活动论段）"
+      },
+      "corpus_evidence": {
+        "summary": "该批旧日志未单列作者语料频次；完整信息保存在 legacy_cells。",
+        "representative_contexts": []
+      },
+      "rationale": "`reject`；语言和逻辑学属于标准术语，普通 дело 语义跨度过大，活动已有 `activity`；只收录有真实约束价值的公式、对立和固定搭配",
+      "final_status_by_author": {},
+      "affected_translation_locations": [],
+      "affected_translation_summary": "逐句按语言/言语、行动/事情、逻辑学/逻辑分译；`activity` 沿用 approved",
+      "heuristic_forms_pending": [],
+      "legacy_cells": {
+        "候选组": "基础多义词",
+        "原词、本文频次与位置": "`язык` 43（贯穿全文）；普通 `Дело / дело` 14（段落 2、4、6—7、10—11、28、31、37、42、44）；`Логика / логика` 44（贯穿全文）；`деятельность` 20（贯穿活动论段）",
+        "操作与决定理由": "`reject`；语言和逻辑学属于标准术语，普通 дело 语义跨度过大，活动已有 `activity`；只收录有真实约束价值的公式、对立和固定搭配",
+        "译文处理": "逐句按语言/言语、行动/事情、逻辑学/逻辑分译；`activity` 沿用 approved"
+      }
+    },
+    {
+      "proposal_id": "legacy-022",
+      "term_ids": [
+        "形式逻辑学科名"
+      ],
+      "target_author_ids": [],
+      "canonical": "формальная логика",
+      "forms": [
+        "формально-математическая логика",
+        "символическая логика",
+        "логическая семантика"
+      ],
+      "suggested_zh": "",
+      "operations": [
+        "reject"
+      ],
+      "before": "",
+      "after": "",
+      "article_evidence": {
+        "summary": "`формальная логика` 3、`формально-математическая логика` 3、`символическая логика` 3、`логическая семантика` 4；集中于段落 8—20"
+      },
+      "corpus_evidence": {
+        "summary": "该批旧日志未单列作者语料频次；完整信息保存在 legacy_cells。",
+        "representative_contexts": []
+      },
+      "rationale": "`reject`；均为通行学科名，透明且无跨篇译法争议",
+      "final_status_by_author": {},
+      "affected_translation_locations": [],
+      "affected_translation_summary": "分别保留“形式逻辑、形式—数理逻辑、符号逻辑、逻辑语义学”",
+      "heuristic_forms_pending": [],
+      "legacy_cells": {
+        "候选组": "形式逻辑学科名",
+        "原词、本文频次与位置": "`формальная логика` 3、`формально-математическая логика` 3、`символическая логика` 3、`логическая семантика` 4；集中于段落 8—20",
+        "操作与决定理由": "`reject`；均为通行学科名，透明且无跨篇译法争议",
+        "译文处理": "分别保留“形式逻辑、形式—数理逻辑、符号逻辑、逻辑语义学”"
+      }
+    },
+    {
+      "proposal_id": "legacy-023",
+      "term_ids": [
+        "语言哲学与形式组"
+      ],
+      "target_author_ids": [],
+      "canonical": "философия языка",
+      "forms": [
+        "логическая форма",
+        "языковая форма",
+        "содержательное мышление",
+        "вне-знаковое",
+        "психологизм"
+      ],
+      "suggested_zh": "",
+      "operations": [
+        "reject"
+      ],
+      "before": "",
+      "after": "",
+      "article_evidence": {
+        "summary": "`философия языка` 5、`логическая форма` 6、`языковая форма` 3、`содержательное мышление` 1、`вне-знаковое` 1、`психологизм` 1；段落 2、8—24"
+      },
+      "corpus_evidence": {
+        "summary": "该批旧日志未单列作者语料频次；完整信息保存在 legacy_cells。",
+        "representative_contexts": []
+      },
+      "rationale": "`reject`；前三项透明可由上位概念生成，后三项为本文局部限定或一次性批判用语",
+      "final_status_by_author": {},
+      "affected_translation_locations": [],
+      "affected_translation_summary": "保留“语言哲学、逻辑形式、语言形式、内容性的思维、符号外的、心理主义”",
+      "heuristic_forms_pending": [],
+      "legacy_cells": {
+        "候选组": "语言哲学与形式组",
+        "原词、本文频次与位置": "`философия языка` 5、`логическая форма` 6、`языковая форма` 3、`содержательное мышление` 1、`вне-знаковое` 1、`психологизм` 1；段落 2、8—24",
+        "操作与决定理由": "`reject`；前三项透明可由上位概念生成，后三项为本文局部限定或一次性批判用语",
+        "译文处理": "保留“语言哲学、逻辑形式、语言形式、内容性的思维、符号外的、心理主义”"
+      }
+    },
+    {
+      "proposal_id": "legacy-024",
+      "term_ids": [
+        "已有稳定或跟踪词条"
+      ],
+      "target_author_ids": [],
+      "canonical": "идеальное",
+      "forms": [
+        "интериоризация",
+        "мыслящее тело",
+        "воображение",
+        "адекватная идея"
+      ],
+      "suggested_zh": "",
+      "operations": [
+        "reject"
+      ],
+      "before": "",
+      "after": "",
+      "article_evidence": {
+        "summary": "`идеальное` 12、`интериоризация` 3、`мыслящее тело` 5、`воображение` 3、`адекватная идея` 3"
+      },
+      "corpus_evidence": {
+        "summary": "该批旧日志未单列作者语料频次；完整信息保存在 legacy_cells。",
+        "representative_contexts": []
+      },
+      "rationale": "`reject` 重复收录；沿用 `ideal / interiorization / thinking-body / imagination / adequate-idea`",
+      "final_status_by_author": {},
+      "affected_translation_locations": [],
+      "affected_translation_summary": "必改：名词性 `идеальное` 改“观念的东西”，题名改《观念东西的辩证法》；其他译法保持",
+      "heuristic_forms_pending": [],
+      "legacy_cells": {
+        "候选组": "已有稳定或跟踪词条",
+        "原词、本文频次与位置": "`идеальное` 12、`интериоризация` 3、`мыслящее тело` 5、`воображение` 3、`адекватная идея` 3",
+        "操作与决定理由": "`reject` 重复收录；沿用 `ideal / interiorization / thinking-body / imagination / adequate-idea`",
+        "译文处理": "必改：名词性 `идеальное` 改“观念的东西”，题名改《观念东西的辩证法》；其他译法保持"
+      }
+    },
+    {
+      "proposal_id": "legacy-025",
+      "term_ids": [
+        "外部理论传统"
+      ],
+      "target_author_ids": [
+        "maidansky"
+      ],
+      "canonical": "глубинные структуры",
+      "forms": [
+        "логические операции",
+        "язык жестов"
+      ],
+      "suggested_zh": "",
+      "operations": [
+        "reject"
+      ],
+      "before": "",
+      "after": "",
+      "article_evidence": {
+        "summary": "`глубинные структуры` 3、`логические операции` 2、`язык жестов` 1"
+      },
+      "corpus_evidence": {
+        "summary": "该批旧日志未单列作者语料频次；完整信息保存在 legacy_cells。",
+        "representative_contexts": []
+      },
+      "rationale": "`reject`；分别属于乔姆斯基、皮亚杰和聋盲教育专项，译法透明或证据只集中于本篇，不在 Maidansky 核心表扩张成专项词库",
+      "final_status_by_author": {},
+      "affected_translation_locations": [],
+      "affected_translation_summary": "保留“深层结构、逻辑运算、手势语言”",
+      "heuristic_forms_pending": [],
+      "legacy_cells": {
+        "候选组": "外部理论传统",
+        "原词、本文频次与位置": "`глубинные структуры` 3、`логические операции` 2、`язык жестов` 1",
+        "操作与决定理由": "`reject`；分别属于乔姆斯基、皮亚杰和聋盲教育专项，译法透明或证据只集中于本篇，不在 Maidansky 核心表扩张成专项词库",
+        "译文处理": "保留“深层结构、逻辑运算、手势语言”"
+      }
+    },
+    {
+      "proposal_id": "legacy-026",
+      "term_ids": [
+        "人格与交往的透明搭配"
+      ],
+      "target_author_ids": [],
+      "canonical": "общественные отношения",
+      "forms": [
+        "коммуникация",
+        "логика мышления",
+        "логика языка",
+        "общественный человек",
+        "материальная культура"
+      ],
+      "suggested_zh": "",
+      "operations": [
+        "reject"
+      ],
+      "before": "",
+      "after": "",
+      "article_evidence": {
+        "summary": "`общественные отношения` 3、`коммуникация` 3、`логика мышления` 1、`логика языка` 2、`общественный человек` 3、`материальная культура` 2"
+      },
+      "corpus_evidence": {
+        "summary": "该批旧日志未单列作者语料频次；完整信息保存在 legacy_cells。",
+        "representative_contexts": []
+      },
+      "rationale": "`reject`；普通透明组合或已有 `ensemble-of-social-relations` 覆盖固定马克思表述",
+      "final_status_by_author": {},
+      "affected_translation_locations": [],
+      "affected_translation_summary": "保持“社会关系、沟通、思维的逻辑、语言的逻辑、社会的人、物质文化”",
+      "heuristic_forms_pending": [],
+      "legacy_cells": {
+        "候选组": "人格与交往的透明搭配",
+        "原词、本文频次与位置": "`общественные отношения` 3、`коммуникация` 3、`логика мышления` 1、`логика языка` 2、`общественный человек` 3、`материальная культура` 2",
+        "操作与决定理由": "`reject`；普通透明组合或已有 `ensemble-of-social-relations` 覆盖固定马克思表述",
+        "译文处理": "保持“社会关系、沟通、思维的逻辑、语言的逻辑、社会的人、物质文化”"
+      }
+    },
+    {
+      "proposal_id": "legacy-027",
+      "term_ids": [
+        "名称与局部论证"
+      ],
+      "target_author_ids": [],
+      "canonical": "Загорский эксперимент",
+      "forms": [
+        "онтогенетический приоритет",
+        "запрет противоречия",
+        "закон тождества"
+      ],
+      "suggested_zh": "",
+      "operations": [
+        "reject"
+      ],
+      "before": "",
+      "after": "",
+      "article_evidence": {
+        "summary": "`Загорский эксперимент` 5、`онтогенетический приоритет` 2、`запрет противоречия` 2、`закон тождества` 1"
+      },
+      "corpus_evidence": {
+        "summary": "该批旧日志未单列作者语料频次；完整信息保存在 legacy_cells。",
+        "representative_contexts": []
+      },
+      "rationale": "`reject`；专名或通行逻辑学表达，当前没有需要 glossary 约束的真实译法竞争",
+      "final_status_by_author": {},
+      "affected_translation_locations": [],
+      "affected_translation_summary": "保持“扎戈尔斯克实验、个体发生上的优先性、禁止矛盾、同一律”",
+      "heuristic_forms_pending": [],
+      "legacy_cells": {
+        "候选组": "名称与局部论证",
+        "原词、本文频次与位置": "`Загорский эксперимент` 5、`онтогенетический приоритет` 2、`запрет противоречия` 2、`закон тождества` 1",
+        "操作与决定理由": "`reject`；专名或通行逻辑学表达，当前没有需要 glossary 约束的真实译法竞争",
+        "译文处理": "保持“扎戈尔斯克实验、个体发生上的优先性、禁止矛盾、同一律”"
+      }
+    },
+    {
+      "proposal_id": "legacy-028",
+      "term_ids": [
+        "一次性修辞和引文"
+      ],
+      "target_author_ids": [],
+      "canonical": "марафонская дискуссия",
+      "forms": [
+        "логическая Троица",
+        "вербальный корень",
+        "совершенный оптический инструмент",
+        "друг-враг",
+        "философические авантюры",
+        "царство чистой мысли",
+        "ноль психики",
+        "трансцендентальная форма пространства",
+        "соматическая философия",
+        "генетическая психология",
+        "сериация",
+        "синтаксические структуры",
+        "материально-деловая / коммуникативная функция",
+        "филистерская нить"
+      ],
+      "suggested_zh": "",
+      "operations": [
+        "reject"
+      ],
+      "before": "",
+      "after": "",
+      "article_evidence": {
+        "summary": "`марафонская дискуссия`、`логическая Троица`、`вербальный корень`、`совершенный оптический инструмент`、`друг-враг`、`философические авантюры`、`царство чистой мысли`、`ноль психики`、`трансцендентальная форма пространства`、`соматическая философия`、`генетическая психология`、`сериация`、`синтаксические структуры`、`материально-деловая / коммуникативная функция`、`филистерская нить`；各 1 次，分布于段落 3、6—7、11、21、31—36、43 及注释 3、9—10"
+      },
+      "corpus_evidence": {
+        "summary": "该批旧日志未单列作者语料频次；完整信息保存在 legacy_cells。",
+        "representative_contexts": []
+      },
+      "rationale": "`reject`；一次性修辞、引文或外部作者专项术语，缺少跨篇约束价值",
+      "final_status_by_author": {},
+      "affected_translation_locations": [],
+      "affected_translation_summary": "译文按上下文保留，不建立独立词条",
+      "heuristic_forms_pending": [],
+      "legacy_cells": {
+        "候选组": "一次性修辞和引文",
+        "原词、本文频次与位置": "`марафонская дискуссия`、`логическая Троица`、`вербальный корень`、`совершенный оптический инструмент`、`друг-враг`、`философические авантюры`、`царство чистой мысли`、`ноль психики`、`трансцендентальная форма пространства`、`соматическая философия`、`генетическая психология`、`сериация`、`синтаксические структуры`、`материально-деловая / коммуникативная функция`、`филистерская нить`；各 1 次，分布于段落 3、6—7、11、21、31—36、43 及注释 3、9—10",
+        "操作与决定理由": "`reject`；一次性修辞、引文或外部作者专项术语，缺少跨篇约束价值",
+        "译文处理": "译文按上下文保留，不建立独立词条"
+      }
+    }
+  ],
+  "owner_review": {
+    "status": "approved",
+    "reviewer": "hoshF",
+    "reviewed_at": "2026-07-27",
+    "note": "由原 Markdown 审核记录迁移；不表示正式翻译项目 reviewed 状态。"
+  },
+  "legacy_migration": {
+    "source_sha256": "3df924e517d7bb717de9b81035a1951cb208748dbab93189a057867e373286a1",
+    "source_heading": "2026-07-27 — `maidansky` / `myshlenie-i-yazyk-v-logike-ilenkova` / `thought-and-language-in-ilyenkov-logic`",
+    "sections": {
+      "批次信息": "- 审核者：Codex（俄文原文—中文译稿逐段对照、作者与关联语料复核）\n- 原文：`maidansky_markdown/maidansky_md/dialekticheskaya-logika/dialekticheskaya-logika-myshlenie-i-yazyk-v-logike-ilenkova.md`；范围为俄文标题、摘要、正文与注释 1—11，共 60 个稳定内容段落，不含作者信息、关键词、参考文献和英文重复摘要\n- 译文：博客文章 `thought-and-language-in-ilyenkov-logic`；范围为摘要、正文、注释与参考文献\n- 正式术语表：`maidansky_markdown/metadata/glossary.json`\n- 关联术语表：`ilyenkov_markdown/metadata/glossary.json`\n- 无正式术语表：Vygotsky collection；涉及 `внутренняя речь` 与 `вращивание` 的决定只作为迈丹斯基用语记录，并依据维果茨基相关 collection、迈丹斯基作者语料和伊里因科夫语料审核，未创建新的 Vygotsky glossary\n- 建议表：`《伊里因科夫逻辑学中的思维与语言》术语收录建议表.md`\n- 频次口径：本文合并俄语屈折词形；作者语料统计 82 篇 Maidansky Markdown，去除 front matter 和首个参考文献区之后的内容；通用词只统计与本批决定直接相关的语义，不把 `труды`“著作”计入 `труд`“劳动”\n- 批次结论：新增 15；修改 1；删除 0；状态调整 4；拒绝新增、重复收录或专项收录 47",
+      "拒绝新增、重复收录或专项收录": "下列候选均完成本文全部位置与作者语料复核。`reject` 表示不新增独立词条，不表示从译文删除；\n已有词条的建议按正式 JSON 执行。",
+      "译文必改项": "- 将名词性 `идеальное` 从“观念性/观念性的东西”统一为“观念的东西”，并把\n  `Диалектика идеального` 改为《观念东西的辩证法》；形容词性用法仍按句法作“观念形式”。\n- 将 `вращивание / вращенный` 的两处“向内生长”改为“内长化/内长化进来”，并与\n  `интериоризация`“内化”保持区别。\n- 将 `поисково-ориентировочная деятельность` 和随后省略的 `поисковая деятельность`\n  从“搜索—定向活动/搜索活动”改为“探索—定向活动/探索活动”。\n- 将一般描述中的 `неадекватные формы` 从会误触斯宾诺莎术语的“不充分的形式”改为\n  “不适切的形式”；`неадекватные идеи` 仍译“不充分观念”。\n- 人名正文首次出现改为中文全名；将内部 HTML 校勘注释改为可见且署名明确的译注。",
+      "验证与版本": "- 生成视图：已重新生成，`render_glossaries.py --check` 通过\n- glossary 检查：`check_glossaries.py --check` 通过（4 份 glossary，0 errors）\n- prompt 模板检查：`render_prompt_template.py --check` 通过\n- 翻译项目检查：`check_translations.py --check` 通过（1 个项目，0 errors）\n- 项目文档检查：`check_project_docs.py` 通过\n- 译文一致性：必改项已回写上传译稿，待博客稿完成后做最终全文复核\n- commit：待本批独立提交\n- push：待提交后检查分支与远端关系"
+    },
+    "decision_rows": 28
+  }
+}
