@@ -685,7 +685,7 @@
       "zh_alternatives": ["感性确实性"],
       "status": "provisional",
       "notes": "黑格尔《精神现象学》开篇术语（Sinnliche Gewissheit）的通行中译。",
-      "evidence": [{"corpus_path": "ilyenkov_markdown/ilyenkov_md/knigi/knigi-dialektika-abstraktnogo-i-konkretnogo-v-nauchno-teoreticheskom-myshlenii/knigi-dialektika-abstraktnogo-i-konkretnogo-v-nauchno-teoreticheskom-myshlenii-ch008.md", "note": "ch008 块 4 与 ch004 块 9 均用此语。"}]
+      "evidence": [{"corpus_path": "ilyenkov_markdown/ilyenkov_md/knigi/knigi-dialektika-abstraktnogo-i-konkretnogo-v-nauchno-teoreticheskom-myshlenii/knigi-dialektika-abstraktnogo-i-konkretnogo-v-nauchno-teoreticheskom-myshlenii-ch008.md", "note": "ch005 块 9 与 ch008 块 4 均用此语。"}]
     },
     {
       "id": "representation",

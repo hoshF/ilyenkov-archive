@@ -53,6 +53,28 @@ Hard rules:
 2. Private controlled materials must not be redistributed outside the project.
 3. External publication, printing, or reposting is a governance decision, not a routine edit.
 
+## Published Editions
+
+A finished translation becomes a published edition only through governance, never through routine
+editing. The rules are absolute:
+
+1. **Publication is in the project's name only.** No edition may be published under an individual's
+   name, including the maintainer's or a translator's. Individual contributions remain attributable
+   through Git and the contributor notes, but the publishing entity is the project.
+2. **A final version requires project approval** — proposed in the project's name and accepted by the
+   members — before it is treated as final.
+3. **Consult the organizations connected to the source text before publishing.** Rightsholders,
+   archives, editorial boards, and publishers of the original edition must be approached to discuss
+   whether and how an edition should be published. Their answer governs; absence of an answer is not
+   consent.
+4. Rights gating still applies independently: the underlying work and edition must permit public
+   redistribution, and controlled files must match `metadata/rights_registry.json` by exact path and
+   SHA-256.
+
+The typesetting and review stages that precede approval are documented in
+[TRANSLATION_PLAN.md](TRANSLATION_PLAN.md) and [book/template/](book/template/README.md); they
+produce a candidate, not an edition.
+
 ## Decisions
 
 - Routine notes, drafts, and small corrections may be made by the contributor responsible.

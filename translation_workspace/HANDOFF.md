@@ -1,7 +1,7 @@
 ---
 title: "翻译工作交接手册"
 created: "2026-07-21"
-updated: "2026-07-27"
+updated: "2026-07-30"
 type: "project"
 tags: ["translation", "workflow", "handoff"]
 language: "zh"
@@ -80,7 +80,7 @@ gbrain_source: "project-markdown"
   保留原文括号与署名，署名不展开为中文姓名：（即“一般的图形”——*Э.И.*）。
 
 另有〔底本来源：…〕标记数字化附加的出处行（非原书内容）。正文一律中文弯引号，禁用
-ASCII 直引号；强调范围严格对齐原文，成书时排为着重号；引者所加强调必须声明。
+ASCII 直引号；强调范围严格对齐原文，只以 `*…*` 编码、排法由成书模板定；引者所加强调必须声明。
 
 **底本换行会影响标题**，两种情形处理相反（见 STYLE_GUIDE 第二节末）：标题占**两个块**时两块
 各自成锚点、不得合并；标题在**一个块内含硬换行**时仍是一个锚点、中文写成一行（ch005、ch019 块 4）。
@@ -110,26 +110,13 @@ ASCII 直引号；强调范围严格对齐原文，成书时排为着重号；�
 | Codex 临时文件 | `tmp/codex/`（git 忽略） |
 | 底本疑点汇总（成书前核纸本） | `translation_workspace/SOURCE_CRUXES.md` |
 
-## 五、五阶段流程（按单元）
+## 五、按单元推进（细则不在本文件）
 
-```
-planned → drafting → accuracy_review → language_review → reviewed
-```
+五阶段状态机、单元注册、审校哈希、`work_complete` 的规则**正本在
+[`../TRANSLATION_PLAN.md`](../TRANSLATION_PLAN.md) 的「标准流程」与
+[`README.md`](README.md) 的「状态与流程」**，此处不复述（那张状态图曾在三处各存一份）。
+本节只留这两条在别处没有的：
 
-状态与两次审校记录按“单元”保存在 `translation.json`（schema v3），新增或翻译后续单元
-不会作废已完成单元的审校。单元处理步骤：
-
-1. 注册单元（`init-translation` 或在 `source_units` 追加），绑定源路径、SHA-256、块范围。
-2. 指定审计者写 prompt → Codex 起草两稿 → **先跑 `python3 scripts/audit_unit.py chNNN`**
-   （结构事实一次算齐，并打印审计方专属清单）→ 指定审计者逐块对照俄文审计、修正、
-   把决定记入 `issues.md`。
-3. 审计无误后，把该单元 `status` 依次推进；两道审校用
-   `python3 scripts/check_translations.py --review-hashes <项目目录>` 取快照哈希，
-   填入该单元的 `accuracy_review` / `language_review`（署名 hoshF），最终 `reviewed`。
-   **代填时必须在回复中声明这是单方面填写、效力取决于所有者审阅**（见第一节）。
-4. 全书各单元均已登记且 `reviewed` 后，在 `translation.json` 中声明
-   `work_complete: true`，再把项目移入 `reviewed/`。**未声明完成前，即便已登记单元
-   全部 reviewed，项目也应留在 `drafts/`**（长书按章增量登记）。
 5. **审计后回写（不可省略）**：每审完一个单元，依次自问——是否需要新增体例规则？是否出现
    现有五类注记覆盖不了的情形？是否有术语要登记或调整？这个错误会不会重演？——并分别改
    [`notes/STYLE_GUIDE.md`](../notes/STYLE_GUIDE.md)（含第七节错误清单）、`glossary.json`、
@@ -185,29 +172,36 @@ ch000 扉页目录；ch001–002 两序；ch003–023 第一部分；ch024–036
 
 **某章审计经过**读该章 `issues.md`；**跨章裁定**扫 [`DECISIONS.md`](DECISIONS.md)。
 
-### 下一步：成书（LaTeX）阶段，不再有翻译单元
+### 下一步：内容校阅，不再有翻译单元
 
-1. **核 1997 纸本**（[`SOURCE_CRUXES.md`](SOURCE_CRUXES.md) 12 处疑点，**迁移方案见其第五节**：
+**成书已完成**（2026-07-30）：`scripts/build_book.py` 按 [`book/template/`](../book/template/README.md)
+的模板出 439 页 PDF，版式各项已与参考页实测对齐，缺字形 0。版式的唯一权威是那个模板目录，
+**不要在 `book/build/` 里改**；会踩的坑见 [`TYPESETTING.md`](../book/template/TYPESETTING.md)。
+
+1. **内容校阅**：所有者在 PDF 上划线注记，`scripts/read_pdf_notes.py` 读出；依注记回到原文与
+   中间文本（初译、`issues.md`、术语表）重新思考再答。采纳的修改回 `final.md` 重走审校，
+   然后重生成合并本与 PDF——**页码会变，旧批注按页码对不上，须换新版重批**。
+2. **核 1997 纸本**（疑点条数与分布跑 `python3 scripts/check_all.py --status`，不在此手写——
+   曾写「12 处」而实为 13；迁移方案见 [`SOURCE_CRUXES.md`](SOURCE_CRUXES.md) 第五节：
    只涉及 8 个单元；源文校订若不改中文只需重取 accuracy。
    **切勿批量改 42 个源文件的 `text_status`**——那会让全书 accuracy 一起失效）。
-2. **排版所需事实已逐块核实、列在 STYLE_GUIDE 第十节**：拆开的标题 12 处（只有 ch036
-   须调语序，ch037／ch038／ch041 看着像拆开其实不是）、脚注 109、`Э.И.` 9 处首见 ch008
-   p0008、〔底本来源〕42 条剔除、行内译注 3 条。
-3. **合并本已生成**：`build_merged_translation.py` 产出项目目录下的《科学理论思维中抽象与具体
-   的辩证法.md》（去锚点、合标题、剔来源行）。**派生文件**，改译文须回 `final.md` 重走审校后重生成。
-4. `идеальное`→观念的东西 若需译者说明，**引 ch041**（该篇即这条裁定的理论根据）。
+3. `идеальное`→观念的东西 若需译者说明，**引 ch041**（该篇即这条裁定的理论根据）。
+4. 定版与出版是治理决定，见 [`GOVERNANCE.md`](../GOVERNANCE.md)「Published Editions」：
+   只能以项目名义出版，且须先与原文相关机构沟通。
 
 ## 八、每次改动后要跑的检查
 
 ```bash
-python3 scripts/check_translations.py --check
-python3 scripts/check_glossaries.py --check
-python3 scripts/render_glossaries.py --check
-python3 scripts/render_prompt_template.py --check
-python3 scripts/check_project_docs.py
-python3 -m unittest tests.test_check_translations tests.test_manage_collections
-python3 scripts/check_book.py     # 跨章：新立术语裁定后必跑，出线索须人逐条读
+python3 scripts/check_all.py
 ```
+
+一条命令跑完全部十四项（译文、术语表与视图、项目文档、语料 front matter、长篇切分、
+语料清单、术语批次与变更日志、合并本、AGENTS 机器块、公开导出干跑、单元测试，
+加一项只给线索的全书通查），每项一行，失败才打印细节。
+**这里不再罗列各项的单独命令**——照抄九条是九次往返，而且抄漏一条不会有人发现。
+要看单项细节加 `--verbose`。
+
+进度与待办跑 `python3 scripts/check_all.py --status`。
 
 ## 九、保持交接有效（含长度纪律）
 

@@ -1,6 +1,8 @@
+import contextlib
 import copy
 import hashlib
 import importlib.util
+import io
 import json
 import tempfile
 import unittest
@@ -814,6 +816,114 @@ class TranslationChecksTests(unittest.TestCase):
             self.assertIn("full", output)
             self.assertIn("drafting", output)
             self.assertIn("total:", output)
+
+
+
+
+class ReviseAndSignTests(unittest.TestCase):
+    """修订路径的两条命令。
+
+    它们存在的理由是手改 JSON 出过的错：字段名须一字不差（reviewed_at／scope_sha256，
+    不是 date／hash），且 updated_at 要跟着动。2026-07-30 三次修订错过两轮，都由校验器
+    拦下——校验有效，但它拦的是本不该发生的错。
+    """
+
+    def project(self, root):
+        """一个最小项目：一个单元、三件产物齐全、已签字。"""
+        project = root / "translation_workspace/drafts/ilyenkov/work"
+        units = project / "units/ch001"
+        units.mkdir(parents=True)
+        for name in ("literal.md", "final.md", "issues.md"):
+            (units / name).write_text(f"## ch001-p0001\n\n{name} 内容\n", encoding="utf-8")
+        data = {
+            "updated_at": "2026-01-01",
+            "source_units": [{
+                "id": "ch001", "status": "reviewed", "paragraph_count": 1,
+                "source_segments": [],
+                "accuracy_review": {"reviewer": "hoshF", "reviewed_at": "2026-01-01",
+                                    "result": "passed", "scope_sha256": "x" * 64},
+                "language_review": {"reviewer": "hoshF", "reviewed_at": "2026-01-01",
+                                    "result": "passed", "scope_sha256": "y" * 64},
+            }],
+        }
+        (project / "translation.json").write_text(json.dumps(data, ensure_ascii=False), encoding="utf-8")
+        return project
+
+    def read(self, project):
+        data = json.loads((project / "translation.json").read_text(encoding="utf-8"))
+        return data, data["source_units"][0]
+
+    def test_revise_clears_both_reviews_and_steps_the_status_back(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            project = self.project(Path(tmp))
+            with contextlib.redirect_stdout(io.StringIO()):
+                CHECK.revise_unit(project, "ch001")
+            _, unit = self.read(project)
+            self.assertEqual(unit["status"], "accuracy_review")
+            for kind in ("accuracy_review", "language_review"):
+                self.assertEqual(unit[kind]["result"], "pending")
+                self.assertIsNone(unit[kind]["scope_sha256"])
+                self.assertIsNone(unit[kind]["reviewer"])
+
+    def test_revise_tells_the_operator_to_record_it_in_issues(self):
+        # 漏记 issues.md 正是 2026-07-30 那一批的实际疏漏，故提示必须出现。
+        with tempfile.TemporaryDirectory() as tmp:
+            project = self.project(Path(tmp))
+            buffer = io.StringIO()
+            with contextlib.redirect_stdout(buffer):
+                CHECK.revise_unit(project, "ch001")
+            self.assertIn("issues.md", buffer.getvalue())
+
+    def test_sign_writes_the_exact_field_names(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            project = self.project(Path(tmp))
+            with contextlib.redirect_stdout(io.StringIO()):
+                CHECK.revise_unit(project, "ch001")
+                CHECK.sign_unit(project, "ch001", reviewer="hoshF", today="2026-07-30")
+            _, unit = self.read(project)
+            for kind in ("accuracy_review", "language_review"):
+                self.assertEqual(set(unit[kind]), {"reviewer", "reviewed_at", "result", "scope_sha256"})
+                self.assertEqual(unit[kind]["result"], "passed")
+                self.assertEqual(unit[kind]["reviewed_at"], "2026-07-30")
+                self.assertRegex(unit[kind]["scope_sha256"], r"^[0-9a-f]{64}$")
+            self.assertEqual(unit["status"], "reviewed")
+
+    def test_sign_binds_the_hashes_to_the_current_files(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            project = self.project(Path(tmp))
+            with contextlib.redirect_stdout(io.StringIO()):
+                CHECK.sign_unit(project, "ch001", reviewer="hoshF", today="2026-07-30")
+            _, unit = self.read(project)
+            before = unit["accuracy_review"]["scope_sha256"]
+            (project / "units/ch001/final.md").write_text("## ch001-p0001\n\n改过了\n", encoding="utf-8")
+            with contextlib.redirect_stdout(io.StringIO()):
+                CHECK.sign_unit(project, "ch001", reviewer="hoshF", today="2026-07-30")
+            _, unit = self.read(project)
+            self.assertNotEqual(unit["accuracy_review"]["scope_sha256"], before)
+
+    def test_sign_moves_updated_at_forward(self):
+        # 漏更 updated_at 会触发「updated_at cannot predate recorded unit reviews」，
+        # 是手改路径反复踩到的第二个坑。
+        with tempfile.TemporaryDirectory() as tmp:
+            project = self.project(Path(tmp))
+            with contextlib.redirect_stdout(io.StringIO()):
+                CHECK.sign_unit(project, "ch001", reviewer="hoshF", today="2026-07-30")
+            data, _ = self.read(project)
+            self.assertEqual(data["updated_at"], "2026-07-30")
+
+    def test_sign_declares_that_the_signature_is_filled_in_on_behalf(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            project = self.project(Path(tmp))
+            buffer = io.StringIO()
+            with contextlib.redirect_stdout(buffer):
+                CHECK.sign_unit(project, "ch001", reviewer="hoshF", today="2026-07-30")
+            self.assertIn("代填", buffer.getvalue())
+
+    def test_an_unknown_unit_is_refused(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            project = self.project(Path(tmp))
+            with self.assertRaises(ValueError):
+                CHECK.revise_unit(project, "ch999")
 
 
 if __name__ == "__main__":

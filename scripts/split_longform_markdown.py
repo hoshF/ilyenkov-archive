@@ -325,14 +325,27 @@ def split_bytes(
     return output_dir / "work_manifest.json"
 
 
+def is_corrected(manifest: dict) -> bool:
+    """True when the chapters were deliberately corrected after the original split.
+
+    A work gains a ``post_split_corrections`` record when text missing from the original
+    conversion is restored into the chapter files. The chapters then no longer reconstruct
+    to the download snapshot, and the per-chapter ``payload_sha256``/``payload_bytes`` keep
+    describing the original split. That divergence is intended, so the reversibility
+    invariant is suspended for such a work and ``file_sha256`` becomes the integrity anchor.
+    """
+    return bool(manifest.get("post_split_corrections"))
+
+
 def reconstruct(source_path: Path) -> bytes:
     manifest = json.loads(manifest_path_for(source_path).read_text(encoding="utf-8"))
     output_dir = output_dir_for(source_path)
+    corrected = is_corrected(manifest)
     payloads: list[bytes] = []
     for chapter in manifest["chapters"]:
         chapter_data = (output_dir / chapter["file"]).read_bytes()
         _, payload = split_front_matter(chapter_data)
-        if sha256_bytes(payload) != chapter["payload_sha256"]:
+        if not corrected and sha256_bytes(payload) != chapter["payload_sha256"]:
             raise ValueError(f"payload SHA-256 mismatch: {chapter['file']}")
         payloads.append(payload)
     return manifest["original_front_matter"].encode("utf-8") + b"".join(payloads)
@@ -343,12 +356,13 @@ def verify_work(source_path: Path, *, root: Path = ROOT) -> dict[str, object]:
     if not manifest_path.is_file():
         raise ValueError(f"missing work manifest: {manifest_path}")
     manifest = json.loads(manifest_path.read_text(encoding="utf-8"))
-    snapshot = output_dir_for(source_path) / manifest["source_snapshot"]
-    reconstructed = reconstruct(source_path)
-    if reconstructed != snapshot.read_bytes():
-        raise ValueError(f"lossless reconstruction failed: {source_path}")
-    if sha256_bytes(reconstructed) != manifest["original_sha256"]:
-        raise ValueError(f"original SHA-256 mismatch: {source_path}")
+    if not is_corrected(manifest):
+        snapshot = output_dir_for(source_path) / manifest["source_snapshot"]
+        reconstructed = reconstruct(source_path)
+        if reconstructed != snapshot.read_bytes():
+            raise ValueError(f"lossless reconstruction failed: {source_path}")
+        if sha256_bytes(reconstructed) != manifest["original_sha256"]:
+            raise ValueError(f"original SHA-256 mismatch: {source_path}")
     for chapter in manifest["chapters"]:
         chapter_path = output_dir_for(source_path) / chapter["file"]
         if chapter_path.stat().st_size >= int(manifest["max_chapter_bytes"]):
@@ -370,7 +384,7 @@ def materialize_fulltext(source_path: Path, *, root: Path = ROOT) -> Path:
     """Write the full reconstructed work to .fulltext/, byte-identical to its snapshot."""
     manifest = verify_work(source_path, root=root)
     data = reconstruct(source_path)
-    if sha256_bytes(data) != manifest["original_sha256"]:
+    if not is_corrected(manifest) and sha256_bytes(data) != manifest["original_sha256"]:
         raise ValueError(f"full-text reconstruction hash mismatch: {source_path}")
     target = fulltext_path_for(source_path, root)
     atomic_write(target, data)
@@ -384,7 +398,7 @@ def check_fulltext(source_path: Path, *, root: Path = ROOT) -> None:
     if not target.is_file():
         raise ValueError(f"missing full-text reconstruction (run --materialize): {target}")
     data = target.read_bytes()
-    if sha256_bytes(data) != manifest["original_sha256"]:
+    if not is_corrected(manifest) and sha256_bytes(data) != manifest["original_sha256"]:
         raise ValueError(f"full-text reconstruction is stale (run --materialize): {target}")
     if data != reconstruct(source_path):
         raise ValueError(f"full-text reconstruction does not match chapters: {target}")
@@ -540,26 +554,32 @@ def main() -> int:
     verified = 0
     split = 0
     materialized = 0
+    # Verification must cover every registered work. Raising on the first failure used to
+    # abort the loop, so one known divergence hid the other works entirely: after ch001/ch002/
+    # ch036/ch038 of the sixth work were deliberately corrected on 2026-07-29, works 7-15 were
+    # never verified again — the run looked like a failure of one work, not of nine unchecked.
+    failures: list[str] = []
     for spec in selected:
         source_path = ROOT / str(spec["source_path"])
-        if args.materialize:
-            materialize_fulltext(source_path)
-            materialized += 1
-        elif args.check:
-            verify_work(source_path)
-            check_fulltext(source_path)
-            verified += 1
-        elif source_path.is_file():
-            split_bytes(source_path.read_bytes(), source_path, spec)
-            materialize_fulltext(source_path)
-            split += 1
-            materialized += 1
-        else:
-            verify_work(source_path)
-            check_fulltext(source_path)
-            verified += 1
-    print(f"longform_split={split} longform_verified={verified} longform_materialized={materialized} registered={len(selected)}")
-    return 0
+        try:
+            if args.materialize:
+                materialize_fulltext(source_path)
+                materialized += 1
+            elif args.check or not source_path.is_file():
+                verify_work(source_path)
+                check_fulltext(source_path)
+                verified += 1
+            else:
+                split_bytes(source_path.read_bytes(), source_path, spec)
+                materialize_fulltext(source_path)
+                split += 1
+                materialized += 1
+        except (ValueError, OSError) as error:
+            failures.append(f"{relative_source(source_path)}: {error}")
+    for failure in failures:
+        print(failure)
+    print(f"longform_split={split} longform_verified={verified} longform_materialized={materialized} registered={len(selected)} failed={len(failures)}")
+    return 1 if failures else 0
 
 
 if __name__ == "__main__":

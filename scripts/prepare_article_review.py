@@ -10,20 +10,27 @@ from datetime import date
 from pathlib import Path
 
 from terminology_review_lib import (
+    ALREADY_REVIEWED_EXIT,
+    IDENTITY_CONFLICT_EXIT,
     ROOT,
+    REVISION_REQUIRED_EXIT,
     WORK_DIR,
+    duplicate_preflight,
     content_blocks,
     corpus_evidence_batch,
+    front_matter_metadata,
     git_preflight,
     glossary_matches,
     heuristic_forms,
     input_record,
     occurrences_for_forms,
     parse_suggestions,
+    next_batch_id,
     registered_glossaries,
     related_people,
     resolve_source_author,
     risk_summary,
+    source_work_identity,
     structural_alignment,
     write_json,
 )
@@ -37,6 +44,10 @@ def main() -> int:
     parser.add_argument("--slug", required=True)
     parser.add_argument("--author-id")
     parser.add_argument("--work-id")
+    parser.add_argument(
+        "--revision-of",
+        help="Existing batch id or blog:<slug> explicitly approved for revision",
+    )
     parser.add_argument(
         "--form-review",
         type=Path,
@@ -54,13 +65,51 @@ def main() -> int:
             raise SystemExit(f"missing readable input: {path}")
 
     preflight = git_preflight()
+    author_id, author = resolve_source_author(args.source, args.author_id)
+    work_id = args.work_id or front_matter_metadata(args.source).get("work_id") or args.source.stem
+    inputs = [
+        input_record("source", args.source),
+        input_record("translation", args.translation),
+        input_record("suggestions", args.suggestions),
+    ]
+    identity = source_work_identity(
+        args.source,
+        author_id=author_id,
+        work_id=work_id,
+        article_slug=args.slug,
+        source_record=inputs[0],
+    )
+    identity_result = duplicate_preflight(
+        identity=identity,
+        inputs=inputs,
+        revision_of=args.revision_of,
+    )
+    print_identity_preflight(identity_result)
+    if identity_result["status"] == "already_reviewed":
+        return ALREADY_REVIEWED_EXIT
+    if identity_result["status"] == "revision_required":
+        return REVISION_REQUIRED_EXIT
+    if identity_result["status"] == "identity_conflict":
+        return IDENTITY_CONFLICT_EXIT
+
     if preflight["ahead"] and not args.review_only:
         raise SystemExit(
             f"Ilyenkov branch is ahead of {preflight['upstream']} by {preflight['ahead']} commits; "
             "resolve the release blocker or rerun with --review-only"
         )
 
-    author_id, author = resolve_source_author(args.source, args.author_id)
+    review_mode = "revision" if identity_result["status"] == "revision_confirmed" else "initial"
+    batch_id = next_batch_id(
+        date_value=date.today().isoformat(),
+        slug=args.slug,
+        review_mode=review_mode,
+    )
+    work_dir_name = (
+        args.slug
+        if review_mode == "initial"
+        else batch_id.removeprefix(f"{date.today().isoformat()}-")
+    )
+    work_dir = WORK_DIR / work_dir_name
     source_blocks = content_blocks(args.source)
     translation_blocks = content_blocks(args.translation)
     alignment, alignment_warnings = structural_alignment(source_blocks, translation_blocks)
@@ -80,7 +129,6 @@ def main() -> int:
         for candidate_id in [author_id, *related_author_ids]
     }
 
-    work_dir = WORK_DIR / args.slug
     form_review_path = args.form_review or work_dir / "form_review.json"
     form_review = {}
     if form_review_path.is_file():
@@ -152,14 +200,13 @@ def main() -> int:
     cache_hits = len(evidence) if corpus_cache_hit else 0
 
     work_dir.mkdir(parents=True, exist_ok=True)
-    inputs = [
-        input_record("source", args.source),
-        input_record("translation", args.translation),
-        input_record("suggestions", args.suggestions),
-    ]
     manifest = {
         "schema_version": 1,
+        "batch_id": batch_id,
         "slug": args.slug,
+        "review_mode": review_mode,
+        "work_identity": identity,
+        "identity_preflight": identity_result,
         "primary_author_id": author_id,
         "primary_author": author,
         "related_author_ids": related_author_ids,
@@ -183,14 +230,17 @@ def main() -> int:
     write_json(
         work_dir / "batch_draft.json",
         batch_draft(
+            batch_id=batch_id,
             slug=args.slug,
-            work_id=args.work_id or args.source.stem,
+            work_id=work_id,
             author_id=author_id,
             related_author_ids=related_author_ids,
             inputs=inputs,
             source_blocks=source_blocks,
             translation_blocks=translation_blocks,
             evidence=evidence,
+            work_identity=identity,
+            identity_result=identity_result,
         ),
     )
     (work_dir / "review_packet.md").write_text(
@@ -211,6 +261,7 @@ def main() -> int:
 
 def batch_draft(
     *,
+    batch_id: str,
     slug: str,
     work_id: str,
     author_id: str,
@@ -219,8 +270,12 @@ def batch_draft(
     source_blocks: list[dict],
     translation_blocks: list[dict],
     evidence: list[dict],
+    work_identity: dict,
+    identity_result: dict,
 ) -> dict:
     today = date.today().isoformat()
+    review_mode = "revision" if identity_result["status"] == "revision_confirmed" else "initial"
+    selected = identity_result.get("selected", {})
     public_inputs = [
         {key: value for key, value in item.items() if key != "live_path"}
         for item in inputs
@@ -266,9 +321,21 @@ def batch_draft(
         "schema_version": 1,
         "audit_only": True,
         "record_format": "native",
-        "batch_id": f"{today}-{slug}",
+        "batch_id": batch_id,
         "batch_kind": "article_review",
         "date": today,
+        "review_mode": review_mode,
+        "work_identity": work_identity,
+        "supersedes_batch_id": (
+            selected.get("batch_id") if selected.get("kind") == "batch" else None
+        ),
+        "supersedes_blog_slug": (
+            selected.get("article_slug") if selected.get("kind") == "blog" else None
+        ),
+        "previous_translation_sha256": selected.get("translation_sha256"),
+        "changed_input_roles": selected.get("changed_input_roles", []),
+        "unknown_previous_input_roles": selected.get("unknown_input_roles", []),
+        "identity_match_reasons": selected.get("match_reasons", []),
         "primary_author_id": author_id,
         "related_author_ids": related_author_ids,
         "work_id": work_id,
@@ -307,6 +374,27 @@ def batch_draft(
             "note": "提交前由项目所有者审核；不表示正式翻译项目 reviewed 状态。",
         },
     }
+
+
+def print_identity_preflight(result: dict) -> None:
+    print(f"identity_preflight={result['status']}")
+    if result.get("message"):
+        print(f"message={result['message']}")
+    if result.get("reuse_target"):
+        print(f"reuse_target={result['reuse_target']}")
+    for item in result.get("matches", []):
+        changed = ",".join(item.get("changed_input_roles", [])) or "-"
+        unknown = ",".join(item.get("unknown_input_roles", [])) or "-"
+        reasons = ",".join(item.get("match_reasons", []))
+        print(
+            f"match={item['target']} reasons={reasons} "
+            f"changed={changed} unknown={unknown} path={item['path']}"
+        )
+    for item in result.get("title_hints", []):
+        print(f"title_hint={item['target']} title={item['title']}")
+    allowed = result.get("allowed_revision_targets", [])
+    if allowed:
+        print(f"revision_of_required={'|'.join(allowed)}")
 
 
 def render_packet(

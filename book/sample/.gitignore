@@ -1,9 +1,0 @@
-*.aux
-*.log
-*.out
-*.toc
-*.pdf
-*.png
-build*.log
-convert.log
-ch0*.tex

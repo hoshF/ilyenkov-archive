@@ -85,6 +85,12 @@ python3 scripts/manage_collections.py check
 python3 scripts/prepare_gbrain_markdown.py --check
 ```
 
+After changing corpus Markdown, scan manifests, work manifests, or digitization records, run
+`python3 scripts/manage_collections.py sync`. This refreshes `metadata/work_status.json`,
+`WORK_STATUS.md`, and `COLLECTION_STATUS.md` from the same derived work-level state. Use
+`manage_collections.py work-status --path <repository-relative-path>` to confirm that digital text,
+verification, source evidence, and project state have not been conflated.
+
 ## 3. Digitizing A Registered Source
 
 Confirm first:

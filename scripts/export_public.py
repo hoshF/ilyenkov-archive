@@ -30,6 +30,12 @@ CONTROLLED_ASSET_SUFFIXES = {
     ".aac", ".flac", ".m4a", ".mp3", ".ogg", ".wav",
     ".avi", ".m4v", ".mkv", ".mov", ".mp4", ".webm",
 }
+# 字体：与 PDF、扫描件同级看待，须在权利登记里逐个批准才可公开。
+# 成书用的 book-font.ttf 是商业中文字体与 PT Serif 的合并产物
+# （见 scripts/merge_cyrillic_font.py），**通常不可再分发**；本仓库私有、
+# 可以收着它，但它不得随公开导出出去。缺了这一条，.ttf 会落进
+# export_decision 末尾的 "project_file" 分支被照单发布。
+CONTROLLED_FONT_SUFFIXES = {".ttf", ".otf", ".ttc", ".otc", ".woff", ".woff2", ".pfb", ".dfont"}
 REPOSITORY_METADATA_NAMES = {".DS_Store", "Thumbs.db"}
 LOCAL_CONFIGURATION_DIRS = {".claude", ".codex", ".cursor", ".idea", ".obsidian", ".vscode"}
 LOCAL_CONFIGURATION_NAMES = {".envrc", ".mcp.json", "settings.local.json"}
@@ -146,6 +152,9 @@ def export_decision(
         if approved and rights[rel]["content_category"] != "scan":
             raise ValueError(f"{rel}: source scan requires content_category=scan")
         return approved, "scan_rights_approved" if approved else "source_scan_not_approved"
+    if path.suffix.lower() in CONTROLLED_FONT_SUFFIXES:
+        approved = rel in rights
+        return approved, "rights_registry_approved" if approved else "font_without_rights_review"
     if path.suffix.lower() in CONTROLLED_BINARY_SUFFIXES:
         approved = rel in rights
         return approved, "rights_registry_approved" if approved else "binary_without_rights_review"

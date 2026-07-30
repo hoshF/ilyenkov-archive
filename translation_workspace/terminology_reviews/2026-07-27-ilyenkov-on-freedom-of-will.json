@@ -5,6 +5,32 @@
   "batch_id": "2026-07-27-ilyenkov-on-freedom-of-will",
   "batch_kind": "article_review",
   "date": "2026-07-27",
+  "review_mode": "revision",
+  "work_identity": {
+    "primary_author_id": "maidansky",
+    "work_id": "e-v-ilyenkov-o-svobode-voli",
+    "article_slug": "ilyenkov-on-freedom-of-will",
+    "source_path": "maidansky_markdown/maidansky_md/istoriya-filosofii/istoriya-filosofii-e-v-ilyenkov-o-svobode-voli.md",
+    "source_sha256": "19844ed6e69aff7ff63ef7a68471db0166a05fe4ffce54efad497bec6de4cf6d",
+    "doi": "10.17759/chp.2024200112",
+    "source_url": "https://psyjournals.ru/journals/chp/archive/2024_n1/Maidansky",
+    "source_title": "Э.В. Ильенков о свободе воли"
+  },
+  "supersedes_batch_id": null,
+  "supersedes_blog_slug": "ilyenkov-on-freedom-of-will",
+  "previous_translation_sha256": "0dce059367cc40851ca92fc61a56db4131e6d16e7afbabd66e7b3f2ffbfe62ad",
+  "changed_input_roles": [
+    "translation"
+  ],
+  "unknown_previous_input_roles": [
+    "source",
+    "suggestions"
+  ],
+  "identity_match_reasons": [
+    "article_slug",
+    "doi",
+    "source_url"
+  ],
   "primary_author_id": "maidansky",
   "related_author_ids": [
     "ilyenkov",

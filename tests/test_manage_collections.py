@@ -251,6 +251,184 @@ class ManageCollectionsTests(unittest.TestCase):
             self.assertNotIn("中文说明", first)
             self.assertIn("| Person | Collection | Stage |", first)
 
+    def test_work_status_prefers_existing_html_markdown_over_registered_scan(self):
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            self.fixture(root)
+            data = self.registry()
+            data["collections"].append({
+                "id": "test-texts",
+                "person_id": "test",
+                "kind": "author_texts",
+                "root": "test_markdown",
+                "layout": "legacy",
+                "stage": "markdown_and_scans",
+                "corpus_paths": ["test_markdown/test_md/"],
+                "scan_paths": ["test_markdown/source_scans/"],
+                "scan_manifest": "test_markdown/metadata/source_scans_manifest.json",
+                "works_manifest": None,
+                "bibliography_paths": [],
+                "gbrain_tracked": True,
+            })
+            (root / "metadata/collections.json").write_text(json.dumps(data), encoding="utf-8")
+            scan = root / "test_markdown/source_scans/work.pdf"
+            scan.parent.mkdir(parents=True)
+            scan.write_bytes(b"scan")
+            metadata = root / "test_markdown/metadata"
+            metadata.mkdir()
+            (metadata / "source_scans_manifest.json").write_text(json.dumps({"items": [{
+                "title": "Same Work",
+                "source_url": "https://example.test/work",
+                "local_path": "source_scans/work.pdf",
+                "sha256": MANAGER.sha256(scan),
+                "source_format": "pdf",
+                "text_status": "source_scan_unprocessed",
+            }]}), encoding="utf-8")
+            markdown = root / "test_markdown/test_md/work.md"
+            markdown.parent.mkdir()
+            markdown.write_text(
+                "---\n"
+                'title: "Same Work"\n'
+                'source_format: "html"\n'
+                'text_status: "html_conversion_unverified"\n'
+                'source_url: "https://example.test/work"\n'
+                'source_scan: "test_markdown/source_scans/work.pdf"\n'
+                f'source_scan_sha256: "{MANAGER.sha256(scan)}"\n'
+                "---\n\n# Same Work\n",
+                encoding="utf-8",
+            )
+
+            status, errors = MANAGER.build_work_status(root)
+
+            self.assertEqual(errors, [])
+            work = MANAGER.query_work_status(
+                status, path="test_markdown/test_md/work.md"
+            )[0]
+            self.assertEqual(work["digital_text"], "present")
+            self.assertEqual(work["source_evidence"], "registered")
+            self.assertEqual(work["verification"], "unverified")
+            self.assertEqual(work["digitization_project"], "not_started")
+            self.assertEqual(work["progress"], "digital_text_unverified")
+
+    def test_work_status_rejects_invalid_verification_promotion(self):
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            _project, final, _canonical_map = self.v2_digitization_fixture(root)
+            status, errors = MANAGER.build_work_status(root)
+            verified = MANAGER.query_work_status(status, work_id="book")[0]
+            self.assertEqual(errors, [])
+            self.assertEqual(verified["progress"], "human_verified")
+
+            final.write_text(final.read_text() + "\nChanged.\n", encoding="utf-8")
+            status, errors = MANAGER.build_work_status(root)
+            invalid = MANAGER.query_work_status(status, work_id="book")[0]
+            self.assertTrue(any("SHA-256 mismatch" in error for error in errors), errors)
+            self.assertEqual(invalid["verification"], "unverified")
+            self.assertEqual(invalid["progress"], "digital_text_unverified")
+
+    def test_work_status_does_not_merge_duplicate_titles_without_an_anchor(self):
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            self.fixture(root)
+            data = self.registry()
+            data["collections"].append({
+                "id": "test-texts",
+                "person_id": "test",
+                "kind": "author_texts",
+                "root": "test_markdown",
+                "layout": "legacy",
+                "stage": "markdown_corpus",
+                "corpus_paths": ["test_markdown/test_md/"],
+                "scan_paths": [],
+                "scan_manifest": None,
+                "works_manifest": None,
+                "bibliography_paths": [],
+                "gbrain_tracked": True,
+            })
+            (root / "metadata/collections.json").write_text(json.dumps(data), encoding="utf-8")
+            corpus = root / "test_markdown/test_md"
+            corpus.mkdir(parents=True)
+            for name in ("one", "two"):
+                (corpus / f"{name}.md").write_text(
+                    '---\ntitle: "Duplicate Title"\n'
+                    f'source_url: "https://example.test/{name}"\n'
+                    'text_status: "html_conversion_unverified"\n---\n',
+                    encoding="utf-8",
+                )
+
+            status, errors = MANAGER.build_work_status(root)
+
+            self.assertEqual(errors, [])
+            works = [work for work in status["works"] if work["title"] == "Duplicate Title"]
+            self.assertEqual(len(works), 2)
+            self.assertTrue(all(
+                any(issue.startswith("ambiguous_title_match:") for issue in work["issues"])
+                for work in works
+            ))
+
+    def test_work_status_groups_longform_chapters_by_work_manifest(self):
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            self.fixture(root)
+            data = self.registry()
+            data["collections"].append({
+                "id": "test-texts",
+                "person_id": "test",
+                "kind": "author_texts",
+                "root": "test_markdown",
+                "layout": "legacy",
+                "stage": "markdown_corpus",
+                "corpus_paths": ["test_markdown/test_md/"],
+                "scan_paths": [],
+                "scan_manifest": None,
+                "works_manifest": None,
+                "bibliography_paths": [],
+                "gbrain_tracked": True,
+            })
+            (root / "metadata/collections.json").write_text(json.dumps(data), encoding="utf-8")
+            work_dir = root / "test_markdown/test_md/book"
+            work_dir.mkdir(parents=True)
+            chapters = []
+            for index in range(2):
+                name = f"book-ch{index:03}.md"
+                (work_dir / name).write_text(
+                    f'---\ntitle: "Book Chapter {index}"\n'
+                    'text_status: "html_conversion_unverified"\n---\n',
+                    encoding="utf-8",
+                )
+                chapters.append({"file": name})
+            (work_dir / "work_manifest.json").write_text(json.dumps({
+                "schema_version": 1,
+                "work_id": "book",
+                "chapters": chapters,
+            }), encoding="utf-8")
+
+            status, errors = MANAGER.build_work_status(root)
+
+            self.assertEqual(errors, [])
+            work = MANAGER.query_work_status(status, work_id="book")[0]
+            self.assertEqual(len(work["markdown_paths"]), 2)
+            self.assertEqual(work["progress"], "digital_text_unverified")
+
+    def test_freedom_of_will_work_status_regression(self):
+        repository_root = Path(__file__).resolve().parents[1]
+        status, errors = MANAGER.build_work_status(repository_root)
+        path = (
+            "maidansky_markdown/maidansky_md/istoriya-filosofii/"
+            "istoriya-filosofii-e-v-ilyenkov-o-svobode-voli.md"
+        )
+
+        self.assertEqual(errors, [])
+        work = MANAGER.query_work_status(status, path=path)[0]
+        self.assertEqual(work["progress"], "digital_text_unverified")
+        self.assertEqual(work["verification"], "unverified")
+        self.assertEqual(work["source_evidence"], "registered")
+        self.assertEqual(work["digitization_project"], "not_started")
+        self.assertEqual(
+            work["source_scan_paths"],
+            ["maidansky_markdown/source_scans/psyjournals/e-v-ilyenkov-o-svobode-voli.pdf"],
+        )
+
     def test_digitization_planned_requires_only_project_record(self):
         with tempfile.TemporaryDirectory() as directory:
             root = Path(directory)

@@ -5,6 +5,7 @@ from __future__ import annotations
 
 import argparse
 import hashlib
+import datetime
 import json
 import re
 import sys
@@ -1099,12 +1100,90 @@ def print_review_hashes(value: str) -> int:
     return 0
 
 
+PENDING_REVIEW = {"reviewer": None, "reviewed_at": None, "result": "pending", "scope_sha256": None}
+
+
+def load_project(project_dir: Path) -> tuple[Path, Path, dict[str, Any]]:
+    metadata_path = project_dir / "translation.json"
+    if not metadata_path.is_file():
+        raise ValueError(f"translation.json does not exist under: {project_dir}")
+    return project_dir, metadata_path, json.loads(metadata_path.read_text(encoding="utf-8"))
+
+
+def find_unit(data: dict[str, Any], unit_id: str) -> dict[str, Any]:
+    for unit in data.get("source_units", []):
+        if isinstance(unit, dict) and str(unit.get("id")) == unit_id:
+            return unit
+    raise ValueError(f"no unit {unit_id} in this project")
+
+
+def write_project(metadata_path: Path, data: dict[str, Any]) -> None:
+    metadata_path.write_text(
+        json.dumps(data, ensure_ascii=False, indent=2) + "\n", encoding="utf-8"
+    )
+
+
+def revise_unit(project: Path, unit_id: str) -> int:
+    """Reopen one unit for revision: both reviews back to pending, status back a stage.
+
+    Hand-editing translation.json for this is where the mistakes happen — the field names
+    must be exact (`reviewed_at`/`scope_sha256`, not `date`/`hash`), and `updated_at` has to
+    move too. On 2026-07-30 three revisions went through by hand and two of them tripped the
+    validator on precisely those points. The validator caught them, but it was catching
+    mistakes that should not have been possible to make.
+    """
+    project_dir, metadata_path, data = load_project(project)
+    unit = find_unit(data, unit_id)
+    unit["status"] = "accuracy_review"
+    for kind in ("accuracy_review", "language_review"):
+        unit[kind] = dict(PENDING_REVIEW)
+    write_project(metadata_path, data)
+    print(f"{unit_id}: reopened for revision (status=accuracy_review, both reviews pending)")
+    print(f"  1. 改 {project_dir.name}/units/{unit_id}/final.md")
+    print(f"  2. 在 units/{unit_id}/issues.md 补一节 `## 补记（日期　缘由）`——"
+          "单元自己的记录，与全书的 REVIEW_LOG 各记各的")
+    print("  3. 请所有者审阅；认可后跑 --sign 归档")
+    print("  提醒：本项目在 reviewed/ 下，此刻 --check 会报「requires every unit "
+          "status=reviewed」——那是过渡态，签字填回即通，不要为此搬动目录")
+    return 0
+
+
+def sign_unit(project: Path, unit_id: str, reviewer: str, today: str) -> int:
+    """Record both reviews as passed, binding them to the current artifacts."""
+    project_dir, metadata_path, data = load_project(project)
+    unit = find_unit(data, unit_id)
+    accuracy = review_scope_sha256(project_dir, unit, "accuracy")
+    language = review_scope_sha256(project_dir, unit, "language")
+    if accuracy is None or language is None:
+        raise ValueError(f"{unit_id}: incomplete review scope; literal.md, final.md and issues.md are required")
+    for kind, digest in (("accuracy_review", accuracy), ("language_review", language)):
+        unit[kind] = {"reviewer": reviewer, "reviewed_at": today,
+                      "result": "passed", "scope_sha256": digest}
+    unit["status"] = "reviewed"
+    # updated_at must not predate the reviews it records; forgetting this is the other
+    # mistake the hand-edited path kept producing.
+    if str(data.get("updated_at", "")) < today:
+        data["updated_at"] = today
+    write_project(metadata_path, data)
+    print(f"{unit_id}: signed (accuracy+language passed, {today}, reviewer={reviewer})")
+    print(f"  accuracy_scope_sha256={accuracy}")
+    print(f"  language_scope_sha256={language}")
+    print("  **此为代填：签字的效力来自所有者的审阅，不来自填写动作本身。**")
+    print("  下一步：build_merged_translation.py 重生成合并本；全批改完再 build_book.py")
+    return 0
+
+
 def main() -> int:
     parser = argparse.ArgumentParser()
     parser.add_argument("--check", action="store_true", help="Exit non-zero on validation errors")
     parser.add_argument("--inspect-source", metavar="PATH", help="Show deterministic source block numbers")
     parser.add_argument("--review-hashes", metavar="PROJECT", help="Print hashes for completed review scopes")
     parser.add_argument("--status", action="store_true", help="Print per-unit progress for every project")
+    parser.add_argument("--revise", nargs=2, metavar=("PROJECT", "UNIT"),
+                        help="Reopen one unit for revision (both reviews back to pending)")
+    parser.add_argument("--sign", nargs=2, metavar=("PROJECT", "UNIT"),
+                        help="Record both reviews as passed, bound to the current artifacts")
+    parser.add_argument("--reviewer", default="hoshF", help="Reviewer recorded by --sign")
     args = parser.parse_args()
 
     try:
@@ -1114,6 +1193,13 @@ def main() -> int:
             return print_source_inspection(args.inspect_source)
         if args.review_hashes:
             return print_review_hashes(args.review_hashes)
+        if args.revise:
+            project, unit_id = args.revise
+            return revise_unit(resolve_repository_path(project), unit_id)
+        if args.sign:
+            project, unit_id = args.sign
+            return sign_unit(resolve_repository_path(project), unit_id,
+                             reviewer=args.reviewer, today=datetime.date.today().isoformat())
     except (OSError, ValueError, json.JSONDecodeError) as error:
         print(f"error: {error}", file=sys.stderr)
         return 1

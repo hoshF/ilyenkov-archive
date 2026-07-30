@@ -45,8 +45,8 @@ def render_index(batches: list[tuple[Path, dict[str, Any]]]) -> str:
         "",
         "常规任务使用 `scripts/query_terminology_reviews.py` 定向查询，不读取全部批次记录。",
         "",
-        "| 日期 | 作者 / 作品 | 文章 | 新增 | 修改 | 删除 | 状态 | 拒绝 | 无正式表 | 所有者复核 |",
-        "|---|---|---|---:|---:|---:|---:|---:|---:|---|",
+        "| 日期 | 批次 | 作者 / 作品 | 文章 | 新增 | 修改 | 删除 | 状态 | 拒绝 | 无正式表 | 所有者复核 |",
+        "|---|---|---|---|---:|---:|---:|---:|---:|---:|---|",
     ]
     for path, batch in sorted(
         batches,
@@ -61,10 +61,21 @@ def render_index(batches: list[tuple[Path, dict[str, Any]]]) -> str:
         except ValueError:
             link = path.as_posix()
         article = f"[`{batch.get('article_slug', '-')}`]({link})"
+        review_mode = batch.get("review_mode", "legacy")
+        if review_mode == "revision":
+            parent = batch.get("supersedes_batch_id") or (
+                f"blog:{batch['supersedes_blog_slug']}"
+                if batch.get("supersedes_blog_slug")
+                else "-"
+            )
+            mode = f"`revision` → `{parent}`"
+        else:
+            mode = f"`{review_mode}`"
         lines.append(
-            "| {date} | {author_work} | {article} | {add} | {modify} | {delete} | "
+            "| {date} | {mode} | {author_work} | {article} | {add} | {modify} | {delete} | "
             "{status} | {reject} | {no_glossary} | {owner} |".format(
                 date=batch.get("date", "-"),
+                mode=mode,
                 author_work=author_work,
                 article=article,
                 add=counts.get("add", 0),
@@ -84,6 +95,7 @@ def render_index(batches: list[tuple[Path, dict[str, Any]]]) -> str:
             "- `add`、`modify`、`delete`、`status`：正式 glossary 的历史操作。",
             "- `reject`：已审核但不建立独立词条。",
             "- `no_formal_glossary`：裁定发生时该作者没有正式 glossary，只保留审计证据。",
+            "- `initial` 是首次审核，`revision` 指向被修订的批次或既有博客文章。",
             "- `owner_review` 是批次提交许可，不是正式翻译项目的 `reviewed` 状态。",
             "",
         ]

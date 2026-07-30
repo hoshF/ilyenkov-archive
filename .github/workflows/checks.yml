@@ -1,0 +1,49 @@
+name: checks
+
+# Runs scripts/check_all.py on every push and pull request.
+#
+# The repository has issue and pull-request templates but had no automated checking, so a
+# contribution could only be verified by the maintainer running fourteen checks by hand.
+#
+# Why the whole suite rather than a text-only subset: two checks recompute the SHA-256 of every
+# registered source scan, and an earlier attempt to skip the scans with a sparse checkout broke
+# two *other* checks — check_project_docs validates COLLECTION_STATUS.md, which requires every
+# registered scan file to exist, and one manage_collections test depends on the same. Excluding
+# the binaries produced sixteen bogus "registered source file is missing" errors. The full
+# checkout is 633 MiB and the checks take four seconds, so a run costs a couple of minutes.
+#
+# A shallow checkout (the default fetch-depth: 1) keeps history out of it; only the current tree
+# is fetched.
+
+on:
+  push:
+    branches: ["main"]
+  pull_request:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: checks-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  checks:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+
+      # 3.12 而非本机的 3.14：AST 查过全部脚本与测试，没有一处用到 3.10 以上的语法
+      # （match、except*、type 别名都没有），故 3.12 跑得动；而钉在较低的版本还能
+      # 反过来拦住有人误用新语法。行为差异无法在本机预演，第一次 CI 结果须人看一眼。
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Run every check
+        run: python3 scripts/check_all.py
+
+      - name: Report project state
+        if: always()
+        run: python3 scripts/check_all.py --status

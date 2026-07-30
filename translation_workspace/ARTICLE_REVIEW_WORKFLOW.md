@@ -32,6 +32,33 @@ python3 scripts/prepare_article_review.py \
 `tmp/translation_reviews/<slug>/`。若分支已有会被夹带推送的提交，工具在昂贵扫描前停止；
 只审校、不发布时可显式加 `--review-only`。
 
+在生成内容块或扫描语料以前，工具先按作者与作品 ID、稳定原文路径、原文哈希、DOI、来源
+URL 和博客 slug 检查既有成果。结果分为：
+
+- `new`：没有既有成果，正常准备；
+- `already_reviewed`（退出码 20）：三项输入与既有批次完全一致，直接复用；
+- `revision_required`（退出码 21）：同一作品已有成果但输入不同，停止并等待项目所有者确认；
+- `identity_conflict`（退出码 22）：强身份字段指向不同文章或修订目标不匹配，停止处理。
+
+标题只作提示，不能单独认定同一作品。重复预检停止时不会创建或覆盖工作包。项目所有者确认
+修订后，必须使用预检列出的准确目标重新运行：
+
+```bash
+python3 scripts/prepare_article_review.py \
+  --source <registered-source.md> \
+  --translation <revised-translation.md> \
+  --suggestions <suggestions.md> \
+  --slug <article-slug> \
+  --work-id <work-id> \
+  --revision-of <batch-id-or-blog:slug>
+```
+
+已有结构化批次时只能修订最新匹配批次；`blog:<slug>` 仅用于博客已存在但没有批次记录的
+情况，避免形成彼此分叉的审核历史。
+
+修订工作包使用带 `-rNN` 的独立目录和批次 ID，不覆盖旧批次。即使只变更了译文或建议表，
+确认修订后仍须重新完成下述三遍全文审校。
+
 ## 二、确认俄语词形
 
 首次运行后检查 `tmp/translation_reviews/<slug>/form_review.json`：
@@ -68,6 +95,9 @@ python3 scripts/prepare_article_review.py \
 translation_workspace/terminology_reviews/YYYY-MM-DD-<slug>.json
 ```
 
+修订批次保存为 `YYYY-MM-DD-<slug>-rNN.json`，并保留所取代批次或博客文章、上一版译文
+哈希、变化输入及身份匹配依据。不得把修订写回旧批次文件。
+
 记录必须包含两遍全文审校覆盖、最终译文哈希、全部建议决定、文章与作者语料证据、修改前后
 值、理由、状态、译文位置和零阻塞项。`audit_only: true` 表示它只是审计记录。
 
@@ -76,6 +106,9 @@ translation_workspace/terminology_reviews/YYYY-MM-DD-<slug>.json
 
 ```bash
 python3 scripts/query_terminology_reviews.py --author <author-id> --term <term>
+python3 scripts/query_terminology_reviews.py --work-id <work-id>
+python3 scripts/query_terminology_reviews.py --source-path <stable-source-path>
+python3 scripts/query_terminology_reviews.py --doi <doi>
 python3 scripts/render_terminology_reviews.py --write
 ```
 

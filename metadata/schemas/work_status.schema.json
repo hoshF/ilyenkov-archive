@@ -1,0 +1,200 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "work_status.schema.json",
+  "title": "Derived Work-Level Digitization Status",
+  "type": "object",
+  "required": [
+    "schema_version",
+    "generated_at",
+    "policy",
+    "summary",
+    "works"
+  ],
+  "properties": {
+    "schema_version": {
+      "const": 1
+    },
+    "generated_at": {
+      "type": "string"
+    },
+    "policy": {
+      "type": "object"
+    },
+    "summary": {
+      "type": "object",
+      "required": [
+        "total",
+        "bibliographic_only",
+        "source_registered",
+        "digital_text_unverified",
+        "review_in_progress",
+        "human_verified"
+      ],
+      "additionalProperties": {
+        "type": "integer",
+        "minimum": 0
+      }
+    },
+    "works": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/work"
+      }
+    }
+  },
+  "additionalProperties": false,
+  "$defs": {
+    "stringArray": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "uniqueItems": true
+    },
+    "work": {
+      "type": "object",
+      "required": [
+        "record_id",
+        "person_id",
+        "collection_ids",
+        "work_id",
+        "work_ids",
+        "title",
+        "digital_text",
+        "verification",
+        "source_evidence",
+        "digitization_project",
+        "progress",
+        "markdown_paths",
+        "source_scan_paths",
+        "digitization_project_paths",
+        "verification_manifests",
+        "bibliography_refs",
+        "text_statuses",
+        "source_formats",
+        "text_roles",
+        "dois",
+        "source_urls",
+        "eligibility",
+        "issues"
+      ],
+      "properties": {
+        "record_id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "person_id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "collection_ids": {
+          "$ref": "#/$defs/stringArray"
+        },
+        "work_id": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "work_ids": {
+          "$ref": "#/$defs/stringArray"
+        },
+        "title": {
+          "type": "string",
+          "minLength": 1
+        },
+        "digital_text": {
+          "enum": [
+            "absent",
+            "present"
+          ]
+        },
+        "verification": {
+          "enum": [
+            "unverified",
+            "human_review",
+            "human_verified"
+          ]
+        },
+        "source_evidence": {
+          "enum": [
+            "none",
+            "registered"
+          ]
+        },
+        "digitization_project": {
+          "enum": [
+            "not_started",
+            "planned",
+            "processing",
+            "human_review",
+            "human_verified"
+          ]
+        },
+        "progress": {
+          "enum": [
+            "bibliographic_only",
+            "source_registered",
+            "digital_text_unverified",
+            "review_in_progress",
+            "human_verified"
+          ]
+        },
+        "markdown_paths": {
+          "$ref": "#/$defs/stringArray"
+        },
+        "source_scan_paths": {
+          "$ref": "#/$defs/stringArray"
+        },
+        "digitization_project_paths": {
+          "$ref": "#/$defs/stringArray"
+        },
+        "verification_manifests": {
+          "$ref": "#/$defs/stringArray"
+        },
+        "bibliography_refs": {
+          "$ref": "#/$defs/stringArray"
+        },
+        "text_statuses": {
+          "$ref": "#/$defs/stringArray"
+        },
+        "source_formats": {
+          "$ref": "#/$defs/stringArray"
+        },
+        "text_roles": {
+          "$ref": "#/$defs/stringArray"
+        },
+        "dois": {
+          "$ref": "#/$defs/stringArray"
+        },
+        "source_urls": {
+          "$ref": "#/$defs/stringArray"
+        },
+        "eligibility": {
+          "type": "object",
+          "required": [
+            "core_corpus",
+            "gbrain",
+            "redistribution"
+          ],
+          "properties": {
+            "core_corpus": {
+              "type": "boolean"
+            },
+            "gbrain": {
+              "type": "boolean"
+            },
+            "redistribution": {
+              "type": "boolean"
+            }
+          },
+          "additionalProperties": false
+        },
+        "issues": {
+          "$ref": "#/$defs/stringArray"
+        }
+      },
+      "additionalProperties": false
+    }
+  }
+}

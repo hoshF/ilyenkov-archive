@@ -2,8 +2,8 @@
   "schema_version": 2,
   "policy": "Project infrastructure, original documentation, and factual metadata are public by default. Source texts, translations, scans, media, and content-bearing metadata require approval in metadata/rights_registry.json for the exact path and SHA-256. Scans additionally require approval in their source manifest.",
   "audit_convention": "PUBLIC_EXPORT_AUDIT.json is generated together with the export and does not list itself; the export tree and the public git tree must equal the included paths plus this audit file.",
-  "included": 317,
-  "excluded": 934,
+  "included": 334,
+  "excluded": 935,
   "files": [
     {
       "path": ".githooks/pre-commit",
@@ -55,18 +55,25 @@
       "sha256": "ab8a3f412be051f69acfbeafec4f033afddd5b9fec05fe31a796ab57769f7527"
     },
     {
+      "path": ".github/workflows/checks.yml",
+      "included": true,
+      "reason": "project_file",
+      "bytes": 1814,
+      "sha256": "dd46f849ecae72f31967b2ac5da946e76da17a35f2649aee05d5aca03ce0b00e"
+    },
+    {
       "path": ".gitignore",
       "included": true,
       "reason": "project_file",
-      "bytes": 645,
-      "sha256": "187a3e92ca88b3d73fc46b7d3a9963a1003b15624b25a38a3ef71c0764732658"
+      "bytes": 727,
+      "sha256": "ee7c4988d266274034bc022b30c4d11debb33d1849edd87729daf45afba6fa53"
     },
     {
       "path": "AGENTS.md",
       "included": true,
       "reason": "project_file",
-      "bytes": 9634,
-      "sha256": "c17e3e9771d2cf7f0e743815fc67fde09582689b749ebfdf31ff8daeee10ec08"
+      "bytes": 12022,
+      "sha256": "00265e17a21fd48c5a7b6d72e9b3c7441c8366e20262eed07f5c173e4fd8c630"
     },
     {
       "path": "CITATION.cff",
@@ -86,8 +93,8 @@
       "path": "COLLECTION_STATUS.md",
       "included": true,
       "reason": "project_file",
-      "bytes": 2238,
-      "sha256": "401471ad96a3676351698a985c9b83cd150be6e77e4f866567883a555c00596b"
+      "bytes": 2602,
+      "sha256": "774524e40c55148b6518321ae0a3e8ba6b8700ea837eee7a89d9a9d3fe366cd0"
     },
     {
       "path": "CONTRIBUTING.md",
@@ -100,8 +107,8 @@
       "path": "GOVERNANCE.md",
       "included": true,
       "reason": "project_file",
-      "bytes": 4815,
-      "sha256": "bebbabab1090fc7ccaeb930a0f826f4b41740e1a6707ef7d97ef11cb59ee0da3"
+      "bytes": 6131,
+      "sha256": "ffcf21294a21d4b7708ef6852337bbdc617aae60a4c10416dd86d9374d8fa936"
     },
     {
       "path": "LICENSE",
@@ -163,8 +170,15 @@
       "path": "TRANSLATION_PLAN.md",
       "included": true,
       "reason": "project_file",
-      "bytes": 13903,
-      "sha256": "e12e74bdeeec55cb85ef3fddfdf987ee03adb3fbeea93d6d54d726c0cfd6631a"
+      "bytes": 17770,
+      "sha256": "6db9aad098667904ad661f85c79b61294741f4f5d62479503d97cca1558fb679"
+    },
+    {
+      "path": "WORK_STATUS.md",
+      "included": true,
+      "reason": "project_file",
+      "bytes": 78919,
+      "sha256": "7b7579ae0605dcee1aedebba3227005ab4c467e755696e6af0f9265bd2c9d4d3"
     },
     {
       "path": "book/.gitignore",
@@ -174,25 +188,67 @@
       "sha256": "181314065df2f2fdaf920b1a8b5311daa216a2d6489a06ada5b49cc514d89417"
     },
     {
-      "path": "book/sample/.gitignore",
+      "path": "book/REVIEW_LOG.md",
       "included": true,
       "reason": "project_file",
-      "bytes": 68,
-      "sha256": "7979b5ccd2d3e004485076eaf2abad0e7eefe72ace2c15da9596fbda91ef023c"
+      "bytes": 7594,
+      "sha256": "32b13fbf9095263d4d91080f4b7e54835a129bda4c42d96786f744e40874847f"
     },
     {
-      "path": "book/sample/main.tex",
-      "included": false,
-      "reason": "text_without_rights_review",
-      "bytes": 2255,
-      "sha256": "0443b66a900ecb175d13592fa3d0530a1474fba83fd0e13a6296714f748ce69b"
+      "path": "book/front/01-译者引言.md",
+      "included": true,
+      "reason": "project_file",
+      "bytes": 2063,
+      "sha256": "0b73ef6ba6ac6f5b5f9941abf3cbcd1e61d62b931bcf9631725c626ab874183c"
     },
     {
-      "path": "book/sample/preamble.tex",
+      "path": "book/ilyenkov-philosophy-texts-research-zh/README.md",
+      "included": true,
+      "reason": "project_file",
+      "bytes": 5221,
+      "sha256": "490efc0e686e72637271908996d31fcefbc75f30eda1ee5ebed747b11612f3b4"
+    },
+    {
+      "path": "book/ilyenkov-philosophy-texts-research-zh/ilyenkov-philosophy-texts-research-zh.md",
+      "included": true,
+      "reason": "project_file",
+      "bytes": 598947,
+      "sha256": "8c275ac045282369de1a087097684b1738c1fd87c8ea7f28fe468a1de5c3b22d"
+    },
+    {
+      "path": "book/template/README.md",
+      "included": true,
+      "reason": "project_file",
+      "bytes": 5084,
+      "sha256": "4f9fab27bef215b955fafa918b54d3b65c23f61352c3a313fd814942dfda175e"
+    },
+    {
+      "path": "book/template/TYPESETTING.md",
+      "included": true,
+      "reason": "project_file",
+      "bytes": 8842,
+      "sha256": "700c731cdc070cce0ff67dfb835a9bc9f66c876862b6f46cba84b706fad88da6"
+    },
+    {
+      "path": "book/template/book-font.ttf",
+      "included": false,
+      "reason": "font_without_rights_review",
+      "bytes": 2639812,
+      "sha256": "4e6604907e853d9a606d84e2018c41f3cb8de08b4eb629be833df8293c052406"
+    },
+    {
+      "path": "book/template/main.tex",
       "included": false,
       "reason": "text_without_rights_review",
-      "bytes": 4342,
-      "sha256": "ce2c083a675b4870b147ff86e342de9657a32e81ccca718cd65f5de0dec47aa0"
+      "bytes": 5959,
+      "sha256": "a0a2b395bf14f99d1e18b38c765285f5103ceef61f542361b3c8ef2aec02babc"
+    },
+    {
+      "path": "book/template/preamble.tex",
+      "included": false,
+      "reason": "text_without_rights_review",
+      "bytes": 10440,
+      "sha256": "3799a5567dd45e57008fc039cd91f7b6b92dc73e6c0169d296ee3b61a9de7a15"
     },
     {
       "path": "dialectical_logic/README.md",
@@ -1472,15 +1528,15 @@
       "path": "ilyenkov_markdown/ilyenkov_md/knigi/knigi-dialektika-abstraktnogo-i-konkretnogo-v-nauchno-teoreticheskom-myshlenii/knigi-dialektika-abstraktnogo-i-konkretnogo-v-nauchno-teoreticheskom-myshlenii-ch001.md",
       "included": false,
       "reason": "rights_review_not_approved",
-      "bytes": 4289,
-      "sha256": "2489c776ff6ca8bd3de2a2cdce3df027730edbf679520a3bee53d785246c562b"
+      "bytes": 4329,
+      "sha256": "bb9c31175fb846143735a9d4919bc2e949d36b8ca3ca1f446d2ee9c5e197ccf1"
     },
     {
       "path": "ilyenkov_markdown/ilyenkov_md/knigi/knigi-dialektika-abstraktnogo-i-konkretnogo-v-nauchno-teoreticheskom-myshlenii/knigi-dialektika-abstraktnogo-i-konkretnogo-v-nauchno-teoreticheskom-myshlenii-ch002.md",
       "included": false,
       "reason": "rights_review_not_approved",
-      "bytes": 13545,
-      "sha256": "7cb7659f9fc9348b6b6fe0c8c2c636e048364dee02d51e072588083f5ace1aa3"
+      "bytes": 13830,
+      "sha256": "5f2fb72f23177dd133099d62a532f04fae954f518f087b6315ea2839a920f959"
     },
     {
       "path": "ilyenkov_markdown/ilyenkov_md/knigi/knigi-dialektika-abstraktnogo-i-konkretnogo-v-nauchno-teoreticheskom-myshlenii/knigi-dialektika-abstraktnogo-i-konkretnogo-v-nauchno-teoreticheskom-myshlenii-ch003.md",
@@ -1717,8 +1773,8 @@
       "path": "ilyenkov_markdown/ilyenkov_md/knigi/knigi-dialektika-abstraktnogo-i-konkretnogo-v-nauchno-teoreticheskom-myshlenii/knigi-dialektika-abstraktnogo-i-konkretnogo-v-nauchno-teoreticheskom-myshlenii-ch036.md",
       "included": false,
       "reason": "rights_review_not_approved",
-      "bytes": 148273,
-      "sha256": "02a2fae23e26d6635b8da9f843a5792d585333e289b7f9b08612ba38bb7911a0"
+      "bytes": 148603,
+      "sha256": "dc3ecfbb6a917a9ff80a3f649c91484c11bdf42ef17f7bf0adbb07509a219719"
     },
     {
       "path": "ilyenkov_markdown/ilyenkov_md/knigi/knigi-dialektika-abstraktnogo-i-konkretnogo-v-nauchno-teoreticheskom-myshlenii/knigi-dialektika-abstraktnogo-i-konkretnogo-v-nauchno-teoreticheskom-myshlenii-ch037.md",
@@ -1731,8 +1787,8 @@
       "path": "ilyenkov_markdown/ilyenkov_md/knigi/knigi-dialektika-abstraktnogo-i-konkretnogo-v-nauchno-teoreticheskom-myshlenii/knigi-dialektika-abstraktnogo-i-konkretnogo-v-nauchno-teoreticheskom-myshlenii-ch038.md",
       "included": false,
       "reason": "rights_review_not_approved",
-      "bytes": 66202,
-      "sha256": "ccd591c1bc3c6d830df31db6737e62701c3eb0fdfe33304567ac8f535de34950"
+      "bytes": 66442,
+      "sha256": "c48b43c15f44daddfabc4b526ee2b39c1da3cd484ee5f2b38d0fc94e1727cd7d"
     },
     {
       "path": "ilyenkov_markdown/ilyenkov_md/knigi/knigi-dialektika-abstraktnogo-i-konkretnogo-v-nauchno-teoreticheskom-myshlenii/knigi-dialektika-abstraktnogo-i-konkretnogo-v-nauchno-teoreticheskom-myshlenii-ch039.md",
@@ -1766,8 +1822,8 @@
       "path": "ilyenkov_markdown/ilyenkov_md/knigi/knigi-dialektika-abstraktnogo-i-konkretnogo-v-nauchno-teoreticheskom-myshlenii/work_manifest.json",
       "included": false,
       "reason": "corpus_asset_without_rights_review",
-      "bytes": 24331,
-      "sha256": "46ad9e0fb7cbd825cffffd546dbed6618fc7b194dcaa1657e9382eeb7a34ab33"
+      "bytes": 25200,
+      "sha256": "f23917b813c27d08b8a2f53c613c968973caad7c912361bcdbb818d297af2ea5"
     },
     {
       "path": "ilyenkov_markdown/ilyenkov_md/knigi/knigi-filosofiya-i-kultura/README.md",
@@ -2985,7 +3041,7 @@
       "included": true,
       "reason": "project_file",
       "bytes": 66547,
-      "sha256": "29af063a6d165b57c02fa12bf537a310ce900d56da44e2626ef41bfb6bb5dabd"
+      "sha256": "693001a7946971c045cd7b49bc09634492c9f94dda4617bca7b09b4197ba682d"
     },
     {
       "path": "ilyenkov_markdown/metadata/ilyenkov_biography_manifest.json",
@@ -3978,8 +4034,8 @@
       "path": "maidansky_markdown/maidansky_md/dialekticheskaya-logika/dialekticheskaya-logika-myshlenie-i-yazyk-v-logike-ilenkova.md",
       "included": false,
       "reason": "rights_review_not_approved",
-      "bytes": 60800,
-      "sha256": "38a11c0325dd37a646f6656ece774074e7e4939463cc0afcf576b386e6b8e8a2"
+      "bytes": 60788,
+      "sha256": "57afc4fd34299b24d626dd38a568bdad2925f25249fe8971599aec37869d37da"
     },
     {
       "path": "maidansky_markdown/maidansky_md/dialekticheskaya-logika/dialekticheskaya-logika-o-dei-stvuyuschem-dele-i-protyazhennom-mestoimenii.md",
@@ -4363,8 +4419,8 @@
       "path": "maidansky_markdown/maidansky_md/kulturno-istoricheskaya-psihologiya/kulturno-istoricheskaya-psihologiya-ontogenez-chelovecheskoi-psihiki-i-yazyka-v-rabotah-e-v-ilenkova.md",
       "included": false,
       "reason": "rights_review_not_approved",
-      "bytes": 58403,
-      "sha256": "6619beb0557acc3cffaada5bde5d53dfcb13ead6b1064608d8088eb532d86764"
+      "bytes": 57473,
+      "sha256": "b366afe485a6a76c6cac193831a3214d59039deb2043085d9b8811c1737fca75"
     },
     {
       "path": "maidansky_markdown/maidansky_md/kulturno-istoricheskaya-psihologiya/kulturno-istoricheskaya-psihologiya-ponyatie-vraschivaniya-v-teorii-razvitiya-vysshih-psihologicheskih-funktsii.md",
@@ -4601,8 +4657,8 @@
       "path": "maidansky_markdown/metadata/scholar_bibliography_gap_manifest.json",
       "included": true,
       "reason": "project_file",
-      "bytes": 174746,
-      "sha256": "4fd456e9b6472f5451b0a1470d7355664827135fc1c64981778836d94712d1d0"
+      "bytes": 175178,
+      "sha256": "218408be9e134703e2c082fce7a9abd95eb77aee49a288f1384d4eb6ea1b07e0"
     },
     {
       "path": "maidansky_markdown/metadata/source_scans_manifest.json",
@@ -5158,11 +5214,25 @@
       "sha256": "210462e447b2f50362ec07090e4ce5ee7c17bdb5fabfb35b4fe4e9fd6ff22174"
     },
     {
+      "path": "metadata/schemas/work_status.schema.json",
+      "included": true,
+      "reason": "project_file",
+      "bytes": 4446,
+      "sha256": "d3945ca729015befa2b398e7d2b35a555ad0e78e1b469ada56828f9dc96de636"
+    },
+    {
       "path": "metadata/soviet_philosophy_source_discovery.json",
       "included": true,
       "reason": "project_file",
       "bytes": 79622,
       "sha256": "602fa82a8e1f10b41f702cf7c1739db846f3fa3f2b45e72488e304423592d5c2"
+    },
+    {
+      "path": "metadata/work_status.json",
+      "included": true,
+      "reason": "project_file",
+      "bytes": 778443,
+      "sha256": "6ca7a8b3be3791a2738f342d95f13d371a1ff3077f73ec8527817de5a5437d3e"
     },
     {
       "path": "notes/ACADEMIA_403_INVESTIGATION.md",
@@ -5175,8 +5245,8 @@
       "path": "notes/COLLECTION_ARCHITECTURE.md",
       "included": true,
       "reason": "project_file",
-      "bytes": 4622,
-      "sha256": "e37ec744522d43273fc355d0569abc02ba099dd4439d06c9f5c3d02c32479cd7"
+      "bytes": 5394,
+      "sha256": "03c907bdde11a0c90c2c5d7056ed72b6df4a1b60e20e0096062b7687d299e0d0"
     },
     {
       "path": "notes/CORPUS_GAPS.md",
@@ -5231,8 +5301,8 @@
       "path": "notes/OPERATIONS_CHECKLIST.md",
       "included": true,
       "reason": "project_file",
-      "bytes": 9210,
-      "sha256": "1db977e6d5c03efccfd8553e6c2064e65ce4b1b2729d9410746c8ca9ab412062"
+      "bytes": 9657,
+      "sha256": "9ed03821a597420f94bf85404e33063934d78e7a5a4746368acf7083962d7da6"
     },
     {
       "path": "notes/ORIGINAL_LANGUAGE_AI_READING.md",
@@ -5266,8 +5336,8 @@
       "path": "notes/STYLE_GUIDE.md",
       "included": true,
       "reason": "project_file",
-      "bytes": 39763,
-      "sha256": "6baa4f9a00667ab37712f7de847f689e97d4337e520ec8c845211f4b72186e22"
+      "bytes": 40717,
+      "sha256": "4c2805cde2c9b1b704c94bba98b384a5289451c533cfe4d3c25ad213eb8bf0f2"
     },
     {
       "path": "notes/TERMS.md",
@@ -5658,15 +5728,29 @@
       "path": "scripts/build_book.py",
       "included": true,
       "reason": "project_file",
-      "bytes": 16061,
-      "sha256": "2e2c258feb9418fca3694fa2fe75e37c5261091eb9a1be7dceb0212458b31fe8"
+      "bytes": 20556,
+      "sha256": "c7813fe45c150c37b2c19e80b135c57433f4863b5d8fcf42666c8aa6c494b64b"
+    },
+    {
+      "path": "scripts/build_front_matter.py",
+      "included": true,
+      "reason": "project_file",
+      "bytes": 7213,
+      "sha256": "2331297729b7b1d9924a67eb7294fe7315cf3bc26f24352d32be09a48cc7730a"
     },
     {
       "path": "scripts/build_merged_translation.py",
       "included": true,
       "reason": "project_file",
-      "bytes": 8992,
-      "sha256": "5db4a4daf9b3e867058d79d59a786c77b0cf3c9d908c2a205a40568c3d6831cd"
+      "bytes": 9400,
+      "sha256": "2cd3faf11ce808e26520663bcf122e7b143f7a2d515b2d5513af20cd6b86222d"
+    },
+    {
+      "path": "scripts/check_all.py",
+      "included": true,
+      "reason": "project_file",
+      "bytes": 12579,
+      "sha256": "4497fd9280d80e9cd676227393b041ae8a3b33cf7814fd6b797b9aa205b57c97"
     },
     {
       "path": "scripts/check_article_review.py",
@@ -5679,8 +5763,8 @@
       "path": "scripts/check_book.py",
       "included": true,
       "reason": "project_file",
-      "bytes": 12281,
-      "sha256": "84759db0b54868d9d464591e19936cd96c50935e4786aeb23903e0f14335e79e"
+      "bytes": 12929,
+      "sha256": "249b5857d5047947f6b8dd0865413798bc499ba7a48469a266aee387bee029c0"
     },
     {
       "path": "scripts/check_glossaries.py",
@@ -5700,15 +5784,15 @@
       "path": "scripts/check_terminology_reviews.py",
       "included": true,
       "reason": "project_file",
-      "bytes": 9949,
-      "sha256": "eb3d6ba0df2d695a682c783fc6899258b7048216ae6b19130f85048919e10e39"
+      "bytes": 15679,
+      "sha256": "09a76eba21f22c2054bcfccd8c284897b960cd4728287a01653c16293f9ec66b"
     },
     {
       "path": "scripts/check_translations.py",
       "included": true,
       "reason": "project_file",
-      "bytes": 50589,
-      "sha256": "998bf727539d2fe1419933091e9c2828e35b51673ecd62f65f514a64c3823c0c"
+      "bytes": 55227,
+      "sha256": "86a8f17536c4b633183c2e8bdad9797c2d850a828a32ab12020c737d948d1ad6"
     },
     {
       "path": "scripts/collection_registry.py",
@@ -5728,22 +5812,29 @@
       "path": "scripts/export_public.py",
       "included": true,
       "reason": "project_file",
-      "bytes": 15358,
-      "sha256": "5d87bb84e94121b7814ac630e2fc8f2275c9cf170ff14a287fb91488f70a86d5"
+      "bytes": 16064,
+      "sha256": "8bfe9bebaed820dd089f052783ab42d6d3b8ceed82d40618ff2a8aa5c00bc957"
     },
     {
       "path": "scripts/manage_collections.py",
       "included": true,
       "reason": "project_file",
-      "bytes": 37664,
-      "sha256": "9cf89ab34c1b951ea0b6e6b45dee64968e2b7479dc4bd871ca5a0408e521c7c2"
+      "bytes": 41101,
+      "sha256": "655e4db824c350d0266a34e1909b5ca30052808aa7f9d63e0f09c000e7cd10e1"
     },
     {
       "path": "scripts/md_to_latex.py",
       "included": true,
       "reason": "project_file",
-      "bytes": 6244,
-      "sha256": "6c5563d82b279bc6887fc56ae17c6a10f2fe66581c944551abbeb37ed235c9be"
+      "bytes": 9920,
+      "sha256": "531416a3032e6d5ef055ee7f1be3f16b509cfb91dd9b29562ae19c57c2fcf763"
+    },
+    {
+      "path": "scripts/merge_cyrillic_font.py",
+      "included": true,
+      "reason": "project_file",
+      "bytes": 7759,
+      "sha256": "73356a15c3fd30063b87d9ef5d8791f97eaf51cb6a171207e827c6b0df8c5e16"
     },
     {
       "path": "scripts/new_prompt.py",
@@ -5756,8 +5847,8 @@
       "path": "scripts/prepare_article_review.py",
       "included": true,
       "reason": "project_file",
-      "bytes": 14124,
-      "sha256": "023940a3a186eff3dbc875b0f287b063c13e0050239f1d7d4a7549a973230482"
+      "bytes": 17570,
+      "sha256": "d2a181fa010fcb60b8a021959c363611a142c4eb528343795179434b3e131f74"
     },
     {
       "path": "scripts/prepare_gbrain_markdown.py",
@@ -5777,8 +5868,15 @@
       "path": "scripts/query_terminology_reviews.py",
       "included": true,
       "reason": "project_file",
-      "bytes": 2664,
-      "sha256": "5b222ed5dcd76323d361ca1b3171bde0bd384fe1019ee6c72d03e19a1743a9b0"
+      "bytes": 3701,
+      "sha256": "fb98e4a3a2294a0332a4aaceae74e9dd686dd85b33e3f5249e8376baf6dc376b"
+    },
+    {
+      "path": "scripts/read_pdf_notes.py",
+      "included": true,
+      "reason": "project_file",
+      "bytes": 4683,
+      "sha256": "d4dc9ae55b54498ec60ad81314e551e3a864ade9341d214135d275960d51778d"
     },
     {
       "path": "scripts/render_glossaries.py",
@@ -5798,8 +5896,8 @@
       "path": "scripts/render_terminology_reviews.py",
       "included": true,
       "reason": "project_file",
-      "bytes": 4293,
-      "sha256": "767bcfc3d6cc411decafb82190cb139af640bf7e52ee62540d2d4531a0fa0ea5"
+      "bytes": 4849,
+      "sha256": "aa1ee39b26472a506c540dae44239b36e17a21228708f999bb70e097ed1b984c"
     },
     {
       "path": "scripts/rights_registry.py",
@@ -5819,15 +5917,15 @@
       "path": "scripts/split_longform_markdown.py",
       "included": true,
       "reason": "project_file",
-      "bytes": 23551,
-      "sha256": "234195147162f3858438c3ab0b2cf604d838513f0f7e075bd14334fd52981767"
+      "bytes": 24942,
+      "sha256": "5f27a593306d60cccf333cb68ea4ce0f86421c684c7c3172a8b9bf90f34f3890"
     },
     {
       "path": "scripts/terminology_review_lib.py",
       "included": true,
       "reason": "project_file",
-      "bytes": 21919,
-      "sha256": "2dd44070c8925317ec9576c1c3977a132a20c110f2e21656349dbed5f31f83c8"
+      "bytes": 33147,
+      "sha256": "61fab738a887a456d52f058a3e5122761d705ec71a8d5b579eafba035c8f980d"
     },
     {
       "path": "scripts/update_agents_guide.py",
@@ -5840,8 +5938,15 @@
       "path": "scripts/verify_corpus_manifests.py",
       "included": true,
       "reason": "project_file",
-      "bytes": 4395,
-      "sha256": "d82e27c1664f4619dae5037841b4e703c3b2dcacde5cd2dbbeb70c3321b7e94d"
+      "bytes": 6440,
+      "sha256": "8b310721258dde1edf72422771bff8ec6e0a57c43ba4a5d87c9b71024f329509"
+    },
+    {
+      "path": "scripts/work_status.py",
+      "included": true,
+      "reason": "project_file",
+      "bytes": 35126,
+      "sha256": "652a61ba0cde30c2c15137ddd344fe101c13bbc08c2f0710a8ad92e2febbf434"
     },
     {
       "path": "spinoza_markdown/README.md",
@@ -7531,6 +7636,20 @@
       "sha256": "722cf3ba9b04a2fe77f91c356ada7cee454b54473aebd451264c52bab4c1fd61"
     },
     {
+      "path": "tests/test_build_book.py",
+      "included": true,
+      "reason": "project_file",
+      "bytes": 9555,
+      "sha256": "37e1718ed6bb9223714e62a98f0fcc1df81d9ff1433986248aa668aab72a33f2"
+    },
+    {
+      "path": "tests/test_check_all.py",
+      "included": true,
+      "reason": "project_file",
+      "bytes": 6776,
+      "sha256": "612c6d24920c9b5af6ca142c3b7ee42b307b66523bd7d877381156bbe7d0ccbb"
+    },
+    {
       "path": "tests/test_check_project_docs.py",
       "included": true,
       "reason": "project_file",
@@ -7541,8 +7660,8 @@
       "path": "tests/test_check_translations.py",
       "included": true,
       "reason": "project_file",
-      "bytes": 35289,
-      "sha256": "31e7549d471bb5763c368a78662677504a80cff5ee508ce070fb9c6e4bc758a4"
+      "bytes": 40904,
+      "sha256": "6390119a0d7be0307545d897cad0e8f14d7014fe09da27748e62575cb83729ab"
     },
     {
       "path": "tests/test_digitize_pdf_work.py",
@@ -7569,8 +7688,8 @@
       "path": "tests/test_manage_collections.py",
       "included": true,
       "reason": "project_file",
-      "bytes": 26465,
-      "sha256": "e8d7074a12f28c6f09b2d5d78ad1e566f92997923944dedc97d1db7412041843"
+      "bytes": 34681,
+      "sha256": "75f48034444958dd39ac698e6785cde17a626dafc0909db9d4a41188764af22f"
     },
     {
       "path": "tests/test_prepare_gbrain_markdown.py",
@@ -7597,15 +7716,22 @@
       "path": "tests/test_terminology_reviews.py",
       "included": true,
       "reason": "project_file",
-      "bytes": 9285,
-      "sha256": "97e646d0f68aeb564b2eda98997925016e554da60884ac4566a6b3208be86d3c"
+      "bytes": 19899,
+      "sha256": "c4cd48d7487deadc6a9c3d4a5ab9c38a7f9c339190c65a4763a8dbb55e848c79"
+    },
+    {
+      "path": "tests/test_verify_corpus_manifests.py",
+      "included": true,
+      "reason": "project_file",
+      "bytes": 6031,
+      "sha256": "9888b4acf6a3f982ff0db24198b9689c9f52c62e8d576458da7e84ab2b81ec9a"
     },
     {
       "path": "translation_workspace/ARTICLE_REVIEW_WORKFLOW.md",
       "included": true,
       "reason": "project_file",
-      "bytes": 4672,
-      "sha256": "0d5f42751199b0d3edaf1fbf76a1b859ace878e67567c4bc028dc7a3c3047df4"
+      "bytes": 6458,
+      "sha256": "12be2fcbad2c577b34a2503185c87f7dc60fe579519ef4ead392626a12ed95b3"
     },
     {
       "path": "translation_workspace/DECISIONS.md",
@@ -7618,8 +7744,8 @@
       "path": "translation_workspace/HANDOFF.md",
       "included": true,
       "reason": "project_file",
-      "bytes": 15009,
-      "sha256": "71e38244d904e913bf198e0c90f62250986820465ab4926bb1c88d8c258cc386"
+      "bytes": 14656,
+      "sha256": "e4a7e467e5d045ed35597bca2078791264f79478ef75dcc87112c78533dd1329"
     },
     {
       "path": "translation_workspace/README.md",
@@ -7632,15 +7758,15 @@
       "path": "translation_workspace/SOURCE_CRUXES.md",
       "included": true,
       "reason": "project_file",
-      "bytes": 8673,
-      "sha256": "fb923298f8cccd605c2b320d3d1ae3b96e46fb06e6c2a3833de0cf14f95b112a"
+      "bytes": 16875,
+      "sha256": "e7c6cbbc413d3a14f30248d6d99f9366234a0a3d06b722aa1145d150a4e87d4d"
     },
     {
       "path": "translation_workspace/TERMINOLOGY_CHANGELOG.md",
       "included": true,
       "reason": "project_file",
-      "bytes": 2059,
-      "sha256": "b6f67b8d0f427c7ddaf598ed2845bf983f831d8ba499812cec850ded82d18783"
+      "bytes": 2247,
+      "sha256": "8fd6057a058d18456656704eb9e075804111a36021e91f2e11ab86dd232ca28c"
     },
     {
       "path": "translation_workspace/drafts/README.md",
@@ -7675,7 +7801,7 @@
       "included": true,
       "reason": "project_file",
       "bytes": 49948,
-      "sha256": "c72aaa64f9cd1e989cece9a78d3ec38fa70eafd48ffb8b877f0cfcbc3f641c0d"
+      "sha256": "9bbb1f63b1a9a018657c8881c0ec4d148363ab13f6183bd13da9baea69859b03"
     },
     {
       "path": "translation_workspace/reviewed/ilyenkov/knigi-dialektika-abstraktnogo-i-konkretnogo-v-nauchno-teoreticheskom-myshlenii/units/ch000/final.md",
@@ -7702,29 +7828,29 @@
       "path": "translation_workspace/reviewed/ilyenkov/knigi-dialektika-abstraktnogo-i-konkretnogo-v-nauchno-teoreticheskom-myshlenii/units/ch001/final.md",
       "included": false,
       "reason": "rights_review_not_approved",
-      "bytes": 2411,
-      "sha256": "11911de92e37cd3515d0641061ea767bc670a371604db53f2f10a869c2aeafb2"
+      "bytes": 2387,
+      "sha256": "5f83ebf5d3ff60fae54ff9d43e51da592191398f11d95198a24c78a47e6eecdc"
     },
     {
       "path": "translation_workspace/reviewed/ilyenkov/knigi-dialektika-abstraktnogo-i-konkretnogo-v-nauchno-teoreticheskom-myshlenii/units/ch001/issues.md",
       "included": false,
       "reason": "rights_review_not_approved",
-      "bytes": 3795,
-      "sha256": "d2a0d82ae0048ec41c95264222703d019dc399f435e65091c0d60421a14af1ce"
+      "bytes": 7349,
+      "sha256": "c4899c631c0e611a68ca91171ae59b4a83f551efbae8b9c4b70f913fe98f6ee4"
     },
     {
       "path": "translation_workspace/reviewed/ilyenkov/knigi-dialektika-abstraktnogo-i-konkretnogo-v-nauchno-teoreticheskom-myshlenii/units/ch001/literal.md",
       "included": false,
       "reason": "rights_review_not_approved",
-      "bytes": 2450,
-      "sha256": "4e5d42853e75d00d70fe6ae66650b3ecf60c05cf65dee3aab9de5b194a35add5"
+      "bytes": 2526,
+      "sha256": "1027871188a3045b6e7e92b1dea28e2c018e6983478278cf92b14bd93ead97b7"
     },
     {
       "path": "translation_workspace/reviewed/ilyenkov/knigi-dialektika-abstraktnogo-i-konkretnogo-v-nauchno-teoreticheskom-myshlenii/units/ch002/final.md",
       "included": false,
       "reason": "rights_review_not_approved",
-      "bytes": 7268,
-      "sha256": "722f154d80df72fc832f47e7d968c723417c31e6d2f6f62d279266d9d3c0b130"
+      "bytes": 7458,
+      "sha256": "85155732a21477d3ac3ab3888a2c2f19c0ab2b26cabd205b20aaa1e02c0cdb45"
     },
     {
       "path": "translation_workspace/reviewed/ilyenkov/knigi-dialektika-abstraktnogo-i-konkretnogo-v-nauchno-teoreticheskom-myshlenii/units/ch002/issues.md",
@@ -7737,8 +7863,8 @@
       "path": "translation_workspace/reviewed/ilyenkov/knigi-dialektika-abstraktnogo-i-konkretnogo-v-nauchno-teoreticheskom-myshlenii/units/ch002/literal.md",
       "included": false,
       "reason": "rights_review_not_approved",
-      "bytes": 7598,
-      "sha256": "89c62f6fd9f197383cd0f91cc592c3c8171b0428b5996622046927bfbd8bcd78"
+      "bytes": 7788,
+      "sha256": "ba951b25dae81eaf63f313b8ec51aa91d04b1a787f0a752cada61278ec256fda"
     },
     {
       "path": "translation_workspace/reviewed/ilyenkov/knigi-dialektika-abstraktnogo-i-konkretnogo-v-nauchno-teoreticheskom-myshlenii/units/ch003/final.md",
@@ -7765,43 +7891,43 @@
       "path": "translation_workspace/reviewed/ilyenkov/knigi-dialektika-abstraktnogo-i-konkretnogo-v-nauchno-teoreticheskom-myshlenii/units/ch004/final.md",
       "included": false,
       "reason": "rights_review_not_approved",
-      "bytes": 14273,
-      "sha256": "d877b1261a01b21a63adf1002289ef8f565367d23868ee9ea8a65a0da3bf9fe0"
+      "bytes": 14591,
+      "sha256": "1783e9a7a6829ab26fabbc85da0ea63c7007f5647c35bbba8ea77c6977c0a994"
     },
     {
       "path": "translation_workspace/reviewed/ilyenkov/knigi-dialektika-abstraktnogo-i-konkretnogo-v-nauchno-teoreticheskom-myshlenii/units/ch004/issues.md",
       "included": false,
       "reason": "rights_review_not_approved",
-      "bytes": 6525,
-      "sha256": "21195fc80491cc5bc65f6b784097355ab91f000ee728df58b771851ddc21024f"
+      "bytes": 12021,
+      "sha256": "1438b5d5040aa1a7c9734249b8f13d368de0c15b95cf4ca74c8ea0321790a165"
     },
     {
       "path": "translation_workspace/reviewed/ilyenkov/knigi-dialektika-abstraktnogo-i-konkretnogo-v-nauchno-teoreticheskom-myshlenii/units/ch004/literal.md",
       "included": false,
       "reason": "rights_review_not_approved",
-      "bytes": 15242,
-      "sha256": "0392a2f07991c378ee13b3313a12d40b79ab709e44c0e40f9afd9ca81e5fcc89"
+      "bytes": 15318,
+      "sha256": "988a29a9812b760606dd1da6d4d5711d02c98f69c251328a5deb84cb6a7619b9"
     },
     {
       "path": "translation_workspace/reviewed/ilyenkov/knigi-dialektika-abstraktnogo-i-konkretnogo-v-nauchno-teoreticheskom-myshlenii/units/ch005/final.md",
       "included": false,
       "reason": "rights_review_not_approved",
-      "bytes": 6584,
-      "sha256": "330ce504d28c65b4baf95f86f936adcf58aa3341a3f4506bacfb5137929056e9"
+      "bytes": 6875,
+      "sha256": "3206cffd6b23b76eabce2b1d2c52a839c5976202b18a86643c7f86d56ffd7a5d"
     },
     {
       "path": "translation_workspace/reviewed/ilyenkov/knigi-dialektika-abstraktnogo-i-konkretnogo-v-nauchno-teoreticheskom-myshlenii/units/ch005/issues.md",
       "included": false,
       "reason": "rights_review_not_approved",
-      "bytes": 6151,
-      "sha256": "33dad2b3cab8196045485d7199ef736be3c05a9c09307ae68d0038602e142b12"
+      "bytes": 13884,
+      "sha256": "2bff9a8d7654ae1c988468752731b30328c3e73dc657ef3b0fc4134c7745bd21"
     },
     {
       "path": "translation_workspace/reviewed/ilyenkov/knigi-dialektika-abstraktnogo-i-konkretnogo-v-nauchno-teoreticheskom-myshlenii/units/ch005/literal.md",
       "included": false,
       "reason": "rights_review_not_approved",
-      "bytes": 6851,
-      "sha256": "8e6eb5f842f50f95dae67fa6b7e46760243ab2d6bcfdf343da46847adad3a20e"
+      "bytes": 6980,
+      "sha256": "94c76a55d8fe71c31e97ff3070d1b112cf7678584c99ecf2878c21e4030d95b0"
     },
     {
       "path": "translation_workspace/reviewed/ilyenkov/knigi-dialektika-abstraktnogo-i-konkretnogo-v-nauchno-teoreticheskom-myshlenii/units/ch006/final.md",
@@ -7849,15 +7975,15 @@
       "path": "translation_workspace/reviewed/ilyenkov/knigi-dialektika-abstraktnogo-i-konkretnogo-v-nauchno-teoreticheskom-myshlenii/units/ch008/final.md",
       "included": false,
       "reason": "rights_review_not_approved",
-      "bytes": 6894,
-      "sha256": "6cd58b0948a48e7226b456450f280b12af05af422d9619443cfdb14a1082eb42"
+      "bytes": 7198,
+      "sha256": "ed1ac1e517c6ec12f20c4a6af37930015529d98ef34e930010e1a02c95646fbc"
     },
     {
       "path": "translation_workspace/reviewed/ilyenkov/knigi-dialektika-abstraktnogo-i-konkretnogo-v-nauchno-teoreticheskom-myshlenii/units/ch008/issues.md",
       "included": false,
       "reason": "rights_review_not_approved",
-      "bytes": 7081,
-      "sha256": "3a7792cb4e900fd5204fcbc8f8e5838841bfeaecaa6d5020861544fca91e27a6"
+      "bytes": 7670,
+      "sha256": "321b5c07f71f7386df48fdb2b383250c54f982d738b371f331ba0f0c8842e1ed"
     },
     {
       "path": "translation_workspace/reviewed/ilyenkov/knigi-dialektika-abstraktnogo-i-konkretnogo-v-nauchno-teoreticheskom-myshlenii/units/ch008/literal.md",
@@ -8185,15 +8311,15 @@
       "path": "translation_workspace/reviewed/ilyenkov/knigi-dialektika-abstraktnogo-i-konkretnogo-v-nauchno-teoreticheskom-myshlenii/units/ch024/final.md",
       "included": false,
       "reason": "rights_review_not_approved",
-      "bytes": 36692,
-      "sha256": "0e56bdd9dffd9e72fc6b90874120c7164d1ff8ae197aabfe20ddf11728ab3f7d"
+      "bytes": 36713,
+      "sha256": "db221680b0540fbf8951ad5245962ab8afa039dfd46dc380d9db88e7ea5c0e3c"
     },
     {
       "path": "translation_workspace/reviewed/ilyenkov/knigi-dialektika-abstraktnogo-i-konkretnogo-v-nauchno-teoreticheskom-myshlenii/units/ch024/issues.md",
       "included": false,
       "reason": "rights_review_not_approved",
-      "bytes": 9364,
-      "sha256": "561e3c4e41040ea36259136f1e45b9660494f3755fca0c31cddf55ec245f1317"
+      "bytes": 10108,
+      "sha256": "b3529c4ae8c836944bb30753397f23fab1bcf1a3de43280c19a01c4e9150a4c4"
     },
     {
       "path": "translation_workspace/reviewed/ilyenkov/knigi-dialektika-abstraktnogo-i-konkretnogo-v-nauchno-teoreticheskom-myshlenii/units/ch024/literal.md",
@@ -8437,8 +8563,8 @@
       "path": "translation_workspace/reviewed/ilyenkov/knigi-dialektika-abstraktnogo-i-konkretnogo-v-nauchno-teoreticheskom-myshlenii/units/ch036/final.md",
       "included": false,
       "reason": "rights_review_not_approved",
-      "bytes": 76425,
-      "sha256": "5318a0f1b104efefb65f4fc815f95f4b42cf70ed7350f5d44ad6670343665108"
+      "bytes": 76638,
+      "sha256": "20c9cfe093a48bcc5282fae0e2a7ffc627d712c0c6857232cd8f516c126492b7"
     },
     {
       "path": "translation_workspace/reviewed/ilyenkov/knigi-dialektika-abstraktnogo-i-konkretnogo-v-nauchno-teoreticheskom-myshlenii/units/ch036/issues.md",
@@ -8451,22 +8577,22 @@
       "path": "translation_workspace/reviewed/ilyenkov/knigi-dialektika-abstraktnogo-i-konkretnogo-v-nauchno-teoreticheskom-myshlenii/units/ch036/literal.md",
       "included": false,
       "reason": "rights_review_not_approved",
-      "bytes": 77090,
-      "sha256": "eca0d4f87950712c167ce0f719f95ea82d9d753d1c07cc0080309de50ec146a9"
+      "bytes": 77303,
+      "sha256": "36018702eac96bdef82fe7ec18f35150722f50e65bc92a604861ee1d15aa6d14"
     },
     {
       "path": "translation_workspace/reviewed/ilyenkov/knigi-dialektika-abstraktnogo-i-konkretnogo-v-nauchno-teoreticheskom-myshlenii/units/ch037/final.md",
       "included": false,
       "reason": "rights_review_not_approved",
-      "bytes": 24307,
-      "sha256": "8f5dee524c46a2b4c2bccc1ac98d7c22114e5c21c10f3f0fecf89f8d44f860ec"
+      "bytes": 24313,
+      "sha256": "ae8e0d0f42c2f3dcd500bad226cb9cbc237ceae8e18033ba3967a4a9f38c7d0d"
     },
     {
       "path": "translation_workspace/reviewed/ilyenkov/knigi-dialektika-abstraktnogo-i-konkretnogo-v-nauchno-teoreticheskom-myshlenii/units/ch037/issues.md",
       "included": true,
       "reason": "project_file",
-      "bytes": 9713,
-      "sha256": "4fce1197b820834216e8809e1920727efbdcc3c83630584a91f43fbb3349f860"
+      "bytes": 10157,
+      "sha256": "a4a9240324e5879961b51f775c5225bfe5dd658432b079faceddde87baaafc76"
     },
     {
       "path": "translation_workspace/reviewed/ilyenkov/knigi-dialektika-abstraktnogo-i-konkretnogo-v-nauchno-teoreticheskom-myshlenii/units/ch037/literal.md",
@@ -8479,8 +8605,8 @@
       "path": "translation_workspace/reviewed/ilyenkov/knigi-dialektika-abstraktnogo-i-konkretnogo-v-nauchno-teoreticheskom-myshlenii/units/ch038/final.md",
       "included": false,
       "reason": "rights_review_not_approved",
-      "bytes": 35434,
-      "sha256": "5213548580671533e179b34eadf952403c13549978332fd17c7d9048e864d01e"
+      "bytes": 35616,
+      "sha256": "eaaa07cdfa1475682026c7abbd61160cc6603b3397f9c5783ddc88357f62515c"
     },
     {
       "path": "translation_workspace/reviewed/ilyenkov/knigi-dialektika-abstraktnogo-i-konkretnogo-v-nauchno-teoreticheskom-myshlenii/units/ch038/issues.md",
@@ -8493,15 +8619,15 @@
       "path": "translation_workspace/reviewed/ilyenkov/knigi-dialektika-abstraktnogo-i-konkretnogo-v-nauchno-teoreticheskom-myshlenii/units/ch038/literal.md",
       "included": false,
       "reason": "rights_review_not_approved",
-      "bytes": 37792,
-      "sha256": "6ea06f927166478481f6f528e0e8e509175c6ab6c3f725ab11ab4809e67247e2"
+      "bytes": 37971,
+      "sha256": "96e1ff4e84ede5964f9dc343620e062a1221ce65703e0d1b2ac07436b4f5d125"
     },
     {
       "path": "translation_workspace/reviewed/ilyenkov/knigi-dialektika-abstraktnogo-i-konkretnogo-v-nauchno-teoreticheskom-myshlenii/units/ch039/final.md",
       "included": false,
       "reason": "rights_review_not_approved",
-      "bytes": 10324,
-      "sha256": "58863aa7899708c61b0be5c556b28ad16c75d38cc78417151c343c6d52031266"
+      "bytes": 10321,
+      "sha256": "9ea39c1c4f4a1a13f8e4089f99b38bf84ed7062cf2068df090a840e207191355"
     },
     {
       "path": "translation_workspace/reviewed/ilyenkov/knigi-dialektika-abstraktnogo-i-konkretnogo-v-nauchno-teoreticheskom-myshlenii/units/ch039/issues.md",
@@ -8514,8 +8640,8 @@
       "path": "translation_workspace/reviewed/ilyenkov/knigi-dialektika-abstraktnogo-i-konkretnogo-v-nauchno-teoreticheskom-myshlenii/units/ch039/literal.md",
       "included": false,
       "reason": "rights_review_not_approved",
-      "bytes": 10665,
-      "sha256": "8b59dc69abfae66b8c391a06ce21039dd759db1a180084b28abf3cdf566096ef"
+      "bytes": 10660,
+      "sha256": "a3077cd431aa5301a1c83235ce155b3e95dab10d27b7d2c5d25d3728cb905e8c"
     },
     {
       "path": "translation_workspace/reviewed/ilyenkov/knigi-dialektika-abstraktnogo-i-konkretnogo-v-nauchno-teoreticheskom-myshlenii/units/ch040/final.md",
@@ -8563,8 +8689,8 @@
       "path": "translation_workspace/reviewed/ilyenkov/knigi-dialektika-abstraktnogo-i-konkretnogo-v-nauchno-teoreticheskom-myshlenii/科学理论思维中抽象与具体的辩证法.md",
       "included": false,
       "reason": "rights_review_not_approved",
-      "bytes": 831229,
-      "sha256": "5ea20aa4608d33eaa3151fa183be7eacbe3060e01240fb9cefd071286c74f420"
+      "bytes": 832589,
+      "sha256": "66e96cb053548a66b1b5702d5d44b3e1622de2ab2e5a9d57e7c95b75621d6885"
     },
     {
       "path": "translation_workspace/templates/codex_prompt.md",
@@ -8605,8 +8731,8 @@
       "path": "translation_workspace/terminology_reviews/2026-07-27-ilyenkov-on-freedom-of-will.json",
       "included": true,
       "reason": "project_file",
-      "bytes": 76361,
-      "sha256": "b3a990abdd5923eb6634fb6f4947c76ad6bb19e875bedb561a9217c6f434d899"
+      "bytes": 77352,
+      "sha256": "89e7b3d9e399c319e87d2cb151dd2e3afc9a825fda90a58f512dc1594df9beaf"
     },
     {
       "path": "translation_workspace/terminology_reviews/2026-07-27-ontogenesis-human-psyche-language-in-ilyenkov.json",

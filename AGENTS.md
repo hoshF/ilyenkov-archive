@@ -42,9 +42,10 @@ Sources of record, in priority order:
 
 | Task | Primary entry | Note |
 |---|---|---|
-| Current people and collection status | [COLLECTION_STATUS.md](COLLECTION_STATUS.md) | Generated; do not edit by hand |
+| Current people, collection, and work status | [COLLECTION_STATUS.md](COLLECTION_STATUS.md), [WORK_STATUS.md](WORK_STATUS.md) | Generated; query `metadata/work_status.json`; do not edit by hand |
 | Add a person or collection | [notes/COLLECTION_ARCHITECTURE.md](notes/COLLECTION_ARCHITECTURE.md) | Use `manage_collections.py add-person` |
 | Resolve directories and `text_role` | [RESOLVER.md](RESOLVER.md) | Do not infer text identity from directory names |
+| Whole-work reading copies | [.fulltext/README.md](.fulltext/README.md) | Version-controlled but **not a source of record**; excluded from GBrain and public export. Verify with `split_longform_markdown.py --check` |
 | Source and corpus policy | [notes/PHILOSOPHY_SOURCE_FORMAT_POLICY.md](notes/PHILOSOPHY_SOURCE_FORMAT_POLICY.md) | Authoritative front matter rules |
 | Scan digitization | [notes/SCAN_DIGITIZATION_WORKFLOW.md](notes/SCAN_DIGITIZATION_WORKFLOW.md) | OCR only for registered, activated works |
 | GBrain / LLM Wiki | [LLM_WIKI.md](LLM_WIKI.md) | Use the wrapper scripts |
@@ -52,6 +53,11 @@ Sources of record, in priority order:
 | Article translation review and publishing | [translation_workspace/ARTICLE_REVIEW_WORKFLOW.md](translation_workspace/ARTICLE_REVIEW_WORKFLOW.md) | Fast path for source/translation/suggestion batches; does not create formal review status |
 | Terminology review history | [translation_workspace/TERMINOLOGY_CHANGELOG.md](translation_workspace/TERMINOLOGY_CHANGELOG.md) | Generated compact index; query structured batches instead of reading all history |
 | Chinese translation plan | [TRANSLATION_PLAN.md](TRANSLATION_PLAN.md) | Translation layer; Ilyenkov remains the priority |
+| Translation-to-publication pipeline | [TRANSLATION_PLAN.md](TRANSLATION_PLAN.md) | The end-to-end chain; source acquisition and splitting are out of scope |
+| Book typesetting template | [book/template/README.md](book/template/README.md) | The single styling authority for the published series; never copy settings elsewhere |
+| Book typesetting pitfalls | [book/template/TYPESETTING.md](book/template/TYPESETTING.md) | Read before changing any layout; typesetting errors mostly fail silently |
+| Publishing a finished edition | [GOVERNANCE.md](GOVERNANCE.md) | Project name only; consult the source organizations first |
+| Chinese introduction essay on Ilyenkov | [book/ilyenkov-philosophy-texts-research-zh/README.md](book/ilyenkov-philosophy-texts-research-zh/README.md) | Written for human readers; **not a source of record** — never cite it for versions, dates, terms, or text identity |
 | Chinese translation workflow and resume | [translation_workspace/HANDOFF.md](translation_workspace/HANDOFF.md) | The assigned auditor owns each review batch and glossary writeback; live status via `check_translations.py --status` |
 | Ilyenkov biography, memoirs, and archives | [notes/ILYENKOV_BIOGRAPHY_PROJECT_PLAN.md](notes/ILYENKOV_BIOGRAPHY_PROJECT_PLAN.md), [notes/ILYENKOV_BIOGRAPHY_SOURCE_SURVEY.md](notes/ILYENKOV_BIOGRAPHY_SOURCE_SURVEY.md) | Research layer; do not mix memoirs into author-original corpus |
 | Daily maintenance | [notes/OPERATIONS_CHECKLIST.md](notes/OPERATIONS_CHECKLIST.md) | Short workflows for texts, scans, and public release |
@@ -63,6 +69,13 @@ Sources of record, in priority order:
 ## 4. Common Commands
 
 ```bash
+# Everything at once. Prefer this over running the individual checks below: it is one
+# round trip instead of nine, each check runs in its own subprocess so one failure cannot
+# hide the rest, and only failing checks print detail.
+python3 scripts/check_all.py
+python3 scripts/check_all.py --status   # where the project stands, computed not written down
+# CI runs the same suite on every push and pull request (.github/workflows/checks.yml).
+
 # Registry, status, digitization, and translation projects
 python3 scripts/manage_collections.py check
 
@@ -138,6 +151,15 @@ these boundaries:
   terminology changelog must never override them.
 - Do not duplicate corpus text into a second wiki or translation-source tree; cite original paths and
   hashes.
+- Do not rewrite Git history — no `filter-repo`, no `filter-branch`, no rebasing published
+  commits. Every book's version page stamps the commit it was built from, and that stamp is the
+  only way to trace a distributed PDF back to its sources; rewriting history orphans every stamp
+  in every copy already sent out. This was decided on 2026-07-30 when the superseded body font
+  (12.9 MB) was left in history rather than purged: the private repository can afford the space,
+  and `export_public.py` already gates fonts out of public releases.
+- Published editions carry the project's name only, never an individual's; a final version needs
+  project approval, and the organizations connected to the source text must be consulted before
+  publication.
 - If user or external changes are present, work with them and do not revert them without instruction.
 
 ## 7. Machine Status
@@ -149,7 +171,7 @@ these boundaries:
 
 | Tracked files | Markdown | Corpus md | Chapter files | Split works | Branch |
 |---:|---:|---:|---:|---:|:--|
-| 1439 | 883 | 685 | 361 | 15 | `main` |
+| 1457 | 889 | 685 | 361 | 15 | `main` |
 
 <!-- AGENTS-AUTO:END -->
 

@@ -113,6 +113,23 @@ class TerminologyReviewTests(unittest.TestCase):
             "batch_id": "2026-07-27-test-batch",
             "batch_kind": "article_review",
             "date": "2026-07-27",
+            "review_mode": "initial",
+            "work_identity": {
+                "primary_author_id": "test",
+                "work_id": "test-work",
+                "article_slug": "test-batch",
+                "source_path": "test/source.md",
+                "source_sha256": "a" * 64,
+                "doi": "10.1000/test",
+                "source_url": "https://example.com/test",
+                "source_title": "Test",
+            },
+            "supersedes_batch_id": None,
+            "supersedes_blog_slug": None,
+            "previous_translation_sha256": None,
+            "changed_input_roles": [],
+            "unknown_previous_input_roles": [],
+            "identity_match_reasons": [],
             "primary_author_id": "test",
             "related_author_ids": [],
             "work_id": "test-work",
@@ -183,6 +200,230 @@ class TerminologyReviewTests(unittest.TestCase):
             )
             errors = CHECK.work_package_errors(batch, work_dir)
             self.assertTrue(any("input hashes" in error for error in errors))
+
+    def test_duplicate_preflight_reuses_exact_batch(self):
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            review_dir = root / "reviews"
+            review_dir.mkdir()
+            batch = self.native_batch()
+            (review_dir / f"{batch['batch_id']}.json").write_text(
+                json.dumps(batch),
+                encoding="utf-8",
+            )
+            result = LIB.duplicate_preflight(
+                identity=batch["work_identity"],
+                inputs=batch["inputs"],
+                revision_of=None,
+                review_dir=review_dir,
+                blog_root=root / "missing-blog",
+            )
+            self.assertEqual(result["status"], "already_reviewed")
+            self.assertEqual(result["reuse_target"], batch["batch_id"])
+
+    def test_changed_translation_requires_explicit_matching_revision_target(self):
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            review_dir = root / "reviews"
+            review_dir.mkdir()
+            batch = self.native_batch()
+            (review_dir / f"{batch['batch_id']}.json").write_text(
+                json.dumps(batch),
+                encoding="utf-8",
+            )
+            inputs = [dict(item) for item in batch["inputs"]]
+            inputs[1]["sha256"] = "d" * 64
+            blocked = LIB.duplicate_preflight(
+                identity=batch["work_identity"],
+                inputs=inputs,
+                revision_of=None,
+                review_dir=review_dir,
+                blog_root=root / "missing-blog",
+            )
+            self.assertEqual(blocked["status"], "revision_required")
+            wrong = LIB.duplicate_preflight(
+                identity=batch["work_identity"],
+                inputs=inputs,
+                revision_of="unrelated-batch",
+                review_dir=review_dir,
+                blog_root=root / "missing-blog",
+            )
+            self.assertEqual(wrong["status"], "identity_conflict")
+            allowed = LIB.duplicate_preflight(
+                identity=batch["work_identity"],
+                inputs=inputs,
+                revision_of=batch["batch_id"],
+                review_dir=review_dir,
+                blog_root=root / "missing-blog",
+            )
+            self.assertEqual(allowed["status"], "revision_confirmed")
+            self.assertEqual(allowed["selected"]["changed_input_roles"], ["translation"])
+
+    def test_doi_finds_moved_source_and_blog_without_batch(self):
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            posts = root / "blog/content/posts"
+            posts.mkdir(parents=True)
+            (posts / "existing-post.md").write_text(
+                "---\ntitle: 既有文章\ndate: 2026-07-01\ntype: translation\n---\n\n"
+                "DOI：[https://doi.org/10.1000/MOVED](https://doi.org/10.1000/MOVED)\n",
+                encoding="utf-8",
+            )
+            identity = {
+                "primary_author_id": "test",
+                "work_id": "moved-work",
+                "article_slug": "new-slug",
+                "source_path": "new/location.md",
+                "source_sha256": "a" * 64,
+                "doi": "10.1000/moved",
+                "source_url": None,
+                "source_title": "Moved",
+            }
+            inputs = [
+                {"role": "source", "path": "new/location.md", "sha256": "a" * 64},
+                {"role": "translation", "path": "upload:new.md", "sha256": "b" * 64},
+                {"role": "suggestions", "path": "upload:terms.md", "sha256": "c" * 64},
+            ]
+            blocked = LIB.duplicate_preflight(
+                identity=identity,
+                inputs=inputs,
+                revision_of=None,
+                review_dir=root / "reviews",
+                blog_root=root / "blog",
+            )
+            self.assertEqual(blocked["status"], "revision_required")
+            self.assertEqual(blocked["allowed_revision_targets"], ["blog:existing-post"])
+
+    def test_slug_and_doi_pointing_to_different_posts_is_a_conflict(self):
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            posts = root / "blog/content/posts"
+            posts.mkdir(parents=True)
+            (posts / "requested.md").write_text(
+                "---\ntitle: A\ndate: 2026-07-01\n---\n\n正文。\n",
+                encoding="utf-8",
+            )
+            (posts / "other.md").write_text(
+                "---\ntitle: B\ndate: 2026-07-01\n---\n\n"
+                "DOI: https://doi.org/10.1000/conflict\n",
+                encoding="utf-8",
+            )
+            identity = {
+                "primary_author_id": "test",
+                "work_id": "work",
+                "article_slug": "requested",
+                "source_path": "source.md",
+                "source_sha256": "a" * 64,
+                "doi": "10.1000/conflict",
+                "source_url": None,
+                "source_title": "Conflict",
+            }
+            inputs = [
+                {"role": "source", "path": "source.md", "sha256": "a" * 64},
+                {"role": "translation", "path": "upload:t.md", "sha256": "b" * 64},
+                {"role": "suggestions", "path": "upload:s.md", "sha256": "c" * 64},
+            ]
+            result = LIB.duplicate_preflight(
+                identity=identity,
+                inputs=inputs,
+                revision_of=None,
+                review_dir=root / "reviews",
+                blog_root=root / "blog",
+            )
+            self.assertEqual(result["status"], "identity_conflict")
+
+    def test_title_match_is_only_a_nonblocking_hint(self):
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            review_dir = root / "reviews"
+            review_dir.mkdir()
+            batch = self.native_batch()
+            batch["primary_author_id"] = "other-author"
+            batch["work_id"] = "other-work"
+            batch["article_slug"] = "other-slug"
+            batch["work_identity"].update(
+                {
+                    "primary_author_id": "other-author",
+                    "work_id": "other-work",
+                    "article_slug": "other-slug",
+                    "source_path": "other/source.md",
+                    "source_sha256": "e" * 64,
+                    "doi": None,
+                    "source_url": None,
+                    "source_title": "Same Title",
+                }
+            )
+            batch["inputs"][0].update(
+                {"path": "other/source.md", "sha256": "e" * 64}
+            )
+            (review_dir / f"{batch['batch_id']}.json").write_text(
+                json.dumps(batch),
+                encoding="utf-8",
+            )
+            identity = {
+                "primary_author_id": "test",
+                "work_id": "new-work",
+                "article_slug": "new-slug",
+                "source_path": "new/source.md",
+                "source_sha256": "a" * 64,
+                "doi": None,
+                "source_url": None,
+                "source_title": "Same Title",
+            }
+            result = LIB.duplicate_preflight(
+                identity=identity,
+                inputs=[
+                    {"role": "source", "path": "new/source.md", "sha256": "a" * 64},
+                    {"role": "translation", "path": "upload:t.md", "sha256": "b" * 64},
+                    {"role": "suggestions", "path": "upload:s.md", "sha256": "c" * 64},
+                ],
+                revision_of=None,
+                review_dir=review_dir,
+                blog_root=root / "missing-blog",
+            )
+            self.assertEqual(result["status"], "new")
+            self.assertEqual(result["title_hints"][0]["target"], batch["batch_id"])
+
+    def test_revision_batch_ids_are_unique_and_lineage_is_validated(self):
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            review_dir = root / "reviews"
+            review_dir.mkdir()
+            initial = self.native_batch()
+            initial_path = review_dir / f"{initial['batch_id']}.json"
+            initial_path.write_text(json.dumps(initial), encoding="utf-8")
+            self.assertEqual(
+                LIB.next_batch_id(
+                    date_value="2026-07-28",
+                    slug="test-batch",
+                    review_mode="revision",
+                    review_dir=review_dir,
+                ),
+                "2026-07-28-test-batch-r01",
+            )
+            revision = json.loads(json.dumps(initial))
+            revision["batch_id"] = "2026-07-28-test-batch-r01"
+            revision["date"] = "2026-07-28"
+            revision["review_mode"] = "revision"
+            revision["supersedes_batch_id"] = initial["batch_id"]
+            revision["previous_translation_sha256"] = "b" * 64
+            revision["changed_input_roles"] = ["translation"]
+            revision["identity_match_reasons"] = ["author_work"]
+            revision_path = review_dir / f"{revision['batch_id']}.json"
+            revision_path.write_text(json.dumps(revision), encoding="utf-8")
+            batches = [(initial_path, initial), (revision_path, revision)]
+            self.assertEqual(CHECK.validate_batch(revision_path, revision), [])
+            self.assertEqual(CHECK.validate_batch_set(batches), [])
+
+    def test_multiple_native_initial_batches_for_one_work_fail(self):
+        first = self.native_batch()
+        second = json.loads(json.dumps(first))
+        second["batch_id"] = "2026-07-28-test-batch"
+        second["date"] = "2026-07-28"
+        errors = CHECK.validate_batch_set(
+            [(Path("first.json"), first), (Path("second.json"), second)]
+        )
+        self.assertTrue(any("multiple native initial batches" in error for error in errors))
 
     def test_compact_index_contains_all_operation_counts(self):
         batch = self.native_batch()

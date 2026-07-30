@@ -136,6 +136,80 @@ def validate_batch(path: Path, batch: dict[str, Any]) -> list[str]:
     if owner_status not in {"pending", "approved", "changes_requested"}:
         errors.append(f"{label}: invalid owner_review status")
     if batch["record_format"] == "native":
+        native_fields = {
+            "review_mode",
+            "work_identity",
+            "supersedes_batch_id",
+            "supersedes_blog_slug",
+            "previous_translation_sha256",
+            "changed_input_roles",
+            "unknown_previous_input_roles",
+            "identity_match_reasons",
+        }
+        missing_native = sorted(native_fields - set(batch))
+        if missing_native:
+            errors.append(f"{label}: native record missing fields: {', '.join(missing_native)}")
+        review_mode = batch.get("review_mode")
+        if review_mode not in {"initial", "revision"}:
+            errors.append(f"{label}: review_mode must be initial or revision")
+        identity = batch.get("work_identity")
+        if not isinstance(identity, dict):
+            errors.append(f"{label}: work_identity must be an object")
+        else:
+            expected_identity = {
+                "primary_author_id": batch.get("primary_author_id"),
+                "work_id": batch.get("work_id"),
+                "article_slug": batch.get("article_slug"),
+            }
+            for field, expected_value in expected_identity.items():
+                if identity.get(field) != expected_value:
+                    errors.append(f"{label}: work_identity.{field} does not match the batch")
+            if identity.get("source_sha256") and not SHA256.fullmatch(identity["source_sha256"]):
+                errors.append(f"{label}: invalid work_identity.source_sha256")
+            source_inputs = inputs if isinstance(inputs, list) else []
+            source_input = next(
+                (item for item in source_inputs if item.get("role") == "source"),
+                {},
+            )
+            if identity.get("source_path") != source_input.get("path"):
+                errors.append(f"{label}: work_identity.source_path does not match source input")
+            if identity.get("source_sha256") != source_input.get("sha256"):
+                errors.append(f"{label}: work_identity.source_sha256 does not match source input")
+        previous_hash = batch.get("previous_translation_sha256")
+        if previous_hash is not None and not SHA256.fullmatch(previous_hash):
+            errors.append(f"{label}: invalid previous_translation_sha256")
+        for field in (
+            "changed_input_roles",
+            "unknown_previous_input_roles",
+            "identity_match_reasons",
+        ):
+            if not isinstance(batch.get(field), list):
+                errors.append(f"{label}: {field} must be a list")
+        if review_mode == "initial":
+            if batch.get("supersedes_batch_id") or batch.get("supersedes_blog_slug"):
+                errors.append(f"{label}: initial review cannot supersede an existing artifact")
+            if previous_hash is not None:
+                errors.append(f"{label}: initial review cannot have a previous translation hash")
+            for field in (
+                "changed_input_roles",
+                "unknown_previous_input_roles",
+                "identity_match_reasons",
+            ):
+                if batch.get(field):
+                    errors.append(f"{label}: initial review requires empty {field}")
+        elif review_mode == "revision":
+            parents = [
+                bool(batch.get("supersedes_batch_id")),
+                bool(batch.get("supersedes_blog_slug")),
+            ]
+            if sum(parents) != 1:
+                errors.append(f"{label}: revision requires exactly one superseded artifact")
+            if not re.search(r"-r\d{2}$", batch["batch_id"]):
+                errors.append(f"{label}: revision batch_id must end with -rNN")
+            if previous_hash is None:
+                errors.append(f"{label}: revision requires previous_translation_sha256")
+            if not batch.get("changed_input_roles") and not batch.get("unknown_previous_input_roles"):
+                errors.append(f"{label}: revision must record changed or previously unknown inputs")
         expected = batch.get("source_candidate_count")
         if expected is None:
             errors.append(f"{label}: native record requires source_candidate_count")
@@ -162,6 +236,48 @@ def validate_batch(path: Path, batch: dict[str, Any]) -> list[str]:
                     f"{label}: operation_counts.{operation}={counts.get(operation, 0)} "
                     f"but decisions contain {actual}"
                 )
+    return errors
+
+
+def validate_batch_set(batches: list[tuple[Path, dict[str, Any]]]) -> list[str]:
+    errors: list[str] = []
+    by_id: dict[str, tuple[Path, dict[str, Any]]] = {}
+    for path, batch in batches:
+        batch_id = batch.get("batch_id")
+        if batch_id in by_id:
+            errors.append(f"duplicate batch_id across files: {batch_id}")
+        else:
+            by_id[batch_id] = (path, batch)
+
+    initial_by_work: dict[tuple[str, str], list[str]] = {}
+    for _, batch in batches:
+        if batch.get("record_format") != "native":
+            continue
+        key = (batch.get("primary_author_id"), batch.get("work_id"))
+        if batch.get("review_mode") == "initial":
+            initial_by_work.setdefault(key, []).append(batch["batch_id"])
+        if batch.get("review_mode") != "revision":
+            continue
+        parent_id = batch.get("supersedes_batch_id")
+        if not parent_id:
+            continue
+        parent_record = by_id.get(parent_id)
+        if parent_record is None:
+            errors.append(f"{batch['batch_id']}: supersedes missing batch {parent_id}")
+            continue
+        parent = parent_record[1]
+        parent_key = (parent.get("primary_author_id"), parent.get("work_id"))
+        if parent_key != key:
+            errors.append(
+                f"{batch['batch_id']}: superseded batch {parent_id} belongs to a different work"
+            )
+
+    for (author_id, work_id), batch_ids in initial_by_work.items():
+        if len(batch_ids) > 1:
+            errors.append(
+                f"{author_id}/{work_id}: multiple native initial batches without lineage: "
+                f"{', '.join(sorted(batch_ids))}"
+            )
     return errors
 
 
@@ -203,6 +319,7 @@ def main() -> int:
         errors.extend(validate_batch(path, batch))
         if args.work_package:
             errors.extend(work_package_errors(batch, args.work_package))
+    errors.extend(validate_batch_set(load_batches()))
     expected = render_terminology_reviews.expected_output()
     output = render_terminology_reviews.OUTPUT
     current = output.read_text(encoding="utf-8") if output.is_file() else ""

@@ -10,6 +10,7 @@ import subprocess
 from collections import defaultdict
 from pathlib import Path
 from typing import Any, Iterable
+from urllib.parse import unquote, urlsplit, urlunsplit
 
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -18,6 +19,9 @@ CACHE_DIR = ROOT / "tmp/translation_review_cache"
 WORK_DIR = ROOT / "tmp/translation_reviews"
 OFFICIAL_STATUSES = {"approved", "provisional", "needs_review"}
 OPERATIONS = {"add", "modify", "delete", "status", "reject", "no_formal_glossary"}
+ALREADY_REVIEWED_EXIT = 20
+REVISION_REQUIRED_EXIT = 21
+IDENTITY_CONFLICT_EXIT = 22
 
 
 def sha256_bytes(data: bytes) -> str:
@@ -47,6 +51,320 @@ def input_record(role: str, path: Path) -> dict[str, Any]:
         "size": path.stat().st_size,
         "live_path": str(path.resolve()),
     }
+
+
+def front_matter_metadata(path: Path) -> dict[str, str]:
+    lines = path.read_text(encoding="utf-8").splitlines()
+    if not lines or lines[0].strip() != "---":
+        return {}
+    metadata: dict[str, str] = {}
+    for line in lines[1:]:
+        if line.strip() == "---":
+            break
+        key, separator, value = line.partition(":")
+        if not separator:
+            continue
+        metadata[key.strip()] = value.strip().strip("\"'")
+    return metadata
+
+
+def normalize_doi(value: str | None) -> str | None:
+    if not value:
+        return None
+    decoded = unquote(value).strip().strip("<>()[]{}.,;")
+    match = re.search(
+        r"(?:https?://(?:dx\.)?doi\.org/|doi\s*:\s*)?(10\.\d{4,9}/[^\s<>\]]+)",
+        decoded,
+        re.IGNORECASE,
+    )
+    if not match:
+        return None
+    return match.group(1).rstrip(".,;:)").casefold()
+
+
+def normalize_source_url(value: str | None) -> str | None:
+    if not value:
+        return None
+    match = re.search(r"https?://[^\s<>\])]+", unquote(value), re.IGNORECASE)
+    if not match:
+        return None
+    raw = match.group().rstrip(".,;:")
+    parts = urlsplit(raw)
+    host = (parts.hostname or "").casefold()
+    if not host:
+        return None
+    port = parts.port
+    netloc = host if port is None else f"{host}:{port}"
+    path = re.sub(r"/+$", "", parts.path) or "/"
+    return urlunsplit((parts.scheme.casefold(), netloc, path, parts.query, ""))
+
+
+def normalize_title(value: str | None) -> str | None:
+    if not value:
+        return None
+    normalized = re.sub(r"[\W_]+", " ", value.casefold(), flags=re.UNICODE).strip()
+    return normalized or None
+
+
+def source_work_identity(
+    source: Path,
+    *,
+    author_id: str,
+    work_id: str,
+    article_slug: str,
+    source_record: dict[str, Any],
+) -> dict[str, Any]:
+    metadata = front_matter_metadata(source)
+    return {
+        "primary_author_id": author_id,
+        "work_id": work_id,
+        "article_slug": article_slug,
+        "source_path": source_record["path"],
+        "source_sha256": source_record["sha256"],
+        "doi": normalize_doi(metadata.get("doi")),
+        "source_url": normalize_source_url(metadata.get("source_url")),
+        "source_title": metadata.get("title"),
+    }
+
+
+def review_artifacts(review_dir: Path | None = None) -> list[dict[str, Any]]:
+    directory = review_dir or REVIEW_DIR
+    artifacts: list[dict[str, Any]] = []
+    for path in sorted(directory.glob("*.json")):
+        batch = json.loads(path.read_text(encoding="utf-8"))
+        inputs = {item.get("role"): item for item in batch.get("inputs", [])}
+        source = inputs.get("source", {})
+        translation = inputs.get("translation", {})
+        work_identity = batch.get("work_identity", {})
+        artifacts.append(
+            {
+                "target": batch["batch_id"],
+                "kind": "batch",
+                "batch_id": batch["batch_id"],
+                "date": batch.get("date"),
+                "owner_status": batch.get("owner_review", {}).get("status"),
+                "primary_author_id": batch.get("primary_author_id"),
+                "work_id": batch.get("work_id"),
+                "article_slug": batch.get("article_slug"),
+                "source_path": source.get("path"),
+                "source_sha256": source.get("sha256"),
+                "translation_sha256": translation.get("sha256"),
+                "input_hashes": {
+                    role: item.get("sha256")
+                    for role, item in inputs.items()
+                },
+                "doi": normalize_doi(work_identity.get("doi")),
+                "source_url": normalize_source_url(work_identity.get("source_url")),
+                "source_title": work_identity.get("source_title"),
+                "path": path.as_posix(),
+            }
+        )
+    return artifacts
+
+
+def blog_artifacts(blog_root: Path | None = None) -> list[dict[str, Any]]:
+    root = blog_root or ROOT.parent / "blog"
+    posts = root / "content/posts"
+    artifacts: list[dict[str, Any]] = []
+    if not posts.is_dir():
+        return artifacts
+    for path in sorted(posts.glob("*.md")):
+        text = path.read_text(encoding="utf-8")
+        metadata = front_matter_metadata(path)
+        doi_line = next(
+            (line for line in text.splitlines() if re.match(r"^\s*DOI\s*[：:]", line, re.IGNORECASE)),
+            "",
+        )
+        source_line = next(
+            (line for line in text.splitlines() if re.match(r"^\s*来源\s*[：:]", line)),
+            "",
+        )
+        slug = path.stem
+        artifacts.append(
+            {
+                "target": f"blog:{slug}",
+                "kind": "blog",
+                "article_slug": slug,
+                "title": metadata.get("title"),
+                "translation_sha256": sha256_file(path),
+                "doi": normalize_doi(doi_line),
+                "source_url": normalize_source_url(source_line),
+                "path": f"blog:content/posts/{path.name}",
+            }
+        )
+    return artifacts
+
+
+def artifact_match_reasons(identity: dict[str, Any], artifact: dict[str, Any]) -> list[str]:
+    reasons: list[str] = []
+    if identity["article_slug"] == artifact.get("article_slug"):
+        reasons.append("article_slug")
+    if (
+        artifact.get("primary_author_id")
+        and identity["primary_author_id"] == artifact["primary_author_id"]
+        and identity["work_id"] == artifact.get("work_id")
+    ):
+        reasons.append("author_work")
+    source_path = artifact.get("source_path")
+    if (
+        source_path
+        and not str(source_path).startswith("upload:")
+        and identity["source_path"] == source_path
+    ):
+        reasons.append("source_path")
+    if identity["source_sha256"] and identity["source_sha256"] == artifact.get("source_sha256"):
+        reasons.append("source_sha256")
+    if identity.get("doi") and identity["doi"] == artifact.get("doi"):
+        reasons.append("doi")
+    if identity.get("source_url") and identity["source_url"] == artifact.get("source_url"):
+        reasons.append("source_url")
+    return reasons
+
+
+def changed_input_roles(
+    current_hashes: dict[str, str],
+    artifact: dict[str, Any],
+) -> tuple[list[str], list[str]]:
+    previous = artifact.get("input_hashes")
+    if previous is None:
+        previous = {"translation": artifact.get("translation_sha256")}
+    changed: list[str] = []
+    unknown: list[str] = []
+    for role, current_hash in current_hashes.items():
+        previous_hash = previous.get(role)
+        if previous_hash is None:
+            unknown.append(role)
+        elif previous_hash != current_hash:
+            changed.append(role)
+    return changed, unknown
+
+
+def duplicate_preflight(
+    *,
+    identity: dict[str, Any],
+    inputs: list[dict[str, Any]],
+    revision_of: str | None,
+    review_dir: Path | None = None,
+    blog_root: Path | None = None,
+) -> dict[str, Any]:
+    current_hashes = {item["role"]: item["sha256"] for item in inputs}
+    matches = []
+    title_hints = []
+    for artifact in [*review_artifacts(review_dir), *blog_artifacts(blog_root)]:
+        reasons = artifact_match_reasons(identity, artifact)
+        artifact_title = artifact.get("source_title") or artifact.get("title")
+        if (
+            normalize_title(identity.get("source_title"))
+            and normalize_title(identity.get("source_title")) == normalize_title(artifact_title)
+        ):
+            title_hints.append(
+                {
+                    "target": artifact["target"],
+                    "title": artifact_title,
+                }
+            )
+        if not reasons:
+            continue
+        changed, unknown = changed_input_roles(current_hashes, artifact)
+        matches.append(
+            {
+                **artifact,
+                "match_reasons": reasons,
+                "changed_input_roles": changed,
+                "unknown_input_roles": unknown,
+            }
+        )
+
+    matched_slugs = {item.get("article_slug") for item in matches if item.get("article_slug")}
+    if len(matched_slugs) > 1:
+        return {
+            "status": "identity_conflict",
+            "matches": matches,
+            "title_hints": title_hints,
+            "message": "strong identity fields point to different article slugs",
+        }
+
+    exact_batches = [
+        item
+        for item in matches
+        if item["kind"] == "batch"
+        and not item["changed_input_roles"]
+        and not item["unknown_input_roles"]
+    ]
+    if exact_batches:
+        return {
+            "status": "already_reviewed",
+            "matches": matches,
+            "title_hints": title_hints,
+            "reuse_target": exact_batches[-1]["target"],
+        }
+
+    if matches:
+        batch_matches = [item for item in matches if item["kind"] == "batch"]
+        if batch_matches:
+            latest_batch = max(
+                batch_matches,
+                key=lambda item: (item.get("date") or "", item["batch_id"]),
+            )
+            allowed_targets = {latest_batch["target"]}
+        else:
+            allowed_targets = {item["target"] for item in matches}
+        if revision_of is None:
+            return {
+                "status": "revision_required",
+                "matches": matches,
+                "title_hints": title_hints,
+                "allowed_revision_targets": sorted(allowed_targets),
+            }
+        if revision_of not in allowed_targets:
+            return {
+                "status": "identity_conflict",
+                "matches": matches,
+                "title_hints": title_hints,
+                "message": f"--revision-of {revision_of} is not one of the matched artifacts",
+                "allowed_revision_targets": sorted(allowed_targets),
+            }
+        selected = next(item for item in matches if item["target"] == revision_of)
+        return {
+            "status": "revision_confirmed",
+            "matches": matches,
+            "title_hints": title_hints,
+            "selected": selected,
+        }
+
+    if revision_of is not None:
+        return {
+            "status": "identity_conflict",
+            "matches": [],
+            "title_hints": title_hints,
+            "message": "--revision-of was provided but no existing artifact matches this work",
+        }
+    return {"status": "new", "matches": [], "title_hints": title_hints}
+
+
+def next_batch_id(
+    *,
+    date_value: str,
+    slug: str,
+    review_mode: str,
+    review_dir: Path | None = None,
+) -> str:
+    directory = review_dir or REVIEW_DIR
+    if review_mode == "initial":
+        batch_id = f"{date_value}-{slug}"
+        if (directory / f"{batch_id}.json").exists():
+            raise ValueError(f"initial batch already exists: {batch_id}")
+        return batch_id
+    pattern = re.compile(rf"^\d{{4}}-\d{{2}}-\d{{2}}-{re.escape(slug)}-r(\d+)$")
+    sequence = max(
+        (
+            int(match.group(1))
+            for path in directory.glob(f"*-{slug}-r*.json")
+            if (match := pattern.fullmatch(path.stem))
+        ),
+        default=0,
+    )
+    return f"{date_value}-{slug}-r{sequence + 1:02d}"
 
 
 def strip_front_matter(lines: list[str]) -> tuple[list[str], int]:

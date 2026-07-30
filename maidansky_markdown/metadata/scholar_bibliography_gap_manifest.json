@@ -627,7 +627,7 @@
       "venue": "Свободная мысль, 169-178, 2009",
       "year": "2009",
       "citations": "14",
-      "category": "source_scan",
+      "category": "markdown_corpus",
       "local_matches": [
         {
           "source": "maidansky_catalog_manifest",
@@ -651,7 +651,7 @@
         }
       ],
       "priority": "none",
-      "notes": "Exact title match to an existing unprocessed source scan."
+      "notes": "Exact matches to existing Markdown and a registered source scan; source-text verification remains unverified."
     },
     {
       "scholar_rank": 27,
@@ -2020,8 +2020,14 @@
       "venue": "Культурно-историческая психология 20 (1), 89-96, 2024",
       "year": "2024",
       "citations": "2",
-      "category": "source_scan",
+      "category": "markdown_corpus",
       "local_matches": [
+        {
+          "source": "markdown_corpus",
+          "title": "Э.В. Ильенков о свободе воли",
+          "path": "maidansky_markdown/maidansky_md/istoriya-filosofii/istoriya-filosofii-e-v-ilyenkov-o-svobode-voli.md",
+          "match_type": "exact_normalized"
+        },
         {
           "source": "source_scans_manifest",
           "title": "Э.В. Ильенков о свободе воли",
@@ -2030,7 +2036,7 @@
         }
       ],
       "priority": "none",
-      "notes": "Normalized title match to the newly added PsyJournals source scan."
+      "notes": "Existing HTML-converted Markdown and registered PsyJournals PDF are linked by exact source URL; source-text verification remains unverified."
     },
     {
       "scholar_rank": 97,

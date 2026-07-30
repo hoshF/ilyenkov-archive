@@ -45,7 +45,8 @@ python3 scripts/manage_collections.py add-person \
 ```
 
 The command creates the layout and empty manifests, registers the person and collection, and
-synchronizes `gbrain.yml` and `COLLECTION_STATUS.md`.
+synchronizes `gbrain.yml`, `metadata/work_status.json`, `WORK_STATUS.md`, and
+`COLLECTION_STATUS.md`.
 
 ## Existing Layouts
 
@@ -68,8 +69,20 @@ python3 scripts/manage_collections.py sync
 python3 scripts/manage_collections.py check
 ```
 
-`sync` regenerates the collection status page and managed GBrain roots. `check` validates the
-registry, paths, digitization projects, and translation projects.
+`sync` regenerates the machine-readable work index, both status pages, and managed GBrain roots.
+`check` validates the registry, deterministic work associations, registered paths and hashes,
+generated status views, digitization projects, and translation projects. Query the live derived
+view without relying on collection-level stage labels:
+
+```bash
+python3 scripts/manage_collections.py work-status --work-id <work_id>
+python3 scripts/manage_collections.py work-status --path <repository-relative-path>
+python3 scripts/manage_collections.py work-status --author-id <author_id> --json
+```
+
+Work status keeps digital-text presence, human verification, source evidence, digitization-project
+stage, and effective progress as independent axes. A registered scan cannot downgrade or hide
+existing corpus Markdown. Title similarity produces a conflict marker only; it never joins records.
 
 Terminology and proper-name records live in each philosopher root at `metadata/glossary.json`.
 Rendered Chinese views live under `notes/terminology/` and are regenerated with

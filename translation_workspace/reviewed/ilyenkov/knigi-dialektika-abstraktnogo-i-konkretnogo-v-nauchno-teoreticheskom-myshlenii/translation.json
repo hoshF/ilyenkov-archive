@@ -3,7 +3,7 @@
   "author_id": "ilyenkov",
   "work_id": "knigi-dialektika-abstraktnogo-i-konkretnogo-v-nauchno-teoreticheskom-myshlenii",
   "created_at": "2026-07-20",
-  "updated_at": "2026-07-25",
+  "updated_at": "2026-07-30",
   "target_language": "zh",
   "source_units": [
     {
@@ -40,24 +40,24 @@
           "source_path": "ilyenkov_markdown/ilyenkov_md/knigi/knigi-dialektika-abstraktnogo-i-konkretnogo-v-nauchno-teoreticheskom-myshlenii/knigi-dialektika-abstraktnogo-i-konkretnogo-v-nauchno-teoreticheskom-myshlenii-ch001.md",
           "source_url": "http://filorus.ru/ilyenkov/texts/daik/index.html",
           "source_version": "1997年完整版（filorus.ru，Maidansky 站点 HTML 转换，html_conversion_unverified）",
-          "source_sha256": "2489c776ff6ca8bd3de2a2cdce3df027730edbf679520a3bee53d785246c562b",
+          "source_sha256": "bb9c31175fb846143735a9d4919bc2e949d36b8ca3ca1f446d2ee9c5e197ccf1",
           "source_block_start": 1,
-          "source_block_end": 7
+          "source_block_end": 8
         }
       ],
-      "paragraph_count": 7,
+      "paragraph_count": 8,
       "status": "reviewed",
       "accuracy_review": {
         "reviewer": "hoshF",
-        "reviewed_at": "2026-07-22",
+        "reviewed_at": "2026-07-29",
         "result": "passed",
-        "scope_sha256": "e3470b99800599398863591adae8951f5a84550f61794906a802eea809ab0e76"
+        "scope_sha256": "5b47783e2b8afa55516f5daad613bb665b6c42a9fb2495647ee4c7ab629f4d4d"
       },
       "language_review": {
         "reviewer": "hoshF",
-        "reviewed_at": "2026-07-22",
+        "reviewed_at": "2026-07-29",
         "result": "passed",
-        "scope_sha256": "c7ba9a09f7beada298747b9c17f6e8badf2124bc36f8772d147fda0a73a9ce24"
+        "scope_sha256": "9ed0d6fd6aaf150aed70d27560bd8caf28f55ae8c119902c55338a6ec5e54daa"
       }
     },
     {
@@ -68,23 +68,23 @@
           "source_path": "ilyenkov_markdown/ilyenkov_md/knigi/knigi-dialektika-abstraktnogo-i-konkretnogo-v-nauchno-teoreticheskom-myshlenii/knigi-dialektika-abstraktnogo-i-konkretnogo-v-nauchno-teoreticheskom-myshlenii-ch002.md",
           "source_url": "http://filorus.ru/ilyenkov/texts/daik/index.html",
           "source_version": "1997年完整版（filorus.ru，Maidansky 站点 HTML 转换，html_conversion_unverified）",
-          "source_sha256": "7cb7659f9fc9348b6b6fe0c8c2c636e048364dee02d51e072588083f5ace1aa3",
+          "source_sha256": "5f2fb72f23177dd133099d62a532f04fae954f518f087b6315ea2839a920f959",
           "source_block_start": 1,
-          "source_block_end": 20
+          "source_block_end": 22
         }
       ],
-      "paragraph_count": 20,
+      "paragraph_count": 22,
       "accuracy_review": {
         "reviewer": "hoshF",
-        "reviewed_at": "2026-07-22",
+        "reviewed_at": "2026-07-29",
         "result": "passed",
-        "scope_sha256": "c085f7b55dc72fdfaab5bfeaef416250163c1ffc66db52a55385da0ab456c65a"
+        "scope_sha256": "176e1b7010f6a4809da9dc82b80b5e75837ae3b03c64a9822e12bd6f5e64de75"
       },
       "language_review": {
         "reviewer": "hoshF",
-        "reviewed_at": "2026-07-22",
+        "reviewed_at": "2026-07-29",
         "result": "passed",
-        "scope_sha256": "99ee3a7fa8e01a29a3333aec422b9a88d3ea12e5729968df4de87d79941471ca"
+        "scope_sha256": "a1f4375d6f3ad513c38ed4d7b53b005da5465fc38818164480cde102aafa4ad1"
       }
     },
     {
@@ -130,15 +130,15 @@
       "paragraph_count": 44,
       "accuracy_review": {
         "reviewer": "hoshF",
-        "reviewed_at": "2026-07-25",
+        "reviewed_at": "2026-07-29",
         "result": "passed",
-        "scope_sha256": "6fc384b7db21ea4852c495aaec11183e899a4052aedd27d2264b64205b7cc196"
+        "scope_sha256": "559b3d1a6c793ad338cb8bb1d2b6c924f75de69860e574089471d68a77a182f5"
       },
       "language_review": {
         "reviewer": "hoshF",
-        "reviewed_at": "2026-07-25",
+        "reviewed_at": "2026-07-29",
         "result": "passed",
-        "scope_sha256": "c08ff5f73693fc70e4d6c5a6d0564c9a75cd1e8a45c65a77ada2a6c00941bbc1"
+        "scope_sha256": "b2202d45b4c51ccb0f428b127b0612f41f541443b8f95470d5da21eb16f12256"
       }
     },
     {
@@ -157,15 +157,15 @@
       "paragraph_count": 19,
       "accuracy_review": {
         "reviewer": "hoshF",
-        "reviewed_at": "2026-07-25",
+        "reviewed_at": "2026-07-29",
         "result": "passed",
-        "scope_sha256": "b6a22e26c439e05c495a8b861d772cd72a4aa966d110a79f270ceab2863eebb3"
+        "scope_sha256": "01c5af64c5abe22d82ea5061be38b002ebf10dbc9e2b70451435bbb3f98f87a7"
       },
       "language_review": {
         "reviewer": "hoshF",
-        "reviewed_at": "2026-07-25",
+        "reviewed_at": "2026-07-29",
         "result": "passed",
-        "scope_sha256": "47f972a0baab96fd6540dfe34ce7b775ce9e2980a841090fcace14c5b1862ed0"
+        "scope_sha256": "731a6d4e967515bae3e0ed9d8502a748bb94f37f9fb66fdaba00e2c6f8544ff9"
       }
     },
     {
@@ -238,15 +238,15 @@
       "paragraph_count": 19,
       "accuracy_review": {
         "reviewer": "hoshF",
-        "reviewed_at": "2026-07-25",
+        "reviewed_at": "2026-07-30",
         "result": "passed",
-        "scope_sha256": "5840e967aa1ede1c312d618633b824b98c40f830ce7328f059448023585aa9e5"
+        "scope_sha256": "7dfb45e8d7789abb1a23bad529a83528681544204a54347bb562d1bd621a6e50"
       },
       "language_review": {
         "reviewer": "hoshF",
-        "reviewed_at": "2026-07-25",
+        "reviewed_at": "2026-07-30",
         "result": "passed",
-        "scope_sha256": "ba771a3e347da34dfbcd073126fdd45e878e8be1c617d06a494e934560028f77"
+        "scope_sha256": "ca4d0b6c0f7fef5ef0b05eca088d414b6b4a15a6780419773bcab1253da41f77"
       }
     },
     {
@@ -670,15 +670,15 @@
       "paragraph_count": 125,
       "accuracy_review": {
         "reviewer": "hoshF",
-        "reviewed_at": "2026-07-25",
+        "reviewed_at": "2026-07-30",
         "result": "passed",
-        "scope_sha256": "51dcc8b840f790a8f43add5dc034b828c7ad90767ece655cf06822380150bdc6"
+        "scope_sha256": "7e12ecdedc0b2e980426ad5c4410841c48a065f730668971ff34ba143c12f312"
       },
       "language_review": {
         "reviewer": "hoshF",
-        "reviewed_at": "2026-07-25",
+        "reviewed_at": "2026-07-30",
         "result": "passed",
-        "scope_sha256": "17c2b1bfc6b6073c218f3c7f01c3a351a2b1ddcfe6067679846545da7987ed26"
+        "scope_sha256": "cf8df3f29e6d38d3b547c0ef18ade9caeea92ea146364223b3f8d6a00bd66b03"
       }
     },
     {
@@ -986,23 +986,23 @@
           "source_path": "ilyenkov_markdown/ilyenkov_md/knigi/knigi-dialektika-abstraktnogo-i-konkretnogo-v-nauchno-teoreticheskom-myshlenii/knigi-dialektika-abstraktnogo-i-konkretnogo-v-nauchno-teoreticheskom-myshlenii-ch036.md",
           "source_url": "http://filorus.ru/ilyenkov/texts/daik/index.html",
           "source_version": "1997年完整版（filorus.ru，Maidansky 站点 HTML 转换，html_conversion_unverified）",
-          "source_sha256": "02a2fae23e26d6635b8da9f843a5792d585333e289b7f9b08612ba38bb7911a0",
+          "source_sha256": "dc3ecfbb6a917a9ff80a3f649c91484c11bdf42ef17f7bf0adbb07509a219719",
           "source_block_start": 1,
-          "source_block_end": 204
+          "source_block_end": 207
         }
       ],
-      "paragraph_count": 204,
+      "paragraph_count": 207,
       "accuracy_review": {
         "reviewer": "hoshF",
-        "reviewed_at": "2026-07-25",
+        "reviewed_at": "2026-07-29",
         "result": "passed",
-        "scope_sha256": "25580ed3cc11c0459a9dc0c94500eda505393ef84643acdac799d7d3e4998e31"
+        "scope_sha256": "47480e1f7a05801d3fcb683298f58e163653feba644bd09def6fb50102a0f14f"
       },
       "language_review": {
         "reviewer": "hoshF",
-        "reviewed_at": "2026-07-25",
+        "reviewed_at": "2026-07-29",
         "result": "passed",
-        "scope_sha256": "cb27d14a13fb6a95a5b27a66f029f6379bfb214124a84501ab0409457a0f2f9b"
+        "scope_sha256": "08843fe7ec078fdc1433fd0eedf96226af3e0249841975e89c62257684d0d3d0"
       }
     },
     {
@@ -1021,15 +1021,15 @@
       "paragraph_count": 75,
       "accuracy_review": {
         "reviewer": "hoshF",
-        "reviewed_at": "2026-07-25",
+        "reviewed_at": "2026-07-30",
         "result": "passed",
-        "scope_sha256": "deee8e92a213b0e38796d29bc5bbda8a7ce8886547dab4601318f97507d1d2ce"
+        "scope_sha256": "8339b17aef81def16975a75ce3e10e2462a505b1d8e17a1d6ab27aec52459914"
       },
       "language_review": {
         "reviewer": "hoshF",
-        "reviewed_at": "2026-07-25",
+        "reviewed_at": "2026-07-30",
         "result": "passed",
-        "scope_sha256": "5d8ba4c88fc3443cfe18e2299e82033353babcde31c040182b52a4fff4ed459e"
+        "scope_sha256": "99111632fde890747ccfeca44c36035182a840dc566789c1edb4815dafae13d4"
       }
     },
     {
@@ -1040,23 +1040,23 @@
           "source_path": "ilyenkov_markdown/ilyenkov_md/knigi/knigi-dialektika-abstraktnogo-i-konkretnogo-v-nauchno-teoreticheskom-myshlenii/knigi-dialektika-abstraktnogo-i-konkretnogo-v-nauchno-teoreticheskom-myshlenii-ch038.md",
           "source_url": "http://filorus.ru/ilyenkov/texts/daik/index.html",
           "source_version": "1997年完整版（filorus.ru，Maidansky 站点 HTML 转换，html_conversion_unverified）",
-          "source_sha256": "ccd591c1bc3c6d830df31db6737e62701c3eb0fdfe33304567ac8f535de34950",
+          "source_sha256": "c48b43c15f44daddfabc4b526ee2b39c1da3cd484ee5f2b38d0fc94e1727cd7d",
           "source_block_start": 1,
-          "source_block_end": 158
+          "source_block_end": 160
         }
       ],
-      "paragraph_count": 158,
+      "paragraph_count": 160,
       "accuracy_review": {
         "reviewer": "hoshF",
-        "reviewed_at": "2026-07-25",
+        "reviewed_at": "2026-07-29",
         "result": "passed",
-        "scope_sha256": "7c7a2a40cbace69edf54fa315f808ee36bd3a4d98bb46daaef552f712be5278b"
+        "scope_sha256": "cdb915695430f512dbc37faac2eb634cde462b7b9730453e5f42b9e42d6f3484"
       },
       "language_review": {
         "reviewer": "hoshF",
-        "reviewed_at": "2026-07-25",
+        "reviewed_at": "2026-07-29",
         "result": "passed",
-        "scope_sha256": "8398f6ba9937c21d7f67f9e8bbe4c1fa63a202a10615268bab8433d88268f928"
+        "scope_sha256": "f92c30c1b31b0509a47a364333500b43abd64f0d5c4ce3846229af80260b9a65"
       }
     },
     {
@@ -1075,15 +1075,15 @@
       "paragraph_count": 36,
       "accuracy_review": {
         "reviewer": "hoshF",
-        "reviewed_at": "2026-07-25",
+        "reviewed_at": "2026-07-29",
         "result": "passed",
-        "scope_sha256": "b6dd308e5c0f3bb3a0a4469ccd18ad94829c4a19ecaecf6642a4d4b1955c453d"
+        "scope_sha256": "17e68d32b123d91d01eff440fee7095f6071b531e1a5d2b40a4de4e225b50850"
       },
       "language_review": {
         "reviewer": "hoshF",
-        "reviewed_at": "2026-07-25",
+        "reviewed_at": "2026-07-29",
         "result": "passed",
-        "scope_sha256": "872195e9e671123e7e486ab0e8b663e481044cc64702dd84e3cc8a4e808077b5"
+        "scope_sha256": "71d309cef0eaaf6b07e57797f200a08ba81016a8774dc433bf547a8734dd2097"
       }
     },
     {

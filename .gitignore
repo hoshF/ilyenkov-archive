@@ -51,3 +51,6 @@ tmp/translation_review_cache/
 !*.jpeg
 !*.png
 !*.webp
+
+# 前后材料的 .tex 由 scripts/build_front_matter.py 生成
+book/front/*.tex

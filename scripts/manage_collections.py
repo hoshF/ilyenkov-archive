@@ -19,10 +19,17 @@ from collection_registry import (
     gbrain_roots,
     load_registry,
     markdown_count,
-    metadata_item_count,
     person_map,
     scan_stats,
     validate_registry,
+)
+from work_status import (
+    WORK_STATUS_MARKDOWN_PATH,
+    WORK_STATUS_PATH,
+    build_work_status,
+    collection_progress_counts,
+    query_work_status,
+    work_status_markdown,
 )
 
 
@@ -350,9 +357,12 @@ def manifest_updated_at(path: Path | None) -> str:
     return str(data.get("generated_at") or data.get("updated_at") or "-")
 
 
-def status_markdown(root: Path) -> str:
+def status_markdown(root: Path, work_status: dict[str, Any] | None = None) -> str:
     data = load_registry(root)
     people = person_map(data)
+    if work_status is None:
+        work_status, _ = build_work_status(root)
+    progress_counts = collection_progress_counts(work_status)
     lines = [
         "---",
         'title: "Philosopher Text Collection Status"',
@@ -372,14 +382,12 @@ def status_markdown(root: Path) -> str:
         "Markdown and Git are the sources of record. Scan counts do not imply searchable or "
         "verified digital text.",
         "",
-        "| Person | Collection | Stage | Corpus Markdown | Source scans | Scan size | Work records | Metadata updated |",
-        "|---|---|---|---:|---:|---:|---:|---|",
+        "| Person | Collection | Stage | Corpus Markdown | Source scans | Verified | In review | Unverified text | Scan only | Bibliography only | Metadata updated |",
+        "|---|---|---|---:|---:|---:|---:|---:|---:|---:|---|",
     ]
     for collection in data.get("collections", []):
         person = people[collection["person_id"]]
         scan_count, scan_bytes = scan_stats(root, collection.get("scan_manifest"))
-        work_path = root / collection["works_manifest"] if collection.get("works_manifest") else None
-        work_count = metadata_item_count(work_path)
         updated = max(
             (
                 manifest_updated_at(root / value)
@@ -392,15 +400,21 @@ def status_markdown(root: Path) -> str:
         collection_label = (
             f"[{collection['id']}]({readme})" if readme else f"`{collection['id']}`"
         )
+        counts = progress_counts[collection["id"]]
         lines.append(
-            "| {person} | {collection} | `{stage}` | {markdown} | {scans} | {size} | {works} | {updated} |".format(
+            "| {person} | {collection} | `{stage}` | {markdown} | {scans} ({size}) | "
+            "{verified} | {review} | {unverified} | {scan_only} | {bibliography} | {updated} |".format(
                 person=person["name_latin"],
                 collection=collection_label,
                 stage=collection["stage"],
                 markdown=markdown_count(root, collection.get("corpus_paths", [])),
                 scans=scan_count,
                 size=format_bytes(scan_bytes),
-                works="-" if work_count is None else work_count,
+                verified=counts["human_verified"],
+                review=counts["review_in_progress"],
+                unverified=counts["digital_text_unverified"],
+                scan_only=counts["source_registered"],
+                bibliography=counts["bibliographic_only"],
                 updated=updated,
             )
         )
@@ -412,6 +426,8 @@ def status_markdown(root: Path) -> str:
             "- `markdown_corpus`: searchable Markdown exists; file front matter still controls admission.",
             "- `markdown_and_scans`: the collection contains both Markdown and unprocessed scans.",
             "- `source_scans`: bibliography and scans exist, but verified digital text does not.",
+            "- Work-level columns are derived from [`metadata/work_status.json`](metadata/work_status.json); "
+            "a registered scan never overrides an existing digital text.",
             "- Historical layouts retain their paths; new people use the standard collection layout.",
             "",
         ]
@@ -429,14 +445,33 @@ def format_bytes(value: int) -> str:
     return "-"
 
 
-def sync_status(root: Path, *, check: bool = False) -> bool:
-    path = root / "COLLECTION_STATUS.md"
-    expected = status_markdown(root)
-    current = path.read_text(encoding="utf-8") if path.is_file() else ""
+def sync_status(
+    root: Path,
+    *,
+    check: bool = False,
+    work_status: dict[str, Any] | None = None,
+) -> bool:
+    if work_status is None:
+        work_status, status_errors = build_work_status(root)
+        if status_errors:
+            raise ValueError("; ".join(status_errors))
+    people = person_map(load_registry(root))
+    expected_files = {
+        root / "COLLECTION_STATUS.md": status_markdown(root, work_status),
+        root / WORK_STATUS_MARKDOWN_PATH: work_status_markdown(work_status, people),
+        root / WORK_STATUS_PATH: json.dumps(work_status, ensure_ascii=False, indent=2) + "\n",
+    }
+    matches = all(
+        path.is_file() and path.read_text(encoding="utf-8") == expected
+        for path, expected in expected_files.items()
+    )
     if check:
-        return current == expected
-    if current != expected:
-        path.write_text(expected, encoding="utf-8")
+        return matches
+    for path, expected in expected_files.items():
+        path.parent.mkdir(parents=True, exist_ok=True)
+        current = path.read_text(encoding="utf-8") if path.is_file() else ""
+        if current != expected:
+            path.write_text(expected, encoding="utf-8")
     return True
 
 
@@ -694,10 +729,12 @@ def init_translation(root: Path, args: argparse.Namespace) -> None:
 
 def check(root: Path) -> list[str]:
     errors = validate_registry(root)
+    work_status, work_status_errors = build_work_status(root)
+    errors.extend(work_status_errors)
     if not sync_gbrain(root, check=True):
         errors.append("gbrain.yml 的 COLLECTIONS-AUTO 区块需要同步")
-    if not sync_status(root, check=True):
-        errors.append("COLLECTION_STATUS.md 需要同步")
+    if not sync_status(root, check=True, work_status=work_status):
+        errors.append("作品级状态派生文件需要同步")
     errors.extend(validate_digitization(root))
     errors.extend(validate_translation_projects(root))
     return errors
@@ -836,6 +873,13 @@ def parser() -> argparse.ArgumentParser:
     sub.add_parser("check")
     sub.add_parser("sync")
 
+    work_status = sub.add_parser("work-status")
+    selector = work_status.add_mutually_exclusive_group(required=True)
+    selector.add_argument("--work-id")
+    selector.add_argument("--path")
+    selector.add_argument("--author-id")
+    work_status.add_argument("--json", action="store_true")
+
     add = sub.add_parser("add-person")
     add.add_argument("--id", required=True)
     add.add_argument("--name-zh", required=True)
@@ -883,7 +927,38 @@ def main() -> int:
         elif args.command == "sync":
             sync_gbrain(ROOT)
             sync_status(ROOT)
-            print("gbrain.yml and COLLECTION_STATUS.md synchronized")
+            print("gbrain.yml and work-level status views synchronized")
+        elif args.command == "work-status":
+            status_data, status_errors = build_work_status(ROOT)
+            if status_errors:
+                raise ValueError("; ".join(status_errors))
+            query_path = args.path
+            if query_path and Path(query_path).is_absolute():
+                try:
+                    query_path = Path(query_path).resolve().relative_to(ROOT.resolve()).as_posix()
+                except ValueError as exc:
+                    raise ValueError("--path must be inside the repository") from exc
+            matches = query_work_status(
+                status_data,
+                work_id=args.work_id,
+                path=query_path,
+                author_id=args.author_id,
+            )
+            if not matches:
+                raise ValueError("no matching work status record")
+            if args.json:
+                print(json.dumps(matches, ensure_ascii=False, indent=2))
+            else:
+                for item in matches:
+                    print(
+                        f"{item['record_id']}\n"
+                        f"  title: {item['title']}\n"
+                        f"  progress: {item['progress']}\n"
+                        f"  verification: {item['verification']}\n"
+                        f"  digital_text: {item['digital_text']}\n"
+                        f"  source_evidence: {item['source_evidence']}\n"
+                        f"  digitization_project: {item['digitization_project']}"
+                    )
         elif args.command == "add-person":
             scaffold_person(ROOT, args)
             print(f"created person collection: {args.id}")

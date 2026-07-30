@@ -94,6 +94,17 @@ PREAMBLE = """<!--
 """
 
 
+def norm_head(text: str) -> str:
+    """页标题与节标题的可比形式。
+
+    底本每页顶端重复一次章标题，节标题另起一处；两处的标点未必一致
+    （ch005 块 1 有句点、块 3 没有），而译文按块忠实照录。去重比较因此
+    必须先抹掉序号与句读，只看正文字面。
+    """
+    text = re.sub(r"^#+\s*\d*\.?\s*", "", text)
+    return re.sub(r"[。．.\s]", "", text)
+
+
 def unit_ids() -> list[str]:
     return sorted(p.name for p in (PROJECT / "units").iterdir() if p.is_dir())
 
@@ -160,12 +171,12 @@ def drop_duplicate_chapter_title(rendered: list[str]) -> list[str]:
 
     if len(rendered) < 2 or not rendered[0].startswith("## "):
         return rendered
-    title = rendered[0][3:].strip()
+    title = norm_head(rendered[0])
     for index in range(1, min(4, len(rendered))):
         candidate = rendered[index]
         if not candidate.startswith("###"):
             continue
-        section = re.sub(r"^#+\s*\d*\.?\s*", "", candidate).strip()
+        section = norm_head(candidate)
         if section and (section == title or title.startswith(section) or section.startswith(title)):
             return rendered[1:]
         break
