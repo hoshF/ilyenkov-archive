@@ -7,6 +7,7 @@ dist/
 node_modules/
 
 # generated or injected content; never commit upstream research material
+.website-input/
 .content/
 .site-content/
 .research/

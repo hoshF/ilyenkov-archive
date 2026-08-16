@@ -1,18 +1,19 @@
 {
-  "name": "ilyenkov-site",
+  "name": "ilyenkov-archive-public",
   "type": "module",
   "version": "0.0.1",
   "engines": {
     "node": ">=22.12.0"
   },
   "scripts": {
-    "dev": "npm run research:validate && astro dev",
-    "build": "npm run research:validate && astro build",
+    "dev": "npm run publication:prepare && astro dev",
+    "build": "npm run publication:prepare && astro build",
     "preview": "astro preview",
     "astro": "astro",
-    "research:validate": "node scripts/research-source.mjs",
-    "check": "astro check",
-    "test": "vitest run"
+    "publication:prepare": "node scripts/publication-input.mjs prepare",
+    "publication:validate": "node scripts/publication-input.mjs validate",
+    "check": "npm run publication:prepare && astro check",
+    "test": "npm run publication:prepare && vitest run"
   },
   "dependencies": {
     "astro": "^7.2.2",

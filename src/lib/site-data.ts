@@ -5,10 +5,10 @@ import matter from 'gray-matter';
 import { z } from 'zod';
 import { renderPublicMarkdown } from './markdown';
 import {
-  resolveResearchPath,
-  websiteApprovedRecords,
-  type PublicationRecord,
-} from './research-source';
+  resolvePublicationPath,
+  websitePublicationArtifacts,
+  type PublicationArtifact,
+} from './publication-source';
 
 const projectRoot = process.cwd();
 
@@ -23,7 +23,6 @@ const ArticleRecordSchema = z.object({
   source_license: z.string().nullable(),
   translation_sha256: z.string().regex(/^[0-9a-f]{64}$/),
   rights_status: z.string(),
-  rights_note: z.string().nullable(),
   blog_draft: z.boolean(),
 }).passthrough();
 
@@ -91,8 +90,8 @@ export interface SiteData {
   };
 }
 
-function readResearchJson(relativePath: string): unknown {
-  return JSON.parse(readFileSync(resolveResearchPath(relativePath), 'utf8'));
+function readPublicationJson(relativePath: string): unknown {
+  return JSON.parse(readFileSync(resolvePublicationPath(relativePath), 'utf8'));
 }
 
 function readEditorialJson(filename: string): unknown {
@@ -126,24 +125,26 @@ export function validateEditorialReferences(
 
 async function loadArticles(
   descriptions: Record<string, string>,
-  approvals: PublicationRecord[],
+  approvals: PublicationArtifact[],
 ): Promise<ReadableDocument[]> {
   const translationApprovals = approvals
     .filter((item) => item.content_category === 'translation')
-    .sort((left, right) => left.path.localeCompare(right.path));
+    .sort((left, right) => left.source_path.localeCompare(right.source_path));
 
   return Promise.all(translationApprovals.map(async (approval) => {
-    const match = approval.path.match(
+    const match = approval.source_path.match(
       /^translation_workspace\/articles\/maidansky\/([^/]+)\/translation\.md$/,
     );
-    if (!match) throw new Error(`Unsupported website-approved translation path: ${approval.path}`);
+    if (!match) throw new Error(`Unsupported website-approved translation path: ${approval.source_path}`);
     const directory = match[1];
-    const base = `translation_workspace/articles/maidansky/${directory}`;
-    const record = ArticleRecordSchema.parse(readResearchJson(`${base}/article.json`));
+    if (!approval.presentation_metadata) {
+      throw new Error(`Website translation lacks presentation metadata: ${approval.source_path}`);
+    }
+    const record = ArticleRecordSchema.parse(readPublicationJson(approval.presentation_metadata));
     if (record.blog_draft) throw new Error(`Public article is still marked draft: ${record.slug}`);
     if (record.slug !== directory) throw new Error(`Article slug does not match directory: ${directory}`);
 
-    const markdownBytes = readFileSync(resolveResearchPath(approval.path));
+    const markdownBytes = readFileSync(resolvePublicationPath(approval.bundle_path));
     const actualHash = createHash('sha256').update(markdownBytes).digest('hex');
     if (actualHash !== record.translation_sha256 || actualHash !== approval.sha256) {
       throw new Error(`Translation hash mismatch for ${record.slug}`);
@@ -178,7 +179,7 @@ let cachedData: Promise<SiteData> | undefined;
 export function getSiteData(): Promise<SiteData> {
   cachedData ??= (async () => {
     const descriptions = EditorialDescriptionsSchema.parse(readEditorialJson('article-descriptions.json'));
-    const articles = await loadArticles(descriptions, websiteApprovedRecords());
+    const articles = await loadArticles(descriptions, websitePublicationArtifacts());
     const works: WorkDocument[] = [];
     const documents: CanonicalDocument[] = [...articles, ...works];
     const uniqueRoutes = new Set(documents.map((document) => document.route));

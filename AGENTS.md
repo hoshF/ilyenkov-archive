@@ -1,5 +1,15 @@
 ## Development
 
+This repository owns public presentation and explicitly published Git-safe artifacts. It does not
+create publication authority. Do not copy canonical private research content into this repository
+unless the private publication workflow explicitly authorizes `git_repository` publication for the
+exact revision.
+
+Website-only content is generated into ignored `.website-input/` by `npm run publication:prepare`.
+Never stage that directory or replace it with a tracked content directory. Fix research facts and
+publication decisions in the private research system; fix routes, rendering, styles, and editorial
+presentation here.
+
 When starting the dev server, use background mode:
 
 ```

@@ -1,24 +1,20 @@
 import { execFileSync } from 'node:child_process';
 import { describe, expect, it } from 'vitest';
 import { renderPublicMarkdown } from '../src/lib/markdown';
-import { resolveResearchRoot, websiteApprovedRecords } from '../src/lib/research-source';
+import { websitePublicationArtifacts } from '../src/lib/publication-source';
 import {
   getSiteData,
   validateEditorialReferences,
 } from '../src/lib/site-data';
 
-describe('research source boundary', () => {
-  it('resolves the configurable sibling research repository', () => {
-    expect(resolveResearchRoot()).not.toBe(process.cwd());
-  });
-
-  it('validates only upstream website approvals and their bound revisions', () => {
-    const output = execFileSync('node', ['scripts/research-source.mjs'], {
+describe('publication input boundary', () => {
+  it('validates only the upstream-generated bundle and its bound revisions', () => {
+    const output = execFileSync('node', ['scripts/publication-input.mjs', 'validate'], {
       cwd: process.cwd(),
       encoding: 'utf8',
     });
-    expect(output).toContain('Research source validated: website-approved=6');
-    expect(websiteApprovedRecords()).toHaveLength(6);
+    expect(output).toContain('Publication input validated: website-approved=6');
+    expect(websitePublicationArtifacts()).toHaveLength(6);
   });
 });
 
@@ -48,6 +44,7 @@ describe('website-approved data adapter', () => {
     expect(serialized).not.toContain('/Users/hoshf/Project/Ilyenkov/');
     expect(serialized).not.toContain('dist/public');
     expect(serialized).not.toContain('maidansky_markdown/');
+    expect(serialized).not.toContain('translation_workspace/');
   });
 
   it('publishes only documents selected by the upstream website channel', async () => {

@@ -1,34 +1,40 @@
-# Ilyenkov Site
+# Ilyenkov Archive Public
 
-This private repository owns the Ilyenkov website application and presentation layer: routes,
-templates, components, styles, editorial navigation, adapters, tests, and build configuration.
+This public repository contains the Ilyenkov Archive website application, presentation layer, and
+artifacts explicitly approved for Git-repository publication.
 
 Canonical research content, translations, source texts, rights evidence, and publication authority
 remain in the private Ilyenkov research repository. Website-visible content is not necessarily
 tracked in this repository.
 
-## Research input
+## Publication input
 
-The build reads only upstream records already approved for the `website` publication channel. Set
-`ILYENKOV_RESEARCH_ROOT` to the private research repository. Local development defaults to the
-sibling checkout at `../Ilyenkov`:
+The private publication workflow validates exact `website` approvals and creates a SHA-bound
+temporary bundle in `.website-input/`. The directory is ignored and must never be committed. The
+frontend validates and reads that bundle; it does not decide publication eligibility or scan the
+private research tree.
+
+For local development, set `ILYENKOV_RESEARCH_ROOT` to an authorized private research checkout.
+The default is the sibling checkout at `../Ilyenkov`:
 
 ```sh
 export ILYENKOV_RESEARCH_ROOT=../Ilyenkov
 ```
 
-No research text is copied into Git. Generated or injected content belongs in ignored local build
-directories.
+Content visible in a built or deployed website may therefore be absent from this repository's Git
+history. A `website` approval never authorizes `git_repository` publication.
 
 ## Development
 
 ```sh
 npm ci
-npm run research:validate
+npm run publication:prepare
+npm run publication:validate
 npm run check
 npm test
 npm run build
 ```
 
 Use `npm run dev` for local development. The same environment variable can point deployment builds
-to a separately provisioned, website-eligible upstream input.
+to a separately provisioned authorized research checkout. CI or deployment must provision that
+input outside this public repository.
