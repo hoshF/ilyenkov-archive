@@ -1,0 +1,31 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { getSiteData } from '../lib/site-data';
+
+const { guide } = await getSiteData();
+---
+
+<BaseLayout title={guide.title} description="为第一次接触伊里因科夫的中文读者提供一条简短阅读路径。">
+  <div class="container narrow">
+    <header class="page-header">
+      <p class="eyebrow">编辑导引</p>
+      <h1 class="page-title">{guide.title}</h1>
+      <p class="lead">{guide.introduction}</p>
+    </header>
+
+    <ol class="guide-list">
+      {guide.items.map(({ document, reason }) => (
+        <li>
+          <p class="eyebrow">{document.kind === 'readable' ? document.contentNature : document.genre}</p>
+          <h2><a href={document.route}>{document.title}</a></h2>
+          <p>{reason}</p>
+          <p class="availability">
+            {document.kind === 'readable'
+              ? '中文译文可在本站阅读'
+              : `${document.chineseAvailability}；${document.sourceAvailability}`}
+          </p>
+        </li>
+      ))}
+    </ol>
+  </div>
+</BaseLayout>

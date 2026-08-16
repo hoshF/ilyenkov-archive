@@ -1,0 +1,44 @@
+---
+import '../styles/global.css';
+
+interface Props {
+  title: string;
+  description?: string;
+}
+
+const {
+  title,
+  description = '一个面向中文读者的伊里因科夫文献与研究网站。',
+} = Astro.props;
+const pageTitle = title === '伊里因科夫' ? title : `${title}｜伊里因科夫`;
+---
+
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="description" content={description} />
+    <meta name="viewport" content="width=device-width" />
+    <link rel="icon" href="/favicon.ico" />
+    <meta name="generator" content={Astro.generator} />
+    <title>{pageTitle}</title>
+  </head>
+  <body>
+    <header class="site-header">
+      <div class="site-header__inner">
+        <a class="site-name" href="/">伊里因科夫</a>
+        <nav aria-label="主要导航">
+          <a href="/read">阅读</a>
+          <a href="/works">作品</a>
+          <a href="/start">从哪里开始</a>
+          <a href="/about">项目</a>
+        </nav>
+      </div>
+    </header>
+    <main><slot /></main>
+    <footer class="site-footer">
+      <p>一个持续建设中的伊里因科夫中文文献与研究网站。</p>
+      <p><a href="/about">来源、权利与参与方式</a></p>
+    </footer>
+  </body>
+</html>

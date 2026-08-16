@@ -1,0 +1,81 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { getSiteData, type CanonicalDocument } from '../../lib/site-data';
+
+export async function getStaticPaths() {
+  const { documents } = await getSiteData();
+  return documents.map((document) => ({
+    params: { id: document.id },
+    props: { document },
+  }));
+}
+
+interface Props { document: CanonicalDocument; }
+const { document } = Astro.props;
+const description = document.kind === 'readable'
+  ? document.description ?? `${document.author}关于伊里因科夫的中文研究译文。`
+  : `伊里因科夫作品《${document.title}》的公开目录与来源记录。`;
+---
+
+<BaseLayout title={document.title} description={description}>
+  <div class="container">
+    <article>
+      <header class="document-header">
+        <p class="eyebrow">{document.kind === 'readable' ? document.contentNature : '伊里因科夫作品记录'}</p>
+        <h1>{document.title}</h1>
+        <p class="document-meta">
+          <span>{document.author}</span>
+          {document.kind === 'readable'
+            ? <span>本站译文公开于 {document.publishedDate}</span>
+            : <><span>{document.year ?? '时间待核对'}</span><span>{document.genre}</span></>}
+        </p>
+        {document.kind === 'readable' && document.description && (
+          <aside class="editorial-note" aria-label="网站编辑说明">
+            <strong>网站编辑说明：</strong>{document.description}
+          </aside>
+        )}
+      </header>
+
+      {document.kind === 'readable' ? (
+        <>
+          <div class="prose" set:html={document.html} />
+          <section class="research-layer" aria-labelledby="source-heading">
+            <p class="eyebrow">来源与版本</p>
+            <h2 id="source-heading">这份中文文本从哪里来</h2>
+            <dl class="fact-list">
+              <div><dt>原作者</dt><dd>{document.author}</dd></div>
+              <div><dt>内容性质</dt><dd>{document.contentNature}</dd></div>
+              <div><dt>原文页面</dt><dd><a href={document.sourceUrl}>查看公开来源</a></dd></div>
+              {document.doiUrl && <div><dt>DOI</dt><dd><a href={document.doiUrl}>{document.doiUrl}</a></dd></div>}
+              <div><dt>公开依据</dt><dd>{document.rightsLabel}</dd></div>
+              {document.sourceLicense && <div><dt>原文许可记录</dt><dd>{document.sourceLicense}</dd></div>}
+              <div><dt>本站版本</dt><dd>{document.publishedDate} 公开的中文译文</dd></div>
+            </dl>
+          </section>
+        </>
+      ) : (
+        <section class="work-facts" aria-labelledby="access-heading">
+          <p>这是一条作品目录记录。本站目前没有可公开阅读的正文，但仍保留作品身份和公开来源，方便读者辨认与继续查找。</p>
+
+          <h2 id="access-heading">当前可访问情况</h2>
+          <dl class="fact-list">
+            <div><dt>中文</dt><dd>{document.chineseAvailability}</dd></div>
+            <div><dt>原文</dt><dd>{document.sourceAvailability}</dd></div>
+            <div><dt>本站</dt><dd>{document.siteAvailability}</dd></div>
+          </dl>
+
+          <h2>作品与来源</h2>
+          <dl class="fact-list">
+            <div><dt>原始标题</dt><dd lang="ru">{document.title}</dd></div>
+            <div><dt>作者</dt><dd>{document.author}</dd></div>
+            <div><dt>时间</dt><dd>{document.year ?? '公开记录暂未提供'}</dd></div>
+            <div><dt>体裁</dt><dd>{document.genre}</dd></div>
+            {document.sourceUrl && <div><dt>外部来源</dt><dd><a href={document.sourceUrl}>查看原文或来源记录</a></dd></div>}
+            <div><dt>核验说明</dt><dd>{document.verificationLabel}</dd></div>
+            {document.relatedRecord && <div><dt>相关目录记录</dt><dd><a href={`/documents/${document.relatedRecord}`}>查看关联记录</a></dd></div>}
+          </dl>
+        </section>
+      )}
+    </article>
+  </div>
+</BaseLayout>

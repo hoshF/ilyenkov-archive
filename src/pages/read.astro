@@ -1,0 +1,20 @@
+---
+import DocumentCard from '../components/DocumentCard.astro';
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { getSiteData } from '../lib/site-data';
+
+const { articles } = await getSiteData();
+---
+
+<BaseLayout title="阅读" description="现在可以直接阅读的伊里因科夫相关中文内容。">
+  <div class="container">
+    <header class="page-header">
+      <p class="eyebrow">阅读</p>
+      <h1 class="page-title">现在可以直接读的中文内容</h1>
+      <p class="lead">这里目前收录 6 篇与伊里因科夫直接相关的中文研究译文。伊里因科夫本人著作的公开译文尚未进入网站。</p>
+    </header>
+    <div class="list-stack">
+      {articles.map((article) => <DocumentCard document={article} />)}
+    </div>
+  </div>
+</BaseLayout>

@@ -1,0 +1,44 @@
+---
+import DocumentCard from '../components/DocumentCard.astro';
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { getSiteData } from '../lib/site-data';
+
+const { featured } = await getSiteData();
+---
+
+<BaseLayout title="伊里因科夫">
+  <section class="hero">
+    <div class="hero__inner">
+      <p class="eyebrow">Evald Ilyenkov · 中文文献与研究</p>
+      <h1>从中文开始，阅读伊里因科夫</h1>
+      <p class="lead">一个面向中文读者的伊里因科夫文献与研究网站：阅读已有译文，辨认作品，并在需要时回到原始来源。</p>
+      <div class="actions">
+        <a class="button" href="/start">从哪里开始阅读</a>
+        <a class="button button--secondary" href="/works">浏览伊里因科夫作品</a>
+        <a class="text-link" href="/read">当前可读中文内容</a>
+      </div>
+    </div>
+  </section>
+
+  <div class="container">
+    <section aria-labelledby="readable-heading">
+      <div class="section-heading">
+        <p class="eyebrow">现在可以读</p>
+        <h2 id="readable-heading">关于伊里因科夫的研究译文</h2>
+        <p>当前站内可读内容主要是安德烈·迈丹斯基的研究文章译文，并非伊里因科夫本人著作。</p>
+      </div>
+      <div class="card-grid">
+        {featured.map((document) => <DocumentCard document={document} />)}
+      </div>
+    </section>
+
+    <section class="principles" aria-labelledby="principles-heading">
+      <h2 id="principles-heading">内容正在逐步开放</h2>
+      <ul>
+        <li>中文翻译尽可能依据原始语言文本。</li>
+        <li>公开内容保留来源、版本与必要的权利说明。</li>
+        <li>只有在权利和校订条件允许时，正文才会进入网站。</li>
+      </ul>
+    </section>
+  </div>
+</BaseLayout>

@@ -1,0 +1,18 @@
+{
+  "title": "从哪里开始阅读伊里因科夫",
+  "introduction": "目前公开中文材料仍然很少。下面的顺序把一篇可直接阅读的研究访谈放在前面，再引向两部能够从外部原文继续阅读的伊里因科夫著作。",
+  "items": [
+    {
+      "id": "evald-ilyenkov-and-soviet-philosophy",
+      "reason": "先建立人物与时代语境。这篇研究译文可以直接在本站阅读，适合尚不熟悉伊里因科夫的读者。"
+    },
+    {
+      "id": "ilyenkov-on-freedom-of-will",
+      "reason": "从自由意志问题进入伊里因科夫关于人的能动性与人格形成的思考。"
+    },
+    {
+      "id": "ilyenkov-family-archive-new-discoveries",
+      "reason": "最后回到家庭档案与未刊材料，补充理解他的思想道路和历史处境。"
+    }
+  ]
+}

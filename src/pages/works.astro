@@ -1,0 +1,55 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { getSiteData } from '../lib/site-data';
+
+const { works } = await getSiteData();
+---
+
+<BaseLayout title="作品" description="当前获准用于网站展示的伊里因科夫作品目录记录。">
+  <div class="container">
+    <header class="page-header">
+      <p class="eyebrow">作品</p>
+      <h1 class="page-title">伊里因科夫作品记录</h1>
+      <p class="lead">当前研究系统尚未向网站发布作品目录数据，因此这里暂时显示 {works.length} 条记录。作品记录与正文将在各自获得网站发布批准后出现。</p>
+    </header>
+
+    <div class="search-panel">
+      <label for="work-search">按标题查找</label>
+      <input id="work-search" type="search" placeholder="输入俄文标题或标题片段" autocomplete="off" />
+      <p class="search-count" aria-live="polite"><span id="visible-count">{works.length}</span> 条记录</p>
+    </div>
+
+    <div class="work-list" id="work-list">
+      {works.map((work) => (
+        <article class="work-row" data-work-row data-search={work.title.toLocaleLowerCase()}>
+          <div>
+            <h2><a href={work.route}>{work.title}</a></h2>
+            <p>{work.author}</p>
+          </div>
+          <p>{work.year ?? '时间待核对'}<br />{work.genre}</p>
+          <p class="status">{work.sourceAvailability}<br />{work.chineseAvailability}</p>
+        </article>
+      ))}
+    </div>
+    <p id="no-results" hidden>没有匹配的公开作品记录。</p>
+  </div>
+
+  <script>
+    const input = document.querySelector<HTMLInputElement>('#work-search');
+    const rows = Array.from(document.querySelectorAll<HTMLElement>('[data-work-row]'));
+    const count = document.querySelector<HTMLElement>('#visible-count');
+    const empty = document.querySelector<HTMLElement>('#no-results');
+
+    input?.addEventListener('input', () => {
+      const query = input.value.trim().toLocaleLowerCase();
+      let visible = 0;
+      for (const row of rows) {
+        const matches = !query || (row.dataset.search ?? '').includes(query);
+        row.hidden = !matches;
+        if (matches) visible += 1;
+      }
+      if (count) count.textContent = String(visible);
+      if (empty) empty.hidden = visible !== 0;
+    });
+  </script>
+</BaseLayout>

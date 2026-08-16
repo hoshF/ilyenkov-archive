@@ -1,0 +1,14 @@
+---
+import type { ReadableDocument } from '../lib/site-data';
+
+interface Props { document: ReadableDocument; }
+const { document } = Astro.props;
+---
+
+<article class="document-card">
+  <p class="eyebrow">{document.contentNature}</p>
+  <h2><a href={document.route}>{document.title}</a></h2>
+  <p class="document-card__meta">{document.author}</p>
+  {document.description && <p>{document.description}</p>}
+  <a class="text-link" href={document.route}>阅读中文译文 <span aria-hidden="true">→</span></a>
+</article>
