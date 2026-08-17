@@ -10,13 +10,13 @@ Never stage that directory or replace it with a tracked content directory. Fix r
 publication decisions in the private research system; fix routes, rendering, styles, and editorial
 presentation here.
 
-When starting the dev server, use background mode:
+Use the npm scripts as the canonical development interface. Start the background server with:
 
 ```
-astro dev --background
+npm run dev
 ```
 
-Manage the background server with `astro dev stop`, `astro dev status`, and `astro dev logs`.
+Manage it with `npm run dev:stop`, `npm run dev:status`, and `npm run dev:logs`.
 
 ## Documentation
 

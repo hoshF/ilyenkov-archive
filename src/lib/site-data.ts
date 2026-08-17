@@ -52,7 +52,6 @@ export interface ReadableDocument {
   doiUrl: string | null;
   sourceLicense: string | null;
   rightsLabel: string;
-  translationSha256: string;
 }
 
 export interface WorkDocument {
@@ -169,7 +168,6 @@ async function loadArticles(
       doiUrl: doiUrl(record.source_doi),
       sourceLicense: record.source_license,
       rightsLabel: rightsLabel(record.rights_status),
-      translationSha256: record.translation_sha256,
     } satisfies ReadableDocument;
   }));
 }

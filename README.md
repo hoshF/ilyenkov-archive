@@ -17,12 +17,9 @@ temporary bundle in `.website-input/`. The directory is ignored and must never b
 frontend validates and reads that bundle; it does not decide publication eligibility or scan the
 private research tree.
 
-For local development, set `ILYENKOV_RESEARCH_ROOT` to an authorized private research checkout.
-The default is the sibling checkout at `../Ilyenkov`:
-
-```sh
-export ILYENKOV_RESEARCH_ROOT=../Ilyenkov
-```
+`npm run publication:prepare` is the canonical command for creating this input. When the authorized
+research checkout is not available at the default location, set `ILYENKOV_RESEARCH_ROOT` before
+running commands that prepare content.
 
 Content visible in a built or deployed website may therefore be absent from this repository's Git
 history. A `website` approval never authorizes `git_repository` publication.
@@ -33,11 +30,12 @@ history. A `website` approval never authorizes `git_repository` publication.
 npm ci
 npm run publication:prepare
 npm run publication:validate
+npm run dev
 npm run check
 npm test
 npm run build
 ```
 
-Use `npm run dev` for local development. The same environment variable can point deployment builds
-to a separately provisioned authorized research checkout. CI or deployment must provision that
-input outside this public repository.
+`npm run dev` prepares publication input and starts Astro in background mode. Inspect or stop it
+with `npm run dev:status`, `npm run dev:logs`, and `npm run dev:stop`. Deployment builds must
+provision authorized research input outside this public repository.

@@ -6,7 +6,10 @@
     "node": ">=22.12.0"
   },
   "scripts": {
-    "dev": "npm run publication:prepare && astro dev",
+    "dev": "npm run publication:prepare && astro dev --background",
+    "dev:status": "astro dev status",
+    "dev:logs": "astro dev logs",
+    "dev:stop": "astro dev stop",
     "build": "npm run publication:prepare && astro build",
     "preview": "astro preview",
     "astro": "astro",

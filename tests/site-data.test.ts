@@ -1,4 +1,6 @@
 import { execFileSync } from 'node:child_process';
+import { existsSync, readFileSync } from 'node:fs';
+import path from 'node:path';
 import { describe, expect, it } from 'vitest';
 import { renderPublicMarkdown } from '../src/lib/markdown';
 import { websitePublicationArtifacts } from '../src/lib/publication-source';
@@ -13,16 +15,24 @@ describe('publication input boundary', () => {
       cwd: process.cwd(),
       encoding: 'utf8',
     });
-    expect(output).toContain('Publication input validated: website-approved=6');
-    expect(websitePublicationArtifacts()).toHaveLength(6);
+    const artifacts = websitePublicationArtifacts();
+    expect(artifacts.length).toBeGreaterThan(0);
+    expect(output).toContain(`Publication input validated: website-approved=${artifacts.length}`);
+    for (const artifact of artifacts) {
+      expect(path.posix.isAbsolute(artifact.source_path)).toBe(false);
+      expect(path.win32.isAbsolute(artifact.source_path)).toBe(false);
+      expect(path.posix.isAbsolute(artifact.bundle_path)).toBe(false);
+      expect(path.win32.isAbsolute(artifact.bundle_path)).toBe(false);
+    }
   });
 });
 
 describe('website-approved data adapter', () => {
-  it('loads six readable translations without assuming repository publication', async () => {
+  it('loads every approved translation without assuming a current artifact count', async () => {
     const data = await getSiteData();
-    expect(data.articles).toHaveLength(6);
-    expect(data.works).toHaveLength(0);
+    const approvedTranslations = websitePublicationArtifacts()
+      .filter((artifact) => artifact.content_category === 'translation');
+    expect(data.articles).toHaveLength(approvedTranslations.length);
     expect(data.articles.every((article) => article.html.length > 1000)).toBe(true);
   });
 
@@ -38,13 +48,39 @@ describe('website-approved data adapter', () => {
       .toThrow('unknown public document ID');
   });
 
-  it('does not expose research-repository paths', async () => {
+  it('does not expose local filesystem paths as public data', async () => {
     const data = await getSiteData();
-    const serialized = JSON.stringify(data);
-    expect(serialized).not.toContain('/Users/hoshf/Project/Ilyenkov/');
-    expect(serialized).not.toContain('dist/public');
-    expect(serialized).not.toContain('maidansky_markdown/');
-    expect(serialized).not.toContain('translation_workspace/');
+    const publicRoutes = new Set(data.documents.map((document) => document.route));
+    const strings: string[] = [];
+    const collectStrings = (value: unknown): void => {
+      if (typeof value === 'string') strings.push(value);
+      else if (Array.isArray(value)) value.forEach(collectStrings);
+      else if (value && typeof value === 'object') Object.values(value).forEach(collectStrings);
+    };
+    collectStrings(data);
+
+    const absolutePaths = strings.filter((value) => (
+      path.posix.isAbsolute(value) || path.win32.isAbsolute(value)
+    ));
+    expect(absolutePaths.every((value) => publicRoutes.has(value))).toBe(true);
+    expect(strings.some((value) => value.startsWith('file:'))).toBe(false);
+  });
+
+  it('resolves every editorial selection to a readable public document', async () => {
+    const { featured, guide } = await getSiteData();
+    expect(featured.every((document) => document.kind === 'readable')).toBe(true);
+    expect(guide.items.every(({ document }) => document.kind === 'readable')).toBe(true);
+  });
+
+  it('does not expose a works route when no work records are published', async () => {
+    const { works } = await getSiteData();
+    if (works.length > 0) return;
+
+    expect(existsSync(path.join(process.cwd(), 'src/pages/works.astro'))).toBe(false);
+    for (const relativePath of ['src/layouts/BaseLayout.astro', 'src/pages/index.astro']) {
+      const source = readFileSync(path.join(process.cwd(), relativePath), 'utf8');
+      expect(source).not.toContain('href="/works"');
+    }
   });
 
   it('publishes only documents selected by the upstream website channel', async () => {
