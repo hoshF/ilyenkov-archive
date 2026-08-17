@@ -3,6 +3,9 @@
 This public repository contains the Ilyenkov Archive website application, presentation layer, and
 artifacts explicitly approved for Git-repository publication.
 
+Its GitHub identity is `hoshF/ilyenkov-archive`; the local checkout may remain named
+`Ilyenkov-public` to distinguish it from the private sibling research checkout.
+
 Canonical research content, translations, source texts, rights evidence, and publication authority
 remain in the private Ilyenkov research repository. Website-visible content is not necessarily
 tracked in this repository.
