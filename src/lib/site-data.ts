@@ -1,7 +1,6 @@
 import { createHash } from 'node:crypto';
 import { readFileSync } from 'node:fs';
 import path from 'node:path';
-import matter from 'gray-matter';
 import { z } from 'zod';
 import { renderPublicMarkdown } from './markdown';
 import {
@@ -12,20 +11,6 @@ import {
 
 const projectRoot = process.cwd();
 
-const ArticleRecordSchema = z.object({
-  schema_version: z.number(),
-  slug: z.string().min(1),
-  title_zh: z.string().min(1),
-  primary_author_id: z.string().min(1),
-  published_date: z.string().regex(/^\d{4}-\d{2}-\d{2}$/),
-  source_doi: z.string().nullable(),
-  source_url: z.string().url(),
-  source_license: z.string().nullable(),
-  translation_sha256: z.string().regex(/^[0-9a-f]{64}$/),
-  rights_status: z.string(),
-  blog_draft: z.boolean(),
-}).passthrough();
-
 const EditorialDescriptionsSchema = z.record(z.string(), z.string().min(1));
 const HomeSchema = z.object({ featuredDocumentIds: z.array(z.string()).min(1) });
 const StartGuideSchema = z.object({
@@ -33,10 +18,6 @@ const StartGuideSchema = z.object({
   introduction: z.string(),
   items: z.array(z.object({ id: z.string(), reason: z.string().min(1) })),
 });
-
-const authorLabels: Record<string, string> = {
-  maidansky: '安德烈·迈丹斯基',
-};
 
 export interface ReadableDocument {
   kind: 'readable';
@@ -89,10 +70,6 @@ export interface SiteData {
   };
 }
 
-function readPublicationJson(relativePath: string): unknown {
-  return JSON.parse(readFileSync(resolvePublicationPath(relativePath), 'utf8'));
-}
-
 function readEditorialJson(filename: string): unknown {
   return JSON.parse(readFileSync(path.join(projectRoot, 'editorial', filename), 'utf8'));
 }
@@ -104,9 +81,9 @@ function doiUrl(value: string | null): string | null {
     : `https://doi.org/${value}`;
 }
 
-function rightsLabel(status: string): string {
-  if (status === 'author_permission') return '中文译文经作者许可公开';
-  return '权利依据见公开研究记录';
+function rightsLabel(basis: PublicationArtifact['rights']['basis']): string {
+  if (basis === 'author_permission') return '中文译文经作者许可公开';
+  return '中文译文依据所列原文许可公开';
 }
 
 export function validateEditorialReferences(
@@ -127,47 +104,32 @@ async function loadArticles(
   approvals: PublicationArtifact[],
 ): Promise<ReadableDocument[]> {
   const translationApprovals = approvals
-    .filter((item) => item.content_category === 'translation')
-    .sort((left, right) => left.source_path.localeCompare(right.source_path));
+    .filter((item) => item.kind === 'translation')
+    .sort((left, right) => left.slug.localeCompare(right.slug));
 
   return Promise.all(translationApprovals.map(async (approval) => {
-    const match = approval.source_path.match(
-      /^translation_workspace\/articles\/maidansky\/([^/]+)\/translation\.md$/,
-    );
-    if (!match) throw new Error(`Unsupported website-approved translation path: ${approval.source_path}`);
-    const directory = match[1];
-    if (!approval.presentation_metadata) {
-      throw new Error(`Website translation lacks presentation metadata: ${approval.source_path}`);
-    }
-    const record = ArticleRecordSchema.parse(readPublicationJson(approval.presentation_metadata));
-    if (record.blog_draft) throw new Error(`Public article is still marked draft: ${record.slug}`);
-    if (record.slug !== directory) throw new Error(`Article slug does not match directory: ${directory}`);
-
-    const markdownBytes = readFileSync(resolvePublicationPath(approval.bundle_path));
+    const markdownBytes = readFileSync(resolvePublicationPath(approval.content.path));
     const actualHash = createHash('sha256').update(markdownBytes).digest('hex');
-    if (actualHash !== record.translation_sha256 || actualHash !== approval.sha256) {
-      throw new Error(`Translation hash mismatch for ${record.slug}`);
+    if (actualHash !== approval.content.sha256) {
+      throw new Error(`Translation hash mismatch for ${approval.slug}`);
     }
 
-    const parsed = matter(markdownBytes.toString('utf8'));
-    if (parsed.data.title !== record.title_zh) {
-      throw new Error(`Translation title mismatch for ${record.slug}`);
-    }
+    const author = approval.authors.map((item) => item.display_name).join('、');
 
     return {
       kind: 'readable',
-      id: record.slug,
-      route: `/documents/${record.slug}`,
-      title: record.title_zh,
-      author: authorLabels[record.primary_author_id] ?? record.primary_author_id,
+      id: approval.slug,
+      route: `/documents/${approval.slug}`,
+      title: approval.title,
+      author,
       contentNature: '研究译文',
-      publishedDate: record.published_date,
-      description: descriptions[record.slug] ?? null,
-      html: await renderPublicMarkdown(parsed.content),
-      sourceUrl: record.source_url,
-      doiUrl: doiUrl(record.source_doi),
-      sourceLicense: record.source_license,
-      rightsLabel: rightsLabel(record.rights_status),
+      publishedDate: approval.published_date,
+      description: descriptions[approval.slug] ?? null,
+      html: await renderPublicMarkdown(markdownBytes.toString('utf8')),
+      sourceUrl: approval.source.url,
+      doiUrl: doiUrl(approval.source.doi),
+      sourceLicense: approval.source.license,
+      rightsLabel: rightsLabel(approval.rights.basis),
     } satisfies ReadableDocument;
   }));
 }

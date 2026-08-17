@@ -3,7 +3,10 @@ import { existsSync, readFileSync } from 'node:fs';
 import path from 'node:path';
 import { describe, expect, it } from 'vitest';
 import { renderPublicMarkdown } from '../src/lib/markdown';
-import { websitePublicationArtifacts } from '../src/lib/publication-source';
+import {
+  resolvePublicationPath,
+  websitePublicationArtifacts,
+} from '../src/lib/publication-source';
 import {
   getSiteData,
   validateEditorialReferences,
@@ -18,11 +21,27 @@ describe('publication input boundary', () => {
     const artifacts = websitePublicationArtifacts();
     expect(artifacts.length).toBeGreaterThan(0);
     expect(output).toContain(`Publication input validated: website-approved=${artifacts.length}`);
+    const serialized = JSON.stringify(artifacts);
+    expect(serialized).not.toContain('source_path');
+    expect(serialized).not.toContain('bundle_path');
+    expect(serialized).not.toContain('translation_workspace');
     for (const artifact of artifacts) {
-      expect(path.posix.isAbsolute(artifact.source_path)).toBe(false);
-      expect(path.win32.isAbsolute(artifact.source_path)).toBe(false);
-      expect(path.posix.isAbsolute(artifact.bundle_path)).toBe(false);
-      expect(path.win32.isAbsolute(artifact.bundle_path)).toBe(false);
+      expect(artifact.content.path).toBe(`artifacts/${artifact.publication_id}.md`);
+      expect(path.posix.isAbsolute(artifact.content.path)).toBe(false);
+      expect(path.win32.isAbsolute(artifact.content.path)).toBe(false);
+      const markdown = readFileSync(resolvePublicationPath(artifact.content.path), 'utf8');
+      expect(markdown).not.toMatch(/^---\r?\n/);
+      expect(markdown).not.toContain('llm_wiki_eligible');
+      expect(markdown).not.toContain('gbrain_source');
+    }
+  });
+
+  it('does not encode private layout semantics in the public adapter', () => {
+    for (const relativePath of ['src/lib/publication-source.ts', 'src/lib/site-data.ts']) {
+      const source = readFileSync(path.join(process.cwd(), relativePath), 'utf8');
+      expect(source).not.toContain('translation_workspace');
+      expect(source).not.toContain('source_path');
+      expect(source).not.toContain('primary_author_id');
     }
   });
 });
@@ -31,9 +50,18 @@ describe('website-approved data adapter', () => {
   it('loads every approved translation without assuming a current artifact count', async () => {
     const data = await getSiteData();
     const approvedTranslations = websitePublicationArtifacts()
-      .filter((artifact) => artifact.content_category === 'translation');
+      .filter((artifact) => artifact.kind === 'translation');
     expect(data.articles).toHaveLength(approvedTranslations.length);
     expect(data.articles.every((article) => article.html.length > 1000)).toBe(true);
+  });
+
+  it('uses upstream author, source, and public rights semantics directly', async () => {
+    const { articles } = await getSiteData();
+    expect(articles.every((article) => article.author === '安德烈·迈丹斯基')).toBe(true);
+    expect(articles.every((article) => article.sourceUrl.startsWith('https://'))).toBe(true);
+    expect(articles.some((article) => article.doiUrl?.startsWith('https://doi.org/'))).toBe(true);
+    expect(articles.some((article) => article.rightsLabel === '中文译文经作者许可公开')).toBe(true);
+    expect(articles.some((article) => article.rightsLabel === '中文译文依据所列原文许可公开')).toBe(true);
   });
 
   it('keeps canonical routes unique', async () => {
