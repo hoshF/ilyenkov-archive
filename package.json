@@ -2,6 +2,7 @@
   "name": "ilyenkov-archive",
   "type": "module",
   "version": "0.0.1",
+  "description": "中文伊里因科夫小组的公共网站与出版锚点",
   "engines": {
     "node": ">=22.12.0"
   },
@@ -13,8 +14,9 @@
     "build": "npm run publication:prepare && astro build",
     "preview": "astro preview",
     "astro": "astro",
-    "publication:prepare": "node scripts/publication-input.mjs prepare",
-    "publication:validate": "node scripts/publication-input.mjs validate",
+    "publication:prepare": "node scripts/sync-translations.mjs",
+    "publication:sync": "node scripts/sync-translations.mjs",
+    "publication:check": "node scripts/sync-translations.mjs --check",
     "check": "npm run publication:prepare && astro check",
     "test": "npm run publication:prepare && vitest run"
   },

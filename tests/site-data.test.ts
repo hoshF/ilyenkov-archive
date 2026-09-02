@@ -1,67 +1,92 @@
 import { execFileSync } from 'node:child_process';
 import { existsSync, readFileSync } from 'node:fs';
+import matter from 'gray-matter';
 import path from 'node:path';
 import { describe, expect, it } from 'vitest';
 import { renderPublicMarkdown } from '../src/lib/markdown';
 import {
-  resolvePublicationPath,
-  websitePublicationArtifacts,
-} from '../src/lib/publication-source';
+  generatedPostIds,
+  resolveGeneratedPostPath,
+} from '../src/lib/post-source';
 import {
   getSiteData,
   validateEditorialReferences,
 } from '../src/lib/site-data';
 
-describe('publication input boundary', () => {
-  it('validates only the upstream-generated bundle and its bound revisions', () => {
-    const output = execFileSync('node', ['scripts/publication-input.mjs', 'validate'], {
+const researchRoot = path.resolve(
+  process.env.ILYENKOV_ROOT?.trim() || path.join(process.cwd(), '..', 'Ilyenkov'),
+);
+
+interface WebsiteWork {
+  work_id: string;
+  work_json_path: string;
+}
+
+function websiteWorks(): WebsiteWork[] {
+  const publication = JSON.parse(readFileSync(
+    path.join(researchRoot, 'translation/publication.json'),
+    'utf8',
+  ));
+  return publication.works.filter((work: Record<string, unknown>) => (
+    work.publication_scope === 'website_public'
+  ));
+}
+
+describe('translation sync boundary', () => {
+  it('checks generated posts against the private website_public selection', () => {
+    const output = execFileSync('node', ['scripts/sync-translations.mjs', '--check'], {
       cwd: process.cwd(),
       encoding: 'utf8',
     });
-    const artifacts = websitePublicationArtifacts();
-    expect(artifacts.length).toBeGreaterThan(0);
-    expect(output).toContain(`Publication input validated: website-approved=${artifacts.length}`);
-    const serialized = JSON.stringify(artifacts);
-    expect(serialized).not.toContain('source_path');
-    expect(serialized).not.toContain('bundle_path');
-    expect(serialized).not.toContain('translation_workspace');
-    for (const artifact of artifacts) {
-      expect(artifact.content.path).toBe(`artifacts/${artifact.publication_id}.md`);
-      expect(path.posix.isAbsolute(artifact.content.path)).toBe(false);
-      expect(path.win32.isAbsolute(artifact.content.path)).toBe(false);
-      const markdown = readFileSync(resolvePublicationPath(artifact.content.path), 'utf8');
-      expect(markdown).not.toMatch(/^---\r?\n/);
-      expect(markdown).not.toContain('llm_wiki_eligible');
-      expect(markdown).not.toContain('gbrain_source');
+    const selected = websiteWorks();
+    expect(selected.length).toBeGreaterThan(0);
+    expect(output).toContain(`stale=0 posts=${selected.length}`);
+    expect(generatedPostIds()).toEqual(selected.map((work) => work.work_id).sort());
+  });
+
+  it('combines each work.json with its Markdown as a frontmatter post', () => {
+    for (const selected of websiteWorks()) {
+      const work = JSON.parse(readFileSync(path.join(researchRoot, selected.work_json_path), 'utf8'));
+      const post = matter(readFileSync(resolveGeneratedPostPath(selected.work_id), 'utf8'));
+      const textRelative = path.posix.join(
+        path.posix.dirname(selected.work_json_path),
+        `${selected.work_id}.md`,
+      );
+      expect(post.data).toMatchObject({
+        title: work.title,
+        title_zh: work.title_zh,
+        source_edition: work.source_edition,
+        source_url: work.source_url,
+        rights_status: work.rights_status,
+        type: 'translation',
+        generated_from: `Ilyenkov:${textRelative}`,
+      });
+      if (work.doi) expect(post.data.doi).toBe(work.doi);
+      expect(post.content).not.toMatch(/^---\r?\n/);
+      expect(post.content.length).toBeGreaterThan(1000);
     }
   });
 
-  it('does not encode private layout semantics in the public adapter', () => {
-    for (const relativePath of ['src/lib/publication-source.ts', 'src/lib/site-data.ts']) {
-      const source = readFileSync(path.join(process.cwd(), relativePath), 'utf8');
-      expect(source).not.toContain('translation_workspace');
-      expect(source).not.toContain('source_path');
-      expect(source).not.toContain('primary_author_id');
-    }
+  it('keeps generated website text outside the public Git content tree', () => {
+    const source = readFileSync(path.join(process.cwd(), '.gitignore'), 'utf8');
+    expect(source).toContain('.website-input/');
+    expect(resolveGeneratedPostPath(generatedPostIds()[0])).toContain('/.website-input/posts/');
   });
 });
 
 describe('website-approved data adapter', () => {
   it('loads every approved translation without assuming a current artifact count', async () => {
     const data = await getSiteData();
-    const approvedTranslations = websitePublicationArtifacts()
-      .filter((artifact) => artifact.kind === 'translation');
-    expect(data.articles).toHaveLength(approvedTranslations.length);
+    expect(data.articles).toHaveLength(websiteWorks().length);
     expect(data.articles.every((article) => article.html.length > 1000)).toBe(true);
   });
 
-  it('uses upstream author, source, and public rights semantics directly', async () => {
+  it('uses source information generated directly from work.json', async () => {
     const { articles } = await getSiteData();
-    expect(articles.every((article) => article.author === '安德烈·迈丹斯基')).toBe(true);
-    expect(articles.every((article) => article.sourceUrl.startsWith('https://'))).toBe(true);
+    expect(articles.every((article) => article.originalTitle.length > 0)).toBe(true);
+    expect(articles.every((article) => article.sourceUrl?.startsWith('https://'))).toBe(true);
     expect(articles.some((article) => article.doiUrl?.startsWith('https://doi.org/'))).toBe(true);
-    expect(articles.some((article) => article.rightsLabel === '中文译文经作者许可公开')).toBe(true);
-    expect(articles.some((article) => article.rightsLabel === '中文译文依据所列原文许可公开')).toBe(true);
+    expect(articles.every((article) => article.sourceEdition.length > 0)).toBe(true);
   });
 
   it('keeps canonical routes unique', async () => {
@@ -100,14 +125,17 @@ describe('website-approved data adapter', () => {
     expect(guide.items.every(({ document }) => document.kind === 'readable')).toBe(true);
   });
 
-  it('does not expose a works route when no work records are published', async () => {
-    const { works } = await getSiteData();
-    if (works.length > 0) return;
-
-    expect(existsSync(path.join(process.cwd(), 'src/pages/works.astro'))).toBe(false);
-    for (const relativePath of ['src/layouts/BaseLayout.astro', 'src/pages/index.astro']) {
-      const source = readFileSync(path.join(process.cwd(), relativePath), 'utf8');
-      expect(source).not.toContain('href="/works"');
+  it('provides the long-term public information architecture without private records', () => {
+    for (const route of [
+      'ilyenkov.astro',
+      'translations.astro',
+      'works.astro',
+      'research.astro',
+      'group.astro',
+      'publications.astro',
+      'about.astro',
+    ]) {
+      expect(existsSync(path.join(process.cwd(), 'src/pages', route))).toBe(true);
     }
   });
 
@@ -143,5 +171,73 @@ describe('Markdown safety and semantics', () => {
     expect(html).not.toContain('user-content-user-content');
     expect(html).not.toContain('<script>');
     expect(html).not.toContain("alert('no')");
+  });
+
+  it('replaces a manuscript notes heading with one generated notes section', async () => {
+    const html = await renderPublicMarkdown(`
+正文。[^1]
+
+## 注释
+
+[^1]: 注释内容。
+
+## 参考文献
+
+- A Book
+`);
+    expect(html.match(/<h2[^>]*>\s*注释\s*<\/h2>/g)).toHaveLength(1);
+    expect(html.indexOf('参考文献')).toBeLessThan(html.indexOf('id="footnote-label"'));
+    expect(html).toContain('<section data-footnotes class="footnotes">');
+  });
+
+  it('keeps an ordinary notes heading when it is not followed by footnote definitions', async () => {
+    const html = await renderPublicMarkdown(`
+## 注释
+
+这是普通段落。
+`);
+    expect(html).toContain('<h2>注释</h2>');
+    expect(html).not.toContain('data-footnotes');
+  });
+
+  it('renders compact Chinese dialogue and metadata labels as strong text', async () => {
+    const html = await renderPublicMarkdown(`
+**安德烈·迈丹斯基：**的确，伊里因科夫越来越受欢迎。
+
+**关键词：**直观，主体性，逻辑范畴。
+`);
+    expect(html).toContain('<strong>安德烈·迈丹斯基：</strong>的确');
+    expect(html).toContain('<strong>关键词：</strong>直观');
+    expect(html).not.toContain('**');
+  });
+
+  it('preserves hard line breaks and GFM table alignment', async () => {
+    const html = await renderPublicMarkdown(`
+> 革命就这样，\\
+> 翻搅着各个阶级，\\
+> 却使国家权力愈发膨胀。
+
+| 年份 | 页数 | 备注 |
+|---|---:|:-:|
+| 1953 | 128 | *草稿* |
+`);
+    expect(html).toContain('革命就这样，<br>\n翻搅着各个阶级，<br>');
+    expect(html).toContain('<th align="right">页数</th>');
+    expect(html).toContain('<th align="center">备注</th>');
+    expect(html).toContain('<td align="center"><em>草稿</em></td>');
+  });
+
+  it('gives repeated footnote references unique anchors and backlinks', async () => {
+    const html = await renderPublicMarkdown(`
+第一次。[^1]
+
+第二次。[^1]
+
+[^1]: 被引用两次的注释。
+`);
+    expect(html).toContain('id="user-content-fnref-1"');
+    expect(html).toContain('id="user-content-fnref-1-2"');
+    expect(html).toContain('href="#user-content-fnref-1"');
+    expect(html).toContain('href="#user-content-fnref-1-2"');
   });
 });

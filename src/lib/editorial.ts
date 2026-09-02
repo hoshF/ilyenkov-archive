@@ -1,0 +1,24 @@
+import { readFileSync } from 'node:fs';
+import path from 'node:path';
+import { z } from 'zod';
+
+const projectRoot = process.cwd();
+
+const LinkSchema = z.object({
+  label: z.string().trim().min(1),
+  href: z.string().regex(/^\/[a-z0-9/-]*$/),
+}).strict();
+
+const SiteSchema = z.object({
+  name: z.string().trim().min(1),
+  shortName: z.string().trim().min(1),
+  organization: z.string().trim().min(1),
+  description: z.string().trim().min(1),
+  navigation: z.array(LinkSchema).min(1),
+}).strict();
+
+export function readEditorialJson(filename: string): unknown {
+  return JSON.parse(readFileSync(path.join(projectRoot, 'editorial', filename), 'utf8'));
+}
+
+export const site = SiteSchema.parse(readEditorialJson('site.json'));

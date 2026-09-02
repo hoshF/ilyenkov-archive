@@ -1,17 +1,30 @@
-import { createHash } from 'node:crypto';
 import { readFileSync } from 'node:fs';
-import path from 'node:path';
+import matter from 'gray-matter';
 import { z } from 'zod';
+import { readEditorialJson } from './editorial';
 import { renderPublicMarkdown } from './markdown';
-import {
-  resolvePublicationPath,
-  websitePublicationArtifacts,
-  type PublicationArtifact,
-} from './publication-source';
-
-const projectRoot = process.cwd();
+import { generatedPostIds, resolveGeneratedPostPath } from './post-source';
 
 const EditorialDescriptionsSchema = z.record(z.string(), z.string().min(1));
+const PublicUrlSchema = z.string().refine((value) => {
+  try {
+    const parsed = new URL(value);
+    return ['http:', 'https:'].includes(parsed.protocol) && Boolean(parsed.host);
+  } catch {
+    return false;
+  }
+}, 'Invalid public URL');
+const GeneratedPostSchema = z.object({
+  title: z.string().trim().min(1),
+  title_zh: z.string().trim().min(1),
+  source_edition: z.string().trim().min(1),
+  source_url: PublicUrlSchema.optional(),
+  doi: z.string().trim().min(1).optional(),
+  rights_status: z.enum(['author_permission', 'license_permits']),
+  type: z.literal('translation'),
+  generated_from: z.string().regex(/^Ilyenkov:translation\/.+\.md$/),
+  generated_rev: z.string().regex(/^[0-9a-f]{12}(?:-dirty)?$/).optional(),
+}).strict();
 const HomeSchema = z.object({ featuredDocumentIds: z.array(z.string()).min(1) });
 const StartGuideSchema = z.object({
   title: z.string(),
@@ -24,15 +37,12 @@ export interface ReadableDocument {
   id: string;
   route: string;
   title: string;
-  author: string;
-  contentNature: '研究译文';
-  publishedDate: string;
+  originalTitle: string;
   description: string | null;
   html: string;
-  sourceUrl: string;
+  sourceEdition: string;
+  sourceUrl: string | null;
   doiUrl: string | null;
-  sourceLicense: string | null;
-  rightsLabel: string;
 }
 
 export interface WorkDocument {
@@ -70,20 +80,11 @@ export interface SiteData {
   };
 }
 
-function readEditorialJson(filename: string): unknown {
-  return JSON.parse(readFileSync(path.join(projectRoot, 'editorial', filename), 'utf8'));
-}
-
 function doiUrl(value: string | null): string | null {
   if (!value) return null;
   return value.startsWith('http://') || value.startsWith('https://')
     ? value
     : `https://doi.org/${value}`;
-}
-
-function rightsLabel(basis: PublicationArtifact['rights']['basis']): string {
-  if (basis === 'author_permission') return '中文译文经作者许可公开';
-  return '中文译文依据所列原文许可公开';
 }
 
 export function validateEditorialReferences(
@@ -101,35 +102,26 @@ export function validateEditorialReferences(
 
 async function loadArticles(
   descriptions: Record<string, string>,
-  approvals: PublicationArtifact[],
 ): Promise<ReadableDocument[]> {
-  const translationApprovals = approvals
-    .filter((item) => item.kind === 'translation')
-    .sort((left, right) => left.slug.localeCompare(right.slug));
-
-  return Promise.all(translationApprovals.map(async (approval) => {
-    const markdownBytes = readFileSync(resolvePublicationPath(approval.content.path));
-    const actualHash = createHash('sha256').update(markdownBytes).digest('hex');
-    if (actualHash !== approval.content.sha256) {
-      throw new Error(`Translation hash mismatch for ${approval.slug}`);
+  return Promise.all(generatedPostIds().map(async (id) => {
+    const postPath = resolveGeneratedPostPath(id);
+    const post = matter(readFileSync(postPath, 'utf8'));
+    const metadata = GeneratedPostSchema.parse(post.data);
+    if (!metadata.generated_from.endsWith(`/${id}.md`)) {
+      throw new Error(`Generated post source does not match its filename: ${id}`);
     }
-
-    const author = approval.authors.map((item) => item.display_name).join('、');
 
     return {
       kind: 'readable',
-      id: approval.slug,
-      route: `/documents/${approval.slug}`,
-      title: approval.title,
-      author,
-      contentNature: '研究译文',
-      publishedDate: approval.published_date,
-      description: descriptions[approval.slug] ?? null,
-      html: await renderPublicMarkdown(markdownBytes.toString('utf8')),
-      sourceUrl: approval.source.url,
-      doiUrl: doiUrl(approval.source.doi),
-      sourceLicense: approval.source.license,
-      rightsLabel: rightsLabel(approval.rights.basis),
+      id,
+      route: `/documents/${id}`,
+      title: metadata.title_zh,
+      originalTitle: metadata.title,
+      description: descriptions[id] ?? null,
+      html: await renderPublicMarkdown(post.content),
+      sourceEdition: metadata.source_edition,
+      sourceUrl: metadata.source_url ?? null,
+      doiUrl: doiUrl(metadata.doi ?? null),
     } satisfies ReadableDocument;
   }));
 }
@@ -139,7 +131,7 @@ let cachedData: Promise<SiteData> | undefined;
 export function getSiteData(): Promise<SiteData> {
   cachedData ??= (async () => {
     const descriptions = EditorialDescriptionsSchema.parse(readEditorialJson('article-descriptions.json'));
-    const articles = await loadArticles(descriptions, websitePublicationArtifacts());
+    const articles = await loadArticles(descriptions);
     const works: WorkDocument[] = [];
     const documents: CanonicalDocument[] = [...articles, ...works];
     const uniqueRoutes = new Set(documents.map((document) => document.route));
