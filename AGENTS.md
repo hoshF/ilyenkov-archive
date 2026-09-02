@@ -16,6 +16,8 @@ Restricted study texts must never enter the public `dist/` output. A missing dow
 access control. If web access is later required, use a separate protected deployment and a distinct
 publication channel.
 
+Commit messages default to English, with an imperative subject line.
+
 Use the npm scripts as the canonical development interface. Start the background server with:
 
 ```
