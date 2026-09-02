@@ -5,13 +5,10 @@ import path from 'node:path';
 import { describe, expect, it } from 'vitest';
 import { renderPublicMarkdown } from '../src/lib/markdown';
 import {
-  generatedPostIds,
-  resolveGeneratedPostPath,
-} from '../src/lib/post-source';
-import {
-  getSiteData,
-  validateEditorialReferences,
-} from '../src/lib/site-data';
+  generatedArticleIds,
+  resolveGeneratedArticlePath,
+} from '../src/lib/article-source';
+import { getSiteData } from '../src/lib/site-data';
 
 const researchRoot = path.resolve(
   process.env.ILYENKOV_ROOT?.trim() || path.join(process.cwd(), '..', 'Ilyenkov'),
@@ -33,44 +30,43 @@ function websiteWorks(): WebsiteWork[] {
 }
 
 describe('translation sync boundary', () => {
-  it('checks generated posts against the private website_public selection', () => {
+  it('checks generated articles against the private website_public selection', () => {
     const output = execFileSync('node', ['scripts/sync-translations.mjs', '--check'], {
       cwd: process.cwd(),
       encoding: 'utf8',
     });
     const selected = websiteWorks();
     expect(selected.length).toBeGreaterThan(0);
-    expect(output).toContain(`stale=0 posts=${selected.length}`);
-    expect(generatedPostIds()).toEqual(selected.map((work) => work.work_id).sort());
+    expect(output).toContain(`stale=0 articles=${selected.length}`);
+    expect(generatedArticleIds()).toEqual(selected.map((work) => work.work_id).sort());
   });
 
-  it('combines each work.json with its Markdown as a frontmatter post', () => {
+  it('combines each work.json with its Markdown as a frontmatter article', () => {
     for (const selected of websiteWorks()) {
       const work = JSON.parse(readFileSync(path.join(researchRoot, selected.work_json_path), 'utf8'));
-      const post = matter(readFileSync(resolveGeneratedPostPath(selected.work_id), 'utf8'));
+      const article = matter(readFileSync(resolveGeneratedArticlePath(selected.work_id), 'utf8'));
       const textRelative = path.posix.join(
         path.posix.dirname(selected.work_json_path),
         `${selected.work_id}.md`,
       );
-      expect(post.data).toMatchObject({
+      expect(article.data).toMatchObject({
         title: work.title,
         title_zh: work.title_zh,
         source_edition: work.source_edition,
         source_url: work.source_url,
-        rights_status: work.rights_status,
         type: 'translation',
         generated_from: `Ilyenkov:${textRelative}`,
       });
-      if (work.doi) expect(post.data.doi).toBe(work.doi);
-      expect(post.content).not.toMatch(/^---\r?\n/);
-      expect(post.content.length).toBeGreaterThan(1000);
+      if (work.doi) expect(article.data.doi).toBe(work.doi);
+      expect(article.content).not.toMatch(/^---\r?\n/);
+      expect(article.content.length).toBeGreaterThan(1000);
     }
   });
 
   it('keeps generated website text outside the public Git content tree', () => {
     const source = readFileSync(path.join(process.cwd(), '.gitignore'), 'utf8');
     expect(source).toContain('.website-input/');
-    expect(resolveGeneratedPostPath(generatedPostIds()[0])).toContain('/.website-input/posts/');
+    expect(resolveGeneratedArticlePath(generatedArticleIds()[0])).toContain('/.website-input/articles/');
   });
 });
 
@@ -95,12 +91,6 @@ describe('website-approved data adapter', () => {
     expect(new Set(routes).size).toBe(routes.length);
   });
 
-  it('fails editorial references that do not exist upstream', async () => {
-    const { documents } = await getSiteData();
-    expect(() => validateEditorialReferences(['missing-public-id'], documents, 'Test'))
-      .toThrow('unknown public document ID');
-  });
-
   it('does not expose local filesystem paths as public data', async () => {
     const data = await getSiteData();
     const publicRoutes = new Set(data.documents.map((document) => document.route));
@@ -117,12 +107,6 @@ describe('website-approved data adapter', () => {
     ));
     expect(absolutePaths.every((value) => publicRoutes.has(value))).toBe(true);
     expect(strings.some((value) => value.startsWith('file:'))).toBe(false);
-  });
-
-  it('resolves every editorial selection to a readable public document', async () => {
-    const { featured, guide } = await getSiteData();
-    expect(featured.every((document) => document.kind === 'readable')).toBe(true);
-    expect(guide.items.every(({ document }) => document.kind === 'readable')).toBe(true);
   });
 
   it('provides the long-term public information architecture without private records', () => {

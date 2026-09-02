@@ -13,7 +13,7 @@ export async function getStaticPaths() {
 interface Props { document: CanonicalDocument; }
 const { document } = Astro.props;
 const description = document.kind === 'readable'
-  ? document.description ?? `《${document.title}》的中文译文。`
+  ? `《${document.title}》的中文译文。`
   : `伊里因科夫作品《${document.title}》的公开目录与来源记录。`;
 
 function finalUrlSegment(value: string): string {

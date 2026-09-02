@@ -31,7 +31,7 @@ private 研究系统
                  │ translation/publication.json 选择 website_public
                  ▼
 public 发布系统
-  同步 posts · 编辑组织 · 页面 · 样式 · 静态构建 · 部署 · 出版记录
+  同步 articles · 编辑组织 · 页面 · 样式 · 静态构建 · 部署 · 出版记录
 ```
 
 public 直接读取发布清单中指定的 `work.json` 和同目录 Markdown，不扫描未列入清单的研究内容。
@@ -40,23 +40,23 @@ private 若调整这些路径或字段，需要同步更新发布清单或本仓
 ## 仓库结构
 
 ```text
-editorial/          公开网站自身拥有的编辑选择和站点身份
+editorial/          站点身份与导航（site.json）
 docs/               架构、发布和部署规则
 public/             可直接公开的静态资产
-scripts/            private 译文到 posts 的同步器
+scripts/            private 译文到 articles 的同步器
 src/components/     展示组件
 src/layouts/        站点框架
-src/lib/            posts、Markdown 与公开数据适配
+src/lib/            articles、Markdown 与公开数据适配
 src/pages/          长期栏目和获准正文路由
 src/styles/         全站视觉系统
 tests/              发布边界与网站结构验证
 .website-input/     忽略且禁止提交的网站构建输入
-  posts/            由 website_public 译文生成的带 frontmatter 文章
+  articles/         由 website_public 译文生成的带 frontmatter 文章
 dist/               静态构建结果；忽略
 ```
 
 ## 内容归属
 
-公开网站自身撰写的导航、导引、栏目说明和项目记录可以在 `editorial/` 或页面中维护。研究事实、
+公开网站自身的站点身份、导航以及栏目页面文案在 `editorial/` 与页面中维护。研究事实、
 作品记录、译文正文和权利决定必须来自 private 的 `website_public` 选择。public Git 不保存生成的
 译文正文，只保存同步、渲染和展示逻辑。

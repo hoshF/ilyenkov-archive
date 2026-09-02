@@ -20,7 +20,7 @@
 
 ### `website_public`
 
-允许译文进入 public 网站构建，可以生成网页全文；生成 posts 仍不提交到本仓库。
+允许译文进入 public 网站构建，可以生成网页全文；生成 articles 仍不提交到本仓库。
 
 ### `group_study`
 
@@ -42,7 +42,7 @@ Release 或外部对象存储中的版本化附件，但其公开身份和维护
 ## 当前同步方式
 
 public 读取 `translation/publication.json`，筛选 `website_public`，再把相应 `work.json` 的公开来源字段
-与 Markdown 正文合成为 `.website-input/posts/`。private Markdown 自带的 frontmatter 会被移除，网站
+与 Markdown 正文合成为 `.website-input/articles/`。private Markdown 自带的 frontmatter 会被移除，网站
 使用由 `work.json` 新生成的 frontmatter。
 
 目前只同步译文。新增活动、出版物或其他内容类型时，应为该类型建立清楚的数据来源和页面，不把

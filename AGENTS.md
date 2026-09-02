@@ -4,7 +4,7 @@ This repository is the public identity, website, and publication anchor of the C
 Group. It owns public information architecture, presentation, deployment, and publication records.
 Publication authority remains in the private research repository.
 
-Website articles are generated into ignored `.website-input/posts/` files. The publication command
+Website articles are generated into ignored `.website-input/articles/` files. The publication command
 reads `translation/publication.json` from the private research repository, selects only entries
 explicitly marked `website_public`, and combines the referenced `work.json` metadata with its
 Markdown text. Set `ILYENKOV_ROOT` when the private repository is not the sibling `Ilyenkov`

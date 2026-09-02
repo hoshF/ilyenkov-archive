@@ -26,10 +26,10 @@ private 仓库负责研究资料、原文、翻译、审校、来源证据和发
 
 `npm run publication:prepare` 直接读取 private 仓库的 `translation/publication.json`，只选择
 `website_public` 条目，再读取条目指向的 `work.json` 和同目录 Markdown。脚本把来源信息组成
-frontmatter，并把文章生成到被忽略的 `.website-input/posts/<work_id>.md`。
+frontmatter，并把文章生成到被忽略的 `.website-input/articles/<work_id>.md`。
 
 private 仓库默认是本仓库旁边的 `Ilyenkov/`。位置不同时使用 `ILYENKOV_ROOT` 指定。网页正文和生成
-posts 都不进入本仓库 Git；Astro 只在构建时读取它们并生成静态 HTML。
+articles 都不进入本仓库 Git；Astro 只在构建时读取它们并生成静态 HTML。
 
 ## 开发
 
@@ -49,7 +49,7 @@ npm run dev:logs
 npm run dev:stop
 ```
 
-单独同步或检查生成的 posts：
+单独同步或检查生成的 articles：
 
 ```sh
 npm run publication:sync

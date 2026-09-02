@@ -16,10 +16,9 @@ const researchRoot = path.resolve(
 );
 const publicationRelative = 'translation/publication.json';
 const publicationPath = path.join(researchRoot, publicationRelative);
-const postsRoot = path.join(projectRoot, '.website-input', 'posts');
+const articlesRoot = path.join(projectRoot, '.website-input', 'articles');
 const websiteScope = 'website_public';
 const idPattern = /^[a-z0-9]+(?:-[a-z0-9]+)*$/;
-const rightsStatuses = new Set(['author_permission', 'license_permits']);
 
 function fail(message) {
   throw new Error(`Translation sync error: ${message}`);
@@ -93,7 +92,7 @@ function yamlString(value) {
   return JSON.stringify(value);
 }
 
-function renderPost(work, body, textRelative, revision) {
+function renderArticle(work, body, textRelative, revision) {
   const lines = [
     '---',
     `title: ${yamlString(work.title)}`,
@@ -103,7 +102,6 @@ function renderPost(work, body, textRelative, revision) {
   if (work.source_url) lines.push(`source_url: ${yamlString(work.source_url)}`);
   if (work.doi) lines.push(`doi: ${yamlString(work.doi)}`);
   lines.push(
-    `rights_status: ${yamlString(work.rights_status)}`,
     'type: translation',
     `generated_from: ${yamlString(`Ilyenkov:${textRelative}`)}`,
   );
@@ -133,7 +131,7 @@ function publicationWorks() {
   return selected;
 }
 
-function plannedPosts() {
+function plannedArticles() {
   return new Map(publicationWorks().map(({ workId, workJsonRelative }) => {
     const workPath = resolveResearchPath(workJsonRelative, `${workId} work_json_path`);
     const textRelative = path.posix.join(path.posix.dirname(workJsonRelative), `${workId}.md`);
@@ -147,9 +145,7 @@ function plannedPosts() {
       source_edition: requiredString(work, 'source_edition', workJsonRelative),
       source_url: optionalString(work, 'source_url', workJsonRelative),
       doi: optionalString(work, 'doi', workJsonRelative),
-      rights_status: requiredString(work, 'rights_status', workJsonRelative),
     };
-    if (!rightsStatuses.has(metadata.rights_status)) fail(`${workJsonRelative}: unsupported rights_status`);
     if (!existsSync(textPath)) fail(`missing ${textRelative}`);
 
     const body = dropLeadingTitle(
@@ -158,27 +154,27 @@ function plannedPosts() {
     );
     if (!body) fail(`${textRelative}: Markdown body is empty`);
     const revision = upstreamRevision([publicationRelative, workJsonRelative, textRelative]);
-    return [`${workId}.md`, renderPost(metadata, body, textRelative, revision)];
+    return [`${workId}.md`, renderArticle(metadata, body, textRelative, revision)];
   }));
 }
 
 function sync({ checkOnly = false } = {}) {
-  const planned = plannedPosts();
-  mkdirSync(postsRoot, { recursive: true });
+  const planned = plannedArticles();
+  mkdirSync(articlesRoot, { recursive: true });
   const stale = [];
   let written = 0;
 
-  for (const entry of readdirSync(postsRoot, { withFileTypes: true })) {
+  for (const entry of readdirSync(articlesRoot, { withFileTypes: true })) {
     if (!entry.isFile() || !entry.name.endsWith('.md') || planned.has(entry.name)) continue;
     if (checkOnly) stale.push(`${entry.name}: no longer listed as ${websiteScope}`);
-    else unlinkSync(path.join(postsRoot, entry.name));
+    else unlinkSync(path.join(articlesRoot, entry.name));
   }
 
   for (const [filename, content] of planned) {
-    const target = path.join(postsRoot, filename);
+    const target = path.join(articlesRoot, filename);
     const current = existsSync(target) ? readFileSync(target, 'utf8') : null;
     if (current === content) continue;
-    if (checkOnly) stale.push(`${filename}: generated post is missing or out of date`);
+    if (checkOnly) stale.push(`${filename}: generated article is missing or out of date`);
     else {
       writeFileSync(target, content, 'utf8');
       written += 1;
@@ -186,7 +182,7 @@ function sync({ checkOnly = false } = {}) {
   }
 
   for (const message of stale) console.error(message);
-  console.log(`Translation posts synced: written=${written} stale=${stale.length} posts=${planned.size}`);
+  console.log(`Translation articles synced: written=${written} stale=${stale.length} articles=${planned.size}`);
   if (checkOnly && stale.length) process.exitCode = 1;
 }
 

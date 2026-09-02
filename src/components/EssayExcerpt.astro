@@ -16,7 +16,7 @@ const sectionParagraph = document.html.match(
 )?.[1];
 const sourceExcerpt = sectionParagraph
   ? cleanText(sectionParagraph)
-  : document.description ?? cleanText(document.html);
+  : cleanText(document.html);
 const excerpt = sourceExcerpt.length > 180
   ? `${sourceExcerpt.slice(0, 180).trim()}……`
   : sourceExcerpt;
