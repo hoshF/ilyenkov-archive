@@ -13,44 +13,44 @@ export async function getStaticPaths() {
 interface Props { document: CanonicalDocument; }
 const { document } = Astro.props;
 const description = document.kind === 'readable'
-  ? document.description ?? `${document.author}关于伊里因科夫的中文研究译文。`
+  ? document.description ?? `《${document.title}》的中文译文。`
   : `伊里因科夫作品《${document.title}》的公开目录与来源记录。`;
+
+function finalUrlSegment(value: string): string {
+  const pathname = new URL(value).pathname.replace(/\/$/, '');
+  const segment = pathname.split('/').at(-1);
+  if (!segment) return value;
+  try {
+    return decodeURIComponent(segment);
+  } catch {
+    return segment;
+  }
+}
+
+const sourceLabel = document.kind === 'readable' && document.sourceUrl
+  ? finalUrlSegment(document.sourceUrl)
+  : null;
+const doiLabel = document.kind === 'readable' && document.doiUrl
+  ? document.doiUrl.replace(/^https?:\/\/doi\.org\//, '')
+  : null;
 ---
 
 <BaseLayout title={document.title} description={description}>
-  <div class="container">
+  <div class="container article-page">
     <article>
       <header class="document-header">
-        <p class="eyebrow">{document.kind === 'readable' ? document.contentNature : '伊里因科夫作品记录'}</p>
         <h1>{document.title}</h1>
-        <p class="document-meta">
-          <span>{document.author}</span>
-          {document.kind === 'readable'
-            ? <span>本站译文公开于 {document.publishedDate}</span>
-            : <><span>{document.year ?? '时间待核对'}</span><span>{document.genre}</span></>}
-        </p>
-        {document.kind === 'readable' && document.description && (
-          <aside class="editorial-note" aria-label="网站编辑说明">
-            <strong>网站编辑说明：</strong>{document.description}
-          </aside>
-        )}
       </header>
 
       {document.kind === 'readable' ? (
         <>
           <div class="prose" set:html={document.html} />
-          <section class="research-layer" aria-labelledby="source-heading">
-            <p class="eyebrow">来源与版本</p>
-            <h2 id="source-heading">这份中文文本从哪里来</h2>
-            <dl class="fact-list">
-              <div><dt>原作者</dt><dd>{document.author}</dd></div>
-              <div><dt>内容性质</dt><dd>{document.contentNature}</dd></div>
-              <div><dt>原文页面</dt><dd><a href={document.sourceUrl}>查看公开来源</a></dd></div>
-              {document.doiUrl && <div><dt>DOI</dt><dd><a href={document.doiUrl}>{document.doiUrl}</a></dd></div>}
-              <div><dt>公开依据</dt><dd>{document.rightsLabel}</dd></div>
-              {document.sourceLicense && <div><dt>原文许可记录</dt><dd>{document.sourceLicense}</dd></div>}
-              <div><dt>本站版本</dt><dd>{document.publishedDate} 公开的中文译文</dd></div>
-            </dl>
+          <section class="prose source-info" aria-labelledby="source-info-heading">
+            <hr />
+            <h2 id="source-info-heading">原文信息</h2>
+            <p>版本：{document.sourceEdition}</p>
+            {document.sourceUrl && <p>原文：<a href={document.sourceUrl}>{sourceLabel}</a></p>}
+            {document.doiUrl && <p>DOI号：<a href={document.doiUrl}>{doiLabel}</a></p>}
           </section>
         </>
       ) : (

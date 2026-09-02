@@ -1,14 +1,20 @@
 ## Development
 
-This repository owns public presentation and explicitly published Git-safe artifacts. It does not
-create publication authority. Do not copy canonical private research content into this repository
-unless the private publication workflow explicitly authorizes `git_repository` publication for the
-exact revision.
+This repository is the public identity, website, and publication anchor of the Chinese Ilyenkov
+Group. It owns public information architecture, presentation, deployment, and publication records.
+Publication authority remains in the private research repository.
 
-Website-only content is generated into ignored `.website-input/` by `npm run publication:prepare`.
-Never stage that directory or replace it with a tracked content directory. Fix research facts and
-publication decisions in the private research system; fix routes, rendering, styles, and editorial
-presentation here.
+Website articles are generated into ignored `.website-input/posts/` files. The publication command
+reads `translation/publication.json` from the private research repository, selects only entries
+explicitly marked `website_public`, and combines the referenced `work.json` metadata with its
+Markdown text. Set `ILYENKOV_ROOT` when the private repository is not the sibling `Ilyenkov`
+directory. Never stage `.website-input/` or replace it with a tracked content directory. Fix
+research facts and publication decisions in the private research system; fix routes, rendering,
+styles, public editorial framing, publication records, and deployment here.
+
+Restricted study texts must never enter the public `dist/` output. A missing download button is not
+access control. If web access is later required, use a separate protected deployment and a distinct
+publication channel.
 
 Use the npm scripts as the canonical development interface. Start the background server with:
 
@@ -17,6 +23,9 @@ npm run dev
 ```
 
 Manage it with `npm run dev:stop`, `npm run dev:status`, and `npm run dev:logs`.
+
+The production site is static and should remain compatible with Cloudflare Pages. See `docs/` for
+information architecture, publication channels, and deployment boundaries.
 
 ## Documentation
 

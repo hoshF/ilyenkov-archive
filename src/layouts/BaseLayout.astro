@@ -1,5 +1,6 @@
 ---
 import '../styles/global.css';
+import { site } from '../lib/editorial';
 
 interface Props {
   title: string;
@@ -8,9 +9,16 @@ interface Props {
 
 const {
   title,
-  description = '一个面向中文读者的伊里因科夫文献与研究网站。',
+  description = site.description,
 } = Astro.props;
-const pageTitle = title === '伊里因科夫' ? title : `${title}｜伊里因科夫`;
+const pageTitle = title === site.name ? title : `${title}｜${site.name}`;
+const currentPath = Astro.url.pathname;
+const current = (href: string) => {
+  if (href === '/translations' && (currentPath === '/works' || currentPath.startsWith('/documents/'))) {
+    return true;
+  }
+  return currentPath === href || currentPath.startsWith(`${href}/`);
+};
 ---
 
 <!doctype html>
@@ -19,25 +27,25 @@ const pageTitle = title === '伊里因科夫' ? title : `${title}｜伊里因科
     <meta charset="UTF-8" />
     <meta name="description" content={description} />
     <meta name="viewport" content="width=device-width" />
+    <meta name="theme-color" content="#ffffff" />
     <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
     <meta name="generator" content={Astro.generator} />
     <title>{pageTitle}</title>
   </head>
   <body>
     <header class="site-header">
-      <div class="site-header__inner">
-        <a class="site-name" href="/">伊里因科夫</a>
+      <div class="site-header__masthead">
+        <a class="site-name" href="/" aria-label={`${site.name}首页`}>
+          <span class="logo-placeholder" aria-hidden="true"></span>
+          <span class="site-name__text">{site.name}</span>
+        </a>
         <nav aria-label="主要导航">
-          <a href="/read">阅读</a>
-          <a href="/start">从哪里开始</a>
-          <a href="/about">项目</a>
+          {site.navigation.map((item) => (
+            <a href={item.href} aria-current={current(item.href) ? 'page' : undefined}>{item.label}</a>
+          ))}
         </nav>
       </div>
     </header>
     <main><slot /></main>
-    <footer class="site-footer">
-      <p>一个持续建设中的伊里因科夫中文文献与研究网站。</p>
-      <p><a href="/about">来源、权利与参与方式</a></p>
-    </footer>
   </body>
 </html>
