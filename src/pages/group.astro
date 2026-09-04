@@ -1,11 +1,24 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
+import SectionLayout from '../components/SectionLayout.astro';
 ---
 
-<BaseLayout title="中文伊里因科夫小组" description="中文伊里因科夫小组的活动、翻译、出版、记录与交流。">
-  <div class="container">
-    <header class="page-header page-header--wide">
+<BaseLayout title="中文伊里因科夫小组" description="中文伊里因科夫小组的活动、会议与署名文章公共记录。">
+  <SectionLayout>
+    <header class="page-header" slot="intro">
       <h1 class="page-title">中文伊里因科夫小组</h1>
+      <p class="lead">本栏记录中文伊里因科夫小组以自身名义举行、参与或发表的公共事项。</p>
+      <p class="section-note">网站其他栏目呈现小组完成的翻译、书籍与资料整理；本页不再重复汇总这些成果。</p>
+      <p class="section-boundary">成员信息、内部协作、版权沟通与未获准公开的会议记录不在这里呈现。公开参与方式与联系方式尚未发布。</p>
     </header>
-  </div>
+
+    <div class="prose prose--section">
+      <h2>这里记录什么</h2>
+      <p>当相关资料完成公开选择后，这里将记录小组举行或以小组名义参与的讨论会、读书会、讲座、工作会议摘要与合作活动。</p>
+      <p>以小组名义发表并获准全文公开的文章，正文统一进入<a href="/archive">文本档案</a>；本页只从小组活动与组织历史的角度记录和连接它们。</p>
+
+      <h2>当前状态</h2>
+      <p>目前尚无完成公开选择的小组活动、会议或署名文章记录，因此本页暂不列出活动条目。</p>
+    </div>
+  </SectionLayout>
 </BaseLayout>

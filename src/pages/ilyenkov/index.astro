@@ -1,0 +1,32 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import SectionLayout from '../../components/SectionLayout.astro';
+---
+
+<BaseLayout title="认识伊里因科夫" description="面向中文读者的伊里因科夫人物、年表、作品与交往入口。">
+  <SectionLayout>
+    <header class="page-header" slot="intro">
+      <h1 class="page-title">认识伊里因科夫</h1>
+      <p class="lead">从已公开、可核验的生平坐标、活动记录与作品书目进入伊里因科夫。国际研究见<a href="/research">研究</a>；已获准公开的中文译文见<a href="/archive">档案</a>。</p>
+    </header>
+
+    <div class="topic-grid">
+      <section>
+        <h2><a href="/ilyenkov/life">生平</a></h2>
+        <p>以服役、作品和国际活动的公开事实形成分期骨架；这不是完整传记，也不以尚未公开的材料补写空缺。</p>
+      </section>
+      <section>
+        <h2><a href="/ilyenkov/timeline">年表</a></h2>
+        <p>统一排列当前已经公开的服役与黑格尔大会记录；未覆盖的年代不被表述为事实空白。</p>
+      </section>
+      <section>
+        <h2><a href="/ilyenkov/works">作品目录</a></h2>
+        <p>以作品而不是文件为单位，列出已完成公开选择的著作、论文与战时写作，并连接公开来源。</p>
+      </section>
+      <section>
+        <h2><a href="/ilyenkov/circle">交往与活动</a></h2>
+        <p>目前呈现卫国战争中的服役经历，以及参加国际黑格尔大会的已核验记录。</p>
+      </section>
+    </div>
+  </SectionLayout>
+</BaseLayout>

@@ -1,0 +1,50 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import SectionLayout from '../../components/SectionLayout.astro';
+import { getPublicWorks } from '../../lib/research-records';
+
+const works = getPublicWorks();
+const worksByType = Map.groupBy(works, (work) => work.type);
+const typeOrder = ['著作', '论文', '战时写作'];
+const typeNotes: Record<string, string> = {
+  战时写作: '下列中文题名为工作题名，仅用于目录定位；本站不提供中文译文或下载。',
+};
+const workGroups = [...worksByType].sort(([left], [right]) => {
+  const leftIndex = typeOrder.indexOf(left);
+  const rightIndex = typeOrder.indexOf(right);
+  if (leftIndex !== -1 || rightIndex !== -1) {
+    return (leftIndex === -1 ? typeOrder.length : leftIndex) - (rightIndex === -1 ? typeOrder.length : rightIndex);
+  }
+  return left.localeCompare(right, 'zh-Hans-CN');
+});
+---
+
+<BaseLayout title="作品目录" description="伊里因科夫已公开、可核验作品的目录。">
+  <SectionLayout>
+    <header class="page-header" slot="intro">
+      <p class="page-parent"><a href="/ilyenkov">认识伊里因科夫</a></p>
+      <h1 class="page-title">作品目录</h1>
+      <p class="lead">以作品而不是文件为单位，连接原始版本与可公开的书目来源。</p>
+      <p class="section-note">作品列入目录，不等于本站提供中文全文或下载。本页目前只陈列已经完成公开选择、且有逐条公开来源的作品。</p>
+    </header>
+
+    {workGroups.map(([type, entries]) => (
+        <section class="works-catalog-section" aria-labelledby={`work-type-${type}`}>
+          <h2 id={`work-type-${type}`}>{type}</h2>
+          {typeNotes[type] && <p class="works-catalog-section__note">{typeNotes[type]}</p>}
+          <ol class="works-catalog-list">
+            {entries.map((work) => (
+              <li>
+                <article>
+                  <p class="works-catalog-list__year">{work.year}</p>
+                  <h3>{work.title}</h3>
+                  <p class="works-catalog-list__original">{work.originalTitle}</p>
+                  <p class="works-catalog-list__sources">{work.sources.map((source, index) => <><a href={source.url}>{source.label}</a>{index < work.sources.length - 1 && ' · '}</>)}</p>
+                </article>
+              </li>
+            ))}
+          </ol>
+        </section>
+    ))}
+  </SectionLayout>
+</BaseLayout>

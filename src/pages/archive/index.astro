@@ -1,0 +1,38 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import SectionLayout from '../../components/SectionLayout.astro';
+import { getSiteData } from '../../lib/site-data';
+
+const { articles } = await getSiteData();
+---
+
+<BaseLayout title="文本档案" description="伊里因科夫著作、中文译文及相关研究译文的公开档案。">
+  <SectionLayout>
+    <header class="page-header" slot="intro">
+      <h1 class="page-title">文本档案</h1>
+      <p class="lead">已获准公开的中文译文与数字化文本。这里只收录可以在本站阅读的材料；作品本身的身份与版本记录见<a href="/ilyenkov/works">作品目录</a>，成书见<a href="/books">书籍</a>。</p>
+      <p class="section-note">private 中已有的译稿或数字化材料，只有明确进入网站公开通道后才会出现在这里。</p>
+    </header>
+
+    {articles.length > 0 ? (
+      <div class="archive-years">
+        <section class="archive-year" aria-label="公开文本">
+          <h2>公开文本</h2>
+          <ol>
+            {articles.map((article) => (
+              <li>
+                <a href={article.route}>{article.title}</a>
+                <span>{article.originalTitle}</span>
+              </li>
+            ))}
+          </ol>
+        </section>
+      </div>
+    ) : (
+      <div class="prose prose--page">
+        <h2>当前状态</h2>
+        <p>第一批可公开文本仍在准备。本站不会以尚未获得网站公开许可的材料填充档案；已制作成书的成果见<a href="/books">书籍</a>。</p>
+      </div>
+    )}
+  </SectionLayout>
+</BaseLayout>

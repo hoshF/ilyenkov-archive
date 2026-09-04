@@ -7,6 +7,11 @@ const projectRoot = process.cwd();
 const LinkSchema = z.object({
   label: z.string().trim().min(1),
   href: z.string().regex(/^\/[a-z0-9/-]*$/),
+  description: z.string().trim().min(1).optional(),
+}).strict();
+
+const SectionSchema = LinkSchema.extend({
+  children: z.array(LinkSchema).min(1).optional(),
 }).strict();
 
 const SiteSchema = z.object({
@@ -14,7 +19,8 @@ const SiteSchema = z.object({
   shortName: z.string().trim().min(1),
   organization: z.string().trim().min(1),
   description: z.string().trim().min(1),
-  navigation: z.array(LinkSchema).min(1),
+  navigation: z.array(SectionSchema).min(1),
+  secondary: z.array(LinkSchema).min(1),
 }).strict();
 
 export function readEditorialJson(filename: string): unknown {

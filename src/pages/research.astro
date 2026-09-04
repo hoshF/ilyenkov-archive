@@ -1,11 +1,107 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
+import SectionLayout from '../components/SectionLayout.astro';
+import {
+  formatHistoricalPeriod,
+  getPublicIfiNetwork,
+  getPublicIfiSymposiums,
+  getPublicReadings,
+  getPublicResearchers,
+  getPublicResearchSites,
+} from '../lib/research-records';
+
+const readings = getPublicReadings();
+const ifiNetwork = getPublicIfiNetwork();
+const ifiSymposiums = getPublicIfiSymposiums();
+const researchers = getPublicResearchers();
+const researchSites = getPublicResearchSites();
+const sourceLabel = (source: { creator: string | null; title: string }) => (
+  source.creator ? `${source.creator}：《${source.title}》` : source.title
+);
+const toc = [
+  { href: '#ifi-heading', label: 'IFI 研究网络' },
+  { href: '#researchers-heading', label: '研究者' },
+  { href: '#research-sites-heading', label: '资料站点' },
+  { href: '#readings-heading', label: '伊里因科夫讨论会' },
+];
 ---
 
 <BaseLayout title="世界研究" description="连接国际伊里因科夫研究、会议、组织和中文介绍。">
-  <div class="container">
-    <header class="page-header page-header--wide">
+  <SectionLayout toc={toc}>
+    <header class="page-header" slot="intro">
       <h1 class="page-title">世界研究</h1>
+      <p class="lead">从研究网络、研究者、资料站点与会议进入国际伊里因科夫研究。</p>
+      <p class="section-note">本页只呈现目前完成公开选择、能够由公开来源核验的代表节点与入口；不汇集成员名录、会议材料或内部研究判断。</p>
     </header>
-  </div>
+
+    <section class="research-series research-series--ifi" aria-labelledby="ifi-heading">
+        <h2 id="ifi-heading">{ifiNetwork.title}</h2>
+        <p class="research-series__lead"><a href={ifiNetwork.url}>{ifiNetwork.name}（{ifiNetwork.abbreviation}）</a>，成立于 {ifiNetwork.founded} 年。{ifiNetwork.summary}</p>
+        <ol class="research-list">
+          {ifiSymposiums.map((record) => (
+            <li>
+              <article>
+                <p class="research-list__period">{formatHistoricalPeriod(record.period)} · {record.location}</p>
+                <p class="research-list__edition">{record.context}</p>
+                <h3>{record.title}</h3>
+                <p class="research-list__sources">来源：{record.sources.map((source, index) => <><a href={source.url}>{sourceLabel(source)}</a>{index < record.sources.length - 1 && '；'}</>)}</p>
+              </article>
+            </li>
+          ))}
+        </ol>
+    </section>
+
+    <section class="research-series" aria-labelledby="researchers-heading">
+        <h2 id="researchers-heading">研究者</h2>
+        <p class="research-series__lead">首批只作为研究阅读入口，不以人物传记或完整书目取代原有资料。</p>
+        {researchers.map((researcher) => (
+          <article class="researcher-card">
+            <h3>{researcher.name}</h3>
+            <p class="researcher-card__original">{researcher.originalName}</p>
+            <p>{researcher.summary}</p>
+            <ol class="researcher-card__works">
+              {researcher.works.map((work) => (
+                <li>
+                  <h4>{work.title}</h4>
+                  <p>{work.originalTitle}</p>
+                  <p class="researcher-card__links"><a href={work.archiveRoute}>阅读中文译文</a><a href={work.source.url}>查看原文来源</a></p>
+                </li>
+              ))}
+            </ol>
+          </article>
+        ))}
+    </section>
+
+    <section class="research-series" aria-labelledby="research-sites-heading">
+        <h2 id="research-sites-heading">资料站点</h2>
+        <p class="research-series__lead">以下入口指向外部资料站点；本站不转载其正文、附件或下载内容。</p>
+        {researchSites.map((site) => (
+          <article class="research-site-card">
+            <h3><a href={site.url}>{site.title}</a></h3>
+            <p class="research-site-card__original">{site.originalTitle}</p>
+            <p>{site.summary}</p>
+            <ul>
+              {site.sections.map((section) => <li><a href={section.url}>{section.label}</a></li>)}
+            </ul>
+          </article>
+        ))}
+    </section>
+
+    <section class="research-series" aria-labelledby="readings-heading">
+        <h2 id="readings-heading">伊里因科夫讨论会</h2>
+        <p class="research-series__lead">从 1991 年的首次会议到后续国际届次，这一系列构成伊里因科夫研究延续的重要场域。以下为资料定位较完整的代表节点，并非完整会议年表。</p>
+        <ol class="research-list">
+          {readings.map((record) => (
+            <li>
+              <article>
+                <p class="research-list__period">{formatHistoricalPeriod(record.period)} · {record.location ?? record.format}</p>
+                <p class="research-list__edition">{record.edition}</p>
+                <h3>{record.title}</h3>
+                <p class="research-list__sources">来源：{record.sources.map((source, index) => <><a href={source.url}>{sourceLabel(source)}</a>{index < record.sources.length - 1 && '；'}</>)}</p>
+              </article>
+            </li>
+          ))}
+        </ol>
+    </section>
+  </SectionLayout>
 </BaseLayout>

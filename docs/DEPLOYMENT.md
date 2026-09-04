@@ -23,7 +23,7 @@ private 默认位于 public 的相邻 `Ilyenkov/` 目录。其他布局设置：
 ILYENKOV_ROOT=/path/to/Ilyenkov
 ```
 
-该绝对路径只用于构建，不写入生成页面；生成 articles 也不会进入 public Git 历史。
+该绝对路径只用于构建，不写入生成页面；生成的译文与研究资料输入也不会进入 public Git 历史。
 
 ## Cloudflare 建议
 

@@ -14,9 +14,9 @@
     "build": "npm run publication:prepare && astro build",
     "preview": "astro preview",
     "astro": "astro",
-    "publication:prepare": "node scripts/sync-translations.mjs",
-    "publication:sync": "node scripts/sync-translations.mjs",
-    "publication:check": "node scripts/sync-translations.mjs --check",
+    "publication:prepare": "npm run publication:sync",
+    "publication:sync": "node scripts/sync-translations.mjs && node scripts/sync-research-records.mjs",
+    "publication:check": "node scripts/sync-translations.mjs --check && node scripts/sync-research-records.mjs --check",
     "check": "npm run publication:prepare && astro check",
     "test": "npm run publication:prepare && vitest run"
   },

@@ -17,12 +17,12 @@ const sectionParagraph = document.html.match(
 const sourceExcerpt = sectionParagraph
   ? cleanText(sectionParagraph)
   : cleanText(document.html);
-const excerpt = sourceExcerpt.length > 180
-  ? `${sourceExcerpt.slice(0, 180).trim()}……`
+const excerpt = sourceExcerpt.length > 110
+  ? `${sourceExcerpt.slice(0, 110).trim()}……`
   : sourceExcerpt;
 ---
 
 <article class="essay-excerpt">
   <h3><a href={document.route}>{document.title}</a></h3>
-  <p>{excerpt} <a class="essay-excerpt__more" href={document.route}>Continue Reading »</a></p>
+  <p>{excerpt}</p>
 </article>

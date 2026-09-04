@@ -78,7 +78,7 @@ async function loadArticles(): Promise<ReadableDocument[]> {
     return {
       kind: 'readable',
       id,
-      route: `/documents/${id}`,
+      route: `/archive/${id}`,
       title: metadata.title_zh,
       originalTitle: metadata.title,
       html: await renderPublicMarkdown(article.content),

@@ -1,0 +1,37 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import SectionLayout from '../../components/SectionLayout.astro';
+import { formatHistoricalPeriod, getPublicTimelineRecords } from '../../lib/research-records';
+
+const records = getPublicTimelineRecords();
+const sourceLabel = (source: { creator: string | null; title: string }) => (
+  source.creator ? `${source.creator}：《${source.title}》` : source.title
+);
+---
+
+<BaseLayout title="年表" description="目前已公开、可核验的伊里因科夫生平、服役与活动记录。">
+  <SectionLayout>
+    <header class="page-header" slot="intro">
+      <p class="page-parent"><a href="/ilyenkov">认识伊里因科夫</a></p>
+      <h1 class="page-title">年表</h1>
+      <p class="lead">按时间排列目前已经公开、可核验的生平、服役与活动记录。</p>
+      <p class="section-note">本页尚不是完整生平年表，也不纳入作品发表节点。这里仅排列已经完成公开选择的生平坐标、服役经历与国际黑格尔大会记录；没有陈列的年代，不表示没有发生值得记录的事情。</p>
+    </header>
+
+    <ol class="timeline-list">
+        {records.map((record) => (
+          <li>
+            <article>
+              <p class="timeline-list__period">{formatHistoricalPeriod(record.period)}</p>
+              <p class="timeline-list__category">{record.categoryLabel}</p>
+              <h2>{record.title}</h2>
+              <p>{record.summary}</p>
+              {record.location && <p class="timeline-list__detail">地点：{record.location}</p>}
+              {record.status && <p class="timeline-list__detail">{record.status}</p>}
+              <p class="timeline-list__sources">来源：{record.sources.map((source, index) => <><a href={source.url}>{sourceLabel(source)}</a>{index < record.sources.length - 1 && '；'}</>)}</p>
+            </article>
+          </li>
+        ))}
+    </ol>
+  </SectionLayout>
+</BaseLayout>

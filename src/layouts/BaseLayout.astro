@@ -13,12 +13,9 @@ const {
 } = Astro.props;
 const pageTitle = title === site.name ? title : `${title}｜${site.name}`;
 const currentPath = Astro.url.pathname;
-const current = (href: string) => {
-  if (href === '/translations' && (currentPath === '/works' || currentPath.startsWith('/documents/'))) {
-    return true;
-  }
-  return currentPath === href || currentPath.startsWith(`${href}/`);
-};
+const current = (href: string) => (
+  currentPath === href || currentPath.startsWith(`${href}/`)
+);
 ---
 
 <!doctype html>
@@ -46,5 +43,26 @@ const current = (href: string) => {
       </div>
     </header>
     <main><slot /></main>
+    <footer class="site-footer">
+      <div class="site-footer__inner">
+        {site.navigation.some((section) => section.children) && (
+          <nav class="site-footer__nav" aria-label="页脚导航">
+            {site.navigation.filter((section) => section.children).map((section) => (
+              <div class="site-footer__group">
+                <span class="site-footer__top">{section.label}</span>
+                <ul>
+                  {section.children!.map((child) => (
+                    <li><a href={child.href} aria-current={current(child.href) ? 'page' : undefined}>{child.label}</a></li>
+                  ))}
+                </ul>
+              </div>
+            ))}
+          </nav>
+        )}
+        <p class="site-footer__note">
+          {site.organization}维护。网站只呈现获得对应版本公开许可的文本，边界见<a href="/about">项目与权利</a>。
+        </p>
+      </div>
+    </footer>
   </body>
 </html>

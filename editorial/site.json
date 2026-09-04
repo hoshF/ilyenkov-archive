@@ -2,12 +2,57 @@
   "name": "中文伊里因科夫",
   "shortName": "中文伊里因科夫",
   "organization": "中文伊里因科夫小组",
-  "description": "面向中文世界系统介绍埃瓦尔德·伊里因科夫的思想、著作与国际研究，并记录中文伊里因科夫小组的翻译、出版和交流工作。",
+  "description": "面向中文世界介绍埃瓦尔德·伊里因科夫的思想、著作与国际研究，并汇集中文伊里因科夫小组已经获准公开的译文、书籍记录和研究资料。",
   "navigation": [
-    { "label": "伊里因科夫", "href": "/ilyenkov" },
-    { "label": "档案", "href": "/translations" },
-    { "label": "研究", "href": "/research" },
-    { "label": "小组", "href": "/group" },
-    { "label": "出版", "href": "/publications" }
+    {
+      "label": "伊里因科夫",
+      "href": "/ilyenkov",
+      "description": "生平、年表、作品与活动的入口。",
+      "children": [
+        {
+          "label": "生平",
+          "href": "/ilyenkov/life"
+        },
+        {
+          "label": "年表",
+          "href": "/ilyenkov/timeline"
+        },
+        {
+          "label": "作品目录",
+          "href": "/ilyenkov/works"
+        },
+        {
+          "label": "交往与活动",
+          "href": "/ilyenkov/circle"
+        }
+      ]
+    },
+    {
+      "label": "档案",
+      "href": "/archive",
+      "description": "已获准公开的中文译文与数字化文本。"
+    },
+    {
+      "label": "研究",
+      "href": "/research",
+      "description": "研究网络、研究者、资料站点与会议。"
+    },
+    {
+      "label": "小组",
+      "href": "/group",
+      "description": "小组活动、会议与署名文章的公共记录。"
+    },
+    {
+      "label": "书籍",
+      "href": "/books",
+      "description": "小组制作成书的书目身份与版次记录。"
+    }
+  ],
+  "secondary": [
+    {
+      "label": "项目与权利",
+      "href": "/about",
+      "description": "网站的定位、公开边界与版本原则。"
+    }
   ]
 }

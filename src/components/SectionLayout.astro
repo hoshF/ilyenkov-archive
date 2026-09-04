@@ -1,0 +1,35 @@
+---
+export interface SectionTocItem {
+  href: string;
+  label: string;
+}
+
+interface Props {
+  toc?: SectionTocItem[];
+}
+
+const { toc = [] } = Astro.props;
+const indexed = toc.length > 0;
+---
+
+<div class:list={['container', 'section-layout', indexed && 'section-layout--indexed']}>
+  <div class="section-layout__sidebar">
+    <div class="section-layout__intro">
+      <slot name="intro" />
+    </div>
+
+    {indexed && (
+      <aside class="section-layout__toc">
+        <nav aria-label="页内目录">
+          <ol>
+            {toc.map((item) => <li><a href={item.href}>{item.label}</a></li>)}
+          </ol>
+        </nav>
+      </aside>
+    )}
+  </div>
+
+  <div class="section-layout__content">
+    <slot />
+  </div>
+</div>

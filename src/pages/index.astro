@@ -5,45 +5,30 @@ import { site } from '../lib/editorial';
 import { getSiteData } from '../lib/site-data';
 
 const { articles } = await getSiteData();
-const recent = articles.slice(0, 5);
+const recent = articles.slice(0, 3);
 ---
 
 <BaseLayout title={site.name}>
   <header class="home-masthead">
-    <div class="home-mark" aria-label="网站标志预留位置"></div>
     <h1>{site.name}</h1>
+    <p>面向中文世界的伊里因科夫资料、翻译与研究入口。</p>
   </header>
 
   <div class="home-shell">
     <section class="home-essays" aria-labelledby="recent-heading">
-      <h3 id="recent-heading">Recent Essays</h3>
+      <h3 id="recent-heading">已公开文本</h3>
       {recent.map((document) => <EssayExcerpt document={document} />)}
-      <p class="home-archive-link"><a href="/translations">进入完整文本档案 »</a></p>
+      {articles.length > recent.length && (
+        <p class="home-archive-link"><a href="/archive">查看全部公开文本</a></p>
+      )}
     </section>
 
     <aside class="home-sidebar">
       <section>
-        <h3>About</h3>
-        <p>{site.description}</p>
-        <p>研究在内部持续进行，适合公开的译文、研究、活动记录和出版成果在这里获得稳定形式。</p>
-        <p class="home-sidebar__aside">研究、翻译与公开呈现。</p>
-      </section>
-
-      <section>
-        <h3>Needs Some Love</h3>
-        <ul>
-          <li><a href="/ilyenkov">人物、思想与历史语境</a></li>
-          <li><a href="/works">伊里因科夫作品目录</a></li>
-          <li><a href="/research">国际研究与讨论</a></li>
-        </ul>
-      </section>
-
-      <section>
-        <h3>Goodies</h3>
-        <ul>
-          {site.navigation.map((item) => <li><a href={item.href}>{item.label}</a></li>)}
-          <li><a href="/about">项目与权利</a></li>
-        </ul>
+        <h3><a href="/about-us">关于</a></h3>
+        <p>中文伊里因科夫小组围绕伊里因科夫的著作开展翻译、数字化与研究。</p>
+        <p>他的文本在中文世界长期零散，多依赖转引和二手介绍，读者很难判断某段话出自哪里、依据的是哪个版本。这个网站把小组已经可以公开的译文、成书与研究线索集中在一处，并标明每一份材料的来源与状态。</p>
+        <p class="home-about-link"><a href="/about-us">了解小组与网站</a></p>
       </section>
     </aside>
   </div>

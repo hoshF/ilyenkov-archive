@@ -1,0 +1,85 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { getBooks, type Book } from '../../lib/books';
+
+export async function getStaticPaths() {
+  const books = await getBooks();
+  return books.map((book) => ({
+    params: { id: book.id },
+    props: { book },
+  }));
+}
+
+interface Props { book: Book; }
+const { book } = Astro.props;
+---
+
+<BaseLayout title={book.title} description={`《${book.title}》的出版身份、版次记录与译者引言。`}>
+  <div class="container narrow book-page">
+    <p class="page-parent"><a href="/books">书籍</a></p>
+
+    <article>
+      <header class="book-header">
+        {book.cover && (
+          <>
+            <a href="#cover" class="book-header__cover-link" aria-label={`查看《${book.title}》封面大图`}>
+              <img class="book-header__cover" src={book.cover} alt={`《${book.title}》封面`} width="360" height="540" />
+            </a>
+            <a href="#" id="cover" class="cover-lightbox" aria-label="关闭大图">
+              <img src={book.cover} alt={`《${book.title}》封面`} />
+            </a>
+          </>
+        )}
+        <div class="book-header__identity">
+          <h1>{book.title}</h1>
+          {book.original_title && <p class="book-header__original">{book.original_title}</p>}
+          <dl class="fact-list">
+            <div><dt>作者</dt><dd>{book.author}</dd></div>
+            {book.original_source && <div><dt>原文出处</dt><dd>{book.original_source}</dd></div>}
+          </dl>
+        </div>
+      </header>
+
+      <section class="prose" aria-labelledby="introduction-heading">
+        <h2 id="introduction-heading">译者引言</h2>
+        <div set:html={book.introductionHtml} />
+      </section>
+
+      <section class="prose" aria-labelledby="editions-heading">
+        <h2 id="editions-heading">版次记录</h2>
+        <details class="edition-log">
+          <summary>
+            <span class="edition-log__version">{book.latestEdition.version}</span>
+            <span class="edition-log__date">{book.latestEdition.date}</span>
+          </summary>
+          <dl class="fact-list edition-log__list">
+            {[...book.editions].reverse().map((edition) => (
+              <div>
+                <dt>{edition.version}</dt>
+                <dd>
+                  {edition.date}
+                  {edition.note && <><br />{edition.note}</>}
+                  {edition.checksum && <><br /><span class="book-checksum">{edition.checksum}</span></>}
+                </dd>
+              </div>
+            ))}
+          </dl>
+        </details>
+        {book.errata && book.errata.length > 0 && (
+          <>
+            <h3>勘误</h3>
+            <ul>{book.errata.map((item) => <li>{item}</li>)}</ul>
+          </>
+        )}
+      </section>
+
+      <section class="prose" aria-labelledby="access-heading">
+        <h2 id="access-heading">获取与权利</h2>
+        {book.rights && <p>{book.rights}</p>}
+        {book.download
+          ? <p><a href={book.download.href}>{book.download.label}</a></p>
+          : <p>本站不提供本书下载。此处只维护它的公开身份与版本记录。</p>}
+      </section>
+    </article>
+  </div>
+</BaseLayout>

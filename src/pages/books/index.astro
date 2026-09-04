@@ -1,0 +1,47 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import BookCard from '../../components/BookCard.astro';
+import SectionLayout from '../../components/SectionLayout.astro';
+import { getBooks, groupBooks } from '../../lib/books';
+
+const books = await getBooks();
+const groups = groupBooks(books);
+---
+
+<BaseLayout title="书籍" description="由中文伊里因科夫小组制作并公开维护的成书记录。">
+  <SectionLayout>
+    <header class="page-header" slot="intro">
+      <h1 class="page-title">书籍</h1>
+      <p class="lead">这里维护已经建立公开记录的成书身份、封面、版次与小组撰写的译者引言。</p>
+      <p class="section-note">private 中存在书稿或 PDF 不表示已经发行。除非书籍记录单独注明，本站不提供正文或下载。</p>
+    </header>
+
+    {groups.length > 0 ? (
+      groups.map((group) => (
+        <section class="book-category" aria-labelledby={`category-${group.category}`}>
+          <h2 id={`category-${group.category}`}>{group.label}</h2>
+
+          {group.standalone.length > 0 && (
+            <ul class="book-grid">
+              {group.standalone.map((book) => <BookCard book={book} />)}
+            </ul>
+          )}
+
+          {group.collections.map((collection) => (
+            <div class="book-collection">
+              <h3>{collection.name}</h3>
+              <ul class="book-grid">
+                {collection.books.map((book) => <BookCard book={book} />)}
+              </ul>
+            </div>
+          ))}
+        </section>
+      ))
+    ) : (
+      <div class="prose prose--page">
+        <h2>当前状态</h2>
+        <p>目前尚无可公开的成书，因此本栏暂时没有条目。可以公开阅读的文章译文见<a href="/archive">档案</a>，作品的身份与来源记录见<a href="/ilyenkov/works">作品目录</a>，制作过程与小组工作见<a href="/group">小组</a>。</p>
+      </div>
+    )}
+  </SectionLayout>
+</BaseLayout>

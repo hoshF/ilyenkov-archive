@@ -1,0 +1,56 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import SectionLayout from '../../components/SectionLayout.astro';
+import { formatHistoricalPeriod, getPublicResearchRecords } from '../../lib/research-records';
+
+const { military, congresses } = getPublicResearchRecords();
+const sourceLabel = (source: { creator: string | null; title: string }) => (
+  source.creator ? `${source.creator}：《${source.title}》` : source.title
+);
+---
+
+<BaseLayout title="交往与活动" description="伊里因科夫目前已公开的服役与国际黑格尔大会记录。">
+  <SectionLayout>
+    <header class="page-header" slot="intro">
+      <p class="page-parent"><a href="/ilyenkov">认识伊里因科夫</a></p>
+      <h1 class="page-title">交往与活动</h1>
+      <p class="lead">从已经完成公开选择的资料进入伊里因科夫的实际活动环境。目前呈现服役经历与国际黑格尔大会记录。</p>
+      <p class="section-note">本页不以尚未完成公开选择的材料扩展栏目范围。</p>
+    </header>
+
+    <section class="activity-section" aria-labelledby="military-heading">
+        <h2 id="military-heading">服役经历</h2>
+        <p class="activity-section__lead">卫国战争期间的从军、战地服役与复员记录。</p>
+        <ol class="activity-list">
+          {military.map((record) => (
+            <li>
+              <article>
+                <p class="activity-list__period">{formatHistoricalPeriod(record.period)}</p>
+                <h3>{record.title}</h3>
+                <p>{record.summary}</p>
+                <p class="activity-list__sources">来源：{record.sources.map((source, index) => <><a href={source.url}>{sourceLabel(source)}</a>{index < record.sources.length - 1 && '；'}</>)}</p>
+              </article>
+            </li>
+          ))}
+        </ol>
+    </section>
+
+    <section class="activity-section" aria-labelledby="hegel-heading">
+        <h2 id="hegel-heading">国际黑格尔大会</h2>
+        <p class="activity-section__lead">伊里因科夫与国际黑格尔大会的已核验关联：参会、报告或书面论文，分别表述。</p>
+        <ol class="activity-list">
+          {congresses.map((record) => (
+            <li>
+              <article>
+                <p class="activity-list__period">{formatHistoricalPeriod(record.period)} · {record.location}</p>
+                <h3>{record.title}</h3>
+                <p>{record.summary}</p>
+                <p class="activity-list__status">{record.status}</p>
+                <p class="activity-list__sources">来源：{record.sources.map((source, index) => <><a href={source.url}>{sourceLabel(source)}</a>{index < record.sources.length - 1 && '；'}</>)}</p>
+              </article>
+            </li>
+          ))}
+        </ol>
+    </section>
+  </SectionLayout>
+</BaseLayout>
