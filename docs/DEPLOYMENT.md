@@ -11,10 +11,7 @@ Node.js、数据库或 private 研究仓库。
 
 ```sh
 npm ci
-npm run publication:prepare
-npm run check
-npm test
-npm run build
+npm run verify
 ```
 
 private 默认位于 public 的相邻 `Ilyenkov/` 目录。其他布局设置：

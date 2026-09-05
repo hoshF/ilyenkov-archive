@@ -2,15 +2,15 @@
 
 This repository is the public identity, website, and publication anchor of the Chinese Ilyenkov
 Group. It owns public information architecture, presentation, deployment, and publication records.
-Publication authority remains in the private research repository.
+Publication authority remains in the private research repository: fix research facts and publication
+decisions there; fix routes, rendering, styles, public editorial framing, publication records, and
+deployment here.
 
-Website articles are generated into ignored `.website-input/articles/` files. The publication command
-reads `translation/publication.json` from the private research repository, selects only entries
-explicitly marked `website_public`, and combines the referenced `work.json` metadata with its
-Markdown text. Set `ILYENKOV_ROOT` when the private repository is not the sibling `Ilyenkov`
-directory. Never stage `.website-input/` or replace it with a tracked content directory. Fix
-research facts and publication decisions in the private research system; fix routes, rendering,
-styles, public editorial framing, publication records, and deployment here.
+Website build inputs are generated into ignored `.website-input/` files from the private repository's
+publication manifests. Never stage `.website-input/` or replace it with a tracked content directory.
+Set `ILYENKOV_ROOT` when the private repository is not the sibling `Ilyenkov` directory. See
+[docs/CONTENT_PIPELINE.md](docs/CONTENT_PIPELINE.md) for the two input channels and
+[docs/PUBLICATION.md](docs/PUBLICATION.md) for what may and may not enter the build.
 
 Restricted study texts must never enter the public `dist/` output. A missing download button is not
 access control. If web access is later required, use a separate protected deployment and a distinct
@@ -18,26 +18,13 @@ publication channel.
 
 Commit messages default to English, with an imperative subject line.
 
-Use the npm scripts as the canonical development interface. Start the background server with:
+Use the npm scripts as the canonical development interface:
 
 ```
-npm run dev
+npm run dev        # background server; dev:status, dev:logs, dev:stop manage it
+npm run verify     # type check, tests, build
 ```
-
-Manage it with `npm run dev:stop`, `npm run dev:status`, and `npm run dev:logs`.
 
 The production site is static and should remain compatible with Cloudflare Pages. See `docs/` for
-information architecture, publication channels, and deployment boundaries.
-
-## Documentation
-
-Full documentation: https://docs.astro.build
-
-Consult these guides before working on related tasks:
-
-- [Adding pages, dynamic routes, or middleware](https://docs.astro.build/en/guides/routing/)
-- [Working with Astro components](https://docs.astro.build/en/basics/astro-components/)
-- [Using React, Vue, Svelte, or other framework components](https://docs.astro.build/en/guides/framework-components/)
-- [Adding or managing content](https://docs.astro.build/en/guides/content-collections/)
-- [Adding styles or using Tailwind](https://docs.astro.build/en/guides/styling/)
-- [Supporting multiple languages](https://docs.astro.build/en/guides/internationalization/)
+information architecture, publication channels, and deployment boundaries, and
+https://docs.astro.build for the framework.

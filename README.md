@@ -36,27 +36,12 @@ private 仓库默认是本仓库旁边的 `Ilyenkov/`。位置不同时使用 `I
 
 ```sh
 npm ci
-npm run publication:prepare
-npm run check
-npm test
-npm run dev
+npm run dev          # 后台开发服务器；dev:status / dev:logs / dev:stop 管理它
+npm run verify       # 类型检查、测试、构建，一次跑完
 ```
 
-查看或停止后台开发服务器：
+`npm run publication:sync` 单独同步生成输入，`npm run publication:check` 只比较不改写。生产构建
+使用 `npm run build`，输出到 `dist/`。
 
-```sh
-npm run dev:status
-npm run dev:logs
-npm run dev:stop
-```
-
-单独同步或检查全部生成输入：
-
-```sh
-npm run publication:sync
-npm run publication:check
-```
-
-生产构建使用 `npm run build`，输出到 `dist/`。推荐的 Cloudflare 部署边界见
-[部署说明](docs/DEPLOYMENT.md)。
-从 private 公开选择到静态页面的完整过程见 [内容流水线](docs/CONTENT_PIPELINE.md)。
+推荐的 Cloudflare 部署边界见[部署说明](docs/DEPLOYMENT.md)；从 private 公开选择到静态页面的完整
+过程见[内容流水线](docs/CONTENT_PIPELINE.md)。
