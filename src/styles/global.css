@@ -5,7 +5,7 @@
   --text-meta: .875rem; --text-secondary: .9375rem; --text-body: 1rem; --text-item: 1.125rem;
   --text-home-section: 1.25rem; --text-section: 1.375rem; --text-page-mobile: 1.625rem; --text-page: 1.75rem;
   --text-display-mobile: 2rem; --text-display: 2.25rem;
-  --header-h: 62px; --section-top: 96px;
+  --header-h: 62px; --section-top: 96px; --breadcrumb-row: 57px;
   --book: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", "Helvetica Neue", Helvetica, Arial, sans-serif;
   --serif: var(--book); --sans: var(--book); color: var(--ink); font-family: var(--serif); font-synthesis: none;
   font-size: 16px;
@@ -281,6 +281,10 @@ h2, h3, h4 { text-wrap: balance; line-height: 1.3; }
 .section-layout__sidebar, .section-layout__intro, .section-layout__content { min-width: 0; }
 
 .section-layout--pinned .section-layout__sidebar { position: sticky; top: calc(var(--header-h) + var(--section-top)); }
+/* 位置导航自成一行、横跨两栏，左栏的起点因此下移一行。 */
+.section-layout--pinned.section-layout--breadcrumbed .section-layout__sidebar {
+  top: calc(var(--header-h) + var(--section-top) + var(--breadcrumb-row));
+}
 
 .section-layout__intro .page-header { margin: 0; }
 .section-layout__intro .lead { font-size: var(--text-body); line-height: 1.65; }
@@ -306,12 +310,14 @@ h2, h3, h4 { text-wrap: balance; line-height: 1.3; }
 .archive-year a:hover { color: var(--accent-dark); text-decoration: underline; }
 .archive-year li span { color: var(--muted); font-size: var(--text-secondary); margin-top: 4px; line-height: 1.5; }
 
-.topic-grid { grid-template-columns: repeat(2, minmax(0,1fr)); gap: 48px 44px; display: grid; }
-.topic-grid section { border-top: 1px solid var(--line); min-height: 0; padding-top: 16px; }
-.topic-grid h2 { font-size: var(--text-item); margin: 0 0 9px; font-weight: 600; }
-.topic-grid h2 a { text-decoration: none; }
-.topic-grid h2 a:hover { text-decoration: none; }
-.topic-grid section > p:last-child { color: var(--muted); font-size: var(--text-body); margin: 0; line-height: 1.65; }
+.person-intro { margin: 0 0 56px; }
+
+.entrance-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 40px 44px; }
+.entrance-card { display: block; color: var(--ink); text-decoration: none; }
+.entrance-card__label { display: block; color: var(--accent); font-size: var(--text-item); font-weight: 600; line-height: 1.4; }
+.entrance-card__scope { display: block; margin-top: 5px; color: var(--muted); font-size: var(--text-meta); }
+.entrance-card__summary { display: block; margin-top: 11px; color: var(--muted); font-size: var(--text-body); line-height: 1.65; }
+.entrance-card:hover .entrance-card__label { color: var(--accent-dark); text-decoration: underline; }
 
 .life-phases { margin: 0; padding: 0; list-style: none; }
 .life-phases li { border-bottom: 1px solid var(--line); padding: 0 0 32px; }
@@ -578,7 +584,7 @@ h2, h3, h4 { text-wrap: balance; line-height: 1.3; }
   .home-essays, .home-sidebar section { padding: 12px 0; }
   .home-essays > h3, .home-sidebar h3 { font-size: var(--text-item); }
   .essay-excerpt p { font-size: var(--text-body); }
-  .topic-grid { grid-template-columns: 1fr; gap: 36px; }
+  .entrance-grid { grid-template-columns: 1fr; gap: 32px; }
   .page-title { font-size: var(--text-page-mobile); }
   .lead { font-size: var(--text-body); }
   .container { padding: var(--section-top) 0 4.25rem; }

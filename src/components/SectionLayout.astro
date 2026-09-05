@@ -12,6 +12,7 @@ interface Props {
 
 const { toc = [], pinned = false } = Astro.props;
 const indexed = toc.length > 0;
+const breadcrumbed = Astro.slots.has('breadcrumb');
 ---
 
 <div class:list={[
@@ -19,8 +20,9 @@ const indexed = toc.length > 0;
   'section-layout',
   indexed && 'section-layout--indexed',
   pinned && 'section-layout--pinned',
+  breadcrumbed && 'section-layout--breadcrumbed',
 ]}>
-  {Astro.slots.has('breadcrumb') && (
+  {breadcrumbed && (
     <div class="section-layout__breadcrumb">
       <slot name="breadcrumb" />
     </div>

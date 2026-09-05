@@ -1,32 +1,58 @@
 ---
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import SectionLayout from '../../components/SectionLayout.astro';
+
+const entrances = [
+  {
+    href: '/ilyenkov/life',
+    label: '生平',
+    scope: '1924—1953',
+    summary: '以已公开的生平坐标、服役与国际活动记录形成分期骨架；不是完整传记，也不以尚未公开的材料补写空缺。',
+  },
+  {
+    href: '/ilyenkov/timeline',
+    label: '年表',
+    scope: '统一时间坐标',
+    summary: '把已经公开的生平、服役与黑格尔大会记录按历史日期排在一条线上；未覆盖的年代不被表述为事实空白。',
+  },
+  {
+    href: '/ilyenkov/works',
+    label: '作品目录',
+    scope: '著作 · 论文 · 战时写作',
+    summary: '以作品而不是文件为单位，连接每一部作品的原文题名、年份与可核验的公开来源。',
+  },
+  {
+    href: '/ilyenkov/circle',
+    label: '交往与活动',
+    scope: '服役 · 国际会议',
+    summary: '记录他置身其中的组织与场合：卫国战争中的服役经历，以及参加国际黑格尔大会的已核验记录。',
+  },
+];
 ---
 
 <BaseLayout title="认识伊里因科夫" description="面向中文读者的伊里因科夫人物、年表、作品与交往入口。">
-  <SectionLayout>
+  <SectionLayout pinned>
     <header class="page-header" slot="intro">
       <h1 class="page-title">认识伊里因科夫</h1>
-      <p class="lead">从已公开、可核验的生平坐标、活动记录与作品书目进入伊里因科夫。国际研究见<a href="/research">研究</a>；已获准公开的中文译文见<a href="/archive">档案</a>。</p>
+      <p class="lead">埃瓦尔德·瓦西里耶维奇·伊里因科夫，苏联哲学家。</p>
+      <p class="section-note">本栏只呈现已经完成公开选择、能够逐项核验的材料。国际研究见<a href="/research">研究</a>，已获准公开的中文译文见<a href="/archive">档案</a>。</p>
     </header>
 
-    <div class="topic-grid">
-      <section>
-        <h2><a href="/ilyenkov/life">生平</a></h2>
-        <p>以服役、作品和国际活动的公开事实形成分期骨架；这不是完整传记，也不以尚未公开的材料补写空缺。</p>
-      </section>
-      <section>
-        <h2><a href="/ilyenkov/timeline">年表</a></h2>
-        <p>统一排列当前已经公开的服役与黑格尔大会记录；未覆盖的年代不被表述为事实空白。</p>
-      </section>
-      <section>
-        <h2><a href="/ilyenkov/works">作品目录</a></h2>
-        <p>以作品而不是文件为单位，列出已完成公开选择的著作、论文与战时写作，并连接公开来源。</p>
-      </section>
-      <section>
-        <h2><a href="/ilyenkov/circle">交往与活动</a></h2>
-        <p>目前呈现卫国战争中的服役经历，以及参加国际黑格尔大会的已核验记录。</p>
-      </section>
+    <div class="prose prose--section person-intro">
+      <p>伊里因科夫 1924 年出生，1941 年开始哲学学习，1950 年毕业并获推荐攻读研究生，1953 年进入哲学研究所——这几个坐标是本站目前已经逐项公开、可以核验的部分。它们不构成完整的一生，只是可以放心引用的起点。</p>
+      <p>他一生追问的核心，是思维如何把握现实：抽象与具体如何转化，逻辑范畴从哪里来，《资本论》使用的究竟是怎样一种方法。1955 年的论文《论科学理论认识中抽象与具体的辩证法》、1960 年的《〈资本论〉中的抽象和具体辩证法》与 1974 年的《辩证逻辑：历史与理论纲要》，是这条线索上最集中的表述。</p>
+      <p>更早的一批文字写于 1945 年的前线报刊。它们不是哲学著作，却标出了他的思想开始成形的处境。</p>
+      <p class="section-boundary">以上是本栏的编辑导言，会随公开选择的推进重写；它不替代下列各页逐条标注来源的记录。</p>
     </div>
+
+    <nav class="entrance-grid" aria-label="伊里因科夫栏目入口">
+      {entrances.map((entrance) => (
+        <a class="entrance-card" href={entrance.href}>
+          <span class="entrance-card__label">{entrance.label}</span>
+          <span class="entrance-card__scope">{entrance.scope}</span>
+          <span class="entrance-card__summary">{entrance.summary}</span>
+        </a>
+      ))}
+    </nav>
   </SectionLayout>
 </BaseLayout>

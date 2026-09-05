@@ -34,7 +34,7 @@ const workTypes = [...new Set(works.map((work) => work.type))].sort((left, right
 ---
 
 <BaseLayout title="生平" description="伊里因科夫目前已公开、可核验的生平坐标。">
-  <SectionLayout>
+  <SectionLayout pinned>
     <Breadcrumbs slot="breadcrumb" items={[
       { label: '伊里因科夫', href: '/ilyenkov' },
       { label: '生平' },

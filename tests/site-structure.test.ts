@@ -168,9 +168,10 @@ describe('website-approved data adapter', () => {
     expect(declaration('.section-layout--indexed .section-layout__toc', 'position', '@media (max-width: 600px)')).toBe('sticky');
   });
 
-  it('presents Ilyenkov section entrances without link underlines', () => {
-    expect(declaration('.topic-grid h2 a', 'text-decoration')).toBe('none');
-    expect(declaration('.topic-grid h2 a:hover', 'text-decoration')).toBe('none');
+  it('presents Ilyenkov section entrances as whole-card links', () => {
+    expect(declaration('.entrance-card', 'text-decoration')).toBe('none');
+    expect(declaration('.entrance-grid', 'grid-template-columns')).toContain('repeat(2');
+    expect(declaration('.entrance-grid', 'grid-template-columns', '@media (max-width: 600px)')).toBe('1fr');
   });
 
   it('publishes only documents selected by the upstream website channel', async () => {
