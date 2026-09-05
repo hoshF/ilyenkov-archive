@@ -18,7 +18,7 @@ const { articles } = await getSiteData();
       <div class="archive-years">
         <section class="archive-year" aria-label="文章">
           <h2>文章</h2>
-          <ol class="record-list">
+          <ol class="record-list record-list--ruled">
             {articles.map((article) => (
               <li>
                 <a class="record__link" href={article.route}>
