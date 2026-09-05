@@ -1,6 +1,7 @@
 import { readFileSync } from 'node:fs';
 import matter from 'gray-matter';
 import { z } from 'zod';
+import { buildCache } from './cache';
 import { renderPublicMarkdown } from './markdown';
 import { generatedArticleIds, resolveGeneratedArticlePath } from './article-source';
 
@@ -89,17 +90,11 @@ async function loadArticles(): Promise<ReadableDocument[]> {
   }));
 }
 
-let cachedData: Promise<SiteData> | undefined;
-
-export function getSiteData(): Promise<SiteData> {
-  cachedData ??= (async () => {
+export const getSiteData = buildCache(async (): Promise<SiteData> => {
     const articles = await loadArticles();
     const works: WorkDocument[] = [];
     const documents: CanonicalDocument[] = [...articles, ...works];
     const uniqueRoutes = new Set(documents.map((document) => document.route));
     if (uniqueRoutes.size !== documents.length) throw new Error('Canonical document routes are not unique');
-    return { articles, works, documents };
-  })();
-
-  return cachedData;
-}
+  return { articles, works, documents };
+});

@@ -5,7 +5,7 @@
   --text-meta: .875rem; --text-secondary: .9375rem; --text-body: 1rem; --text-item: 1.125rem;
   --text-home-section: 1.25rem; --text-section: 1.375rem; --text-page-mobile: 1.625rem; --text-page: 1.75rem;
   --text-display-mobile: 2rem; --text-display: 2.25rem;
-  --header-h: 62px;
+  --header-h: 62px; --section-top: 96px;
   --book: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", "Helvetica Neue", Helvetica, Arial, sans-serif;
   --serif: var(--book); --sans: var(--book); color: var(--ink); font-family: var(--serif); font-synthesis: none;
   font-size: 16px;
@@ -215,7 +215,7 @@ h2, h3, h4 { text-wrap: balance; line-height: 1.3; }
 
 .container {
   width: min(calc(100% - 40px), var(--reading)); font-size: var(--text-body); margin: 0 auto;
-  padding: 96px 0 120px;
+  padding: var(--section-top) 0 120px;
 }
 
 
@@ -297,9 +297,9 @@ h2, h3, h4 { text-wrap: balance; line-height: 1.3; }
   grid-template-columns: minmax(0, 216px) minmax(0, 144px) minmax(0, var(--reading)); column-gap: 40px;
 }
 .section-layout--indexed .section-layout__sidebar { display: contents; }
-/* 96px 是 .section-layout 的上内边距：吸顶位置和它们打开页面时的位置完全一样，所以左栏和目录
-   一格都不动，只有右边的正文在滚。 */
-.section-layout--indexed .section-layout__intro { position: sticky; top: calc(var(--header-h) + 96px); }
+/* --section-top 是版式容器的上内边距：吸顶位置和它们打开页面时的位置完全一样，所以左栏和
+   目录一格都不动，只有右边的正文在滚。 */
+.section-layout--indexed .section-layout__intro { position: sticky; top: calc(var(--header-h) + var(--section-top)); }
 
 .section-layout__sidebar, .section-layout__intro, .section-layout__content { min-width: 0; }
 
@@ -312,7 +312,7 @@ h2, h3, h4 { text-wrap: balance; line-height: 1.3; }
 
 .section-boundary { border-top: 1px solid var(--line); padding-top: 18px; }
 
-.section-layout__toc { position: sticky; top: calc(var(--header-h) + 96px); min-width: 0; padding-left: 18px; border-left: 1px solid var(--line); }
+.section-layout__toc { position: sticky; top: calc(var(--header-h) + var(--section-top)); min-width: 0; padding-left: 18px; border-left: 1px solid var(--line); }
 .section-layout__toc ol { margin: 0; padding: 0; list-style: none; }
 .section-layout__toc li + li { margin-top: 9px; }
 .section-layout__toc a { color: var(--muted); font-size: var(--text-meta); line-height: 1.45; text-decoration: none; }
@@ -558,7 +558,7 @@ h2, h3, h4 { text-wrap: balance; line-height: 1.3; }
     width: min(calc(100% - 40px), var(--section));
     grid-template-columns: minmax(0, 248px) minmax(0, var(--reading)); gap: 30px 64px;
   }
-  .section-layout--indexed .section-layout__sidebar { display: block; position: sticky; top: calc(var(--header-h) + 96px); grid-column: 1; }
+  .section-layout--indexed .section-layout__sidebar { display: block; position: sticky; top: calc(var(--header-h) + var(--section-top)); grid-column: 1; }
   .section-layout--indexed .section-layout__intro { position: static; }
   .section-layout--indexed .section-layout__toc { margin-top: 28px; position: static; }
   .section-layout--indexed .section-layout__content { grid-area: 1/2; }
@@ -572,7 +572,7 @@ h2, h3, h4 { text-wrap: balance; line-height: 1.3; }
 }
 
 @media (max-width: 600px) {
-  :root { --header-h: 80px; }
+  :root { --header-h: 80px; --section-top: 3rem; }
   .section-layout { grid-template-columns: 1fr; gap: 40px; }
   .section-layout--indexed { display: block; }
   .section-layout--indexed .section-layout__sidebar { display: contents; }
@@ -584,7 +584,7 @@ h2, h3, h4 { text-wrap: balance; line-height: 1.3; }
   .section-layout--indexed .section-layout__toc li + li, .section-layout--indexed .section-layout__content {
     margin-top: 0;
   }
-  .research-series h2 { scroll-margin-top: calc(var(--header-h) + 96px); }
+  .research-series h2 { scroll-margin-top: calc(var(--header-h) + 96px); } /* 标题栏 + 目录横条 */
   .site-header__masthead, .container, .home-shell { width: min(calc(100% - 1.5rem), var(--content)); }
   .site-header__masthead { flex-wrap: wrap; align-items: center; row-gap: 4px; padding: 12px 0; }
   .site-name { width: auto; }
@@ -600,7 +600,7 @@ h2, h3, h4 { text-wrap: balance; line-height: 1.3; }
   .topic-grid { grid-template-columns: 1fr; gap: 36px; }
   .page-title { font-size: var(--text-page-mobile); }
   .lead { font-size: var(--text-body); }
-  .container { padding: 3rem 0 4.25rem; }
+  .container { padding: var(--section-top) 0 4.25rem; }
   .works-catalog-list li { grid-template-columns: 1fr; gap: 6px; }
   .works-catalog-list article { display: block; }
   .works-catalog-list__year { margin: 0 0 6px; }

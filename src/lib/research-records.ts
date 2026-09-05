@@ -1,6 +1,7 @@
 import { readFileSync } from 'node:fs';
 import path from 'node:path';
 import { z } from 'zod';
+import { buildCache } from './cache';
 
 const projectRoot = process.cwd();
 const recordsPath = path.join(projectRoot, '.website-input', 'research-records.json');
@@ -149,14 +150,9 @@ export type PublicTimelineRecord = PublicActivity & {
   status: string | null;
 };
 
-let cachedRecords: PublicResearchRecords | undefined;
-
-export function getPublicResearchRecords(): PublicResearchRecords {
-  if (!cachedRecords) {
-    cachedRecords = ResearchRecordsSchema.parse(JSON.parse(readFileSync(recordsPath, 'utf8')));
-  }
-  return cachedRecords;
-}
+export const getPublicResearchRecords = buildCache((): PublicResearchRecords => (
+  ResearchRecordsSchema.parse(JSON.parse(readFileSync(recordsPath, 'utf8')))
+));
 
 export function getPublicTimelineRecords(): PublicTimelineRecord[] {
   const { biography, military, congresses } = getPublicResearchRecords();

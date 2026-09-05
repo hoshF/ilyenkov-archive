@@ -2,6 +2,7 @@ import { existsSync, readdirSync, readFileSync } from 'node:fs';
 import path from 'node:path';
 import matter from 'gray-matter';
 import { z } from 'zod';
+import { buildCache } from './cache';
 import { renderPublicMarkdown } from './markdown';
 
 const booksRoot = path.join(process.cwd(), 'editorial', 'books');
@@ -72,10 +73,8 @@ function bookIds(): string[] {
     .sort();
 }
 
-let cachedBooks: Promise<Book[]> | undefined;
-
-export function getBooks(): Promise<Book[]> {
-  cachedBooks ??= Promise.all(bookIds().map(async (id) => {
+export const getBooks = buildCache((): Promise<Book[]> => (
+  Promise.all(bookIds().map(async (id) => {
     const record = matter(readFileSync(path.join(booksRoot, `${id}.md`), 'utf8'));
     const metadata = BookSchema.parse(record.data);
     const introduction = record.content.trim();
@@ -90,10 +89,8 @@ export function getBooks(): Promise<Book[]> {
       latestEdition: editions[editions.length - 1],
       editions,
     } satisfies Book;
-  }));
-
-  return cachedBooks;
-}
+  }))
+));
 
 export interface BookCollection {
   name: string;
