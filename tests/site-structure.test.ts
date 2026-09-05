@@ -5,6 +5,7 @@ import { getBooks } from '../src/lib/books';
 import { site } from '../src/lib/editorial';
 import { getSiteData } from '../src/lib/site-data';
 import { websiteWorks } from './helpers/publication';
+import { declaration, declarationsFor, hasRule, rules } from './helpers/styles';
 
 describe('website-approved data adapter', () => {
   it('loads every approved translation without assuming a current artifact count', async () => {
@@ -118,50 +119,59 @@ describe('website-approved data adapter', () => {
   });
 
   it('uses one restrained type scale across public page families', () => {
-    const styles = readFileSync(path.join(process.cwd(), 'src/styles/global.css'), 'utf8');
-    for (const token of [
-      '--text-meta: .875rem',
-      '--text-secondary: .9375rem',
-      '--text-body: 1rem',
-      '--text-item: 1.125rem',
-      '--text-section: 1.375rem',
-      '--text-page: 1.75rem',
-      '--text-display: 2.25rem',
-    ]) {
-      expect(styles).toContain(token);
-    }
+    const scale = declarationsFor(':root');
+    expect(scale['--text-meta']).toBe('.875rem');
+    expect(scale['--text-secondary']).toBe('.9375rem');
+    expect(scale['--text-body']).toBe('1rem');
+    expect(scale['--text-item']).toBe('1.125rem');
+    expect(scale['--text-section']).toBe('1.375rem');
+    expect(scale['--text-page']).toBe('1.75rem');
+    expect(scale['--text-display']).toBe('2.25rem');
 
-    expect(styles).toContain('.breadcrumbs { min-width: 0; color: var(--muted); font-size: var(--text-meta);');
-    expect(styles).toContain('.page-title { margin: 0; font-size: var(--text-page);');
-    expect(styles).toContain('.document-header h1 { margin: 36px 0 0; font-size: var(--text-page);');
-    expect(styles).toContain('.prose { max-width: var(--reading); margin: 0 auto; font-size: var(--text-body);');
-    expect(styles).not.toMatch(/font-size:\s*(?:34|42|58)px/);
-    expect(styles).not.toContain('font-size: 19px');
+    expect(declaration('.breadcrumbs', 'font-size')).toBe('var(--text-meta)');
+    expect(declaration('.page-title', 'font-size')).toBe('var(--text-page)');
+    expect(declaration('.document-header h1', 'font-size')).toBe('var(--text-page)');
+    expect(declaration('.prose', 'font-size')).toBe('var(--text-body)');
+
+    // 字号只从 token 取。:root 的 16px 是这套 rem 的基准，其余任何像素字号都是漏网的旧值。
+    const pixelSized = rules.filter((rule) => (
+      rule.selector !== ':root' && /\d+px/.test(rule.declarations['font-size'] ?? '')
+    ));
+    expect(pixelSized.map((rule) => rule.selector)).toEqual([]);
   });
 
-  it('keeps indexed navigation visible while jumping at every layout width', () => {
-    const styles = readFileSync(path.join(process.cwd(), 'src/styles/global.css'), 'utf8');
-    expect(styles).toContain('.section-layout--indexed');
-    expect(styles).toContain('grid-template-columns: minmax(0, 216px) minmax(0, 144px) minmax(0, var(--reading))');
-    expect(styles).toContain('@media (max-width: 1120px)');
-    expect(styles).toContain('@media (max-width: 800px)');
-    expect(styles).toContain('.section-layout__toc { position: sticky');
-    expect(styles).toContain('@media (max-width: 600px)');
-    expect(styles).toContain('.site-header {\n  position: sticky; top: 0; z-index: 50;');
-    expect(styles).toContain('.section-layout--indexed .section-layout__intro { position: sticky; top: calc(var(--header-h) + 96px); }');
-    expect(styles).toContain('.section-layout--indexed .section-layout__sidebar { display: block; position: sticky; top: calc(var(--header-h) + 96px); grid-column: 1; }');
-    expect(styles).toContain('.section-layout--indexed .section-layout__intro { position: static; }');
-    expect(styles).toContain('.section-layout--indexed { display: block; }');
-    expect(styles).toContain('.section-layout--indexed .section-layout__sidebar { display: contents; }');
-    expect(styles).toContain('.section-layout--indexed .section-layout__toc { position: sticky; top: var(--header-h); z-index: 10;');
-    expect(styles).toContain('.research-series h2 { margin: 0; scroll-margin-top: calc(var(--header-h) + 32px);');
-    expect(styles).toContain('.research-series h2 { scroll-margin-top: calc(var(--header-h) + 96px); }');
+  it('keeps the header and the indexed navigation in place while jumping', () => {
+    expect(declaration('.site-header', 'position')).toBe('sticky');
+    expect(declaration('.site-header', 'top')).toBe('0');
+    expect(declarationsFor(':root')['--header-h']).toBeDefined();
+
+    // 标题栏高度只在 --header-h 里定义一次：吸顶位置和锚点落点都从它推出来，
+    // 不再有第二处需要跟着改的像素值。
+    for (const [selector, property, media] of [
+      ['.section-layout--indexed .section-layout__intro', 'top', ''],
+      ['.section-layout__toc', 'top', ''],
+      ['.section-layout--indexed .section-layout__sidebar', 'top', '@media (max-width: 1120px)'],
+      ['.section-layout--indexed .section-layout__toc', 'top', '@media (max-width: 600px)'],
+      ['.research-series h2', 'scroll-margin-top', ''],
+      ['.research-series h2', 'scroll-margin-top', '@media (max-width: 600px)'],
+    ] as const) {
+      expect(declaration(selector, property, media), `${selector} ${property}`).toContain('var(--header-h)');
+    }
+
+    // 左栏与目录吸在打开页面时的位置，只有正文滚动
+    expect(declaration('.section-layout--indexed .section-layout__intro', 'position')).toBe('sticky');
+    expect(declaration('.section-layout__toc', 'position')).toBe('sticky');
+
+    // 三栏 → 两栏 → 单栏
+    expect(declaration('.section-layout--indexed', 'grid-template-columns')).toContain('minmax(0, 216px)');
+    expect(declaration('.section-layout--indexed', 'grid-template-columns', '@media (max-width: 1120px)')).toContain('minmax(0, 248px)');
+    expect(declaration('.section-layout--indexed', 'display', '@media (max-width: 600px)')).toBe('block');
+    expect(declaration('.section-layout--indexed .section-layout__toc', 'position', '@media (max-width: 600px)')).toBe('sticky');
   });
 
   it('presents Ilyenkov section entrances without link underlines', () => {
-    const styles = readFileSync(path.join(process.cwd(), 'src/styles/global.css'), 'utf8');
-    expect(styles).toContain('.topic-grid h2 a { text-decoration: none; }');
-    expect(styles).toContain('.topic-grid h2 a:hover { text-decoration: none; }');
+    expect(declaration('.topic-grid h2 a', 'text-decoration')).toBe('none');
+    expect(declaration('.topic-grid h2 a:hover', 'text-decoration')).toBe('none');
   });
 
   it('does not describe unpublished material as part of the current public sections', () => {
@@ -261,7 +271,6 @@ describe('book channel', () => {
   it('uses an unheaded default shelf while preserving future category headings', () => {
     const page = readFileSync(path.join(process.cwd(), 'src/pages/books/index.astro'), 'utf8');
     const detail = readFileSync(path.join(process.cwd(), 'src/pages/books/[id].astro'), 'utf8');
-    const styles = readFileSync(path.join(process.cwd(), 'src/styles/global.css'), 'utf8');
 
     expect(page).toContain('<SectionLayout>');
     expect(page).toContain('<header class="page-header" slot="intro">');
@@ -271,14 +280,21 @@ describe('book channel', () => {
     expect(page).toContain("group.category === 'translation' ? '书籍目录' : undefined");
     expect(detail).toContain('<dt>类型</dt>');
     expect(detail).toContain('BOOK_CATEGORY_LABELS[book.category]');
-    expect(styles).toContain('.book-grid { display: grid; gap: 34px; margin: 0; padding: 0; list-style: none; }');
-    expect(styles).not.toMatch(/\.book-entry[^{]*\{[^}]*border/);
-    expect(styles).toContain('.book-grid { gap: 28px; }');
+
+    // 目录式条目：靠留白分组，不画分隔线，也不再有封面框
+    expect(declaration('.book-grid', 'display')).toBe('grid');
+    expect(declaration('.book-grid', 'gap')).toBeDefined();
+    expect(declaration('.book-grid', 'gap', '@media (max-width: 600px)')).toBeDefined();
+    const borderedEntries = rules.filter((rule) => (
+      rule.selector.startsWith('.book-entry')
+      && Object.keys(rule.declarations).some((property) => property.startsWith('border'))
+    ));
+    expect(borderedEntries.map((rule) => rule.selector)).toEqual([]);
+    expect(rules.some((rule) => rule.selector.startsWith('.book-card'))).toBe(false);
   });
 
   it('keeps editions and access information inside the book detail panel', () => {
     const page = readFileSync(path.join(process.cwd(), 'src/pages/books/[id].astro'), 'utf8');
-    const styles = readFileSync(path.join(process.cwd(), 'src/styles/global.css'), 'utf8');
 
     expect(page).toContain('<dt>当前版次</dt>');
     expect(page).toContain('<details class="edition-popover">');
@@ -295,19 +311,23 @@ describe('book channel', () => {
     expect(page).not.toContain('<h2 id="editions-heading">版次记录</h2>');
     expect(page).not.toContain('<h2 id="access-heading">获取与权利</h2>');
 
-    expect(styles).toContain('.edition-popover__panel {');
-    expect(styles).toContain('.book-detail__edition { position: relative; }');
-    expect(styles).toContain('.edition-popover { position: static; }');
-    expect(styles).toContain('position: absolute; top: calc(100% + 8px); right: 0; z-index: 30;');
-    expect(styles).toContain('max-height: min(28rem, 60vh); overflow: auto;');
-    expect(styles).toContain('width: min(360px, calc(100vw - 40px)); max-height: min(28rem, 60vh); overflow: auto;');
-    expect(styles).toContain('.edition-popover__panel { right: auto; left: 0; width: 100%; padding: 16px; }');
-    expect(styles).toContain('.book-page .fact-list > div { display: block; padding: 0; border: 0; }');
+    expect(hasRule('.edition-popover__panel')).toBe(true);
+    expect(declaration('.book-detail__edition', 'position')).toBe('relative');
+    expect(declaration('.edition-popover', 'position')).toBe('static');
+    expect(declaration('.edition-popover__panel', 'position')).toBe('absolute');
+    expect(declaration('.edition-popover__panel', 'top')).toBe('calc(100% + 8px)');
+    expect(declaration('.edition-popover__panel', 'overflow')).toBe('auto');
+    expect(declaration('.edition-popover__panel', 'max-height')).toContain('60vh');
+    expect(declaration('.edition-popover__panel', 'left', '@media (max-width: 600px)')).toBe('0');
+
+    // 书目字段不画分隔线。覆盖必须挂在 .book-page 上：事实表在 .book-header__body 里，
+    // 那是 <header class="book-header"> 的兄弟节点，挂在 .book-header 上会静默失效。
+    expect(declaration('.book-page .fact-list > div', 'border')).toBe('0');
+    expect(declaration('.book-page .fact-list > div', 'display')).toBe('block');
   });
 
   it('keeps cover and identity above the introduction and stacks them on narrow screens', () => {
     const page = readFileSync(path.join(process.cwd(), 'src/pages/books/[id].astro'), 'utf8');
-    const styles = readFileSync(path.join(process.cwd(), 'src/styles/global.css'), 'utf8');
     const detailsIndex = page.indexOf('class="book-header__identity"');
     const introductionIndex = page.indexOf('class="prose prose--section book-introduction"');
     const coverIndex = page.indexOf('class="book-header__cover-panel"');
@@ -315,17 +335,17 @@ describe('book channel', () => {
     expect(coverIndex).toBeGreaterThan(-1);
     expect(detailsIndex).toBeGreaterThan(coverIndex);
     expect(introductionIndex).toBeGreaterThan(detailsIndex);
-    expect(styles).toContain('.container.book-page { width: min(calc(100% - 40px), 860px); max-width: 860px;');
-    expect(styles).toContain('grid-template-columns: clamp(220px, 30vw, 280px) minmax(0, 1fr);');
-    expect(styles).toContain('column-gap: clamp(28px, 5vw, 48px);');
-    expect(styles).toContain('"cover identity"');
-    expect(styles).toContain('"introduction introduction";');
-    expect(styles).toContain('.book-header__cover-link { display: block; width: 100%; max-width: none;');
-    expect(styles).toContain('.book-page .book-introduction { grid-area: introduction; width: 100%; max-width: var(--reading); margin: 0; }');
-    expect(styles).toContain('@media (max-width: 800px)');
-    expect(styles).toContain('.book-header__cover-link { width: min(100%, 420px); max-width: 420px; }');
-    expect(styles).toContain('.container.book-page { width: min(calc(100% - 2.5rem), 860px);');
-    expect(styles).toContain('.book-header__title { padding: 0; border: 0; }');
-    expect(styles).toContain('.book-page .fact-list > div + div { margin-top: 28px; }');
+    expect(declaration('.container.book-page', 'max-width')).toBe('860px');
+    expect(declaration('.book-header__body', 'grid-template-columns')).toContain('clamp(220px, 30vw, 280px)');
+    expect(declaration('.book-header__body', 'column-gap')).toContain('clamp(');
+    expect(declaration('.book-header__body', 'grid-template-areas')).toContain('"cover identity"');
+    expect(declaration('.book-header__body', 'grid-template-areas')).toContain('"introduction introduction"');
+    expect(declaration('.book-header__body--without-cover', 'grid-template-areas')).toContain('"identity"');
+    expect(declaration('.book-page .book-introduction', 'grid-area')).toBe('introduction');
+    expect(declaration('.book-header__title', 'border')).toBe('0');
+
+    // 窄屏：封面收窄，字段之间靠间距分组
+    expect(declaration('.book-header__cover-link', 'width', '@media (max-width: 600px)')).toBe('min(100%, 420px)');
+    expect(declaration('.book-page .fact-list > div + div', 'margin-top', '@media (max-width: 600px)')).toBe('28px');
   });
 });

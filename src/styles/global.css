@@ -1,6 +1,6 @@
 :root {
   color-scheme: light; --ink: #000; --ink-soft: #1a1a1a; --muted: #706b62; --line: #ddd9d1;
-  --line-strong: #b8b2a7; --paper: #fff; --paper-light: #fff; --paper-deep: #fff; --accent: #2f3a86;
+  --line-strong: #b8b2a7; --paper: #fff; --accent: #2f3a86;
   --accent-dark: #1b1f4b; --content: 1040px; --section: 1040px; --section-wide: 1180px; --reading: 672px;
   --text-meta: .875rem; --text-secondary: .9375rem; --text-body: 1rem; --text-item: 1.125rem;
   --text-home-section: 1.25rem; --text-section: 1.375rem; --text-page-mobile: 1.625rem; --text-page: 1.75rem;
@@ -212,14 +212,12 @@ h2, h3, h4 { text-wrap: balance; line-height: 1.3; }
 .edition-popover__errata ul { margin: 10px 0 0; padding-left: 1.2rem; }
 .edition-popover__errata li { font-size: var(--text-secondary); line-height: 1.6; }
 
-.book-page .prose { margin-left: 0; }
 
 .container {
   width: min(calc(100% - 40px), var(--reading)); font-size: var(--text-body); margin: 0 auto;
   padding: 96px 0 120px;
 }
 
-.narrow { max-width: var(--reading); }
 
 .container.book-page { width: min(calc(100% - 40px), 860px); max-width: 860px; padding-top: 48px; font-size: var(--text-body); }
 
