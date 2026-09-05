@@ -1,7 +1,7 @@
 import { existsSync, readFileSync } from 'node:fs';
 import path from 'node:path';
 
-/** 页面与组件源码的统一入口，免得每条断言各写一遍 readFileSync + path.join。 */
+/** 页面与组件源码的统一读取入口。 */
 
 const pagesRoot = path.join(process.cwd(), 'src/pages');
 const componentsRoot = path.join(process.cwd(), 'src/components');

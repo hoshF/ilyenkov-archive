@@ -3,10 +3,7 @@ import { readFileSync, readdirSync } from 'node:fs';
 import { describe, expect, it } from 'vitest';
 import { rules, stylesheetSource } from './helpers/styles';
 
-/**
- * 样式表只有一份，且没有构建期的工具替我们看着它。这几条检查针对的是真实踩过的问题：
- * 规则写重、类名早已没人用、变量声明了不用——它们不会报错，只会慢慢堆积。
- */
+/** 样式表只有一份，且没有构建期工具检查它：规则写重、类名无人使用、变量声明未用都不会报错。 */
 
 /** 这些类名由渲染管线生成，源码里搜不到。 */
 const renderedClasses = new Set(['footnotes']);
@@ -25,8 +22,7 @@ const markup = sourceFiles(path.join(process.cwd(), 'src'))
 
 describe('stylesheet hygiene', () => {
   it('never sets the same property twice for one selector', () => {
-    // 同一个选择器分几条规则写没问题（共用一组 + 单独补一条）；同一个属性写两遍才是问题：
-    // 后一条静默盖掉前一条，读的人不知道哪条在生效。
+    // 同一选择器分几条规则写没问题（共用一组 + 单独补一条）；同一属性写两遍则无从判断哪条生效。
     const seen = new Map<string, string[]>();
     for (const rule of rules) {
       for (const property of Object.keys(rule.declarations)) {
@@ -38,7 +34,7 @@ describe('stylesheet hygiene', () => {
     expect(overridden).toEqual([]);
   });
 
-  it('keeps no class that the markup no longer uses', () => {
+  it('keeps no class the markup does not use', () => {
     const classes = new Set(
       [...stylesheetSource.replace(/\/\*[\s\S]*?\*\//g, '').matchAll(/\.([A-Za-z][A-Za-z0-9_-]*)/g)]
         .map((match) => match[1]),

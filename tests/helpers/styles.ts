@@ -1,10 +1,7 @@
 import { readFileSync } from 'node:fs';
 import path from 'node:path';
 
-/**
- * 样式表的最小解析器：把 global.css 读成「媒体查询 + 选择器 → 声明」的结构，
- * 让测试断言实际生效的声明，而不是断言源码里的某一行长什么样。
- */
+/** 样式表的最小解析器：把 global.css 读成「媒体查询 + 选择器 → 声明」，供测试断言生效的声明。 */
 
 export interface StyleRule {
   /** 媒体查询条件，顶层规则为空串。 */
@@ -81,7 +78,7 @@ export function declaration(selector: string, property: string, media = ''): str
   return declarationsFor(selector, media)[property];
 }
 
-/** 选择器是否在样式表里出现过——用于「这条规则还活着」这类断言。 */
+/** 选择器是否在样式表里出现过。 */
 export function hasRule(selector: string, media = ''): boolean {
   return rules.some((rule) => rule.selector === selector && rule.media === media);
 }

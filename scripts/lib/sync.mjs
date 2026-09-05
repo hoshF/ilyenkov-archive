@@ -1,10 +1,7 @@
 import { existsSync, mkdirSync, readFileSync, writeFileSync } from 'node:fs';
 import path from 'node:path';
 
-/**
- * 同步器的公共外壳。两个脚本的差别只在「算出该生成什么」，其余——比较、写盘、--check
- * 只报告不改写、退出码——都一样。
- */
+/** 同步器的公共外壳：比较、写盘、--check 只报告不改写、统一退出码。 */
 
 /**
  * 写一个生成文件；内容没变就什么都不做。checkOnly 时只回报是否过期。
@@ -21,8 +18,8 @@ export function writeGenerated(target, content, { checkOnly = false } = {}) {
 }
 
 /**
- * 跑一个同步器：解析 --check、统一错误前缀、约定退出码。
- * 1 = 生成结果过期（只在 --check 下出现），2 = 同步失败。
+ * 跑一个同步器：解析 --check，为错误加上统一前缀。
+ * 退出码 1 = 生成结果过期（只在 --check 下出现），2 = 同步失败。
  */
 export function runSync(name, sync) {
   try {

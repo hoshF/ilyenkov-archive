@@ -133,7 +133,7 @@ describe('website-approved data adapter', () => {
     expect(declaration('.document-header h1', 'font-size')).toBe('var(--text-page)');
     expect(declaration('.prose', 'font-size')).toBe('var(--text-body)');
 
-    // 字号只从 token 取。:root 的 16px 是这套 rem 的基准，其余任何像素字号都是漏网的旧值。
+    // 字号只从 token 取；:root 的 16px 是这套 rem 的基准。
     const pixelSized = rules.filter((rule) => (
       rule.selector !== ':root' && /\d+px/.test(rule.declarations['font-size'] ?? '')
     ));
@@ -145,8 +145,7 @@ describe('website-approved data adapter', () => {
     expect(declaration('.site-header', 'top')).toBe('0');
     expect(declarationsFor(':root')['--header-h']).toBeDefined();
 
-    // 标题栏高度只在 --header-h 里定义一次：吸顶位置和锚点落点都从它推出来，
-    // 不再有第二处需要跟着改的像素值。
+    // 标题栏高度只在 --header-h 里定义一次，吸顶位置和锚点落点都从它推出来。
     for (const [selector, property, media] of [
       ['.section-layout--indexed .section-layout__intro', 'top', ''],
       ['.section-layout__toc', 'top', ''],
@@ -231,7 +230,7 @@ describe('book channel', () => {
     expect(detail).toContain('<dt>类型</dt>');
     expect(detail).toContain('BOOK_CATEGORY_LABELS[book.category]');
 
-    // 目录式条目：靠留白分组，不画分隔线，也不再有封面框
+    // 目录式条目：靠留白分组，不画分隔线，不放封面
     expect(declaration('.book-grid', 'display')).toBe('grid');
     expect(declaration('.book-grid', 'gap')).toBeDefined();
     expect(declaration('.book-grid', 'gap', '@media (max-width: 600px)')).toBeDefined();
@@ -266,8 +265,8 @@ describe('book channel', () => {
     expect(declaration('.edition-popover__panel', 'max-height')).toContain('60vh');
     expect(declaration('.edition-popover__panel', 'left', '@media (max-width: 600px)')).toBe('0');
 
-    // 书目字段不画分隔线。覆盖必须挂在 .book-page 上：事实表在 .book-header__body 里，
-    // 那是 <header class="book-header"> 的兄弟节点，挂在 .book-header 上会静默失效。
+    // 书目字段不画分隔线。事实表在 .book-header__body 里，不是 .book-header 的后代，
+    // 所以覆盖挂在 .book-page 上。
     expect(declaration('.book-page .fact-list > div', 'border')).toBe('0');
     expect(declaration('.book-page .fact-list > div', 'display')).toBe('block');
   });
