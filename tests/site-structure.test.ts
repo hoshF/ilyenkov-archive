@@ -75,7 +75,6 @@ describe('website-approved data adapter', () => {
       'archive/index.astro',
       'research.astro',
       'group.astro',
-      'books/index.astro',
       'about-us.astro',
       'about.astro',
     ]) {
@@ -97,6 +96,49 @@ describe('website-approved data adapter', () => {
     expect(layout).not.toContain('<p>本页</p>');
   });
 
+  it('uses location breadcrumbs on nested reading and catalogue pages', () => {
+    const breadcrumb = readFileSync(path.join(process.cwd(), 'src/components/Breadcrumbs.astro'), 'utf8');
+    expect(breadcrumb).toContain('aria-label="当前位置"');
+    expect(breadcrumb).toContain('<li><a href="/">首页</a></li>');
+
+    for (const route of [
+      'ilyenkov/life.astro',
+      'ilyenkov/timeline.astro',
+      'ilyenkov/works.astro',
+      'ilyenkov/circle.astro',
+      'archive/[id].astro',
+      'books/[id].astro',
+    ]) {
+      const source = readFileSync(path.join(process.cwd(), 'src/pages', route), 'utf8');
+      expect(source, `${route} should use location breadcrumbs`).toContain('Breadcrumbs');
+    }
+
+    const layout = readFileSync(path.join(process.cwd(), 'src/components/SectionLayout.astro'), 'utf8');
+    expect(layout).toContain('<slot name="breadcrumb" />');
+  });
+
+  it('uses one restrained type scale across public page families', () => {
+    const styles = readFileSync(path.join(process.cwd(), 'src/styles/global.css'), 'utf8');
+    for (const token of [
+      '--text-meta: .875rem',
+      '--text-secondary: .9375rem',
+      '--text-body: 1rem',
+      '--text-item: 1.125rem',
+      '--text-section: 1.375rem',
+      '--text-page: 1.75rem',
+      '--text-display: 2.25rem',
+    ]) {
+      expect(styles).toContain(token);
+    }
+
+    expect(styles).toContain('.breadcrumbs { min-width: 0; color: var(--muted); font-size: var(--text-meta);');
+    expect(styles).toContain('.page-title { margin: 0; font-size: var(--text-page);');
+    expect(styles).toContain('.document-header h1 { margin: 36px 0 0; font-size: var(--text-page);');
+    expect(styles).toContain('.prose { max-width: var(--reading); margin: 0 auto; font-size: var(--text-body);');
+    expect(styles).not.toMatch(/font-size:\s*(?:34|42|58)px/);
+    expect(styles).not.toContain('font-size: 19px');
+  });
+
   it('keeps indexed navigation visible while jumping at every layout width', () => {
     const styles = readFileSync(path.join(process.cwd(), 'src/styles/global.css'), 'utf8');
     expect(styles).toContain('.section-layout--indexed');
@@ -104,14 +146,16 @@ describe('website-approved data adapter', () => {
     expect(styles).toContain('@media (max-width: 1120px)');
     expect(styles).toContain('@media (max-width: 800px)');
     expect(styles).toContain('.section-layout__toc { position: sticky');
-    expect(styles).toContain('.section-layout--indexed .section-layout__intro { position: sticky; top: 32px; }');
-    expect(styles).toContain('.section-layout--indexed .section-layout__sidebar { display: block; position: sticky; top: 32px; grid-column: 1; }');
+    expect(styles).toContain('@media (max-width: 600px)');
+    expect(styles).toContain('.site-header {\n  position: sticky; top: 0; z-index: 50;');
+    expect(styles).toContain('.section-layout--indexed .section-layout__intro { position: sticky; top: calc(var(--header-h) + 96px); }');
+    expect(styles).toContain('.section-layout--indexed .section-layout__sidebar { display: block; position: sticky; top: calc(var(--header-h) + 96px); grid-column: 1; }');
     expect(styles).toContain('.section-layout--indexed .section-layout__intro { position: static; }');
     expect(styles).toContain('.section-layout--indexed { display: block; }');
     expect(styles).toContain('.section-layout--indexed .section-layout__sidebar { display: contents; }');
-    expect(styles).toContain('.section-layout--indexed .section-layout__toc { position: sticky; top: 0; z-index: 10;');
-    expect(styles).toContain('.research-series h2 { margin: 0; scroll-margin-top: 32px;');
-    expect(styles).toContain('.research-series h2 { scroll-margin-top: 96px; }');
+    expect(styles).toContain('.section-layout--indexed .section-layout__toc { position: sticky; top: var(--header-h); z-index: 10;');
+    expect(styles).toContain('.research-series h2 { margin: 0; scroll-margin-top: calc(var(--header-h) + 32px);');
+    expect(styles).toContain('.research-series h2 { scroll-margin-top: calc(var(--header-h) + 96px); }');
   });
 
   it('presents Ilyenkov section entrances without link underlines', () => {
@@ -212,5 +256,76 @@ describe('book channel', () => {
       expect(book.introductionHtml.length).toBeGreaterThan(0);
       expect(book.editions).toContain(book.latestEdition);
     }
+  });
+
+  it('uses an unheaded default shelf while preserving future category headings', () => {
+    const page = readFileSync(path.join(process.cwd(), 'src/pages/books/index.astro'), 'utf8');
+    const detail = readFileSync(path.join(process.cwd(), 'src/pages/books/[id].astro'), 'utf8');
+    const styles = readFileSync(path.join(process.cwd(), 'src/styles/global.css'), 'utf8');
+
+    expect(page).toContain('<SectionLayout>');
+    expect(page).toContain('<header class="page-header" slot="intro">');
+    expect(page).toContain('<div class="books-shelf">');
+    expect(page).toContain('group.category !== \'translation\'');
+    expect(page).toContain('<h2 id={`category-${group.category}`}>{group.label}</h2>');
+    expect(page).toContain("group.category === 'translation' ? '书籍目录' : undefined");
+    expect(detail).toContain('<dt>类型</dt>');
+    expect(detail).toContain('BOOK_CATEGORY_LABELS[book.category]');
+    expect(styles).toContain('.book-grid { display: grid; gap: 34px; margin: 0; padding: 0; list-style: none; }');
+    expect(styles).not.toMatch(/\.book-entry[^{]*\{[^}]*border/);
+    expect(styles).toContain('.book-grid { gap: 28px; }');
+  });
+
+  it('keeps editions and access information inside the book detail panel', () => {
+    const page = readFileSync(path.join(process.cwd(), 'src/pages/books/[id].astro'), 'utf8');
+    const styles = readFileSync(path.join(process.cwd(), 'src/styles/global.css'), 'utf8');
+
+    expect(page).toContain('<dt>当前版次</dt>');
+    expect(page).toContain('<details class="edition-popover">');
+    expect(page).toContain('<span aria-hidden="true">·</span>');
+    expect(page).toContain('<p class="edition-popover__title">版次记录</p>');
+    expect(page).toContain('[...book.editions].reverse().map');
+    expect(page).toContain('edition.checksum');
+    expect(page).toContain('book.errata');
+    expect(page).toContain('<dt>获取与权利</dt>');
+    expect(page).toContain('book.rights');
+    expect(page).toContain('book.download');
+    expect(page).toContain('<p>本站不提供下载。</p>');
+    expect(page).not.toContain('此处只维护它的公开身份与版本记录');
+    expect(page).not.toContain('<h2 id="editions-heading">版次记录</h2>');
+    expect(page).not.toContain('<h2 id="access-heading">获取与权利</h2>');
+
+    expect(styles).toContain('.edition-popover__panel {');
+    expect(styles).toContain('.book-detail__edition { position: relative; }');
+    expect(styles).toContain('.edition-popover { position: static; }');
+    expect(styles).toContain('position: absolute; top: calc(100% + 8px); right: 0; z-index: 30;');
+    expect(styles).toContain('max-height: min(28rem, 60vh); overflow: auto;');
+    expect(styles).toContain('width: min(360px, calc(100vw - 40px)); max-height: min(28rem, 60vh); overflow: auto;');
+    expect(styles).toContain('.edition-popover__panel { right: auto; left: 0; width: 100%; padding: 16px; }');
+    expect(styles).toContain('.book-page .fact-list > div { display: block; padding: 0; border: 0; }');
+  });
+
+  it('keeps cover and identity above the introduction and stacks them on narrow screens', () => {
+    const page = readFileSync(path.join(process.cwd(), 'src/pages/books/[id].astro'), 'utf8');
+    const styles = readFileSync(path.join(process.cwd(), 'src/styles/global.css'), 'utf8');
+    const detailsIndex = page.indexOf('class="book-header__identity"');
+    const introductionIndex = page.indexOf('class="prose prose--section book-introduction"');
+    const coverIndex = page.indexOf('class="book-header__cover-panel"');
+
+    expect(coverIndex).toBeGreaterThan(-1);
+    expect(detailsIndex).toBeGreaterThan(coverIndex);
+    expect(introductionIndex).toBeGreaterThan(detailsIndex);
+    expect(styles).toContain('.container.book-page { width: min(calc(100% - 40px), 860px); max-width: 860px;');
+    expect(styles).toContain('grid-template-columns: clamp(220px, 30vw, 280px) minmax(0, 1fr);');
+    expect(styles).toContain('column-gap: clamp(28px, 5vw, 48px);');
+    expect(styles).toContain('"cover identity"');
+    expect(styles).toContain('"introduction introduction";');
+    expect(styles).toContain('.book-header__cover-link { display: block; width: 100%; max-width: none;');
+    expect(styles).toContain('.book-page .book-introduction { grid-area: introduction; width: 100%; max-width: var(--reading); margin: 0; }');
+    expect(styles).toContain('@media (max-width: 800px)');
+    expect(styles).toContain('.book-header__cover-link { width: min(100%, 420px); max-width: 420px; }');
+    expect(styles).toContain('.container.book-page { width: min(calc(100% - 2.5rem), 860px);');
+    expect(styles).toContain('.book-header__title { padding: 0; border: 0; }');
+    expect(styles).toContain('.book-page .fact-list > div + div { margin-top: 28px; }');
   });
 });

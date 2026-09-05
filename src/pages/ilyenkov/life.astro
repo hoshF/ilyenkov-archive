@@ -1,5 +1,6 @@
 ---
 import BaseLayout from '../../layouts/BaseLayout.astro';
+import Breadcrumbs from '../../components/Breadcrumbs.astro';
 import SectionLayout from '../../components/SectionLayout.astro';
 import {
   getPublicBiographyRecords,
@@ -34,8 +35,11 @@ const workTypes = [...new Set(works.map((work) => work.type))].sort((left, right
 
 <BaseLayout title="生平" description="伊里因科夫目前已公开、可核验的生平坐标。">
   <SectionLayout>
+    <Breadcrumbs slot="breadcrumb" items={[
+      { label: '伊里因科夫', href: '/ilyenkov' },
+      { label: '生平' },
+    ]} />
     <header class="page-header" slot="intro">
-      <p class="page-parent"><a href="/ilyenkov">认识伊里因科夫</a></p>
       <h1 class="page-title">生平</h1>
       <p class="lead">从已经公开、可以逐项核验的材料进入伊里因科夫的生命历程。</p>
       <p class="section-note">这不是完整传记。当前生平坐标只延伸至 1953 年，并以既有公开活动与作品目录继续标示其后的部分阶段；未出现的年代不表示其中没有值得记录的经历。</p>

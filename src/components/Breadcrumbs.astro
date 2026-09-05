@@ -1,0 +1,25 @@
+---
+export interface BreadcrumbItem {
+  label: string;
+  href?: string;
+}
+
+interface Props {
+  items: BreadcrumbItem[];
+}
+
+const { items } = Astro.props;
+---
+
+<nav class="breadcrumbs" aria-label="当前位置">
+  <ol>
+    <li><a href="/">首页</a></li>
+    {items.map((item, index) => (
+      <li>
+        {item.href && index < items.length - 1
+          ? <a href={item.href}>{item.label}</a>
+          : <span aria-current={index === items.length - 1 ? 'page' : undefined}>{item.label}</span>}
+      </li>
+    ))}
+  </ol>
+</nav>

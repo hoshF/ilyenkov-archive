@@ -3,6 +3,8 @@ title: 科学理论思维中抽象与具体的辩证法
 original_title: Диалектика абстрактного и конкретного в научно-теоретическом мышлении
 author: 埃瓦尔德·伊里因科夫
 cover: /covers/dialektika-abstraktnogo-i-konkretnogo.png
+original_year: '1997'
+work_type: 专著
 category: translation
 editions:
   - version: dd0e067

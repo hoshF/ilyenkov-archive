@@ -1,5 +1,6 @@
 ---
 import BaseLayout from '../../layouts/BaseLayout.astro';
+import Breadcrumbs from '../../components/Breadcrumbs.astro';
 import SectionLayout from '../../components/SectionLayout.astro';
 import { formatHistoricalPeriod, getPublicResearchRecords } from '../../lib/research-records';
 
@@ -11,8 +12,11 @@ const sourceLabel = (source: { creator: string | null; title: string }) => (
 
 <BaseLayout title="交往与活动" description="伊里因科夫目前已公开的服役与国际黑格尔大会记录。">
   <SectionLayout>
+    <Breadcrumbs slot="breadcrumb" items={[
+      { label: '伊里因科夫', href: '/ilyenkov' },
+      { label: '交往与活动' },
+    ]} />
     <header class="page-header" slot="intro">
-      <p class="page-parent"><a href="/ilyenkov">认识伊里因科夫</a></p>
       <h1 class="page-title">交往与活动</h1>
       <p class="lead">从已经完成公开选择的资料进入伊里因科夫的实际活动环境。目前呈现服役经历与国际黑格尔大会记录。</p>
       <p class="section-note">本页不以尚未完成公开选择的材料扩展栏目范围。</p>

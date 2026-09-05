@@ -1,5 +1,6 @@
 ---
 import BaseLayout from '../../layouts/BaseLayout.astro';
+import Breadcrumbs from '../../components/Breadcrumbs.astro';
 import SectionLayout from '../../components/SectionLayout.astro';
 import { getPublicWorks } from '../../lib/research-records';
 
@@ -21,8 +22,11 @@ const workGroups = [...worksByType].sort(([left], [right]) => {
 
 <BaseLayout title="作品目录" description="伊里因科夫已公开、可核验作品的目录。">
   <SectionLayout>
+    <Breadcrumbs slot="breadcrumb" items={[
+      { label: '伊里因科夫', href: '/ilyenkov' },
+      { label: '作品目录' },
+    ]} />
     <header class="page-header" slot="intro">
-      <p class="page-parent"><a href="/ilyenkov">认识伊里因科夫</a></p>
       <h1 class="page-title">作品目录</h1>
       <p class="lead">以作品而不是文件为单位，连接原始版本与可公开的书目来源。</p>
       <p class="section-note">作品列入目录，不等于本站提供中文全文或下载。本页目前只陈列已经完成公开选择、且有逐条公开来源的作品。</p>

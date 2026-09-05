@@ -1,20 +1,20 @@
 ---
-import type { Book } from '../lib/books';
+import { BOOK_CATEGORY_LABELS, type Book } from '../lib/books';
 
 interface Props { book: Book; }
 const { book } = Astro.props;
+
+/** 元信息一行：原著年份在前，体裁在后；没有单独标体裁时退回“译作/数字化文本”这一层分类。 */
+const meta = [book.original_year, book.work_type ?? BOOK_CATEGORY_LABELS[book.category]].filter(Boolean);
 ---
 
-<li class="book-card">
-  <a href={book.route}>
-    <span class="book-card__frame">
-      {book.cover
-        ? <img class="book-card__cover" src={book.cover} alt={`《${book.title}》封面`} loading="lazy" />
-        : <span class="book-card__cover book-card__cover--blank" aria-hidden="true"></span>}
+<li class="book-entry">
+  <a class="book-entry__link" href={book.route}>
+    <span class="book-entry__title">
+      《{book.title}》
+      {book.volume_label && <span class="book-entry__volume">{book.volume_label}</span>}
     </span>
-    <span class="book-card__title">
-      {book.title}
-      {book.volume_label && <span class="book-card__volume">{book.volume_label}</span>}
-    </span>
+    {book.original_title && <span class="book-entry__original" lang="ru">{book.original_title}</span>}
+    <span class="book-entry__meta">{meta.join(' · ')}</span>
   </a>
 </li>

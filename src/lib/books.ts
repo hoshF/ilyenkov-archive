@@ -35,6 +35,10 @@ const BookSchema = z.object({
   cover: z.string().regex(/^\/covers\/[a-z0-9-]+\.(?:jpg|png|webp)$/).optional(),
   /** 原文出处：这段文字原本在哪本书/文集里，不是“翻译时用的印本”那种底本概念。 */
   original_source: z.string().trim().min(1).optional(),
+  /** 原著初版年份，只用于列表页的一行元信息；不确定就留空，不要拿本站版次的年份顶替。 */
+  original_year: z.string().regex(/^\d{4}$/).optional(),
+  /** 原著体裁，自由格式（“著作”“专著”“文集”都可以），留空时列表页退回 category 的标签。 */
+  work_type: z.string().trim().min(1).optional(),
   category: z.enum(BOOK_CATEGORIES).default('translation'),
   /** 文集/丛书名。多本书共享同一个 collection 时，列表页把它们聚在一起显示。 */
   collection: z.string().trim().min(1).optional(),

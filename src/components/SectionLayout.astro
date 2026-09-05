@@ -13,6 +13,12 @@ const indexed = toc.length > 0;
 ---
 
 <div class:list={['container', 'section-layout', indexed && 'section-layout--indexed']}>
+  {Astro.slots.has('breadcrumb') && (
+    <div class="section-layout__breadcrumb">
+      <slot name="breadcrumb" />
+    </div>
+  )}
+
   <div class="section-layout__sidebar">
     <div class="section-layout__intro">
       <slot name="intro" />

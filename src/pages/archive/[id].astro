@@ -1,5 +1,6 @@
 ---
 import BaseLayout from '../../layouts/BaseLayout.astro';
+import Breadcrumbs from '../../components/Breadcrumbs.astro';
 import { getSiteData, type CanonicalDocument } from '../../lib/site-data';
 
 export async function getStaticPaths() {
@@ -49,6 +50,11 @@ const doiLabel = document.kind === 'readable' && document.doiUrl
 
 <BaseLayout title={document.title} description={description}>
   <div class="container article-page">
+    <Breadcrumbs items={[
+      { label: '档案', href: '/archive' },
+      { label: document.title },
+    ]} />
+
     <article>
       <header class="document-header">
         <h1>{document.title}</h1>

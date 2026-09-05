@@ -1,7 +1,7 @@
 ---
 import BaseLayout from '../../layouts/BaseLayout.astro';
-import BookCard from '../../components/BookCard.astro';
 import SectionLayout from '../../components/SectionLayout.astro';
+import BookCard from '../../components/BookCard.astro';
 import { getBooks, groupBooks } from '../../lib/books';
 
 const books = await getBooks();
@@ -17,26 +17,34 @@ const groups = groupBooks(books);
     </header>
 
     {groups.length > 0 ? (
-      groups.map((group) => (
-        <section class="book-category" aria-labelledby={`category-${group.category}`}>
-          <h2 id={`category-${group.category}`}>{group.label}</h2>
+      <div class="books-shelf">
+        {groups.map((group) => (
+          <section
+            class:list={['book-category', group.category === 'translation' && 'book-category--default']}
+            aria-label={group.category === 'translation' ? '书籍目录' : undefined}
+            aria-labelledby={group.category !== 'translation' ? `category-${group.category}` : undefined}
+          >
+            {group.category !== 'translation' && (
+              <h2 id={`category-${group.category}`}>{group.label}</h2>
+            )}
 
-          {group.standalone.length > 0 && (
-            <ul class="book-grid">
-              {group.standalone.map((book) => <BookCard book={book} />)}
-            </ul>
-          )}
-
-          {group.collections.map((collection) => (
-            <div class="book-collection">
-              <h3>{collection.name}</h3>
+            {group.standalone.length > 0 && (
               <ul class="book-grid">
-                {collection.books.map((book) => <BookCard book={book} />)}
+                {group.standalone.map((book) => <BookCard book={book} />)}
               </ul>
-            </div>
-          ))}
-        </section>
-      ))
+            )}
+
+            {group.collections.map((collection) => (
+              <div class="book-collection">
+                <h3>{collection.name}</h3>
+                <ul class="book-grid">
+                  {collection.books.map((book) => <BookCard book={book} />)}
+                </ul>
+              </div>
+            ))}
+          </section>
+        ))}
+      </div>
     ) : (
       <div class="prose prose--page">
         <h2>当前状态</h2>
