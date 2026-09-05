@@ -552,7 +552,7 @@ h2, h3, h4 { text-wrap: balance; line-height: 1.3; }
 }
 
 @media (max-width: 600px) {
-  :root { --header-h: 80px; --section-top: 3rem; }
+  :root { --header-h: 90px; --section-top: 3rem; }
   .section-layout { grid-template-columns: 1fr; gap: 40px; }
   .section-layout--indexed { display: block; }
   .section-layout--indexed .section-layout__sidebar { display: contents; }
@@ -566,9 +566,10 @@ h2, h3, h4 { text-wrap: balance; line-height: 1.3; }
   }
   .research-series h2 { scroll-margin-top: calc(var(--header-h) + 96px); } /* 标题栏 + 目录横条 */
   .site-header__masthead, .container, .home-shell { width: min(calc(100% - 1.5rem), var(--content)); }
+  /* 导航固定另起一行：宽度一变就换行的话，标题栏高度会在两个值之间跳，--header-h 只能取一个。 */
   .site-header__masthead { flex-wrap: wrap; align-items: center; row-gap: 4px; padding: 12px 0; }
   .site-name { width: auto; }
-  .site-header__masthead nav { flex: 1; gap: 12px; padding: 0; }
+  .site-header__masthead nav { flex: 0 0 100%; justify-content: flex-start; gap: 12px; padding: 0; }
   .site-header__masthead nav a { font-size: var(--text-meta); padding: 8px 0; }
   .home-masthead { width: calc(100% - 1.5rem); padding: 48px 0 36px; }
   .home-masthead h1 { font-size: var(--text-display-mobile); }
