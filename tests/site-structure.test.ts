@@ -193,13 +193,13 @@ describe('public navigation', () => {
   it('links the homepage introduction to a dedicated about page', () => {
     expect(pageSource('index.astro')).toContain('href="/about-us"');
     const aboutPage = pageSource('about-us.astro');
-    expect(aboutPage).toContain('<SectionLayout>');
+    expect(aboutPage).toContain('<SectionLayout');
     expect(aboutPage).toContain('href="/about"');
   });
 
   it('keeps the group page focused on the group rather than repeating site outputs', () => {
     const source = pageSource('group.astro');
-    expect(source).toContain('<SectionLayout>');
+    expect(source).toContain('<SectionLayout');
     for (const siteOutput of ['getSiteData', 'getBooks', 'toc={toc}']) {
       expect(source, `group page should not read ${siteOutput}`).not.toContain(siteOutput);
     }
@@ -221,7 +221,7 @@ describe('book channel', () => {
     const page = pageSource('books/index.astro');
     const detail = pageSource('books/[id].astro');
 
-    expect(page).toContain('<SectionLayout>');
+    expect(page).toContain('<SectionLayout');
     expect(page).toContain('<header class="page-header" slot="intro">');
     expect(page).toContain('<div class="books-shelf">');
     expect(page).toContain('group.category !== \'translation\'');

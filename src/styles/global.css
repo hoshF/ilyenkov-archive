@@ -303,6 +303,8 @@ h2, h3, h4 { text-wrap: balance; line-height: 1.3; }
 
 .section-layout__sidebar, .section-layout__intro, .section-layout__content { min-width: 0; }
 
+.section-layout--pinned .section-layout__sidebar { position: sticky; top: calc(var(--header-h) + var(--section-top)); }
+
 .section-layout__intro .page-header { margin: 0; }
 .section-layout__intro .lead { font-size: var(--text-body); line-height: 1.65; }
 
@@ -567,6 +569,7 @@ h2, h3, h4 { text-wrap: balance; line-height: 1.3; }
 @media (max-width: 800px) {
   .home-shell { grid-template-columns: 1fr; gap: 56px; }
   .section-layout:not(.section-layout--indexed) { grid-template-columns: 1fr; gap: 40px; }
+  .section-layout--pinned .section-layout__sidebar { position: static; }
   .section-layout__breadcrumb { margin-bottom: 0; }
   .book-header__body { row-gap: 46px; }
 }

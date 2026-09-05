@@ -6,13 +6,20 @@ export interface SectionTocItem {
 
 interface Props {
   toc?: SectionTocItem[];
+  /** 左栏固定在打开页面时的位置，只有右侧内容滚动。 */
+  pinned?: boolean;
 }
 
-const { toc = [] } = Astro.props;
+const { toc = [], pinned = false } = Astro.props;
 const indexed = toc.length > 0;
 ---
 
-<div class:list={['container', 'section-layout', indexed && 'section-layout--indexed']}>
+<div class:list={[
+  'container',
+  'section-layout',
+  indexed && 'section-layout--indexed',
+  pinned && 'section-layout--pinned',
+]}>
   {Astro.slots.has('breadcrumb') && (
     <div class="section-layout__breadcrumb">
       <slot name="breadcrumb" />
