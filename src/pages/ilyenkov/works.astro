@@ -36,14 +36,14 @@ const workGroups = [...worksByType].sort(([left], [right]) => {
         <section class="works-catalog-section" aria-labelledby={`work-type-${type}`}>
           <h2 id={`work-type-${type}`}>{type}</h2>
           {typeNotes[type] && <p class="works-catalog-section__note">{typeNotes[type]}</p>}
-          <ol class="works-catalog-list">
+          <ol class="record-list">
             {entries.map((work) => (
               <li>
                 <article>
-                  <p class="works-catalog-list__year">{work.year}</p>
-                  <h3>{work.title}</h3>
-                  <p class="works-catalog-list__original">{work.originalTitle}</p>
-                  <p class="works-catalog-list__sources">{work.sources.map((source, index) => <><a href={source.url}>{source.label}</a>{index < work.sources.length - 1 && ' · '}</>)}</p>
+                  <p class="record__meta">{work.year}</p>
+                  <h3 class="record__title">{work.title}</h3>
+                  <p class="record__original">{work.originalTitle}</p>
+                  <p class="record__sources">{work.sources.map((source, index) => <><a href={source.url}>{source.label}</a>{index < work.sources.length - 1 && ' · '}</>)}</p>
                 </article>
               </li>
             ))}

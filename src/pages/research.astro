@@ -37,14 +37,14 @@ const toc = [
     <section class="research-series research-series--ifi" aria-labelledby="ifi-heading">
         <h2 id="ifi-heading">{ifiNetwork.title}</h2>
         <p class="research-series__lead"><a href={ifiNetwork.url}>{ifiNetwork.name}（{ifiNetwork.abbreviation}）</a>，成立于 {ifiNetwork.founded} 年。{ifiNetwork.summary}</p>
-        <ol class="research-list">
+        <ol class="record-list">
           {ifiSymposiums.map((record) => (
             <li>
               <article>
-                <p class="research-list__period">{formatHistoricalPeriod(record.period)} · {record.location}</p>
-                <p class="research-list__edition">{record.context}</p>
-                <h3>{record.title}</h3>
-                <p class="research-list__sources">来源：{record.sources.map((source, index) => <><a href={source.url}>{sourceLabel(source)}</a>{index < record.sources.length - 1 && '；'}</>)}</p>
+                <p class="record__meta">{formatHistoricalPeriod(record.period)} · {record.location}</p>
+                <p class="record__label">{record.context}</p>
+                <h3 class="record__title">{record.title}</h3>
+                <p class="record__sources">来源：{record.sources.map((source, index) => <><a href={source.url}>{sourceLabel(source)}</a>{index < record.sources.length - 1 && '；'}</>)}</p>
               </article>
             </li>
           ))}
@@ -59,12 +59,12 @@ const toc = [
             <h3>{researcher.name}</h3>
             <p class="researcher-card__original">{researcher.originalName}</p>
             <p>{researcher.summary}</p>
-            <ol class="researcher-card__works">
+            <ol class="record-list">
               {researcher.works.map((work) => (
                 <li>
-                  <h4>{work.title}</h4>
-                  <p>{work.originalTitle}</p>
-                  <p class="researcher-card__links"><a href={work.archiveRoute}>阅读中文译文</a><a href={work.source.url}>查看原文来源</a></p>
+                  <h4 class="record__title">{work.title}</h4>
+                  <p class="record__original">{work.originalTitle}</p>
+                  <p class="record__links"><a href={work.archiveRoute}>阅读中文译文</a><a href={work.source.url}>查看原文来源</a></p>
                 </li>
               ))}
             </ol>
@@ -80,9 +80,9 @@ const toc = [
             <h3><a href={site.url}>{site.title}</a></h3>
             <p class="research-site-card__original">{site.originalTitle}</p>
             <p>{site.summary}</p>
-            <ul>
-              {site.sections.map((section) => <li><a href={section.url}>{section.label}</a></li>)}
-            </ul>
+            <p class="record__links">
+              {site.sections.map((section) => <a href={section.url}>{section.label}</a>)}
+            </p>
           </article>
         ))}
     </section>
@@ -90,14 +90,14 @@ const toc = [
     <section class="research-series" aria-labelledby="readings-heading">
         <h2 id="readings-heading">伊里因科夫讨论会</h2>
         <p class="research-series__lead">从 1991 年的首次会议到后续国际届次，这一系列构成伊里因科夫研究延续的重要场域。以下为资料定位较完整的代表节点，并非完整会议年表。</p>
-        <ol class="research-list">
+        <ol class="record-list">
           {readings.map((record) => (
             <li>
               <article>
-                <p class="research-list__period">{formatHistoricalPeriod(record.period)} · {record.location ?? record.format}</p>
-                <p class="research-list__edition">{record.edition}</p>
-                <h3>{record.title}</h3>
-                <p class="research-list__sources">来源：{record.sources.map((source, index) => <><a href={source.url}>{sourceLabel(source)}</a>{index < record.sources.length - 1 && '；'}</>)}</p>
+                <p class="record__meta">{formatHistoricalPeriod(record.period)} · {record.location ?? record.format}</p>
+                <p class="record__label">{record.edition}</p>
+                <h3 class="record__title">{record.title}</h3>
+                <p class="record__sources">来源：{record.sources.map((source, index) => <><a href={source.url}>{sourceLabel(source)}</a>{index < record.sources.length - 1 && '；'}</>)}</p>
               </article>
             </li>
           ))}

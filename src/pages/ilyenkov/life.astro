@@ -45,49 +45,49 @@ const workTypes = [...new Set(works.map((work) => work.type))].sort((left, right
       <p class="section-note">这不是完整传记。当前生平坐标只延伸至 1953 年，并以既有公开活动与作品目录继续标示其后的部分阶段；未出现的年代不表示其中没有值得记录的经历。</p>
     </header>
 
-    <ol class="life-phases">
+    <ol class="record-list">
       <li>
         <article>
-          <p class="life-phases__period">{birth.period.start.slice(0, 4)}—{studyStart.period.start.slice(0, 4)}</p>
-          <h2>出生、童年与开始哲学学习</h2>
-          <p>{birth.summary}{studyStart.summary}</p>
-          <p class="life-phases__links"><a href="/ilyenkov/timeline">在年表中查看</a></p>
+          <p class="record__meta">{birth.period.start.slice(0, 4)}—{studyStart.period.start.slice(0, 4)}</p>
+          <h2 class="record__title">出生、童年与开始哲学学习</h2>
+          <p class="record__summary">{birth.summary}{studyStart.summary}</p>
+          <p class="record__links"><a href="/ilyenkov/timeline">在年表中查看</a></p>
         </article>
       </li>
 
       <li>
         <article>
-          <p class="life-phases__period">{militaryStart}—{militaryEnd}</p>
-          <h2>战时服役与返回大学</h2>
-          <p>目前公开的记录从应征与炮兵学校开始，依次覆盖前线与部队经历、在《红星报》编辑部的工作，以及复员后返回大学。</p>
-          <p class="life-phases__links"><a href="/ilyenkov/circle">查看服役记录</a><a href="/ilyenkov/timeline">在年表中查看</a></p>
+          <p class="record__meta">{militaryStart}—{militaryEnd}</p>
+          <h2 class="record__title">战时服役与返回大学</h2>
+          <p class="record__summary">目前公开的记录从应征与炮兵学校开始，依次覆盖前线与部队经历、在《红星报》编辑部的工作，以及复员后返回大学。</p>
+          <p class="record__links"><a href="/ilyenkov/circle">查看服役记录</a><a href="/ilyenkov/timeline">在年表中查看</a></p>
         </article>
       </li>
 
       <li>
         <article>
-          <p class="life-phases__period">{militaryEnd}—{institute.period.start.slice(0, 4)}</p>
-          <h2>大学、研究生阶段与学术起点</h2>
-          <p>复员后返回莫斯科大学继续学习。{graduation.summary}{postgraduate.summary}{institute.summary}</p>
-          <p class="life-phases__links"><a href="/ilyenkov/timeline">在年表中查看</a></p>
+          <p class="record__meta">{militaryEnd}—{institute.period.start.slice(0, 4)}</p>
+          <h2 class="record__title">大学、研究生阶段与学术起点</h2>
+          <p class="record__summary">复员后返回莫斯科大学继续学习。{graduation.summary}{postgraduate.summary}{institute.summary}</p>
+          <p class="record__links"><a href="/ilyenkov/timeline">在年表中查看</a></p>
         </article>
       </li>
 
       <li>
         <article>
-          <p class="life-phases__period">{workYears.join('、')}</p>
-          <h2>作品的公开坐标</h2>
-          <p>当前作品目录收录已完成公开选择的{workTypes.join('、')}。这些书目坐标有助于辨认其理论工作的发展，但不表示本站提供中文全文。</p>
-          <p class="life-phases__links"><a href="/ilyenkov/works">查看作品目录</a></p>
+          <p class="record__meta">{workYears.join('、')}</p>
+          <h2 class="record__title">作品的公开坐标</h2>
+          <p class="record__summary">当前作品目录收录已完成公开选择的{workTypes.join('、')}。这些书目坐标有助于辨认其理论工作的发展，但不表示本站提供中文全文。</p>
+          <p class="record__links"><a href="/ilyenkov/works">查看作品目录</a></p>
         </article>
       </li>
 
       <li>
         <article>
-          <p class="life-phases__period">{congressStart}—{congressEnd}</p>
-          <h2>国际黑格尔大会</h2>
-          <p>现有公开资料记录了他与国际黑格尔大会的关联，包括参会、报告及收入会议文集的书面论文；每项关系均按现有核验状态分别表述。</p>
-          <p class="life-phases__links"><a href="/ilyenkov/circle">查看大会记录</a><a href="/ilyenkov/timeline">在年表中查看</a></p>
+          <p class="record__meta">{congressStart}—{congressEnd}</p>
+          <h2 class="record__title">国际黑格尔大会</h2>
+          <p class="record__summary">现有公开资料记录了他与国际黑格尔大会的关联，包括参会、报告及收入会议文集的书面论文；每项关系均按现有核验状态分别表述。</p>
+          <p class="record__links"><a href="/ilyenkov/circle">查看大会记录</a><a href="/ilyenkov/timeline">在年表中查看</a></p>
         </article>
       </li>
     </ol>

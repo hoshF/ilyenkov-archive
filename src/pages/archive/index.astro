@@ -18,11 +18,13 @@ const { articles } = await getSiteData();
       <div class="archive-years">
         <section class="archive-year" aria-label="公开文本">
           <h2>公开文本</h2>
-          <ol>
+          <ol class="record-list">
             {articles.map((article) => (
               <li>
-                <a href={article.route}>{article.title}</a>
-                <span>{article.originalTitle}</span>
+                <a class="record__link" href={article.route}>
+                  <span class="record__title">{article.title}</span>
+                  <span class="record__original">{article.originalTitle}</span>
+                </a>
               </li>
             ))}
           </ol>

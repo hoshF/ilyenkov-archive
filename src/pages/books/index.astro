@@ -29,7 +29,7 @@ const groups = groupBooks(books);
             )}
 
             {group.standalone.length > 0 && (
-              <ul class="book-grid">
+              <ul class="record-list">
                 {group.standalone.map((book) => <BookCard book={book} />)}
               </ul>
             )}
@@ -37,7 +37,7 @@ const groups = groupBooks(books);
             {group.collections.map((collection) => (
               <div class="book-collection">
                 <h3>{collection.name}</h3>
-                <ul class="book-grid">
+                <ul class="record-list">
                   {collection.books.map((book) => <BookCard book={book} />)}
                 </ul>
               </div>

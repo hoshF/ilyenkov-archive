@@ -230,15 +230,15 @@ describe('book channel', () => {
     expect(detail).toContain('<dt>类型</dt>');
     expect(detail).toContain('BOOK_CATEGORY_LABELS[book.category]');
 
-    // 目录式条目：靠留白分组，不画分隔线，不放封面
-    expect(declaration('.book-grid', 'display')).toBe('grid');
-    expect(declaration('.book-grid', 'gap')).toBeDefined();
-    expect(declaration('.book-grid', 'gap', '@media (max-width: 600px)')).toBeDefined();
-    const borderedEntries = rules.filter((rule) => (
-      rule.selector.startsWith('.book-entry')
+    // 每个栏目的条目共用一套记录列表：靠留白分组，不画分隔线，也不放封面
+    expect(page).toContain('<ul class="record-list">');
+    expect(declaration('.record-list', 'display')).toBe('grid');
+    expect(declaration('.record-list', 'gap')).toBeDefined();
+    const borderedRecords = rules.filter((rule) => (
+      rule.selector.startsWith('.record__')
       && Object.keys(rule.declarations).some((property) => property.startsWith('border'))
     ));
-    expect(borderedEntries.map((rule) => rule.selector)).toEqual([]);
+    expect(borderedRecords.map((rule) => rule.selector)).toEqual([]);
     expect(rules.some((rule) => rule.selector.startsWith('.book-card'))).toBe(false);
   });
 
