@@ -23,14 +23,14 @@ describe('website-approved data adapter', () => {
   });
 
   it('keeps canonical routes unique', async () => {
-    const { documents } = await getSiteData();
-    const routes = documents.map((document) => document.route);
+    const { articles } = await getSiteData();
+    const routes = articles.map((article) => article.route);
     expect(new Set(routes).size).toBe(routes.length);
   });
 
   it('does not expose local filesystem paths as public data', async () => {
     const data = await getSiteData();
-    const publicRoutes = new Set(data.documents.map((document) => document.route));
+    const publicRoutes = new Set(data.articles.map((article) => article.route));
     const strings: string[] = [];
     const collectStrings = (value: unknown): void => {
       if (typeof value === 'string') strings.push(value);
@@ -174,10 +174,9 @@ describe('website-approved data adapter', () => {
     expect(declaration('.entrance-grid', 'grid-template-columns', '@media (max-width: 600px)')).toBe('1fr');
   });
 
-  it('publishes only documents selected by the upstream website channel', async () => {
-    const { documents } = await getSiteData();
-    expect(documents.some((document) => document.kind === 'readable' && document.html.length > 0)).toBe(true);
-    expect(documents.some((document) => document.kind === 'work')).toBe(false);
+  it('publishes only readable documents selected by the upstream website channel', async () => {
+    const { articles } = await getSiteData();
+    expect(articles.every((article) => article.kind === 'readable' && article.html.length > 0)).toBe(true);
   });
 });
 

@@ -1,33 +1,31 @@
 ---
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import Breadcrumbs from '../../components/Breadcrumbs.astro';
-import { getSiteData, type CanonicalDocument } from '../../lib/site-data';
+import { getSiteData, type ReadableDocument } from '../../lib/site-data';
 
 export async function getStaticPaths() {
-  const { documents } = await getSiteData();
-  const sibling = (candidate: CanonicalDocument | undefined) => (
+  const { articles } = await getSiteData();
+  const sibling = (candidate: ReadableDocument | undefined) => (
     candidate ? { title: candidate.title, route: candidate.route } : null
   );
-  return documents.map((document, index) => ({
+  return articles.map((document, index) => ({
     params: { id: document.id },
     props: {
       document,
-      previous: sibling(documents[index - 1]),
-      next: sibling(documents[index + 1]),
+      previous: sibling(articles[index - 1]),
+      next: sibling(articles[index + 1]),
     },
   }));
 }
 
 interface Sibling { title: string; route: string; }
 interface Props {
-  document: CanonicalDocument;
+  document: ReadableDocument;
   previous: Sibling | null;
   next: Sibling | null;
 }
 const { document, previous, next } = Astro.props;
-const description = document.kind === 'readable'
-  ? `《${document.title}》的中文译文。`
-  : `伊里因科夫作品《${document.title}》的公开目录与来源记录。`;
+const description = `《${document.title}》的中文译文。`;
 
 function finalUrlSegment(value: string): string {
   const pathname = new URL(value).pathname.replace(/\/$/, '');
@@ -40,12 +38,8 @@ function finalUrlSegment(value: string): string {
   }
 }
 
-const sourceLabel = document.kind === 'readable' && document.sourceUrl
-  ? finalUrlSegment(document.sourceUrl)
-  : null;
-const doiLabel = document.kind === 'readable' && document.doiUrl
-  ? document.doiUrl.replace(/^https?:\/\/doi\.org\//, '')
-  : null;
+const sourceLabel = document.sourceUrl ? finalUrlSegment(document.sourceUrl) : null;
+const doiLabel = document.doiUrl?.replace(/^https?:\/\/doi\.org\//, '') ?? null;
 ---
 
 <BaseLayout title={document.title} description={description}>
@@ -58,45 +52,17 @@ const doiLabel = document.kind === 'readable' && document.doiUrl
     <article>
       <header class="document-header">
         <h1>{document.title}</h1>
-        {document.kind === 'readable' && (
-          <p class="document-header__original">{document.originalTitle}</p>
-        )}
+        <p class="document-header__original">{document.originalTitle}</p>
       </header>
 
-      {document.kind === 'readable' ? (
-        <>
-          <div class="prose" set:html={document.html} />
-          <section class="prose source-info" aria-labelledby="source-info-heading">
-            <hr />
-            <h2 id="source-info-heading">原文信息</h2>
-            <p>版本：{document.sourceEdition}</p>
-            {document.sourceUrl && <p>原文：<a href={document.sourceUrl}>{sourceLabel}</a></p>}
-            {document.doiUrl && <p>DOI号：<a href={document.doiUrl}>{doiLabel}</a></p>}
-          </section>
-        </>
-      ) : (
-        <section class="work-facts" aria-labelledby="access-heading">
-          <p>这是一条作品目录记录。本站目前没有可公开阅读的正文，但仍保留作品身份和公开来源，方便读者辨认与继续查找。</p>
-
-          <h2 id="access-heading">当前可访问情况</h2>
-          <dl class="fact-list">
-            <div><dt>中文</dt><dd>{document.chineseAvailability}</dd></div>
-            <div><dt>原文</dt><dd>{document.sourceAvailability}</dd></div>
-            <div><dt>本站</dt><dd>{document.siteAvailability}</dd></div>
-          </dl>
-
-          <h2>作品与来源</h2>
-          <dl class="fact-list">
-            <div><dt>原始标题</dt><dd lang="ru">{document.title}</dd></div>
-            <div><dt>作者</dt><dd>{document.author}</dd></div>
-            <div><dt>时间</dt><dd>{document.year ?? '公开记录暂未提供'}</dd></div>
-            <div><dt>体裁</dt><dd>{document.genre}</dd></div>
-            {document.sourceUrl && <div><dt>外部来源</dt><dd><a href={document.sourceUrl}>查看原文或来源记录</a></dd></div>}
-            <div><dt>核验说明</dt><dd>{document.verificationLabel}</dd></div>
-            {document.relatedRecord && <div><dt>相关目录记录</dt><dd><a href={`/archive/${document.relatedRecord}`}>查看关联记录</a></dd></div>}
-          </dl>
-        </section>
-      )}
+      <div class="prose" set:html={document.html} />
+      <section class="prose source-info" aria-labelledby="source-info-heading">
+        <hr />
+        <h2 id="source-info-heading">原文信息</h2>
+        <p>版本：{document.sourceEdition}</p>
+        {document.sourceUrl && <p>原文：<a href={document.sourceUrl}>{sourceLabel}</a></p>}
+        {document.doiUrl && <p>DOI号：<a href={document.doiUrl}>{doiLabel}</a></p>}
+      </section>
     </article>
 
     <nav class="document-nav" aria-label="档案导航">

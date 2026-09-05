@@ -36,28 +36,8 @@ export interface ReadableDocument {
   doiUrl: string | null;
 }
 
-export interface WorkDocument {
-  kind: 'work';
-  id: string;
-  route: string;
-  title: string;
-  author: '埃瓦尔德·伊里因科夫';
-  year: string | null;
-  genre: string;
-  sourceUrl: string | null;
-  chineseAvailability: '暂无公开译文';
-  sourceAvailability: '原文外部可读' | '原文暂未提供';
-  siteAvailability: '本站目前提供作品信息与公开来源记录';
-  verificationLabel: '来源记录已人工核验' | '部分信息仍待核对';
-  relatedRecord: string | null;
-}
-
-export type CanonicalDocument = ReadableDocument | WorkDocument;
-
 export interface SiteData {
   articles: ReadableDocument[];
-  works: WorkDocument[];
-  documents: CanonicalDocument[];
 }
 
 function doiUrl(value: string | null): string | null {
@@ -91,10 +71,8 @@ async function loadArticles(): Promise<ReadableDocument[]> {
 }
 
 export const getSiteData = buildCache(async (): Promise<SiteData> => {
-    const articles = await loadArticles();
-    const works: WorkDocument[] = [];
-    const documents: CanonicalDocument[] = [...articles, ...works];
-    const uniqueRoutes = new Set(documents.map((document) => document.route));
-    if (uniqueRoutes.size !== documents.length) throw new Error('Canonical document routes are not unique');
-  return { articles, works, documents };
+  const articles = await loadArticles();
+  const uniqueRoutes = new Set(articles.map((article) => article.route));
+  if (uniqueRoutes.size !== articles.length) throw new Error('Article routes are not unique');
+  return { articles };
 });

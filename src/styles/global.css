@@ -420,10 +420,6 @@ h2, h3, h4 { text-wrap: balance; line-height: 1.3; }
 .source-info hr { margin-bottom: 1.5rem; }
 .source-info h2 { margin-top: 0; }
 
-.work-facts {
-  max-width: var(--reading); border-top: 1px solid var(--ink-soft); margin: 3.5rem auto 0; padding-top: 1.75rem;
-}
-
 .fact-list { margin: 0; }
 .fact-list > div {
   border-bottom: 1px solid var(--line); grid-template-columns: 8rem 1fr; gap: 1rem; padding: .6rem 0;
