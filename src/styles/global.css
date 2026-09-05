@@ -46,27 +46,6 @@ h2, h3, h4 { text-wrap: balance; line-height: 1.3; }
 }
 .site-header__masthead nav a:hover { color: var(--accent-dark); }
 
-.site-footer { background: var(--paper); border-top: 1px solid var(--line); margin-top: 96px; }
-
-.site-footer__inner { width: min(calc(100% - 40px), var(--content)); margin: 0 auto; padding: 28px 0 44px; }
-
-.site-footer__nav { flex-wrap: wrap; gap: 24px 44px; display: flex; }
-
-.site-footer__group { flex-direction: column; gap: 8px; display: flex; }
-
-.site-footer__top { color: var(--muted); font-size: var(--text-meta); letter-spacing: .02em; font-weight: 600; }
-
-.site-footer__group ul {
-  flex-direction: column; gap: 6px; margin: 0; padding: 0; list-style: none; display: flex;
-}
-.site-footer__group ul a { color: var(--accent); font-size: var(--text-secondary); text-decoration: none; }
-.site-footer__group ul a:hover { color: var(--accent-dark); text-decoration: underline; }
-.site-footer__group ul a[aria-current=page] { color: var(--muted); }
-
-.site-footer__note { color: var(--muted); font-size: var(--text-secondary); margin: 18px 0 0; line-height: 1.6; }
-.site-footer__note a { color: var(--muted); text-decoration-color: var(--line-strong); }
-.site-footer__note a:hover { color: var(--accent-dark); }
-
 .document-nav {
   max-width: var(--reading); border-top: 1px solid var(--line); font-size: var(--text-body);
   margin: 72px auto 0; padding-top: 20px;
@@ -212,12 +191,10 @@ h2, h3, h4 { text-wrap: balance; line-height: 1.3; }
 .edition-popover__errata ul { margin: 10px 0 0; padding-left: 1.2rem; }
 .edition-popover__errata li { font-size: var(--text-secondary); line-height: 1.6; }
 
-
 .container {
   width: min(calc(100% - 40px), var(--reading)); font-size: var(--text-body); margin: 0 auto;
   padding: var(--section-top) 0 120px;
 }
-
 
 .container.book-page { width: min(calc(100% - 40px), 860px); max-width: 860px; padding-top: 48px; font-size: var(--text-body); }
 
@@ -612,9 +589,6 @@ h2, h3, h4 { text-wrap: balance; line-height: 1.3; }
   .document-header h1 { font-size: var(--text-page-mobile); margin-top: 32px; }
   .prose { font-size: var(--text-body); }
   .fact-list > div { grid-template-columns: 1fr; gap: .15rem; }
-  .site-footer { margin-top: 64px; }
-  .site-footer__inner { width: min(calc(100% - 1.5rem), var(--content)); padding: 22px 0 32px; }
-  .site-footer__nav { gap: 20px 28px; }
   .document-nav__siblings { flex-direction: column; gap: 10px; }
   .document-nav__next { text-align: left; margin-left: 0; }
   .book-grid { gap: 28px; }

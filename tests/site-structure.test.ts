@@ -181,7 +181,7 @@ describe('website-approved data adapter', () => {
 });
 
 describe('public navigation', () => {
-  it('points every header and footer link at a page that exists', () => {
+  it('points every navigation link at a page that exists', () => {
     const links = site.navigation.flatMap((section) => [section, ...(section.children ?? [])]);
     const hrefs = ['/', ...links.map((link) => link.href), ...site.secondary.map((link) => link.href)];
     expect(hrefs.length).toBeGreaterThan(1);
