@@ -59,12 +59,14 @@ editorial/          站点身份与导航（site.json）
 docs/               架构、发布和部署规则
 public/             可直接公开的静态资产
 scripts/            private 译文与研究资料到构建输入的同步器
+  lib/              两个同步器共用的路径、校验与写盘外壳
 src/components/     展示组件
 src/layouts/        站点框架
 src/lib/            articles、Markdown 与公开数据适配
 src/pages/          长期栏目、子页面和获准正文路由
 src/styles/         全站视觉系统
 tests/              发布边界、网站结构与样式表验证
+  helpers/          页面源码、样式表与发布清单的读取入口
 .website-input/     忽略且禁止提交的网站构建输入
 dist/               静态构建结果；忽略
 ```

@@ -5,7 +5,7 @@ import {
   publicUrl,
   requiredString,
   requiredStringArray,
-} from './validation.mjs';
+} from '../validation.mjs';
 
 export function sourceRecords(sourceData, sourceIds, label) {
   if (!Array.isArray(sourceData.records)) fail(`${label}: records must be an array`);

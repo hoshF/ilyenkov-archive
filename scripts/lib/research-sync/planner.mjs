@@ -12,7 +12,7 @@ import {
   requiredString,
   requiredStringArray,
   sourceIdsIn,
-} from './validation.mjs';
+} from '../validation.mjs';
 import {
   biographySources,
   ifiSources,

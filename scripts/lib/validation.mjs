@@ -5,7 +5,7 @@ export const idPattern = /^[a-z0-9]+(?:-[a-z0-9]+)*$/;
 export const datePattern = /^\d{4}(?:-\d{2}(?:-\d{2})?)?$/;
 
 export function fail(message) {
-  throw new Error(`Research record sync error: ${message}`);
+  throw new Error(message);
 }
 
 export function object(value, label) {

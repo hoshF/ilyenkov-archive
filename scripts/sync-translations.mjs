@@ -1,64 +1,21 @@
 import { execFileSync } from 'node:child_process';
-import {
-  existsSync,
-  mkdirSync,
-  readFileSync,
-  readdirSync,
-  unlinkSync,
-  writeFileSync,
-} from 'node:fs';
-import { fileURLToPath } from 'node:url';
+import { existsSync, mkdirSync, readFileSync, readdirSync, unlinkSync } from 'node:fs';
 import path from 'node:path';
+import { outputRoot, projectRoot, researchRoot } from './lib/paths.mjs';
+import { runSync, writeGenerated } from './lib/sync.mjs';
+import {
+  fail,
+  idPattern,
+  object,
+  optionalString,
+  readResearchJson,
+  requiredString,
+  resolveResearchPath,
+} from './lib/validation.mjs';
 
-const projectRoot = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
-const researchRoot = path.resolve(
-  process.env.ILYENKOV_ROOT?.trim() || path.join(projectRoot, '..', 'Ilyenkov'),
-);
 const publicationRelative = 'translation/publication.json';
-const publicationPath = path.join(researchRoot, publicationRelative);
-const articlesRoot = path.join(projectRoot, '.website-input', 'articles');
+const articlesRoot = path.join(outputRoot, 'articles');
 const websiteScope = 'website_public';
-const idPattern = /^[a-z0-9]+(?:-[a-z0-9]+)*$/;
-
-function fail(message) {
-  throw new Error(`Translation sync error: ${message}`);
-}
-
-function object(value, label) {
-  if (!value || typeof value !== 'object' || Array.isArray(value)) fail(`${label} must be an object`);
-  return value;
-}
-
-function requiredString(record, key, label) {
-  const value = record[key];
-  if (typeof value !== 'string' || !value.trim()) fail(`${label}: missing ${key}`);
-  if (/\r|\n/.test(value)) fail(`${label}: ${key} must be one line`);
-  return value.trim();
-}
-
-function optionalString(record, key, label) {
-  const value = record[key];
-  if (value === undefined || value === null) return null;
-  if (typeof value !== 'string' || !value.trim()) fail(`${label}: ${key} must be a non-empty string`);
-  if (/\r|\n/.test(value)) fail(`${label}: ${key} must be one line`);
-  return value.trim();
-}
-
-function resolveResearchPath(relative, label) {
-  if (path.isAbsolute(relative) || relative.includes('\0')) fail(`${label} must be relative`);
-  const resolved = path.resolve(researchRoot, relative);
-  if (!resolved.startsWith(`${researchRoot}${path.sep}`)) fail(`${label} escapes Ilyenkov`);
-  return resolved;
-}
-
-function readJson(file, label) {
-  if (!existsSync(file)) fail(`missing ${label}`);
-  try {
-    return JSON.parse(readFileSync(file, 'utf8'));
-  } catch (error) {
-    fail(`${label} is not valid JSON: ${error.message}`);
-  }
-}
 
 function stripFrontmatter(text) {
   return text.replace(/^---\r?\n[\s\S]*?\r?\n---\r?\n/, '').trim();
@@ -112,7 +69,7 @@ function renderArticle(work, body, textRelative, revision) {
 
 function publicationWorks() {
   if (researchRoot === projectRoot) fail('Ilyenkov source cannot be the public repository');
-  const publication = object(readJson(publicationPath, publicationRelative), publicationRelative);
+  const publication = readResearchJson(researchRoot, publicationRelative, publicationRelative);
   if (!Array.isArray(publication.works)) fail(`${publicationRelative}: works must be an array`);
 
   const selected = [];
@@ -133,10 +90,9 @@ function publicationWorks() {
 
 function plannedArticles() {
   return new Map(publicationWorks().map(({ workId, workJsonRelative }) => {
-    const workPath = resolveResearchPath(workJsonRelative, `${workId} work_json_path`);
     const textRelative = path.posix.join(path.posix.dirname(workJsonRelative), `${workId}.md`);
-    const textPath = resolveResearchPath(textRelative, `${workId} Markdown path`);
-    const work = object(readJson(workPath, workJsonRelative), workJsonRelative);
+    const textPath = resolveResearchPath(researchRoot, textRelative, `${workId} Markdown path`);
+    const work = readResearchJson(researchRoot, workJsonRelative, workJsonRelative);
     if (work.work_id !== workId) fail(`${workJsonRelative}: work_id must be ${workId}`);
 
     const metadata = {
@@ -158,7 +114,7 @@ function plannedArticles() {
   }));
 }
 
-function sync({ checkOnly = false } = {}) {
+runSync('Translation', ({ checkOnly }) => {
   const planned = plannedArticles();
   mkdirSync(articlesRoot, { recursive: true });
   const stale = [];
@@ -171,24 +127,12 @@ function sync({ checkOnly = false } = {}) {
   }
 
   for (const [filename, content] of planned) {
-    const target = path.join(articlesRoot, filename);
-    const current = existsSync(target) ? readFileSync(target, 'utf8') : null;
-    if (current === content) continue;
+    if (!writeGenerated(path.join(articlesRoot, filename), content, { checkOnly })) continue;
     if (checkOnly) stale.push(`${filename}: generated article is missing or out of date`);
-    else {
-      writeFileSync(target, content, 'utf8');
-      written += 1;
-    }
+    else written += 1;
   }
 
   for (const message of stale) console.error(message);
   console.log(`Translation articles synced: written=${written} stale=${stale.length} articles=${planned.size}`);
   if (checkOnly && stale.length) process.exitCode = 1;
-}
-
-try {
-  sync({ checkOnly: process.argv.includes('--check') });
-} catch (error) {
-  console.error(error.message);
-  process.exitCode = 2;
-}
+});
