@@ -18,6 +18,7 @@
     "publication:sync": "node scripts/sync-translations.mjs && node scripts/sync-research-records.mjs",
     "publication:check": "node scripts/sync-translations.mjs --check && node scripts/sync-research-records.mjs --check",
     "check": "npm run publication:prepare && astro check",
+    "verify": "npm run check && vitest run && astro build",
     "test": "npm run publication:prepare && vitest run"
   },
   "dependencies": {
