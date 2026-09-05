@@ -16,8 +16,8 @@ const { articles } = await getSiteData();
 
     {articles.length > 0 ? (
       <div class="archive-years">
-        <section class="archive-year" aria-label="公开文本">
-          <h2>公开文本</h2>
+        <section class="archive-year" aria-label="文章">
+          <h2>文章</h2>
           <ol class="record-list">
             {articles.map((article) => (
               <li>
@@ -33,7 +33,7 @@ const { articles } = await getSiteData();
     ) : (
       <div class="prose prose--page">
         <h2>当前状态</h2>
-        <p>第一批可公开文本仍在准备。本站不会以尚未获得网站公开许可的材料填充档案；已制作成书的成果见<a href="/books">书籍</a>。</p>
+        <p>第一批文章仍在准备。本站不会以尚未获得网站公开许可的材料填充档案；已制作成书的成果见<a href="/books">书籍</a>。</p>
       </div>
     )}
   </SectionLayout>

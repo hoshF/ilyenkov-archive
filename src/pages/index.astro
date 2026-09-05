@@ -16,10 +16,10 @@ const recent = articles.slice(0, 3);
 
   <div class="home-shell">
     <section class="home-essays" aria-labelledby="recent-heading">
-      <h3 id="recent-heading">已公开文本</h3>
+      <h3 id="recent-heading">文章</h3>
       {recent.map((document) => <EssayExcerpt document={document} />)}
       {articles.length > recent.length && (
-        <p class="home-archive-link"><a href="/archive">查看全部公开文本</a></p>
+        <p class="home-archive-link"><a href="/archive">查看全部文章</a></p>
       )}
     </section>
 
