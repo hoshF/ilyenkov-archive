@@ -59,7 +59,6 @@ describe('website-approved data adapter', () => {
       'group.astro',
       'books/index.astro',
       'books/[id].astro',
-      'about-us.astro',
       'about.astro',
     ]) {
       expect(pageFileExists(route), `${route} should exist`).toBe(true);
@@ -76,7 +75,6 @@ describe('website-approved data adapter', () => {
       'archive/index.astro',
       'research.astro',
       'group.astro',
-      'about-us.astro',
       'about.astro',
     ]) {
       const source = pageSource(route);
@@ -189,11 +187,11 @@ describe('public navigation', () => {
     }
   });
 
-  it('links the homepage introduction to a dedicated about page', () => {
-    expect(pageSource('index.astro')).toContain('href="/about-us"');
-    const aboutPage = pageSource('about-us.astro');
-    expect(aboutPage).toContain('<SectionLayout');
-    expect(aboutPage).toContain('href="/about"');
+  it('links the homepage introduction to the group page', () => {
+    expect(pageSource('index.astro')).toContain('href="/group"');
+    const groupPage = pageSource('group.astro');
+    expect(groupPage).toContain('<SectionLayout');
+    expect(groupPage).toContain('href="/about"');
   });
 
   it('keeps the group page focused on the group rather than repeating site outputs', () => {
