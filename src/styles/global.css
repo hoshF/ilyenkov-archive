@@ -222,22 +222,21 @@ h2, h3, h4 { text-wrap: balance; line-height: 1.3; }
   align-items: start; gap: 72px; margin: 48px auto 0; padding: 0 20px 64px; display: grid;
 }
 
-.home-essays, .home-sidebar { min-width: 0; }
-.home-essays > h3, .home-sidebar h3 {
+.home-intro, .home-sidebar { min-width: 0; }
+.home-intro h2, .home-sidebar h3 {
   color: #888; font-size: var(--text-home-section); letter-spacing: .03em; margin: 0; padding: 0 0 20px;
   font-weight: 500; line-height: 1.3;
 }
-.home-essays > h3 { padding-bottom: 8px; }
+.home-intro { font-size: var(--text-body); line-height: 1.8; }
+.home-intro p { margin: 0 0 18px; }
+.home-intro a { color: var(--accent); text-decoration-color: var(--line-strong); }
+.home-intro a:hover { color: var(--accent-dark); }
 
-.essay-excerpt { margin: 0 0 28px; }
-.essay-excerpt h3 {
-  font-size: var(--text-item); letter-spacing: .02em; margin: 0 0 7px; font-weight: 400; line-height: 1.35;
-}
-.essay-excerpt h3 a { color: var(--accent); text-decoration: none; }
-.essay-excerpt h3 a:hover { color: var(--accent); }
-.essay-excerpt p { font-size: var(--text-body); margin: 0; line-height: 1.65; }
+.home-recent { margin: 0; padding: 0; list-style: none; display: grid; gap: 14px; }
+.home-recent a { color: var(--accent); text-decoration: none; line-height: 1.5; }
+.home-recent a:hover { color: var(--accent-dark); text-decoration: underline; }
 
-.home-archive-link { font-size: var(--text-body); margin: 0; }
+.home-archive-link { margin: 20px 0 0; font-size: var(--text-secondary); }
 .home-archive-link a { text-decoration: none; }
 .home-archive-link a:after { content: " →"; }
 .home-archive-link a:hover { text-decoration: underline; }
@@ -476,9 +475,7 @@ h2, h3, h4 { text-wrap: balance; line-height: 1.3; }
   .home-masthead h1 { font-size: var(--text-display-mobile); }
   .home-masthead p { font-size: var(--text-body); margin-top: 14px; }
   .home-shell { margin-top: 36px; }
-  .home-essays, .home-sidebar section { padding: 12px 0; }
-  .home-essays > h3, .home-sidebar h3 { font-size: var(--text-item); }
-  .essay-excerpt p { font-size: var(--text-body); }
+  .home-intro h2, .home-sidebar h3 { font-size: var(--text-item); }
   .entrance-grid { grid-template-columns: 1fr; gap: 32px; }
   .page-title { font-size: var(--text-page-mobile); }
   .lead { font-size: var(--text-body); }
