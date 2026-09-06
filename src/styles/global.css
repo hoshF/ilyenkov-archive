@@ -318,7 +318,7 @@ h2, h3, h4 { text-wrap: balance; line-height: 1.3; }
 /* 需要分组感的列表在条目之间加一小段短线，落在条目间距的中线上。 */
 .record-list--ruled > li + li { position: relative; }
 .record-list--ruled > li + li:before {
-  content: ""; position: absolute; top: -16px; left: 0; width: 160px; height: 1px; background: var(--line-strong);
+  content: ""; position: absolute; top: -16px; left: 0; width: 100%; height: 1px; background: var(--line-strong);
 }
 
 /* 年表在同一套条目上加一条时间轴。 */
