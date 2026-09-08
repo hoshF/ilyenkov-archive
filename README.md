@@ -12,25 +12,13 @@ private 研究仓库区分。
 
 - 网站的信息架构、页面、组件、样式和静态部署；
 - 面向公众的编辑导引、项目说明和小组记录；
-- 以本项目名义发行的书籍和专题成果的公开身份、版本与勘误记录；
-- 获得精确版本授权后可以进入 Git 的公开成果。
+- 以本项目名义发行的书籍和专题成果的公开身份、版本与勘误记录。
 
 private 仓库负责研究资料、原文、翻译、审校、来源证据和发布判断。public 只读取
-`translation/publication.json` 与 `research/publication.json` 中明确标记为 `website_public` 的条目，
-不从其他文件的存在推断“允许发布”。
+`translation/publication.json` 与 `research/publication.json` 中标记为 `website_public` 的条目。
 
-网站的长期结构见 [架构说明](docs/ARCHITECTURE.md)，发布范围与内部研读边界见
+网站的长期结构见[架构说明](docs/ARCHITECTURE.md)，发布范围与内部研读边界见
 [发布说明](docs/PUBLICATION.md)。
-
-## 网站构建输入同步
-
-`npm run publication:sync` 同步两个公开通道：译文通道读取 `translation/publication.json`，将选定的
-`work.json` 与同目录 Markdown 生成到 `.website-input/articles/<work_id>.md`；研究资料通道读取
-`research/publication.json`，将逐项批准的最小公共字段生成到 `.website-input/research-records.json`。
-`npm run publication:prepare` 复用这条完整同步命令，供开发、检查、测试和构建调用。
-
-private 仓库默认是本仓库旁边的 `Ilyenkov/`。位置不同时使用 `ILYENKOV_ROOT` 指定。生成的译文与
-研究资料输入都不进入本仓库 Git；Astro 只在构建时读取它们并生成静态 HTML。
 
 ## 开发
 
@@ -40,8 +28,9 @@ npm run dev          # 后台开发服务器；dev:status / dev:logs / dev:stop 
 npm run verify       # 类型检查、测试、构建，一次跑完
 ```
 
-`npm run publication:sync` 单独同步生成输入，`npm run publication:check` 只比较不改写。生产构建
-使用 `npm run build`，输出到 `dist/`。
+`npm run publication:sync` 把 private 的两个公开通道同步为 `.website-input/` 下的构建输入，
+`publication:check` 只比较不改写；`check`、`test` 与 `build` 都会先同步。private 默认位于本仓库
+旁边的 `Ilyenkov/`，位置不同时用 `ILYENKOV_ROOT` 指定。
 
-推荐的 Cloudflare 部署边界见[部署说明](docs/DEPLOYMENT.md)；从 private 公开选择到静态页面的完整
-过程见[内容流水线](docs/CONTENT_PIPELINE.md)。
+生产构建使用 `npm run build`，输出到 `dist/`。部署边界见[部署说明](docs/DEPLOYMENT.md)；
+从 private 公开选择到静态页面的完整过程见[内容流水线](docs/CONTENT_PIPELINE.md)。

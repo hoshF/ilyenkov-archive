@@ -1,20 +1,17 @@
 ## Development
 
 This repository is the public identity, website, and publication anchor of the Chinese Ilyenkov
-Group. It owns public information architecture, presentation, deployment, and publication records.
-Publication authority remains in the private research repository: fix research facts and publication
-decisions there; fix routes, rendering, styles, public editorial framing, publication records, and
-deployment here.
+Group: routes, rendering, styles, public editorial framing, publication records, and deployment.
+Research facts and publication decisions belong to the private research repository.
 
-Website build inputs are generated into ignored `.website-input/` files from the private repository's
-publication manifests. Never stage `.website-input/` or replace it with a tracked content directory.
-Set `ILYENKOV_ROOT` when the private repository is not the sibling `Ilyenkov` directory. See
-[docs/CONTENT_PIPELINE.md](docs/CONTENT_PIPELINE.md) for the two input channels and
-[docs/PUBLICATION.md](docs/PUBLICATION.md) for what may and may not enter the build.
+Website build inputs are generated into ignored `.website-input/` files from the private
+repository's publication manifests. Never stage them or replace them with a tracked content
+directory. Set `ILYENKOV_ROOT` when the private repository is not the sibling `Ilyenkov`
+directory.
 
-Restricted study texts must never enter the public `dist/` output. A missing download button is not
-access control. If web access is later required, use a separate protected deployment and a distinct
-publication channel.
+Restricted study texts never enter the public `dist/`.
+[docs/PUBLICATION.md](docs/PUBLICATION.md) governs what may enter the build;
+[docs/CONTENT_PIPELINE.md](docs/CONTENT_PIPELINE.md) describes the two input channels.
 
 Commit messages default to English, with an imperative subject line.
 
@@ -31,15 +28,16 @@ private repository need `npm run publication:sync`.
 
 Shared entry points:
 
-- `scripts/lib/` — paths, validation, and the write/`--check` shell both syncers use.
+- `scripts/lib/` — paths, validation, and the write/`--check` shell both syncers use;
+  `research-sync/` holds the research planner and source resolution.
 - `src/lib/cache.ts` — what a production build caches.
 - `tests/helpers/` — page sources (`pages.ts`), the parsed stylesheet (`styles.ts`), and the
   private publication manifest (`publication.ts`).
 
 Tests assert behaviour, not source text: read style declarations through `helpers/styles.ts`,
-and state the field contract rather than the current record count. Neither a document nor a
-test records how many entries exist today.
+and state the field contract rather than the current record count.
 
-The production site is static and should remain compatible with Cloudflare Pages. See `docs/` for
-information architecture, publication channels, and deployment boundaries, and
+The production site is static and should remain compatible with Cloudflare Pages. See
+[docs/ARCHITECTURE.md](docs/ARCHITECTURE.md) for information architecture,
+[docs/DEPLOYMENT.md](docs/DEPLOYMENT.md) for deployment boundaries, and
 https://docs.astro.build for the framework.

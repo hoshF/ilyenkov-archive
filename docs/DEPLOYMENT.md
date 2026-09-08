@@ -7,20 +7,15 @@ Node.js、数据库或 private 研究仓库。
 
 ## 构建边界
 
-生产构建环境必须同时能读取 public 仓库和 private 研究仓库，再运行：
+生产构建环境需要 Node 22.12 以上，并且必须同时能读取 public 仓库和 private 研究仓库，再运行：
 
 ```sh
 npm ci
 npm run verify
 ```
 
-private 默认位于 public 的相邻 `Ilyenkov/` 目录。其他布局设置：
-
-```sh
-ILYENKOV_ROOT=/path/to/Ilyenkov
-```
-
-该绝对路径只用于构建，不写入生成页面；生成的译文与研究资料输入也不会进入 public Git 历史。
+private 默认位于 public 的相邻 `Ilyenkov/` 目录，其他布局用 `ILYENKOV_ROOT=/path/to/Ilyenkov`
+指定。该绝对路径只用于构建，不写入生成页面。
 
 ## Cloudflare 建议
 
@@ -28,7 +23,7 @@ ILYENKOV_ROOT=/path/to/Ilyenkov
 Pages。Cloudflare 只接收静态产物，不需要在网站运行时访问 private。
 
 主站保持完全静态。若将来提供小组研读网页，应使用独立受保护部署，并在请求到达静态资源前通过
-Cloudflare Access 执行身份验证；不能把受限文件混入主站 `dist/`。
+Cloudflare Access 执行身份验证。
 
 在正式域名确定前，不在代码中写入临时 canonical URL。购买域名后，再统一配置站点 URL、重定向、
 安全响应头、搜索引擎站点地图和分析策略。

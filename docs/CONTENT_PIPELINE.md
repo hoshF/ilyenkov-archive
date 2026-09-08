@@ -30,17 +30,19 @@ private/research/publication.json
 
 ## 边界
 
-两个同步器都只处理发布清单逐项指定的条目，不扫描其余研究目录，也不处理 `internal_public`。生成
-结果不含 private 路径、来源 ID、内部状态、扫描件、日志或问题记录。
+两个同步器都只处理发布清单逐项指定的条目，不扫描其余研究目录，也不处理 `internal_public`。
+可以输出哪些字段、哪些一律不输出，见[发布说明](PUBLICATION.md)。
 
 生成的输入位于 `.website-input/`，只用于构建，不进入 Git，也不应手工修改。再次同步会更新变化的
-文件并清理不再获准公开的条目；`npm run publication:check` 只比较现有生成文件与计划输出，不改写内容。
+文件并清理不再获准公开的条目。
 
-译文的“原文信息”不写死在 Markdown 正文里：页面从 frontmatter 读取 `source_edition`、`source_url`
-和 `doi`，有哪些字段就生成哪些行。
+译文的“原文信息”从 frontmatter 读取 `source_edition`、`source_url` 和 `doi`，有哪些字段就生成
+哪些行，不写死在 Markdown 正文里。
 
 ## 命令顺序
 
 `npm run publication:sync` 同时运行两个同步器；`publication:prepare` 复用这条命令，`check`、`test`
 与 `build` 都先执行它。因此一次完整构建的顺序是：读取两个发布清单、同步全部构建输入、校验公开
 数据、编译 Markdown、生成 Astro 静态页面。
+
+`publication:check` 的退出码供 CI 区分两种情况：1 表示生成结果过期，2 表示同步本身失败。
