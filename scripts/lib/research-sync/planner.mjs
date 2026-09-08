@@ -71,16 +71,9 @@ function adaptResearchSite({ entry, label, publicId, recordData }) {
   }));
   const sectionTitles = object(recordData.sections, `${label} source sections`);
   const selectedSections = entry.sections;
-  if (!Array.isArray(selectedSections) || selectedSections.length !== 5) {
-    fail(`${label}: sections must contain exactly five selected entries`);
+  if (!Array.isArray(selectedSections) || selectedSections.length === 0) {
+    fail(`${label}: sections must select at least one entry`);
   }
-  const requiredSectionIds = new Set([
-    'hronologiya',
-    'vospominaniya',
-    'biograficheskie-materialy',
-    'nekrolog',
-    'ssylki',
-  ]);
   const seenSectionIds = new Set();
   const sections = selectedSections.map((rawSection, sectionIndex) => {
     const sectionLabel = `${label} sections[${sectionIndex}]`;
@@ -118,12 +111,6 @@ function adaptResearchSite({ entry, label, publicId, recordData }) {
       url,
     };
   });
-  if (
-    seenSectionIds.size !== requiredSectionIds.size
-    || [...requiredSectionIds].some((sectionId) => !seenSectionIds.has(sectionId))
-  ) {
-    fail(`${label}: selected sections must be the approved Filorus navigation set`);
-  }
   const url = publicUrl(requiredString(entry, 'site_url', label), label);
   if (!pagesByUrl.has(url)) fail(`${label}: site URL must be a selected source page`);
   return {
@@ -145,8 +132,8 @@ function adaptResearcher({ entry, label, publicId, recordData, readJson, outputR
   }
   if (!Array.isArray(recordData.works)) fail(`${label}: researcher works catalog is unavailable`);
   const selectedWorks = entry.works;
-  if (!Array.isArray(selectedWorks) || selectedWorks.length !== 3) {
-    fail(`${label}: works must contain exactly three selected records`);
+  if (!Array.isArray(selectedWorks) || selectedWorks.length === 0) {
+    fail(`${label}: works must select at least one record`);
   }
   const seenWorkIds = new Set();
   const works = selectedWorks.map((rawWork, workIndex) => {

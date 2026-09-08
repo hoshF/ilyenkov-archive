@@ -104,7 +104,7 @@ const ResearcherSchema = z.object({
   name: z.string().trim().min(1),
   originalName: z.string().trim().min(1),
   summary: z.string().trim().min(1),
-  works: z.array(ResearcherWorkSchema).length(3),
+  works: z.array(ResearcherWorkSchema).min(1),
 }).strict();
 
 const ResearchSiteSectionSchema = z.object({
@@ -118,7 +118,7 @@ const ResearchSiteSchema = z.object({
   originalTitle: z.string().trim().min(1),
   summary: z.string().trim().min(1),
   url: PublicUrlSchema,
-  sections: z.array(ResearchSiteSectionSchema).length(5),
+  sections: z.array(ResearchSiteSectionSchema).min(1),
 }).strict();
 
 const ResearchRecordsSchema = z.object({
