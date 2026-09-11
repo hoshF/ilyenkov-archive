@@ -8,11 +8,12 @@ import path from 'node:path';
  * 返回 true 表示这个文件与计划输出不一致。
  */
 export function writeGenerated(target, content, { checkOnly = false } = {}) {
-  const current = existsSync(target) ? readFileSync(target, 'utf8') : null;
-  if (current === content) return false;
+  const binary = Buffer.isBuffer(content);
+  const current = existsSync(target) ? readFileSync(target, binary ? undefined : 'utf8') : null;
+  if (binary ? current?.equals(content) : current === content) return false;
   if (!checkOnly) {
     mkdirSync(path.dirname(target), { recursive: true });
-    writeFileSync(target, content, 'utf8');
+    writeFileSync(target, content, binary ? undefined : 'utf8');
   }
   return true;
 }

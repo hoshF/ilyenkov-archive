@@ -8,11 +8,11 @@ private/translation/publication.json
   ▼
 条目指定的 work.json + 同目录 <work_id>.md
   │  scripts/sync-translations.mjs
-  ▼
-.website-input/articles/<work_id>.md
+  ├─▶ .website-input/articles/<work_id>.md
+  └─▶ .website-input/article-assets/<work_id>/<image>
   │  src/lib/site-data.ts 校验 frontmatter，src/lib/markdown.ts 编译正文
   ▼
-dist/archive/<slug>/index.html
+dist/archive/<slug>/index.html + media/<image>
 ```
 
 ```text
@@ -35,6 +35,11 @@ private/research/publication.json
 
 生成的输入位于 `.website-input/`，只用于构建，不进入 Git，也不应手工修改。再次同步会更新变化的
 文件并清理不再获准公开的条目。
+
+获准公开的译文可用标准 Markdown 图片语法引用与正文同目录的图片，例如
+`![图片替代文字](portrait.jpg "可选标题")`。同步器只复制正文实际引用的同目录
+`jpg`、`jpeg`、`png`、`webp`、`gif` 或 `avif` 文件；不允许 `../` 跨目录引用。站点根路径和
+`http(s)` 图片地址保留原样。替代文字是无障碍阅读所必需的，应描述图片内容而不是写“图片”。
 
 译文的“原文信息”从 frontmatter 读取 `source_edition`、`source_url` 和 `doi`，有哪些字段就生成
 哪些行，不写死在 Markdown 正文里。

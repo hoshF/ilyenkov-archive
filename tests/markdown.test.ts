@@ -82,6 +82,18 @@ describe('Markdown safety and semantics', () => {
     expect(html).toContain('<td align="center"><em>草稿</em></td>');
   });
 
+  it('renders photographs and resolves article-local image paths', async () => {
+    const html = await renderPublicMarkdown(`
+![档案照片](portrait.jpg "摄于莫斯科")
+
+![外部照片](https://example.com/photo.webp)
+`, { imageBaseUrl: '/archive/an-article/media/' });
+    expect(html).toContain(
+      '<img src="/archive/an-article/media/portrait.jpg" alt="档案照片" title="摄于莫斯科">',
+    );
+    expect(html).toContain('<img src="https://example.com/photo.webp" alt="外部照片">');
+  });
+
   it('gives repeated footnote references unique anchors and backlinks', async () => {
     const html = await renderPublicMarkdown(`
 第一次。[^1]

@@ -4,7 +4,9 @@ import matter from 'gray-matter';
 import path from 'node:path';
 import { describe, expect, it } from 'vitest';
 import {
+  generatedArticleAssets,
   generatedArticleIds,
+  resolveGeneratedArticleAssetPath,
   resolveGeneratedArticlePath,
 } from '../src/lib/article-source';
 import {
@@ -29,7 +31,8 @@ describe('translation sync boundary', () => {
     });
     const selected = websiteWorks();
     expect(selected.length).toBeGreaterThan(0);
-    expect(output).toContain(`stale=0 articles=${selected.length}`);
+    expect(output).toContain(`written=0/${selected.length}`);
+    expect(output).toContain('stale=0');
     expect(generatedArticleIds()).toEqual(selected.map((work) => work.work_id).sort());
   });
 
@@ -59,6 +62,22 @@ describe('translation sync boundary', () => {
     const source = readFileSync(path.join(process.cwd(), '.gitignore'), 'utf8');
     expect(source).toContain('.website-input/');
     expect(resolveGeneratedArticlePath(generatedArticleIds()[0])).toContain('/.website-input/articles/');
+  });
+
+  it('publishes only local images referenced by approved translation Markdown', () => {
+    const assets = generatedArticleAssets();
+    expect(assets.length).toBeGreaterThan(0);
+    for (const { id, asset } of assets) {
+      const selected = websiteWorks().find((work) => work.work_id === id);
+      expect(selected).toBeDefined();
+      const sourceMarkdown = readFileSync(path.join(
+        researchRoot,
+        path.posix.dirname(selected!.work_json_path),
+        `${id}.md`,
+      ), 'utf8');
+      expect(sourceMarkdown).toContain(`](${asset})`);
+      expect(readFileSync(resolveGeneratedArticleAssetPath(id, asset)).length).toBeGreaterThan(0);
+    }
   });
 });
 

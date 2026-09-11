@@ -62,7 +62,9 @@ async function loadArticles(): Promise<ReadableDocument[]> {
       route: `/archive/${id}`,
       title: metadata.title_zh,
       originalTitle: metadata.title,
-      html: await renderPublicMarkdown(article.content),
+      html: await renderPublicMarkdown(article.content, {
+        imageBaseUrl: `/archive/${id}/media/`,
+      }),
       sourceEdition: metadata.source_edition,
       sourceUrl: metadata.source_url ?? null,
       doiUrl: doiUrl(metadata.doi ?? null),

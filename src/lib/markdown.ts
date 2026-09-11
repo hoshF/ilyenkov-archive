@@ -4,7 +4,32 @@ import remarkGfm from 'remark-gfm';
 import remarkRehype from 'remark-rehype';
 import rehypeSanitize, { defaultSchema } from 'rehype-sanitize';
 import rehypeStringify from 'rehype-stringify';
-import type { Root } from 'mdast';
+import type { Image, Root } from 'mdast';
+
+interface MarkdownOptions {
+  imageBaseUrl?: string;
+}
+
+function isRelativeImageUrl(value: string): boolean {
+  return !value.startsWith('/')
+    && !value.startsWith('//')
+    && !/^[a-z][a-z\d+.-]*:/iu.test(value);
+}
+
+function resolveRelativeImages(imageBaseUrl: string | undefined) {
+  return (tree: Root): void => {
+    if (!imageBaseUrl) return;
+
+    const visit = (node: Root | Root['children'][number]): void => {
+      if (node.type === 'image' && isRelativeImageUrl(node.url)) {
+        const image = node as Image;
+        image.url = new URL(image.url, `https://markdown.local${imageBaseUrl}`).pathname;
+      }
+      if ('children' in node) node.children.forEach(visit);
+    };
+    visit(tree);
+  };
+}
 
 /**
  * Footnote definitions are collected into a generated section by remark-rehype.
@@ -56,10 +81,14 @@ function restoreCompactStrongLabels() {
   };
 }
 
-export async function renderPublicMarkdown(markdown: string): Promise<string> {
+export async function renderPublicMarkdown(
+  markdown: string,
+  { imageBaseUrl }: MarkdownOptions = {},
+): Promise<string> {
   const rendered = await unified()
     .use(remarkParse)
     .use(remarkGfm)
+    .use(resolveRelativeImages, imageBaseUrl)
     .use(restoreCompactStrongLabels)
     .use(removeRedundantNotesHeading)
     .use(remarkRehype, {
