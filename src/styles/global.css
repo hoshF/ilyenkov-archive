@@ -5,7 +5,7 @@
   --text-meta: .875rem; --text-secondary: .9375rem; --text-body: 1rem; --text-item: 1.125rem;
   --text-home-section: 1.25rem; --text-section: 1.375rem; --text-page-mobile: 1.625rem; --text-page: 1.75rem;
   --text-display-mobile: 2rem; --text-display: 2.25rem;
-  --header-h: 62px; --section-top: 96px;
+  --header-h: 50px; --section-top: 96px;
   --book: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", "Helvetica Neue", Helvetica, Arial, sans-serif;
   --serif: var(--book); --sans: var(--book); color: var(--ink); font-family: var(--serif); font-synthesis: none;
   font-size: 16px;
@@ -45,7 +45,7 @@ h2, h3, h4 { text-wrap: balance; line-height: 1.3; }
 }
 
 .site-header__masthead {
-  width: min(100%, var(--content)); align-items: center; margin: 0 auto; padding: 14px 0; display: flex;
+  width: min(calc(100% - 40px), var(--content)); align-items: center; margin: 0 auto; padding: 8px 0; display: flex;
 }
 
 .site-name { color: var(--accent); white-space: nowrap; text-decoration: none; }
