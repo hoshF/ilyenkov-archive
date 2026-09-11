@@ -3,7 +3,7 @@ import { describe, expect, it } from 'vitest';
 import { getBooks } from '../src/lib/books';
 import { site } from '../src/lib/editorial';
 import { getSiteData } from '../src/lib/site-data';
-import { componentSource, pageFileExists, pageSource, routeExists } from './helpers/pages';
+import { componentSource, layoutSource, pageFileExists, pageSource, routeExists } from './helpers/pages';
 import { websiteWorks } from './helpers/publication';
 import { declaration, declarationsFor, hasRule, rules } from './helpers/styles';
 
@@ -189,6 +189,19 @@ describe('public navigation', () => {
     for (const href of hrefs) {
       expect(routeExists(href), `navigation link has no page: ${href}`).toBe(true);
     }
+  });
+
+  it('gives the rights page a permanent entrance from every page', () => {
+    // 《项目与权利》讲来源、授权与版本原则，此前只能从小组页正文的一句话走到。
+    const hrefs = site.footer.map((link) => link.href);
+    expect(hrefs).toContain('/about');
+    for (const href of hrefs) {
+      expect(routeExists(href), `footer link has no page: ${href}`).toBe(true);
+    }
+
+    const layout = layoutSource('BaseLayout');
+    expect(layout).toContain('class="site-footer"');
+    expect(layout).toContain('site.footer.map');
   });
 
   it('links the homepage introduction to the group page', () => {

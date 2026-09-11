@@ -46,5 +46,13 @@ const current = (href: string) => (
       </div>
     </header>
     <main><slot /></main>
+    <footer class="site-footer">
+      <div class="site-footer__inner">
+        <a class="site-footer__name" href="/">{site.name}</a>
+        <nav aria-label="页脚导航">
+          {site.footer.map((item) => <a href={item.href}>{item.label}</a>)}
+        </nav>
+      </div>
+    </footer>
   </body>
 </html>

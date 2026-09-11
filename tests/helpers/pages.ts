@@ -5,6 +5,7 @@ import path from 'node:path';
 
 const pagesRoot = path.join(process.cwd(), 'src/pages');
 const componentsRoot = path.join(process.cwd(), 'src/components');
+const layoutsRoot = path.join(process.cwd(), 'src/layouts');
 
 /** route 是 src/pages 下的相对路径，例如 'books/index.astro'。 */
 export function pageSource(route: string): string {
@@ -13,6 +14,10 @@ export function pageSource(route: string): string {
 
 export function componentSource(name: string): string {
   return readFileSync(path.join(componentsRoot, `${name}.astro`), 'utf8');
+}
+
+export function layoutSource(name: string): string {
+  return readFileSync(path.join(layoutsRoot, `${name}.astro`), 'utf8');
 }
 
 export function pageFileExists(route: string): boolean {

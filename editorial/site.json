@@ -22,5 +22,15 @@
       "label": "书籍",
       "href": "/books"
     }
+  ],
+  "footer": [
+    {
+      "label": "项目与权利",
+      "href": "/about"
+    },
+    {
+      "label": "小组",
+      "href": "/group"
+    }
   ]
 }
