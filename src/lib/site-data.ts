@@ -2,7 +2,7 @@ import { readFileSync } from 'node:fs';
 import matter from 'gray-matter';
 import { z } from 'zod';
 import { buildCache } from './cache';
-import { renderPublicMarkdown } from './markdown';
+import { renderPublicMarkdown, type ArticleHeading } from './markdown';
 import { generatedArticleIds, resolveGeneratedArticlePath } from './article-source';
 
 const PublicUrlSchema = z.string().refine((value) => {
@@ -31,6 +31,7 @@ export interface ReadableDocument {
   title: string;
   originalTitle: string;
   html: string;
+  headings: ArticleHeading[];
   sourceEdition: string;
   sourceUrl: string | null;
   doiUrl: string | null;
@@ -56,15 +57,18 @@ async function loadArticles(): Promise<ReadableDocument[]> {
       throw new Error(`Generated article source does not match its filename: ${id}`);
     }
 
+    const { html, headings } = await renderPublicMarkdown(article.content, {
+      imageBaseUrl: `/archive/${id}/media/`,
+    });
+
     return {
       kind: 'readable',
       id,
       route: `/archive/${id}`,
       title: metadata.title_zh,
       originalTitle: metadata.title,
-      html: await renderPublicMarkdown(article.content, {
-        imageBaseUrl: `/archive/${id}/media/`,
-      }),
+      html,
+      headings,
       sourceEdition: metadata.source_edition,
       sourceUrl: metadata.source_url ?? null,
       doiUrl: doiUrl(metadata.doi ?? null),

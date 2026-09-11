@@ -4,10 +4,21 @@ import remarkGfm from 'remark-gfm';
 import remarkRehype from 'remark-rehype';
 import rehypeSanitize, { defaultSchema } from 'rehype-sanitize';
 import rehypeStringify from 'rehype-stringify';
-import type { Image, Root } from 'mdast';
+import type { Heading, Image, Root } from 'mdast';
 
 interface MarkdownOptions {
   imageBaseUrl?: string;
+}
+
+/** 正文里的一节：左栏索引按它跳转。 */
+export interface ArticleHeading {
+  id: string;
+  text: string;
+}
+
+export interface RenderedMarkdown {
+  html: string;
+  headings: ArticleHeading[];
 }
 
 function isRelativeImageUrl(value: string): boolean {
@@ -81,16 +92,55 @@ function restoreCompactStrongLabels() {
   };
 }
 
+function headingText(node: Heading): string {
+  const parts: string[] = [];
+  const visit = (node: Heading['children'][number]): void => {
+    if ('value' in node) parts.push(node.value);
+    if ('children' in node) node.children.forEach(visit);
+  };
+  node.children.forEach(visit);
+  return parts.join('').trim();
+}
+
+/**
+ * 标题原文就是锚点：译文标题是中文，转写成拉丁字母的 slug 既不稳定也读不出来。
+ * 只去掉会截断片段标识符的字符，重名的加序号。
+ */
+function headingId(text: string, taken: Set<string>): string {
+  const base = text.replace(/\s+/gu, '-').replace(/["'#%/?<>\\^`{|}]/gu, '') || 'section';
+  let id = base;
+  for (let ordinal = 2; taken.has(id); ordinal += 1) id = `${base}-${ordinal}`;
+  taken.add(id);
+  return id;
+}
+
+/** 只认正文自己的二级标题：注释一节由 remark-rehype 在这之后生成，不进索引。 */
+function collectHeadings(headings: ArticleHeading[]) {
+  return (tree: Root): void => {
+    const taken = new Set<string>();
+    for (const node of tree.children) {
+      if (node.type !== 'heading' || node.depth !== 2) continue;
+      const text = headingText(node);
+      if (!text) continue;
+      const id = headingId(text, taken);
+      node.data = { ...node.data, hProperties: { ...node.data?.hProperties, id } };
+      headings.push({ id, text });
+    }
+  };
+}
+
 export async function renderPublicMarkdown(
   markdown: string,
   { imageBaseUrl }: MarkdownOptions = {},
-): Promise<string> {
+): Promise<RenderedMarkdown> {
+  const headings: ArticleHeading[] = [];
   const rendered = await unified()
     .use(remarkParse)
     .use(remarkGfm)
     .use(resolveRelativeImages, imageBaseUrl)
     .use(restoreCompactStrongLabels)
     .use(removeRedundantNotesHeading)
+    .use(collectHeadings, headings)
     .use(remarkRehype, {
       allowDangerousHtml: false,
       footnoteLabel: '注释',
@@ -103,5 +153,5 @@ export async function renderPublicMarkdown(
     .use(rehypeStringify)
     .process(markdown);
 
-  return String(rendered);
+  return { html: String(rendered), headings };
 }

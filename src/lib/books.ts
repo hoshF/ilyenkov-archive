@@ -85,7 +85,7 @@ export const getBooks = buildCache((): Promise<Book[]> => (
       ...metadata,
       id,
       route: `/books/${id}`,
-      introductionHtml: await renderPublicMarkdown(introduction),
+      introductionHtml: (await renderPublicMarkdown(introduction)).html,
       latestEdition: editions[editions.length - 1],
       editions,
     } satisfies Book;

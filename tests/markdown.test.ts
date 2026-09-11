@@ -3,7 +3,7 @@ import { renderPublicMarkdown } from '../src/lib/markdown';
 
 describe('Markdown safety and semantics', () => {
   it('renders headings, quotations, lists, emphasis, links, and footnotes while dropping raw HTML', async () => {
-    const html = await renderPublicMarkdown(`
+    const { html } = await renderPublicMarkdown(`
 ## 小标题
 
 正文与*强调*、[链接](https://example.com)和脚注[^1]。
@@ -16,7 +16,7 @@ describe('Markdown safety and semantics', () => {
 
 [^1]: 脚注内容。
 `);
-    expect(html).toContain('<h2>小标题</h2>');
+    expect(html).toContain('<h2 id="小标题">小标题</h2>');
     expect(html).toContain('<blockquote>');
     expect(html).toContain('<ul>');
     expect(html).toContain('data-footnote-ref');
@@ -29,7 +29,7 @@ describe('Markdown safety and semantics', () => {
   });
 
   it('replaces a manuscript notes heading with one generated notes section', async () => {
-    const html = await renderPublicMarkdown(`
+    const { html } = await renderPublicMarkdown(`
 正文。[^1]
 
 ## 注释
@@ -46,17 +46,17 @@ describe('Markdown safety and semantics', () => {
   });
 
   it('keeps an ordinary notes heading when it is not followed by footnote definitions', async () => {
-    const html = await renderPublicMarkdown(`
+    const { html } = await renderPublicMarkdown(`
 ## 注释
 
 这是普通段落。
 `);
-    expect(html).toContain('<h2>注释</h2>');
+    expect(html).toContain('<h2 id="注释">注释</h2>');
     expect(html).not.toContain('data-footnotes');
   });
 
   it('renders compact Chinese dialogue and metadata labels as strong text', async () => {
-    const html = await renderPublicMarkdown(`
+    const { html } = await renderPublicMarkdown(`
 **安德烈·迈丹斯基：**的确，伊里因科夫越来越受欢迎。
 
 **关键词：**直观，主体性，逻辑范畴。
@@ -67,7 +67,7 @@ describe('Markdown safety and semantics', () => {
   });
 
   it('preserves hard line breaks and GFM table alignment', async () => {
-    const html = await renderPublicMarkdown(`
+    const { html } = await renderPublicMarkdown(`
 > 革命就这样，\\
 > 翻搅着各个阶级，\\
 > 却使国家权力愈发膨胀。
@@ -83,7 +83,7 @@ describe('Markdown safety and semantics', () => {
   });
 
   it('renders photographs and resolves article-local image paths', async () => {
-    const html = await renderPublicMarkdown(`
+    const { html } = await renderPublicMarkdown(`
 ![档案照片](portrait.jpg "摄于莫斯科")
 
 ![外部照片](https://example.com/photo.webp)
@@ -95,7 +95,7 @@ describe('Markdown safety and semantics', () => {
   });
 
   it('gives repeated footnote references unique anchors and backlinks', async () => {
-    const html = await renderPublicMarkdown(`
+    const { html } = await renderPublicMarkdown(`
 第一次。[^1]
 
 第二次。[^1]
@@ -106,5 +106,34 @@ describe('Markdown safety and semantics', () => {
     expect(html).toContain('id="user-content-fnref-1-2"');
     expect(html).toContain('href="#user-content-fnref-1"');
     expect(html).toContain('href="#user-content-fnref-1-2"');
+  });
+
+  it('anchors each section of the article on its own heading', async () => {
+    const { html, headings } = await renderPublicMarkdown(`
+## 摘要
+
+正文一。[^1]
+
+## 引言 与背景
+
+正文二。
+
+## 摘要
+
+同名的一节。
+
+[^1]: 注。
+`);
+    expect(headings).toEqual([
+      { id: '摘要', text: '摘要' },
+      { id: '引言-与背景', text: '引言 与背景' },
+      { id: '摘要-2', text: '摘要' },
+    ]);
+    expect(html).toContain('<h2 id="摘要">摘要</h2>');
+    expect(html).toContain('<h2 id="引言-与背景">引言 与背景</h2>');
+    expect(html).toContain('<h2 id="摘要-2">摘要</h2>');
+
+    // 注释一节由 remark-rehype 生成，不属于正文结构，不进索引。
+    expect(headings.some((heading) => heading.text === '注释')).toBe(false);
   });
 });

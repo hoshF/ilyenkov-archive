@@ -1,6 +1,7 @@
 ---
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import Breadcrumbs from '../../components/Breadcrumbs.astro';
+import SectionLayout from '../../components/SectionLayout.astro';
 import { getSiteData, type ReadableDocument } from '../../lib/site-data';
 
 export async function getStaticPaths() {
@@ -40,21 +41,22 @@ function finalUrlSegment(value: string): string {
 
 const sourceLabel = document.sourceUrl ? finalUrlSegment(document.sourceUrl) : null;
 const doiLabel = document.doiUrl?.replace(/^https?:\/\/doi\.org\//, '') ?? null;
+const toc = document.headings.map((heading) => ({ href: `#${heading.id}`, label: heading.text }));
 ---
 
-<BaseLayout title={document.title} description={description}>
-  <div class="container article-page">
-    <Breadcrumbs items={[
+<BaseLayout title={document.title} description={description} reading>
+  <SectionLayout toc={toc} reading>
+    <Breadcrumbs slot="breadcrumb" items={[
       { label: '档案', href: '/archive' },
       { label: document.title },
     ]} />
 
-    <article>
-      <header class="document-header">
-        <h1>{document.title}</h1>
-        <p class="document-header__original">{document.originalTitle}</p>
-      </header>
+    <header class="document-header" slot="intro">
+      <h1 id="document-title">{document.title}</h1>
+      <p class="document-header__original">{document.originalTitle}</p>
+    </header>
 
+    <article aria-labelledby="document-title">
       <div class="prose" set:html={document.html} />
       <section class="prose source-info" aria-labelledby="source-info-heading">
         <hr />
@@ -74,5 +76,5 @@ const doiLabel = document.doiUrl?.replace(/^https?:\/\/doi\.org\//, '') ?? null;
         </div>
       )}
     </nav>
-  </div>
+  </SectionLayout>
 </BaseLayout>

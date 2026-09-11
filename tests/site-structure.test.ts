@@ -91,7 +91,8 @@ describe('website-approved data adapter', () => {
     expect(anchors.every((anchor) => ids.has(anchor.slice(1)))).toBe(true);
 
     const layout = componentSource('SectionLayout');
-    expect(layout).toContain('aria-label="页内目录"');
+    expect(layout).toContain('aria-labelledby="section-toc-label"');
+    expect(layout).toContain('id="section-toc-label">页内目录</p>');
     expect(layout).not.toContain('<p>本页</p>');
   });
 
@@ -145,9 +146,7 @@ describe('website-approved data adapter', () => {
 
     // 标题栏高度只在 --header-h 里定义一次，吸顶位置和锚点落点都从它推出来。
     for (const [selector, property, media] of [
-      ['.section-layout--indexed .section-layout__intro', 'top', ''],
       ['.section-layout__toc', 'top', ''],
-      ['.section-layout--indexed .section-layout__sidebar', 'top', '@media (max-width: 1120px)'],
       ['.section-layout--indexed .section-layout__toc', 'top', '@media (max-width: 600px)'],
       ['.research-series h2', 'scroll-margin-top', ''],
       ['.research-series h2', 'scroll-margin-top', '@media (max-width: 600px)'],
@@ -155,13 +154,18 @@ describe('website-approved data adapter', () => {
       expect(declaration(selector, property, media), `${selector} ${property}`).toContain('var(--header-h)');
     }
 
-    // 左栏与目录吸在打开页面时的位置，只有正文滚动
-    expect(declaration('.section-layout--indexed .section-layout__intro', 'position')).toBe('sticky');
+    // 左栏只有索引，它吸在打开页面时的位置；标题与导语归入正文那一栏，跟着正文滚。
     expect(declaration('.section-layout__toc', 'position')).toBe('sticky');
+    expect(declaration('.section-layout--indexed', 'grid-template-areas')).toContain('"toc intro"');
 
-    // 三栏 → 两栏 → 单栏
-    expect(declaration('.section-layout--indexed', 'grid-template-columns')).toContain('minmax(0, 216px)');
-    expect(declaration('.section-layout--indexed', 'grid-template-columns', '@media (max-width: 1120px)')).toContain('minmax(0, 248px)');
+    // 两栏 → 单栏
+    expect(declaration('.section-layout--indexed', 'grid-template-columns')).toContain('var(--index)');
+    // 译文版式：正文是行宽本身，两边各让出一个索引栏的宽度，正文因此落在正中。
+    expect(declaration('.section-layout--reading', 'width'))
+      .toContain('var(--reading) + (var(--index) + var(--index-gap)) * 2');
+    expect(declaration('.section-layout--reading', 'grid-template-columns'))
+      .toBe('minmax(var(--index), 1fr) minmax(0, var(--reading)) minmax(0, 1fr)');
+    expect(declaration('.section-layout--indexed', 'grid-template-areas', '@media (max-width: 860px)')).toContain('"intro"');
     expect(declaration('.section-layout--indexed', 'display', '@media (max-width: 600px)')).toBe('block');
     expect(declaration('.section-layout--indexed .section-layout__toc', 'position', '@media (max-width: 600px)')).toBe('sticky');
   });

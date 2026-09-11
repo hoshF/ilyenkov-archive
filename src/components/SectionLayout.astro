@@ -8,9 +8,11 @@ interface Props {
   toc?: SectionTocItem[];
   /** 左栏固定在打开页面时的位置，只有右侧内容滚动。 */
   pinned?: boolean;
+  /** 内容是连续正文而不是记录列表：内容栏收到行宽。 */
+  reading?: boolean;
 }
 
-const { toc = [], pinned = false } = Astro.props;
+const { toc = [], pinned = false, reading = false } = Astro.props;
 const indexed = toc.length > 0;
 ---
 
@@ -18,6 +20,7 @@ const indexed = toc.length > 0;
   'container',
   'section-layout',
   indexed && 'section-layout--indexed',
+  reading && 'section-layout--reading',
   pinned && 'section-layout--pinned',
 ]}>
   <div class="section-layout__sidebar">
@@ -27,13 +30,16 @@ const indexed = toc.length > 0;
       </div>
     )}
 
-    <div class="section-layout__intro">
-      <slot name="intro" />
-    </div>
+    {Astro.slots.has('intro') && (
+      <div class="section-layout__intro">
+        <slot name="intro" />
+      </div>
+    )}
 
     {indexed && (
       <aside class="section-layout__toc">
-        <nav aria-label="页内目录">
+        <nav aria-labelledby="section-toc-label">
+          <p class="section-layout__toc-label" id="section-toc-label">页内目录</p>
           <ol>
             {toc.map((item) => <li><a href={item.href}>{item.label}</a></li>)}
           </ol>

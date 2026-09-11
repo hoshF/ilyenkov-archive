@@ -1,7 +1,7 @@
 :root {
   color-scheme: light; --ink: #000; --ink-soft: #1a1a1a; --muted: #706b62; --line: #ddd9d1;
   --line-strong: #b8b2a7; --paper: #fff; --accent: #2f3a86;
-  --accent-dark: #1b1f4b; --content: 1040px; --section: 1040px; --section-wide: 1180px; --reading: 672px;
+  --accent-dark: #1b1f4b; --content: 1040px; --section: 1040px; --reading: 672px; --index: 216px; --index-gap: 56px;
   --text-meta: .875rem; --text-secondary: .9375rem; --text-body: 1rem; --text-item: 1.125rem;
   --text-home-section: 1.25rem; --text-section: 1.375rem; --text-page-mobile: 1.625rem; --text-page: 1.75rem;
   --text-display-mobile: 2rem; --text-display: 2.25rem;
@@ -260,14 +260,38 @@ h2, h3, h4 { text-wrap: balance; line-height: 1.3; }
 
 .section-layout__breadcrumb { margin-bottom: 20px; }
 
+/* --indexed：左栏只放索引，面包屑、标题、导语和正文同在右栏，从上往下读成一列。 */
 .section-layout--indexed {
-  width: min(calc(100% - 40px), var(--section-wide));
-  grid-template-columns: minmax(0, 216px) minmax(0, 144px) minmax(0, var(--reading)); column-gap: 40px;
+  width: min(calc(100% - 40px), var(--section));
+  grid-template-columns: minmax(0, var(--index)) minmax(0, 1fr); column-gap: var(--index-gap);
+  grid-template-areas: "toc breadcrumb" "toc intro" "toc content";
 }
 .section-layout--indexed .section-layout__sidebar { display: contents; }
-/* --section-top 是版式容器的上内边距：吸顶位置和它们打开页面时的位置完全一样，所以左栏和
-   目录一格都不动，只有右边的正文在滚。 */
-.section-layout--indexed .section-layout__intro { position: sticky; top: calc(var(--header-h) + var(--section-top)); }
+.section-layout--indexed .section-layout__breadcrumb { grid-area: breadcrumb; }
+.section-layout--indexed .section-layout__toc { grid-area: toc; }
+.section-layout--indexed .section-layout__content { grid-area: content; }
+.section-layout--indexed .section-layout__intro {
+  grid-area: intro; max-width: var(--reading); margin-bottom: 52px;
+}
+
+/* 正文是连续文本（译文）时，内容栏收到行宽本身：标题、正文和篇末导航
+   对齐同一条左边线，版式总宽由索引栏、间距和行宽推出来。 */
+.section-layout--reading {
+  /* 译文比分区页更早开始：容器的上内边距和索引的吸顶位置都从这里取，两者仍然对齐。 */
+  --section-top: 36px;
+  /* 右边留一列与索引等宽的空白，正文就落在屏幕正中；索引待在左边距里，不把正文推离
+     中线。左栏有下限，窄下来时先让右边那列空白收掉、再让正文收，索引始终读得出来。 */
+  width: min(calc(100% - 40px), calc(var(--reading) + (var(--index) + var(--index-gap)) * 2));
+  grid-template-columns: minmax(var(--index), 1fr) minmax(0, var(--reading)) minmax(0, 1fr);
+  grid-template-areas: "toc breadcrumb ." "toc intro ." "toc content .";
+}
+.section-layout--reading .section-layout__content { max-width: var(--reading); }
+.section-layout--reading .section-layout__intro { margin-bottom: 0; }
+
+/* 没有小标题的译文没有索引可放，版式退回单栏，和加索引之前一样。 */
+.section-layout--reading:not(.section-layout--indexed) {
+  width: min(calc(100% - 40px), var(--reading)); grid-template-columns: minmax(0, 1fr);
+}
 
 .section-layout__sidebar, .section-layout__intro, .section-layout__content { min-width: 0; }
 
@@ -282,10 +306,16 @@ h2, h3, h4 { text-wrap: balance; line-height: 1.3; }
 
 .section-boundary { border-top: 1px solid var(--line); padding-top: 18px; }
 
-.section-layout__toc { position: sticky; top: calc(var(--header-h) + var(--section-top)); min-width: 0; padding-left: 18px; border-left: 1px solid var(--line); }
+/* --section-top 是版式容器的上内边距：索引吸顶的位置和它打开页面时的位置完全一样，
+   所以左栏一格不动，只有右边的正文在滚。 */
+.section-layout__toc { position: sticky; top: calc(var(--header-h) + var(--section-top)); min-width: 0; }
+.section-layout__toc-label {
+  color: var(--muted); font-size: var(--text-meta); letter-spacing: .04em; margin: 0 0 15px;
+  font-weight: 500; line-height: 1.4;
+}
 .section-layout__toc ol { margin: 0; padding: 0; list-style: none; }
 .section-layout__toc li + li { margin-top: 9px; }
-.section-layout__toc a { color: var(--muted); font-size: var(--text-meta); line-height: 1.45; text-decoration: none; }
+.section-layout__toc a { color: var(--ink-soft); font-size: var(--text-meta); line-height: 1.45; text-decoration: none; }
 .section-layout__toc a:hover { color: var(--accent); text-decoration: underline; }
 
 /* 记录列表：档案、生平、年表、作品目录、研究与书籍共用同一套条目形状——
@@ -377,8 +407,6 @@ h2, h3, h4 { text-wrap: balance; line-height: 1.3; }
 
 .activity-section__lead { color: var(--muted); font-size: var(--text-body); margin: 12px 0 28px; line-height: 1.6; }
 
-.article-page { width: min(calc(100% - 40px), var(--reading)); padding: 0 0 120px; }
-.article-page > .breadcrumbs { padding-top: 36px; }
 
 .document-header { max-width: var(--reading); text-align: left; margin: 0 auto 23px; }
 .document-header h1 { margin: 36px 0 0; font-size: var(--text-page); font-weight: 700; line-height: 1.3; letter-spacing: normal; }
@@ -394,7 +422,7 @@ h2, h3, h4 { text-wrap: balance; line-height: 1.3; }
 .prose--section { margin: 0; }
 .prose--section > h2:first-child { margin-top: 0; }
 
-.prose h2 { font-size: var(--text-section); margin-top: 3rem; font-weight: 600; }
+.prose h2 { font-size: var(--text-section); margin-top: 3rem; scroll-margin-top: calc(var(--header-h) + 32px); font-weight: 600; }
 .prose h3 { font-size: var(--text-item); margin-top: 2.25rem; font-weight: 600; }
 .prose p, .prose li { line-height: 1.8; }
 .prose p { margin: 1em 0; }
@@ -433,15 +461,13 @@ h2, h3, h4 { text-wrap: balance; line-height: 1.3; }
 .fact-list dt { color: var(--muted); }
 .fact-list dd { margin: 0; }
 
-@media (max-width: 1120px) {
+@media (max-width: 860px) {
   .section-layout--indexed {
-    width: min(calc(100% - 40px), var(--section));
-    grid-template-columns: minmax(0, 248px) minmax(0, var(--reading)); gap: 30px 64px;
+    grid-template-columns: minmax(0, 1fr);
+    grid-template-areas: "breadcrumb""intro""toc""content";
   }
-  .section-layout--indexed .section-layout__sidebar { display: block; position: sticky; top: calc(var(--header-h) + var(--section-top)); grid-column: 1; }
-  .section-layout--indexed .section-layout__intro { position: static; }
-  .section-layout--indexed .section-layout__toc { margin-top: 28px; position: static; }
-  .section-layout--indexed .section-layout__content { grid-area: 1/2; }
+  .section-layout--indexed .section-layout__intro { max-width: none; margin-bottom: 32px; }
+  .section-layout--indexed .section-layout__toc { position: static; margin-bottom: 40px; }
 }
 
 @media (max-width: 800px) {
@@ -460,11 +486,24 @@ h2, h3, h4 { text-wrap: balance; line-height: 1.3; }
     margin: 28px 0 40px; padding: 12px 0; background: var(--paper);
     border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); border-left: 0;
   }
+  /* 标签与条目并作一行，横条才保持单行高度，下面的 scroll-margin-top 才对得上。 */
+  .section-layout--indexed .section-layout__toc nav {
+    flex-wrap: wrap; align-items: baseline; gap: 0 18px; display: flex;
+  }
+  .section-layout--indexed .section-layout__toc-label { margin: 0; }
   .section-layout--indexed .section-layout__toc ol { flex-wrap: wrap; gap: 7px 20px; display: flex; }
   .section-layout--indexed .section-layout__toc li + li, .section-layout--indexed .section-layout__content {
     margin-top: 0;
   }
   .research-series h2 { scroll-margin-top: calc(var(--header-h) + 96px); } /* 标题栏 + 目录横条 */
+
+  /* 手机上的译文页从标题直接进正文：站点标题栏、面包屑和索引都不占地方，
+     出口留在篇末的“返回文本档案”和上下篇。 */
+  .reading-page .site-header, .reading-page .section-layout__breadcrumb { display: none; }
+  .section-layout--reading .section-layout__toc { display: none; }
+  .section-layout--reading { --header-h: 0px; }
+  .document-header { margin-bottom: 23px; }
+  .document-header h1 { font-size: var(--text-page-mobile); margin-top: 0; }
   .site-header__masthead, .container, .home-shell { width: min(calc(100% - 1.5rem), var(--content)); }
   /* 导航固定另起一行：宽度一变就换行的话，标题栏高度会在两个值之间跳，--header-h 只能取一个。 */
   .site-header__masthead { flex-wrap: wrap; align-items: center; row-gap: 4px; padding: 12px 0; }
@@ -480,9 +519,6 @@ h2, h3, h4 { text-wrap: balance; line-height: 1.3; }
   .page-title { font-size: var(--text-page-mobile); }
   .lead { font-size: var(--text-body); }
   .container { padding: var(--section-top) 0 4.25rem; }
-  .article-page { padding-top: 0; }
-  .document-header { margin-bottom: 23px; }
-  .document-header h1 { font-size: var(--text-page-mobile); margin-top: 32px; }
   .prose { font-size: var(--text-body); }
   .fact-list > div { grid-template-columns: 1fr; gap: .15rem; }
   .document-nav__siblings { flex-direction: column; gap: 10px; }

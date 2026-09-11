@@ -5,11 +5,14 @@ import { site } from '../lib/editorial';
 interface Props {
   title: string;
   description?: string;
+  /** 连续阅读的页面：手机上只留正文，站点标题栏让开。 */
+  reading?: boolean;
 }
 
 const {
   title,
   description = site.description,
+  reading = false,
 } = Astro.props;
 const pageTitle = title === site.name ? title : `${title}｜${site.name}`;
 const currentPath = Astro.url.pathname;
@@ -29,7 +32,7 @@ const current = (href: string) => (
     <meta name="generator" content={Astro.generator} />
     <title>{pageTitle}</title>
   </head>
-  <body>
+  <body class:list={[reading && 'reading-page']}>
     <header class="site-header">
       <div class="site-header__masthead">
         <a class="site-name" href="/" aria-label={`${site.name}首页`}>
