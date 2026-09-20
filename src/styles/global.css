@@ -59,6 +59,13 @@ h2, h3, h4 { text-wrap: balance; line-height: 1.3; }
 }
 .site-header__masthead nav a:hover { color: var(--accent-dark); }
 
+/* 当前栏目：导航里唯一加深并画线的一项。底线用文字自己的下划线而不是边框，
+   标题栏高度仍然只由 --header-h 说了算。 */
+.site-header__masthead nav a[aria-current=page] {
+  color: var(--accent-dark); text-decoration: underline; text-decoration-thickness: 2px;
+  text-underline-offset: .32em;
+}
+
 .document-nav {
   max-width: var(--reading); border-top: 1px solid var(--line); font-size: var(--text-body);
   margin: 72px auto 0; padding-top: 20px;

@@ -191,6 +191,17 @@ describe('public navigation', () => {
     }
   });
 
+  it('marks the current section in the main navigation', () => {
+    const layout = layoutSource('BaseLayout');
+    expect(layout).toContain("aria-current={current(item.href) ? 'page' : undefined}");
+
+    const active = declarationsFor('.site-header__masthead nav a[aria-current=page]');
+    expect(active.color).toBe('var(--accent-dark)');
+    expect(active['text-decoration']).toBe('underline');
+    // 底线是文字自己的下划线：导航项不因为当前状态而变高，--header-h 仍然算得准。
+    expect(active['border-bottom']).toBeUndefined();
+  });
+
   it('gives the rights page a permanent entrance from every page', () => {
     // 《项目与权利》讲来源、授权与版本原则，此前只能从小组页正文的一句话走到。
     const hrefs = site.footer.map((link) => link.href);
