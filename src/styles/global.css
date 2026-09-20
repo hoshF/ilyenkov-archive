@@ -389,6 +389,9 @@ h2, h3, h4 { text-wrap: balance; line-height: 1.3; }
 .entrance-card__summary { display: block; margin-top: 11px; color: var(--muted); font-size: var(--text-body); line-height: 1.65; }
 .entrance-card:hover .entrance-card__label { color: var(--accent-dark); text-decoration: underline; }
 
+/* 作品目录按体裁分段，段之间只靠留白分开，与书籍分类用同一个间距。 */
+.works-catalog-section + .works-catalog-section { margin-top: 56px; }
+
 .works-catalog-section h2 { font-size: var(--text-section); margin: 0 0 26px; font-weight: 700; }
 
 .works-catalog-section__note {
