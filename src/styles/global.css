@@ -6,8 +6,12 @@
   --text-home-section: 1.25rem; --text-section: 1.375rem; --text-page-mobile: 1.625rem; --text-page: 1.75rem;
   --text-display-mobile: 2rem; --text-display: 2.25rem;
   --header-h: 50px; --section-top: 80px;
-  --book: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", "Helvetica Neue", Helvetica, Arial, sans-serif;
-  --serif: var(--book); --sans: var(--book); color: var(--ink); font-family: var(--serif); font-synthesis: none;
+  /* 界面字体。无衬线承担全站：导航、标题、列表、元信息、来源。 */
+  --sans: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", "Helvetica Neue", Helvetica, Arial, sans-serif;
+  /* 阅读字体，只给连续正文。西文与俄文取前四种衬线之一（Charter 与 Georgia 都带西里尔
+     字母和真斜体），中文由后面的宋体系接续；逐字回退，所以混排里每种文字都落在衬线上。 */
+  --serif: Charter, "Bitstream Charter", "Source Serif 4", Georgia, "Songti SC", STSong, "Source Han Serif SC", "Noto Serif CJK SC", "Noto Serif SC", SimSun, serif;
+  color: var(--ink); font-family: var(--sans); font-synthesis: none;
   font-size: 16px;
 }
 
@@ -439,6 +443,14 @@ h2, h3, h4 { text-wrap: balance; line-height: 1.3; }
   color: var(--muted); font-size: var(--text-secondary); margin: 10px 0 0; line-height: 1.5;
 }
 
+/* 译文页是全站唯一的连续阅读页面（BaseLayout 的 reading 只传给 /archive/[id]），
+   衬线就只落在这里：被读的文本用衬线，站点界面——导航、页内索引、面包屑、篇末导航、
+   图注——仍然是无衬线。中文衬线没有斜体，Windows 的 SimSun 连粗体字面都没有；:root 关掉了
+   全部字形合成，这里只放开字重，让 <strong> 在各平台都粗得出来，同时不合成假斜体。 */
+.reading-page .document-header, .reading-page .prose {
+  font-family: var(--serif); font-synthesis: weight;
+}
+
 .prose { max-width: var(--reading); margin: 0 auto; font-size: var(--text-body); line-height: 1.8; overflow-wrap: anywhere; }
 
 .prose--page { margin-left: 0; }
@@ -474,6 +486,8 @@ h2, h3, h4 { text-wrap: balance; line-height: 1.3; }
 .prose .footnotes h2 { margin-top: 0; }
 
 .source-info { margin-top: 3rem; }
+.reading-page .source-info { font-family: var(--sans); font-size: var(--text-secondary); }
+.reading-page .source-info h2 { font-size: var(--text-item); }
 .source-info hr { margin-bottom: 1.5rem; }
 .source-info h2 { margin-top: 0; }
 

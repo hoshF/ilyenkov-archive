@@ -139,6 +139,18 @@ describe('website-approved data adapter', () => {
     expect(pixelSized.map((rule) => rule.selector)).toEqual([]);
   });
 
+  it('reserves the reading serif for continuous translations', () => {
+    // 界面一律无衬线；衬线只在译文页出现，而 reading 只有 /archive/[id] 会传。
+    expect(declaration(':root', 'font-family')).toBe('var(--sans)');
+    expect(layoutSource('BaseLayout')).toContain("reading && 'reading-page'");
+
+    const serifRules = rules.filter((rule) => (
+      Object.values(rule.declarations).some((value) => value.includes('var(--serif)'))
+    ));
+    expect(serifRules.length).toBeGreaterThan(0);
+    expect(serifRules.every((rule) => rule.selector.startsWith('.reading-page'))).toBe(true);
+  });
+
   it('keeps the header and the indexed navigation in place while jumping', () => {
     expect(declaration('.site-header', 'position')).toBe('sticky');
     expect(declaration('.site-header', 'top')).toBe('0');
