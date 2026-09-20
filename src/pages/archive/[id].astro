@@ -78,3 +78,53 @@ const toc = document.headings.map((heading) => ({ href: `#${heading.id}`, label:
     </nav>
   </SectionLayout>
 </BaseLayout>
+
+<script>
+  /* 页内目录标出当前所在章节。渐进增强：没有脚本时目录仍是一组可用的锚点，只是不高亮。
+     脚本写在译文页而不是共用的 SectionLayout 里，这样只有 /archive/<id> 会加载它，
+     同样用 SectionLayout 的栏目页不会。 */
+  const toc = document.querySelector('.section-layout--reading .section-layout__toc');
+  const links = toc ? Array.from(toc.querySelectorAll('a[href^="#"]')) : [];
+  const sections: Array<{ link: Element; heading: HTMLElement }> = [];
+
+  for (const link of links) {
+    /* 标题的锚点就是中文标题本身，浏览器可能把 href 交回成百分号转义的形式。 */
+    const heading = document.getElementById(decodeURIComponent((link.getAttribute('href') ?? '').slice(1)));
+    if (heading) sections.push({ link, heading });
+  }
+
+  if (sections.length > 0) {
+    let current: Element | null = null;
+
+    /* 当前章节 = 阅读基准线（视口上沿往下 28%）之上最后一个标题。判据不是“标题正好在
+       视口里”，所以两个标题之间的长段正文始终归属上一节；基准线之上还没有标题时——
+       也就是刚打开页面、还在读标题和作者——归第一节。 */
+    const mark = () => {
+      const line = window.innerHeight * 0.28;
+      let active = sections[0].link;
+      for (const section of sections) {
+        if (section.heading.getBoundingClientRect().top <= line) active = section.link;
+      }
+      if (active === current) return;
+      current?.removeAttribute('aria-current');
+      active.setAttribute('aria-current', 'location');
+      current = active;
+    };
+
+    mark();
+
+    /* 触发重算。IntersectionObserver 在这里不够用：它只报告“进出某个区域”，整帧跨过
+       全文的跳转——End 键、拖动滚动条、页内查找、后退时恢复位置——不产生任何回调，
+       高亮会停在原处。滚动事件不会漏，用 requestAnimationFrame 归并到每帧至多一次；
+       一次重算只是读几个标题的位置，条目就这么几条。 */
+    let pending = false;
+    const schedule = () => {
+      if (pending) return;
+      pending = true;
+      requestAnimationFrame(() => { pending = false; mark(); });
+    };
+
+    addEventListener('scroll', schedule, { passive: true });
+    addEventListener('resize', schedule, { passive: true });
+  }
+</script>

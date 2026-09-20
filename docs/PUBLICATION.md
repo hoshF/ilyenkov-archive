@@ -88,6 +88,6 @@ errata: [勘误条目]                # 可选
 类别显示标题，空分类不显示。同一 `collection` 的书聚成一组，组内按 `editorial/books/` 里文件名的
 字典序排列——要固定成卷次顺序就按顺序命名文件（如 `wenji-01-xxx.md`、`wenji-02-xxx.md`）。
 
-书籍详情页的版次历史使用原生 `<details>` 浮层，不需要 JavaScript；全站保持无脚本。
+书籍详情页的版次历史使用原生 `<details>` 浮层，不需要 JavaScript。
 
 封面之外不放置书籍文件；未获许可的正文不进入 `public/`，也不进入 `dist/`。

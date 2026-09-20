@@ -182,6 +182,34 @@ describe('website-approved data adapter', () => {
     expect(declaration('.section-layout--indexed .section-layout__toc', 'position', '@media (max-width: 600px)')).toBe('sticky');
   });
 
+  it('marks the current section only where a translation is being read', () => {
+    // 高亮由脚本给出，脚本只随译文页输出：其他用 SectionLayout 的栏目页不加载它，
+    // 共用组件本身也不带脚本。
+    expect(pageSource('archive/[id].astro')).toContain('<script>');
+    expect(componentSource('SectionLayout')).not.toContain('<script');
+    for (const route of ['research.astro', 'group.astro', 'about.astro', 'books/index.astro']) {
+      expect(pageSource(route), `${route} should carry no script`).not.toContain('<script');
+    }
+
+    // 状态写在目录条目上，用的是 location，不和顶栏当前栏目的 page 混用。
+    const active = rules.filter((rule) => rule.selector.includes('[aria-current=location]'));
+    expect(active.length).toBeGreaterThan(0);
+    expect(active.every((rule) => rule.selector.includes('.section-layout__toc'))).toBe(true);
+
+    // 标记线绝对定位，出现和消失都不推动文字。
+    expect(declaration(
+      '.section-layout--reading .section-layout__toc a[aria-current=location]:before',
+      'position',
+    )).toBe('absolute');
+
+    // 窄屏译文页仍然不显示目录，本轮没有顺手做手机目录。
+    expect(declaration(
+      '.section-layout--reading .section-layout__toc',
+      'display',
+      '@media (max-width: 600px)',
+    )).toBe('none');
+  });
+
   it('presents Ilyenkov section entrances as whole-card links', () => {
     expect(declaration('.entrance-card', 'text-decoration')).toBe('none');
     expect(declaration('.entrance-grid', 'grid-template-columns')).toContain('repeat(2');
