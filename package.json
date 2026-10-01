@@ -12,6 +12,7 @@
     "dev:logs": "astro dev logs",
     "dev:stop": "astro dev stop",
     "build": "npm run publication:prepare && astro build",
+    "deploy": "npm run verify && wrangler pages deploy dist --project-name=ilyenkov-archive --branch=main",
     "preview": "astro preview",
     "astro": "astro",
     "publication:prepare": "npm run publication:sync",
@@ -37,6 +38,7 @@
     "@astrojs/check": "^0.9.10",
     "@types/node": "^26.2.0",
     "typescript": "^6.0.3",
-    "vitest": "^4.1.10"
+    "vitest": "^4.1.10",
+    "wrangler": "4.135.0"
   }
 }

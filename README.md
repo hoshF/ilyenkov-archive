@@ -32,5 +32,19 @@ npm run verify       # 类型检查、测试、构建，一次跑完
 `publication:check` 只比较不改写；`check`、`test` 与 `build` 都会先同步。private 默认位于本仓库
 旁边的 `Ilyenkov/`，位置不同时用 `ILYENKOV_ROOT` 指定。
 
-生产构建使用 `npm run build`，输出到 `dist/`。部署边界见[部署说明](docs/DEPLOYMENT.md)；
-从 private 公开选择到静态页面的完整过程见[内容流水线](docs/CONTENT_PIPELINE.md)。
+生产构建使用 `npm run build`，输出到 `dist/`。从 private 公开选择到静态页面的完整过程见
+[内容流水线](docs/CONTENT_PIPELINE.md)。
+
+## 发布
+
+在能读取 private 仓库、且已登录有该项目发布权限的 Cloudflare 账号的环境中运行：
+
+```sh
+npm run deploy
+```
+
+该命令先同步公开内容、完成类型检查、测试与构建，通过后才上传到生产项目
+`ilyenkov-archive`。代码提交、Git 推送和本地构建各自完成后，网站仍需这一步上传才会更新。
+
+发布后打开[正式站点](https://ilyenkov-archive.pages.dev/)确认更新。
+账号准备、部署边界与上线验收见[部署说明](docs/DEPLOYMENT.md)。
