@@ -5,6 +5,7 @@ import { unified } from 'unified';
 import remarkParse from 'remark-parse';
 import { outputRoot, projectRoot, researchRoot } from './lib/paths.mjs';
 import { runSync, writeGenerated } from './lib/sync.mjs';
+import { prepareTranslationMarkdown } from './lib/translation-markdown.mjs';
 import {
   fail,
   idPattern,
@@ -21,16 +22,6 @@ const articleAssetsRoot = path.join(outputRoot, 'article-assets');
 const websiteScope = 'website_public';
 const imageExtensionPattern = /\.(?:avif|gif|jpe?g|png|webp)$/i;
 const safeAssetNamePattern = /^[a-zA-Z0-9][a-zA-Z0-9._-]*$/;
-
-function stripFrontmatter(text) {
-  return text.replace(/^---\r?\n[\s\S]*?\r?\n---\r?\n/, '').trim();
-}
-
-function dropLeadingTitle(body, title) {
-  const lines = body.split(/\r?\n/);
-  if (lines[0]?.trim() === `# ${title}` || lines[0]?.trim() === `#${title}`) lines.shift();
-  return lines.join('\n').replace(/^\n+/, '');
-}
 
 function gitOutput(arguments_) {
   try {
@@ -85,13 +76,14 @@ function localImageNames(body, textRelative) {
   return [...names].sort();
 }
 
-function renderArticle(work, body, textRelative, revision) {
+function renderArticle(work, body, textRelative, revision, titleNotes) {
   const lines = [
     '---',
     `title: ${yamlString(work.title)}`,
     `title_zh: ${yamlString(work.title_zh)}`,
     `source_edition: ${yamlString(work.source_edition)}`,
   ];
+  if (titleNotes.length) lines.push(`title_notes: ${JSON.stringify(titleNotes)}`);
   if (work.source_url) lines.push(`source_url: ${yamlString(work.source_url)}`);
   if (work.doi) lines.push(`doi: ${yamlString(work.doi)}`);
   lines.push(
@@ -140,10 +132,7 @@ function plannedArticles() {
     };
     if (!existsSync(textPath)) fail(`missing ${textRelative}`);
 
-    const body = dropLeadingTitle(
-      stripFrontmatter(readFileSync(textPath, 'utf8')),
-      metadata.title_zh,
-    );
+    const { body, titleNotes } = prepareTranslationMarkdown(readFileSync(textPath, 'utf8'));
     if (!body) fail(`${textRelative}: Markdown body is empty`);
     const imageNames = localImageNames(body, textRelative);
     const imageRelatives = imageNames.map((name) => path.posix.join(path.posix.dirname(textRelative), name));
@@ -160,7 +149,7 @@ function plannedArticles() {
       ...imageRelatives,
     ]);
     return [`${workId}.md`, {
-      article: renderArticle(metadata, body, textRelative, revision),
+      article: renderArticle(metadata, body, textRelative, revision, titleNotes),
       assets,
     }];
   }));

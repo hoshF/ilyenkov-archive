@@ -1,6 +1,7 @@
 import { unified } from 'unified';
 import remarkParse from 'remark-parse';
 import remarkGfm from 'remark-gfm';
+import remarkCjkFriendly from 'remark-cjk-friendly/parseOnly';
 import remarkRehype from 'remark-rehype';
 import rehypeSanitize, { defaultSchema } from 'rehype-sanitize';
 import rehypeStringify from 'rehype-stringify';
@@ -8,6 +9,8 @@ import type { Heading, Image, Root } from 'mdast';
 
 interface MarkdownOptions {
   imageBaseUrl?: string;
+  title?: string;
+  titleNotes?: string[];
 }
 
 /** 正文里的一节：左栏索引按它跳转。 */
@@ -18,7 +21,27 @@ export interface ArticleHeading {
 
 export interface RenderedMarkdown {
   html: string;
+  titleHtml: string;
   headings: ArticleHeading[];
+}
+
+/** 标题与正文共用一次脚注编号；题名作为文字节点，不解释 Markdown 或 HTML。 */
+function prependDocumentTitle(title: string | undefined, titleNotes: string[]) {
+  return (tree: Root): void => {
+    if (title === undefined) return;
+    tree.children.unshift({
+      type: 'heading',
+      depth: 1,
+      children: [
+        { type: 'text', value: title },
+        ...titleNotes.map((identifier) => ({
+          type: 'footnoteReference' as const,
+          identifier,
+          label: identifier,
+        })),
+      ],
+    });
+  };
 }
 
 function isRelativeImageUrl(value: string): boolean {
@@ -66,32 +89,6 @@ function removeRedundantNotesHeading() {
   };
 }
 
-/**
- * CommonMark leaves `**说话人：**正文` untouched because the closing
- * delimiter sits between punctuation and a CJK letter. This compact form is
- * used throughout Chinese interviews and by the reference blog renderer.
- */
-function restoreCompactStrongLabels() {
-  return (tree: Root): void => {
-    for (const node of tree.children) {
-      if (node.type !== 'paragraph') continue;
-
-      const first = node.children[0];
-      if (!first || first.type !== 'text') continue;
-
-      const match = /^\*\*([^*\r\n]+?[：:])\*\*(?=\S)/u.exec(first.value);
-      if (!match || match[1].trim() !== match[1]) continue;
-
-      node.children.splice(
-        0,
-        1,
-        { type: 'strong', children: [{ type: 'text', value: match[1] }] },
-        { type: 'text', value: first.value.slice(match[0].length) },
-      );
-    }
-  };
-}
-
 function headingText(node: Heading): string {
   const parts: string[] = [];
   const visit = (node: Heading['children'][number]): void => {
@@ -131,16 +128,17 @@ function collectHeadings(headings: ArticleHeading[]) {
 
 export async function renderPublicMarkdown(
   markdown: string,
-  { imageBaseUrl }: MarkdownOptions = {},
+  { imageBaseUrl, title, titleNotes = [] }: MarkdownOptions = {},
 ): Promise<RenderedMarkdown> {
   const headings: ArticleHeading[] = [];
-  const rendered = await unified()
+  const processor = unified()
     .use(remarkParse)
     .use(remarkGfm)
+    .use(remarkCjkFriendly)
     .use(resolveRelativeImages, imageBaseUrl)
-    .use(restoreCompactStrongLabels)
     .use(removeRedundantNotesHeading)
     .use(collectHeadings, headings)
+    .use(prependDocumentTitle, title, titleNotes)
     .use(remarkRehype, {
       allowDangerousHtml: false,
       footnoteLabel: '注释',
@@ -150,8 +148,15 @@ export async function renderPublicMarkdown(
     // remark-rehype has already added the defensive `user-content-` prefix.
     // Avoid adding the same prefix a second time while sanitizing the tree.
     .use(rehypeSanitize, { ...defaultSchema, clobberPrefix: '' })
-    .use(rehypeStringify)
-    .process(markdown);
+    .use(rehypeStringify);
 
-  return { html: String(rendered), headings };
+  const tree = await processor.run(processor.parse(markdown));
+  let titleHtml = '';
+  const titleNode = tree.children[0];
+  if (title !== undefined && titleNode?.type === 'element' && titleNode.tagName === 'h1') {
+    tree.children.shift();
+    titleHtml = processor.stringify({ type: 'root', children: titleNode.children });
+  }
+
+  return { html: processor.stringify(tree), titleHtml, headings };
 }

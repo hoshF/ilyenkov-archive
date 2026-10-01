@@ -16,6 +16,7 @@ const PublicUrlSchema = z.string().refine((value) => {
 const GeneratedArticleSchema = z.object({
   title: z.string().trim().min(1),
   title_zh: z.string().trim().min(1),
+  title_notes: z.array(z.string().trim().min(1)).default([]),
   source_edition: z.string().trim().min(1),
   source_url: PublicUrlSchema.optional(),
   doi: z.string().trim().min(1).optional(),
@@ -29,6 +30,7 @@ export interface ReadableDocument {
   id: string;
   route: string;
   title: string;
+  titleHtml: string;
   originalTitle: string;
   html: string;
   headings: ArticleHeading[];
@@ -57,8 +59,10 @@ async function loadArticles(): Promise<ReadableDocument[]> {
       throw new Error(`Generated article source does not match its filename: ${id}`);
     }
 
-    const { html, headings } = await renderPublicMarkdown(article.content, {
+    const { html, titleHtml, headings } = await renderPublicMarkdown(article.content, {
       imageBaseUrl: `/archive/${id}/media/`,
+      title: metadata.title_zh,
+      titleNotes: metadata.title_notes,
     });
 
     return {
@@ -66,6 +70,7 @@ async function loadArticles(): Promise<ReadableDocument[]> {
       id,
       route: `/archive/${id}`,
       title: metadata.title_zh,
+      titleHtml,
       originalTitle: metadata.title,
       html,
       headings,

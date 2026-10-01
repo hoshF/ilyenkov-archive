@@ -36,6 +36,9 @@ private/research/publication.json
 生成的输入位于 `.website-input/`，只用于构建，不进入 Git，也不应手工修改。再次同步会更新变化的
 文件并清理不再获准公开的条目。
 
+同步时去掉正本中整行的内部 `block-id` 注释，代码示例里的注释保留。正文开头的一级标题由页面
+题名替代；其中的脚注引用写入生成 frontmatter 的 `title_notes` 数组，与正文共同编号并保留回链。
+
 获准公开的译文可用标准 Markdown 图片语法引用与正文同目录的图片，例如
 `![图片替代文字](portrait.jpg "可选标题")`。同步器只复制正文实际引用的同目录
 `jpg`、`jpeg`、`png`、`webp`、`gif` 或 `avif` 文件；不允许 `../` 跨目录引用。站点根路径和

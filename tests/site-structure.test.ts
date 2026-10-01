@@ -210,6 +210,13 @@ describe('website-approved data adapter', () => {
     )).toBe('none');
   });
 
+  it('stacks translations without a section index in one reading column', () => {
+    // 无目录时侧栏仍包含题名；退出网格，避免三栏命名区域生成隐式列并挤窄题名。
+    const fallback = declarationsFor('.section-layout--reading:not(.section-layout--indexed)');
+    expect(fallback.display).toBe('block');
+    expect(fallback.width).toBe('min(calc(100% - 40px), var(--reading))');
+  });
+
   it('presents Ilyenkov section entrances as whole-card links', () => {
     expect(declaration('.entrance-card', 'text-decoration')).toBe('none');
     expect(declaration('.entrance-grid', 'grid-template-columns')).toContain('repeat(2');
