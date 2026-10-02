@@ -6,13 +6,17 @@ export interface SectionTocItem {
 
 interface Props {
   toc?: SectionTocItem[];
+  /** 左栏索引的标签：页内目录，或当前页面的结构（例如“本期内容”）。 */
+  tocLabel?: string;
   /** 左栏固定在打开页面时的位置，只有右侧内容滚动。 */
   pinned?: boolean;
   /** 内容是连续正文而不是记录列表：内容栏收到行宽。 */
   reading?: boolean;
+  /** 这一种页面的版式修正，例如小组期详情提前收成单栏。 */
+  modifier?: string;
 }
 
-const { toc = [], pinned = false, reading = false } = Astro.props;
+const { toc = [], tocLabel = '页内目录', pinned = false, reading = false, modifier } = Astro.props;
 const indexed = toc.length > 0;
 ---
 
@@ -22,6 +26,7 @@ const indexed = toc.length > 0;
   indexed && 'section-layout--indexed',
   reading && 'section-layout--reading',
   pinned && 'section-layout--pinned',
+  modifier,
 ]}>
   <div class="section-layout__sidebar">
     {Astro.slots.has('breadcrumb') && (
@@ -39,12 +44,18 @@ const indexed = toc.length > 0;
     {indexed && (
       <aside class="section-layout__toc">
         <nav aria-labelledby="section-toc-label">
-          <p class="section-layout__toc-label" id="section-toc-label">页内目录</p>
-          <ol>
+          <p class="section-layout__toc-label" id="section-toc-label">{tocLabel}</p>
+          <ol class="section-layout__structured">
             {toc.map((item) => <li><a href={item.href}>{item.label}</a></li>)}
           </ol>
         </nav>
       </aside>
+    )}
+
+    {Astro.slots.has('aside') && (
+      <div class="section-layout__aside">
+        <slot name="aside" />
+      </div>
     )}
   </div>
 

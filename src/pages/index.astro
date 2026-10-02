@@ -3,8 +3,41 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 import { site } from '../lib/editorial';
 import { getSiteData } from '../lib/site-data';
 
+/**
+ * 首页的栏目说明。
+ *
+ * 栏目的名称与去向来自 editorial/site.json 的 navigation —— 那是"叫什么、去哪里"的单一来源；
+ * 这里的每一条只回答"这里是什么"。两份数据按 href 对齐，任何一边多出或缺少一个一级栏目，
+ * 构建都会失败（断言在下面，契约测试在 tests/site-structure.test.ts）。
+ */
+const sectionDescriptions: Record<string, string> = {
+  '/ilyenkov': '人物生平、年表、作品目录与交往活动。',
+  '/archive': '本站已公开的中文译文与相关文本。',
+  '/research': '国际研究网络、研究者、会议与资料。',
+  '/group': '小组的公共工作记录与成立说明。',
+  '/books': '小组整理维护的成书项目与版次记录。',
+};
+
+const primarySections = site.navigation.map((item) => {
+  const description = sectionDescriptions[item.href];
+  if (!description) {
+    throw new Error(
+      `Homepage has no description for the primary section "${item.href}" (${item.label})`,
+    );
+  }
+  return { ...item, description };
+});
+
+const undescribed = Object.keys(sectionDescriptions).filter(
+  (href) => !site.navigation.some((item) => item.href === href),
+);
+if (undescribed.length > 0) {
+  throw new Error(`Homepage describes sections that are not in the primary navigation: ${undescribed.join(', ')}`);
+}
+
 const { articles } = await getSiteData();
-const recent = articles.slice(0, 4);
+// 抽样沿用文章集合的规范顺序（原文发表年份由新到旧）；首页不重新排序。
+const recent = articles.slice(0, 3);
 ---
 
 <BaseLayout title={site.name}>
@@ -16,23 +49,33 @@ const recent = articles.slice(0, 4);
   <div class="home-shell">
     <section class="home-intro" aria-labelledby="intro-heading">
       <h2 id="intro-heading">从哪里开始</h2>
-      <p>埃瓦尔德·瓦西里耶维奇·伊里因科夫一生追问的核心，是思维如何把握现实：抽象与具体如何转化，逻辑范畴从哪里来，《资本论》使用的究竟是怎样一种方法。他的回答集中在 1960 年的《〈资本论〉中的抽象和具体辩证法》与 1974 年的《辩证逻辑：历史与理论纲要》里。</p>
-      <p>这些文本在中文世界长期零散，多依赖转引和二手介绍，读者很难判断某段话出自哪里、依据的是哪个版本。中文伊里因科夫小组围绕他的著作开展翻译、数字化与研究，把已经可以公开的材料集中在一处，并为每一份标明来源与状态。</p>
-      <p class="home-about-link"><a href="/group">了解小组与网站</a></p>
+      <p>本站围绕伊里因科夫的文本、相关研究资料与小组工作持续整理中文材料：把可以公开的译文与数字化文本集中在一处，为每一份标明来源，并记录翻译、整理与研究工作本身。</p>
+
+      <ul class="home-sections" role="list">
+        {primarySections.map((section, index) => (
+          <li>
+            <p class="home-sections__title">
+              <a href={section.href} aria-describedby={`home-section-${index}`}>{section.label}</a>
+            </p>
+            <p class="home-sections__description" id={`home-section-${index}`}>{section.description}</p>
+          </li>
+        ))}
+      </ul>
     </section>
 
     <aside class="home-recent" aria-labelledby="recent-heading">
-      <h2 id="recent-heading">最近的文章</h2>
+      <h2 id="recent-heading">研究文献</h2>
+      <p class="home-recent__note">按原文发表年份排列</p>
       <ol class="home-recent__list">
         {recent.map((article) => (
           <li>
-            <a href={article.route}>{article.title}</a>
-            <span class="home-recent__original">{article.originalTitle}</span>
+            <p class="record__meta">{article.year} · {article.authorLabel}</p>
+            <p class="record__title"><a href={article.route}>{article.title}</a></p>
           </li>
         ))}
       </ol>
       {articles.length > recent.length && (
-        <p class="home-archive-link"><a href="/archive">查看全部文章</a></p>
+        <p class="home-archive-link"><a href="/archive">查看文本档案</a></p>
       )}
     </aside>
   </div>

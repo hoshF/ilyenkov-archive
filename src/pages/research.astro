@@ -18,16 +18,10 @@ const researchSites = getPublicResearchSites();
 const sourceLabel = (source: { creator: string | null; title: string }) => (
   source.creator ? `${source.creator}：《${source.title}》` : source.title
 );
-const toc = [
-  { href: '#ifi-heading', label: 'IFI 研究网络' },
-  { href: '#researchers-heading', label: '研究者' },
-  { href: '#research-sites-heading', label: '资料站点' },
-  { href: '#readings-heading', label: '伊里因科夫讨论会' },
-];
 ---
 
 <BaseLayout title="世界研究" description="连接国际伊里因科夫研究、会议、组织和中文介绍。">
-  <SectionLayout toc={toc}>
+  <SectionLayout pinned>
     <header class="page-header" slot="intro">
       <h1 class="page-title">世界研究</h1>
       <p class="lead">从研究网络、研究者、资料站点与会议进入国际伊里因科夫研究。</p>
