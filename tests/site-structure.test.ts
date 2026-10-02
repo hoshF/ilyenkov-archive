@@ -223,9 +223,9 @@ describe('website-approved data adapter', () => {
   });
 
   it('keeps in-page anchor targets local to real sections wherever a page has them', () => {
-    // 小组期详情有页内索引：锚点与右栏题名必须来自同一个 issue id，条目是真跳转而不是装饰。
+    // 只有译文页生成页内目录；小组期详情已回到 Natural Flow，不再产生锚点条目。
     const detail = pageSource('group/[id].astro');
-    expect(detail).toContain('toc = [{ href: `#issue-${issue.id}`, label: issue.kind }]');
+    expect(detail).not.toContain('toc = [');
     expect(detail).toContain('id={`issue-${issue.id}`}');
 
     // 没传 toc 的页面不产生页内锚点，因此也不需要 scroll-margin 之外的跳转支持。
@@ -328,25 +328,6 @@ describe('website-approved data adapter', () => {
   });
 
   it('keeps the group issue reading column whole at intermediate widths', () => {
-    // 左栏从“标题栏”变成“结构与去向栏”之后，它仍然不值得占掉 248px：双栏容不下整行
-    // 阅读宽度时提前收成单栏。选择器必须压过既有的 .section-layout--indexed（同层，
-    // 那条在 ≤860px 才生效），否则 801–1040 会退化成窄左栏 + 672 正文。
-    expect(declaration('.section-layout--indexed.group-issue-page', 'grid-template-columns', '@media (max-width: 1040px)'))
-      .toBe('minmax(0, 1fr)');
-    expect(declaration('.section-layout--indexed.group-issue-page', 'grid-template-areas', '@media (max-width: 1040px)'))
-      .toContain('"content"');
-    // 单栏时左栏回到普通文档流。
-    expect(declaration('.section-layout--indexed.group-issue-page .section-layout__toc', 'position', '@media (max-width: 1040px)'))
-      .toBe('static');
-    // 宽屏模板：左栏（第一列）一列放位置、结构和出口，右栏是标题与正文。
-    // grid-area 的行列由列宽决定，不能只看名字：toc 必须留在第一列。
-    const wide = declaration('.section-layout--indexed.group-issue-page', 'grid-template-areas', '@media (min-width: 1041px)');
-    expect(wide).toContain('"toc breadcrumb"');
-    expect(wide).toContain('"toc content"');
-    expect(wide).toContain('"toc aside"');
-    // 去向被明确放进左栏那一格。
-    expect(declaration('.section-layout__aside', 'grid-area')).toBe('aside');
-
     // 正文与篇末导航共用同一条水平基准：窄于行宽时一起填满，而不是一个靠左一个居中。
     expect(declaration('.group-issue-page .document-nav', 'margin-left')).toBe('0');
     expect(declaration('.group-issue-page .document-nav', 'margin-right')).toBe('0');
@@ -360,61 +341,79 @@ describe('website-approved data adapter', () => {
     expect(declaration('.reading-page .site-header', 'display', '@media (max-width: 600px)')).toBe('none');
   });
 
-  it('puts the issue title and metadata in the content column, not the sidebar', () => {
+  it('gives the group issue no sidebar and puts its title in the content flow', () => {
     const source = pageSource('group/[id].astro');
+    const page = readFileSync(path.join(process.cwd(), 'dist', 'group/0/index.html'), 'utf8');
+    const main = page.match(/<main>([\s\S]*?)<\/main>/)![1];
 
-    // 左栏的 markup 只有两种东西：左栏自己的槽位，以及右栏内容。
-    const sidebar = source.slice(
-      source.indexOf('<SectionLayout'),
-      source.indexOf('<p class="section-note" slot="aside">'),
-    );
-    const content = source.slice(source.indexOf('<header class="page-header">'));
-
-    // 左栏：位置（面包屑）、本期的结构索引、返回入口。
+    // 调用端不再传 toc / tocLabel / pinned，也不再有 aside。
+    expect(source).not.toContain('toc={toc}');
+    expect(source).not.toContain('tocLabel=');
+    expect(source).not.toContain('pinned');
+    expect(source).not.toContain('slot="aside"');
+    // modifier 仍然在：它承担正文的衬线与篇末导航宽度，不是为左栏服务。
+    expect(source).toContain('modifier="group-issue-page"');
     expect(source).toContain('<Breadcrumbs slot="breadcrumb"');
-    expect(source).toContain('slot="aside"');
-    expect(source).toContain('返回小组工作');
-    expect(source).toContain('tocLabel="本期内容"');
-    expect(source).toContain('toc={toc}');
 
-    // 左栏不再承担主标题与 metadata：正文列随后才是标题区。
-    expect(sidebar).not.toContain('<h1');
-    expect(sidebar).not.toContain('record__meta');
+    // 产物里根本没有 rail，而不是把它藏起来。
+    for (const gone of ['section-layout__sidebar', 'section-layout__toc', 'section-layout--rail',
+      'section-layout--indexed', 'section-layout--pinned', 'section-layout__aside', '本期内容']) {
+      expect(main, `期详情不应再出现 ${gone}`).not.toContain(gone);
+    }
 
-    // 右栏：metadata 与主标题组成完整阅读单元，主标题与正文同属一个内容区。
-    expect(content).toContain('class="record__meta"');
-    expect(content).toContain('<h1');
-    expect(content).toContain('class="page-header"');
-    expect(content).toContain('class="prose');
-    expect(content.indexOf('record__meta')).toBeLessThan(content.indexOf('<h1'));
-    expect(content.indexOf('<h1')).toBeLessThan(content.indexOf('class="prose'));
+    // 面包屑 → 期号与日期 → 题名 → 正文，同一条内容轴。
+    const content = main.slice(main.indexOf('section-layout__content'));
+    const breadcrumbAt = content.indexOf('class="breadcrumbs"');
+    const introAt = content.indexOf('section-layout__intro');
+    const metaAt = content.indexOf('class="record__meta"');
+    const h1At = content.indexOf('<h1');
+    const proseAt = content.indexOf('class="prose');
+    for (const [name, at] of [['breadcrumb', breadcrumbAt], ['intro', introAt], ['meta', metaAt],
+      ['h1', h1At], ['prose', proseAt]] as const) {
+      expect(at, `${name} 应在内容栏内`).toBeGreaterThan(-1);
+    }
+    expect(breadcrumbAt).toBeLessThan(introAt);
+    expect(metaAt).toBeLessThan(h1At);
+    expect(h1At).toBeLessThan(proseAt);
 
-    // 左栏索引与右栏题名对齐：条目指向右栏真实存在的锚点，不是装饰。
-    expect(source).toContain('toc = [{ href: `#issue-${issue.id}`, label: issue.kind }]');
-    expect(source).toContain('id={`issue-${issue.id}`}');
-
-    // 结构索引与页内目录分开一套：条目不一定都是跳转，位置与去向在左栏末尾。
-    expect(componentSource('SectionLayout')).toContain('class="section-layout__structured"');
-    expect(hasRule('.section-layout__structured')).toBe(true);
-    expect(hasRule('.section-layout__aside')).toBe(true);
+    // 面包屑已经给出回到 /group 的路径；独立的“返回小组工作”不再占一个 rail。
+    // 篇末的返回链接保留——它服务读完长正文之后的需求，与面包屑的位置不同。
+    expect(main.match(/返回小组工作/g)).toHaveLength(1);
+    const breadcrumb = content.match(/<nav class="breadcrumbs"[\s\S]*?<\/nav>/)![0];
+    expect(breadcrumb).toContain('href="/group"');
   });
 
-  it('lists only the content kinds the issue actually has', async () => {
+  it('removes the group issue rail from the layout and leaves no dead modifier', () => {
+    // 左栏专属的网格模板整段消失：不再有 801–1040 的窄左栏退化问题。
+    for (const media of ['', '@media (max-width: 1040px)', '@media (min-width: 1041px)']) {
+      expect(declaration('.section-layout--indexed.group-issue-page', 'grid-template-areas', media))
+        .toBeUndefined();
+      expect(declaration('.section-layout--indexed.group-issue-page .section-layout__toc', 'position', media))
+        .toBeUndefined();
+    }
+    // 期详情的 modifier 仍有真实职责：阅读衬线、篇末导航与正文同宽。
+    expect(declaration('.group-issue-page .prose', 'font-family')).toBe('var(--serif)');
+    expect(declaration('.group-issue-page .document-nav', 'margin-left')).toBe('0');
+    expect(hasRule('.group-issue-page .prose')).toBe(true);
+  });
+
+  it('does not invent a table of contents for a single-unit issue', async () => {
     const issues = await getGroupIssues();
     const detail = pageSource('group/[id].astro');
 
-    // 左栏“本期内容”取真实的 kind，而不是一组未来可能存在的空栏目。
-    expect(detail).toContain('label: issue.kind');
+    // 期详情不再生成目录：这一期的一级单位就是它自己，只有 1 项的目录不构成 rail 的理由。
+    expect(detail).not.toContain('const toc');
+    expect(detail).not.toContain('label: issue.kind');
+    expect(detail).toContain('{issue.kind}');
+
+    // kind 仍然是真实数据，只是现在显示在题名上方的 metadata 行里。
     const kinds = new Set(issues.map((issue) => issue.kind));
     expect(kinds.size).toBeGreaterThan(0);
     for (const kind of kinds) {
       expect(kind.length).toBeGreaterThan(0);
     }
-
-    // 本期只有一种内容类型时，左栏只有一项。
-    const tocEntry = detail.match(/const toc = \[([\s\S]*?)\];/);
-    expect(tocEntry).not.toBeNull();
-    expect(tocEntry![1].match(/\{ href:/g)).toHaveLength(1);
+    const page = readFileSync(path.join(process.cwd(), 'dist', 'group/0/index.html'), 'utf8');
+    expect(page).toContain(`第 0 期 · ${[...kinds][0]}`);
   });
 
   it('keeps the header and the indexed navigation in place while jumping', () => {
@@ -441,8 +440,10 @@ describe('website-approved data adapter', () => {
     // 译文版式：正文是行宽本身，两边各让出一个索引栏的宽度，正文因此落在正中。
     expect(declaration('.section-layout--reading', 'width'))
       .toContain('var(--reading) + (var(--index) + var(--index-gap)) * 2');
+    // 索引列固定成 --index 宽，右侧留一列等宽空白，正文因此落在视觉中心。
+    // 不能写成 minmax(var(--index), 1fr)：那样右栏会被撑开，正文随之右偏。
     expect(declaration('.section-layout--reading', 'grid-template-columns'))
-      .toBe('minmax(var(--index), 1fr) minmax(0, var(--reading)) minmax(0, 1fr)');
+      .toBe('minmax(0, var(--index)) minmax(0, var(--reading)) minmax(0, 1fr)');
     expect(declaration('.section-layout--indexed', 'grid-template-areas', '@media (max-width: 860px)')).toContain('"intro"');
     expect(declaration('.section-layout--indexed', 'display', '@media (max-width: 600px)')).toBe('block');
     expect(declaration('.section-layout--indexed .section-layout__toc', 'position', '@media (max-width: 600px)')).toBe('sticky');
@@ -483,9 +484,12 @@ describe('website-approved data adapter', () => {
   });
 
   it('stacks translations without a section index in one reading column', () => {
-    // 无目录时侧栏仍包含题名；退出网格，避免三栏命名区域生成隐式列并挤窄题名。
+    // 无目录就没有功能左栏：基础规则是单栏块级，页面不生成任何网格列。
+    const base = declarationsFor('.section-layout');
+    expect(base.display).toBe('block');
+    expect(base['grid-template-columns']).toBeUndefined();
+    // 译文页仍然收到行宽：既不撑满版心，也不会长出第二列。
     const fallback = declarationsFor('.section-layout--reading:not(.section-layout--indexed)');
-    expect(fallback.display).toBe('block');
     expect(fallback.width).toBe('min(calc(100% - 40px), var(--reading))');
   });
 
@@ -522,6 +526,105 @@ describe('public navigation', () => {
     expect(active['text-decoration-color']).toBeUndefined();
     // 底线是文字自己的下划线：导航项不因为当前状态而变高，--header-h 仍然算得准。
     expect(active['border-bottom']).toBeUndefined();
+  });
+
+  it('gives a sidebar only to pages that have a real one', () => {
+    const read = (route: string) => readFileSync(path.join(process.cwd(), 'dist', route), 'utf8')
+      .match(/<main>([\s\S]*?)<\/main>/)![1];
+
+    // 有功能左栏：Archive 的 facet rail，译文页的页内目录。
+    const archive = read('archive/index.html');
+    expect(archive).toContain('section-layout--rail');
+    expect(archive).toContain('archive-facets');
+    expect(archive).toContain('section-layout__aside');
+    expect(archive).toContain('section-layout--pinned');
+
+    // 没有功能左栏的页面不留空栏，也不留 --rail 网格：整页就是一条内容流。
+    for (const route of [
+      'ilyenkov/index.html',
+      'ilyenkov/life/index.html',
+      'ilyenkov/timeline/index.html',
+      'ilyenkov/works/index.html',
+      'ilyenkov/circle/index.html',
+      'research/index.html',
+      'group/index.html',
+      'books/index.html',
+      'about/index.html',
+    ]) {
+      const main = read(route);
+      expect(main, route).not.toContain('section-layout--rail');
+      expect(main, route).not.toContain('section-layout__sidebar');
+      expect(main, route).not.toContain('section-layout--pinned');
+      // 页首回到内容流里：h1 与正文同在 .section-layout__content。
+      const content = main.slice(main.indexOf('section-layout__content'));
+      expect(content, `${route} 的 h1 应在内容栏`).toContain('<h1');
+    }
+  });
+
+  it('keeps the rail when a page really has one, and matches the index', () => {
+    // 有标题才有页内目录；没有标题就不渲染空目录，正文单列。
+    const source = componentSource('SectionLayout');
+    expect(source).toContain("const indexed = toc.length > 0");
+
+    for (const route of ['archive/ilyenkov-on-freedom-of-will/index.html']) {
+      const main = readFileSync(path.join(process.cwd(), 'dist', route), 'utf8')
+        .match(/<main>([\s\S]*?)<\/main>/)![1];
+      expect(main, route).toContain('section-layout__toc');
+      expect(main, route).toContain('section-layout--indexed');
+      expect(main, route).toContain('section-layout--rail');
+    }
+    // 译文页把正文收到行宽并让目录吸附。
+    const articleMain = readFileSync(
+      path.join(process.cwd(), 'dist', 'archive/ilyenkov-on-freedom-of-will/index.html'),
+      'utf8',
+    ).match(/<main>([\s\S]*?)<\/main>/)![1];
+    expect(articleMain).toContain('section-layout--reading');
+    // 期详情没有目录，因此也不再是 --indexed 或 --pinned：它只保留页面限定 modifier。
+    const issueMain = readFileSync(path.join(process.cwd(), 'dist', 'group/0/index.html'), 'utf8')
+      .match(/<main>([\s\S]*?)<\/main>/)![1];
+    expect(issueMain).toContain('group-issue-page');
+    expect(issueMain).not.toContain('section-layout--pinned');
+    expect(issueMain).not.toContain('section-layout--indexed');
+
+    // 目录的每个条目都指向正文里真实存在的锚点，且没有重复。
+    const article = readFileSync(
+      path.join(process.cwd(), 'dist', 'archive/ilyenkov-on-freedom-of-will/index.html'),
+      'utf8',
+    );
+    const main = article.match(/<main>([\s\S]*?)<\/main>/)![1];
+    const toc = main.match(/<aside class="section-layout__toc"[\s\S]*?<\/aside>/)![0];
+    const anchors = [...toc.matchAll(/href="#([^"]+)"/g)].map(([, id]) => id);
+    expect(anchors.length).toBeGreaterThan(0);
+    expect(new Set(anchors).size).toBe(anchors.length);
+    for (const id of anchors) {
+      expect(article, `目录锚点 ${id} 不存在`).toContain(`id="${id}"`);
+    }
+  });
+
+  it('keeps the title and lead on the content axis on every page', () => {
+    // 页首属于页面本身：所有页面的 h1 都在 .section-layout__content 里，
+    // 只有 --indexed（左栏是纯索引、display: contents）按网格排在正文那一列。
+    const source = componentSource('SectionLayout');
+    expect(source).toContain('<slot name="intro" />');
+    expect(source).toContain('section-layout__content');
+
+    for (const route of [
+      'archive/index.html',
+      'ilyenkov/index.html',
+      'research/index.html',
+      'group/index.html',
+      'books/index.html',
+      'about/index.html',
+    ]) {
+      const main = readFileSync(path.join(process.cwd(), 'dist', route), 'utf8')
+        .match(/<main>([\s\S]*?)<\/main>/)![1];
+      const contentAt = main.indexOf('section-layout__content');
+      const h1At = main.indexOf('<h1');
+      expect(h1At, `${route} 缺少 h1`).toBeGreaterThan(-1);
+      expect(h1At, `${route} 的 h1 应在内容栏内`).toBeGreaterThan(contentAt);
+      expect(main.indexOf('section-layout__intro'), `${route} 的页首应在内容栏内`)
+        .toBeGreaterThan(contentAt);
+    }
   });
 
   it('keeps the header a mark plus a directory, not a brand block plus a menu', () => {
@@ -600,31 +703,92 @@ describe('public navigation', () => {
     expect(layout).toContain('site.footer.map');
   });
 
-  it('uses the homepage to establish the project, not to repeat the primary navigation', () => {
+  it('lays the homepage out as a single vertical index, not a two-column landing page', () => {
     const homepage = readFileSync(path.join(process.cwd(), 'dist', 'index.html'), 'utf8');
     const main = homepage.match(/<main>([\s\S]*?)<\/main>/)![1];
-    const intro = main.match(/<section class="home-intro"[\s\S]*?<\/section>/)![0];
+    const source = pageSource('index.astro');
 
-    // 五个一级栏目由页眉承担；首页左栏不再复制这份目录。
-    expect(main).not.toContain('home-sections');
-    expect(pageSource('index.astro'), '首页不应再遍历 navigation').not.toContain('site.navigation');
-    for (const { label } of site.navigation) {
-      expect(intro, `首页左栏不应复述一级栏目「${label}」`).not.toContain(`>${label}<`);
+    // 双栏模板整套消失：没有 home-shell，也没有为左右栏服务的 section。
+    for (const gone of ['home-shell', 'home-intro', 'home-recent', 'home-archive-link']) {
+      expect(main, `首页不应再有 ${gone}`).not.toContain(gone);
+      expect(source, `首页源码不应再有 ${gone}`).not.toContain(gone);
     }
+    expect(declarationsFor('.home-page')['grid-template-columns']).toBeUndefined();
 
-    // 左栏只留项目定位：一句定位语 + 一段说明 + 两个研究起点，没有 section 标题。
-    expect(intro).toContain('home-intro__statement');
-    expect(intro).not.toContain('<h2');
-    expect(intro.match(/<p/g)).toHaveLength(2);
-    const entries = [...intro.matchAll(/<a href="([^"]+)"/g)].map(([, href]) => href);
-    expect(entries).toEqual(['/ilyenkov', '/archive']);
-
-    // 首页仍然只有一个 h1，且它的第一层说明仍来自 masthead。
+    // masthead 仍然是唯一的 h1，并且只承担一句定位，不再有第二个定位模块。
     expect([...main.matchAll(/<h1\b/g)]).toHaveLength(1);
     expect(main).toContain(`<h1>${site.name}</h1>`);
+    const masthead = main.match(/<header class="home-masthead">([\s\S]*?)<\/header>/)![1];
+    expect(masthead.match(/<p\b/g)).toHaveLength(1);
 
-    // 栏目名称与去向仍是页眉的唯一来源。
+    // section 顺序就是阅读顺序：浏览 → 研究文献 → 工作与成书 → 关于本项目。
+    const order = [...main.matchAll(/<section class="([a-z-]+)"/g)].map(([, name]) => name);
+    expect(order).toEqual(['home-browse', 'home-literature', 'home-work', 'home-about']);
+
+    // 每个 section 都有反映内容的标题，且没有 id 重复。
+    expect([...main.matchAll(/<h2 id="([^"]+)"/g)].map(([, id]) => id))
+      .toEqual(['browse-heading', 'literature-heading', 'work-heading', 'about-heading']);
+
+    // 项目说明放在内容之后，不再是开头最大的区域。
+    expect(main.indexOf('home-about')).toBeGreaterThan(main.indexOf('home-literature'));
+  });
+
+  it('browses the archive and Ilyenkov at content level instead of repeating the header', async () => {
+    const { facets } = await getSiteData();
+    const homepage = readFileSync(path.join(process.cwd(), 'dist', 'index.html'), 'utf8');
+    const main = homepage.match(/<main>([\s\S]*?)<\/main>/)![1];
+    const browse = main.match(/<section class="home-browse"[\s\S]*?<\/section>/)![0];
+
+    // 一级栏目仍只由页眉负责：首页不遍历 navigation，也不把五个栏目名当入口列出来。
+    const source = pageSource('index.astro');
+    const code = source.slice(source.indexOf('---', 3) + 3);
+    expect(code, '首页不应遍历 navigation').not.toContain('site.navigation');
+    expect(code, '首页不应引用 navigation').not.toMatch(/navigation/);
     expect(layoutSource('BaseLayout')).toContain('site.navigation');
+
+    // 浏览区不复述 Header 的一级导航：那五个目的地不在这里当入口列出。
+    // 「伊里因科夫」可以作为分组标签出现，但它带的是四个二级入口，不是一级 landing。
+    for (const item of site.navigation) {
+      if (item.href === '/archive') continue;
+      expect(browse, `浏览区不应复述一级导航 ${item.href}`).not.toContain(`href="${item.href}"`);
+    }
+    expect(browse, '不应再指回一级 landing').not.toContain('href="/ilyenkov"');
+    expect(browse.match(/href="\/archive"/g), '「全部文章」是唯一直接指向 /archive 的入口').toHaveLength(1);
+
+    // 分类入口直接来自 Archive taxonomy，不在首页另写一份。
+    for (const term of [...facets.topics, ...facets.persons]) {
+      expect(browse, `浏览区缺少分类入口 ${term.href}`).toContain(`href="${term.href}"`);
+      expect(browse, `浏览区缺少分类名称 ${term.label}`).toContain(term.label);
+    }
+    expect(browse).toContain('href="/archive"');
+
+    // 伊里因科夫用真实的四个二级入口，而不是再指回一级 landing。
+    for (const href of ['/ilyenkov/life', '/ilyenkov/timeline', '/ilyenkov/works', '/ilyenkov/circle']) {
+      expect(browse, `浏览区缺少二级入口 ${href}`).toContain(`href="${href}"`);
+    }
+
+    // 没有新增搜索：内容量还不需要，taxonomy 足够浏览。
+    expect(main).not.toContain('<input');
+    expect(main).not.toMatch(/type="search"|Pagefind|lunr|algolia|fuse\.js/i);
+  });
+
+  it('shows real group and book records on the homepage instead of describing the sections', () => {
+    const homepage = readFileSync(path.join(process.cwd(), 'dist', 'index.html'), 'utf8');
+    const main = homepage.match(/<main>([\s\S]*?)<\/main>/)![1];
+    const work = main.match(/<section class="home-work"[\s\S]*?<\/section>/)![0];
+
+    // 小组展示已经公开的那一期，内容来自 group loader。
+    expect(work).toContain('小组工作');
+    expect(work).toContain('我们为什么要成立');
+    expect(work).toContain('href="/group/0"');
+
+    // 书籍列出真实书名，不是「书籍栏目是什么」。
+    expect(work).toContain('青年伊里因科夫：档案研究');
+    expect(work).toContain('href="/books"');
+
+    // 入口存在即可，不解释栏目职责。
+    expect(work).not.toContain('小组的公共工作记录');
+    expect(work).not.toContain('小组整理维护的成书项目');
   });
 
   it('removes the homepage directory contract it replaced', () => {
@@ -643,7 +807,7 @@ describe('public navigation', () => {
     const { articles } = await getSiteData();
     const homepage = readFileSync(path.join(process.cwd(), 'dist', 'index.html'), 'utf8');
     const main = homepage.match(/<main>([\s\S]*?)<\/main>/)![1];
-    const list = main.match(/<ol class="home-recent__list"[\s\S]*?<\/ol>/)![0];
+    const list = main.match(/<ol class="home-literature__list"[\s\S]*?<\/ol>/)![0];
 
     // 抽样条数与规范顺序的前三条一致：首页不重新排序。
     expect(articles.length).toBeGreaterThan(3);
@@ -651,13 +815,13 @@ describe('public navigation', () => {
     for (const article of sampled) {
       expect(list).toContain(`href="${article.route}"`);
     }
-    expect([...list.matchAll(/<li>/g)]).toHaveLength(3);
+    expect([...list.matchAll(/<li class="home-literature__item">/g)]).toHaveLength(3);
 
-    // 每条显示与 /archive/ 相同的身份行：原文发表年份 · 作者。
+    // 每条显示与 /archive/ 相同的身份：原文发表年份与作者。
+    // 全宽之后年份另起一栏，但两段文字仍然来自同一个文档记录。
     for (const article of sampled) {
-      expect(list).toContain(
-        `<p class="record__meta">${article.year} · ${article.authorLabel}</p>`,
-      );
+      expect(list).toContain(`<p class="home-literature__year">${article.year}</p>`);
+      expect(list).toContain(`<p class="record__meta">${article.authorLabel}</p>`);
     }
 
     // 抽样是"原文发表年份由新到旧"，不是网站发布动态：不得出现更新时间语义。

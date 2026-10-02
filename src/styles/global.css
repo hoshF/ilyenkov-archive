@@ -258,43 +258,61 @@ h2, h3, h4 { text-wrap: balance; line-height: 1.3; }
   max-width: 34rem; color: var(--muted); font-size: var(--text-body); margin: 16px 0 0; line-height: 1.65;
 }
 
-/* 首页只承载两件事：网站是什么，最近读得到什么。两栏并置让它们同时落在首屏。 */
-.home-shell {
-  width: min(calc(100% - 40px), var(--content)); grid-template-columns: minmax(0, 1.5fr) minmax(300px, 1fr);
-  align-items: start; gap: 72px; margin: 48px auto 0; padding: 0 0 96px; display: grid;
-}
+/* 首页是整份档案的目录页，不是双栏 landing page：从 masthead 起自然向下展开
+   （浏览 → 研究文献 → 工作与成书 → 关于本项目）。所有 section 用同一条版心左边界，
+   内部的阅读宽度由 grid 自己收缩，因此不新增 width token。 */
+.home-page { width: min(calc(100% - 40px), var(--content)); margin: 0 auto 96px; }
 
-.home-intro, .home-recent { min-width: 0; }
-/* 只有右栏还有小标题了；左栏以定位语开始，不再有 section 标题。 */
-.home-recent h2 {
+.home-page > section + section { margin-top: 72px; }
+.home-page h2 {
   color: var(--muted); font-size: var(--text-home-section); letter-spacing: .03em; margin: 0;
   padding: 0 0 20px; font-weight: 500; line-height: 1.3;
 }
-.home-intro { font-size: var(--text-body); line-height: 1.8; }
-.home-intro p { margin: 0 0 30px; }
-/* 定位语：比正文强一档，但不做成第二个标题——它仍属 ink 体系，不用紫色。 */
-.home-intro__statement { color: var(--ink); font-size: var(--text-item); font-weight: 600; line-height: 1.6; }
-.home-intro a { color: var(--accent); text-decoration-color: var(--line-strong); }
-.home-intro a:hover { color: var(--accent-dark); }
 
-/* 左栏底部的两个研究起点：正文式链接，不做按钮、不做卡片。 */
-.home-intro__entries { margin: 0; padding: 0; list-style: none; display: grid; gap: 10px; font-size: var(--text-secondary); }
-.home-intro__entries a { text-decoration: none; }
-.home-intro__entries a:hover { text-decoration: underline; }
+/* 浏览：索引式入口。每个 group 是一条窄栏，条目在栏内自然换行，长标题不会把版心撑开。 */
+.home-browse__group { max-width: 44rem; }
+.home-browse__group + .home-browse__group { margin-top: 28px; }
+.home-browse__label { margin: 0 0 8px; color: var(--ink); font-size: var(--text-secondary); font-weight: 600; }
+.home-browse__terms { margin: 0; font-size: var(--text-secondary); line-height: 2; }
+.home-browse__sep { margin: 0 8px; color: var(--line-strong); }
+/* 人物标签与「文本档案」同级，但它是行内小标，占位更轻。 */
+.home-browse__terms .home-browse__label { margin: 0 4px 0 0; font-size: var(--text-meta); font-weight: 500; }
+.home-browse a { color: var(--accent); text-decoration: none; }
+.home-browse a:hover { color: var(--accent-dark); text-decoration: underline; }
 
-.home-recent__note { margin: -12px 0 20px; color: var(--muted); font-size: var(--text-meta); line-height: 1.5; }
-.home-recent__list { margin: 0; padding: 0; list-style: none; display: grid; gap: 20px; }
-/* 复用 Archive 的条目语言，但首页一栏比文库窄，行距收一档。 */
-.home-recent__list .record__title { line-height: 1.5; }
-.home-archive-link { margin: 24px 0 0; font-size: var(--text-secondary); }
-.home-archive-link a { text-decoration: none; }
-.home-archive-link a:after { content: " →"; }
-.home-archive-link a:hover { text-decoration: underline; }
+/* 研究文献：出版物行式语言，不做卡片。年份另起一栏，正文行宽收在阅读宽度内。 */
+.home-literature__note { margin: -12px 0 24px; color: var(--muted); font-size: var(--text-meta); line-height: 1.5; }
+.home-literature__list { margin: 0; padding: 0; list-style: none; display: grid; gap: 22px; }
+.home-literature__item { display: grid; grid-template-columns: 4rem minmax(0, var(--reading)); gap: 0 16px; align-items: baseline; }
+.home-literature__year { margin: 0; color: var(--muted); font-size: var(--text-secondary); font-variant-numeric: tabular-nums; }
+.home-literature__item .record__meta { margin: 0; }
+.home-literature__item .record__title { margin: 4px 0 0; line-height: 1.5; }
+
+/* 工作与成书：只列已经公开存在的记录。 */
+.home-work__line { margin: 0; color: var(--muted); font-size: var(--text-meta); }
+.home-work__books { margin: 0; padding: 0; list-style: none; display: grid; gap: 8px; font-size: var(--text-body); }
+.home-work__books a { color: var(--accent); text-decoration: none; }
+.home-work__books a:hover { color: var(--accent-dark); text-decoration: underline; }
+.home-work__year { margin-left: 8px; color: var(--muted); font-size: var(--text-secondary); font-variant-numeric: tabular-nums; }
+
+/* 项目说明放在内容之后：读者先看到这里有什么，再了解项目如何理解自己。 */
+.home-about p { max-width: var(--reading); margin: 0; font-size: var(--text-body); line-height: 1.8; }
+
+.home-more { margin: 22px 0 0; font-size: var(--text-secondary); }
+.home-more a { color: var(--accent); text-decoration: none; }
+.home-more a:after { content: " →"; }
+.home-more a:hover { color: var(--accent-dark); text-decoration: underline; }
 
 .section-layout {
   width: min(calc(100% - 40px), var(--section));
-  grid-template-columns: minmax(0, var(--rail)) minmax(0, var(--reading)); justify-content: space-between;
-  align-items: start; column-gap: 64px; display: grid;
+  align-items: start; display: block;
+}
+
+/* 有功能左栏（facet / 页内目录）时才是两栏：rail 附着在内容左侧。
+   没有功能就不产生第二列——页面是一条居中的阅读轴，而不是"左说明 + 右内容"。 */
+.section-layout--rail {
+  grid-template-columns: minmax(0, var(--rail)) minmax(0, var(--reading));
+  justify-content: space-between; column-gap: 64px; display: grid;
 }
 
 .section-layout__breadcrumb { margin-bottom: 20px; }
@@ -308,14 +326,13 @@ h2, h3, h4 { text-wrap: balance; line-height: 1.3; }
   width: min(calc(100% - 40px), var(--section));
   grid-template-columns: minmax(0, var(--index)) minmax(0, 1fr); column-gap: var(--index-gap);
   grid-template-areas: "toc breadcrumb" "toc intro" "toc content";
+  grid-template-rows: min-content min-content auto;
 }
 .section-layout--indexed .section-layout__sidebar { display: contents; }
-.section-layout--indexed .section-layout__breadcrumb { grid-area: breadcrumb; }
 .section-layout--indexed .section-layout__toc { grid-area: toc; }
+.section-layout--indexed .section-layout__breadcrumb { grid-area: breadcrumb; }
 .section-layout--indexed .section-layout__content { grid-area: content; }
-.section-layout--indexed .section-layout__intro {
-  grid-area: intro; max-width: var(--reading); margin-bottom: 44px;
-}
+.section-layout--indexed .section-layout__intro { grid-area: intro; max-width: var(--reading); margin-bottom: 44px; }
 
 /* 正文是连续文本（译文）时，内容栏收到行宽本身：标题、正文和篇末导航
    对齐同一条左边线，版式总宽由索引栏、间距和行宽推出来。 */
@@ -325,11 +342,17 @@ h2, h3, h4 { text-wrap: balance; line-height: 1.3; }
   /* 右边留一列与索引等宽的空白，正文就落在屏幕正中；索引待在左边距里，不把正文推离
      中线。左栏有下限，窄下来时先让右边那列空白收掉、再让正文收，索引始终读得出来。 */
   width: min(calc(100% - 40px), calc(var(--reading) + (var(--index) + var(--index-gap)) * 2));
-  grid-template-columns: minmax(var(--index), 1fr) minmax(0, var(--reading)) minmax(0, 1fr);
+  grid-template-columns: minmax(0, var(--index)) minmax(0, var(--reading)) minmax(0, 1fr);
   grid-template-areas: "toc breadcrumb ." "toc intro ." "toc content .";
+  grid-template-rows: min-content min-content auto; display: grid;
 }
-.section-layout--reading .section-layout__content { max-width: var(--reading); }
-.section-layout--reading .section-layout__intro { margin-bottom: 0; }
+.section-layout--reading .section-layout__sidebar { display: contents; }
+.section-layout--reading .section-layout__toc { grid-area: toc; }
+/* 面包屑与页首都在正文那一列：它们说明"我从哪里来"和"这是什么"，
+   与正文共用同一条左边线，不占正文旁的阅读工具位。 */
+.section-layout--reading .section-layout__breadcrumb { grid-area: breadcrumb; }
+.section-layout--reading .section-layout__intro { grid-area: intro; margin-bottom: 0; }
+.section-layout--reading .section-layout__content { grid-area: content; max-width: var(--reading); }
 
 /* 没有小标题就没有索引可放（--indexed 由正文是否产出标题决定，与视口宽度无关），
    此时不用三栏网格：display: block 让面包屑、标题和正文回到单栏一条流。
@@ -337,13 +360,26 @@ h2, h3, h4 { text-wrap: balance; line-height: 1.3; }
    所以在窄屏下正文是「视口 − 40px」而不是撑满整宽，宽屏下也不会超过 --reading。
    这是有意的：译文在任何宽度都保持一行读得下来的长度，不随视口无限拉长。 */
 .section-layout--reading:not(.section-layout--indexed) {
-  width: min(calc(100% - 40px), var(--reading)); display: block;
+  width: min(calc(100% - 40px), var(--reading));
 }
 
 .section-layout__sidebar, .section-layout__intro, .section-layout__content { min-width: 0; }
 
+/* 宽屏下，没有左栏的页面拿回整条版心：记录列表比连续正文宽，收成 672px 会让每条记录折行过多。
+   译文页有自己的行宽（.section-layout--reading），不在此列。
+   只在宽屏生效：≤600px 的容器宽度本身就是「视口 − 1.5rem」，再减一次 40px 会让正文
+   比其它页面窄一截。窄屏下内容列填满容器即可。 */
+@media (min-width: 601px) {
+  .section-layout:not(.section-layout--rail):not(.section-layout--reading) .section-layout__content {
+    width: min(calc(100% - 40px), var(--section));
+  }
+}
+
 .section-layout--pinned .section-layout__sidebar { position: sticky; top: calc(var(--header-h) + var(--section-top)); }
 
+/* 页首与后面的正文之间留出一档：没有左栏以后，这层间距不再由容器提供。
+   译文页的页首紧接摘要，间距由 document-header 自己给（见上面的 --reading 规则）。 */
+.section-layout__intro { margin-bottom: 44px; }
 .section-layout__intro .page-header { margin: 0; }
 .section-layout__intro .lead { font-size: var(--text-body); line-height: 1.65; }
 
@@ -451,14 +487,15 @@ h2, h3, h4 { text-wrap: balance; line-height: 1.3; }
 .entrance-card__summary { display: block; margin-top: 11px; color: var(--muted); font-size: var(--text-body); line-height: 1.65; }
 .entrance-card:hover .entrance-card__label { color: var(--accent-dark); text-decoration: underline; }
 
-/* 左栏的结构索引：标签下面是当前页面的构成，条目本身不都是跳转，所以与页内目录分开一套。 */
+/* 左栏条目列表的通用骨架。页内目录另有一套更紧的排版（见 .section-layout__toc）；
+   Archive 的 facet 词表也用这里的骨架，再由 .archive-facets__terms 调间距。 */
 .section-layout__structured { margin: 0; padding: 0; list-style: none; }
 .section-layout__structured li {
   color: var(--ink-soft); font-size: var(--text-meta); line-height: 1.45;
 }
 .section-layout__structured li + li { margin-top: 9px; }
 
-/* 左栏末尾的去向：跟结构索引同一套小字，与索引之间留一段可分辨的间距。
+/* 左栏里的去向：跟词表同一套小字，与词表之间留一段可分辨的间距。
    它是左栏里的一个网格区域，margin 直接落在自己身上就有效。 */
 .section-layout__aside { grid-area: aside; margin-top: 24px; }
 .section-layout__aside .section-note { margin: 0; }
@@ -593,41 +630,27 @@ h2, h3, h4 { text-wrap: balance; line-height: 1.3; }
 }
 
 @media (max-width: 800px) {
-  .home-shell { grid-template-columns: 1fr; gap: 56px; }
   .section-layout:not(.section-layout--indexed) { grid-template-columns: 1fr; gap: 40px; }
   .section-layout--pinned .section-layout__sidebar { position: static; }
   .book-header__body { row-gap: 46px; }
 }
 
-/* 小组期详情：左栏是位置 → 本期结构 → 出口的一列，右栏是标题与正文。
-   左栏没有栏目索引那样的内容，不值得一直占住 --rail 的宽度，所以双栏只保留到放得下整行
-   阅读宽度为止；1040px 及以下提前收成单栏，避免“半窄正文 + 固定大左栏”。
-   两个区间互不重叠，下面的单栏规则不会和上面的双栏模板相撞。
-   只作用于这一种页面，.section-layout 的默认列宽与模板不变。 */
-@media (min-width: 1041px) {
-  .section-layout--indexed.group-issue-page {
-    /* 左栏一列：位置 → 本期结构 → 出口；右栏是标题与正文。所以 toc 留在第一列
-       （grid-area 的列序由列宽决定，不能只看名字），content 在第二列。 */
-    grid-template-areas: "toc breadcrumb" "toc content" "toc intro" "toc aside";
-  }
-}
-@media (max-width: 1040px) {
-  /* 选择器要压过既有的 .section-layout--indexed（同层），否则 801–1040 会退化成
-     148px 的窄左栏 + 672px 正文，而不是单栏。 */
-  .section-layout--indexed.group-issue-page {
-    grid-template-columns: minmax(0, 1fr);
-    grid-template-areas: "breadcrumb" "intro" "toc" "aside" "content";
-    gap: 40px;
-  }
-  /* 收了单栏，面包屑、本期结构和去向就是正文上方的普通文档标题区，跟着页面滚。 */
-  .section-layout--indexed.group-issue-page .section-layout__toc { position: static; }
-}
+/* 小组期详情不是栏目页，也没有需要长期放在旁边的工具，所以它走 Natural Flow：
+   面包屑、期号、题名和正文共用一条内容轴，不再为“本期内容 + 返程链接”留一列。
+   这个 modifier 现在只剩两件事：正文取阅读页的衬线，以及篇末导航与正文同宽。 */
+
+/* 期的正文是连续阅读正文（一条 672px 的行宽），没有左栏以后容器就取这条行宽，
+   再撑到整个版心只会让正文右边空出一大块。它不用 --reading 版式——那只在窄屏藏起
+   站点标题栏和面包屑，这里要保持可见。
+   宽度写成一个 min() 有两个原因：桌面上 .container 自己会做 `calc(100% - 40px)`，
+   容器得比阅读行宽多出这 40px，内容列才会正好是 672px；而 ≤600px 的 .container
+   规则（视口 − 1.5rem）本来就是全文最宽的行为，这里让它按同一个视口口径收窄即可。 */
+.group-issue-page { width: min(calc(100% - 40px), calc(var(--reading) + 40px), var(--content)); }
 
 /* 正文与篇末导航共用同一条水平基准：容器宽于行宽时一起居中，窄于行宽时一起填满。 */
 .group-issue-page .document-nav { margin-right: 0; margin-left: 0; }
 
-/* 期的正文是连续阅读正文，取阅读页的衬线；只借字体语义，
-   不启用 reading-page——那还会在窄屏藏起站点标题栏和面包屑。 */
+/* 正文取阅读页的衬线：只借字体语义。 */
 .group-issue-page .prose { font-family: var(--serif); font-synthesis: weight; }
 
 @media (max-width: 600px) {
@@ -658,7 +681,7 @@ h2, h3, h4 { text-wrap: balance; line-height: 1.3; }
   .section-layout--reading { --header-h: 0px; }
   .document-header { margin-bottom: 23px; }
   .document-header h1 { font-size: var(--text-page-mobile); margin-top: 0; }
-  .site-header__masthead, .site-footer__inner, .container, .home-shell { width: min(calc(100% - 1.5rem), var(--content)); }
+  .site-header__masthead, .site-footer__inner, .container, .home-page { width: min(calc(100% - 1.5rem), var(--content)); }
   /* 导航固定另起一行：宽度一变就换行的话，标题栏高度会在两个值之间跳，--header-h 只能取一个。 */
   .site-header__masthead { flex-wrap: wrap; align-items: center; row-gap: 4px; padding: 12px 0; }
   .site-name { width: auto; }
@@ -666,11 +689,14 @@ h2, h3, h4 { text-wrap: balance; line-height: 1.3; }
      间距，不跟着桌面一起放大，也不拉开分布。 */
   .site-header__nav { flex: 0 0 100%; justify-content: flex-start; margin-left: 0; gap: 12px; padding: 0; }
   .site-header__nav a { font-size: var(--text-meta); padding: 8px 0; }
+  /* 文献行在窄屏改为年份在上、条目在下，避免年份栏把标题挤成两三个字一行。 */
+  .home-literature__item { grid-template-columns: minmax(0, 1fr); gap: 0; }
   .home-masthead { width: calc(100% - 1.5rem); padding: 48px 0 36px; }
   .home-masthead h1 { font-size: var(--text-display-mobile); }
   .home-masthead p { font-size: var(--text-body); margin-top: 14px; }
-  .home-shell { margin-top: 36px; }
-  .home-recent h2 { font-size: var(--text-item); }
+  .home-page { margin-bottom: 56px; }
+  .home-page > section + section { margin-top: 52px; }
+  .home-page h2 { font-size: var(--text-item); }
   .entrance-grid { grid-template-columns: 1fr; gap: 32px; }
   .page-title { font-size: var(--text-page-mobile); }
   .lead { font-size: var(--text-body); }

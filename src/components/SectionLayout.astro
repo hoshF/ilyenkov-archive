@@ -18,48 +18,60 @@ interface Props {
 
 const { toc = [], tocLabel = '页内目录', pinned = false, reading = false, modifier } = Astro.props;
 const indexed = toc.length > 0;
+// 左栏是否真的有功能。没有功能就不留空栏，页面回到单栏。
+const hasRail = indexed || Astro.slots.has('aside');
 ---
 
 <div class:list={[
   'container',
   'section-layout',
+  // 有功能左栏时才是两栏。用显式 class 而不是 :has()——:has() 会把自己的选择器
+  // 也算进权重，反过来压过下面的 --indexed / --reading 网格。
+  hasRail && 'section-layout--rail',
   indexed && 'section-layout--indexed',
   reading && 'section-layout--reading',
-  pinned && 'section-layout--pinned',
+  pinned && hasRail && 'section-layout--pinned',
   modifier,
 ]}>
-  <div class="section-layout__sidebar">
+  {hasRail && (
+    <div class="section-layout__sidebar">
+      {indexed && (
+        <aside class="section-layout__toc">
+          <nav aria-labelledby="section-toc-label">
+            <p class="section-layout__toc-label" id="section-toc-label">{tocLabel}</p>
+            <ol class="section-layout__structured">
+              {toc.map((item) => <li><a href={item.href}>{item.label}</a></li>)}
+            </ol>
+          </nav>
+        </aside>
+      )}
+
+      {Astro.slots.has('aside') && (
+        <div class="section-layout__aside">
+          <slot name="aside" />
+        </div>
+      )}
+    </div>
+  )}
+
+  <div class="section-layout__content">
+    {/*
+      页首排在内容栏里，跟正文共用同一条左边线——它说明"这是什么"，不属于旁侧的
+      阅读工具。面包屑同理：它说明"我从哪里来"。
+      --indexed 的网格把面包屑、页首、正文排成三行（都在索引右边那一列），所以这里
+      按网格顺序输出；其余版式没有命名区域，三块自然堆叠成一条流。
+    */}
     {Astro.slots.has('breadcrumb') && (
       <div class="section-layout__breadcrumb">
         <slot name="breadcrumb" />
       </div>
     )}
-
     {Astro.slots.has('intro') && (
       <div class="section-layout__intro">
         <slot name="intro" />
       </div>
     )}
 
-    {indexed && (
-      <aside class="section-layout__toc">
-        <nav aria-labelledby="section-toc-label">
-          <p class="section-layout__toc-label" id="section-toc-label">{tocLabel}</p>
-          <ol class="section-layout__structured">
-            {toc.map((item) => <li><a href={item.href}>{item.label}</a></li>)}
-          </ol>
-        </nav>
-      </aside>
-    )}
-
-    {Astro.slots.has('aside') && (
-      <div class="section-layout__aside">
-        <slot name="aside" />
-      </div>
-    )}
-  </div>
-
-  <div class="section-layout__content">
     <slot />
   </div>
 </div>
