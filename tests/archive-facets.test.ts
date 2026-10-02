@@ -178,12 +178,23 @@ describe('archive facets', () => {
     expect(topics.length).toBeGreaterThan(0);
     expect(persons.length).toBeGreaterThan(0);
 
-    // 详情页与生成输入都不带分类。
-    const detail = readFileSync(path.join(process.cwd(), 'dist', 'archive', 'bankir-1988', 'index.html'), 'utf8');
+    // 详情页与生成输入都不带分类。用当前真正公开的一篇文章，而不是写死某个 id：
+    // 上游可以调整哪些作品进入网站公开范围（见 publication_scope）。
+    const { articles } = await getSiteData();
+    const sample = articles[0];
+    expect(sample).toBeDefined();
+
+    const detail = readFileSync(
+      path.join(process.cwd(), 'dist', 'archive', sample.id, 'index.html'),
+      'utf8',
+    );
     expect(detail).not.toContain('archive-facets');
     expect(detail).not.toContain('aria-label="主题"');
 
-    const generated = readFileSync(path.join(process.cwd(), '.website-input', 'articles', 'bankir-1988.md'), 'utf8');
+    const generated = readFileSync(
+      path.join(process.cwd(), '.website-input', 'articles', `${sample.id}.md`),
+      'utf8',
+    );
     for (const leak of ['topics', 'persons', 'ideal', 'vygotsky', 'archive-taxonomy']) {
       expect(generated, `generated frontmatter should not carry ${leak}`).not.toContain(`${leak}:`);
     }
