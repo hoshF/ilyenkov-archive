@@ -46,13 +46,16 @@ h2, h3, h4 { text-wrap: balance; line-height: 1.3; }
 
 .site-header {
   position: sticky; top: 0; z-index: 50;
-  background: var(--paper); border-bottom: 1px solid var(--line);
+  /* 页眉不画整宽底线：当前栏目的下划线已经是页眉里唯一的水平标记，再加一条底线会与它
+     争同一条视觉带。身份用黑色、导航用紫色、当前位置用下划线，页眉与正文之间靠留白分开。 */
+  background: var(--paper);
 }
 
 .site-header__masthead {
   width: min(calc(100% - 40px), var(--content)); align-items: center; margin: 0 auto; padding: 8px 0; display: flex;
 }
 
+/* 字标即首页入口，页眉里不再有可见站名文字。 */
 .site-name {
   color: var(--ink); white-space: nowrap; text-decoration: none;
   display: inline-flex; align-items: center; gap: 12px; flex-shrink: 0;
@@ -60,19 +63,28 @@ h2, h3, h4 { text-wrap: balance; line-height: 1.3; }
 
 .site-name__logo { display: block; width: auto; height: 24px; flex-shrink: 0; }
 
-.site-name__text { font-size: var(--text-item); letter-spacing: .01em; white-space: nowrap; font-weight: 700; }
-
-.site-header__masthead nav { flex: 1; justify-content: flex-end; align-items: center; gap: 24px; display: flex; }
-.site-header__masthead nav a {
-  color: var(--accent); font-size: var(--text-secondary); align-items: center; padding: 6px 0;
+/* 五个一级栏目是页眉的主体：从字标右侧隔开一段固定的距离开始，形成页眉的目录行。
+   不用 flex-end（那会缩成贴右的一小团，正是「品牌块 + 小菜单」的来源），也不用
+   space-between（1280px 下会摊成近 200px 的空档，变成门户网站式的松散排布）。
+   margin-left 是 identity → navigation 的结构边界，固定 64px（沿用栏目栏列距），
+   与项间距区分开；项间距用 clamp 随版心收缩，既不空荡也不拥挤。 */
+.site-header__nav {
+  flex: 1; justify-content: flex-start; align-items: center; display: flex;
+  margin-left: 64px; gap: clamp(40px, 5.5vw, 76px);
+}
+/* 普通项用中性深色，与左侧身份同一族；紫色留给交互与当前位置，页眉不再是「左边黑、右边紫」。
+   16px 是页眉唯一的文字级：站名文字移除后，导航自己承担页眉主体文字。 */
+.site-header__nav a {
+  color: var(--ink-soft); font-size: var(--text-body); align-items: center; padding: 6px 0;
   text-decoration: none; display: inline-flex;
 }
-.site-header__masthead nav a:hover { color: var(--accent-dark); }
+.site-header__nav a:hover { color: var(--accent-dark); }
 
-/* 当前栏目：导航里唯一加深并画线的一项。底线用文字自己的下划线而不是边框，
+/* 当前栏目：导航里唯一带颜色并画线的一项。文字与下划线同为 --accent，
+   下划线跟随文字颜色，因此一处声明就让两者一致。下划线是文字自己的，
    标题栏高度仍然只由 --header-h 说了算。 */
-.site-header__masthead nav a[aria-current=page] {
-  color: var(--accent-dark); text-decoration: underline; text-decoration-thickness: 2px;
+.site-header__nav a[aria-current=page] {
+  color: var(--accent); text-decoration: underline; text-decoration-thickness: 2px;
   text-underline-offset: .32em;
 }
 
@@ -253,23 +265,22 @@ h2, h3, h4 { text-wrap: balance; line-height: 1.3; }
 }
 
 .home-intro, .home-recent { min-width: 0; }
-.home-intro h2, .home-recent h2 {
+/* 只有右栏还有小标题了；左栏以定位语开始，不再有 section 标题。 */
+.home-recent h2 {
   color: var(--muted); font-size: var(--text-home-section); letter-spacing: .03em; margin: 0;
   padding: 0 0 20px; font-weight: 500; line-height: 1.3;
 }
 .home-intro { font-size: var(--text-body); line-height: 1.8; }
-/* 说明一段话，然后就是五位栏目；两者之间留出比行距更明显的一档。 */
 .home-intro p { margin: 0 0 30px; }
+/* 定位语：比正文强一档，但不做成第二个标题——它仍属 ink 体系，不用紫色。 */
+.home-intro__statement { color: var(--ink); font-size: var(--text-item); font-weight: 600; line-height: 1.6; }
 .home-intro a { color: var(--accent); text-decoration-color: var(--line-strong); }
 .home-intro a:hover { color: var(--accent-dark); }
 
-/* 首页的栏目目录：一条 = 栏目标题 + 一句职责。
-   与文章记录（.record-list）分开，是因为它列的是入口而不是条目；文本型，无卡片、无边框。 */
-.home-sections { margin: 0; padding: 0; list-style: none; display: grid; gap: 20px; }
-.home-sections__title { margin: 0; font-size: var(--text-item); font-weight: 600; line-height: 1.4; }
-.home-sections__title a { color: var(--accent); text-decoration: none; }
-.home-sections__title a:hover { color: var(--accent-dark); text-decoration: underline; }
-.home-sections__description { margin: 5px 0 0; color: var(--muted); font-size: var(--text-secondary); line-height: 1.6; }
+/* 左栏底部的两个研究起点：正文式链接，不做按钮、不做卡片。 */
+.home-intro__entries { margin: 0; padding: 0; list-style: none; display: grid; gap: 10px; font-size: var(--text-secondary); }
+.home-intro__entries a { text-decoration: none; }
+.home-intro__entries a:hover { text-decoration: underline; }
 
 .home-recent__note { margin: -12px 0 20px; color: var(--muted); font-size: var(--text-meta); line-height: 1.5; }
 .home-recent__list { margin: 0; padding: 0; list-style: none; display: grid; gap: 20px; }
@@ -651,13 +662,15 @@ h2, h3, h4 { text-wrap: balance; line-height: 1.3; }
   /* 导航固定另起一行：宽度一变就换行的话，标题栏高度会在两个值之间跳，--header-h 只能取一个。 */
   .site-header__masthead { flex-wrap: wrap; align-items: center; row-gap: 4px; padding: 12px 0; }
   .site-name { width: auto; }
-  .site-header__masthead nav { flex: 0 0 100%; justify-content: flex-start; gap: 12px; padding: 0; }
-  .site-header__masthead nav a { font-size: var(--text-meta); padding: 8px 0; }
+  /* 手机上导航独占一行：5 个栏目的行宽已经接近 320px 的极限，所以这里保持 14px 与固定
+     间距，不跟着桌面一起放大，也不拉开分布。 */
+  .site-header__nav { flex: 0 0 100%; justify-content: flex-start; margin-left: 0; gap: 12px; padding: 0; }
+  .site-header__nav a { font-size: var(--text-meta); padding: 8px 0; }
   .home-masthead { width: calc(100% - 1.5rem); padding: 48px 0 36px; }
   .home-masthead h1 { font-size: var(--text-display-mobile); }
   .home-masthead p { font-size: var(--text-body); margin-top: 14px; }
   .home-shell { margin-top: 36px; }
-  .home-intro h2, .home-recent h2 { font-size: var(--text-item); }
+  .home-recent h2 { font-size: var(--text-item); }
   .entrance-grid { grid-template-columns: 1fr; gap: 32px; }
   .page-title { font-size: var(--text-page-mobile); }
   .lead { font-size: var(--text-body); }

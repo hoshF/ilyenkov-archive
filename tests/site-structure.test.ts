@@ -163,7 +163,7 @@ describe('website-approved data adapter', () => {
     // 404 不属于任何栏目：不套 SectionLayout、不出现面包屑、顶栏没有 active 项。
     expect(notFound).not.toContain('section-layout');
     expect(notFound).not.toContain('breadcrumbs');
-    const nav = notFound.match(/<nav aria-label="主要导航">([\s\S]*?)<\/nav>/)![1];
+    const nav = notFound.match(/<nav[^>]*aria-label="主要导航"[^>]*>([\s\S]*?)<\/nav>/)![1];
     expect(nav).not.toContain('aria-current');
     expect([...nav.matchAll(/<a[^>]*>([^<]*)<\/a>/g)].map(([, label]) => label))
       .toEqual(['伊里因科夫', '档案', '研究', '小组', '书籍']);
@@ -514,11 +514,77 @@ describe('public navigation', () => {
     const layout = layoutSource('BaseLayout');
     expect(layout).toContain("aria-current={current(item.href) ? 'page' : undefined}");
 
-    const active = declarationsFor('.site-header__masthead nav a[aria-current=page]');
-    expect(active.color).toBe('var(--accent-dark)');
+    const active = declarationsFor('.site-header__nav a[aria-current=page]');
+    // 当前项是页眉里唯一带颜色的一项：文字用 --accent，下划线是文字自己的下划线，
+    // 因此随文字同色，不需要单独声明 text-decoration-color。
+    expect(active.color).toBe('var(--accent)');
     expect(active['text-decoration']).toBe('underline');
+    expect(active['text-decoration-color']).toBeUndefined();
     // 底线是文字自己的下划线：导航项不因为当前状态而变高，--header-h 仍然算得准。
     expect(active['border-bottom']).toBeUndefined();
+  });
+
+  it('keeps the header a mark plus a directory, not a brand block plus a menu', () => {
+    const layout = layoutSource('BaseLayout');
+    const homepage = readFileSync(path.join(process.cwd(), 'dist', 'index.html'), 'utf8');
+    const header = homepage.match(/<header class="site-header">([\s\S]*?)<\/header>/)![1];
+
+    // 页眉里唯一的主页入口是字标本身。字标是内联 SVG，这样它随 HTML 一起首屏绘制，
+    // 不再是新 document 里要等一次图片请求/解码才出现的独立资源；图形 aria-hidden，
+    // 不产生第二个名称，链接保持单一可访问名称。
+    const homeLinks = [...header.matchAll(/<a\b[^>]*href="\/"[^>]*>([\s\S]*?)<\/a>/g)];
+    expect(homeLinks).toHaveLength(1);
+    expect(homeLinks[0][0]).toContain(`aria-label="${site.name}首页"`);
+    const mark = homeLinks[0][1];
+    expect(mark).toContain('<svg class="site-name__logo"');
+    expect(mark).toContain('aria-hidden="true"');
+    expect(mark).not.toContain('<img');
+    expect(mark).not.toContain('<title');
+    // 路径数据与 viewBox 取自 public/brand/evi-wordmark.svg，未做改动。
+    const source = readFileSync(path.join(process.cwd(), 'public', 'brand', 'evi-wordmark.svg'), 'utf8');
+    const sourcePath = source.match(/<path d="([^"]*)"/)![1];
+    expect(mark).toContain(`d="${sourcePath}"`);
+    expect(source).toContain('viewBox="0 0 966 367"');
+    expect(mark).toContain('viewBox="0 0 966 367"');
+    // 页眉里不再引用那个独立图片资源。
+    expect(header).not.toContain('evi-wordmark.svg');
+
+    // 可见站名不再出现在页眉；站点名称仍由 <title>、首页 h1 与页脚承担。
+    expect(header).not.toContain('site-name__text');
+    expect(header).not.toContain(`>${site.name}<`);
+    expect(homepage).toContain(`<title>${site.name}</title>`);
+    expect(homepage.match(/<footer class="site-footer">([\s\S]*?)<\/footer>/)![1]).toContain(site.name);
+    expect(layout).not.toContain('site-name__text');
+
+    // 五个一级栏目仍是页眉的主体，且顺序与 site.navigation 一致。
+    const nav = header.match(/<nav[^>]*aria-label="主要导航"[^>]*>([\s\S]*?)<\/nav>/)![1];
+    expect([...nav.matchAll(/<a[^>]*>([^<]*)<\/a>/g)].map(([, label]) => label))
+      .toEqual(site.navigation.map((item) => item.label));
+
+    // 导航占据字标右侧的剩余宽度（而不是贴右的小菜单），字标与首项之间另有固定的结构边界。
+    const navRule = declarationsFor('.site-header__nav');
+    expect(navRule.flex).toContain('1');
+    expect(navRule['justify-content']).not.toBe('flex-end');
+    expect(navRule['margin-left']).toBeDefined();
+  });
+
+  it('keeps the header text at one level and the mobile nav compact', () => {
+    // 站名文字移除后，16px 是页眉唯一的文字级：导航自己承担主体文字，且不加粗。
+    const link = declarationsFor('.site-header__nav a');
+    expect(link['font-size']).toBe('var(--text-body)');
+    expect(link.color).toBe('var(--ink-soft)');
+    expect(link['font-weight']).toBeUndefined();
+
+    // 手机宽度下导航另起一行、退回 14px 并收紧间距，320px 仍能容纳五项。
+    const mobileNav = declarationsFor('.site-header__nav', '@media (max-width: 600px)');
+    expect(mobileNav['font-size']).toBeUndefined();
+    const mobileLink = declarationsFor('.site-header__nav a', '@media (max-width: 600px)');
+    expect(mobileLink['font-size']).toBe('var(--text-meta)');
+    expect(declarationsFor('.site-header__nav', '@media (max-width: 600px)')['margin-left']).toBe('0');
+
+    // 普通项保持中性色，紫色只留给交互与当前项。
+    const hover = declarationsFor('.site-header__nav a:hover');
+    expect(hover.color).toBe('var(--accent-dark)');
   });
 
   it('gives the rights page a permanent entrance from every page', () => {
@@ -534,36 +600,43 @@ describe('public navigation', () => {
     expect(layout).toContain('site.footer.map');
   });
 
-  it('lists every primary section from the navigation on the homepage', () => {
-    // 首页目录的名称与去向来自 site.json 的 navigation；首页只补一句职责说明。
-    // 渲染产物里页身的目的地必须与一级导航逐项一致，顺序也一致。
+  it('uses the homepage to establish the project, not to repeat the primary navigation', () => {
     const homepage = readFileSync(path.join(process.cwd(), 'dist', 'index.html'), 'utf8');
     const main = homepage.match(/<main>([\s\S]*?)<\/main>/)![1];
-    const sections = main.match(/<ul class="home-sections"[\s\S]*?<\/ul>/)![0];
+    const intro = main.match(/<section class="home-intro"[\s\S]*?<\/section>/)![0];
 
-    const rendered = [...sections.matchAll(/<a href="([^"]+)"[^>]*>([^<]+)<\/a>/g)]
-      .map(([, href, label]) => ({ href, label }));
-    expect(rendered).toEqual(site.navigation.map(({ href, label }) => ({ href, label })));
-
-    // 每个栏目一句非空说明，且没有硬编码 label（名称只来自 navigation）。
-    const descriptions = [...sections.matchAll(/class="home-sections__description"[^>]*>([^<]+)</g)]
-      .map(([, text]) => text.trim());
-    expect(descriptions).toHaveLength(site.navigation.length);
-    expect(descriptions.every((text) => text.length > 0)).toBe(true);
-    // 栏目说明与 navigation 的 label 不是一回事：说明不重复栏目名。
+    // 五个一级栏目由页眉承担；首页左栏不再复制这份目录。
+    expect(main).not.toContain('home-sections');
+    expect(pageSource('index.astro'), '首页不应再遍历 navigation').not.toContain('site.navigation');
     for (const { label } of site.navigation) {
-      expect(descriptions.some((text) => text === label), label).toBe(false);
+      expect(intro, `首页左栏不应复述一级栏目「${label}」`).not.toContain(`>${label}<`);
     }
+
+    // 左栏只留项目定位：一句定位语 + 一段说明 + 两个研究起点，没有 section 标题。
+    expect(intro).toContain('home-intro__statement');
+    expect(intro).not.toContain('<h2');
+    expect(intro.match(/<p/g)).toHaveLength(2);
+    const entries = [...intro.matchAll(/<a href="([^"]+)"/g)].map(([, href]) => href);
+    expect(entries).toEqual(['/ilyenkov', '/archive']);
+
+    // 首页仍然只有一个 h1，且它的第一层说明仍来自 masthead。
+    expect([...main.matchAll(/<h1\b/g)]).toHaveLength(1);
+    expect(main).toContain(`<h1>${site.name}</h1>`);
+
+    // 栏目名称与去向仍是页眉的唯一来源。
+    expect(layoutSource('BaseLayout')).toContain('site.navigation');
   });
 
-  it('keeps the homepage directory and the primary navigation in step', () => {
-    // 首页在构建期按 href 对齐两份数据：navigation 多一个一级栏目、首页多一条说明，
-    // 都会让构建失败。这里锁定契约本身，避免以后用 try/catch 把它软化。
+  it('removes the homepage directory contract it replaced', () => {
+    // 旧契约按 href 对齐「首页目录」与 navigation；首页不再有这份目录，
+    // 因此相关的数据与校验也应一并消失，避免留下没有消费者的死数据。
     const source = pageSource('index.astro');
-    expect(source).toContain('site.navigation');
-    expect(source).toContain('Homepage has no description for the primary section');
-    expect(source).toContain('Homepage describes sections that are not in the primary navigation');
-    expect(source, 'homepage must not hardcode a primary label').not.toContain("label: '");
+    for (const gone of ['sectionDescriptions', 'primarySections', 'home-section-']) {
+      expect(source, `首页不应再保留 ${gone}`).not.toContain(gone);
+    }
+    // 但 navigation 本身仍是页眉的数据源，不能被删。
+    expect(site.navigation.map(({ href }) => href))
+      .toEqual(['/ilyenkov', '/archive', '/research', '/group', '/books']);
   });
 
   it('samples the archive without inventing a publishing timeline', async () => {

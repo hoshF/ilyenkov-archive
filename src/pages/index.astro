@@ -3,38 +3,6 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 import { site } from '../lib/editorial';
 import { getSiteData } from '../lib/site-data';
 
-/**
- * 首页的栏目说明。
- *
- * 栏目的名称与去向来自 editorial/site.json 的 navigation —— 那是"叫什么、去哪里"的单一来源；
- * 这里的每一条只回答"这里是什么"。两份数据按 href 对齐，任何一边多出或缺少一个一级栏目，
- * 构建都会失败（断言在下面，契约测试在 tests/site-structure.test.ts）。
- */
-const sectionDescriptions: Record<string, string> = {
-  '/ilyenkov': '人物生平、年表、作品目录与交往活动。',
-  '/archive': '本站已公开的中文译文与相关文本。',
-  '/research': '国际研究网络、研究者、会议与资料。',
-  '/group': '小组的公共工作记录与成立说明。',
-  '/books': '小组整理维护的成书项目与版次记录。',
-};
-
-const primarySections = site.navigation.map((item) => {
-  const description = sectionDescriptions[item.href];
-  if (!description) {
-    throw new Error(
-      `Homepage has no description for the primary section "${item.href}" (${item.label})`,
-    );
-  }
-  return { ...item, description };
-});
-
-const undescribed = Object.keys(sectionDescriptions).filter(
-  (href) => !site.navigation.some((item) => item.href === href),
-);
-if (undescribed.length > 0) {
-  throw new Error(`Homepage describes sections that are not in the primary navigation: ${undescribed.join(', ')}`);
-}
-
 const { articles } = await getSiteData();
 // 抽样沿用文章集合的规范顺序（原文发表年份由新到旧）；首页不重新排序。
 const recent = articles.slice(0, 3);
@@ -47,19 +15,14 @@ const recent = articles.slice(0, 3);
   </header>
 
   <div class="home-shell">
-    <section class="home-intro" aria-labelledby="intro-heading">
-      <h2 id="intro-heading">从哪里开始</h2>
-      <p>本站围绕伊里因科夫的文本、相关研究资料与小组工作持续整理中文材料：把可以公开的译文与数字化文本集中在一处，为每一份标明来源，并记录翻译、整理与研究工作本身。</p>
-
-      <ul class="home-sections" role="list">
-        {primarySections.map((section, index) => (
-          <li>
-            <p class="home-sections__title">
-              <a href={section.href} aria-describedby={`home-section-${index}`}>{section.label}</a>
-            </p>
-            <p class="home-sections__description" id={`home-section-${index}`}>{section.description}</p>
-          </li>
-        ))}
+    {/* 左栏建立项目身份：这是什么、正在整理什么。栏目目录由页眉的五个一级导航承担，
+        首页不再重复解释它们，只留两个最直接的研究起点。 */}
+    <section class="home-intro" aria-label="项目定位">
+      <p class="home-intro__statement">从文本出发，整理伊里因科夫及其相关研究的中文资料。</p>
+      <p>本站围绕伊里因科夫的文本、相关研究资料与小组工作，持续整理可以公开阅读的中文材料，并记录原文来源、版本，以及翻译、整理与研究工作的进展。</p>
+      <ul class="home-intro__entries" role="list">
+        <li><a href="/ilyenkov">了解伊里因科夫 →</a></li>
+        <li><a href="/archive">浏览文本档案 →</a></li>
       </ul>
     </section>
 
