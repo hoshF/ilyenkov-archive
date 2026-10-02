@@ -1,0 +1,18 @@
+---
+import ArchiveIndexView from '../../../components/ArchiveIndexView.astro';
+import { getSiteData } from '../../../lib/site-data';
+
+export async function getStaticPaths() {
+  const { facets } = await getSiteData();
+  return facets.topics.map((term) => ({
+    params: { id: term.id },
+    props: { term },
+  }));
+}
+
+const { term } = Astro.props;
+const { articles, facets } = await getSiteData();
+const filtered = articles.filter((article) => article.topics.some((topic) => topic.id === term.id));
+---
+
+<ArchiveIndexView articles={filtered} facets={facets} current={{ kind: 'topic', ...term }} />

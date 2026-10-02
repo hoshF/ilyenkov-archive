@@ -1,0 +1,217 @@
+{
+  "topics": {
+    "ideal": {
+      "label": "观念的东西"
+    },
+    "dialectics": {
+      "label": "辩证法与辩证逻辑"
+    },
+    "psychology": {
+      "label": "心理学与活动理论"
+    },
+    "soviet-philosophy": {
+      "label": "苏联哲学史"
+    },
+    "education": {
+      "label": "教育与人格形成"
+    }
+  },
+  "persons": {
+    "vygotsky": {
+      "label": "维果茨基"
+    },
+    "spinoza": {
+      "label": "斯宾诺莎"
+    }
+  },
+  "articles": {
+    "ascent-toward-the-ideal": {
+      "topics": [
+        "ideal"
+      ],
+      "persons": []
+    },
+    "bankir-1988": {
+      "topics": [],
+      "persons": []
+    },
+    "concept-of-truth-in-ilyenkovs-dialectical-logic": {
+      "topics": [
+        "ideal",
+        "dialectics"
+      ],
+      "persons": []
+    },
+    "delo-ilyenkova-i-delo-zinovieva-2017": {
+      "topics": [
+        "ideal",
+        "soviet-philosophy"
+      ],
+      "persons": []
+    },
+    "dialectical-logic-ilyenkov-western-marxism": {
+      "topics": [
+        "dialectics",
+        "soviet-philosophy"
+      ],
+      "persons": []
+    },
+    "education-and-nature-lessons-of-the-zagorsk-experiment": {
+      "topics": [
+        "psychology",
+        "education"
+      ],
+      "persons": [
+        "vygotsky"
+      ]
+    },
+    "evald-ilyenkov-and-soviet-philosophy": {
+      "topics": [
+        "soviet-philosophy"
+      ],
+      "persons": []
+    },
+    "evald-ilyenkovs-creative-marxism": {
+      "topics": [
+        "ideal",
+        "dialectics"
+      ],
+      "persons": []
+    },
+    "evolution-of-psyche-object-oriented-activity-and-affect": {
+      "topics": [
+        "psychology"
+      ],
+      "persons": [
+        "vygotsky",
+        "spinoza"
+      ]
+    },
+    "history-and-social-ideals": {
+      "topics": [
+        "ideal",
+        "soviet-philosophy"
+      ],
+      "persons": []
+    },
+    "idea-of-polytechnism-in-marxist-theory-of-education": {
+      "topics": [
+        "education"
+      ],
+      "persons": []
+    },
+    "ilyenkov-family-archive-new-discoveries": {
+      "topics": [],
+      "persons": []
+    },
+    "ilyenkov-i-moskovskiy-logicheskiy-kruzhok-materialy-polemiki-2024": {
+      "topics": [
+        "dialectics",
+        "soviet-philosophy"
+      ],
+      "persons": []
+    },
+    "ilyenkov-on-freedom-of-will": {
+      "topics": [
+        "psychology"
+      ],
+      "persons": []
+    },
+    "ilyenkov-on-the-state": {
+      "topics": [
+        "dialectics",
+        "soviet-philosophy"
+      ],
+      "persons": []
+    },
+    "ilyenkov-triangle-marxism-philosophical-roots": {
+      "topics": [
+        "ideal",
+        "dialectics"
+      ],
+      "persons": [
+        "spinoza"
+      ]
+    },
+    "metamorphoses-of-the-ideal": {
+      "topics": [
+        "ideal"
+      ],
+      "persons": []
+    },
+    "ontogenesis-human-psyche-language-in-ilyenkov": {
+      "topics": [
+        "psychology"
+      ],
+      "persons": [
+        "vygotsky"
+      ]
+    },
+    "prezident-chitaet-buharina-1988": {
+      "topics": [],
+      "persons": []
+    },
+    "reality-of-the-ideal": {
+      "topics": [
+        "ideal"
+      ],
+      "persons": []
+    },
+    "russian-european-ilyenkov-western-marxism": {
+      "topics": [
+        "dialectics"
+      ],
+      "persons": []
+    },
+    "soviet-spinoza-faith-seeking-understanding": {
+      "topics": [
+        "ideal",
+        "soviet-philosophy"
+      ],
+      "persons": [
+        "spinoza"
+      ]
+    },
+    "spinoza-doctrine-of-affects-in-cultural-historical-psychology": {
+      "topics": [
+        "psychology"
+      ],
+      "persons": [
+        "vygotsky",
+        "spinoza"
+      ]
+    },
+    "thinking-and-labour-reading-vygotsky": {
+      "topics": [
+        "psychology",
+        "education"
+      ],
+      "persons": [
+        "vygotsky"
+      ]
+    },
+    "thought-and-language-in-ilyenkov-logic": {
+      "topics": [
+        "psychology"
+      ],
+      "persons": []
+    },
+    "vygotsky-dream-and-freedom-in-marxist-psychology": {
+      "topics": [
+        "psychology"
+      ],
+      "persons": [
+        "vygotsky"
+      ]
+    },
+    "vygotsky-sokolyansky-zagorsk-experiment": {
+      "topics": [
+        "psychology",
+        "education"
+      ],
+      "persons": [
+        "vygotsky"
+      ]
+    }
+  }
+}

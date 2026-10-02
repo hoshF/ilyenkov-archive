@@ -52,6 +52,7 @@ const toc = document.headings.map((heading) => ({ href: `#${heading.id}`, label:
     ]} />
 
     <header class="document-header" slot="intro">
+      <p class="record__meta">{document.year} · {document.authorLabel}</p>
       <h1 id="document-title" set:html={document.titleHtml} />
       <p class="document-header__original">{document.originalTitle}</p>
     </header>

@@ -1,0 +1,191 @@
+import { readFileSync, existsSync } from 'node:fs';
+import path from 'node:path';
+import { describe, expect, it } from 'vitest';
+import { getArchiveVocabulary, assertEveryTermHasArticles } from '../src/lib/archive-taxonomy';
+import { getSiteData } from '../src/lib/site-data';
+
+/**
+ * Archive facet 浏览的契约：路由从受控词表生成、结果与筛选一致、顺序仍是 canonical order、
+ * 每页只有一个 current、左栏的数字就是真实命中数。
+ */
+
+const facetPage = (segments: string[]) => path.join(process.cwd(), 'dist', 'archive', ...segments, 'index.html');
+
+describe('archive facets', () => {
+  it('generates one static page per controlled term, keyed by canonical id', async () => {
+    const { facets } = await getSiteData();
+    expect(facets.topics.length).toBeGreaterThan(0);
+    expect(facets.persons.length).toBeGreaterThan(0);
+
+    for (const term of facets.topics) {
+      expect(term.href).toBe(`/archive/topic/${term.id}`);
+      expect(existsSync(facetPage(['topic', term.id])), term.href).toBe(true);
+    }
+    for (const term of facets.persons) {
+      expect(term.href).toBe(`/archive/person/${term.id}`);
+      expect(existsSync(facetPage(['person', term.id])), term.href).toBe(true);
+    }
+    // 路由用 canonical id，不用中文 label。
+    expect(existsSync(facetPage(['topic', '观念的东西']))).toBe(false);
+    expect(existsSync(facetPage(['person', '维果茨基']))).toBe(false);
+  });
+
+  it('splits the article set exactly, without dropping or inventing matches', async () => {
+    const { articles, facets } = await getSiteData();
+
+    for (const term of facets.topics) {
+      const expected = articles
+        .filter((article) => article.topics.some((topic) => topic.id === term.id))
+        .map((article) => article.id);
+      expect(expected.length, term.id).toBe(term.count);
+      expect(expected.length, `${term.id} should not be empty`).toBeGreaterThan(0);
+    }
+    for (const term of facets.persons) {
+      const expected = articles
+        .filter((article) => article.persons.some((person) => person.id === term.id))
+        .map((article) => article.id);
+      expect(expected.length, term.id).toBe(term.count);
+      expect(expected.length, `${term.id} should not be empty`).toBeGreaterThan(0);
+    }
+  });
+
+  it('keeps filtered results a subsequence of the canonical article order', async () => {
+    const { articles, facets } = await getSiteData();
+    const canonical = articles.map((article) => article.id);
+
+    for (const [kind, terms] of [['topics', facets.topics], ['persons', facets.persons]] as const) {
+      for (const term of terms) {
+        const filtered = articles
+          .filter((article) => (
+            (kind === 'topics' ? article.topics : article.persons).some((item) => item.id === term.id)
+          ))
+          .map((article) => article.id);
+        // 筛选不重新排序：结果就是 canonical 顺序的子序列。
+        let cursor = -1;
+        for (const id of filtered) {
+          const at = canonical.indexOf(id);
+          expect(at, `${term.id} keeps canonical order`).toBeGreaterThan(cursor);
+          cursor = at;
+        }
+      }
+    }
+  });
+
+  it('shows the real per-term counts in the left rail', async () => {
+    const { facets } = await getSiteData();
+    const html = readFileSync(facetPage([]), 'utf8');
+    for (const term of [...facets.topics, ...facets.persons]) {
+      // 数字是派生的：词条 label 与命中数同时出现在同一个链接里。
+      const pattern = new RegExp(
+        `href="${term.href}"[\\s\\S]*?${term.label}</span><span class="archive-facets__count">${term.count}<`,
+      );
+      expect(html, `${term.id} count`).toMatch(pattern);
+    }
+  });
+
+  it('marks exactly one current facet on every archive index page', async () => {
+    const { facets } = await getSiteData();
+    const pages: Array<[string, string | null]> = [
+      [facetPage([]), null],
+      ...facets.topics.map((t) => [facetPage(['topic', t.id]), `topic/${t.id}`] as [string, string]),
+      ...facets.persons.map((p) => [facetPage(['person', p.id]), `person/${p.id}`] as [string, string]),
+    ];
+
+    for (const [file, expected] of pages) {
+      const html = readFileSync(file, 'utf8');
+      const rail = html.match(/<aside class="archive-facets"[\s\S]*?<\/aside>/)![0];
+
+      // 左栏分类目录里只有一个 current。
+      expect([...rail.matchAll(/aria-current="page"/g)].length, `${file} rail current`).toBe(1);
+      // 全页共两处：顶栏的"档案"与左栏的当前分类。
+      expect([...html.matchAll(/aria-current="page"/g)].length, `${file} total current`).toBe(2);
+
+      if (expected === null) {
+        expect(rail).toMatch(/href="\/archive" aria-current="page"/);
+      } else {
+        expect(rail).toContain(`href="/archive/${expected}" aria-current="page"`);
+      }
+    }
+  });
+
+  it('fails closed when a controlled term has no published articles', () => {
+    // 受控词条 0 篇 = taxonomy stale 或预建空分类，两种都不该生成空页面。
+    expect(() => assertEveryTermHasArticles([])).toThrow(
+      /terms have no published articles: topic "/,
+    );
+  });
+
+  it('gives every facet its own document metadata while keeping the archive h1', async () => {
+    const { facets } = await getSiteData();
+    const head = (file: string) => {
+      const html = readFileSync(file, 'utf8');
+      const text = (pattern: RegExp) => (html.match(pattern) || [])[1] ?? '';
+      return {
+        html,
+        title: text(/<title>([\s\S]*?)<\/title>/).replace(/&amp;/g, '&').trim(),
+        description: text(/<meta name="description" content="([^"]*)"/).replace(/&amp;/g, '&').trim(),
+        h1: text(/<h1[^>]*>([\s\S]*?)<\/h1>/).replace(/<[^>]+>/g, '').trim(),
+      };
+    };
+
+    const root = head(facetPage([]));
+    // 栏目根页保持原样。
+    expect(root.title).toBe('文本档案｜中文伊里因科夫');
+    expect(root.h1).toBe('文本档案');
+    expect(root.description).toBe('伊里因科夫著作、中文译文及相关研究译文的公开档案。');
+
+    // facet 是同一个 collection 的筛选视图：h1 不变，只有文档元信息区分。
+    const titles = new Set([root.title]);
+    const descriptions = new Set([root.description]);
+
+    for (const term of facets.topics) {
+      const page = head(facetPage(['topic', term.id]));
+      expect(page.title, term.id).toBe(`${term.label}｜文本档案｜中文伊里因科夫`);
+      expect(page.h1, `${term.id} keeps the archive h1`).toBe('文本档案');
+      expect(page.description, term.id).toContain(term.label);
+      expect(page.description, term.id).toContain('主题');
+      expect(page.description, term.id).not.toBe(root.description);
+      // canonical id 只用于 URL，不进入标题。
+      expect(page.title, term.id).not.toContain(term.id);
+      titles.add(page.title);
+      descriptions.add(page.description);
+    }
+
+    for (const term of facets.persons) {
+      const page = head(facetPage(['person', term.id]));
+      expect(page.title, term.id).toBe(`${term.label}｜文本档案｜中文伊里因科夫`);
+      expect(page.h1, `${term.id} keeps the archive h1`).toBe('文本档案');
+      expect(page.description, term.id).toContain(term.label);
+      expect(page.description, term.id).toContain('中心人物');
+      expect(page.description, term.id).not.toBe(root.description);
+      expect(page.title, term.id).not.toContain(term.id);
+      titles.add(page.title);
+      descriptions.add(page.description);
+    }
+
+    // 8 个 URL 的标题与描述两两不同：不再有彼此无法区分的公开页面。
+    const pageCount = 1 + facets.topics.length + facets.persons.length;
+    expect(titles.size).toBe(pageCount);
+    expect(descriptions.size).toBe(pageCount);
+
+    // 可见结构与导航不因元信息改动：仍是零脚本，左栏分类目录原样存在。
+    expect(root.html).not.toContain('<script');
+    expect(root.html).toContain('class="archive-facets"');
+  });
+
+  it('exposes the vocabulary only to the archive index, never to articles', async () => {
+    const { topics, persons } = getArchiveVocabulary();
+    expect(topics.length).toBeGreaterThan(0);
+    expect(persons.length).toBeGreaterThan(0);
+
+    // 详情页与生成输入都不带分类。
+    const detail = readFileSync(path.join(process.cwd(), 'dist', 'archive', 'bankir-1988', 'index.html'), 'utf8');
+    expect(detail).not.toContain('archive-facets');
+    expect(detail).not.toContain('aria-label="主题"');
+
+    const generated = readFileSync(path.join(process.cwd(), '.website-input', 'articles', 'bankir-1988.md'), 'utf8');
+    for (const leak of ['topics', 'persons', 'ideal', 'vygotsky', 'archive-taxonomy']) {
+      expect(generated, `generated frontmatter should not carry ${leak}`).not.toContain(`${leak}:`);
+    }
+  });
+});
