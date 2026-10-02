@@ -2,6 +2,7 @@
   color-scheme: light; --ink: #000; --ink-soft: #1a1a1a; --muted: #706b62; --line: #ddd9d1;
   --line-strong: #b8b2a7; --paper: #fff; --accent: #2f3a86;
   --accent-dark: #1b1f4b; --content: 1040px; --section: 1040px; --reading: 672px; --index: 216px; --index-gap: 56px;
+  --rail: 248px;
   --text-meta: .875rem; --text-secondary: .9375rem; --text-body: 1rem; --text-item: 1.125rem;
   --text-home-section: 1.25rem; --text-section: 1.375rem; --text-page-mobile: 1.625rem; --text-page: 1.75rem;
   --text-display-mobile: 2rem; --text-display: 2.25rem;
@@ -257,36 +258,41 @@ h2, h3, h4 { text-wrap: balance; line-height: 1.3; }
   padding: 0 0 20px; font-weight: 500; line-height: 1.3;
 }
 .home-intro { font-size: var(--text-body); line-height: 1.8; }
-.home-intro p { margin: 0 0 18px; }
+/* 说明一段话，然后就是五位栏目；两者之间留出比行距更明显的一档。 */
+.home-intro p { margin: 0 0 30px; }
 .home-intro a { color: var(--accent); text-decoration-color: var(--line-strong); }
 .home-intro a:hover { color: var(--accent-dark); }
 
-.home-recent__list { margin: 0; padding: 0; list-style: none; display: grid; gap: 20px; }
-.home-recent__list a { color: var(--accent); text-decoration: none; line-height: 1.5; }
-.home-recent__list a:hover { color: var(--accent-dark); text-decoration: underline; }
-.home-recent__original {
-  display: block; margin-top: 4px; color: var(--muted); font-size: var(--text-meta); line-height: 1.5;
-}
+/* 首页的栏目目录：一条 = 栏目标题 + 一句职责。
+   与文章记录（.record-list）分开，是因为它列的是入口而不是条目；文本型，无卡片、无边框。 */
+.home-sections { margin: 0; padding: 0; list-style: none; display: grid; gap: 20px; }
+.home-sections__title { margin: 0; font-size: var(--text-item); font-weight: 600; line-height: 1.4; }
+.home-sections__title a { color: var(--accent); text-decoration: none; }
+.home-sections__title a:hover { color: var(--accent-dark); text-decoration: underline; }
+.home-sections__description { margin: 5px 0 0; color: var(--muted); font-size: var(--text-secondary); line-height: 1.6; }
 
+.home-recent__note { margin: -12px 0 20px; color: var(--muted); font-size: var(--text-meta); line-height: 1.5; }
+.home-recent__list { margin: 0; padding: 0; list-style: none; display: grid; gap: 20px; }
+/* 复用 Archive 的条目语言，但首页一栏比文库窄，行距收一档。 */
+.home-recent__list .record__title { line-height: 1.5; }
 .home-archive-link { margin: 24px 0 0; font-size: var(--text-secondary); }
 .home-archive-link a { text-decoration: none; }
 .home-archive-link a:after { content: " →"; }
 .home-archive-link a:hover { text-decoration: underline; }
 
-.home-about-link { font-size: var(--text-secondary); padding-top: 2px; }
-.home-about-link a { text-decoration: none; }
-.home-about-link a:after { content: " →"; }
-.home-about-link a:hover { text-decoration: underline; }
-
 .section-layout {
   width: min(calc(100% - 40px), var(--section));
-  grid-template-columns: minmax(0, 248px) minmax(0, var(--reading)); justify-content: space-between;
+  grid-template-columns: minmax(0, var(--rail)) minmax(0, var(--reading)); justify-content: space-between;
   align-items: start; column-gap: 64px; display: grid;
 }
 
 .section-layout__breadcrumb { margin-bottom: 20px; }
 
 /* --indexed：左栏只放索引，面包屑、标题、导语和正文同在右栏，从上往下读成一列。 */
+/* 页面分三类（见 docs/ARCHITECTURE.md「三类页面布局」）：栏目页、阅读型详情页、结构型详情页。
+   三者的几何都从这里的 token 与 SectionLayout 的变体推出来，没有哪个页面写死宽度：
+   阅读型靠 --reading 保持正文的行宽与中心感；结构型的左栏参与页面主体，需要更宽时由带
+   页面限定选择器的规则覆盖 --index，而不改这里的默认列宽。 */
 .section-layout--indexed {
   width: min(calc(100% - 40px), var(--section));
   grid-template-columns: minmax(0, var(--index)) minmax(0, 1fr); column-gap: var(--index-gap);
@@ -314,7 +320,11 @@ h2, h3, h4 { text-wrap: balance; line-height: 1.3; }
 .section-layout--reading .section-layout__content { max-width: var(--reading); }
 .section-layout--reading .section-layout__intro { margin-bottom: 0; }
 
-/* 没有小标题的译文没有索引可放，版式退回单栏，和加索引之前一样。 */
+/* 没有小标题就没有索引可放（--indexed 由正文是否产出标题决定，与视口宽度无关），
+   此时不用三栏网格：display: block 让面包屑、标题和正文回到单栏一条流。
+   但阅读宽度仍由 --reading 与视口留白共同约束——容器宽 min(100% - 40px, --reading)，
+   所以在窄屏下正文是「视口 − 40px」而不是撑满整宽，宽屏下也不会超过 --reading。
+   这是有意的：译文在任何宽度都保持一行读得下来的长度，不随视口无限拉长。 */
 .section-layout--reading:not(.section-layout--indexed) {
   width: min(calc(100% - 40px), var(--reading)); display: block;
 }
@@ -384,12 +394,6 @@ h2, h3, h4 { text-wrap: balance; line-height: 1.3; }
 .record__link .record__title { color: var(--accent); }
 .record__title a:hover, .record__link:hover .record__title { color: var(--accent-dark); text-decoration: underline; }
 
-/* 需要分组感的列表在条目之间加一小段短线，落在条目间距的中线上。 */
-.record-list--ruled > li + li { position: relative; }
-.record-list--ruled > li + li:before {
-  content: ""; position: absolute; top: -16px; left: 0; width: 100%; height: 1px; background: var(--line-strong);
-}
-
 /* 年表在同一套条目上加一条时间轴。 */
 .record-list--timeline { position: relative; }
 .record-list--timeline:before {
@@ -401,8 +405,32 @@ h2, h3, h4 { text-wrap: balance; line-height: 1.3; }
   border: 2px solid var(--accent); border-radius: 50%; background: var(--paper);
 }
 
-.archive-year + .archive-year { margin-top: 26px; }
 .archive-year h2 { font-size: var(--text-section); margin: 0 0 24px; font-weight: 700; }
+
+/* 档案左栏的分类目录：栏目身份之后是"全部文章"与两组受控分类。
+   两端布局让篇数落在右侧；当前分类只换颜色并画文字自己的下划线，不动字重、不加背景，
+   所以条目宽度不变，篇数也不会跟着跳。 */
+.archive-facets { margin-top: 24px; }
+.archive-facets__label {
+  color: var(--muted); font-size: var(--text-meta); letter-spacing: .04em; margin: 0 0 15px;
+  font-weight: 500; line-height: 1.4;
+}
+.archive-facets__all { margin: 0 0 24px; }
+.archive-facets__all a { color: var(--ink-soft); font-size: var(--text-meta); text-decoration: none; }
+.archive-facets__all a:hover { color: var(--accent); text-decoration: underline; }
+.archive-facets__group + .archive-facets__group { margin-top: 24px; }
+.archive-facets__terms { margin: 0; }
+.archive-facets__term {
+  display: flex; align-items: baseline; justify-content: space-between; gap: 12px;
+  color: var(--ink-soft); font-size: var(--text-meta); line-height: 1.45; text-decoration: none;
+}
+.archive-facets__term:hover { color: var(--accent); }
+.archive-facets__name { min-width: 0; }
+.archive-facets__count { color: var(--muted); font-variant-numeric: tabular-nums; }
+.archive-facets__all a[aria-current=page], .archive-facets__term[aria-current=page] {
+  color: var(--accent-dark); text-decoration: underline; text-underline-offset: .18em;
+}
+.archive-facets__context { color: var(--muted); font-size: var(--text-meta); margin: -12px 0 24px; }
 .person-intro { margin: 0 0 48px; }
 
 .entrance-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 40px 44px; }
@@ -412,8 +440,26 @@ h2, h3, h4 { text-wrap: balance; line-height: 1.3; }
 .entrance-card__summary { display: block; margin-top: 11px; color: var(--muted); font-size: var(--text-body); line-height: 1.65; }
 .entrance-card:hover .entrance-card__label { color: var(--accent-dark); text-decoration: underline; }
 
+/* 左栏的结构索引：标签下面是当前页面的构成，条目本身不都是跳转，所以与页内目录分开一套。 */
+.section-layout__structured { margin: 0; padding: 0; list-style: none; }
+.section-layout__structured li {
+  color: var(--ink-soft); font-size: var(--text-meta); line-height: 1.45;
+}
+.section-layout__structured li + li { margin-top: 9px; }
+
+/* 左栏末尾的去向：跟结构索引同一套小字，与索引之间留一段可分辨的间距。
+   它是左栏里的一个网格区域，margin 直接落在自己身上就有效。 */
+.section-layout__aside { grid-area: aside; margin-top: 24px; }
+.section-layout__aside .section-note { margin: 0; }
+
 /* 作品目录按体裁分段，段之间只靠留白分开，与书籍分类用同一个间距。 */
 .works-catalog-section + .works-catalog-section { margin-top: 56px; }
+
+/* 小组页尾的公开边界说明：它是尾注，不是与“小组工作”并列的章节，
+   标题收到与说明文字同一级，只保留结构上的 h2。 */
+.group-notes { margin-top: 56px; }
+.group-notes h2 { font-size: var(--text-meta); letter-spacing: .04em; margin: 0 0 10px; font-weight: 500; }
+.group-notes .section-note { margin-top: 0; }
 
 .works-catalog-section h2 { font-size: var(--text-section); margin: 0 0 26px; font-weight: 700; }
 
@@ -422,6 +468,8 @@ h2, h3, h4 { text-wrap: balance; line-height: 1.3; }
 }
 
 .research-series + .research-series { border-top: 1px solid var(--line); margin-top: 60px; padding-top: 60px; }
+/* 栏目页不显示页内目录，但各段的 id 仍是稳定的深链接目标：跳转时让标题落在固定站点标题栏下方。
+   取值沿用与 .prose 标题一致的 --header-h + 32px。 */
 .research-series h2 { margin: 0; scroll-margin-top: calc(var(--header-h) + 32px); font-size: var(--text-section); font-weight: 700; }
 
 .research-series__lead { color: var(--muted); font-size: var(--text-body); margin: 12px 0 28px; line-height: 1.6; }
@@ -430,17 +478,24 @@ h2, h3, h4 { text-wrap: balance; line-height: 1.3; }
 
 .researcher-card { margin: 0; }
 .researcher-card h3 { font-size: var(--text-item); margin: 0; font-weight: 700; }
-.researcher-card > p { font-size: var(--text-body); margin: 9px 0 0; line-height: 1.65; }
+/* 摘要段：用 :not() 把原文拼写行排除在外，两条规则各管各的，不必再靠 !important。
+   注意两条都是 0,2,1——:not() 记入参数的特异性——所以原文拼写行靠源码顺序（在后）胜出。
+   这个特异性同时决定卡片末行 .record__links（0,1,0）的层叠结果，因此收缩为 0,1,0 会
+   把那一行链接从 16px 变回它自己的 15px，连带改变卡片高度。保持现状即维持改动前的几何。 */
+.researcher-card > p:not(.researcher-card__original) { font-size: var(--text-body); margin: 9px 0 0; line-height: 1.65; }
 
-.researcher-card__original { color: var(--muted); font-size: var(--text-secondary)!important; }
+/* 原文拼写行：字号、行距、上间距自己声明，不依赖上面那条。 */
+.researcher-card__original { color: var(--muted); font-size: var(--text-secondary); margin: 9px 0 0; line-height: 1.65; }
 
 .research-site-card { margin: 0; }
 .research-site-card h3 { font-size: var(--text-item); margin: 0; font-weight: 700; }
 .research-site-card h3 a { color: var(--accent); text-decoration: none; }
 .research-site-card h3 a:hover { color: var(--accent-dark); text-decoration: underline; }
-.research-site-card > p { font-size: var(--text-body); margin: 9px 0 0; line-height: 1.65; }
+/* 同上：把站点卡的原文题名行排除在外，两条规则同为 0,2,1。 */
+.research-site-card > p:not(.research-site-card__original) { font-size: var(--text-body); margin: 9px 0 0; line-height: 1.65; }
 
-.research-site-card__original { color: var(--muted); font-size: var(--text-secondary)!important; }
+/* 与研究者卡同理：自足声明、不依赖上一条、不用 !important。 */
+.research-site-card__original { color: var(--muted); font-size: var(--text-secondary); margin: 9px 0 0; line-height: 1.65; }
 
 .research-site-card a { color: var(--accent); text-decoration: none; }
 .research-site-card a:hover { color: var(--accent-dark); text-decoration: underline; }
@@ -533,6 +588,37 @@ h2, h3, h4 { text-wrap: balance; line-height: 1.3; }
   .book-header__body { row-gap: 46px; }
 }
 
+/* 小组期详情：左栏是位置 → 本期结构 → 出口的一列，右栏是标题与正文。
+   左栏没有栏目索引那样的内容，不值得一直占住 --rail 的宽度，所以双栏只保留到放得下整行
+   阅读宽度为止；1040px 及以下提前收成单栏，避免“半窄正文 + 固定大左栏”。
+   两个区间互不重叠，下面的单栏规则不会和上面的双栏模板相撞。
+   只作用于这一种页面，.section-layout 的默认列宽与模板不变。 */
+@media (min-width: 1041px) {
+  .section-layout--indexed.group-issue-page {
+    /* 左栏一列：位置 → 本期结构 → 出口；右栏是标题与正文。所以 toc 留在第一列
+       （grid-area 的列序由列宽决定，不能只看名字），content 在第二列。 */
+    grid-template-areas: "toc breadcrumb" "toc content" "toc intro" "toc aside";
+  }
+}
+@media (max-width: 1040px) {
+  /* 选择器要压过既有的 .section-layout--indexed（同层），否则 801–1040 会退化成
+     148px 的窄左栏 + 672px 正文，而不是单栏。 */
+  .section-layout--indexed.group-issue-page {
+    grid-template-columns: minmax(0, 1fr);
+    grid-template-areas: "breadcrumb" "intro" "toc" "aside" "content";
+    gap: 40px;
+  }
+  /* 收了单栏，面包屑、本期结构和去向就是正文上方的普通文档标题区，跟着页面滚。 */
+  .section-layout--indexed.group-issue-page .section-layout__toc { position: static; }
+}
+
+/* 正文与篇末导航共用同一条水平基准：容器宽于行宽时一起居中，窄于行宽时一起填满。 */
+.group-issue-page .document-nav { margin-right: 0; margin-left: 0; }
+
+/* 期的正文是连续阅读正文，取阅读页的衬线；只借字体语义，
+   不启用 reading-page——那还会在窄屏藏起站点标题栏和面包屑。 */
+.group-issue-page .prose { font-family: var(--serif); font-synthesis: weight; }
+
 @media (max-width: 600px) {
   :root { --header-h: 90px; --section-top: 3rem; }
   .section-layout { grid-template-columns: 1fr; gap: 40px; }
@@ -551,7 +637,8 @@ h2, h3, h4 { text-wrap: balance; line-height: 1.3; }
   .section-layout--indexed .section-layout__toc li + li, .section-layout--indexed .section-layout__content {
     margin-top: 0;
   }
-  .research-series h2 { scroll-margin-top: calc(var(--header-h) + 96px); } /* 标题栏 + 目录横条 */
+  /* 小屏标题栏更高（另起一行的导航），深链接跳转仍按栏高避让；这里不再有页内目录横条。 */
+  .research-series h2 { scroll-margin-top: calc(var(--header-h) + 32px); }
 
   /* 手机上的译文页从标题直接进正文：站点标题栏、面包屑和索引都不占地方，
      出口留在篇末的“返回文本档案”和上下篇。 */
