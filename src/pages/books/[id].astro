@@ -1,7 +1,7 @@
 ---
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import Breadcrumbs from '../../components/Breadcrumbs.astro';
-import { BOOK_CATEGORY_LABELS, getBooks, type Book } from '../../lib/books';
+import { getBooks, type Book } from '../../lib/books';
 
 export async function getStaticPaths() {
   const books = await getBooks();
@@ -43,10 +43,13 @@ const { book } = Astro.props;
         )}
 
         <div class="book-header__identity">
+          {/* 事实表只放“这本书是什么”：作者、原著初版年份、体裁、原文出处、版次、权利。
+              本站对这份记录的维护形态（category）属于发布元数据，不在这里展示。
+              体裁取 work_type，与 /books 列表页的“1997 · 专著”同一口径。 */}
           <dl class="fact-list">
             <div><dt>作者</dt><dd>{book.author}</dd></div>
-            {book.original_year && <div><dt>年份</dt><dd>{book.original_year}</dd></div>}
-            <div><dt>类型</dt><dd>{BOOK_CATEGORY_LABELS[book.category]}</dd></div>
+            {book.original_year && <div><dt>原著初版</dt><dd>{book.original_year}</dd></div>}
+            {book.work_type && <div><dt>体裁</dt><dd>{book.work_type}</dd></div>}
             {book.original_source && <div><dt>原文出处</dt><dd>{book.original_source}</dd></div>}
             <div class="book-detail__edition">
               <dt>当前版次</dt>
