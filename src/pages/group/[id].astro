@@ -1,0 +1,62 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Breadcrumbs from '../../components/Breadcrumbs.astro';
+import SectionLayout from '../../components/SectionLayout.astro';
+import { adjacentIssues, getGroupIssues, type GroupIssue } from '../../lib/group';
+
+export async function getStaticPaths() {
+  const issues = await getGroupIssues();
+  return issues.map((issue) => {
+    const { previous, next } = adjacentIssues(issues, issue);
+    const sibling = (candidate: GroupIssue | null) => (
+      candidate ? { issue: candidate.issue, route: candidate.route } : null
+    );
+    return {
+      params: { id: issue.id },
+      props: { issue, previous: sibling(previous), next: sibling(next) },
+    };
+  });
+}
+
+interface Sibling { issue: number; route: string; }
+interface Props {
+  issue: GroupIssue;
+  previous: Sibling | null;
+  next: Sibling | null;
+}
+const { issue, previous, next } = Astro.props;
+
+/* 左栏承担结构与去向，右栏承担标题与正文。左栏“本期内容”只列这一期实际存在的类型：
+   正文的一级单位目前就是这一期本身，所以这里只有 kind 一项。等一期真的包含多个成果类型时，
+   再按真实内容扩展——那时它们也应当对应右栏里真实存在的内容区块，而不是空栏目。
+   锚点落在右栏的题名上，条目因此是真链接而不是装饰。 */
+const toc = [{ href: `#issue-${issue.id}`, label: issue.kind }];
+---
+
+<BaseLayout title={issue.title} description={`第 ${issue.issue} 期：${issue.summary}`}>
+  <SectionLayout toc={toc} tocLabel="本期内容" pinned modifier="group-issue-page">
+    <Breadcrumbs slot="breadcrumb" items={[
+      { label: '小组', href: '/group' },
+      { label: `第 ${issue.issue} 期` },
+    ]} />
+
+    <p class="section-note" slot="aside"><a href="/group">返回小组工作</a></p>
+
+    <header class="page-header">
+      <p class="record__meta">第 {issue.issue} 期 · {issue.kind} · <time datetime={issue.published}>{issue.published}</time></p>
+      <h1 class="page-title" id={`issue-${issue.id}`}>{issue.title}</h1>
+    </header>
+
+    <article class="prose prose--section" set:html={issue.html} />
+
+    <nav class="document-nav" aria-label="小组工作导航">
+      <p class="document-nav__back"><a href="/group">« 返回小组工作</a></p>
+      {(previous || next) && (
+        <div class="document-nav__siblings">
+          <span class="document-nav__prev">{previous && <a href={previous.route}>« 第 {previous.issue} 期</a>}</span>
+          <span class="document-nav__next">{next && <a href={next.route}>第 {next.issue} 期 »</a>}</span>
+        </div>
+      )}
+    </nav>
+  </SectionLayout>
+</BaseLayout>

@@ -58,8 +58,39 @@ describe('translation sync boundary', () => {
     }
   });
 
-  it('keeps generated website text outside the public Git content tree', () => {
-    const source = readFileSync(path.join(process.cwd(), '.gitignore'), 'utf8');
+  it('lets only explicitly allowed fields reach the generated article', () => {
+    // 显式允许模型：private work.json 的字段默认不公开。这里同时锁住两侧——
+    // 生成输入的键集合，以及每个 private-only 字段都不在其中。
+    const allowed = new Set([
+      // 发布契约允许公开的来源字段
+      'title', 'title_zh', 'author', 'year', 'source_edition', 'source_url', 'doi',
+      // public 生成字段
+      'title_notes', 'type', 'generated_from', 'generated_rev',
+    ]);
+    const privateOnly = new Set([
+      'work_id', 'source_path', 'rights_status', 'source_text_status',
+      'orcid', 'udc', 'copyright', 'translator',
+    ]);
+
+    for (const selected of websiteWorks()) {
+      const work = JSON.parse(readFileSync(path.join(researchRoot, selected.work_json_path), 'utf8'));
+      const article = matter(readFileSync(resolveGeneratedArticlePath(selected.work_id), 'utf8'));
+      const keys = Object.keys(article.data);
+
+      expect(keys.filter((key) => !allowed.has(key)), selected.work_id).toEqual([]);
+      expect(keys.filter((key) => privateOnly.has(key)), selected.work_id).toEqual([]);
+      for (const key of privateOnly) {
+        expect(keys, `${selected.work_id} should not carry ${key}`).not.toContain(key);
+      }
+
+      // 契约允许 ≠ 一定出现：可选来源字段缺省时整行不写，不产生空值。
+      for (const optional of ['source_url', 'doi']) {
+        if (!(optional in article.data)) expect(work[optional], selected.work_id).toBeUndefined();
+      }
+    }
+  });
+
+  it('keeps generated website text outside the public Git content tree', () => {    const source = readFileSync(path.join(process.cwd(), '.gitignore'), 'utf8');
     expect(source).toContain('.website-input/');
     expect(resolveGeneratedArticlePath(generatedArticleIds()[0])).toContain('/.website-input/articles/');
   });

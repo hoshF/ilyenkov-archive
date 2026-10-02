@@ -45,6 +45,33 @@ function yamlString(value) {
   return JSON.stringify(value);
 }
 
+/**
+ * 原文作者：显式写在 work.json 的 author 数组里，不从目录名或 people/ 路径推导。
+ * 目录（translation/<contributor>/）表示的是翻译工作归属，与原文作者不是一回事。
+ */
+function authorNames(work, label) {
+  const value = work.author;
+  if (!Array.isArray(value) || value.length === 0) {
+    fail(`${label}: author must be a non-empty array`);
+  }
+  const names = value.map((name, index) => {
+    if (typeof name !== 'string' || !name.trim()) fail(`${label}: author[${index}] must be a string`);
+    if (/\r|\n/.test(name)) fail(`${label}: author[${index}] must be one line`);
+    return name.trim();
+  });
+  if (new Set(names).size !== names.length) fail(`${label}: author must not repeat a name`);
+  return names;
+}
+
+/** 原文文献的发表年份，四位数字；不是译文年份，也不是同步或发布日期。 */
+function publicationYear(work, label) {
+  const value = work.year;
+  if (typeof value !== 'string' || !/^\d{4}$/.test(value.trim())) {
+    fail(`${label}: year must be a four-digit publication year`);
+  }
+  return value.trim();
+}
+
 function localImageNames(body, textRelative) {
   const tree = unified().use(remarkParse).parse(body);
   const names = new Set();
@@ -81,6 +108,9 @@ function renderArticle(work, body, textRelative, revision, titleNotes) {
     '---',
     `title: ${yamlString(work.title)}`,
     `title_zh: ${yamlString(work.title_zh)}`,
+    'author:',
+    ...work.author.map((name) => `  - ${yamlString(name)}`),
+    `year: ${yamlString(work.year)}`,
     `source_edition: ${yamlString(work.source_edition)}`,
   ];
   if (titleNotes.length) lines.push(`title_notes: ${JSON.stringify(titleNotes)}`);
@@ -126,6 +156,8 @@ function plannedArticles() {
     const metadata = {
       title: requiredString(work, 'title', workJsonRelative),
       title_zh: requiredString(work, 'title_zh', workJsonRelative),
+      author: authorNames(work, workJsonRelative),
+      year: publicationYear(work, workJsonRelative),
       source_edition: requiredString(work, 'source_edition', workJsonRelative),
       source_url: optionalString(work, 'source_url', workJsonRelative),
       doi: optionalString(work, 'doi', workJsonRelative),
