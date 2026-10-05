@@ -817,7 +817,11 @@ describe('public navigation', () => {
     // 完整内容仍进入已有栏目；原文年份不被表述成译文上线日期。
     expect(section).toContain('href="/archive"');
     expect(section).toContain('href="/group"');
-    expect(section).toContain('按内容记录的日期排列；译文标注原文年份。');
+    const note = section.match(/<p class="home-content__note">([^<]*)<\/p>/)![1];
+    expect(note).toContain('有本站公开日期的内容优先，按日期倒序');
+    expect(note).toContain('译文未记录本站公开日期');
+    expect(note).toContain('随后沿用档案顺序');
+    expect(note).toContain('所列年份为原文年份');
     for (const phrase of ['最近的文章', '最新文章', '最近更新', '最近发表']) {
       expect(section, phrase).not.toContain(phrase);
     }

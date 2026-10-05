@@ -103,6 +103,14 @@ describe('public updates', () => {
     expect(homeItems).toHaveLength(Math.min(HOME_UPDATES_LIMIT, updates.length));
     expect(homeItems).toEqual(completeItems.slice(0, HOME_UPDATES_LIMIT));
     updates.forEach((update, index) => expectItem(completeItems[index], update));
+    // 首页动态可链接相关内容，但不应带读者回到正在阅读的首页。
+    for (const item of homeItems) {
+      const hrefs = [...item.matchAll(/href="([^"]+)"/g)].map(([, href]) => href);
+      for (const href of hrefs) {
+        if (!href.startsWith('/')) continue;
+        expect(new URL(href, 'https://example.org').pathname, href).not.toBe('/');
+      }
+    }
 
     expect(complete).toContain('<h1 class="page-title">近期动态</h1>');
     expect(home).toContain('href="/updates/">查看全部动态</a>');
