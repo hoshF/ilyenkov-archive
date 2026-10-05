@@ -1,0 +1,21 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import SectionLayout from '../../components/SectionLayout.astro';
+import UpdatesList from '../../components/UpdatesList.astro';
+import { getUpdates } from '../../lib/updates';
+
+const updates = getUpdates();
+---
+
+<BaseLayout title="近期动态" description="网站、小组、翻译、资料整理与研究工作的公开变化记录。">
+  <SectionLayout pinned>
+    <header class="page-header" slot="intro">
+      <h1 class="page-title">近期动态</h1>
+      <p class="lead">记录网站、小组、翻译、资料整理与研究工作的公开变化。</p>
+    </header>
+
+    {updates.length > 0
+      ? <UpdatesList updates={updates} />
+      : <p class="section-note">暂无动态。</p>}
+  </SectionLayout>
+</BaseLayout>

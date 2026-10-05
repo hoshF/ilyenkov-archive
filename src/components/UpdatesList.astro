@@ -1,0 +1,23 @@
+---
+import type { Update } from '../lib/updates';
+
+interface Props {
+  updates: Update[];
+}
+
+const { updates } = Astro.props;
+---
+
+<ol class="updates-list">
+  {updates.map((update) => (
+    <li class="updates-list__item">
+      <time class="updates-list__date" datetime={update.date}>{update.date}</time>
+      <div class="updates-list__body">
+        <p class="updates-list__text">{update.summary}</p>
+        {update.link && (
+          <p class="updates-list__link"><a href={update.link}>{update.link_label ?? '查看相关内容'}</a></p>
+        )}
+      </div>
+    </li>
+  ))}
+</ol>

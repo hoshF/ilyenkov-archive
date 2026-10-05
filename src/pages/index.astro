@@ -2,19 +2,14 @@
 import BaseLayout from '../layouts/BaseLayout.astro';
 import { site } from '../lib/editorial';
 import { getSiteData } from '../lib/site-data';
-import { getGroupIssues } from '../lib/group';
-import { getBooks } from '../lib/books';
+import UpdatesList from '../components/UpdatesList.astro';
+import { getLatestContent, HOME_CONTENT_LIMIT } from '../lib/latest-content';
+import { getUpdates, HOME_UPDATES_LIMIT } from '../lib/updates';
 
-/**
- * 首页是一个目录页，不是宣传页：它按「这是什么 → 怎么进入资料 → 现在有什么文献 →
- * 还有什么实际工作 → 项目是什么性质」的顺序展开，全部数据都来自各 section 自己的 loader。
- *
- * 一级栏目（伊里因科夫 / 档案 / 研究 / 小组 / 书籍）由页眉承担；首页只提供二级与内容级入口，
- * 因此这里不遍历 site.navigation。
- */
-const { articles, facets } = await getSiteData();
-// 抽样沿用文章集合的规范顺序（原文发表年份由新到旧）；首页不重新排序。
-const recent = articles.slice(0, 3);
+// 栏目数据与动态各自保持单一来源：首页只组织入口和截取少量记录。
+const [{ facets }, content] = await Promise.all([getSiteData(), getLatestContent()]);
+const latest = content.slice(0, HOME_CONTENT_LIMIT);
+const updates = getUpdates().slice(0, HOME_UPDATES_LIMIT);
 
 const ilyenkovEntrances = [
   { href: '/ilyenkov/life', label: '生平' },
@@ -22,9 +17,6 @@ const ilyenkovEntrances = [
   { href: '/ilyenkov/works', label: '作品目录' },
   { href: '/ilyenkov/circle', label: '交往与活动' },
 ];
-
-const [latestIssue] = await getGroupIssues();
-const books = await getBooks();
 ---
 
 <BaseLayout title={site.name}>
@@ -34,9 +26,8 @@ const books = await getBooks();
   </header>
 
   <div class="home-page">
-    {/* 浏览：直接提供深入档案内部的入口。这里不解释栏目是什么，只说可以怎么进去。 */}
     <section class="home-browse" aria-labelledby="browse-heading">
-      <h2 id="browse-heading">浏览</h2>
+      <h2 id="browse-heading">从哪里开始</h2>
 
       <div class="home-browse__group">
         <p class="home-browse__label">文本档案</p>
@@ -56,60 +47,44 @@ const books = await getBooks();
           {ilyenkovEntrances.map((entrance, index) => <>{index > 0 && <span class="home-browse__sep">·</span>}<a href={entrance.href}>{entrance.label}</a></>)}
         </p>
       </div>
-    </section>
-
-    {/* 研究文献：仍然按原文发表年份抽取三篇，用出版物的行式语言而不是卡片。 */}
-    <section class="home-literature" aria-labelledby="literature-heading">
-      <h2 id="literature-heading">研究文献</h2>
-      <p class="home-literature__note">按原文发表年份排列</p>
-      <ol class="home-literature__list">
-        {recent.map((article) => (
-          <li class="home-literature__item">
-            <p class="home-literature__year">{article.year}</p>
-            <div class="home-literature__body">
-              <p class="record__meta">{article.authorLabel}</p>
-              <p class="record__title"><a href={article.route}>{article.title}</a></p>
-            </div>
-          </li>
-        ))}
-      </ol>
-      {articles.length > recent.length && (
-        <p class="home-more"><a href="/archive">查看全部 {articles.length} 篇</a></p>
-      )}
-    </section>
-
-    {/* 实际工作：让读者知道这里不只有译文。只展示已经公开存在的记录。 */}
-    <section class="home-work" aria-labelledby="work-heading">
-      <h2 id="work-heading">工作与成书</h2>
-
-      {latestIssue && (
-        <div class="home-browse__group">
-          <p class="home-browse__label">小组工作</p>
-          <p class="home-work__line">
-            第 {latestIssue.issue} 期 · <time datetime={latestIssue.published}>{latestIssue.published}</time>
-          </p>
-          <p class="record__title"><a href={latestIssue.route}>{latestIssue.title}</a></p>
-          <p class="home-more"><a href="/group">查看小组工作</a></p>
-        </div>
-      )}
 
       <div class="home-browse__group">
-        <p class="home-browse__label">书籍</p>
-        <ul class="home-work__books" role="list">
-          {books.map((book) => (
-            <li>
-              <a href={book.route}>{book.title}</a>
-              {book.original_year && <span class="home-work__year">{book.original_year}</span>}
-            </li>
-          ))}
-        </ul>
-        <p class="home-more"><a href="/books">查看书籍记录</a></p>
+        <p class="home-browse__label">研究与工作</p>
+        <p class="home-browse__terms">
+          <a href="/research">研究网络与会议</a><span class="home-browse__sep">·</span>
+          <a href="/group">小组工作记录</a><span class="home-browse__sep">·</span>
+          <a href="/books">成书与版次</a>
+        </p>
       </div>
     </section>
 
-    <section class="home-about" aria-labelledby="about-heading">
-      <h2 id="about-heading">关于本项目</h2>
-      <p>本站围绕伊里因科夫的文本、相关研究资料与小组工作，持续整理可以公开阅读的中文材料，并记录原文来源、版本，以及翻译、整理与研究工作的进展。</p>
+    <section class="home-content" aria-labelledby="content-heading">
+      <h2 id="content-heading">最新内容</h2>
+      <p class="home-content__note">按内容记录的日期排列；译文标注原文年份。</p>
+      {latest.length > 0 ? (
+        <ol class="home-content__list">
+          {latest.map((entry) => (
+            <li>
+              <p class="record__meta">
+                {entry.type}{entry.author && <> · {entry.author}</>}
+                {entry.date && <> · {entry.dateLabel} {entry.date.length === 4
+                  ? entry.date
+                  : <time datetime={entry.date}>{entry.date}</time>}</>}
+              </p>
+              <p class="record__title"><a href={entry.href}>{entry.title}</a></p>
+            </li>
+          ))}
+        </ol>
+      ) : <p class="section-note">公开内容正在整理中。</p>}
+      <p class="home-more"><a href="/archive">浏览文本档案</a> · <a href="/group">查看小组工作</a></p>
+    </section>
+
+    <section class="home-updates" aria-labelledby="updates-heading">
+      <h2 id="updates-heading">近期动态</h2>
+      {updates.length > 0
+        ? <UpdatesList updates={updates} />
+        : <p class="section-note">暂无公开动态。</p>}
+      <p class="home-more"><a href="/updates/">查看全部动态</a></p>
     </section>
   </div>
 </BaseLayout>

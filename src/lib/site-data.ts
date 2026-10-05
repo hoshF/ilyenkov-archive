@@ -87,7 +87,8 @@ export function authorLabel(author: string[]): string {
 /**
  * 全站唯一的一篇文章顺序：原文发表年份由新到旧，同年按中文题名、再按 id，
  * 因此构建结果是确定的，不依赖文件系统的读取顺序。
- * 归档列表、首页“研究文献”与译文页的上下篇都读这一份顺序。
+ * 归档列表与译文页的上下篇都读这一份顺序；首页“最新内容”混合其他公开成果，
+ * 但保留译文之间的这一相对顺序，不把原文年份解释为网站发布日。
  */
 function byPublicationYearDescending(
   left: ReadableDocument,

@@ -1,4 +1,4 @@
-import { readFileSync, readdirSync } from 'node:fs';
+import { existsSync, readFileSync, readdirSync } from 'node:fs';
 import path from 'node:path';
 import matter from 'gray-matter';
 import { describe, expect, it } from 'vitest';
@@ -6,6 +6,7 @@ import { generatedArticleIds, resolveGeneratedArticlePath } from '../src/lib/art
 import { getBooks } from '../src/lib/books';
 import { site } from '../src/lib/editorial';
 import { adjacentIssues, getGroupIssues, GroupIssueSchema } from '../src/lib/group';
+import { getLatestContent, HOME_CONTENT_LIMIT } from '../src/lib/latest-content';
 import { getSiteData } from '../src/lib/site-data';
 import { componentSource, layoutSource, pageFileExists, pageSource, routeExists } from './helpers/pages';
 import { researchRoot, websiteWorks } from './helpers/publication';
@@ -703,15 +704,11 @@ describe('public navigation', () => {
     expect(layout).toContain('site.footer.map');
   });
 
-  it('lays the homepage out as a single vertical index, not a two-column landing page', () => {
+  it('orders the homepage around orientation, content and public updates', () => {
     const homepage = readFileSync(path.join(process.cwd(), 'dist', 'index.html'), 'utf8');
     const main = homepage.match(/<main>([\s\S]*?)<\/main>/)![1];
-    const source = pageSource('index.astro');
-
-    // 双栏模板整套消失：没有 home-shell，也没有为左右栏服务的 section。
-    for (const gone of ['home-shell', 'home-intro', 'home-recent', 'home-archive-link']) {
+    for (const gone of ['home-shell', 'home-intro', 'home-recent', 'home-archive-link', 'home-work', 'home-about']) {
       expect(main, `首页不应再有 ${gone}`).not.toContain(gone);
-      expect(source, `首页源码不应再有 ${gone}`).not.toContain(gone);
     }
     expect(declarationsFor('.home-page')['grid-template-columns']).toBeUndefined();
 
@@ -721,37 +718,29 @@ describe('public navigation', () => {
     const masthead = main.match(/<header class="home-masthead">([\s\S]*?)<\/header>/)![1];
     expect(masthead.match(/<p\b/g)).toHaveLength(1);
 
-    // section 顺序就是阅读顺序：浏览 → 研究文献 → 工作与成书 → 关于本项目。
+    // 单一阅读顺序保留首屏定位，并将内容与工作变化分别表达。
     const order = [...main.matchAll(/<section class="([a-z-]+)"/g)].map(([, name]) => name);
-    expect(order).toEqual(['home-browse', 'home-literature', 'home-work', 'home-about']);
+    expect(order).toEqual(['home-browse', 'home-content', 'home-updates']);
+    expect(main.indexOf('home-masthead')).toBeLessThan(main.indexOf('home-browse'));
 
     // 每个 section 都有反映内容的标题，且没有 id 重复。
     expect([...main.matchAll(/<h2 id="([^"]+)"/g)].map(([, id]) => id))
-      .toEqual(['browse-heading', 'literature-heading', 'work-heading', 'about-heading']);
+      .toEqual(['browse-heading', 'content-heading', 'updates-heading']);
+    expect([...main.matchAll(/<h2\b[^>]*>([^<]*)<\/h2>/g)].map(([, title]) => title))
+      .toEqual(['从哪里开始', '最新内容', '近期动态']);
 
-    // 项目说明放在内容之后，不再是开头最大的区域。
-    expect(main.indexOf('home-about')).toBeGreaterThan(main.indexOf('home-literature'));
+    // 内容组织保持原生文本结构，不为首页增加交互或卡片系统。
+    expect(main).not.toMatch(/<script\b|<input\b|<astro-island\b/);
+    expect(main).not.toMatch(/class="[^"]*\bcard\b/);
   });
 
-  it('browses the archive and Ilyenkov at content level instead of repeating the header', async () => {
+  it('provides taxonomy, Ilyenkov and contextual work entrances', async () => {
     const { facets } = await getSiteData();
     const homepage = readFileSync(path.join(process.cwd(), 'dist', 'index.html'), 'utf8');
     const main = homepage.match(/<main>([\s\S]*?)<\/main>/)![1];
     const browse = main.match(/<section class="home-browse"[\s\S]*?<\/section>/)![0];
 
-    // 一级栏目仍只由页眉负责：首页不遍历 navigation，也不把五个栏目名当入口列出来。
-    const source = pageSource('index.astro');
-    const code = source.slice(source.indexOf('---', 3) + 3);
-    expect(code, '首页不应遍历 navigation').not.toContain('site.navigation');
-    expect(code, '首页不应引用 navigation').not.toMatch(/navigation/);
-    expect(layoutSource('BaseLayout')).toContain('site.navigation');
-
-    // 浏览区不复述 Header 的一级导航：那五个目的地不在这里当入口列出。
-    // 「伊里因科夫」可以作为分组标签出现，但它带的是四个二级入口，不是一级 landing。
-    for (const item of site.navigation) {
-      if (item.href === '/archive') continue;
-      expect(browse, `浏览区不应复述一级导航 ${item.href}`).not.toContain(`href="${item.href}"`);
-    }
+    // 伊里因科夫带的是四个二级入口；其他栏目入口按读者任务表达。
     expect(browse, '不应再指回一级 landing').not.toContain('href="/ilyenkov"');
     expect(browse.match(/href="\/archive"/g), '「全部文章」是唯一直接指向 /archive 的入口').toHaveLength(1);
 
@@ -766,69 +755,72 @@ describe('public navigation', () => {
     for (const href of ['/ilyenkov/life', '/ilyenkov/timeline', '/ilyenkov/works', '/ilyenkov/circle']) {
       expect(browse, `浏览区缺少二级入口 ${href}`).toContain(`href="${href}"`);
     }
+    for (const [href, label] of [
+      ['/research', '研究网络与会议'],
+      ['/group', '小组工作记录'],
+      ['/books', '成书与版次'],
+    ]) {
+      expect(browse).toContain(`<a href="${href}">${label}</a>`);
+      expect(routeExists(href), `浏览入口缺少对应页面 ${href}`).toBe(true);
+    }
 
     // 没有新增搜索：内容量还不需要，taxonomy 足够浏览。
     expect(main).not.toContain('<input');
     expect(main).not.toMatch(/type="search"|Pagefind|lunr|algolia|fuse\.js/i);
   });
 
-  it('shows real group and book records on the homepage instead of describing the sections', () => {
+  it('keeps the five primary navigation destinations while adding updates contextually', () => {
     const homepage = readFileSync(path.join(process.cwd(), 'dist', 'index.html'), 'utf8');
-    const main = homepage.match(/<main>([\s\S]*?)<\/main>/)![1];
-    const work = main.match(/<section class="home-work"[\s\S]*?<\/section>/)![0];
-
-    // 小组展示已经公开的那一期，内容来自 group loader。
-    expect(work).toContain('小组工作');
-    expect(work).toContain('我们为什么要成立');
-    expect(work).toContain('href="/group/0"');
-
-    // 书籍列出真实书名，不是「书籍栏目是什么」。
-    expect(work).toContain('青年伊里因科夫：档案研究');
-    expect(work).toContain('href="/books"');
-
-    // 入口存在即可，不解释栏目职责。
-    expect(work).not.toContain('小组的公共工作记录');
-    expect(work).not.toContain('小组整理维护的成书项目');
-  });
-
-  it('removes the homepage directory contract it replaced', () => {
-    // 旧契约按 href 对齐「首页目录」与 navigation；首页不再有这份目录，
-    // 因此相关的数据与校验也应一并消失，避免留下没有消费者的死数据。
-    const source = pageSource('index.astro');
-    for (const gone of ['sectionDescriptions', 'primarySections', 'home-section-']) {
-      expect(source, `首页不应再保留 ${gone}`).not.toContain(gone);
-    }
-    // 但 navigation 本身仍是页眉的数据源，不能被删。
+    const nav = homepage.match(/<nav class="site-header__nav"[\s\S]*?<\/nav>/)![0];
     expect(site.navigation.map(({ href }) => href))
       .toEqual(['/ilyenkov', '/archive', '/research', '/group', '/books']);
+    expect([...nav.matchAll(/href="([^"]+)"/g)].map(([, href]) => href))
+      .toEqual(site.navigation.map(({ href }) => href));
+    expect(nav).not.toContain('href="/updates/"');
+    const updates = homepage.match(/<section class="home-updates"[\s\S]*?<\/section>/)![0];
+    expect(updates).toContain('<a href="/updates/">查看全部动态</a>');
   });
 
-  it('samples the archive without inventing a publishing timeline', async () => {
-    const { articles } = await getSiteData();
+  it('samples existing public content with its original metadata and date precision', async () => {
+    const sampled = (await getLatestContent()).slice(0, HOME_CONTENT_LIMIT);
     const homepage = readFileSync(path.join(process.cwd(), 'dist', 'index.html'), 'utf8');
     const main = homepage.match(/<main>([\s\S]*?)<\/main>/)![1];
-    const list = main.match(/<ol class="home-literature__list"[\s\S]*?<\/ol>/)![0];
+    const section = main.match(/<section class="home-content"[\s\S]*?<\/section>/)![0];
+    const list = section.match(/<ol class="home-content__list"[\s\S]*?<\/ol>/)![0];
+    const items = [...list.matchAll(/<li\b[^>]*>([\s\S]*?)<\/li>/g)].map(([, item]) => item);
+    const escapeText = (value: string) => value.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
 
-    // 抽样条数与规范顺序的前三条一致：首页不重新排序。
-    expect(articles.length).toBeGreaterThan(3);
-    const sampled = articles.slice(0, 3);
-    for (const article of sampled) {
-      expect(list).toContain(`href="${article.route}"`);
-    }
-    expect([...list.matchAll(/<li class="home-literature__item">/g)]).toHaveLength(3);
+    expect(items).toHaveLength(sampled.length);
+    expect(items.length).toBeLessThanOrEqual(HOME_CONTENT_LIMIT);
+    sampled.forEach((entry, index) => {
+      const item = items[index];
+      expect(item).toContain(`<a href="${entry.href}">${escapeText(entry.title)}</a>`);
+      expect(existsSync(path.join(process.cwd(), 'dist', entry.href.replace(/^\//, ''), 'index.html')),
+        `最新内容没有对应页面 ${entry.href}`).toBe(true);
+      const meta = item.match(/<p class="record__meta">([\s\S]*?)<\/p>/)![1]
+        .replace(/<[^>]*>/g, '').replace(/\s+/g, ' ').trim();
+      const expectedMeta = [entry.type, entry.author, entry.date && `${entry.dateLabel} ${entry.date}`]
+        .filter(Boolean).join(' · ');
+      expect(meta).toBe(escapeText(expectedMeta));
+      if (entry.date) {
+        if (entry.date.length === 4) {
+          // 单独年份不是 HTML time 支持的完整日期，不补造月日。
+          expect(item).not.toContain('<time');
+          expect(meta).toContain(`原文年份 ${entry.date}`);
+        } else {
+          expect(item).toContain(`<time datetime="${entry.date}">${entry.date}</time>`);
+        }
+        expect(entry.date).toMatch(entry.dateLabel === '原文年份' ? /^\d{4}$/ : /^\d{4}-\d{2}-\d{2}$/);
+      }
+    });
 
-    // 每条显示与 /archive/ 相同的身份：原文发表年份与作者。
-    // 全宽之后年份另起一栏，但两段文字仍然来自同一个文档记录。
-    for (const article of sampled) {
-      expect(list).toContain(`<p class="home-literature__year">${article.year}</p>`);
-      expect(list).toContain(`<p class="record__meta">${article.authorLabel}</p>`);
-    }
-
-    // 抽样是"原文发表年份由新到旧"，不是网站发布动态：不得出现更新时间语义。
+    // 完整内容仍进入已有栏目；原文年份不被表述成译文上线日期。
+    expect(section).toContain('href="/archive"');
+    expect(section).toContain('href="/group"');
+    expect(section).toContain('按内容记录的日期排列；译文标注原文年份。');
     for (const phrase of ['最近的文章', '最新文章', '最近更新', '最近发表']) {
-      expect(main, phrase).not.toContain(phrase);
+      expect(section, phrase).not.toContain(phrase);
     }
-    expect(main).toContain('按原文发表年份排列');
   });
 
   it('keeps the group page self-contained and the homepage free of site-scope copy', () => {
