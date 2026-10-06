@@ -1,0 +1,94 @@
+---
+import BaseLayout from '../../../layouts/BaseLayout.astro';
+import Breadcrumbs from '../../../components/Breadcrumbs.astro';
+import SectionLayout from '../../../components/SectionLayout.astro';
+import {
+  formatHistoricalPeriod,
+  getPublicReadings,
+  getPublicReadingsSeries,
+  type PublicReadingsSeries,
+} from '../../../lib/research-records';
+
+const seriesRecords = getPublicReadingsSeries();
+if (seriesRecords.length !== 1) throw new Error('Expected exactly one public Readings series');
+const series = seriesRecords[0];
+const readings = getPublicReadings();
+const earliest = readings.find((record) => record.id === series.history.earliestArchivedEventId);
+const firstInternational = readings.find((record) => record.id === series.history.firstInternationalEventId);
+if (!earliest || !firstInternational) throw new Error('Readings history events are missing');
+const earliestYear = earliest.period.start.slice(0, 4);
+const firstInternationalYear = firstInternational.period.start.slice(0, 4);
+
+const typeLabels: Record<PublicReadingsSeries['type'], string> = {
+  academic_conference_series: '学术会议系列',
+};
+const resourceLabels: Record<PublicReadingsSeries['resources'][number]['kind'], string> = {
+  archive: 'Readings 资料档案',
+  society: '“辩证法与文化”学会',
+  historical_archive: '历史会议目录',
+};
+const sourceLabel = (source: { creator: string | null; title: string }) => (
+  source.creator ? `${source.creator}：《${source.title}》` : source.title
+);
+---
+
+<BaseLayout title={series.title} description={series.summary}>
+  <SectionLayout>
+    <Breadcrumbs slot="breadcrumb" items={[
+      { label: '世界研究', href: '/research' },
+      { label: series.title },
+    ]} />
+    <header class="page-header" slot="intro">
+      <h1 class="page-title">{series.title}</h1>
+      <p class="record__original">{series.name}</p>
+    </header>
+
+    <section class="research-series" aria-labelledby="readings-intro-heading">
+      <h2 id="readings-intro-heading">简介</h2>
+      <p class="record__label">{typeLabels[series.type]}</p>
+      <div class="prose prose--section">
+        <p>{series.summary}</p>
+      </div>
+    </section>
+
+    <section class="research-series" aria-labelledby="readings-history-heading">
+      <h2 id="readings-history-heading">历史线索</h2>
+      <div class="prose prose--section">
+        <p>目前公开档案中最早保存直接会程的会议可追溯到 {earliestYear} 年。</p>
+      </div>
+      <p class="record__meta">{earliest.title} · {formatHistoricalPeriod(earliest.period)} · {earliest.location ?? earliest.format}</p>
+      <p class="record__sources">来源：{earliest.sources.map((source, index) => <><a href={source.url}>{sourceLabel(source)}</a>{index < earliest.sources.length - 1 && '；'}</>)}</p>
+      <div class="prose prose--section">
+        <p>{firstInternationalYear} 年举行{firstInternational.title}，并由此开始国际会议编号。</p>
+      </div>
+      <p class="record__meta">{firstInternational.edition} · {formatHistoricalPeriod(firstInternational.period)} · {firstInternational.location ?? firstInternational.format}</p>
+      <p class="record__sources">来源：{firstInternational.sources.map((source, index) => <><a href={source.url}>{sourceLabel(source)}</a>{index < firstInternational.sources.length - 1 && '；'}</>)}</p>
+    </section>
+
+    <section class="research-series" aria-labelledby="readings-resources-heading">
+      <h2 id="readings-resources-heading">资料与入口</h2>
+      <div class="prose prose--section">
+        <ul>
+          {series.resources.map((resource) => <li><a href={resource.url}>{resourceLabels[resource.kind]}</a></li>)}
+        </ul>
+      </div>
+    </section>
+
+    <section class="research-series" aria-labelledby="readings-events-heading">
+      <h2 id="readings-events-heading">已公开会议记录</h2>
+      <p class="research-series__lead">本站目前公开其中部分已整理会议记录。以下日期对应各条公开记录，不构成完整会议年表或各届完整会期。</p>
+      <ol class="record-list">
+        {readings.map((record) => (
+          <li id={record.id}>
+            <article>
+              <p class="record__meta">{formatHistoricalPeriod(record.period)} · {record.location ?? record.format}</p>
+              <p class="record__label">{record.edition}</p>
+              <h3 class="record__title">{record.title}</h3>
+              <p class="record__sources">来源：{record.sources.map((source, index) => <><a href={source.url}>{sourceLabel(source)}</a>{index < record.sources.length - 1 && '；'}</>)}</p>
+            </article>
+          </li>
+        ))}
+      </ol>
+    </section>
+  </SectionLayout>
+</BaseLayout>

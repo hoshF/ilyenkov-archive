@@ -5,7 +5,7 @@ import {
   formatHistoricalPeriod,
   getPublicIfiNetwork,
   getPublicIfiSymposiums,
-  getPublicReadings,
+  getPublicReadingsSeries,
   getPublicResearchers,
   getPublicResearchSites,
   type PublicIfiNetwork,
@@ -159,7 +159,7 @@ describe('IFI public detail and research entry', () => {
     expect(sections(main)).toHaveLength(4);
   });
 
-  it('retains the researchers, research sites and readings data on the research page', () => {
+  it('retains the researchers and research sites while providing a Readings series entry', () => {
     const main = mainContent(builtPage('/research/'));
     const researchers = sectionFor(main, '研究者');
     for (const researcher of getPublicResearchers()) {
@@ -183,14 +183,12 @@ describe('IFI public detail and research entry', () => {
         expect(links(sites)).toContainEqual({ href: section.url, label: section.label });
       }
     }
-    const readings = sectionFor(main, '伊里因科夫讨论会');
-    for (const reading of getPublicReadings()) {
-      expect(textContent(readings)).toContain(reading.title);
-      expect(textContent(readings)).toContain(reading.edition);
-      expect(textContent(readings)).toContain(formatHistoricalPeriod(reading.period));
-      expect(textContent(readings)).toContain(reading.location ?? reading.format!);
-      for (const source of reading.sources) expect(links(readings).map((link) => link.href)).toContain(source.url);
-    }
+    const series = getPublicReadingsSeries()[0];
+    const readings = sectionFor(main, series.title);
+    expect(textContent(readings)).toContain(series.name);
+    expect(textContent(readings)).toContain(series.summary);
+    expect(links(readings)).toEqual([{ href: '/research/readings/', label: '了解学术报告会 →' }]);
+    expect(readings).not.toMatch(/<ol\b|<ul\b|<li\b|<article\b|<h3\b/);
   });
 
   it('keeps both pages static and preserves the five primary navigation entries', () => {

@@ -2,15 +2,23 @@
 import BaseLayout from '../layouts/BaseLayout.astro';
 import SectionLayout from '../components/SectionLayout.astro';
 import {
-  formatHistoricalPeriod,
   getPublicIfiNetwork,
   getPublicIfiSymposiums,
   getPublicReadings,
+  getPublicReadingsSeries,
   getPublicResearchers,
   getPublicResearchSites,
 } from '../lib/research-records';
 
 const readings = getPublicReadings();
+const readingsSeriesRecords = getPublicReadingsSeries();
+if (readingsSeriesRecords.length !== 1) throw new Error('Expected exactly one public Readings series');
+const readingsSeries = readingsSeriesRecords[0];
+const earliestReading = readings.find((record) => record.id === readingsSeries.history.earliestArchivedEventId);
+const firstInternationalReading = readings.find((record) => record.id === readingsSeries.history.firstInternationalEventId);
+if (!earliestReading || !firstInternationalReading) throw new Error('Readings history events are missing');
+const earliestYear = earliestReading.period.start.slice(0, 4);
+const firstInternationalYear = firstInternationalReading.period.start.slice(0, 4);
 const ifiNetwork = getPublicIfiNetwork();
 const ifiSymposiums = getPublicIfiSymposiums();
 const formationSymposium = ifiSymposiums.find((symposium) => (
@@ -20,9 +28,6 @@ if (!formationSymposium) throw new Error('IFI formation symposium is missing');
 const formationYear = formationSymposium.period.start.slice(0, 4);
 const researchers = getPublicResearchers();
 const researchSites = getPublicResearchSites();
-const sourceLabel = (source: { creator: string | null; title: string }) => (
-  source.creator ? `${source.creator}：《${source.title}》` : source.title
-);
 ---
 
 <BaseLayout title="世界研究" description="连接国际伊里因科夫研究、会议、组织和中文介绍。">
@@ -77,20 +82,11 @@ const sourceLabel = (source: { creator: string | null; title: string }) => (
     </section>
 
     <section class="research-series" aria-labelledby="readings-heading">
-        <h2 id="readings-heading">伊里因科夫讨论会</h2>
-        <p class="research-series__lead">从 1991 年的首次会议到后续国际届次，这一系列构成伊里因科夫研究延续的重要场域。以下为资料定位较完整的代表节点，并非完整会议年表。</p>
-        <ol class="record-list">
-          {readings.map((record) => (
-            <li>
-              <article>
-                <p class="record__meta">{formatHistoricalPeriod(record.period)} · {record.location ?? record.format}</p>
-                <p class="record__label">{record.edition}</p>
-                <h3 class="record__title">{record.title}</h3>
-                <p class="record__sources">来源：{record.sources.map((source, index) => <><a href={source.url}>{sourceLabel(source)}</a>{index < record.sources.length - 1 && '；'}</>)}</p>
-              </article>
-            </li>
-          ))}
-        </ol>
+        <h2 id="readings-heading">{readingsSeries.title}</h2>
+        <p class="record__original">{readingsSeries.name}</p>
+        <p class="research-series__lead">{readingsSeries.summary}</p>
+        <p class="research-series__lead">目前公开档案中最早保存直接会程的会议可追溯到 {earliestYear} 年；{firstInternationalYear} 年起进入国际会议编号。</p>
+        <p class="record__links"><a href="/research/readings/">了解学术报告会 →</a></p>
     </section>
   </SectionLayout>
 </BaseLayout>
