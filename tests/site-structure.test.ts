@@ -191,6 +191,7 @@ describe('website-approved data adapter', () => {
       'group/index.astro',
       'books/index.astro',
       'books/[id].astro',
+      'contact/index.astro',
       'about.astro',
     ]) {
       expect(pageFileExists(route), `${route} should exist`).toBe(true);
@@ -704,7 +705,7 @@ describe('public navigation', () => {
     expect(layout).toContain('site.footer.map');
   });
 
-  it('orders the homepage around orientation, content and public updates', () => {
+  it('orders the homepage around orientation, content, public updates and continued interest', () => {
     const homepage = readFileSync(path.join(process.cwd(), 'dist', 'index.html'), 'utf8');
     const main = homepage.match(/<main>([\s\S]*?)<\/main>/)![1];
     for (const gone of ['home-shell', 'home-intro', 'home-recent', 'home-archive-link', 'home-work', 'home-about']) {
@@ -720,14 +721,14 @@ describe('public navigation', () => {
 
     // 单一阅读顺序保留首屏定位，并将内容与工作变化分别表达。
     const order = [...main.matchAll(/<section class="([a-z-]+)"/g)].map(([, name]) => name);
-    expect(order).toEqual(['home-browse', 'home-content', 'home-updates']);
+    expect(order).toEqual(['home-browse', 'home-content', 'home-updates', 'home-follow']);
     expect(main.indexOf('home-masthead')).toBeLessThan(main.indexOf('home-browse'));
 
     // 每个 section 都有反映内容的标题，且没有 id 重复。
     expect([...main.matchAll(/<h2 id="([^"]+)"/g)].map(([, id]) => id))
-      .toEqual(['browse-heading', 'content-heading', 'updates-heading']);
+      .toEqual(['browse-heading', 'content-heading', 'updates-heading', 'follow-heading']);
     expect([...main.matchAll(/<h2\b[^>]*>([^<]*)<\/h2>/g)].map(([, title]) => title))
-      .toEqual(['从哪里开始', '最新内容', '近期动态']);
+      .toEqual(['从哪里开始', '最新内容', '近期动态', '持续关注']);
 
     // 内容组织保持原生文本结构，不为首页增加交互或卡片系统。
     expect(main).not.toMatch(/<script\b|<input\b|<astro-island\b/);

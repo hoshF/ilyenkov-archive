@@ -1,6 +1,9 @@
 {
   "name": "中文伊里因科夫",
   "description": "面向中文世界介绍埃瓦尔德·伊里因科夫的思想、著作与国际研究，并汇集中文伊里因科夫小组已经获准公开的译文、书籍记录和研究资料。",
+  "contact": {
+    "email": "contact@ilyenkov.cn"
+  },
   "navigation": [
     {
       "label": "伊里因科夫",
@@ -31,6 +34,14 @@
     {
       "label": "小组",
       "href": "/group"
+    },
+    {
+      "label": "近期动态",
+      "href": "/updates/"
+    },
+    {
+      "label": "关注与联系",
+      "href": "/contact/"
     }
   ]
 }

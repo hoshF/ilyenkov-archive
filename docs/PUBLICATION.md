@@ -40,6 +40,15 @@
 字段级的准确定义以 `scripts/sync-research-records.mjs` 的输出和 `src/lib/research-records.ts` 的
 schema 为准；两者不一致时以 schema 为准，并修正同步器。
 
+## 小组联系信息
+
+正式小组邮箱由 public 仓库的 `editorial/site.json` 中 `contact.email` 唯一维护；联系页从同一配置
+生成可点击的邮箱和 `mailto:` 链接，不在页面或文档中另写一份。它是小组公开联系方式，不读取或替代
+private 中的个人联系方式，也不改变研究资料的公开字段边界。
+
+`/contact/` 是获取更新、联系与参与方式的事实入口；`/group` 继续说明小组身份、工作与长期公共成果，
+只链接联系页。网站保持静态，不通过表单、服务端或客户端脚本收集来信。
+
 ## 译文的公开字段
 
 译文走"显式允许"而不是"默认继承"：private `translation/**/work.json` 的字段**默认不进入

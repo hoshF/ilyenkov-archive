@@ -12,6 +12,9 @@ const LinkSchema = z.object({
 const SiteSchema = z.object({
   name: z.string().trim().min(1),
   description: z.string().trim().min(1),
+  contact: z.object({
+    email: z.email(),
+  }).strict(),
   navigation: z.array(LinkSchema).min(1),
   footer: z.array(LinkSchema).min(1),
 }).strict();

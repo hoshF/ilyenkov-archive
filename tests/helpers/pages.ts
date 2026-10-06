@@ -26,6 +26,6 @@ export function pageFileExists(route: string): boolean {
 
 /** 站内链接是否有对应页面：/books → books/index.astro 或 books.astro。 */
 export function routeExists(href: string): boolean {
-  const relative = href === '/' ? 'index' : href.replace(/^\//, '');
+  const relative = href === '/' ? 'index' : href.replace(/^\//, '').replace(/\/$/, '');
   return pageFileExists(`${relative}.astro`) || pageFileExists(path.join(relative, 'index.astro'));
 }
