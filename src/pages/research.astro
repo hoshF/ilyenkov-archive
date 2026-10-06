@@ -35,19 +35,9 @@ const sourceLabel = (source: { creator: string | null; title: string }) => (
 
     <section class="research-series research-series--ifi" aria-labelledby="ifi-heading">
         <h2 id="ifi-heading">{ifiNetwork.title}</h2>
-        <p class="research-series__lead"><a href={ifiNetwork.url}>{ifiNetwork.name}（{ifiNetwork.abbreviation}）</a>，其国际网络形成于 {formationYear} 年。{ifiNetwork.summary}</p>
-        <ol class="record-list">
-          {ifiSymposiums.map((record) => (
-            <li>
-              <article>
-                <p class="record__meta">{formatHistoricalPeriod(record.period)} · {record.location}</p>
-                <p class="record__label">{record.context}</p>
-                <h3 class="record__title">{record.title}</h3>
-                <p class="record__sources">来源：{record.sources.map((source, index) => <><a href={source.url}>{sourceLabel(source)}</a>{index < record.sources.length - 1 && '；'}</>)}</p>
-              </article>
-            </li>
-          ))}
-        </ol>
+        <p class="record__original">{ifiNetwork.name}（{ifiNetwork.abbreviation}）</p>
+        <p class="research-series__lead">{ifiNetwork.summary}其国际网络形成于 {formationYear} 年。</p>
+        <p class="record__links"><a href="/research/ifi/">了解 IFI →</a></p>
     </section>
 
     <section class="research-series" aria-labelledby="researchers-heading">

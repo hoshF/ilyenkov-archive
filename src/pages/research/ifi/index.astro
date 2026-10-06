@@ -1,0 +1,99 @@
+---
+import BaseLayout from '../../../layouts/BaseLayout.astro';
+import Breadcrumbs from '../../../components/Breadcrumbs.astro';
+import SectionLayout from '../../../components/SectionLayout.astro';
+import {
+  formatHistoricalPeriod,
+  getPublicIfiNetwork,
+  getPublicIfiSymposiums,
+  type PublicIfiNetwork,
+} from '../../../lib/research-records';
+
+const network = getPublicIfiNetwork();
+const symposiums = getPublicIfiSymposiums();
+const formation = symposiums.find((symposium) => symposium.id === network.formation.symposiumId);
+if (!formation) throw new Error('IFI formation symposium is missing');
+const formationYear = formation.period.start.slice(0, 4);
+
+const activityLabels: Record<PublicIfiNetwork['activityModes'][number], string> = {
+  symposium: '国际研讨会',
+  webinar: '线上 Webinar',
+  collective_reading: '集体阅读',
+  discussion: '讨论',
+};
+const resourceLabels: Record<PublicIfiNetwork['resources'][number]['kind'], string> = {
+  about: '组织介绍',
+  history: '历史与活动',
+  texts: '伊里因科夫文本',
+  symposiums: 'Symposiums',
+  youtube: 'YouTube',
+  facebook: 'Facebook',
+};
+const sourceLabel = (source: { creator: string | null; title: string }) => (
+  source.creator ? `${source.creator}：《${source.title}》` : source.title
+);
+---
+
+<BaseLayout title={network.title} description={network.summary}>
+  <SectionLayout>
+    <Breadcrumbs slot="breadcrumb" items={[
+      { label: '世界研究', href: '/research' },
+      { label: network.title },
+    ]} />
+    <header class="page-header" slot="intro">
+      <h1 class="page-title">{network.title}</h1>
+      <p class="record__original">{network.name}（{network.abbreviation}）</p>
+    </header>
+
+    <section class="research-series" aria-labelledby="ifi-intro-heading">
+      <h2 id="ifi-intro-heading">简介</h2>
+      <div class="prose prose--section">
+        <p>{network.summary}</p>
+        <p><a href={network.url}>官方网站</a></p>
+      </div>
+    </section>
+
+    <section class="research-series" aria-labelledby="ifi-formation-heading">
+      <h2 id="ifi-formation-heading">形成</h2>
+      <div class="prose prose--section">
+        <p>IFI 的国际网络形成于 {formationYear} 年在{formation.location}举行的《{formation.title}》研讨会背景中。</p>
+        <p>研讨会日期：{formatHistoricalPeriod(formation.period)}。</p>
+      </div>
+      <p class="record__sources">来源：{formation.sources.map((source, index) => <><a href={source.url}>{sourceLabel(source)}</a>{index < formation.sources.length - 1 && '；'}</>)}</p>
+    </section>
+
+    <section class="research-series" aria-labelledby="ifi-activity-heading">
+      <h2 id="ifi-activity-heading">活动方式</h2>
+      <div class="prose prose--section">
+        <p>IFI 通过{network.activityModes.map((mode) => activityLabels[mode]).join('、').replace(/、([^、]+)$/, '与$1')}等形式持续开展研究交流。</p>
+      </div>
+    </section>
+
+    <section class="research-series" aria-labelledby="ifi-resources-heading">
+      <h2 id="ifi-resources-heading">官方资源</h2>
+      <div class="prose prose--section">
+        <ul>
+          <li><a href={network.url}>官方网站</a></li>
+          {network.resources.map((resource) => <li><a href={resource.url}>{resourceLabels[resource.kind]}</a></li>)}
+        </ul>
+      </div>
+    </section>
+
+    <section class="research-series" aria-labelledby="ifi-symposiums-heading">
+      <h2 id="ifi-symposiums-heading">历次 Symposium</h2>
+      <p class="research-series__lead">以下记录呈现 IFI 的主要历史节点。</p>
+      <ol class="record-list">
+        {symposiums.map((record) => (
+          <li id={record.id}>
+            <article>
+              <p class="record__meta">{formatHistoricalPeriod(record.period)} · {record.location}</p>
+              <p class="record__label">{record.context}</p>
+              <h3 class="record__title">{record.title}</h3>
+              <p class="record__sources">来源：{record.sources.map((source, index) => <><a href={source.url}>{sourceLabel(source)}</a>{index < record.sources.length - 1 && '；'}</>)}</p>
+            </article>
+          </li>
+        ))}
+      </ol>
+    </section>
+  </SectionLayout>
+</BaseLayout>

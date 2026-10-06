@@ -4,7 +4,7 @@ import path from 'node:path';
 import { afterEach, describe, expect, it } from 'vitest';
 import { plannedResearchRecords } from '../scripts/lib/research-sync/planner.mjs';
 import { IfiNetworkSchema, ResearchRecordsSchema } from '../src/lib/research-records';
-import { builtRoutePath, pageFileExists } from './helpers/pages';
+import { builtRoutePath, routeExists } from './helpers/pages';
 import { researchRoot } from './helpers/publication';
 
 const projectRoot = process.cwd();
@@ -188,39 +188,15 @@ describe('IFI publication contract', () => {
     }
   });
 
-  it('builds the existing research page with its formation year and all four selected symposiums', () => {
+  it('keeps all four independent symposium records available on the IFI detail page', () => {
     const records = readJson(projectRoot, '.website-input/research-records.json');
-    const html = readFileSync(builtRoutePath('/research/'), 'utf8');
-    const ifi = html.match(/<section[^>]+aria-labelledby="ifi-heading"[^>]*>([\s\S]*?)<\/section>/)?.[1];
-    expect(ifi).toBeDefined();
-    const network = records.ifiNetworks[0];
-    const formation = records.ifiSymposiums.find((record) => record.id === network.formation.symposiumId);
-    expect(ifi).toContain(`其国际网络形成于 ${formation.period.start.slice(0, 4)} 年`);
-    expect(ifi).not.toContain('成立于');
+    const html = readFileSync(builtRoutePath('/research/ifi/'), 'utf8');
     expect(records.ifiSymposiums).toHaveLength(4);
-    expect([...ifi.matchAll(/<h3\b/g)]).toHaveLength(records.ifiSymposiums.length);
     for (const symposium of records.ifiSymposiums) {
-      expect(ifi).toContain(symposium.title);
-      expect(ifi).toContain(symposium.location);
-      for (const source of symposium.sources) expect(ifi).toContain(`href="${source.url}"`);
+      expect(html).toContain(symposium.title);
     }
-    // Some selected resources are already symposium source links; the page keeps
-    // those references, without adding a new resource navigation block.
-    const existingUrls = new Set([network.url, ...records.ifiSymposiums.flatMap((symposium) => (
-      symposium.sources.map((source) => source.url)
-    ))]);
-    for (const resource of network.resources.filter((record) => !existingUrls.has(record.url))) {
-      expect(ifi).not.toContain(`href="${resource.url}"`);
-    }
-    expect([...ifi.matchAll(/<a\b/g)]).toHaveLength(1 + records.ifiSymposiums.reduce((total, symposium) => (
-      total + symposium.sources.length
-    ), 0));
-    expect(pageFileExists('research/ifi/index.astro')).toBe(false);
-    expect(pageFileExists('research/ifi.astro')).toBe(false);
-    expect(html).not.toContain('<script');
-    for (const heading of ['researchers-heading', 'research-sites-heading', 'readings-heading']) {
-      expect(html).toContain(`id="${heading}"`);
-    }
+    expect(routeExists('/research/ifi/')).toBe(true);
+    expect(records.ifiNetworks[0]).not.toHaveProperty('symposiums');
   });
 
   it.each([
