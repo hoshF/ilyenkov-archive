@@ -37,19 +37,6 @@ const readingsSeriesPublicationFields = new Set([
   'public_id', 'publication_scope', 'kind', 'record_path', 'record_id',
   'title_zh', 'summary_zh', 'resource_kinds',
 ]);
-// Temporary migration gate: only these existing selections may still use a year.
-// Remove this allowlist when private migrates all nine entries to record_directory.
-const legacyReadingsYears = new Map([
-  ['readings-1991-first', '1991'],
-  ['readings-2002-iv-social-ideal', '2002'],
-  ['readings-2004-vi-place-in-philosophy', '2004'],
-  ['readings-2014-xvi-dialectics-culture', '2014'],
-  ['readings-2016-xviii-philosophy-modernity', '2016'],
-  ['readings-2018-xx-ilyenkov-marx', '2018'],
-  ['readings-2019-xxi-unity-wholeness', '2019'],
-  ['readings-2021-xxii-ilyenkov-hegel', '2021'],
-  ['readings-2022-xxiii-human-sensibility', '2022'],
-]);
 const supportedKinds = new Set([
   'biography_event',
   'military_service',
@@ -332,19 +319,10 @@ function selectedReadingsEvent(entry, recordData, label) {
   if (entry.record_path !== readingsEventsRelative) {
     fail(`${label}: Readings record_path must use ${readingsEventsRelative}`);
   }
-  if (Object.hasOwn(entry, 'record_directory')) {
-    return readingsEventByDirectory(recordData, requiredString(entry, 'record_directory', label), label);
+  if (Object.hasOwn(entry, 'record_id')) {
+    fail(`${label}: Readings event publication must use record_directory, not record_id`);
   }
-  const legacyYear = legacyReadingsYears.get(entry.public_id);
-  if (!legacyYear || entry.record_id !== legacyYear) {
-    fail(`${label}: record_directory is required; year lookup is limited to existing legacy entries`);
-  }
-  if (!Array.isArray(recordData.conferences)) fail(`${label}: readings catalog is unavailable`);
-  const matches = recordData.conferences.filter((item) => String(item?.year) === legacyYear);
-  if (matches.length !== 1) fail(`${label}: legacy readings year must match exactly one event`);
-  return readingsEventByDirectory(
-    recordData, requiredString(matches[0], 'local_directory', `${label} legacy event`), label,
-  );
+  return readingsEventByDirectory(recordData, requiredString(entry, 'record_directory', label), label);
 }
 
 function adaptReadingsSeries({ entry, label, publicId, recordData, recordId, title, readJson, publication }) {
@@ -575,8 +553,7 @@ export function plannedResearchRecords({ projectRoot, researchRoot, outputRoot }
       continue;
     }
 
-    const recordId = kind === 'ilyenkov_readings' && Object.hasOwn(entry, 'record_directory')
-      ? null : requiredString(entry, 'record_id', label);
+    const recordId = kind === 'ilyenkov_readings' ? null : requiredString(entry, 'record_id', label);
     const title = requiredString(entry, 'title_zh', label);
     const common = { entry, label, publicId, recordData, recordId, title };
 

@@ -20,7 +20,9 @@ const resourceKinds = ['archive', 'society', 'historical_archive'];
 const readJson = (root, relative) => JSON.parse(readFileSync(path.join(root, relative), 'utf8'));
 const publication = readJson(researchRoot, publicationPath);
 const selectedEntries = publication.records.filter((entry) => entry.publication_scope === 'website_public');
-const legacyReadings = selectedEntries.filter((entry) => entry.kind === 'ilyenkov_readings');
+const selectedReadings = selectedEntries.filter((entry) => entry.kind === 'ilyenkov_readings');
+const earliestPublicId = 'readings-1991-first';
+const firstInternationalPublicId = 'readings-1999-i-first-international';
 const privateSeries = readJson(researchRoot, seriesPath).records.find((record) => (
   record.series_id === 'ilyenkov-readings-series'
 ));
@@ -73,19 +75,18 @@ function fixture() {
   };
 }
 
-const readingEntry = (manifest, publicId = legacyReadings[0].public_id) => manifest.records.find((entry) => (
+const readingEntry = (manifest, publicId = earliestPublicId) => manifest.records.find((entry) => (
   entry.kind === 'ilyenkov_readings' && entry.public_id === publicId
 ));
 const seriesEntry = (manifest) => manifest.records.find((entry) => entry.kind === 'ilyenkov_readings_series');
 const seriesRecord = (catalog) => catalog.records.find((record) => record.series_id === privateSeries.series_id);
 const conference = (catalog, directory) => catalog.conferences.find((record) => record.local_directory === directory);
 
-function addReading(input, directory, publicId = 'fixture-reading') {
+/** Add an explicitly unselected event only; selected baseline records are mutated in place. */
+function addReading(input, directory, publicId) {
   const event = conference(input.read(eventsPath), directory);
-  const sourceIds = directory === firstInternationalDirectory
-    ? ['src-1999-002', 'src-1999-005']
-    : directory === unnumbered1997Directory ? ['src-1997-006']
-      : directory === edition2011Directory ? ['src-2011-001'] : ['src-2011-03-001'];
+  const sourceIds = directory === unnumbered1997Directory ? ['src-1997-006']
+    : directory === edition2011Directory ? ['src-2011-001'] : ['src-2011-03-001'];
   const entry = {
     public_id: publicId,
     publication_scope: 'website_public',
@@ -93,58 +94,56 @@ function addReading(input, directory, publicId = 'fixture-reading') {
     record_path: eventsPath,
     record_directory: directory,
     source_path: `research/readings/${directory}/sources.json`,
-    edition_zh: directory === firstInternationalDirectory ? '第一届'
-      : directory === unnumbered1997Directory ? '未编号' : '第十三届',
+    edition_zh: directory === unnumbered1997Directory ? '未编号' : '第十三届',
     title_zh: event.title_zh,
-    location_zh: directory === firstInternationalDirectory ? '泽列诺格勒'
-      : directory === unnumbered1997Directory ? '莫斯科' : '阿斯塔纳',
+    location_zh: directory === unnumbered1997Directory ? '莫斯科' : '阿斯塔纳',
     source_ids: sourceIds,
   };
-  input.mutate(publicationPath, (manifest) => { manifest.records.push(entry); });
+  input.mutate(publicationPath, (manifest) => {
+    expect(manifest.records.some((record) => record.kind === 'ilyenkov_readings'
+      && record.record_directory === directory)).toBe(false);
+    manifest.records.push(entry);
+  });
   return entry;
 }
 
-function enableSeries(input, { publishFirst = true } = {}) {
-  if (publishFirst) addReading(input, firstInternationalDirectory, 'fixture-first-international');
-  input.mutate(publicationPath, (manifest) => {
-    // Relations resolve across the full manifest, independently of publication order.
-    manifest.records.unshift({
-      public_id: 'fixture-readings-series',
-      publication_scope: 'website_public',
-      kind: 'ilyenkov_readings_series',
-      record_path: seriesPath,
-      record_id: privateSeries.series_id,
-      title_zh: '伊里因科夫学术报告会',
-      summary_zh: '围绕伊里因科夫及相关哲学问题持续开展的学术会议系列。',
-      resource_kinds: [...resourceKinds],
-    });
-  });
-  return input;
-}
-
 describe('Readings directory publication locator', () => {
-  it('uses a unique directory and public identity without requiring a year record_id', () => {
+  it('resolves the selected 1999 first international edition using only directory identity', () => {
     const input = fixture();
-    const entry = addReading(input, firstInternationalDirectory, 'fixture-first-international');
+    const entry = readingEntry(input.read(publicationPath), firstInternationalPublicId);
     const reading = input.plan().readings.find((record) => record.id === entry.public_id);
     const event = conference(input.read(eventsPath), firstInternationalDirectory);
     expect(reading.title).toBe(entry.title_zh);
     expect(reading.period).toEqual({ start: event.start_date, end: event.end_date });
-    expect(reading.edition).toBe('第一届');
+    expect(reading.edition).toBe(entry.edition_zh);
+    expect(event.edition_roman).toBe('I');
     expect(reading).not.toHaveProperty('local_directory');
     expect(reading).not.toHaveProperty('record_directory');
     expect(ResearchRecordsSchema.safeParse(input.plan()).success).toBe(true);
   });
 
-  it('fully prefers the explicit directory over an obsolete year locator', () => {
+  it('rejects record_id alongside a valid directory instead of supporting two locators', () => {
     const input = fixture();
-    const before = input.plan();
+    input.mutate(publicationPath, (manifest) => {
+      readingEntry(manifest).record_id = '1991';
+    });
+    expect(() => input.plan()).toThrow(/record_id/);
+  });
+
+  it('requires record_directory even for a previously selected public event', () => {
+    const input = fixture();
+    input.mutate(publicationPath, (manifest) => { delete readingEntry(manifest).record_directory; });
+    expect(() => input.plan()).toThrow(/record_directory/);
+  });
+
+  it('rejects a year-only record_id for a previously selected public event', () => {
+    const input = fixture();
     input.mutate(publicationPath, (manifest) => {
       const entry = readingEntry(manifest);
-      entry.record_directory = earliestDirectory;
-      entry.record_id = '2011';
+      delete entry.record_directory;
+      entry.record_id = '1991';
     });
-    expect(input.plan()).toEqual(before);
+    expect(() => input.plan()).toThrow(/record_directory|record_id/);
   });
 
   it('selects the 2011 edition even when the same-year memorial is first in the catalog', () => {
@@ -163,49 +162,48 @@ describe('Readings directory publication locator', () => {
   it('rejects the separate 2011 memorial even when its sources support title and dates', () => {
     const input = fixture();
     addReading(input, memorial2011Directory, 'fixture-memorial');
-    expect(() => input.plan()).toThrow();
+    expect(() => input.plan()).toThrow(/not a Readings edition/);
   });
 
-  it.each(['', '   ', null, 1991, []])('does not fall back to the legacy year for an invalid explicit directory %j', (directory) => {
+  it.each(['', '   ', null, 1991, []])('rejects an invalid required directory %j', (directory) => {
     const input = fixture();
     input.mutate(publicationPath, (manifest) => { readingEntry(manifest).record_directory = directory; });
-    expect(() => input.plan()).toThrow();
+    expect(() => input.plan()).toThrow(/record_directory/);
   });
 
-  it('does not fall back to a valid legacy year when the explicit directory is missing from the catalog', () => {
+  it('rejects a directory missing from the catalog', () => {
     const input = fixture();
     input.mutate(publicationPath, (manifest) => {
       readingEntry(manifest).record_directory = 'events/not-an-archived-reading';
     });
-    expect(() => input.plan()).toThrow();
+    expect(() => input.plan()).toThrow(/directory must match exactly one event/);
   });
 
   it('rejects an ambiguous directory instead of taking the first matching event', () => {
     const input = fixture();
-    addReading(input, firstInternationalDirectory);
     input.mutate(eventsPath, (catalog) => {
       catalog.conferences.push(structuredClone(conference(catalog, firstInternationalDirectory)));
     });
-    expect(() => input.plan()).toThrow();
+    expect(() => input.plan()).toThrow(/directory must match exactly one event/);
   });
 
   it('requires the selected source path to belong to the located edition', () => {
     const input = fixture();
-    addReading(input, firstInternationalDirectory);
     input.mutate(publicationPath, (manifest) => {
-      readingEntry(manifest, 'fixture-reading').source_path = legacyReadings[0].source_path;
-      readingEntry(manifest, 'fixture-reading').source_ids = [...legacyReadings[0].source_ids];
+      const earliest = readingEntry(manifest);
+      const entry = readingEntry(manifest, firstInternationalPublicId);
+      entry.source_path = earliest.source_path;
+      entry.source_ids = [...earliest.source_ids];
     });
-    expect(() => input.plan()).toThrow();
+    expect(() => input.plan()).toThrow(/selected source path is not the Readings event source directory/);
   });
 
   it.each(['not_applicable', '', null, 'one'])('rejects a non-edition identity %j', (edition) => {
     const input = fixture();
-    addReading(input, firstInternationalDirectory);
     input.mutate(eventsPath, (catalog) => {
       conference(catalog, firstInternationalDirectory).edition_roman = edition;
     });
-    expect(() => input.plan()).toThrow();
+    expect(() => input.plan()).toThrow(/not a Readings edition|edition_roman/);
   });
 
   it('accepts other archived unnumbered editions without treating them as the earliest series relation', () => {
@@ -214,68 +212,48 @@ describe('Readings directory publication locator', () => {
     const record = input.plan().readings.find((reading) => reading.id === 'fixture-1997-unnumbered');
     expect(record.title).toBe('1997 年伊里因科夫学术报告会');
     expect(record.period).toEqual({ start: '1997-02-18', end: '1997-02-19' });
-    enableSeries(input);
     input.mutate(seriesPath, (catalog) => {
       seriesRecord(catalog).earliest_archived_event_directory = unnumbered1997Directory;
     });
     expect(() => input.plan()).toThrow();
   });
 
-  it('allows all currently selected legacy entries to migrate without changing public output', () => {
+  it('uses directory identity when other archived events share the selected year', () => {
     const input = fixture();
     const before = input.plan();
-    input.mutate(publicationPath, (manifest) => {
-      for (const entry of manifest.records.filter((record) => record.kind === 'ilyenkov_readings')) {
-        entry.record_directory = entry.source_path.replace(/^research\/readings\//, '').replace(/\/sources\.json$/, '');
-        delete entry.record_id;
-      }
-    });
-    expect(input.plan()).toEqual(before);
-  });
-
-  it('does not offer year-only compatibility to newly selected publications', () => {
-    const input = fixture();
-    input.mutate(publicationPath, (manifest) => { readingEntry(manifest).public_id = 'new-year-only-reading'; });
-    expect(() => input.plan()).toThrow();
-  });
-
-  it('does not allow an existing legacy public ID to change its approved year', () => {
-    const input = fixture();
-    input.mutate(publicationPath, (manifest) => { readingEntry(manifest).record_id = '1999'; });
-    expect(() => input.plan()).toThrow();
-  });
-
-  it('requires legacy year selection to be unique rather than using the first match', () => {
-    const input = fixture();
     input.mutate(eventsPath, (catalog) => {
       catalog.conferences.push({
         ...conference(catalog, earliestDirectory),
         local_directory: 'events/another-1991-record',
       });
     });
-    expect(() => input.plan()).toThrow();
+    expect(input.plan()).toEqual(before);
   });
 
-  it('limits legacy compatibility to the canonical Readings catalog', () => {
+  it('requires the canonical Readings catalog for directory selection', () => {
     const input = fixture();
     const alternate = 'research/readings/other-events.json';
     input.write(alternate, input.read(eventsPath));
     input.mutate(publicationPath, (manifest) => { readingEntry(manifest).record_path = alternate; });
-    expect(() => input.plan()).toThrow();
+    expect(() => input.plan()).toThrow(/Readings record_path/);
   });
 
-  it('also requires a legacy event directory to remain unique even when its year is unique', () => {
+  it('rejects a duplicate directory even when the duplicated record declares a different year', () => {
     const input = fixture();
     input.mutate(eventsPath, (catalog) => {
       catalog.conferences.push({ ...conference(catalog, earliestDirectory), year: 1990 });
     });
-    expect(() => input.plan()).toThrow();
+    expect(() => input.plan()).toThrow(/directory must match exactly one event/);
   });
 });
 
 describe('Readings series publication adapter', () => {
-  it('reads the selected series and maps both private directories to distinct public event IDs', () => {
-    const input = enableSeries(fixture());
+  it('maps the selected series directories to public event IDs regardless of publication order', () => {
+    const input = fixture();
+    input.mutate(publicationPath, (manifest) => {
+      const entry = seriesEntry(manifest);
+      manifest.records = [entry, ...manifest.records.filter((record) => record !== entry)];
+    });
     const records = input.plan();
     const series = records.readingsSeries[0];
     const entry = seriesEntry(input.read(publicationPath));
@@ -286,8 +264,8 @@ describe('Readings series publication adapter', () => {
       summary: entry.summary_zh,
       type: 'academic_conference_series',
       history: {
-        earliestArchivedEventId: legacyReadings[0].public_id,
-        firstInternationalEventId: 'fixture-first-international',
+        earliestArchivedEventId: earliestPublicId,
+        firstInternationalEventId: firstInternationalPublicId,
       },
       resources: resourceKinds.map((kind) => ({ kind, url: privateSeries.resources[kind] })),
     });
@@ -297,22 +275,22 @@ describe('Readings series publication adapter', () => {
   });
 
   it('uses the selected publication public ID rather than a directory or private series identity', () => {
-    const input = enableSeries(fixture());
+    const input = fixture();
     const publicId = 'public-earliest-archived-reading';
     input.mutate(publicationPath, (manifest) => {
       const entry = readingEntry(manifest);
       entry.record_directory = earliestDirectory;
       entry.public_id = publicId;
-      delete entry.record_id;
+      seriesEntry(manifest).public_id = 'public-readings-series';
     });
     const series = input.plan().readingsSeries[0];
     expect(series.history.earliestArchivedEventId).toBe(publicId);
-    expect(series.id).not.toBe(privateSeries.series_id);
+    expect(series.id).toBe('public-readings-series');
     expect(JSON.stringify(series)).not.toContain('events/');
   });
 
   it('does not publish private series summaries, directories or newly added private fields', () => {
-    const input = enableSeries(fixture());
+    const input = fixture();
     input.mutate(seriesPath, (catalog) => {
       Object.assign(seriesRecord(catalog), {
         positioning_ru: 'PRIVATE_POSITIONING_SENTINEL',
@@ -332,12 +310,14 @@ describe('Readings series publication adapter', () => {
     expect(Object.keys(series.history).sort()).toEqual(['earliestArchivedEventId', 'firstInternationalEventId']);
     expect(JSON.stringify(series)).not.toContain('PRIVATE_');
     expect(JSON.stringify(series)).not.toContain('events/');
-    expect(JSON.stringify(series)).not.toContain(privateSeries.series_id);
   });
 
   it('fails if series publication is enabled before the first international event is public', () => {
-    const input = enableSeries(fixture(), { publishFirst: false });
-    expect(() => input.plan()).toThrow();
+    const input = fixture();
+    input.mutate(publicationPath, (manifest) => {
+      manifest.records = manifest.records.filter((entry) => entry.public_id !== firstInternationalPublicId);
+    });
+    expect(() => input.plan()).toThrow(/first_international_event_directory requires a unique website_public Readings publication/);
   });
 
   it.each([
@@ -352,7 +332,7 @@ describe('Readings series publication adapter', () => {
     ['blank first international directory', (catalog) => { seriesRecord(catalog).first_international_event_directory = ' '; }],
     ['malformed resources', (catalog) => { seriesRecord(catalog).resources = []; }],
   ])('rejects a private series record with %s', (_name, mutate) => {
-    const input = enableSeries(fixture());
+    const input = fixture();
     input.mutate(seriesPath, mutate);
     expect(() => input.plan()).toThrow();
   });
@@ -374,7 +354,7 @@ describe('Readings series publication adapter', () => {
     }],
     ['first international event not I', (catalog) => { conference(catalog, firstInternationalDirectory).edition_roman = 'II'; }],
   ])('rejects an invalid history relation: %s', (_name, mutate) => {
-    const input = enableSeries(fixture());
+    const input = fixture();
     input.mutate(eventsPath, mutate);
     expect(() => input.plan()).toThrow();
   });
@@ -384,37 +364,39 @@ describe('Readings series publication adapter', () => {
     ['unnumbered event as first international history', 'first_international_event_directory', earliestDirectory],
     ['memorial as first international history', 'first_international_event_directory', memorial2011Directory],
   ])('rejects %s', (_name, field, directory) => {
-    const input = enableSeries(fixture());
+    const input = fixture();
     input.mutate(seriesPath, (catalog) => { seriesRecord(catalog)[field] = directory; });
     expect(() => input.plan()).toThrow();
   });
 
   it.each(['private_research', 'metadata_only', 'restricted_study'])('requires relation publications to be website_public, not %s', (scope) => {
-    const input = enableSeries(fixture());
+    const input = fixture();
     input.mutate(publicationPath, (manifest) => {
-      readingEntry(manifest, 'fixture-first-international').publication_scope = scope;
+      readingEntry(manifest, firstInternationalPublicId).publication_scope = scope;
     });
     expect(() => input.plan()).toThrow();
   });
 
   it('rejects multiple public publications of the same relation event even when public IDs differ', () => {
-    const input = enableSeries(fixture());
+    const input = fixture();
     input.mutate(publicationPath, (manifest) => {
-      manifest.records.push({ ...readingEntry(manifest, 'fixture-first-international'), public_id: 'second-public-first-event' });
+      manifest.records.push({ ...structuredClone(readingEntry(manifest, firstInternationalPublicId)), public_id: 'second-public-first-event' });
     });
-    expect(() => input.plan()).toThrow();
+    expect(() => input.plan()).toThrow(/first_international_event_directory requires a unique website_public Readings publication/);
   });
 
   it('does not resolve a relation through a publication of another kind', () => {
-    const input = enableSeries(fixture());
+    const input = fixture();
     input.mutate(publicationPath, (manifest) => {
-      readingEntry(manifest, 'fixture-first-international').kind = 'biography_event';
+      const unrelated = structuredClone(manifest.records.find((entry) => entry.kind === 'biography_event'));
+      unrelated.public_id = firstInternationalPublicId;
+      manifest.records = manifest.records.map((entry) => entry.public_id === firstInternationalPublicId ? unrelated : entry);
     });
-    expect(() => input.plan()).toThrow();
+    expect(() => input.plan()).toThrow(/first_international_event_directory requires a unique website_public Readings publication/);
   });
 
   it('reads series facts only from the canonical series catalog', () => {
-    const input = enableSeries(fixture());
+    const input = fixture();
     const alternate = 'research/readings/another-series.json';
     input.write(alternate, input.read(seriesPath));
     input.mutate(publicationPath, (manifest) => { seriesEntry(manifest).record_path = alternate; });
@@ -422,7 +404,7 @@ describe('Readings series publication adapter', () => {
   });
 
   it('leaves every other collection unchanged when only private series presentation facts change', () => {
-    const input = enableSeries(fixture());
+    const input = fixture();
     const before = input.plan();
     input.mutate(seriesPath, (catalog) => {
       seriesRecord(catalog).name_ru = 'Изменённое имя серии';
@@ -437,7 +419,7 @@ describe('Readings series publication adapter', () => {
 
 describe('selected Readings series resources', () => {
   it('retains publication selection order and reads URLs only from private series resources', () => {
-    const input = enableSeries(fixture());
+    const input = fixture();
     input.mutate(publicationPath, (manifest) => { seriesEntry(manifest).resource_kinds = ['historical_archive', 'archive']; });
     input.mutate(seriesPath, (catalog) => {
       const record = seriesRecord(catalog);
@@ -456,7 +438,7 @@ describe('selected Readings series resources', () => {
   });
 
   it('allows explicit empty selection without publishing any series resources', () => {
-    const input = enableSeries(fixture());
+    const input = fixture();
     input.mutate(publicationPath, (manifest) => { seriesEntry(manifest).resource_kinds = []; });
     expect(input.plan().readingsSeries[0].resources).toEqual([]);
   });
@@ -471,13 +453,13 @@ describe('selected Readings series resources', () => {
     ['empty selected resource URL', seriesPath, (catalog) => { seriesRecord(catalog).resources.archive = ''; }],
     ['private file URL', seriesPath, (catalog) => { seriesRecord(catalog).resources.archive = 'file:///private/research'; }],
   ])('rejects %s', (_name, relative, mutate) => {
-    const input = enableSeries(fixture());
+    const input = fixture();
     input.mutate(relative, mutate);
     expect(() => input.plan()).toThrow();
   });
 
   it.each(['url', 'source_url', 'resources', 'label', 'official'])('rejects series publication override/presentation field %s', (field) => {
-    const input = enableSeries(fixture());
+    const input = fixture();
     input.mutate(publicationPath, (manifest) => {
       seriesEntry(manifest)[field] = field === 'resources'
         ? { archive: 'https://example.org/publication-override/' }
@@ -489,7 +471,7 @@ describe('selected Readings series resources', () => {
 
 describe('strict public Readings series schemas', () => {
   it('accepts the minimal public series schema and all allowed resource kinds', () => {
-    const series = enableSeries(fixture()).plan().readingsSeries[0];
+    const series = fixture().plan().readingsSeries[0];
     expect(ReadingsSeriesSchema.safeParse(series).success).toBe(true);
     expect(series.resources.map((resource) => resource.kind)).toEqual(resourceKinds);
   });
@@ -512,13 +494,13 @@ describe('strict public Readings series schemas', () => {
     ['resource label', (record) => { record.resources[0].label = 'Archive'; }],
     ['resource official flag', (record) => { record.resources[0].official = true; }],
   ])('rejects %s from generated public series data', (_name, mutate) => {
-    const series = enableSeries(fixture()).plan().readingsSeries[0];
+    const series = fixture().plan().readingsSeries[0];
     mutate(series);
     expect(ReadingsSeriesSchema.safeParse(series).success).toBe(false);
   });
 
   it.each(['earliestArchivedEventId', 'firstInternationalEventId'])('requires %s to resolve to exactly one public Readings event', (relation) => {
-    const records = enableSeries(fixture()).plan();
+    const records = fixture().plan();
     const id = records.readingsSeries[0].history[relation];
     const missing = structuredClone(records);
     missing.readings = missing.readings.filter((record) => record.id !== id);
@@ -533,7 +515,7 @@ describe('strict public Readings series schemas', () => {
 });
 
 describe('Readings publication regression', () => {
-  it('keeps current selected event data and all other generated collections unchanged without enabled series', () => {
+  it('matches the enabled series and current public events in the real generated baseline', () => {
     const records = plannedResearchRecords({
       projectRoot,
       researchRoot,
@@ -541,12 +523,57 @@ describe('Readings publication regression', () => {
     });
     const generated = readJson(projectRoot, '.website-input/research-records.json');
     expect(records).toEqual(generated);
-    expect(records.readings.map((record) => record.id)).toEqual(legacyReadings.map((entry) => entry.public_id));
-    expect(records).not.toHaveProperty('readingsSeries');
-    const parsed = ResearchRecordsSchema.parse(records);
-    expect(parsed).toEqual(records);
-    expect(parsed).not.toHaveProperty('readingsSeries');
-    expect(getPublicReadingsSeries()).toEqual([]);
+    expect(records.readings.map((record) => record.id)).toEqual([
+      earliestPublicId,
+      firstInternationalPublicId,
+      'readings-2002-iv-social-ideal',
+      'readings-2004-vi-place-in-philosophy',
+      'readings-2014-xvi-dialectics-culture',
+      'readings-2016-xviii-philosophy-modernity',
+      'readings-2018-xx-ilyenkov-marx',
+      'readings-2019-xxi-unity-wholeness',
+      'readings-2021-xxii-ilyenkov-hegel',
+      'readings-2022-xxiii-human-sensibility',
+    ]);
+    expect(records.readings.find((record) => record.id === earliestPublicId).edition).toBe('早期会议（未编号）');
+    const selectedSeries = seriesEntry(publication);
+    expect(records.readingsSeries).toEqual([{
+      id: 'ilyenkov-readings-series',
+      title: '伊里因科夫学术报告会',
+      name: 'Ильенковские чтения',
+      summary: selectedSeries.summary_zh,
+      type: 'academic_conference_series',
+      history: {
+        earliestArchivedEventId: earliestPublicId,
+        firstInternationalEventId: firstInternationalPublicId,
+      },
+      resources: resourceKinds.map((kind) => ({ kind, url: privateSeries.resources[kind] })),
+    }]);
+    for (const entry of selectedReadings) {
+      expect(entry.record_directory).toBeTruthy();
+      expect(entry).not.toHaveProperty('record_id');
+    }
+    const serialized = JSON.stringify(records);
+    for (const field of ['record_directory', 'local_directory', 'positioning_ru', 'memorial_background_ru', 'continuity_summary_ru']) {
+      expect(serialized).not.toContain(field);
+    }
+    for (const entry of selectedReadings) expect(serialized).not.toContain(entry.record_directory);
+    expect(ResearchRecordsSchema.parse(records)).toEqual(records);
+    expect(getPublicReadingsSeries()).toEqual(records.readingsSeries);
+  });
+
+  it('supports explicitly unselected series without changing the public event collection', () => {
+    const input = fixture();
+    const before = input.plan();
+    input.mutate(publicationPath, (manifest) => {
+      manifest.records = manifest.records.filter((entry) => entry.kind !== 'ilyenkov_readings_series');
+    });
+    const after = input.plan();
+    expect(after).not.toHaveProperty('readingsSeries');
+    for (const key of Object.keys(before).filter((key) => key !== 'readingsSeries')) {
+      expect(after[key], key).toEqual(before[key]);
+    }
+    expect(ResearchRecordsSchema.safeParse(after).success).toBe(true);
   });
 
   it('leaves the research page and IFI detail available without creating a Readings route', () => {

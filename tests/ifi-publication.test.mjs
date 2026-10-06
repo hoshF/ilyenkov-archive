@@ -212,8 +212,9 @@ describe('IFI publication contract', () => {
     ['unpublished formation event', publicationPath, (manifest) => {
       formationPublication(manifest).publication_scope = 'private_research';
     }],
-    ['another publication kind', publicationPath, (manifest) => {
-      formationPublication(manifest).kind = 'ilyenkov_readings';
+    ['missing formation publication', publicationPath, (manifest) => {
+      const entry = formationPublication(manifest);
+      manifest.records = manifest.records.filter((record) => record !== entry);
     }],
     ['multiple formation publications', publicationPath, (manifest) => {
       manifest.records.push({ ...formationPublication(manifest), public_id: 'second-public-formation-symposium' });

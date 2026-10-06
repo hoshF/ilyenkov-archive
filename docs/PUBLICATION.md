@@ -41,6 +41,16 @@
 字段级的准确定义以 `scripts/sync-research-records.mjs` 的输出和 `src/lib/research-records.ts` 的
 schema 为准；两者不一致时以 schema 为准，并修正同步器。
 
+### Readings 活动定位
+
+`ilyenkov_readings` publication 必须通过非空 `record_directory` 定位 private event，并唯一匹配
+其 `local_directory`。目标必须是正式 Readings edition，所选来源文件须属于同一活动目录；2011 年
+独立纪念会不能作为 Readings edition 发布。event publication 不接受 `record_id`，也不按年份定位。
+其他 publication kind 的 `record_id` 契约不受影响。
+
+directory 只在同步阶段用于定位，不进入 generated data；活动的公开身份始终来自 `public_id`。
+定位与来源校验见[内容管线](CONTENT_PIPELINE.md)的“Readings 活动定位与系列同步”。
+
 ### Readings series 的公开字段
 
 `ilyenkov_readings_series` 沿用 research publication 通道，采用显式允许契约。条目以
@@ -70,8 +80,9 @@ public schema 还要求两条关系各自在 `readings` 中恰好解析到一条
 活动日期、题名与地点；directory 只用于 private publication 定位，不是 public identity。
 
 未启用 series publication 时，生成输入不包含 `readingsSeries`，getter 返回空数组；启用时该数组必须
-非空。目前 private 尚未选择 series，也未公开 1999 年第一届国际会议，因此当前网站继续使用原有
-九个 Readings 节点，不提前生成系列介绍或新增页面。事件定位的迁移规则见[内容管线](CONTENT_PIPELINE.md)。
+非空。当前清单已选择十个 Readings 活动与一条 `ilyenkov-readings-series`，其两条历史关系分别指向
+`readings-1991-first` 与 `readings-1999-i-first-international`，资源为明确选定的 `archive`、`society`、
+`historical_archive`。集合规模由 publication 选择决定，不是固定 schema 要求。
 
 ### IFI 网络的公开字段
 
