@@ -2,10 +2,10 @@ import { readFileSync, readdirSync } from 'node:fs';
 import path from 'node:path';
 import { describe, expect, it } from 'vitest';
 import { readEditorialJson, site } from '../src/lib/editorial';
-import { pageFileExists, routeExists } from './helpers/pages';
+import { builtRoutePath, pageFileExists, routeExists } from './helpers/pages';
 
 const builtPage = (route: string): string => readFileSync(
-  path.join(process.cwd(), 'dist', route.replace(/^\//, ''), 'index.html'),
+  builtRoutePath(route),
   'utf8',
 );
 
@@ -80,12 +80,13 @@ describe('following and contacting the group', () => {
     }
   });
 
-  it('adds only the actual updates and contact needs to the existing footer', () => {
+  it('keeps public information and following options in the compact footer', () => {
     const expected = [
       { label: '项目与权利', href: '/about' },
       { label: '小组', href: '/group' },
       { label: '近期动态', href: '/updates/' },
       { label: '关注与联系', href: '/contact/' },
+      { label: 'RSS', href: '/rss.xml' },
     ];
     expect(site.footer).toEqual(expected);
     for (const route of ['/', '/contact/', '/group/', '/updates/']) {

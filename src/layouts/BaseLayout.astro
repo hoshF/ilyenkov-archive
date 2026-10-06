@@ -32,6 +32,7 @@ const current = (href: string) => (
     <link rel="icon" href="/brand/evi-favicon-32.png?v=evi-1" type="image/png" sizes="32x32" />
     <link rel="icon" href="/favicon.svg?v=evi-1" type="image/svg+xml" sizes="any" />
     <meta name="generator" content={Astro.generator} />
+    <link rel="alternate" type="application/rss+xml" title={`${site.name} RSS`} href={new URL('/rss.xml', Astro.site)} />
     <title>{pageTitle}</title>
   </head>
   <body class:list={[reading && 'reading-page']}>

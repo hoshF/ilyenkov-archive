@@ -24,8 +24,17 @@ export function pageFileExists(route: string): boolean {
   return existsSync(path.join(pagesRoot, route));
 }
 
-/** 站内链接是否有对应页面：/books → books/index.astro 或 books.astro。 */
+/** 站内链接是否有对应页面或静态 endpoint。 */
 export function routeExists(href: string): boolean {
   const relative = href === '/' ? 'index' : href.replace(/^\//, '').replace(/\/$/, '');
-  return pageFileExists(`${relative}.astro`) || pageFileExists(path.join(relative, 'index.astro'));
+  return ['astro', 'ts', 'js'].some((extension) => (
+    pageFileExists(`${relative}.${extension}`)
+      || pageFileExists(path.join(relative, `index.${extension}`))
+  ));
+}
+
+/** 目录页面与 RSS 等静态文件在 dist 中的实际位置。 */
+export function builtRoutePath(href: string): string {
+  const relative = href.replace(/^\//, '').replace(/\/$/, '');
+  return path.join(process.cwd(), 'dist', path.extname(relative) ? relative : path.join(relative, 'index.html'));
 }

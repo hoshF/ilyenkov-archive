@@ -95,6 +95,24 @@ year DESC  →  title_zh ASC（zh-Hans-CN）  →  id ASC
 动态不生成单独正文页面，也不需要客户端 JavaScript。日期表示已确认的公开工作变化发生日期，不自动从
 Git 提交或构建时间推断网站上线日期；完整字段约定与维护规则见[发布说明](PUBLICATION.md)的“近期动态”。
 
+## RSS 订阅
+
+`src/pages/rss.xml.ts` 使用 `@astrojs/rss` 的静态 GET 端点生成 `/rss.xml`，读取 `getGroupIssues()` 的
+`published`、`summary` 与 `getUpdates()` 的 `date`、`summary`，复用现有事实源，只输出摘要与链接。
+条目按真实日期倒序，日期以 UTC 零点编码为 RSS `pubDate`，不表示已知具体公开时刻；不从原文年份、
+研究历史日期、书籍版次、Git 提交或构建时间推断。
+尚未记录 `website_published` 的译文不作为内容条目纳入；未来接入须先补齐上述 private 发布事实与公开字段契约。
+
+同一站内页面的比较忽略尾斜线、查询与锚点。动态指向某内容条目且日期相同时，优先保留内容项；
+不同日期的后续变化仍保留为动态。
+动态有站内链接时链接对应页面，外部或缺失链接时回到 `/updates/`，不虚构动态详情地址。每条动态使用
+稳定、独立的 GUID，不能只用共享的动态页链接作为身份。内容 GUID 来自稳定页面路径；动态 GUID
+由日期、摘要与原链接的 SHA-256 指纹派生，不依赖数组位置或构建时间，完全相同的动态只输出一次。
+编辑既有动态的日期、摘要或原链接会改变 GUID，订阅器可能将其识别为新条目；仅调整链接文字不会改变身份。
+
+Feed 的绝对 URL 与 HTML 订阅发现链接共用 `astro.config.mjs` 的 `site`；当前基址与域名迁移规则见
+[部署说明](DEPLOYMENT.md)。生成过程不读取或输出文章正文、受限内容或 private-only 元数据。
+
 ## 命令顺序
 
 `npm run publication:sync` 同时运行两个同步器；`publication:prepare` 复用这条命令，`check`、`test`

@@ -6,7 +6,7 @@ const projectRoot = process.cwd();
 
 const LinkSchema = z.object({
   label: z.string().trim().min(1),
-  href: z.string().regex(/^\/[a-z0-9/-]*$/),
+  href: z.string().regex(/^\/[a-z0-9/-]*(?:\.xml)?$/),
 }).strict();
 
 const SiteSchema = z.object({

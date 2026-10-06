@@ -89,5 +89,7 @@ Cloudflare Workers）的初始化流程，它直接改写了仓库：装入 `@as
 主站保持完全静态。若将来提供小组研读网页，应使用独立受保护部署，并在请求到达静态资源前通过
 Cloudflare Access 执行身份验证。
 
-在正式域名确定前，不在代码中写入临时 canonical URL。购买域名后，再统一配置站点 URL、重定向、
-安全响应头、搜索引擎站点地图和分析策略。
+`astro.config.mjs` 的 `site` 现使用当前生产站点 `https://ilyenkov-archive.pages.dev/` 作为 RSS 的
+绝对 URL 基址；Feed 与 HTML 订阅发现链接共用这一项配置，不新增 HTML canonical 标签。迁移至正式
+域名时更新 `site`，再统一安排旧地址重定向、安全响应头、搜索引擎站点地图和分析策略；预览部署不改变
+订阅 URL 的生产基址。
