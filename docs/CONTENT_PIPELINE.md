@@ -51,6 +51,53 @@ private/research/publication.json
 译文的“原文信息”从 frontmatter 读取 `source_edition`、`source_url` 和 `doi`，有哪些字段就生成
 哪些行，不写死在 Markdown 正文里。
 
+## Readings 活动定位与系列同步
+
+`ilyenkov_readings` publication 的新定位字段为 `record_directory`，对应 private event 的
+`local_directory`。字段一旦出现就必须是非空字符串，并在所选 Readings events 中唯一匹配；不再
+回退为年份查找。目标须为正式 Readings edition，且所选 `source_path` 属于同一个活动目录。
+独立纪念会不是有效目标：2011 年 3 月纪念会不能因与正式会议同年而被选中。目录不输出到 generated
+data；公开身份始终来自 publication 的 `public_id`，不虚构 private event ID。
+使用 `record_directory` 的 event publication 可以省略 `record_id`；若保留旧 `record_id`，它也不参与
+定位。series publication 则仍须以 `record_id = series_id` 选择记录。
+
+private 尚未迁移的现有九条 publication 暂时保留年份定位，范围被精确限制为现有 `public_id` 与
+`record_id` 年份的配对 allowlist。旧定位也要求该年份唯一命中，不能取同年第一条；新条目必须使用
+`record_directory`。这是待迁移的兼容路径，不是两种长期同等有效的身份源；迁移现有条目后应移除。
+
+`ilyenkov_readings_series` 为可选的新 publication kind，仍读取现有 research 清单，不新增数据通道。
+adapter 只从 `research/readings/series.json` 的 records 中按 `record_id = series_id` 选择唯一记录，
+校验非空 `name_ru`、固定 `academic_conference_series` 类型、两条非空 event directory relation 与
+resources 结构。中文题名和摘要分别来自 publication 的 `title_zh`、`summary_zh`；正式题名为
+“伊里因科夫学术报告会”，不从三段 private 俄文事实摘要生成文案。
+
+两条历史关系在同步阶段独立完成映射：
+
+1. 用 `earliest_archived_event_directory`、`first_international_event_directory` 在
+   `research/readings/events.json` 中各自定位唯一 Readings edition；
+2. 前者必须是 1991 年未编号活动，后者必须具有 `edition_roman === "I"`；
+3. 对同一 private event 找到唯一的 `website_public`、`ilyenkov_readings` publication；
+4. 分别输出其 `public_id` 为 `history.earliestArchivedEventId` 与 `history.firstInternationalEventId`。
+
+未公开、匹配重复或活动身份不符都会失败，不因 series 已被选择就越过 event publication 边界。
+public schema 还检查每条关系在公开 `readings` 集合中唯一解析。当前真实清单未选择 series，且尚未
+公开 1999 年第一届国际会议，因此现有 sync 不生成 `readingsSeries`；未来启用 series 而未公开必要
+历史活动时会失败。fixture 验证新路径，不修改真实 private publication。
+
+series publication 严格限定为 `public_id`、`publication_scope`、`kind`、`record_path`、`record_id`、
+`title_zh`、`summary_zh`、`resource_kinds`。`resource_kinds` 只允许 `archive`、`society`、
+`historical_archive`，不得重复；逐项读取 private series 的资源 URL，缺失或无效 `http(s)` URL 都失败。
+输出仅为 `{ kind, url }`，未选择资源与 private-only 研究事实不进入 generated data，也不由 publication
+重定义 URL。完整边界见[发布说明](PUBLICATION.md)的“Readings series 的公开字段”。
+
+Readings source URL 按 `current → original → archive → 既有 flat url` 选择第一个非空公开 URL，再校验为合法
+`http(s)` 地址；不因优先 URL 无效而回退掩盖错误。已有 current URL 的输出保持不变，不输出抓取时间、
+归档状态或其他 archive metadata；数组形式仍保持原有的第一项选择行为。
+
+当前九个 Readings 节点及 `/research/` 展示保持不变。2018 年 XX 届仍是一届，现有 public event
+schema 不能完整表达同届双场，这是未来展示与契约问题；本轮不建立 session model，也不新建
+`/research/readings/`。
+
 ## IFI 网络同步
 
 IFI network 仍走现有 research publication 通道，不另建事实源。官网只读取所选

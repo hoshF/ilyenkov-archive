@@ -19,7 +19,10 @@ export function sourceRecords(sourceData, sourceIds, label) {
     if (!source) fail(`${label}: missing selected source ${sourceId}`);
     const url = Array.isArray(source.urls)
       ? source.urls[0]
-      : source.urls?.current ?? source.url;
+      : [source.urls?.current, source.urls?.original, source.urls?.archive, source.url]
+        // Only an absent URL permits fallback; a selected invalid URL must fail validation.
+        .find((value) => value !== undefined && value !== null
+          && !(typeof value === 'string' && !value.trim()));
     if (typeof url !== 'string') fail(`${label}: ${sourceId} has no public URL`);
     return {
       title: requiredString(source, 'title', `${label} ${sourceId}`),

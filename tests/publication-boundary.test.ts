@@ -123,7 +123,7 @@ describe('research record publication boundary', () => {
 
   it('does not expose private research fields in generated website input', () => {
     const generated = readFileSync(path.join(process.cwd(), '.website-input', 'research-records.json'), 'utf8');
-    for (const restricted of ['local_path', 'confidence', 'analysis', 'issues.json', 'source_scans', 'people.json', 'webinars', 'works_master.json', 'source_id', 'source_ids', '"supports"', '"use"', '"positioning_en"', '"founded"', '"formation_event_id"', '"organization_id"', '/Users/']) {
+    for (const restricted of ['local_path', 'confidence', 'analysis', 'issues.json', 'source_scans', 'people.json', 'webinars', 'works_master.json', 'source_id', 'source_ids', '"supports"', '"use"', '"positioning_en"', '"founded"', '"formation_event_id"', '"organization_id"', '"local_directory"', '"record_directory"', '"earliest_archived_event_directory"', '"first_international_event_directory"', '"positioning_ru"', '"memorial_background_ru"', '"continuity_summary_ru"', '/Users/']) {
       expect(generated).not.toContain(restricted);
     }
   });

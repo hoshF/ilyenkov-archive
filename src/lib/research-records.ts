@@ -70,6 +70,24 @@ const ReadingsSchema = z.object({
   message: 'A reading must have either a location or an activity format',
 });
 
+export const ReadingsSeriesSchema = z.object({
+  id: z.string().regex(/^[a-z0-9]+(?:-[a-z0-9]+)*$/),
+  title: z.string().trim().min(1),
+  name: z.string().trim().min(1),
+  summary: z.string().trim().min(1),
+  type: z.literal('academic_conference_series'),
+  history: z.object({
+    earliestArchivedEventId: z.string().regex(/^[a-z0-9]+(?:-[a-z0-9]+)*$/),
+    firstInternationalEventId: z.string().regex(/^[a-z0-9]+(?:-[a-z0-9]+)*$/),
+  }).strict(),
+  resources: z.array(z.object({
+    kind: z.enum(['archive', 'society', 'historical_archive']),
+    url: PublicUrlSchema,
+  }).strict()).refine((resources) => (
+    new Set(resources.map((resource) => resource.kind)).size === resources.length
+  ), { message: 'Readings series resources must have unique kinds' }),
+}).strict();
+
 export const IfiNetworkSchema = z.object({
   id: z.string().regex(/^[a-z0-9]+(?:-[a-z0-9]+)*$/),
   title: z.string().trim().min(1),
@@ -138,11 +156,26 @@ export const ResearchRecordsSchema = z.object({
   congresses: z.array(CongressSchema).min(1),
   works: z.array(WorkSchema).min(1),
   readings: z.array(ReadingsSchema).min(1),
+  readingsSeries: z.array(ReadingsSeriesSchema).min(1).optional(),
   ifiNetworks: z.array(IfiNetworkSchema).min(1),
   ifiSymposiums: z.array(IfiSymposiumSchema).min(1),
   researchers: z.array(ResearcherSchema).min(1),
   researchSites: z.array(ResearchSiteSchema).min(1),
 }).strict().superRefine((records, context) => {
+  records.readingsSeries?.forEach((series, index) => {
+    for (const relation of ['earliestArchivedEventId', 'firstInternationalEventId'] as const) {
+      const matchingReadings = records.readings.filter((record) => (
+        record.id === series.history[relation]
+      ));
+      if (matchingReadings.length !== 1) {
+        context.addIssue({
+          code: 'custom',
+          path: ['readingsSeries', index, 'history', relation],
+          message: 'Readings series history must reference exactly one public reading',
+        });
+      }
+    }
+  });
   records.ifiNetworks.forEach((network, index) => {
     const matchingSymposiums = records.ifiSymposiums.filter((symposium) => (
       symposium.id === network.formation.symposiumId
@@ -163,6 +196,7 @@ export type PublicCongress = z.infer<typeof CongressSchema>;
 export type PublicResearchRecords = z.infer<typeof ResearchRecordsSchema>;
 export type PublicWork = z.infer<typeof WorkSchema>;
 export type PublicReadings = z.infer<typeof ReadingsSchema>;
+export type PublicReadingsSeries = z.infer<typeof ReadingsSeriesSchema>;
 export type PublicIfiNetwork = z.infer<typeof IfiNetworkSchema>;
 export type PublicIfiSymposium = z.infer<typeof IfiSymposiumSchema>;
 export type PublicResearcher = z.infer<typeof ResearcherSchema>;
@@ -226,6 +260,10 @@ export function getPublicReadings(): PublicReadings[] {
   return [...getPublicResearchRecords().readings].sort((left, right) => (
     left.period.start.localeCompare(right.period.start)
   ));
+}
+
+export function getPublicReadingsSeries(): PublicReadingsSeries[] {
+  return [...(getPublicResearchRecords().readingsSeries ?? [])];
 }
 
 export function getPublicIfiNetwork(): PublicIfiNetwork {

@@ -30,12 +30,33 @@ const ifiNetworkPublicationFields = new Set([
   'public_id', 'publication_scope', 'kind', 'record_path', 'record_id',
   'title_zh', 'summary_zh', 'resource_kinds',
 ]);
+const readingsEventsRelative = 'research/readings/events.json';
+const readingsSeriesRelative = 'research/readings/series.json';
+const readingsResourceKinds = new Set(['archive', 'society', 'historical_archive']);
+const readingsSeriesPublicationFields = new Set([
+  'public_id', 'publication_scope', 'kind', 'record_path', 'record_id',
+  'title_zh', 'summary_zh', 'resource_kinds',
+]);
+// Temporary migration gate: only these existing selections may still use a year.
+// Remove this allowlist when private migrates all nine entries to record_directory.
+const legacyReadingsYears = new Map([
+  ['readings-1991-first', '1991'],
+  ['readings-2002-iv-social-ideal', '2002'],
+  ['readings-2004-vi-place-in-philosophy', '2004'],
+  ['readings-2014-xvi-dialectics-culture', '2014'],
+  ['readings-2016-xviii-philosophy-modernity', '2016'],
+  ['readings-2018-xx-ilyenkov-marx', '2018'],
+  ['readings-2019-xxi-unity-wholeness', '2019'],
+  ['readings-2021-xxii-ilyenkov-hegel', '2021'],
+  ['readings-2022-xxiii-human-sensibility', '2022'],
+]);
 const supportedKinds = new Set([
   'biography_event',
   'military_service',
   'hegel_congress',
   'works_catalog',
   'ilyenkov_readings',
+  'ilyenkov_readings_series',
   'ifi_network',
   'ifi_symposium',
   'researcher_profile',
@@ -292,11 +313,109 @@ function adaptWork({ entry, label, publicId, recordData, recordId, title, source
   };
 }
 
-function adaptReadings({ entry, label, publicId, recordData, recordId, title, sourceData }) {
-  const sourceIds = requiredStringArray(entry, 'source_ids', label);
+function readingsEdition(record, label) {
+  const edition = requiredString(record, 'edition_roman', label);
+  if (!/^[IVXLCDM]+$/.test(edition) && edition !== 'unnumbered') {
+    fail(`${label}: selected event is not a Readings edition`);
+  }
+  return record;
+}
+
+function readingsEventByDirectory(recordData, directory, label) {
   if (!Array.isArray(recordData.conferences)) fail(`${label}: readings catalog is unavailable`);
-  const record = recordData.conferences.find((item) => String(item?.year) === recordId);
-  if (!record) fail(`${label}: selected readings record is unavailable`);
+  const matches = recordData.conferences.filter((item) => item?.local_directory === directory);
+  if (matches.length !== 1) fail(`${label}: readings directory must match exactly one event`);
+  return readingsEdition(matches[0], label);
+}
+
+function selectedReadingsEvent(entry, recordData, label) {
+  if (entry.record_path !== readingsEventsRelative) {
+    fail(`${label}: Readings record_path must use ${readingsEventsRelative}`);
+  }
+  if (Object.hasOwn(entry, 'record_directory')) {
+    return readingsEventByDirectory(recordData, requiredString(entry, 'record_directory', label), label);
+  }
+  const legacyYear = legacyReadingsYears.get(entry.public_id);
+  if (!legacyYear || entry.record_id !== legacyYear) {
+    fail(`${label}: record_directory is required; year lookup is limited to existing legacy entries`);
+  }
+  if (!Array.isArray(recordData.conferences)) fail(`${label}: readings catalog is unavailable`);
+  const matches = recordData.conferences.filter((item) => String(item?.year) === legacyYear);
+  if (matches.length !== 1) fail(`${label}: legacy readings year must match exactly one event`);
+  return readingsEventByDirectory(
+    recordData, requiredString(matches[0], 'local_directory', `${label} legacy event`), label,
+  );
+}
+
+function adaptReadingsSeries({ entry, label, publicId, recordData, recordId, title, readJson, publication }) {
+  for (const key of Object.keys(entry)) {
+    if (!readingsSeriesPublicationFields.has(key)) {
+      fail(`${label}: unsupported Readings series publication field ${key}`);
+    }
+  }
+  if (entry.record_path !== readingsSeriesRelative) {
+    fail(`${label}: Readings series record_path must use ${readingsSeriesRelative}`);
+  }
+  if (!Array.isArray(recordData.records)) fail(`${label}: readings series catalog is unavailable`);
+  const matches = recordData.records.filter((record) => record?.series_id === recordId);
+  if (matches.length !== 1) fail(`${label}: selected readings series must exist uniquely`);
+  const record = matches[0];
+  if (record.type !== 'academic_conference_series') {
+    fail(`${label}: selected series must be an academic_conference_series`);
+  }
+  const seriesLabel = `${label} selected series`;
+  const events = readJson(readingsEventsRelative, `${label} history events`);
+  const historyRelation = (key, accepts) => {
+    const directory = requiredString(record, key, seriesLabel);
+    const event = readingsEventByDirectory(events, directory, `${label} ${key}`);
+    if (!accepts(event)) fail(`${label}: invalid ${key} event`);
+    const selections = publication.records.filter((selection) => (
+      selection?.publication_scope === websiteScope && selection.kind === 'ilyenkov_readings'
+      && selectedReadingsEvent(selection, events, `${label} history publication`).local_directory === directory
+    ));
+    if (selections.length !== 1) {
+      fail(`${label}: ${key} requires a unique website_public Readings publication`);
+    }
+    const id = requiredString(selections[0], 'public_id', `${label} history publication`);
+    if (!idPattern.test(id)) fail(`${label}: history publication has an invalid public_id`);
+    return id;
+  };
+  const history = {
+    earliestArchivedEventId: historyRelation('earliest_archived_event_directory', (event) => (
+      event.year === 1991 && event.edition_roman === 'unnumbered'
+    )),
+    firstInternationalEventId: historyRelation('first_international_event_directory', (event) => (
+      event.edition_roman === 'I'
+    )),
+  };
+  if (!Array.isArray(entry.resource_kinds)) fail(`${label}: resource_kinds must be an array`);
+  const resourceUrls = object(record.resources, `${seriesLabel} resources`);
+  const selectedKinds = new Set();
+  const resources = entry.resource_kinds.map((kind) => {
+    if (!readingsResourceKinds.has(kind)) fail(`${label}: resource_kinds: unsupported value`);
+    if (selectedKinds.has(kind)) fail(`${label}: resource_kinds: duplicate kind`);
+    selectedKinds.add(kind);
+    if (!Object.hasOwn(resourceUrls, kind)) fail(`${label}: missing selected resource ${kind}`);
+    return { kind, url: publicUrl(resourceUrls[kind], `${seriesLabel} resources.${kind}`) };
+  });
+  return {
+    id: publicId,
+    title,
+    name: requiredString(record, 'name_ru', seriesLabel),
+    summary: requiredString(entry, 'summary_zh', label),
+    type: record.type,
+    history,
+    resources,
+  };
+}
+
+function adaptReadings({ entry, label, publicId, recordData, title, sourceData, sourcePath }) {
+  const sourceIds = requiredStringArray(entry, 'source_ids', label);
+  const record = selectedReadingsEvent(entry, recordData, label);
+  const directory = requiredString(record, 'local_directory', `${label} selected record`);
+  if (sourcePath !== `research/readings/${directory}/sources.json`) {
+    fail(`${label}: selected source path is not the Readings event source directory`);
+  }
   const start = optionalString(record, 'start_date', `${label} selected record`);
   const end = optionalString(record, 'end_date', `${label} selected record`);
   if (!start || !end || !datePattern.test(start) || !datePattern.test(end)) {
@@ -456,7 +575,8 @@ export function plannedResearchRecords({ projectRoot, researchRoot, outputRoot }
       continue;
     }
 
-    const recordId = requiredString(entry, 'record_id', label);
+    const recordId = kind === 'ilyenkov_readings' && Object.hasOwn(entry, 'record_directory')
+      ? null : requiredString(entry, 'record_id', label);
     const title = requiredString(entry, 'title_zh', label);
     const common = { entry, label, publicId, recordData, recordId, title };
 
@@ -468,10 +588,16 @@ export function plannedResearchRecords({ projectRoot, researchRoot, outputRoot }
       records.ifiNetworks.push(adaptIfiNetwork({ ...common, readJson, publication }));
       continue;
     }
+    if (kind === 'ilyenkov_readings_series') {
+      // Omit this collection entirely until publication enables it, preserving current input.
+      records.readingsSeries ??= [];
+      records.readingsSeries.push(adaptReadingsSeries({ ...common, readJson, publication }));
+      continue;
+    }
 
     const sourcePath = requiredString(entry, 'source_path', label);
     const sourceData = readJson(sourcePath, `${label} source_path`);
-    const sourced = { ...common, sourceData };
+    const sourced = { ...common, sourceData, sourcePath };
     if (kind === 'works_catalog') records.works.push(adaptWork(sourced));
     else if (kind === 'ilyenkov_readings') records.readings.push(adaptReadings(sourced));
     else if (kind === 'ifi_symposium') {

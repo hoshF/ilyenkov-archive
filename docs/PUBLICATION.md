@@ -28,7 +28,8 @@
 
 - 每一条都由 private 的 `research/publication.json` **逐项**标记选择。未被选中的条目，不因文件
   存在而视为可以公开，也不建立占位数据。
-- 九类记录必须同时有获准条目。任何一类为空，同步器直接失败，不生成半份 `research-records.json`。
+- 上述九类记录必须同时有获准条目。任何一类为空，同步器直接失败，不生成半份 `research-records.json`。
+  Readings series 是另行选择的可选类型，不因 private 存在 series record 就自动输出，也不属于这九类的必备集合。
 - public 只输出该条目获准的最小公开字段：稳定 ID、中文与原文题名、摘要或简短定位、历史日期或
   日期范围、地点或状态、以及明确选定的外部来源链接。每项事实都必须由所选来源支持。
 - 以下一律不进入 public 与 `dist/`：正文、自传原文、扫描件、附件、照片、视频、统计、成员名单与
@@ -39,6 +40,38 @@
 
 字段级的准确定义以 `scripts/sync-research-records.mjs` 的输出和 `src/lib/research-records.ts` 的
 schema 为准；两者不一致时以 schema 为准，并修正同步器。
+
+### Readings series 的公开字段
+
+`ilyenkov_readings_series` 沿用 research publication 通道，采用显式允许契约。条目以
+`record_path: research/readings/series.json` 和 `record_id = series_id` 选择唯一 series record。
+publication 只允许 `public_id`、`publication_scope`、`kind`、`record_path`、`record_id`、`title_zh`、
+`summary_zh`、`resource_kinds`，不得通过 `url`、`resources`、`source_url` 等字段覆盖 private 资源 URL。
+
+| 公开字段 | 来源与范围 |
+| --- | --- |
+| `id`、`title`、`summary` | publication 的 `public_id`、`title_zh`、`summary_zh`；正式中文显示名为“伊里因科夫学术报告会” |
+| `name`、`type` | series 的非空 `name_ru`，以及固定类型 `academic_conference_series` |
+| `history.earliestArchivedEventId` | 将 `earliest_archived_event_directory` 解析为 1991 年未编号 Readings，再映射为该活动唯一获准条目的 `public_id` |
+| `history.firstInternationalEventId` | 将 `first_international_event_directory` 解析为 `edition_roman === "I"` 的 Readings，再映射为该活动唯一获准条目的 `public_id` |
+| `resources[].kind`、`resources[].url` | publication 的 `resource_kinds` 选择种类；URL 只来自 series 的对应资源 |
+
+资源种类只允许 `archive`、`society`、`historical_archive`，选择不得重复；所选资源必须存在并提供
+合法非空 `http(s)` URL。输出仅含 `{ kind, url }`，没有标签、图标、描述、权重或统一的“官方”标记；
+未选择的资源不输出。中文叙述由 publication 与 public 编辑层承担，不自动翻译或透传俄文事实摘要。
+
+private 的目录、`positioning_ru`、`memorial_background_ru`、`continuity_summary_ru`、全部活动标识、
+组织者名单、报告、出版物、媒体、转录、内部备注与问题记录仍属于 private-only。private 新增字段默认
+不公开，只有本契约允许、同步器显式序列化且 public schema 显式接受的字段才可进入 generated data。
+
+历史关系必须经过“private directory → 唯一 Readings edition → 唯一 `website_public`
+`ilyenkov_readings` publication → public ID”。缺失、错误活动类型、未公开或重复发布匹配都使同步失败；
+public schema 还要求两条关系各自在 `readings` 中恰好解析到一条记录。series 不嵌入活动列表或复制
+活动日期、题名与地点；directory 只用于 private publication 定位，不是 public identity。
+
+未启用 series publication 时，生成输入不包含 `readingsSeries`，getter 返回空数组；启用时该数组必须
+非空。目前 private 尚未选择 series，也未公开 1999 年第一届国际会议，因此当前网站继续使用原有
+九个 Readings 节点，不提前生成系列介绍或新增页面。事件定位的迁移规则见[内容管线](CONTENT_PIPELINE.md)。
 
 ### IFI 网络的公开字段
 
