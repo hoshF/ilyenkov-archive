@@ -123,7 +123,7 @@ describe('research record publication boundary', () => {
 
   it('does not expose private research fields in generated website input', () => {
     const generated = readFileSync(path.join(process.cwd(), '.website-input', 'research-records.json'), 'utf8');
-    for (const restricted of ['local_path', 'confidence', 'analysis', 'issues.json', 'source_scans', 'people.json', 'webinars', 'works_master.json', 'source_id', 'source_ids', '"supports"', '"use"', '/Users/']) {
+    for (const restricted of ['local_path', 'confidence', 'analysis', 'issues.json', 'source_scans', 'people.json', 'webinars', 'works_master.json', 'source_id', 'source_ids', '"supports"', '"use"', '"positioning_en"', '"founded"', '"formation_event_id"', '"organization_id"', '/Users/']) {
       expect(generated).not.toContain(restricted);
     }
   });
@@ -165,8 +165,19 @@ describe('research record publication boundary', () => {
     }
 
     const network = getPublicIfiNetwork();
-    expect(network.founded).toMatch(/^\d{4}$/);
     expect(publicUrl.test(network.url)).toBe(true);
+    expect(getPublicIfiSymposiums().filter((symposium) => (
+      symposium.id === network.formation.symposiumId
+    ))).toHaveLength(1);
+    expect(network.activityModes.every((mode) => (
+      ['symposium', 'webinar', 'collective_reading', 'discussion'].includes(mode)
+    ))).toBe(true);
+    expect(network.resources.every((resource) => (
+      ['about', 'history', 'texts', 'symposiums', 'youtube', 'facebook'].includes(resource.kind)
+      && publicUrl.test(resource.url)
+    ))).toBe(true);
+    expect(network).not.toHaveProperty('founded');
+    expect(network).not.toHaveProperty('positioning_en');
 
     for (const researcher of getPublicResearchers()) {
       expect(researcher.name.length).toBeGreaterThan(0);

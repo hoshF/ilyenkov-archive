@@ -23,6 +23,13 @@ import {
 
 const publicationRelative = 'research/publication.json';
 const websiteScope = 'website_public';
+const ifiEventsRelative = 'research/friends/events.json';
+const ifiActivityModes = new Set(['symposium', 'webinar', 'collective_reading', 'discussion']);
+const ifiResourceKinds = new Set(['about', 'history', 'texts', 'symposiums', 'youtube', 'facebook']);
+const ifiNetworkPublicationFields = new Set([
+  'public_id', 'publication_scope', 'kind', 'record_path', 'record_id',
+  'title_zh', 'summary_zh', 'resource_kinds',
+]);
 const supportedKinds = new Set([
   'biography_event',
   'military_service',
@@ -188,32 +195,74 @@ function adaptBiography({ entry, label, publicId, recordData, recordId, title, r
   };
 }
 
-function adaptIfiNetwork({ entry, label, publicId, recordData, recordId, title }) {
+function adaptIfiNetwork({ entry, label, publicId, recordData, recordId, title, readJson, publication }) {
+  for (const key of Object.keys(entry)) {
+    if (!ifiNetworkPublicationFields.has(key)) {
+      fail(`${label}: unsupported IFI network publication field ${key}`);
+    }
+  }
   if (!Array.isArray(recordData.records)) fail(`${label}: IFI organization catalog is unavailable`);
   const record = recordData.records.find((item) => item?.organization_id === recordId);
   if (!record) fail(`${label}: selected IFI organization is unavailable`);
   if (
-    requiredString(record, 'name_en', `${label} selected organization`)
+    recordId !== 'org-ifi'
+    || requiredString(record, 'name_en', `${label} selected organization`)
     !== 'International Friends of Ilyenkov'
   ) {
     fail(`${label}: selected organization does not identify International Friends of Ilyenkov`);
   }
-  const url = publicUrl(requiredString(entry, 'source_url', label), label);
-  if (requiredString(record, 'url', `${label} selected organization`) !== url) {
-    fail(`${label}: selected organization source URL does not match the record`);
+  const organizationLabel = `${label} selected organization`;
+  const url = publicUrl(requiredString(record, 'url', organizationLabel), organizationLabel);
+  const formationEventId = requiredString(record, 'formation_event_id', organizationLabel);
+  const events = readJson(ifiEventsRelative, `${label} formation events`);
+  if (events.organization_id !== 'org-ifi') {
+    fail(`${label}: formation event catalog must belong to org-ifi`);
   }
-  const founded = record.founded;
-  if (!Number.isInteger(founded) || founded < 1900 || founded > 2100) {
-    fail(`${label}: selected organization has no usable founding year`);
+  if (!Array.isArray(events.activity_groups)) fail(`${label}: formation events are unavailable`);
+  const formationEvents = events.activity_groups.filter((event) => event?.event_id === formationEventId);
+  if (formationEvents.length !== 1) fail(`${label}: formation event must exist uniquely`);
+  const formationEvent = formationEvents[0];
+  if (formationEvent.type !== 'symposium' || formationEvent.event_status !== 'confirmed') {
+    fail(`${label}: formation event must be a confirmed symposium`);
   }
+  const formationPublications = publication.records.filter((selection) => (
+    selection?.publication_scope === websiteScope
+    && selection.kind === 'ifi_symposium'
+    && selection.record_path === ifiEventsRelative
+    && selection.record_id === formationEventId
+  ));
+  if (formationPublications.length !== 1) {
+    fail(`${label}: formation event requires a unique website_public IFI symposium publication`);
+  }
+  const symposiumId = requiredString(formationPublications[0], 'public_id', `${label} formation publication`);
+  if (!idPattern.test(symposiumId)) fail(`${label}: formation publication has an invalid public_id`);
+
+  if (!Array.isArray(record.activity_modes)) fail(`${organizationLabel}: activity_modes must be an array`);
+  const activityModes = record.activity_modes.map((mode) => {
+    if (!ifiActivityModes.has(mode)) fail(`${organizationLabel}: activity_modes: unsupported value`);
+    return mode;
+  });
+  if (!Array.isArray(entry.resource_kinds)) fail(`${label}: resource_kinds must be an array`);
+  const selectedKinds = new Set();
+  const officialResources = object(record.resources, `${organizationLabel} resources`);
+  const resources = entry.resource_kinds.map((kind) => {
+    if (!ifiResourceKinds.has(kind)) fail(`${label}: resource_kinds: unsupported value`);
+    if (selectedKinds.has(kind)) fail(`${label}: resource_kinds: duplicate kind`);
+    selectedKinds.add(kind);
+    if (!Object.hasOwn(officialResources, kind)) fail(`${label}: missing selected resource ${kind}`);
+    return { kind, url: publicUrl(officialResources[kind], `${organizationLabel} resources.${kind}`) };
+  });
+
   return {
     id: publicId,
     title,
     name: requiredString(record, 'name_en', `${label} selected organization`),
     abbreviation: requiredString(record, 'abbr', `${label} selected organization`),
-    founded: String(founded),
     summary: requiredString(entry, 'summary_zh', label),
     url,
+    formation: { symposiumId },
+    activityModes,
+    resources,
   };
 }
 
@@ -416,7 +465,7 @@ export function plannedResearchRecords({ projectRoot, researchRoot, outputRoot }
       continue;
     }
     if (kind === 'ifi_network') {
-      records.ifiNetworks.push(adaptIfiNetwork(common));
+      records.ifiNetworks.push(adaptIfiNetwork({ ...common, readJson, publication }));
       continue;
     }
 

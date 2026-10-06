@@ -40,6 +40,38 @@
 字段级的准确定义以 `scripts/sync-research-records.mjs` 的输出和 `src/lib/research-records.ts` 的
 schema 为准；两者不一致时以 schema 为准，并修正同步器。
 
+### IFI 网络的公开字段
+
+IFI organization 采用显式允许契约：private 以后新增字段默认属于 private-only，只有发布契约允许、
+同步器显式序列化、且 public schema 显式接受的字段才能进入 `.website-input/research-records.json`。
+
+IFI network publication 只接受 `public_id`、`publication_scope`、`kind`、`record_path`、`record_id`、
+`title_zh`、`summary_zh`、`resource_kinds`；出现 `source_url`、`url`、`resources` 等额外字段会使同步失败，不会静默忽略。
+
+公开字段以集合为准，不以当前字段数量为准：
+
+| 公开字段 | 来源与范围 |
+| --- | --- |
+| `id`、`title`、`summary` | publication 的 `public_id`、`title_zh`、`summary_zh`；中文介绍不从 `positioning_en` 翻译或透传 |
+| `name`、`abbreviation` | organization 的 `name_en`、`abbr` |
+| `url` | 只读取 organization 的非空合法 `http(s)` 官网 URL；publication 不另提供 URL，不设 fallback |
+| `formation.symposiumId` | 将 organization 的 `formation_event_id` 解析并映射为获准公开的 symposium ID；不输出 private event ID |
+| `activityModes` | 严格枚举 `symposium`、`webinar`、`collective_reading`、`discussion`，保持 private 顺序 |
+| `resources[].kind`、`resources[].url` | publication 的 `resource_kinds` 选择资源种类，URL 只来自 organization 的对应资源 |
+
+资源种类只允许 `about`、`history`、`texts`、`symposiums`、`youtube`、`facebook`。选择列表不得重复，
+所选资源必须存在且提供合法非空 `http(s)` URL；未知活动方式、未知资源种类、缺失资源或无效 URL 都
+使同步或 schema 校验失败。未选择的资源不得自动输出，public 资源对象不增加标签、图标、描述或排序权重。
+
+`positioning_en`、成员名单、联系方式、内部备注、History / Who we are 全文、附件、视频、统计、未选择的
+资源及 private event ID 一律不进入 generated data 与 `dist/`。公开官方资源链接不构成对相应正文或
+媒体的复制授权。
+
+`founded` 契约已删除，不读取、不输出，也不生成兼容年份。形成关系只引用独立的公开 symposium，
+不复制该活动的日期、地点、题名，不把 symposium 数组嵌入 network。页面需要形成年份时，从被引用
+symposium 的 `period.start` 读取。映射与引用校验见[内容管线](CONTENT_PIPELINE.md)的“IFI 网络同步”。
+Webinar series 的 `official_page` 继续属于其独立 private 记录，本契约不建立 webinar public 类型。
+
 ## 小组联系信息
 
 正式小组邮箱由 public 仓库的 `editorial/site.json` 中 `contact.email` 唯一维护；联系页从同一配置

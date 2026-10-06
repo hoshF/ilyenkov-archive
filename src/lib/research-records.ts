@@ -70,12 +70,23 @@ const ReadingsSchema = z.object({
   message: 'A reading must have either a location or an activity format',
 });
 
-const IfiNetworkSchema = z.object({
+export const IfiNetworkSchema = z.object({
   id: z.string().regex(/^[a-z0-9]+(?:-[a-z0-9]+)*$/),
   title: z.string().trim().min(1),
   name: z.string().trim().min(1),
   abbreviation: z.string().trim().min(1),
-  founded: z.string().regex(/^\d{4}$/),
+  formation: z.object({
+    symposiumId: z.string().regex(/^[a-z0-9]+(?:-[a-z0-9]+)*$/),
+  }).strict(),
+  activityModes: z.array(z.enum([
+    'symposium', 'webinar', 'collective_reading', 'discussion',
+  ])),
+  resources: z.array(z.object({
+    kind: z.enum(['about', 'history', 'texts', 'symposiums', 'youtube', 'facebook']),
+    url: PublicUrlSchema,
+  }).strict()).refine((resources) => (
+    new Set(resources.map((resource) => resource.kind)).size === resources.length
+  ), { message: 'IFI resources must have unique kinds' }),
   summary: z.string().trim().min(1),
   url: PublicUrlSchema,
 }).strict();
@@ -121,7 +132,7 @@ const ResearchSiteSchema = z.object({
   sections: z.array(ResearchSiteSectionSchema).min(1),
 }).strict();
 
-const ResearchRecordsSchema = z.object({
+export const ResearchRecordsSchema = z.object({
   biography: z.array(BiographySchema).min(1),
   military: z.array(ActivitySchema).min(1),
   congresses: z.array(CongressSchema).min(1),
@@ -131,7 +142,20 @@ const ResearchRecordsSchema = z.object({
   ifiSymposiums: z.array(IfiSymposiumSchema).min(1),
   researchers: z.array(ResearcherSchema).min(1),
   researchSites: z.array(ResearchSiteSchema).min(1),
-}).strict();
+}).strict().superRefine((records, context) => {
+  records.ifiNetworks.forEach((network, index) => {
+    const matchingSymposiums = records.ifiSymposiums.filter((symposium) => (
+      symposium.id === network.formation.symposiumId
+    ));
+    if (matchingSymposiums.length !== 1) {
+      context.addIssue({
+        code: 'custom',
+        path: ['ifiNetworks', index, 'formation', 'symposiumId'],
+        message: 'IFI formation must reference exactly one public symposium',
+      });
+    }
+  });
+});
 
 export type PublicActivity = z.infer<typeof ActivitySchema>;
 export type PublicBiographyEvent = z.infer<typeof BiographySchema>;

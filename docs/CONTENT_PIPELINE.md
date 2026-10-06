@@ -51,6 +51,38 @@ private/research/publication.json
 译文的“原文信息”从 frontmatter 读取 `source_edition`、`source_url` 和 `doi`，有哪些字段就生成
 哪些行，不写死在 Markdown 正文里。
 
+## IFI 网络同步
+
+IFI network 仍走现有 research publication 通道，不另建事实源。官网只读取所选
+`research/friends/organization.json` 记录的 `url`，校验为非空合法 `http(s)` URL；不读取 publication
+的 `source_url`，也不提供兼容 fallback。中文题名与介绍继续来自 publication 的 `title_zh`、`summary_zh`。
+IFI network publication 严格限定为 `public_id`、`publication_scope`、`kind`、`record_path`、`record_id`、
+`title_zh`、`summary_zh`、`resource_kinds`，任何额外字段（包括 `source_url`、`url`、`resources`）都会使同步失败。
+
+形成关系在同步阶段完成 private → public 映射：
+
+1. 读取 organization 的 `formation_event_id`，在 `research/friends/events.json` 中找到唯一对应活动；
+2. 确认活动属于 `org-ifi`，类型为当前支持的 `symposium`，且已确认为 `confirmed`；
+3. 在 `research/publication.json` 中按该活动的 `record_path` 与 `record_id` 找到唯一的
+   `website_public`、`ifi_symposium` 条目；
+4. 只输出该发布条目的 `public_id` 为 `formation.symposiumId`，不透传 private event ID。
+
+不存在、归属或类型不符、未公开、多个发布匹配都使同步失败。当前 private event ID 与 public ID 即使
+字面相同，也必须经过上述映射；public ID 将来可独立调整。public schema 还要求形成关系在公开
+`ifiSymposiums` 集合中恰好解析到一条记录。
+
+`activity_modes` 映射为 `activityModes`，仅允许 `symposium`、`webinar`、`collective_reading`、
+`discussion`，保持 private 顺序。publication 的 `resource_kinds` 是资源输出的唯一选择列表：只允许
+`about`、`history`、`texts`、`symposiums`、`youtube`、`facebook`，不得重复；逐项从 organization 的
+`resources` 读取 URL，缺失或无效的 `http(s)` URL 都失败。输出仅为 `{ kind, url }`，未选择的资源
+不会进入生成数据，publication 不重新提供或覆盖 URL。
+
+network 不输出 `founded`、`positioning_en`，也不复制形成活动的日期、地点或题名。现有 IFI symposium
+保持独立集合与原有发布、来源契约；`/research/` 的形成年份通过 `formation.symposiumId` 解析
+symposium 的 `period.start`，不维护第二份年份事实。活动方式与资源本轮只进入严格 schema，不新增
+页面展示或 IFI 详情页；webinar series 的 `official_page` 不改动，也不从 organization 资源推导。
+完整允许字段与 private-only 边界见[发布说明](PUBLICATION.md)的“IFI 网络的公开字段”。
+
 ## 文章集合的规范顺序
 
 译文集合只有**一个**规范顺序，由 `src/lib/site-data.ts` 的 `getSiteData()` 给出：

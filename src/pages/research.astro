@@ -13,6 +13,11 @@ import {
 const readings = getPublicReadings();
 const ifiNetwork = getPublicIfiNetwork();
 const ifiSymposiums = getPublicIfiSymposiums();
+const formationSymposium = ifiSymposiums.find((symposium) => (
+  symposium.id === ifiNetwork.formation.symposiumId
+));
+if (!formationSymposium) throw new Error('IFI formation symposium is missing');
+const formationYear = formationSymposium.period.start.slice(0, 4);
 const researchers = getPublicResearchers();
 const researchSites = getPublicResearchSites();
 const sourceLabel = (source: { creator: string | null; title: string }) => (
@@ -30,7 +35,7 @@ const sourceLabel = (source: { creator: string | null; title: string }) => (
 
     <section class="research-series research-series--ifi" aria-labelledby="ifi-heading">
         <h2 id="ifi-heading">{ifiNetwork.title}</h2>
-        <p class="research-series__lead"><a href={ifiNetwork.url}>{ifiNetwork.name}（{ifiNetwork.abbreviation}）</a>，成立于 {ifiNetwork.founded} 年。{ifiNetwork.summary}</p>
+        <p class="research-series__lead"><a href={ifiNetwork.url}>{ifiNetwork.name}（{ifiNetwork.abbreviation}）</a>，其国际网络形成于 {formationYear} 年。{ifiNetwork.summary}</p>
         <ol class="record-list">
           {ifiSymposiums.map((record) => (
             <li>
