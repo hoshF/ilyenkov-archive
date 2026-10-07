@@ -6,7 +6,7 @@
   --text-meta: .875rem; --text-secondary: .9375rem; --text-body: 1rem; --text-item: 1.125rem;
   --text-home-section: 1.25rem; --text-section: 1.375rem; --text-page-mobile: 1.625rem; --text-page: 1.75rem;
   --text-display-mobile: 2rem; --text-display: 2.25rem;
-  --header-h: 50px; --section-top: 80px;
+  --section-top: 80px;
   /* 界面字体。无衬线承担全站：导航、标题、列表、元信息、来源。 */
   --sans: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", "Helvetica Neue", Helvetica, Arial, sans-serif;
   /* 阅读字体，只给连续正文。西文与俄文取前四种衬线之一（Charter 与 Georgia 都带西里尔
@@ -45,7 +45,6 @@ h1 { text-wrap: pretty; word-break: auto-phrase; line-height: 1.3; }
 h2, h3, h4 { text-wrap: balance; line-height: 1.3; }
 
 .site-header {
-  position: sticky; top: 0; z-index: 50;
   /* 页眉不画整宽底线：当前栏目的下划线已经是页眉里唯一的水平标记，再加一条底线会与它
      争同一条视觉带。身份用黑色、导航用紫色、当前位置用下划线，页眉与正文之间靠留白分开。 */
   background: var(--paper);
@@ -82,7 +81,7 @@ h2, h3, h4 { text-wrap: balance; line-height: 1.3; }
 
 /* 当前栏目：导航里唯一带颜色并画线的一项。文字与下划线同为 --accent，
    下划线跟随文字颜色，因此一处声明就让两者一致。下划线是文字自己的，
-   标题栏高度仍然只由 --header-h 说了算。 */
+   不改变导航项的高度。 */
 .site-header__nav a[aria-current=page] {
   color: var(--accent); text-decoration: underline; text-decoration-thickness: 2px;
   text-underline-offset: .32em;
@@ -371,7 +370,7 @@ h2, h3, h4 { text-wrap: balance; line-height: 1.3; }
   }
 }
 
-.section-layout--pinned .section-layout__sidebar { position: sticky; top: calc(var(--header-h) + var(--section-top)); }
+.section-layout--pinned .section-layout__sidebar { position: sticky; top: var(--section-top); }
 
 /* 页首与后面的正文之间留出一档：没有左栏以后，这层间距不再由容器提供。
    译文页的页首紧接摘要，间距由 document-header 自己给（见上面的 --reading 规则）。 */
@@ -385,9 +384,8 @@ h2, h3, h4 { text-wrap: balance; line-height: 1.3; }
 
 .section-boundary { border-top: 1px solid var(--line); padding-top: 18px; }
 
-/* --section-top 是版式容器的上内边距：索引吸顶的位置和它打开页面时的位置完全一样，
-   所以左栏一格不动，只有右边的正文在滚。 */
-.section-layout__toc { position: sticky; top: calc(var(--header-h) + var(--section-top)); min-width: 0; }
+/* --section-top 同时保留索引自身的顶部留白；索引随页面滚到此处后吸顶，不为页眉预留空间。 */
+.section-layout__toc { position: sticky; top: var(--section-top); min-width: 0; }
 .section-layout__toc-label {
   color: var(--muted); font-size: var(--text-meta); letter-spacing: .04em; margin: 0 0 15px;
   font-weight: 500; line-height: 1.4;
@@ -512,9 +510,8 @@ h2, h3, h4 { text-wrap: balance; line-height: 1.3; }
 }
 
 .research-series + .research-series { border-top: 1px solid var(--line); margin-top: 60px; padding-top: 60px; }
-/* 栏目页不显示页内目录，但各段的 id 仍是稳定的深链接目标：跳转时让标题落在固定站点标题栏下方。
-   取值沿用与 .prose 标题一致的 --header-h + 32px。 */
-.research-series h2 { margin: 0; scroll-margin-top: calc(var(--header-h) + 32px); font-size: var(--text-section); font-weight: 700; }
+/* 栏目页不显示页内目录，但各段的 id 仍是稳定的深链接目标；与 .prose 标题一样保留 32px 跳转留白。 */
+.research-series h2 { margin: 0; scroll-margin-top: 32px; font-size: var(--text-section); font-weight: 700; }
 
 .research-series__lead { color: var(--muted); font-size: var(--text-body); margin: 12px 0 28px; line-height: 1.6; }
 .research-series__lead a { color: var(--accent); text-decoration-color: var(--line-strong); }
@@ -574,7 +571,7 @@ h2, h3, h4 { text-wrap: balance; line-height: 1.3; }
 .prose--section > h2:first-child { margin-top: 0; }
 
 .prose h2 {
-  font-size: var(--text-section); margin: 3rem 0 1rem; scroll-margin-top: calc(var(--header-h) + 32px);
+  font-size: var(--text-section); margin: 3rem 0 1rem; scroll-margin-top: 32px;
   font-weight: 600;
 }
 .prose h3 { font-size: var(--text-item); margin: 2.25rem 0 .75rem; font-weight: 600; }
@@ -658,15 +655,15 @@ h2, h3, h4 { text-wrap: balance; line-height: 1.3; }
 .group-issue-page .prose { font-family: var(--serif); font-synthesis: weight; }
 
 @media (max-width: 600px) {
-  :root { --header-h: 90px; --section-top: 3rem; }
+  :root { --section-top: 3rem; }
   .section-layout { grid-template-columns: 1fr; gap: 40px; }
   .section-layout--indexed { display: block; }
   .section-layout--indexed .section-layout__sidebar { display: contents; }
-  .section-layout--indexed .section-layout__toc { position: sticky; top: var(--header-h); z-index: 10;
+  .section-layout--indexed .section-layout__toc { position: sticky; top: 0; z-index: 10;
     margin: 28px 0 40px; padding: 12px 0; background: var(--paper);
     border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); border-left: 0;
   }
-  /* 标签与条目并作一行，横条才保持单行高度，下面的 scroll-margin-top 才对得上。 */
+  /* 标签与条目并排，保持紧凑的目录横条。 */
   .section-layout--indexed .section-layout__toc nav {
     flex-wrap: wrap; align-items: baseline; gap: 0 18px; display: flex;
   }
@@ -675,20 +672,16 @@ h2, h3, h4 { text-wrap: balance; line-height: 1.3; }
   .section-layout--indexed .section-layout__toc li + li, .section-layout--indexed .section-layout__content {
     margin-top: 0;
   }
-  /* 小屏标题栏更高（另起一行的导航），深链接跳转仍按栏高避让；这里不再有页内目录横条。 */
-  .research-series h2 { scroll-margin-top: calc(var(--header-h) + 32px); }
-
   /* 手机上的译文页从标题直接进正文：站点标题栏、面包屑和索引都不占地方，
      出口留在篇末的“返回文本档案”和上下篇。 */
   .reading-page .site-header, .reading-page .section-layout__breadcrumb { display: none; }
   .section-layout--reading .section-layout__toc { display: none; }
-  .section-layout--reading { --header-h: 0px; }
   .reading-page article > div.prose { font-size: var(--text-body); line-height: 1.77; }
   .reading-page .section-layout--reading { width: min(calc(100% - 40px), var(--content)); }
   .document-header { margin-bottom: 23px; }
   .document-header h1 { font-size: var(--text-page-mobile); margin-top: 0; }
   .site-header__masthead, .site-footer__inner, .container, .home-page { width: min(calc(100% - 1.5rem), var(--content)); }
-  /* 导航固定另起一行：宽度一变就换行的话，标题栏高度会在两个值之间跳，--header-h 只能取一个。 */
+  /* 导航始终另起一行，保持窄屏排列稳定。 */
   .site-header__masthead { flex-wrap: wrap; align-items: center; row-gap: 4px; padding: 12px 0; }
   .site-name { width: auto; }
   /* 手机上导航独占一行：5 个栏目的行宽已经接近 320px 的极限，所以这里保持 14px 与固定

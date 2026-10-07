@@ -271,12 +271,16 @@ describe('website-approved data adapter', () => {
     expect(text).toContain('介绍与伊里因科夫研究密切相关、已有较完整资料基础的研究者。');
     expect(text).toContain('以下入口指向外部资料站点；本站不转载其正文、附件或下载内容。');
 
-    // 深链接跳转时避让固定站点标题栏；栏目页不再有目录横条。
-    expect(declaration('.research-series h2', 'scroll-margin-top')).toContain('var(--header-h)');
-    expect(declaration('.research-series h2', 'scroll-margin-top', '@media (max-width: 600px)'))
-      .toBe('calc(var(--header-h) + 32px)');
+    // 深链接只保留标题自身的跳转留白；移动端沿用同一契约。
+    for (const media of ['', '@media (max-width: 600px)']) {
+      const heading = {
+        ...declarationsFor('.research-series h2'),
+        ...declarationsFor('.research-series h2', media),
+      };
+      expect(heading['scroll-margin-top']).toBe('32px');
+    }
 
-    // 只有标题栏 / 页内目录这种吸顶元素需要避让；本页不带脚本，也不新增 sticky 行为。
+    // 栏目页不带脚本，也不新增 sticky 行为。
     expect(source).not.toContain('<script');
   });
 
@@ -428,23 +432,37 @@ describe('website-approved data adapter', () => {
     expect(page).toContain(`第 0 期 · ${[...kinds][0]}`);
   });
 
-  it('keeps the header and the indexed navigation in place while jumping', () => {
-    expect(declaration('.site-header', 'position')).toBe('sticky');
-    expect(declaration('.site-header', 'top')).toBe('0');
-    expect(declarationsFor(':root')['--header-h']).toBeDefined();
-
-    // 标题栏高度只在 --header-h 里定义一次，吸顶位置和锚点落点都从它推出来。
-    for (const [selector, property, media] of [
-      ['.section-layout__toc', 'top', ''],
-      ['.section-layout--indexed .section-layout__toc', 'top', '@media (max-width: 600px)'],
-      ['.research-series h2', 'scroll-margin-top', ''],
-      ['.research-series h2', 'scroll-margin-top', '@media (max-width: 600px)'],
-    ] as const) {
-      expect(declaration(selector, property, media), `${selector} ${property}`).toContain('var(--header-h)');
+  it('keeps the header in normal flow and navigation sticky without header offsets', () => {
+    // 未声明 position 时使用浏览器默认的 static；relative 也属于正常文档流。
+    for (const rule of rules.filter(({ selector }) => (
+      selector === '.site-header' || selector.endsWith(' .site-header')
+    ))) {
+      expect(['static', 'relative'], `${rule.selector} ${rule.media}`)
+        .toContain(rule.declarations.position ?? 'static');
+      expect(rule.declarations.top).toBeUndefined();
     }
 
-    // 左栏只有索引，它吸在打开页面时的位置；标题与导语归入正文那一栏，跟着正文滚。
-    expect(declaration('.section-layout__toc', 'position')).toBe('sticky');
+    // 不再定义或引用固定页眉高度，包括媒体查询和阅读页的局部规则。
+    for (const rule of rules) {
+      expect(rule.declarations, `${rule.selector} ${rule.media}`).not.toHaveProperty('--header-h');
+      for (const value of Object.values(rule.declarations)) {
+        expect(value, `${rule.selector} ${rule.media}`).not.toContain('--header-h');
+      }
+    }
+
+    // TOC 与 Archive 筛选侧栏独立吸顶，只保留版式自身的顶部留白。
+    for (const selector of ['.section-layout__toc', '.section-layout--pinned .section-layout__sidebar']) {
+      expect(declaration(selector, 'position'), selector).toBe('sticky');
+      expect(declaration(selector, 'top'), selector).toBe('var(--section-top)');
+    }
+    for (const selector of ['.research-series h2', '.prose h2']) {
+      for (const media of ['', '@media (max-width: 600px)']) {
+        const heading = { ...declarationsFor(selector), ...declarationsFor(selector, media) };
+        expect(heading['scroll-margin-top'], `${selector} ${media}`).toBe('32px');
+      }
+    }
+
+    // 标题与导语归入正文那一栏，跟着正文滚；索引不占正文的阅读轴。
     expect(declaration('.section-layout--indexed', 'grid-template-areas')).toContain('"toc intro"');
 
     // 两栏 → 单栏
@@ -459,6 +477,7 @@ describe('website-approved data adapter', () => {
     expect(declaration('.section-layout--indexed', 'grid-template-areas', '@media (max-width: 860px)')).toContain('"intro"');
     expect(declaration('.section-layout--indexed', 'display', '@media (max-width: 600px)')).toBe('block');
     expect(declaration('.section-layout--indexed .section-layout__toc', 'position', '@media (max-width: 600px)')).toBe('sticky');
+    expect(declaration('.section-layout--indexed .section-layout__toc', 'top', '@media (max-width: 600px)')).toBe('0');
   });
 
   it('marks the current section only where a translation is being read', () => {
@@ -536,7 +555,7 @@ describe('public navigation', () => {
     expect(active.color).toBe('var(--accent)');
     expect(active['text-decoration']).toBe('underline');
     expect(active['text-decoration-color']).toBeUndefined();
-    // 底线是文字自己的下划线：导航项不因为当前状态而变高，--header-h 仍然算得准。
+    // 底线是文字自己的下划线：导航项不因为当前状态而变高。
     expect(active['border-bottom']).toBeUndefined();
   });
 
