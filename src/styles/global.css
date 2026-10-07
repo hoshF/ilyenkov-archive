@@ -561,6 +561,7 @@ h2, h3, h4 { text-wrap: balance; line-height: 1.3; }
    衬线就只落在这里：被读的文本用衬线，站点界面——导航、页内索引、面包屑、篇末导航、
    图注——仍然是无衬线。中文衬线没有斜体，Windows 的 SimSun 连粗体字面都没有；:root 关掉了
    全部字形合成，这里只放开字重，让 <strong> 在各平台都粗得出来，同时不合成假斜体。 */
+.reading-page { --paper: #fafafa; --ink: #202020; }
 .reading-page .document-header, .reading-page .prose {
   font-family: var(--serif); font-synthesis: weight;
 }
@@ -579,6 +580,13 @@ h2, h3, h4 { text-wrap: balance; line-height: 1.3; }
 .prose h3 { font-size: var(--text-item); margin: 2.25rem 0 .75rem; font-weight: 600; }
 .prose p, .prose li { line-height: 1.8; }
 .prose p { margin: 1em 0; }
+
+/* 阅读正文统一字号与行距；来源与脚注保留各自的参数。 */
+.reading-page article > div.prose { font-size: 1.0625rem; line-height: 1.78; }
+.reading-page article > div.prose p:not(.footnotes p),
+.reading-page article > div.prose li:not(.footnotes li) { line-height: inherit; }
+.reading-page article > div.prose .footnotes { line-height: 1.8; }
+
 .prose em { margin-right: .12em; }
 .prose blockquote { color: inherit; border: 0; margin: 1.6em 2em; padding: 0; }
 .prose img {
@@ -675,6 +683,8 @@ h2, h3, h4 { text-wrap: balance; line-height: 1.3; }
   .reading-page .site-header, .reading-page .section-layout__breadcrumb { display: none; }
   .section-layout--reading .section-layout__toc { display: none; }
   .section-layout--reading { --header-h: 0px; }
+  .reading-page article > div.prose { font-size: var(--text-body); line-height: 1.77; }
+  .reading-page .section-layout--reading { width: min(calc(100% - 40px), var(--content)); }
   .document-header { margin-bottom: 23px; }
   .document-header h1 { font-size: var(--text-page-mobile); margin-top: 0; }
   .site-header__masthead, .site-footer__inner, .container, .home-page { width: min(calc(100% - 1.5rem), var(--content)); }
