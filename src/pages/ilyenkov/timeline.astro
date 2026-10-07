@@ -11,14 +11,13 @@ const sourceLabel = (source: { creator: string | null; title: string }) => (
 ---
 
 <BaseLayout title="年表" description="目前已公开、可核验的伊里因科夫生平、服役与活动记录。">
-  <SectionLayout pinned>
+  <SectionLayout pinned modifier="compact-intro">
     <Breadcrumbs slot="breadcrumb" items={[
       { label: '伊里因科夫', href: '/ilyenkov' },
       { label: '年表' },
     ]} />
     <header class="page-header" slot="intro">
       <h1 class="page-title">年表</h1>
-      <p class="lead">按时间梳理伊里因科夫的生平、服役与国际活动。</p>
     </header>
 
     <ol class="record-list record-list--timeline">

@@ -66,7 +66,11 @@ describe('archive facets', () => {
   });
 
   it('keeps narrow archive views in the existing single-column flow', () => {
-    const archiveRules = rules.filter(({ selector }) => selector.includes('.archive-index-page'));
+    const layoutProperties = ['display', 'width', 'grid-template-columns', 'grid-column', 'column-gap'];
+    const archiveRules = rules.filter(({ selector, declarations }) => (
+      selector.includes('.archive-index-page')
+      && layoutProperties.some((property) => property in declarations)
+    ));
     expect(archiveRules.length).toBeGreaterThan(0);
     for (const rule of archiveRules) {
       expect(rule.media, rule.selector).toBe('@media (min-width: 801px)');

@@ -3,9 +3,9 @@
   --line-strong: #b8b2a7; --paper: #fff; --accent: #2f3a86;
   --accent-dark: #1b1f4b; --content: 1040px; --section: 1040px; --reading: 672px; --index: 216px; --index-gap: 56px;
   --rail: 248px;
-  --text-meta: .875rem; --text-secondary: .9375rem; --text-body: 1rem; --text-item: 1.125rem;
-  --text-home-section: 1.25rem; --text-section: 1.375rem; --text-page-mobile: 1.625rem; --text-page: 1.75rem;
-  --text-display-mobile: 2rem; --text-display: 2.25rem;
+  --text-meta: .875rem; --text-secondary: .9375rem; --text-body: 1rem; --text-item: 1.0625rem;
+  --text-home-section: 1.25rem; --text-section: 1.1875rem; --text-page-mobile: 1.5rem; --text-page: 1.5rem;
+  --text-content-title: 1.75rem;
   --section-top: 80px;
   /* 界面字体。无衬线承担全站：导航、标题、列表、元信息、来源。 */
   --sans: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", "Helvetica Neue", Helvetica, Arial, sans-serif;
@@ -62,7 +62,7 @@ h2, h3, h4 { text-wrap: balance; line-height: 1.3; }
 
 .site-name__logo { display: block; width: auto; height: 24px; flex-shrink: 0; }
 
-.site-name__text { font-size: 1.25rem; font-weight: 600; line-height: 1.4; }
+.site-name__text { margin: 0; font-size: 1.25rem; font-weight: 600; line-height: 1.4; }
 
 .site-header__nav {
   justify-content: flex-start; align-items: center; display: flex; flex-wrap: wrap;
@@ -119,7 +119,7 @@ h2, h3, h4 { text-wrap: balance; line-height: 1.3; }
 
 .book-header__title { padding: 0; border: 0; }
 .book-header__title h1 {
-  max-width: 48rem; font-size: var(--text-page); margin: 0; font-weight: 700; line-height: 1.35;
+  max-width: 48rem; font-size: var(--text-content-title); margin: 0; font-weight: 700; line-height: 1.35;
 }
 
 .book-header__body {
@@ -201,6 +201,8 @@ h2, h3, h4 { text-wrap: balance; line-height: 1.3; }
 .book-page .prose { max-width: none; font-size: var(--text-body); margin-left: 0; }
 .book-page .book-introduction { grid-area: introduction; width: 100%; max-width: var(--reading); margin: 0 auto; }
 
+.entity-detail .page-title, .group-issue-page .page-title { font-size: var(--text-content-title); }
+
 .page-title { margin: 0; font-size: var(--text-page); font-weight: 700; line-height: 1.3; letter-spacing: normal; }
 
 .lead {
@@ -212,20 +214,8 @@ h2, h3, h4 { text-wrap: balance; line-height: 1.3; }
 .page-header h1 { margin: 0; }
 .page-header .lead { margin: 18px 0 0; }
 
-.home-masthead {
-  width: min(calc(100% - 40px), var(--reading)); border-bottom: 1px solid var(--line);
-  margin: 0 auto; padding: 60px 0 42px;
-}
-.home-masthead h1 {
-  color: var(--ink); font-size: var(--text-display); margin: 0; font-weight: 700; line-height: 1.2;
-}
-.home-masthead p {
-  max-width: 34rem; color: var(--muted); font-size: var(--text-body); margin: 16px 0 0; line-height: 1.65;
-}
-
-/* 首页是整份档案的目录页，不是双栏 landing page：从 masthead 起自然向下展开
-   （从哪里开始 → 最新内容 → 近期动态）。所有 section 用同一条版心左边界，
-   内部的阅读宽度由 grid 自己收缩，因此不新增 width token。 */
+/* 首页直接组织内容入口；定位句与内容共用同一条阅读列。 */
+.home-positioning { margin: 0 0 24px; font-size: var(--text-body); line-height: 1.65; color: var(--ink-soft); }
 .home-page { width: min(calc(100% - 40px), var(--reading)); margin: 0 auto 96px; padding-top: 40px; }
 
 .home-page > section + section { margin-top: 72px; }
@@ -372,6 +362,8 @@ h2, h3, h4 { text-wrap: balance; line-height: 1.3; }
 /* 页首与后面的正文之间留出一档：没有左栏以后，这层间距不再由容器提供。
    译文页的页首紧接摘要，间距由 document-header 自己给（见上面的 --reading 规则）。 */
 .section-layout__intro { margin-bottom: 44px; }
+/* 仅用于没有导语的栏目页首，保留标题与实际内容之间的短间距。 */
+.compact-intro .section-layout__intro { margin-bottom: 24px; }
 .section-layout__intro .page-header { margin: 0; }
 .section-layout__intro .lead { font-size: var(--text-body); line-height: 1.65; }
 
@@ -467,7 +459,7 @@ h2, h3, h4 { text-wrap: balance; line-height: 1.3; }
 .archive-facets__all a[aria-current=page], .archive-facets__term[aria-current=page] {
   color: var(--accent-dark); text-decoration: underline; text-underline-offset: .18em;
 }
-.archive-facets__context { color: var(--muted); font-size: var(--text-meta); margin: -12px 0 24px; }
+.archive-facets__context { color: var(--muted); font-size: var(--text-meta); margin: 12px 0 0; line-height: 1.5; }
 .person-intro { margin: 0 0 48px; }
 
 .entrance-grid { display: grid; grid-template-columns: 1fr; gap: 32px; }
@@ -548,7 +540,11 @@ h2, h3, h4 { text-wrap: balance; line-height: 1.3; }
    衬线就只落在这里：被读的文本用衬线，站点界面——导航、页内索引、面包屑、篇末导航、
    图注——仍然是无衬线。中文衬线没有斜体，Windows 的 SimSun 连粗体字面都没有；:root 关掉了
    全部字形合成，这里只放开字重，让 <strong> 在各平台都粗得出来，同时不合成假斜体。 */
-.reading-page { --paper: #fafafa; --ink: #202020; }
+.reading-page {
+  --paper: #fafafa; --ink: #202020;
+  --text-page: 1.75rem; --text-page-mobile: 1.625rem;
+  --text-section: 1.375rem; --text-item: 1.125rem;
+}
 .reading-page .document-header, .reading-page .prose {
   font-family: var(--serif); font-synthesis: weight;
 }
@@ -637,7 +633,7 @@ h2, h3, h4 { text-wrap: balance; line-height: 1.3; }
 .group-issue-page .prose { font-family: var(--serif); font-synthesis: weight; }
 
 @media (max-width: 600px) {
-  :root { --section-top: 3rem; }
+  :root { --section-top: 3rem; --text-content-title: 1.625rem; }
   .section-layout { grid-template-columns: 1fr; gap: 40px; }
   .section-layout--indexed { display: block; }
   .section-layout--indexed .section-layout__sidebar { display: contents; }
@@ -672,9 +668,6 @@ h2, h3, h4 { text-wrap: balance; line-height: 1.3; }
   .site-header__nav a { font-size: var(--text-meta); padding: 8px 0; }
   /* 动态在窄屏把日期放到说明上方，让长文本保有完整行宽。 */
   .updates-list__item { grid-template-columns: minmax(0, 1fr); gap: 6px 0; }
-  .home-masthead { width: calc(100% - 1.5rem); padding: 48px 0 36px; }
-  .home-masthead h1 { font-size: var(--text-display-mobile); }
-  .home-masthead p { font-size: var(--text-body); margin-top: 14px; }
   .home-page { margin-bottom: 56px; padding-top: 28px; }
   .home-page > section + section { margin-top: 52px; }
   .home-page h2 { font-size: var(--text-item); }
@@ -690,7 +683,7 @@ h2, h3, h4 { text-wrap: balance; line-height: 1.3; }
   .container.book-page { --section-top: 32px; width: min(calc(100% - 2.5rem), 860px); }
   .book-page .section-layout__breadcrumb { margin-bottom: 28px; }
   .book-header__title { border-bottom: 0; padding-bottom: 0; }
-  .book-header__title h1 { font-size: var(--text-page-mobile); }
+  .book-header__title h1 { font-size: var(--text-content-title); }
   .book-header__body, .book-header__body--without-cover {
     grid-template-columns: 1fr; row-gap: 42px; max-width: none; padding-top: 36px;
   }
@@ -702,3 +695,18 @@ h2, h3, h4 { text-wrap: balance; line-height: 1.3; }
   .book-page .fact-list > div + div { margin-top: 28px; }
   .book-page .fact-list dt { margin-bottom: 7px; }
 }
+
+/* 浏览页节奏实验：仅限定栏目列表，不改变实体详情与连续阅读。 */
+.group-index .section-layout__intro { margin-bottom: 24px; }
+.group-issues > h2 { font-size: var(--text-section); font-weight: 700; margin: 0 0 16px; }
+.archive-index-page .archive-year > h2,
+.books-shelf .book-category > h2 { margin-bottom: 16px; }
+
+/* 以单一留白分组，不再靠分隔线两侧的双重间距划分层级。 */
+.research-hub .research-series + .research-series { border-top: 0; margin-top: 56px; padding-top: 0; }
+.research-hub .research-series__lead { margin: 12px 0 24px; }
+.research-hub .research-series > .record__original { margin-top: 12px; }
+.research-hub .researcher-card__original,
+.research-hub .research-site-card__original { margin-top: 12px; }
+.research-hub .researcher-card > .record__links,
+.research-hub .research-site-card > .record__links { margin-top: 20px; }

@@ -35,7 +35,7 @@ const sourceLabel = (source: { creator: string | null; title: string }) => (
 ---
 
 <BaseLayout title={network.title} description={network.summary}>
-  <SectionLayout>
+  <SectionLayout modifier="entity-detail">
     <Breadcrumbs slot="breadcrumb" items={[
       { label: '世界研究', href: '/research' },
       { label: network.title },

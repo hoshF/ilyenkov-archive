@@ -11,14 +11,13 @@ const sourceLabel = (source: { creator: string | null; title: string }) => (
 ---
 
 <BaseLayout title="交往与活动" description="伊里因科夫目前已公开的服役与国际黑格尔大会记录。">
-  <SectionLayout pinned>
+  <SectionLayout pinned modifier="compact-intro">
     <Breadcrumbs slot="breadcrumb" items={[
       { label: '伊里因科夫', href: '/ilyenkov' },
       { label: '交往与活动' },
     ]} />
     <header class="page-header" slot="intro">
       <h1 class="page-title">交往与活动</h1>
-      <p class="lead">伊里因科夫的战时服役经历与国际黑格尔大会活动。</p>
     </header>
 
     <section class="activity-section" aria-labelledby="military-heading">

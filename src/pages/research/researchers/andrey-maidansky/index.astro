@@ -28,7 +28,7 @@ const resourceLabels: Record<PublicResearcher['resources'][number]['kind'], stri
 ---
 
 <BaseLayout title={researcher.name} description={researcher.summary}>
-  <SectionLayout>
+  <SectionLayout modifier="entity-detail">
     <Breadcrumbs slot="breadcrumb" items={[
       { label: '世界研究', href: '/research' },
       { label: researcher.name },

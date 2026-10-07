@@ -33,7 +33,7 @@ const sourceLabel = (source: { creator: string | null; title: string }) => (
 ---
 
 <BaseLayout title={series.title} description={series.summary}>
-  <SectionLayout>
+  <SectionLayout modifier="entity-detail">
     <Breadcrumbs slot="breadcrumb" items={[
       { label: '世界研究', href: '/research' },
       { label: series.title },

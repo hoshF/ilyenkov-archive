@@ -9,10 +9,9 @@ const groups = groupBooks(books);
 ---
 
 <BaseLayout title="书籍" description="由中文伊里因科夫小组制作并公开维护的成书记录。">
-  <SectionLayout pinned>
+  <SectionLayout pinned modifier="compact-intro">
     <header class="page-header" slot="intro">
       <h1 class="page-title">书籍</h1>
-      <p class="lead">小组译作与数字化书籍的书目信息、版次记录和译者引言。</p>
     </header>
 
     {groups.length > 0 ? (

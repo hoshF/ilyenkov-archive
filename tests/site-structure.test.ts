@@ -243,8 +243,8 @@ describe('website-approved data adapter', () => {
   it('keeps the research page a plain section page with stable section targets', () => {
     const source = pageSource('research.astro');
 
-    // 栏目身份在左栏：h1、导语与边界说明都在 intro 槽里，页面不再进入 indexed 形态。
-    expect(source).toContain('<SectionLayout pinned>');
+    // 栏目标题在 intro 槽里，页面不进入 indexed 形态；无导语时使用紧凑页首。
+    expect(source).toMatch(/<SectionLayout\s+pinned(?:\s+modifier="[^"]+")?>/);
     expect(source).not.toContain('toc={toc}');
     expect(source).not.toContain('const toc =');
     expect(source).toContain('<header class="page-header" slot="intro">');
@@ -266,8 +266,7 @@ describe('website-approved data adapter', () => {
     }
     const text = main.replace(/<[^>]+>/g, '');
     expect(text).not.toMatch(/首批|目前先|后续将|正在逐步|第一阶段/);
-    expect(text).toContain('从研究网络、研究者、学术活动与外部资料站点进入国际伊里因科夫研究。');
-    expect(text).toContain('从研究网络、研究者、学术活动与外部资料站点进入国际伊里因科夫研究。');
+    expect(text).not.toContain('从研究网络、研究者、学术活动与外部资料站点进入国际伊里因科夫研究。');
     expect(text).toContain('介绍与伊里因科夫研究密切相关的研究者。');
     expect(text).toContain('以下链接指向外部资料站点。');
 
@@ -310,10 +309,10 @@ describe('website-approved data adapter', () => {
     expect(scale['--text-meta']).toBe('.875rem');
     expect(scale['--text-secondary']).toBe('.9375rem');
     expect(scale['--text-body']).toBe('1rem');
-    expect(scale['--text-item']).toBe('1.125rem');
-    expect(scale['--text-section']).toBe('1.375rem');
-    expect(scale['--text-page']).toBe('1.75rem');
-    expect(scale['--text-display']).toBe('2.25rem');
+    expect(scale['--text-item']).toBe('1.0625rem');
+    expect(scale['--text-section']).toBe('1.1875rem');
+    expect(scale['--text-page']).toBe('1.5rem');
+    expect(scale['--text-display']).toBeUndefined();
 
     expect(declaration('.breadcrumbs', 'font-size')).toBe('var(--text-meta)');
     expect(declaration('.page-title', 'font-size')).toBe('var(--text-page)');
@@ -745,16 +744,19 @@ describe('public navigation', () => {
     }
     expect(declarationsFor('.home-page')['grid-template-columns']).toBeUndefined();
 
-    // masthead 仍然是唯一的 h1，并且只承担一句定位，不再有第二个定位模块。
-    expect([...main.matchAll(/<h1\b/g)]).toHaveLength(1);
-    expect(main).toContain(`<h1>${site.name}</h1>`);
-    const masthead = main.match(/<header class="home-masthead">([\s\S]*?)<\/header>/)![1];
-    expect(masthead.match(/<p\b/g)).toHaveLength(1);
+    // 首页唯一的可见 h1 由刊头站名承担，正文只保留普通定位句。
+    expect([...homepage.matchAll(/<h1\b/g)]).toHaveLength(1);
+    expect(main).not.toMatch(/<h1\b|home-masthead|sr-only/);
+    expect(homepage).toContain(`<h1 class="site-name__text">${site.name}</h1>`);
+    expect(main).toContain('<p class="home-positioning">从文本出发，整理伊里因科夫及其相关研究的中文资料。</p>');
+    const ordinaryHeader = readFileSync(builtRoutePath('/research'), 'utf8').match(/<header class="site-header">([\s\S]*?)<\/header>/)![1];
+    expect(ordinaryHeader).toContain(`<span class="site-name__text">${site.name}</span>`);
+    expect(ordinaryHeader).not.toMatch(/<h1\b/);
 
     // 单一阅读顺序保留首屏定位，并将内容与工作变化分别表达。
     const order = [...main.matchAll(/<section class="([a-z-]+)"/g)].map(([, name]) => name);
     expect(order).toEqual(['home-browse', 'home-content', 'home-updates', 'home-follow']);
-    expect(main.indexOf('home-masthead')).toBeLessThan(main.indexOf('home-browse'));
+    expect(main.indexOf('home-positioning')).toBeLessThan(main.indexOf('home-browse'));
 
     // 每个 section 都有反映内容的标题，且没有 id 重复。
     expect([...main.matchAll(/<h2 id="([^"]+)"/g)].map(([, id]) => id))
@@ -1200,7 +1202,7 @@ describe('centered reader-facing section layouts', () => {
     const selector = '.section-layout:not(.section-layout--rail):not(.section-layout--reading)';
     expect(declaration(selector, 'width', '@media (min-width: 601px)')).toBe('min(calc(100% - 40px), var(--reading))');
     expect(declaration(`${selector} .section-layout__content`, 'width', '@media (min-width: 601px)')).toBe('100%');
-    for (const selector of ['.home-page', '.home-masthead']) {
+    for (const selector of ['.home-page']) {
       expect(declaration(selector, 'width')).toBe('min(calc(100% - 40px), var(--reading))');
     }
     expect(declaration('.book-page .book-introduction', 'margin')).toBe('0 auto');
@@ -1215,5 +1217,66 @@ describe('centered reader-facing section layouts', () => {
       }
     }
     expect(pageSource('ilyenkov/index.astro')).not.toContain('国际研究见');
+  });
+});
+
+
+describe('compact directory introductions', () => {
+  it('removes redundant leads only from the selected directories', () => {
+    for (const route of ['books/index.astro', 'research.astro', 'ilyenkov/timeline.astro', 'ilyenkov/circle.astro']) {
+      const source = pageSource(route);
+      const intro = source.match(/<header class="page-header" slot="intro">([\s\S]*?)<\/header>/)![1];
+      expect(intro, route).toContain('<h1');
+      expect(intro, route).not.toContain('class="lead"');
+      expect(source, route).toMatch(/modifier="compact-intro(?: [^"]+)?"/);
+    }
+    expect(declaration('.compact-intro .section-layout__intro', 'margin-bottom')).toBe('24px');
+    expect(declaration('.section-layout__intro', 'margin-bottom')).toBe('44px');
+  });
+
+  it('keeps archive filter identity beside the page title instead of below the list heading', () => {
+    const source = componentSource('ArchiveIndexView');
+    const intro = source.match(/<header class="page-header" slot="intro">([\s\S]*?)<\/header>/)![1];
+    expect(intro).toContain('<h1');
+    expect(intro).not.toContain('class="lead"');
+    expect(intro).toContain('{current.label} · {current.count} 篇');
+    expect(source.match(/class="archive-facets__context"/g)).toHaveLength(1);
+    expect(declaration('.archive-facets__context', 'margin')).toBe('12px 0 0');
+  });
+});
+
+
+describe('compact interface typography experiment', () => {
+  it('preserves article heading sizes and separates content titles from directory labels', () => {
+    const reading = declarationsFor('.reading-page');
+    expect(reading['--text-page']).toBe('1.75rem');
+    expect(reading['--text-page-mobile']).toBe('1.625rem');
+    expect(reading['--text-section']).toBe('1.375rem');
+    expect(reading['--text-item']).toBe('1.125rem');
+    expect(declaration('.book-header__title h1', 'font-size')).toBe('var(--text-content-title)');
+    expect(declaration('.entity-detail .page-title', 'font-size')).toBe('var(--text-content-title)');
+    expect(declaration('.group-issue-page .page-title', 'font-size')).toBe('var(--text-content-title)');
+    expect(declaration(':root', '--text-content-title', '@media (max-width: 600px)')).toBe('1.625rem');
+  });
+});
+
+
+describe('directory spacing experiment', () => {
+  it('uses the section tier for group records and keeps directory headings close to entries', () => {
+    expect(declaration('.group-issues > h2', 'font-size')).toBe('var(--text-section)');
+    expect(declaration('.group-issues > h2', 'margin')).toBe('0 0 16px');
+    expect(declaration('.group-index .section-layout__intro', 'margin-bottom')).toBe('24px');
+    expect(declaration('.archive-index-page .archive-year > h2', 'margin-bottom')).toBe('16px');
+    expect(declaration('.record-list', 'gap')).toBe('32px');
+  });
+  it('gives the research hub one section interval without changing entity detail spacing', () => {
+    const selector = '.research-hub .research-series + .research-series';
+    expect(declaration(selector, 'margin-top')).toBe('56px');
+    expect(declaration(selector, 'padding-top')).toBe('0');
+    expect(declaration(selector, 'border-top')).toBe('0');
+    expect(declaration('.research-series + .research-series', 'margin-top')).toBe('60px');
+    expect(declaration('.research-series + .research-series', 'padding-top')).toBe('60px');
+    expect(pageSource('research.astro')).toContain('compact-intro research-hub');
+    expect(pageSource('group/index.astro')).toContain('modifier="group-index"');
   });
 });

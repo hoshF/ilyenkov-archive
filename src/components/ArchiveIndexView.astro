@@ -40,10 +40,10 @@ const description = current === null ? archiveDescription
 ---
 
 <BaseLayout title={title} description={description}>
-  <SectionLayout pinned modifier="archive-index-page">
+  <SectionLayout pinned modifier="archive-index-page compact-intro">
     <header class="page-header" slot="intro">
       <h1 class="page-title">文本档案</h1>
-      <p class="lead">伊里因科夫著作与相关研究的中文译文、数字化文本。</p>
+      {current && <p class="archive-facets__context">{current.label} · {current.count} 篇</p>}
     </header>
 
     <aside class="archive-facets" slot="aside" aria-labelledby="archive-facets-heading">
@@ -77,7 +77,6 @@ const description = current === null ? archiveDescription
     {articles.length > 0 ? (
       <section class="archive-year" aria-label="文章">
         <h2>文章</h2>
-        {current && <p class="archive-facets__context">{current.label} · {current.count} 篇</p>}
         <ul class="record-list" role="list">
           {articles.map((article) => (
             <li>
