@@ -20,13 +20,18 @@ const PublicUrlSchema = z.string().refine((value) => {
     return false;
   }
 }, 'Invalid public URL');
-const GeneratedArticleSchema = z.object({
+export const GeneratedArticleSchema = z.object({
   title: z.string().trim().min(1),
   title_zh: z.string().trim().min(1),
   /** 原文作者；不从 translation/<contributor>/ 目录推导。 */
   author: z.array(z.string().trim().min(1)).min(1).refine(
     (names) => new Set(names).size === names.length,
     'Author names must be unique',
+  ),
+  /** 与 author 同序的 canonical person identity；不等于 Archive 编辑分类 persons。 */
+  author_ids: z.array(z.string().trim().min(1)).min(1).refine(
+    (ids) => new Set(ids).size === ids.length,
+    'Author IDs must be unique',
   ),
   /** 原文文献的发表年份，不是译文年份。 */
   year: z.string().regex(/^\d{4}$/),
@@ -37,7 +42,10 @@ const GeneratedArticleSchema = z.object({
   type: z.literal('translation'),
   generated_from: z.string().regex(/^Ilyenkov:translation\/.+\.md$/),
   generated_rev: z.string().regex(/^[0-9a-f]{12}(?:-dirty)?$/).optional(),
-}).strict();
+}).strict().refine(
+  ({ author, author_ids }) => author.length === author_ids.length,
+  { message: 'Author IDs must align with author names', path: ['author_ids'] },
+);
 
 export interface ReadableDocument {
   kind: 'readable';
@@ -47,6 +55,8 @@ export interface ReadableDocument {
   titleHtml: string;
   originalTitle: string;
   author: string[];
+  /** 原文作者的 canonical identity，顺序与 author 相同。 */
+  authorIds: string[];
   /** 列表与详情页共用的作者署名。 */
   authorLabel: string;
   year: string;
@@ -127,6 +137,7 @@ async function loadArticles(): Promise<ReadableDocument[]> {
       titleHtml,
       originalTitle: metadata.title,
       author: metadata.author,
+      authorIds: metadata.author_ids,
       authorLabel: authorLabel(metadata.author),
       year: metadata.year,
       topics: taxonomy.get(id)?.topics ?? [],

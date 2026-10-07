@@ -6,6 +6,7 @@ import remarkParse from 'remark-parse';
 import { outputRoot, projectRoot, researchRoot } from './lib/paths.mjs';
 import { runSync, writeGenerated } from './lib/sync.mjs';
 import { prepareTranslationMarkdown } from './lib/translation-markdown.mjs';
+import { canonicalPersonRegistry, translationAuthors } from './lib/translation-authors.mjs';
 import {
   fail,
   idPattern,
@@ -43,24 +44,6 @@ function upstreamRevision(paths) {
 
 function yamlString(value) {
   return JSON.stringify(value);
-}
-
-/**
- * 原文作者：显式写在 work.json 的 author 数组里，不从目录名或 people/ 路径推导。
- * 目录（translation/<contributor>/）表示的是翻译工作归属，与原文作者不是一回事。
- */
-function authorNames(work, label) {
-  const value = work.author;
-  if (!Array.isArray(value) || value.length === 0) {
-    fail(`${label}: author must be a non-empty array`);
-  }
-  const names = value.map((name, index) => {
-    if (typeof name !== 'string' || !name.trim()) fail(`${label}: author[${index}] must be a string`);
-    if (/\r|\n/.test(name)) fail(`${label}: author[${index}] must be one line`);
-    return name.trim();
-  });
-  if (new Set(names).size !== names.length) fail(`${label}: author must not repeat a name`);
-  return names;
 }
 
 /** 原文文献的发表年份，四位数字；不是译文年份，也不是同步或发布日期。 */
@@ -110,6 +93,8 @@ function renderArticle(work, body, textRelative, revision, titleNotes) {
     `title_zh: ${yamlString(work.title_zh)}`,
     'author:',
     ...work.author.map((name) => `  - ${yamlString(name)}`),
+    'author_ids:',
+    ...work.author_ids.map((id) => `  - ${yamlString(id)}`),
     `year: ${yamlString(work.year)}`,
     `source_edition: ${yamlString(work.source_edition)}`,
   ];
@@ -147,16 +132,20 @@ function publicationWorks() {
 }
 
 function plannedArticles() {
-  return new Map(publicationWorks().map(({ workId, workJsonRelative }) => {
+  const selected = publicationWorks();
+  const registry = canonicalPersonRegistry(researchRoot);
+  return new Map(selected.map(({ workId, workJsonRelative }) => {
     const textRelative = path.posix.join(path.posix.dirname(workJsonRelative), `${workId}.md`);
     const textPath = resolveResearchPath(researchRoot, textRelative, `${workId} Markdown path`);
     const work = readResearchJson(researchRoot, workJsonRelative, workJsonRelative);
     if (work.work_id !== workId) fail(`${workJsonRelative}: work_id must be ${workId}`);
+    const authors = translationAuthors(work, workJsonRelative, registry);
 
     const metadata = {
       title: requiredString(work, 'title', workJsonRelative),
       title_zh: requiredString(work, 'title_zh', workJsonRelative),
-      author: authorNames(work, workJsonRelative),
+      author: authors.names,
+      author_ids: authors.ids,
       year: publicationYear(work, workJsonRelative),
       source_edition: requiredString(work, 'source_edition', workJsonRelative),
       source_url: optionalString(work, 'source_url', workJsonRelative),

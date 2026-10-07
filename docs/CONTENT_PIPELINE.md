@@ -51,6 +51,27 @@ private/research/publication.json
 译文的“原文信息”从 frontmatter 读取 `source_edition`、`source_url` 和 `doi`，有哪些字段就生成
 哪些行，不写死在 Markdown 正文里。
 
+## 译文作者同步
+
+作者事实来自被选为 `website_public` 的 private work 的 `authors[]`。每个对象严格包含非空
+`person_id`、`name_zh`，数组非空、身份不重复，并保留原始署名顺序。同步器不接受旧 `author[]`、
+单独的 `author_ids[]` 或仅有姓名的输入，不提供 legacy fallback。
+
+`people/persons.json` 是 private canonical person registry。同步器校验 `records` 结构与
+`person_id` 唯一性，再逐项确认公开 work 的作者 ID 在 registry 中唯一解析。未知作者 ID 报错时
+指出对应 work 与 ID；不要求该人物已有 public researcher publication。
+
+同一 `authors[]` 按顺序生成两项 frontmatter 数组：`name_zh` → `author[]`，
+`person_id` → `author_ids[]`。两者等长、逐项对应，不分别维护或重新排序。前者继续用于页面的
+中文署名，后者只作为稳定身份引用；`GeneratedArticleSchema` 校验身份非空、不重复及数组长度一致，
+`ReadableDocument.authorIds` 暴露该引用，`author` 与 `authorLabel` 保持现有显示契约。
+
+同步器不复制 registry 的 aliases、roles、positioning、research fields、resources 等人物事实，
+也不从 `editorial/archive-taxonomy.json` 的 `persons` 推导作者或把作者身份写入该分类。
+作者 identity 不生成 researcher profile，不改变研究者发布契约，也不扩大作品公开范围。
+只有 translation publication 明确选择的 work 才生成 article；internal work 与未公开、缺作者的
+work 不输出，后者若被选择为 `website_public` 则必须补齐作者契约。
+
 ## Readings 活动定位与系列同步
 
 `ilyenkov_readings` publication 必须通过 `record_directory` 定位 private event，对应其

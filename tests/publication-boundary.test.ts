@@ -63,7 +63,7 @@ describe('translation sync boundary', () => {
     // 生成输入的键集合，以及每个 private-only 字段都不在其中。
     const allowed = new Set([
       // 发布契约允许公开的来源字段
-      'title', 'title_zh', 'author', 'year', 'source_edition', 'source_url', 'doi',
+      'title', 'title_zh', 'author', 'author_ids', 'year', 'source_edition', 'source_url', 'doi',
       // public 生成字段
       'title_notes', 'type', 'generated_from', 'generated_rev',
     ]);

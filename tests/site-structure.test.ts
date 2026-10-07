@@ -59,7 +59,8 @@ describe('website-approved data adapter', () => {
       const workJson = JSON.parse(readFileSync(path.join(researchRoot, work.work_json_path), 'utf8'));
 
       expect(article.data.year, work.work_id).toBe(workJson.year);
-      expect(article.data.author, work.work_id).toEqual(workJson.author);
+      expect(article.data.author, work.work_id).toEqual(workJson.authors.map((author: { name_zh: string }) => author.name_zh));
+      expect(article.data.author_ids, work.work_id).toEqual(workJson.authors.map((author: { person_id: string }) => author.person_id));
       expect(article.content).not.toMatch(/^---\r?\n/);
     }
 

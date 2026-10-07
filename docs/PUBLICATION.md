@@ -140,27 +140,55 @@ public**，private 侧以后新增字段也默认属于 private-only，除非明
 
 | 类别 | 字段 | 说明 |
 | --- | --- | --- |
-| 允许公开的来源字段 | `title` `title_zh` `author` `year` `source_edition` `source_url` `doi` | 直接从 private `work.json` 读取；`source_url`、`doi` 缺省时不写 |
-| public 生成字段 | `title_notes` `type` `generated_from` `generated_rev` | 不属于 `work.json` 的透传：`title_notes` 从正文开头一级标题的脚注引用生成，`generated_from`、`generated_rev` 是构建溯源，`type` 是固定字面量 |
+| 允许公开的来源字段 | `title` `title_zh` `year` `source_edition` `source_url` `doi`；`authors[].person_id`、`authors[].name_zh` | 从 private `work.json` 读取；作者对象经身份校验后只生成下面两项数组，`source_url`、`doi` 缺省时不写 |
+| public 生成字段 | `author` `author_ids` `title_notes` `type` `generated_from` `generated_rev` | `author`、`author_ids` 从同一 `authors[]` 按输入顺序生成；`title_notes` 从正文开头一级标题的脚注引用生成，`generated_from`、`generated_rev` 是构建溯源，`type` 是固定字面量 |
 | private-only 字段 | `work_id` `source_path` `rights_status` `source_text_status` `orcid` `udc` `copyright` `translator` | 一律不进 public 与 `dist/`：内部标识与路径、权利证据、校勘与置信状态、学术表单信息、英译者 |
 
 `rights_status`、`source_text_status`、`source_path` 等必须在**同步阶段**就被挡住，不允许先进
 generated files 再靠页面隐藏。
 
-### `year` 与 `author` 的语义
+### `year` 与作者的语义
 
 - **`year`** 是**原文文献的发表年份，或它所在出版物的年份**；不是中文译文的年份，不是网站发布
   日期，不是同步日期，也不是 `generated_rev` 的日期。会议发表后又进入期刊这类复杂情况，由
   metadata 层先确定口径，页面层不自行猜测。
-- **`author`** 是**原文作者**，用数组表示（至少一项、不重复），public 使用统一的中文显示名。
+- **`author`** 是**原文作者的显示署名**，用中文姓名数组表示（至少一项、不重复）。
   它与下列角色**不是**一回事：translation 的 contributor 与目录 owner（那是翻译工作的组织方式，
   同一条记录的目录归属可能与原文作者不同）、中文译者（站点层面的事实，不建字段）、source
   translator（英译者，属于 private-only）。因此**不能**用 `translation/<contributor>/` 目录名在
-  runtime 推断作者；作者必须显式写在 `work.json` 里。
+  runtime 推断作者；作者必须显式写在 `work.json` 的 `authors[]` 里。
+- **`author_ids`** 是相同作者的 canonical identity reference，不是姓名、文章所涉及人物的分类，
+  也不是 public researcher profile 的选择结果。它与 `author` 等长、逐项对应，身份不得重复。
+
+### 译文作者输入与身份边界
+
+被 `website_public` 选择的 work 必须提供非空 `authors[]`。每项严格只有两个非空字符串字段：
+`person_id` 与 `name_zh`；同一作品的 `person_id` 不得重复。旧 `author[]`、单独的 `author_ids[]`
+和只有姓名的对象不属于输入契约，不提供 fallback 或双写兼容。
+
+canonical identity 来自 private `people/persons.json`。同步器校验 registry 的 `records` 结构与
+`person_id` 唯一性，并要求每个公开 work 的作者 ID 在其中唯一解析；未知 ID 使同步失败。
+中文显示名仍来自该 work 的 `name_zh`，不从人物别名、目录名或 Archive taxonomy 推断。
+
+```text
+private work.authors[]             public generated article
+  ├── person_id  ────────────────▶ author_ids[]
+  └── name_zh    ────────────────▶ author[]
+```
+
+两数组由同一对象数组按原顺序生成，不分别维护。`GeneratedArticleSchema` 校验非空数组、非空
+字符串、身份唯一与长度一致；`ReadableDocument` 以 `authorIds` 暴露身份引用，现有 `author` 与
+`authorLabel` 的显示语义不变。身份引用本身不生成作者链接或人物页面。
+
+person registry 只用于验证作者身份，不把人物的 aliases、roles、positioning、research fields、
+resources 或其他完整事实纳入 article。人物是否已有 researcher publication 不影响其作为译文
+作者；registry 中存在一个人物也不使其作品自动公开。internal work 仍受 translation publication
+selection 控制；未公开且缺少 `authors[]` 的 work 不阻塞同步，若被选择公开则必须满足同一作者契约。
 
 `topics` 与 `persons` **不属于**这份 allowlist：它们是 public 仓库自行维护的 Archive 编辑分类
 （`editorial/archive-taxonomy.json`），不是 translation 的发布元数据，因此不写进 `work.json`，
-也不由同步器输出。所有权与完整性规则见[架构说明](ARCHITECTURE.md)的"内容归属"。
+也不由同步器输出。`persons` 表示文章研究或涉及的人物，不能派生作者，也不接收 `author_ids`。
+所有权与完整性规则见[架构说明](ARCHITECTURE.md)的"内容归属"。
 
 ## 书籍与正式成果
 
