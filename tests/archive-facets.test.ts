@@ -3,6 +3,7 @@ import path from 'node:path';
 import { describe, expect, it } from 'vitest';
 import { getArchiveVocabulary, assertEveryTermHasArticles } from '../src/lib/archive-taxonomy';
 import { getSiteData } from '../src/lib/site-data';
+import { declaration, rules } from './helpers/styles';
 
 /**
  * Archive facet 浏览的契约：路由从受控词表生成、结果与筛选一致、顺序仍是 canonical order、
@@ -12,6 +13,72 @@ import { getSiteData } from '../src/lib/site-data';
 const facetPage = (segments: string[]) => path.join(process.cwd(), 'dist', 'archive', ...segments, 'index.html');
 
 describe('archive facets', () => {
+  it('uses the centered archive layout for the root and every facet view', async () => {
+    const { facets } = await getSiteData();
+    const pages = [
+      facetPage([]),
+      ...facets.topics.map((term) => facetPage(['topic', term.id])),
+      ...facets.persons.map((term) => facetPage(['person', term.id])),
+    ];
+
+    for (const file of pages) {
+      const html = readFileSync(file, 'utf8');
+      const layout = [...html.matchAll(/<div class="([^"]*)"/g)]
+        .map(([, value]) => value.split(/\s+/))
+        .find((classes) => classes.includes('section-layout'));
+      expect(layout, file).toBeDefined();
+      for (const modifier of ['archive-index-page', 'section-layout--rail', 'section-layout--pinned']) {
+        expect(layout, `${file} ${modifier}`).toContain(modifier);
+      }
+      // 只借文章页的水平几何，不启用阅读页的字体、背景或手机隐藏规则。
+      expect(layout, file).not.toContain('section-layout--reading');
+      expect(html, file).not.toContain('reading-page');
+      expect(html, file).not.toContain('<script');
+    }
+  });
+
+  it('centers the desktop content on the article axis with facets in its left index rail', () => {
+    const desktop = '@media (min-width: 801px)';
+    // 分类是辅助入口，采用页面局部的窄索引；正文仍沿用相同的居中几何。
+    expect(declaration('.archive-index-page', '--index', desktop)).toBe('160px');
+    expect(declaration('.archive-index-page', '--index-gap', desktop)).toBe('32px');
+    for (const property of ['width', 'grid-template-columns']) {
+      expect(declaration('.archive-index-page', property, desktop), property)
+        .toBe(declaration('.section-layout--reading', property));
+    }
+    expect(declaration('.archive-index-page', 'column-gap', desktop)).toBe('var(--index-gap)');
+    expect(declaration('.archive-index-page .section-layout__content', 'grid-column', desktop)).toBe('2');
+    for (const selector of ['.archive-index-page .section-layout__aside', '.archive-index-page .archive-facets']) {
+      expect(declaration(selector, 'margin-top', desktop), selector).toBe('0');
+    }
+    for (const selector of [
+      '.archive-index-page .archive-facets__label',
+      '.archive-index-page .archive-facets__all a',
+      '.archive-index-page .archive-facets__term',
+    ]) {
+      expect(declaration(selector, 'font-size', desktop), selector).toBe('.75rem');
+    }
+
+    // 分类目录自己吸顶；页眉仍在正常文档流内，不给目录增加补偿高度。
+    const sidebar = '.section-layout--pinned .section-layout__sidebar';
+    expect(declaration(sidebar, 'position')).toBe('sticky');
+    expect(declaration(sidebar, 'top')).toBe('var(--section-top)');
+  });
+
+  it('keeps narrow archive views in the existing single-column flow', () => {
+    const archiveRules = rules.filter(({ selector }) => selector.includes('.archive-index-page'));
+    expect(archiveRules.length).toBeGreaterThan(0);
+    for (const rule of archiveRules) {
+      expect(rule.media, rule.selector).toBe('@media (min-width: 801px)');
+    }
+    expect(declaration(
+      '.section-layout:not(.section-layout--indexed)', 'grid-template-columns', '@media (max-width: 800px)',
+    )).toBe('1fr');
+    expect(declaration(
+      '.section-layout--pinned .section-layout__sidebar', 'position', '@media (max-width: 800px)',
+    )).toBe('static');
+  });
+
   it('generates one static page per controlled term, keyed by canonical id', async () => {
     const { facets } = await getSiteData();
     expect(facets.topics.length).toBeGreaterThan(0);

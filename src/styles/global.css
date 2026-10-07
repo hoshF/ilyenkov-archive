@@ -18,7 +18,7 @@
 
 * { box-sizing: border-box; }
 
-html { scroll-behavior: smooth; overscroll-behavior-y: none; }
+html { scroll-behavior: smooth; }
 
 body { background: var(--paper); color: var(--ink); margin: 0; line-height: 1.4; }
 
@@ -51,10 +51,10 @@ h2, h3, h4 { text-wrap: balance; line-height: 1.3; }
 }
 
 .site-header__masthead {
-  width: min(calc(100% - 40px), var(--content)); align-items: center; margin: 0 auto; padding: 8px 0; display: flex;
+  width: min(calc(100% - 40px), var(--reading)); align-items: flex-start; margin: 0 auto; padding: 20px 0 12px; display: flex; flex-direction: column; gap: 12px;
 }
 
-/* 字标即首页入口，页眉里不再有可见站名文字。 */
+/* 字标与刊名构成第一行，目录独立成第二行。 */
 .site-name {
   color: var(--ink); white-space: nowrap; text-decoration: none;
   display: inline-flex; align-items: center; gap: 12px; flex-shrink: 0;
@@ -62,30 +62,25 @@ h2, h3, h4 { text-wrap: balance; line-height: 1.3; }
 
 .site-name__logo { display: block; width: auto; height: 24px; flex-shrink: 0; }
 
-/* 五个一级栏目是页眉的主体：从字标右侧隔开一段固定的距离开始，形成页眉的目录行。
-   不用 flex-end（那会缩成贴右的一小团，正是「品牌块 + 小菜单」的来源），也不用
-   space-between（1280px 下会摊成近 200px 的空档，变成门户网站式的松散排布）。
-   margin-left 是 identity → navigation 的结构边界，固定 64px（沿用栏目栏列距），
-   与项间距区分开；项间距用 clamp 随版心收缩，既不空荡也不拥挤。 */
+.site-name__text { font-size: 1.25rem; font-weight: 600; line-height: 1.4; }
+
 .site-header__nav {
-  flex: 1; justify-content: flex-start; align-items: center; display: flex;
-  margin-left: 64px; gap: clamp(40px, 5.5vw, 76px);
+  justify-content: flex-start; align-items: center; display: flex; flex-wrap: wrap;
+  margin-left: 0; gap: 8px clamp(32px, 4vw, 56px);
 }
-/* 普通项用中性深色，与左侧身份同一族；紫色留给交互与当前位置，页眉不再是「左边黑、右边紫」。
-   16px 是页眉唯一的文字级：站名文字移除后，导航自己承担页眉主体文字。 */
+
 .site-header__nav a {
   color: var(--ink-soft); font-size: var(--text-body); align-items: center; padding: 6px 0;
   text-decoration: none; display: inline-flex;
 }
 .site-header__nav a:hover { color: var(--accent-dark); }
 
-/* 当前栏目：导航里唯一带颜色并画线的一项。文字与下划线同为 --accent，
-   下划线跟随文字颜色，因此一处声明就让两者一致。下划线是文字自己的，
-   不改变导航项的高度。 */
+/* 当前栏目与目录同属深色系，只用细下划线标记位置。 */
 .site-header__nav a[aria-current=page] {
-  color: var(--accent); text-decoration: underline; text-decoration-thickness: 2px;
+  color: var(--ink-soft); text-decoration: underline; text-decoration-thickness: 1px;
   text-underline-offset: .32em;
 }
+.site-header__nav a[aria-current=page]:hover { color: var(--accent-dark); }
 
 .document-nav {
   max-width: var(--reading); border-top: 1px solid var(--line); font-size: var(--text-body);
@@ -171,69 +166,40 @@ h2, h3, h4 { text-wrap: balance; line-height: 1.3; }
 .book-page .fact-list dt { font-size: var(--text-meta); margin-bottom: 6px; font-weight: 600; }
 .book-page .fact-list dd { min-width: 0; }
 
-.book-detail__edition { position: relative; }
+.book-detail__edition dd { display: flex; flex-wrap: wrap; align-items: baseline; gap: 7px; }
+.book-detail__version { font-weight: 600; }
+.book-detail__edition time { color: var(--muted); font-size: var(--text-meta); }
 
 .book-detail__access p { margin: 0; }
 .book-detail__access p + p { margin-top: 6px; }
 
 .book-checksum { color: var(--muted); font-size: var(--text-meta); word-break: break-all; }
 
-.edition-popover { position: static; }
-.edition-popover summary {
-  color: var(--accent); font-size: var(--text-body); cursor: pointer; align-items: baseline; gap: 7px;
-  list-style: none; display: inline-flex;
-}
-.edition-popover summary::-webkit-details-marker { display: none; }
-.edition-popover summary:after { color: var(--muted); font-size: var(--text-meta); content: "▾"; margin-left: 2px; }
-.edition-popover[open] summary:after { content: "▴"; }
-.edition-popover summary:hover { color: var(--accent-dark); text-decoration: underline; }
-.edition-popover summary:focus-visible { outline: 2px solid var(--accent); outline-offset: 4px; }
+.book-editions { max-width: var(--reading); margin: 0 auto; }
+.book-editions > h2 { font-size: var(--text-section); margin: 0 0 24px; font-weight: 700; }
+.book-editions .record__note, .book-editions .book-checksum { margin-top: 9px; }
 
-.edition-popover__current-version { font-weight: 600; }
-
-.edition-popover summary time { color: var(--muted); font-size: var(--text-meta); }
-
-.edition-popover__panel {
-  position: absolute; top: calc(100% + 8px); right: 0; z-index: 30;
-  width: min(360px, calc(100vw - 40px)); max-height: min(28rem, 60vh); overflow: auto;
-  padding: 18px 20px; background: var(--paper); border: 1px solid var(--line-strong);
-  box-shadow: 0 8px 24px rgba(0, 0, 0, .12);
-}
-
-.edition-popover__title {
-  border-bottom: 1px solid var(--line); color: var(--muted); font-size: var(--text-meta); margin: 0 0 14px;
-  padding-bottom: 10px; font-weight: 600;
-}
-
-.edition-popover__list { margin: 0; padding: 0; list-style: none; }
-.edition-popover__list > li { padding: 0 0 16px; }
-.edition-popover__list > li + li { border-top: 1px solid var(--line); padding-top: 16px; }
-.edition-popover__list > li:last-child { padding-bottom: 0; }
-
-.edition-popover__heading { flex-wrap: wrap; align-items: baseline; gap: 8px 14px; margin: 0; display: flex; }
-.edition-popover__heading strong { font-size: var(--text-body); }
-.edition-popover__heading time { color: var(--muted); font-size: var(--text-meta); }
-
-.edition-popover__note {
-  color: var(--ink-soft); font-size: var(--text-secondary); margin: 8px 0 0; line-height: 1.6;
-}
-.edition-popover__note + .book-checksum, .edition-popover__heading + .book-checksum { margin: 8px 0 0; }
-
-.edition-popover__errata { border-top: 1px solid var(--line-strong); margin-top: 18px; padding-top: 16px; }
-.edition-popover__errata h2 { font-size: var(--text-secondary); margin: 0; font-weight: 600; }
-.edition-popover__errata ul { margin: 10px 0 0; padding-left: 1.2rem; }
-.edition-popover__errata li { font-size: var(--text-secondary); line-height: 1.6; }
+.book-edition-index { color: var(--muted); font-size: .75rem; line-height: 1.6; overflow-wrap: anywhere; }
+.book-edition-index__heading { margin: 0 0 14px; font-weight: 500; }
+.book-edition-index__list { margin: 0; padding: 0; list-style: none; }
+.book-edition-index__list li + li { margin-top: 16px; }
+.book-edition-index__version { color: var(--ink-soft); margin: 0; }
+.book-edition-index time { display: block; }
 
 .container {
   width: min(calc(100% - 40px), var(--reading)); font-size: var(--text-body); margin: 0 auto;
   padding: var(--section-top) 0 96px;
 }
 
-.container.book-page { width: min(calc(100% - 40px), 860px); max-width: 860px; padding-top: 48px; font-size: var(--text-body); }
+.container.book-page {
+  --section-top: 48px;
+  width: min(calc(100% - 40px), var(--reading)); max-width: var(--reading); padding-top: var(--section-top); font-size: var(--text-body); display: block;
+}
 
-.book-page > .breadcrumbs { margin-bottom: 34px; }
+.book-page .section-layout__sidebar { display: none; }
+.book-page .section-layout__breadcrumb { margin-bottom: 34px; }
 .book-page .prose { max-width: none; font-size: var(--text-body); margin-left: 0; }
-.book-page .book-introduction { grid-area: introduction; width: 100%; max-width: var(--reading); margin: 0; }
+.book-page .book-introduction { grid-area: introduction; width: 100%; max-width: var(--reading); margin: 0 auto; }
 
 .page-title { margin: 0; font-size: var(--text-page); font-weight: 700; line-height: 1.3; letter-spacing: normal; }
 
@@ -247,7 +213,7 @@ h2, h3, h4 { text-wrap: balance; line-height: 1.3; }
 .page-header .lead { margin: 18px 0 0; }
 
 .home-masthead {
-  width: min(calc(100% - 40px), var(--content)); border-bottom: 1px solid var(--line);
+  width: min(calc(100% - 40px), var(--reading)); border-bottom: 1px solid var(--line);
   margin: 0 auto; padding: 60px 0 42px;
 }
 .home-masthead h1 {
@@ -260,7 +226,7 @@ h2, h3, h4 { text-wrap: balance; line-height: 1.3; }
 /* 首页是整份档案的目录页，不是双栏 landing page：从 masthead 起自然向下展开
    （从哪里开始 → 最新内容 → 近期动态）。所有 section 用同一条版心左边界，
    内部的阅读宽度由 grid 自己收缩，因此不新增 width token。 */
-.home-page { width: min(calc(100% - 40px), var(--content)); margin: 0 auto 96px; padding-top: 40px; }
+.home-page { width: min(calc(100% - 40px), var(--reading)); margin: 0 auto 96px; padding-top: 40px; }
 
 .home-page > section + section { margin-top: 72px; }
 .home-page h2 {
@@ -358,15 +324,46 @@ h2, h3, h4 { text-wrap: balance; line-height: 1.3; }
   width: min(calc(100% - 40px), var(--reading));
 }
 
+/* 版次只占正文两侧的余白；余白不足时隐藏辅助栏，不挤压书籍内容。 */
+@media (min-width: 1101px) {
+  .container.book-page {
+    --index: 160px; --index-gap: 32px;
+    width: min(calc(100% - 40px), calc(var(--reading) + (var(--index) + var(--index-gap)) * 2));
+    max-width: none; display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(0, var(--reading)) minmax(0, 1fr);
+    column-gap: var(--index-gap);
+  }
+  .book-page .section-layout__sidebar { display: block; }
+  .book-page .section-layout__content { grid-column: 2; }
+  .book-page .section-layout__aside { margin-top: 0; }
+}
+
+/* 档案列表沿用译文页的居中内容列；分类只是左侧索引，不把列表推向右边。
+   仅在双栏宽度下修正几何，窄屏仍沿用普通栏目页的单列顺序与间距。 */
+@media (min-width: 801px) {
+  .archive-index-page {
+    --index: 160px; --index-gap: 32px;
+    width: min(calc(100% - 40px), calc(var(--reading) + (var(--index) + var(--index-gap)) * 2));
+    grid-template-columns: minmax(0, var(--index)) minmax(0, var(--reading)) minmax(0, 1fr);
+    column-gap: var(--index-gap);
+  }
+  .archive-index-page .section-layout__content { grid-column: 2; }
+  .archive-index-page .section-layout__aside, .archive-index-page .archive-facets { margin-top: 0; }
+  .archive-index-page .archive-facets__label,
+  .archive-index-page .archive-facets__all a,
+  .archive-index-page .archive-facets__term { font-size: .75rem; }
+}
+
 .section-layout__sidebar, .section-layout__intro, .section-layout__content { min-width: 0; }
 
-/* 宽屏下，没有左栏的页面拿回整条版心：记录列表比连续正文宽，收成 672px 会让每条记录折行过多。
-   译文页有自己的行宽（.section-layout--reading），不在此列。
-   只在宽屏生效：≤600px 的容器宽度本身就是「视口 − 1.5rem」，再减一次 40px 会让正文
-   比其它页面窄一截。窄屏下内容列填满容器即可。 */
+/* 无辅助栏的页面收成同一条居中阅读列，标题、说明与记录列表共用这条轴线。
+   窄屏继续沿用原有容器留白，不另做移动端版式。 */
 @media (min-width: 601px) {
+  .section-layout:not(.section-layout--rail):not(.section-layout--reading) {
+    width: min(calc(100% - 40px), var(--reading));
+  }
   .section-layout:not(.section-layout--rail):not(.section-layout--reading) .section-layout__content {
-    width: min(calc(100% - 40px), var(--section));
+    width: 100%;
   }
 }
 
@@ -378,11 +375,10 @@ h2, h3, h4 { text-wrap: balance; line-height: 1.3; }
 .section-layout__intro .page-header { margin: 0; }
 .section-layout__intro .lead { font-size: var(--text-body); line-height: 1.65; }
 
-.section-note, .section-boundary {
+.section-note {
   color: var(--muted); font-size: var(--text-meta); margin: 18px 0 0; line-height: 1.65;
 }
 
-.section-boundary { border-top: 1px solid var(--line); padding-top: 18px; }
 
 /* --section-top 同时保留索引自身的顶部留白；索引随页面滚到此处后吸顶，不为页眉预留空间。 */
 .section-layout__toc { position: sticky; top: var(--section-top); min-width: 0; }
@@ -474,7 +470,7 @@ h2, h3, h4 { text-wrap: balance; line-height: 1.3; }
 .archive-facets__context { color: var(--muted); font-size: var(--text-meta); margin: -12px 0 24px; }
 .person-intro { margin: 0 0 48px; }
 
-.entrance-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 40px 44px; }
+.entrance-grid { display: grid; grid-template-columns: 1fr; gap: 32px; }
 .entrance-card { display: block; color: var(--ink); text-decoration: none; }
 .entrance-card__label { display: block; color: var(--accent); font-size: var(--text-item); font-weight: 600; line-height: 1.4; }
 .entrance-card__scope { display: block; margin-top: 5px; color: var(--muted); font-size: var(--text-meta); }
@@ -496,12 +492,6 @@ h2, h3, h4 { text-wrap: balance; line-height: 1.3; }
 
 /* 作品目录按体裁分段，段之间只靠留白分开，与书籍分类用同一个间距。 */
 .works-catalog-section + .works-catalog-section { margin-top: 56px; }
-
-/* 小组页尾的公开边界说明：它是尾注，不是与“小组工作”并列的章节，
-   标题收到与说明文字同一级，只保留结构上的 h2。 */
-.group-notes { margin-top: 56px; }
-.group-notes h2 { font-size: var(--text-meta); letter-spacing: .04em; margin: 0 0 10px; font-weight: 500; }
-.group-notes .section-note { margin-top: 0; }
 
 .works-catalog-section h2 { font-size: var(--text-section); margin: 0 0 26px; font-weight: 700; }
 
@@ -640,14 +630,6 @@ h2, h3, h4 { text-wrap: balance; line-height: 1.3; }
    面包屑、期号、题名和正文共用一条内容轴，不再为“本期内容 + 返程链接”留一列。
    这个 modifier 现在只剩两件事：正文取阅读页的衬线，以及篇末导航与正文同宽。 */
 
-/* 期的正文是连续阅读正文（一条 672px 的行宽），没有左栏以后容器就取这条行宽，
-   再撑到整个版心只会让正文右边空出一大块。它不用 --reading 版式——那只在窄屏藏起
-   站点标题栏和面包屑，这里要保持可见。
-   宽度写成一个 min() 有两个原因：桌面上 .container 自己会做 `calc(100% - 40px)`，
-   容器得比阅读行宽多出这 40px，内容列才会正好是 672px；而 ≤600px 的 .container
-   规则（视口 − 1.5rem）本来就是全文最宽的行为，这里让它按同一个视口口径收窄即可。 */
-.group-issue-page { width: min(calc(100% - 40px), calc(var(--reading) + 40px), var(--content)); }
-
 /* 正文与篇末导航共用同一条水平基准：容器宽于行宽时一起居中，窄于行宽时一起填满。 */
 .group-issue-page .document-nav { margin-right: 0; margin-left: 0; }
 
@@ -682,11 +664,11 @@ h2, h3, h4 { text-wrap: balance; line-height: 1.3; }
   .document-header h1 { font-size: var(--text-page-mobile); margin-top: 0; }
   .site-header__masthead, .site-footer__inner, .container, .home-page { width: min(calc(100% - 1.5rem), var(--content)); }
   /* 导航始终另起一行，保持窄屏排列稳定。 */
-  .site-header__masthead { flex-wrap: wrap; align-items: center; row-gap: 4px; padding: 12px 0; }
+  .site-header__masthead { align-items: flex-start; gap: 8px; padding: 16px 0 8px; }
   .site-name { width: auto; }
   /* 手机上导航独占一行：5 个栏目的行宽已经接近 320px 的极限，所以这里保持 14px 与固定
      间距，不跟着桌面一起放大，也不拉开分布。 */
-  .site-header__nav { flex: 0 0 100%; justify-content: flex-start; margin-left: 0; gap: 12px; padding: 0; }
+  .site-header__nav { justify-content: flex-start; margin-left: 0; gap: 4px 20px; padding: 0; }
   .site-header__nav a { font-size: var(--text-meta); padding: 8px 0; }
   /* 动态在窄屏把日期放到说明上方，让长文本保有完整行宽。 */
   .updates-list__item { grid-template-columns: minmax(0, 1fr); gap: 6px 0; }
@@ -705,8 +687,8 @@ h2, h3, h4 { text-wrap: balance; line-height: 1.3; }
   .fact-list > div { grid-template-columns: 1fr; gap: .15rem; }
   .document-nav__siblings { flex-direction: column; gap: 10px; }
   .document-nav__next { text-align: left; margin-left: 0; }
-  .container.book-page { width: min(calc(100% - 2.5rem), 860px); padding-top: 32px; }
-  .book-page > .breadcrumbs { margin-bottom: 28px; }
+  .container.book-page { --section-top: 32px; width: min(calc(100% - 2.5rem), 860px); }
+  .book-page .section-layout__breadcrumb { margin-bottom: 28px; }
   .book-header__title { border-bottom: 0; padding-bottom: 0; }
   .book-header__title h1 { font-size: var(--text-page-mobile); }
   .book-header__body, .book-header__body--without-cover {
@@ -719,5 +701,4 @@ h2, h3, h4 { text-wrap: balance; line-height: 1.3; }
   .book-header__cover-link { width: min(100%, 420px); max-width: 420px; }
   .book-page .fact-list > div + div { margin-top: 28px; }
   .book-page .fact-list dt { margin-bottom: 7px; }
-  .edition-popover__panel { right: auto; left: 0; width: 100%; padding: 16px; }
 }

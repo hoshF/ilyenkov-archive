@@ -11,7 +11,7 @@ const issues = await getGroupIssues();
     <header class="page-header" slot="intro">
       <h1 class="page-title">中文伊里因科夫小组</h1>
       <p class="lead">中文伊里因科夫小组围绕伊里因科夫及相关苏联哲学文本开展资料整理、翻译、校订、研究与讨论。本页按期记录小组公开的研究、活动和阶段性成果。</p>
-      <p class="section-boundary">成员信息、内部协作、版权沟通与未获准公开的会议记录不在这里呈现。联系与参与方式见<a href="/contact/">关注与联系</a>。</p>
+      <p class="section-note"><a href="/contact/">关注与联系</a></p>
     </header>
 
     <section class="group-issues" aria-labelledby="group-issues-heading">
@@ -30,14 +30,10 @@ const issues = await getGroupIssues();
         </ul>
       ) : (
         <div class="prose prose--section">
-          <p>目前尚无完成公开选择的小组工作记录，因此本页暂不列出期目。已经获准公开阅读的文章译文见<a href="/archive">文本档案</a>。</p>
+          <p>暂无公开的小组工作记录。</p>
         </div>
       )}
     </section>
 
-    <section class="group-notes" aria-labelledby="group-notes-heading">
-      <h2 id="group-notes-heading">说明</h2>
-      <p class="section-note">本页只记录已经完成公开选择的小组工作。研究材料存在、工作已经完成与内容获准在网站公开，是彼此不同的状态；更完整的项目边界与权利说明见<a href="/about">项目与权利</a>。</p>
-    </section>
   </SectionLayout>
 </BaseLayout>

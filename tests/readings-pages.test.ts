@@ -135,8 +135,8 @@ describe('Readings public series detail and research entry', () => {
   it('makes the partial record selection and dates explicit without renumbering early or international events', () => {
     const events = getPublicReadings();
     const records = sectionById(mainContent(builtPage('/research/readings/')), 'readings-events-heading');
-    expect(textContent(records)).toContain('本站目前公开其中部分已整理会议记录。');
-    expect(textContent(records)).toContain('以下日期对应各条公开记录，不构成完整会议年表或各届完整会期。');
+    expect(textContent(records)).toContain('以下为部分会议记录');
+    expect(textContent(records)).toContain('所列日期以来源记载为准，不一定覆盖完整会期。');
     const early = events.find((record) => record.id === 'readings-1991-first')!;
     const firstInternational = events.find((record) => record.id === 'readings-1999-i-first-international')!;
     expect(early.edition).toBe('早期会议（未编号）');

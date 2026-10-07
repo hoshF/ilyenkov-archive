@@ -267,9 +267,9 @@ describe('website-approved data adapter', () => {
     const text = main.replace(/<[^>]+>/g, '');
     expect(text).not.toMatch(/首批|目前先|后续将|正在逐步|第一阶段/);
     expect(text).toContain('从研究网络、研究者、学术活动与外部资料站点进入国际伊里因科夫研究。');
-    expect(text).toContain('本栏目提供代表性入口，不构成完整人物名录、会议数据库或互联网资源目录。');
-    expect(text).toContain('介绍与伊里因科夫研究密切相关、已有较完整资料基础的研究者。');
-    expect(text).toContain('以下入口指向外部资料站点；本站不转载其正文、附件或下载内容。');
+    expect(text).toContain('从研究网络、研究者、学术活动与外部资料站点进入国际伊里因科夫研究。');
+    expect(text).toContain('介绍与伊里因科夫研究密切相关的研究者。');
+    expect(text).toContain('以下链接指向外部资料站点。');
 
     // 深链接只保留标题自身的跳转留白；移动端沿用同一契约。
     for (const media of ['', '@media (max-width: 600px)']) {
@@ -526,7 +526,7 @@ describe('website-approved data adapter', () => {
 
   it('presents Ilyenkov section entrances as whole-card links', () => {
     expect(declaration('.entrance-card', 'text-decoration')).toBe('none');
-    expect(declaration('.entrance-grid', 'grid-template-columns')).toContain('repeat(2');
+    expect(declaration('.entrance-grid', 'grid-template-columns')).toBe('1fr');
     expect(declaration('.entrance-grid', 'grid-template-columns', '@media (max-width: 600px)')).toBe('1fr');
   });
 
@@ -550,9 +550,10 @@ describe('public navigation', () => {
     expect(layout).toContain("aria-current={current(item.href) ? 'page' : undefined}");
 
     const active = declarationsFor('.site-header__nav a[aria-current=page]');
-    // 当前项是页眉里唯一带颜色的一项：文字用 --accent，下划线是文字自己的下划线，
-    // 因此随文字同色，不需要单独声明 text-decoration-color。
-    expect(active.color).toBe('var(--accent)');
+    // 当前项沿用普通目录文字颜色，以细下划线标示位置。
+    expect(active.color).toBe('var(--ink-soft)');
+    expect(active['text-decoration-thickness']).toBe('1px');
+    expect(declaration('.site-header__nav a[aria-current=page]:hover', 'color')).toBe('var(--accent-dark)');
     expect(active['text-decoration']).toBe('underline');
     expect(active['text-decoration-color']).toBeUndefined();
     // 底线是文字自己的下划线：导航项不因为当前状态而变高。
@@ -658,7 +659,7 @@ describe('public navigation', () => {
     }
   });
 
-  it('keeps the header a mark plus a directory, not a brand block plus a menu', () => {
+  it('uses a visible publication name above the five-item directory', () => {
     const layout = layoutSource('BaseLayout');
     const homepage = readFileSync(path.join(process.cwd(), 'dist', 'index.html'), 'utf8');
     const header = homepage.match(/<header class="site-header">([\s\S]*?)<\/header>/)![1];
@@ -683,27 +684,29 @@ describe('public navigation', () => {
     // 页眉里不再引用那个独立图片资源。
     expect(header).not.toContain('evi-wordmark.svg');
 
-    // 可见站名不再出现在页眉；站点名称仍由 <title>、首页 h1 与页脚承担。
-    expect(header).not.toContain('site-name__text');
-    expect(header).not.toContain(`>${site.name}<`);
+    // 刊名可见，并与内联字标共用唯一的首页链接。
+    expect(mark).toContain('site-name__text');
+    expect(mark).toContain(`>${site.name}<`);
     expect(homepage).toContain(`<title>${site.name}</title>`);
     expect(homepage.match(/<footer class="site-footer">([\s\S]*?)<\/footer>/)![1]).toContain(site.name);
-    expect(layout).not.toContain('site-name__text');
+    expect(layout).toContain('site-name__text');
 
     // 五个一级栏目仍是页眉的主体，且顺序与 site.navigation 一致。
     const nav = header.match(/<nav[^>]*aria-label="主要导航"[^>]*>([\s\S]*?)<\/nav>/)![1];
     expect([...nav.matchAll(/<a[^>]*>([^<]*)<\/a>/g)].map(([, label]) => label))
       .toEqual(site.navigation.map((item) => item.label));
 
-    // 导航占据字标右侧的剩余宽度（而不是贴右的小菜单），字标与首项之间另有固定的结构边界。
+    // 刊名与导航分为两行，目录允许自然换行。
     const navRule = declarationsFor('.site-header__nav');
-    expect(navRule.flex).toContain('1');
+    expect(declaration('.site-header__masthead', 'flex-direction')).toBe('column');
+    expect(declaration('.site-header__masthead', 'width')).toBe('min(calc(100% - 40px), var(--reading))');
+    expect(navRule['flex-wrap']).toBe('wrap');
     expect(navRule['justify-content']).not.toBe('flex-end');
     expect(navRule['margin-left']).toBeDefined();
   });
 
-  it('keeps the header text at one level and the mobile nav compact', () => {
-    // 站名文字移除后，16px 是页眉唯一的文字级：导航自己承担主体文字，且不加粗。
+  it('keeps navigation typography unchanged and the mobile directory compact', () => {
+    // 导航仍为 16px，不额外加粗；刊名单独承担第一层身份。
     const link = declarationsFor('.site-header__nav a');
     expect(link['font-size']).toBe('var(--text-body)');
     expect(link.color).toBe('var(--ink-soft)');
@@ -848,10 +851,8 @@ describe('public navigation', () => {
     expect(section).toContain('href="/archive"');
     expect(section).toContain('href="/group"');
     const note = section.match(/<p class="home-content__note">([^<]*)<\/p>/)![1];
-    expect(note).toContain('有本站公开日期的内容优先，按日期倒序');
-    expect(note).toContain('译文未记录本站公开日期');
-    expect(note).toContain('随后沿用档案顺序');
-    expect(note).toContain('所列年份为原文年份');
+    expect(note).toContain('有本站公开日期的内容优先');
+    expect(note).toContain('其余译文按原文年份倒序排列');
     for (const phrase of ['最近的文章', '最新文章', '最近更新', '最近发表']) {
       expect(section, phrase).not.toContain(phrase);
     }
@@ -861,7 +862,7 @@ describe('public navigation', () => {
     expect(pageSource('index.astro')).not.toContain('/about');
     const groupPage = pageSource('group/index.astro');
     expect(groupPage).toContain('<SectionLayout');
-    expect(groupPage).toContain('href="/about"');
+    expect(groupPage).toContain('href="/contact/"');
   });
 
   it('keeps the group pages on their own public editorial channel', () => {
@@ -1066,28 +1067,78 @@ describe('book channel', () => {
     expect(rules.some((rule) => rule.selector.startsWith('.book-card'))).toBe(false);
   });
 
-  it('keeps editions and access information inside the book detail panel', () => {
-    const page = pageSource('books/[id].astro');
+  it('links only the Chinese book title, leaving original title and metadata outside the link', async () => {
+    const html = readFileSync(builtRoutePath('/books'), 'utf8');
+    for (const book of await getBooks()) {
+      const links = [...html.matchAll(/<a\b([^>]*)>([\s\S]*?)<\/a>/g)].filter((match) => match[1].includes(`href="${book.route}"`));
+      expect(links, book.id).toHaveLength(1);
+      expect(links[0][2], book.id).toContain(book.title);
+      expect(links[0][2], book.id).not.toContain('record__original');
+      expect(links[0][2], book.id).not.toContain('record__meta');
+    }
+  });
 
-    expect(page).toContain('<dt>当前版次</dt>');
-    expect(page).toContain('<details class="edition-popover">');
-    expect(page).toContain('<span aria-hidden="true">·</span>');
-    expect(page).toContain('<p class="edition-popover__title">版次记录</p>');
-    expect(page).toContain('[...book.editions].reverse().map');
-    expect(page).toContain('edition.checksum');
-    expect(page).toContain('book.errata');
-    expect(page).toContain('<dt>获取与权利</dt>');
-    expect(page).toContain('book.rights');
-    expect(page).toContain('book.download');
-    expect(page).toContain('<p>本站不提供下载。</p>');
-    expect(hasRule('.edition-popover__panel')).toBe(true);
-    expect(declaration('.book-detail__edition', 'position')).toBe('relative');
-    expect(declaration('.edition-popover', 'position')).toBe('static');
-    expect(declaration('.edition-popover__panel', 'position')).toBe('absolute');
-    expect(declaration('.edition-popover__panel', 'top')).toBe('calc(100% + 8px)');
-    expect(declaration('.edition-popover__panel', 'overflow')).toBe('auto');
-    expect(declaration('.edition-popover__panel', 'max-height')).toContain('60vh');
-    expect(declaration('.edition-popover__panel', 'left', '@media (max-width: 600px)')).toBe('0');
+  it('keeps edition records visible and the auxiliary version list free of jump links', async () => {
+    for (const book of await getBooks()) {
+      const html = readFileSync(builtRoutePath(book.route), 'utf8');
+      const main = html.match(/<main>([\s\S]*?)<\/main>/)![1];
+      const sidebar = main.match(/<aside\b[^>]*class="book-edition-index"[^>]*>([\s\S]*?)<\/aside>/)![1];
+      const current = main.match(/<dt>当前版次<\/dt>\s*<dd>([\s\S]*?)<\/dd>/)![1];
+      const list = main.match(/<ol\b[^>]*class="record-list"[^>]*>([\s\S]*?)<\/ol>/)![1];
+      const records = [...list.matchAll(/<li\b[^>]*>([\s\S]*?)<\/li>/g)].map((match) => match[1]);
+      const sidebarRecords = [...sidebar.matchAll(/<li\b[^>]*>([\s\S]*?)<\/li>/g)].map((match) => match[1]);
+      const editions = [...book.editions].reverse();
+
+      expect(main, book.id).toContain('section-layout--rail');
+      expect(main, book.id).toContain('section-layout--pinned');
+      expect(main, book.id).not.toContain('section-layout--indexed');
+      expect(main, book.id).toContain('aria-labelledby="book-edition-index-heading"');
+      expect(sidebar, book.id).toMatch(/<p\b[^>]*id="book-edition-index-heading"[^>]*>版次记录<\/p>/);
+      expect(records, book.id).toHaveLength(editions.length);
+      expect(sidebarRecords, book.id).toHaveLength(editions.length);
+      expect(sidebar, book.id).not.toMatch(/<a\b/);
+      expect(current, book.id).not.toMatch(/<a\b/);
+      expect(current, book.id).toContain(book.latestEdition.version);
+      expect(current, book.id).toContain(`datetime="${book.latestEdition.date}"`);
+
+      for (const [index, edition] of editions.entries()) {
+        const record = records[index];
+        const sidebarRecord = sidebarRecords[index];
+        expect(record, `${book.id}: ${edition.version}`).toContain(edition.version);
+        expect(record, `${book.id}: ${edition.version}`).toContain(`datetime="${edition.date}"`);
+        expect(sidebarRecord, `${book.id}: ${edition.version}`).toContain(edition.version);
+        expect(sidebarRecord, `${book.id}: ${edition.version}`).toContain(`datetime="${edition.date}"`);
+        if (edition.note) expect(record, book.id).toContain(edition.note);
+        if (edition.checksum) expect(record, book.id).toContain(edition.checksum);
+      }
+      for (const erratum of book.errata ?? []) expect(main, book.id).toContain(erratum);
+
+      expect(main, book.id).toContain('<dt>获取与权利</dt>');
+      if (book.rights) expect(main, book.id).toContain(book.rights);
+      if (book.download) {
+        expect(main, book.id).toContain(`href="${book.download.href}"`);
+        expect(main, book.id).toContain(book.download.label);
+      } else expect(main, book.id).toContain('本站不提供下载。');
+      expect(main, book.id).not.toMatch(/<details\b|edition-popover/);
+      expect(html, book.id).not.toMatch(/<script\b/);
+    }
+  });
+
+  it('uses a small desktop-only auxiliary rail while retaining the book content width', () => {
+    const desktop = '@media (min-width: 1101px)';
+    expect(declaration('.container.book-page', 'display')).toBe('block');
+    expect(declaration('.book-page .section-layout__sidebar', 'display')).toBe('none');
+    expect(declaration('.container.book-page', 'max-width', desktop)).toBe('none');
+    expect(declaration('.container.book-page', 'display', desktop)).toBe('grid');
+    expect(declaration('.container.book-page', '--index', desktop)).toBe('160px');
+    expect(declaration('.container.book-page', '--index-gap', desktop)).toBe('32px');
+    expect(declaration('.container.book-page', 'grid-template-columns', desktop)).toBe('minmax(0, 1fr) minmax(0, var(--reading)) minmax(0, 1fr)');
+    expect(declaration('.container.book-page', 'max-width')).toBe('var(--reading)');
+    expect(declaration('.book-page .section-layout__sidebar', 'display', desktop)).toBe('block');
+    expect(declaration('.section-layout--pinned .section-layout__sidebar', 'position')).toBe('sticky');
+    expect(declaration('.book-page .section-layout__content', 'grid-column', desktop)).toBe('2');
+    expect(declaration('.book-edition-index', 'font-size')).toBe('.75rem');
+    expect(rules.some((rule) => rule.selector.includes('edition-popover'))).toBe(false);
 
     // 书目字段不画分隔线。事实表在 .book-header__body 里，不是 .book-header 的后代，
     // 所以覆盖挂在 .book-page 上。
@@ -1128,7 +1179,7 @@ describe('book channel', () => {
     expect(coverIndex).toBeGreaterThan(-1);
     expect(detailsIndex).toBeGreaterThan(coverIndex);
     expect(introductionIndex).toBeGreaterThan(detailsIndex);
-    expect(declaration('.container.book-page', 'max-width')).toBe('860px');
+    expect(declaration('.container.book-page', 'max-width')).toBe('var(--reading)');
     expect(declaration('.book-header__body', 'grid-template-columns')).toContain('clamp(220px, 30vw, 280px)');
     expect(declaration('.book-header__body', 'column-gap')).toContain('clamp(');
     expect(declaration('.book-header__body', 'grid-template-areas')).toContain('"cover identity"');
@@ -1140,5 +1191,29 @@ describe('book channel', () => {
     // 窄屏：封面收窄，字段之间靠间距分组
     expect(declaration('.book-header__cover-link', 'width', '@media (max-width: 600px)')).toBe('min(100%, 420px)');
     expect(declaration('.book-page .fact-list > div + div', 'margin-top', '@media (max-width: 600px)')).toBe('28px');
+  });
+});
+
+
+describe('centered reader-facing section layouts', () => {
+  it('centers ordinary sections and the homepage on the reading column', () => {
+    const selector = '.section-layout:not(.section-layout--rail):not(.section-layout--reading)';
+    expect(declaration(selector, 'width', '@media (min-width: 601px)')).toBe('min(calc(100% - 40px), var(--reading))');
+    expect(declaration(`${selector} .section-layout__content`, 'width', '@media (min-width: 601px)')).toBe('100%');
+    for (const selector of ['.home-page', '.home-masthead']) {
+      expect(declaration(selector, 'width')).toBe('min(calc(100% - 40px), var(--reading))');
+    }
+    expect(declaration('.book-page .book-introduction', 'margin')).toBe('0 auto');
+    expect(declaration('.book-editions', 'margin')).toBe('0 auto');
+  });
+
+  it('keeps editorial process explanations out of public introductions', () => {
+    for (const route of ['ilyenkov/index.astro', 'about.astro', 'group/index.astro', 'research.astro']) {
+      const source = pageSource(route);
+      for (const phrase of ['本栏的编辑导言', '会随公开选择', '私有仓库', '静态构建', '首批收录']) {
+        expect(source, route).not.toContain(phrase);
+      }
+    }
+    expect(pageSource('ilyenkov/index.astro')).not.toContain('国际研究见');
   });
 });

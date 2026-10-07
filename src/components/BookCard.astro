@@ -9,12 +9,12 @@ const meta = [book.original_year, book.work_type ?? BOOK_CATEGORY_LABELS[book.ca
 ---
 
 <li>
-  <a class="record__link" href={book.route}>
-    <span class="record__title">
+  <p class="record__title">
+    <a href={book.route}>
       《{book.title}》
       {book.volume_label && <span class="record__volume">{book.volume_label}</span>}
-    </span>
+    </a>
+  </p>
     {book.original_title && <span class="record__original" lang="ru">{book.original_title}</span>}
     <span class="record__meta record__meta--after">{meta.join(' · ')}</span>
-  </a>
 </li>

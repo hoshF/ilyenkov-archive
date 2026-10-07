@@ -1,6 +1,7 @@
 ---
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import Breadcrumbs from '../../components/Breadcrumbs.astro';
+import SectionLayout from '../../components/SectionLayout.astro';
 import { getBooks, type Book } from '../../lib/books';
 
 export async function getStaticPaths() {
@@ -13,11 +14,24 @@ export async function getStaticPaths() {
 
 interface Props { book: Book; }
 const { book } = Astro.props;
+const editions = [...book.editions].reverse();
 ---
 
 <BaseLayout title={book.title} description={`《${book.title}》的出版身份、版次记录与译者引言。`}>
-  <div class="container book-page">
-    <Breadcrumbs items={[
+  <SectionLayout pinned modifier="book-page">
+    <aside class="book-edition-index" slot="aside" aria-labelledby="book-edition-index-heading">
+      <p class="book-edition-index__heading" id="book-edition-index-heading">版次记录</p>
+      <ul class="book-edition-index__list">
+        {editions.map((edition) => (
+          <li>
+            <p class="book-edition-index__version">{edition.version}</p>
+            <time datetime={edition.date}>{edition.date}</time>
+          </li>
+        ))}
+      </ul>
+    </aside>
+
+    <Breadcrumbs slot="breadcrumb" items={[
       { label: '书籍', href: '/books' },
       { label: book.title },
     ]} />
@@ -54,34 +68,9 @@ const { book } = Astro.props;
             <div class="book-detail__edition">
               <dt>当前版次</dt>
               <dd>
-                <details class="edition-popover">
-                  <summary>
-                    <span class="edition-popover__current-version">{book.latestEdition.version}</span>
-                    <span aria-hidden="true">·</span>
-                    <time datetime={book.latestEdition.date}>{book.latestEdition.date}</time>
-                  </summary>
-                  <div class="edition-popover__panel">
-                    <p class="edition-popover__title">版次记录</p>
-                    <ol class="edition-popover__list">
-                      {[...book.editions].reverse().map((edition) => (
-                        <li>
-                          <p class="edition-popover__heading">
-                            <strong>{edition.version}</strong>
-                            <time datetime={edition.date}>{edition.date}</time>
-                          </p>
-                          {edition.note && <p class="edition-popover__note">{edition.note}</p>}
-                          {edition.checksum && <p class="book-checksum">{edition.checksum}</p>}
-                        </li>
-                      ))}
-                    </ol>
-                    {book.errata && book.errata.length > 0 && (
-                      <section class="edition-popover__errata" aria-labelledby="book-errata-heading">
-                        <h2 id="book-errata-heading">勘误</h2>
-                        <ul>{book.errata.map((item) => <li>{item}</li>)}</ul>
-                      </section>
-                    )}
-                  </div>
-                </details>
+                <span class="book-detail__version">{book.latestEdition.version}</span>
+                <span aria-hidden="true">·</span>
+                <time datetime={book.latestEdition.date}>{book.latestEdition.date}</time>
               </dd>
             </div>
             <div class="book-detail__access">
@@ -101,6 +90,26 @@ const { book } = Astro.props;
           <div set:html={book.introductionHtml} />
         </section>
       </div>
+
+      <section class="book-editions" aria-labelledby="book-editions-heading">
+        <h2 id="book-editions-heading">版次记录</h2>
+        <ol class="record-list" role="list">
+          {editions.map((edition) => (
+            <li>
+              <p class="record__meta"><time datetime={edition.date}>{edition.date}</time></p>
+              <h3 class="record__title">{edition.version}</h3>
+              {edition.note && <p class="record__note">{edition.note}</p>}
+              {edition.checksum && <p class="book-checksum">{edition.checksum}</p>}
+            </li>
+          ))}
+        </ol>
+        {book.errata && book.errata.length > 0 && (
+          <section class="prose prose--section book-errata" aria-labelledby="book-errata-heading">
+            <h2 id="book-errata-heading">勘误</h2>
+            <ul>{book.errata.map((item) => <li>{item}</li>)}</ul>
+          </section>
+        )}
+      </section>
     </article>
-  </div>
+  </SectionLayout>
 </BaseLayout>

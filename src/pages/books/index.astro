@@ -12,8 +12,7 @@ const groups = groupBooks(books);
   <SectionLayout pinned>
     <header class="page-header" slot="intro">
       <h1 class="page-title">书籍</h1>
-      <p class="lead">这里维护已经建立公开记录的成书身份、封面、版次与小组撰写的译者引言。</p>
-      <p class="section-note">除非书籍记录单独注明，本站不提供正文或下载。</p>
+      <p class="lead">小组译作与数字化书籍的书目信息、版次记录和译者引言。</p>
     </header>
 
     {groups.length > 0 ? (
@@ -48,7 +47,7 @@ const groups = groupBooks(books);
     ) : (
       <div class="prose prose--page">
         <h2>当前状态</h2>
-        <p>目前尚无可公开的成书，因此本栏暂时没有条目。可以公开阅读的文章译文见<a href="/archive">档案</a>，作品的身份与来源记录见<a href="/ilyenkov/works">作品目录</a>，制作过程与小组工作见<a href="/group">小组</a>。</p>
+        <p>暂无公开的书籍记录。</p>
       </div>
     )}
   </SectionLayout>
