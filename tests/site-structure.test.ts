@@ -8,7 +8,7 @@ import { site } from '../src/lib/editorial';
 import { adjacentIssues, getGroupIssues, GroupIssueSchema } from '../src/lib/group';
 import { getLatestContent, HOME_CONTENT_LIMIT } from '../src/lib/latest-content';
 import { getSiteData } from '../src/lib/site-data';
-import { componentSource, layoutSource, pageFileExists, pageSource, routeExists } from './helpers/pages';
+import { builtRoutePath, componentSource, layoutSource, pageFileExists, pageSource, routeExists } from './helpers/pages';
 import { researchRoot, websiteWorks } from './helpers/publication';
 import { declaration, declarationsFor, hasRule, rules } from './helpers/styles';
 
@@ -250,17 +250,26 @@ describe('website-approved data adapter', () => {
     expect(source).toContain('<header class="page-header" slot="intro">');
     expect(source).toContain('class="page-title">世界研究</h1>');
 
-    // 四个 section 的 id 仍是稳定的深链接目标，顺序不变。
-    const ids = [...source.matchAll(/id="([a-z-]+-heading)"/g)].map((match) => match[1]);
+    // 实际输出依次呈现网络、研究者、学术活动、外部资料；四个深链接目标仍稳定。
+    const html = readFileSync(builtRoutePath('/research/'), 'utf8');
+    const main = html.match(/<main>([\s\S]*?)<\/main>/)![1];
+    const ids = [...main.matchAll(/<section\b[^>]*aria-labelledby="([^"]+)"[^>]*>/g)]
+      .map((match) => match[1]);
     expect(ids).toEqual([
       'ifi-heading',
       'researchers-heading',
-      'research-sites-heading',
       'readings-heading',
+      'research-sites-heading',
     ]);
     for (const id of ids) {
-      expect(source, `${id} should keep its anchor target`).toContain(`aria-labelledby="${id}"`);
+      expect(main, `${id} should keep its heading target`).toMatch(new RegExp(`<h2\\b[^>]*id="${id}"`));
     }
+    const text = main.replace(/<[^>]+>/g, '');
+    expect(text).not.toMatch(/首批|目前先|后续将|正在逐步|第一阶段/);
+    expect(text).toContain('从研究网络、研究者、学术活动与外部资料站点进入国际伊里因科夫研究。');
+    expect(text).toContain('本栏目提供代表性入口，不构成完整人物名录、会议数据库或互联网资源目录。');
+    expect(text).toContain('介绍与伊里因科夫研究密切相关、已有较完整资料基础的研究者。');
+    expect(text).toContain('以下入口指向外部资料站点；本站不转载其正文、附件或下载内容。');
 
     // 深链接跳转时避让固定站点标题栏；栏目页不再有目录横条。
     expect(declaration('.research-series h2', 'scroll-margin-top')).toContain('var(--header-h)');

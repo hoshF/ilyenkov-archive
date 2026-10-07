@@ -34,8 +34,8 @@ const researchSites = getPublicResearchSites();
   <SectionLayout pinned>
     <header class="page-header" slot="intro">
       <h1 class="page-title">世界研究</h1>
-      <p class="lead">从研究网络、研究者、资料站点与会议进入国际伊里因科夫研究。</p>
-      <p class="section-note">本页陈列代表性的节点与入口，不汇集成员名录、会议材料或内部研究判断。</p>
+      <p class="lead">从研究网络、研究者、学术活动与外部资料站点进入国际伊里因科夫研究。</p>
+      <p class="section-note">本栏目提供代表性入口，不构成完整人物名录、会议数据库或互联网资源目录。</p>
     </header>
 
     <section class="research-series research-series--ifi" aria-labelledby="ifi-heading">
@@ -47,7 +47,7 @@ const researchSites = getPublicResearchSites();
 
     <section class="research-series" aria-labelledby="researchers-heading">
         <h2 id="researchers-heading">研究者</h2>
-        <p class="research-series__lead">首批只作为研究阅读入口，不以人物传记或完整书目取代原有资料。</p>
+        <p class="research-series__lead">介绍与伊里因科夫研究密切相关、已有较完整资料基础的研究者。</p>
         {researchers.map((researcher) => (
           <article class="researcher-card">
             <h3>{researcher.name}</h3>
@@ -56,6 +56,14 @@ const researchSites = getPublicResearchSites();
             <p class="record__links"><a href="/research/researchers/andrey-maidansky/">了解研究者 →</a></p>
           </article>
         ))}
+    </section>
+
+    <section class="research-series" aria-labelledby="readings-heading">
+        <h2 id="readings-heading">{readingsSeries.title}</h2>
+        <p class="record__original">{readingsSeries.name}</p>
+        <p class="research-series__lead">{readingsSeries.summary}</p>
+        <p class="research-series__lead">目前公开档案中最早保存直接会程的会议可追溯到 {earliestYear} 年；{firstInternationalYear} 年起进入国际会议编号。</p>
+        <p class="record__links"><a href="/research/readings/">了解学术报告会 →</a></p>
     </section>
 
     <section class="research-series" aria-labelledby="research-sites-heading">
@@ -73,12 +81,5 @@ const researchSites = getPublicResearchSites();
         ))}
     </section>
 
-    <section class="research-series" aria-labelledby="readings-heading">
-        <h2 id="readings-heading">{readingsSeries.title}</h2>
-        <p class="record__original">{readingsSeries.name}</p>
-        <p class="research-series__lead">{readingsSeries.summary}</p>
-        <p class="research-series__lead">目前公开档案中最早保存直接会程的会议可追溯到 {earliestYear} 年；{firstInternationalYear} 年起进入国际会议编号。</p>
-        <p class="record__links"><a href="/research/readings/">了解学术报告会 →</a></p>
-    </section>
   </SectionLayout>
 </BaseLayout>
