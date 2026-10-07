@@ -1,4 +1,5 @@
 ---
+import { site } from '../../lib/editorial';
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import SectionLayout from '../../components/SectionLayout.astro';
 import { getGroupIssues } from '../../lib/group';
@@ -10,7 +11,7 @@ const issues = await getGroupIssues();
   <SectionLayout pinned modifier="group-index">
     <header class="page-header" slot="intro">
       <h1 class="page-title">中文伊里因科夫小组</h1>
-      <p class="lead">中文伊里因科夫小组围绕伊里因科夫及相关苏联哲学文本开展资料整理、翻译、校订、研究与讨论。本页按期记录小组公开的研究、活动和阶段性成果。</p>
+      <p class="lead">{site.group.summary}本页按期记录小组公开的研究、活动和阶段性成果。</p>
       <p class="section-note"><a href="/contact/">关注与联系</a></p>
     </header>
 

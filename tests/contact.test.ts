@@ -60,12 +60,11 @@ describe('following and contacting the group', () => {
     expect(main).not.toMatch(/招募成员|加入我们|成为志愿者/);
   });
 
-  it('gives the homepage a lightweight contact entrance after public updates', () => {
+  it('keeps contact accessible within the homepage group context', () => {
     const main = pageMain(builtPage('/'));
-    const section = main.match(/<section class="home-follow"[\s\S]*?<\/section>/)![0];
-    expect(main.indexOf('home-follow')).toBeGreaterThan(main.indexOf('home-updates'));
-    expect(section).toContain('持续关注</h2>');
-    expect(links(section)).toEqual([{ href: '/contact/', label: '关注与联系' }]);
+    const section = main.match(/<section class="home-group"[\s\S]*?<\/section>/)![0];
+    expect(links(section)).toContainEqual({ href: '/contact/', label: '关注与联系' });
+    expect(main).not.toContain('home-follow');
     expect(section).not.toMatch(/<script\b|<form\b|<input\b|<button\b|<astro-island\b/);
   });
 

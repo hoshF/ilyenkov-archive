@@ -1,12 +1,12 @@
-import { existsSync, readFileSync, readdirSync } from 'node:fs';
+import { readFileSync, readdirSync } from 'node:fs';
 import path from 'node:path';
 import matter from 'gray-matter';
 import { describe, expect, it } from 'vitest';
 import { generatedArticleIds, resolveGeneratedArticlePath } from '../src/lib/article-source';
 import { getBooks } from '../src/lib/books';
-import { site } from '../src/lib/editorial';
+import { site, ilyenkov } from '../src/lib/editorial';
 import { adjacentIssues, getGroupIssues, GroupIssueSchema } from '../src/lib/group';
-import { getLatestContent, HOME_CONTENT_LIMIT } from '../src/lib/latest-content';
+import { getPublicResearchers, getPublicIfiNetwork, getPublicReadingsSeries } from '../src/lib/research-records';
 import { getSiteData } from '../src/lib/site-data';
 import { builtRoutePath, componentSource, layoutSource, pageFileExists, pageSource, routeExists } from './helpers/pages';
 import { researchRoot, websiteWorks } from './helpers/publication';
@@ -663,7 +663,7 @@ describe('public navigation', () => {
     const homepage = readFileSync(path.join(process.cwd(), 'dist', 'index.html'), 'utf8');
     const header = homepage.match(/<header class="site-header">([\s\S]*?)<\/header>/)![1];
 
-    // 页眉里唯一的主页入口是字标本身。字标是内联 SVG，这样它随 HTML 一起首屏绘制，
+    // 刊头第一行的字标与可见刊名共用唯一的主页链接。字标是内联 SVG，随 HTML 一起首屏绘制，
     // 不再是新 document 里要等一次图片请求/解码才出现的独立资源；图形 aria-hidden，
     // 不产生第二个名称，链接保持单一可访问名称。
     const homeLinks = [...header.matchAll(/<a\b[^>]*href="\/"[^>]*>([\s\S]*?)<\/a>/g)];
@@ -718,7 +718,7 @@ describe('public navigation', () => {
     expect(mobileLink['font-size']).toBe('var(--text-meta)');
     expect(declarationsFor('.site-header__nav', '@media (max-width: 600px)')['margin-left']).toBe('0');
 
-    // 普通项保持中性色，紫色只留给交互与当前项。
+    // 普通项与当前项同属深色系，当前位置用细下划线标记，hover 使用 accent。
     const hover = declarationsFor('.site-header__nav a:hover');
     expect(hover.color).toBe('var(--accent-dark)');
   });
@@ -736,7 +736,7 @@ describe('public navigation', () => {
     expect(layout).toContain('site.footer.map');
   });
 
-  it('orders the homepage around orientation, content, public updates and continued interest', () => {
+  it('orders the homepage around public entities, texts, group work and updates', () => {
     const homepage = readFileSync(path.join(process.cwd(), 'dist', 'index.html'), 'utf8');
     const main = homepage.match(/<main>([\s\S]*?)<\/main>/)![1];
     for (const gone of ['home-shell', 'home-intro', 'home-recent', 'home-archive-link', 'home-work', 'home-about']) {
@@ -755,53 +755,51 @@ describe('public navigation', () => {
 
     // 单一阅读顺序保留首屏定位，并将内容与工作变化分别表达。
     const order = [...main.matchAll(/<section class="([a-z-]+)"/g)].map(([, name]) => name);
-    expect(order).toEqual(['home-browse', 'home-content', 'home-updates', 'home-follow']);
-    expect(main.indexOf('home-positioning')).toBeLessThan(main.indexOf('home-browse'));
+    expect(order).toEqual(['home-ilyenkov', 'home-content', 'home-research', 'home-group', 'home-updates']);
+    expect(main.indexOf('home-positioning')).toBeLessThan(main.indexOf('home-ilyenkov'));
 
     // 每个 section 都有反映内容的标题，且没有 id 重复。
     expect([...main.matchAll(/<h2 id="([^"]+)"/g)].map(([, id]) => id))
-      .toEqual(['browse-heading', 'content-heading', 'updates-heading', 'follow-heading']);
+      .toEqual(['ilyenkov-heading', 'content-heading', 'research-heading', 'group-heading', 'updates-heading']);
     expect([...main.matchAll(/<h2\b[^>]*>([^<]*)<\/h2>/g)].map(([, title]) => title))
-      .toEqual(['从哪里开始', '最新内容', '近期动态', '持续关注']);
+      .toEqual(['伊里因科夫', '文本', '研究', '中文伊里因科夫小组', '近期动态']);
 
     // 内容组织保持原生文本结构，不为首页增加交互或卡片系统。
     expect(main).not.toMatch(/<script\b|<input\b|<astro-island\b/);
     expect(main).not.toMatch(/class="[^"]*\bcard\b/);
   });
 
-  it('provides taxonomy, Ilyenkov and contextual work entrances', async () => {
-    const { facets } = await getSiteData();
-    const homepage = readFileSync(path.join(process.cwd(), 'dist', 'index.html'), 'utf8');
-    const main = homepage.match(/<main>([\s\S]*?)<\/main>/)![1];
-    const browse = main.match(/<section class="home-browse"[\s\S]*?<\/section>/)![0];
-
-    // 伊里因科夫带的是四个二级入口；其他栏目入口按读者任务表达。
-    expect(browse, '不应再指回一级 landing').not.toContain('href="/ilyenkov"');
-    expect(browse.match(/href="\/archive"/g), '「全部文章」是唯一直接指向 /archive 的入口').toHaveLength(1);
-
-    // 分类入口直接来自 Archive taxonomy，不在首页另写一份。
-    for (const term of [...facets.topics, ...facets.persons]) {
-      expect(browse, `浏览区缺少分类入口 ${term.href}`).toContain(`href="${term.href}"`);
-      expect(browse, `浏览区缺少分类名称 ${term.label}`).toContain(term.label);
+  it('reuses public editorial introductions and selected research entities', () => {
+    const main = readFileSync(builtRoutePath('/'), 'utf8').match(/<main>([\s\S]*?)<\/main>/)![1];
+    const person = main.match(/<section class="home-ilyenkov"[\s\S]*?<\/section>/)![0];
+    const personPage = readFileSync(builtRoutePath('/ilyenkov'), 'utf8');
+    expect(person).toContain(ilyenkov.summary);
+    expect(personPage).toContain(ilyenkov.identity);
+    expect(person.match(/<p class="home-summary">/g)).toHaveLength(1);
+    const hanLength = [...ilyenkov.summary.matchAll(/[\u4e00-\u9fff]/g)].length;
+    expect(hanLength).toBeGreaterThanOrEqual(80);
+    expect(hanLength).toBeLessThanOrEqual(150);
+    for (const paragraph of ilyenkov.introduction) {
+      expect(personPage).toContain(paragraph);
+      expect(person).not.toContain(paragraph);
     }
-    expect(browse).toContain('href="/archive"');
-
-    // 伊里因科夫用真实的四个二级入口，而不是再指回一级 landing。
     for (const href of ['/ilyenkov/life', '/ilyenkov/timeline', '/ilyenkov/works', '/ilyenkov/circle']) {
-      expect(browse, `浏览区缺少二级入口 ${href}`).toContain(`href="${href}"`);
+      expect(person).toContain(`href="${href}"`);
+      expect(routeExists(href)).toBe(true);
     }
-    for (const [href, label] of [
-      ['/research', '研究网络与会议'],
-      ['/group', '小组工作记录'],
-      ['/books', '成书与版次'],
-    ]) {
-      expect(browse).toContain(`<a href="${href}">${label}</a>`);
-      expect(routeExists(href), `浏览入口缺少对应页面 ${href}`).toBe(true);
+    const research = main.match(/<section class="home-research"[\s\S]*?<\/section>/)![0];
+    const records = [
+      { ...getPublicResearchers().find((record) => record.id === 'researcher-andrey-maidansky')!, href: '/research/researchers/andrey-maidansky/' },
+      { ...getPublicIfiNetwork(), href: '/research/ifi/' },
+      { ...getPublicReadingsSeries().find((record) => record.id === 'ilyenkov-readings-series')!, href: '/research/readings/' },
+    ];
+    expect([...research.matchAll(/<h3\b/g)].length).toBe(records.length);
+    for (const record of records) {
+      expect(research).toContain(record.summary);
+      expect(research).toContain(`href="${record.href}"`);
+      expect(routeExists(record.href)).toBe(true);
     }
-
-    // 没有新增搜索：内容量还不需要，taxonomy 足够浏览。
-    expect(main).not.toContain('<input');
-    expect(main).not.toMatch(/type="search"|Pagefind|lunr|algolia|fuse\.js/i);
+    expect(main).not.toMatch(/从哪里开始|持续关注|最近发布|home-content__note/);
   });
 
   it('keeps the five primary navigation destinations while adding updates contextually', () => {
@@ -816,48 +814,38 @@ describe('public navigation', () => {
     expect(updates).toContain('<a href="/updates/">查看全部动态</a>');
   });
 
-  it('samples existing public content with its original metadata and date precision', async () => {
-    const sampled = (await getLatestContent()).slice(0, HOME_CONTENT_LIMIT);
-    const homepage = readFileSync(path.join(process.cwd(), 'dist', 'index.html'), 'utf8');
-    const main = homepage.match(/<main>([\s\S]*?)<\/main>/)![1];
-    const section = main.match(/<section class="home-content"[\s\S]*?<\/section>/)![0];
-    const list = section.match(/<ol class="home-content__list"[\s\S]*?<\/ol>/)![0];
-    const items = [...list.matchAll(/<li\b[^>]*>([\s\S]*?)<\/li>/g)].map(([, item]) => item);
+  it('samples public Archive texts without treating original years as publication dates', async () => {
+    const { articles } = await getSiteData();
+    const section = readFileSync(builtRoutePath('/'), 'utf8').match(/<section class="home-content"[\s\S]*?<\/section>/)![0];
+    const items = [...section.matchAll(/<li\b[^>]*>([\s\S]*?)<\/li>/g)].map(([, item]) => item);
+    const sampled = articles.slice(0, 4);
     const escapeText = (value: string) => value.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
-
     expect(items).toHaveLength(sampled.length);
-    expect(items.length).toBeLessThanOrEqual(HOME_CONTENT_LIMIT);
     sampled.forEach((entry, index) => {
-      const item = items[index];
-      expect(item).toContain(`<a href="${entry.href}">${escapeText(entry.title)}</a>`);
-      expect(existsSync(path.join(process.cwd(), 'dist', entry.href.replace(/^\//, ''), 'index.html')),
-        `最新内容没有对应页面 ${entry.href}`).toBe(true);
-      const meta = item.match(/<p class="record__meta">([\s\S]*?)<\/p>/)![1]
-        .replace(/<[^>]*>/g, '').replace(/\s+/g, ' ').trim();
-      const expectedMeta = [entry.type, entry.author, entry.date && `${entry.dateLabel} ${entry.date}`]
-        .filter(Boolean).join(' · ');
-      expect(meta).toBe(escapeText(expectedMeta));
-      if (entry.date) {
-        if (entry.date.length === 4) {
-          // 单独年份不是 HTML time 支持的完整日期，不补造月日。
-          expect(item).not.toContain('<time');
-          expect(meta).toContain(`原文年份 ${entry.date}`);
-        } else {
-          expect(item).toContain(`<time datetime="${entry.date}">${entry.date}</time>`);
-        }
-        expect(entry.date).toMatch(entry.dateLabel === '原文年份' ? /^\d{4}$/ : /^\d{4}-\d{2}-\d{2}$/);
-      }
+      expect(items[index]).toContain(`<a href="${entry.route}">${escapeText(entry.title)}</a>`);
+      expect(items[index]).toContain(escapeText(entry.authorLabel));
+      expect(items[index]).toContain(`原文年份 ${entry.year}`);
+      expect(items[index]).not.toContain('<time');
     });
-
-    // 完整内容仍进入已有栏目；原文年份不被表述成译文上线日期。
     expect(section).toContain('href="/archive"');
-    expect(section).toContain('href="/group"');
-    const note = section.match(/<p class="home-content__note">([^<]*)<\/p>/)![1];
-    expect(note).toContain('有本站公开日期的内容优先');
-    expect(note).toContain('其余译文按原文年份倒序排列');
-    for (const phrase of ['最近的文章', '最新文章', '最近更新', '最近发表']) {
-      expect(section, phrase).not.toContain(phrase);
-    }
+    expect(section).not.toMatch(/最新内容|公开日期|排序|倒序|最近发布/);
+  });
+
+  it('derives recent group work from public issues and shares its scope with Group', async () => {
+    const section = readFileSync(builtRoutePath('/'), 'utf8').match(/<section class="home-group"[\s\S]*?<\/section>/)![0];
+    expect(section).toContain(site.group.summary);
+    expect(readFileSync(builtRoutePath('/group'), 'utf8')).toContain(site.group.summary);
+    const issues = [...await getGroupIssues()].sort((left, right) => (
+      right.published.localeCompare(left.published) || right.issue - left.issue
+    )).slice(0, 3);
+    const items = [...section.matchAll(/<li\b[^>]*>([\s\S]*?)<\/li>/g)].map(([, item]) => item);
+    expect(items).toHaveLength(issues.length);
+    issues.forEach((issue, index) => {
+      expect(items[index]).toContain(`href="${issue.route}"`);
+      expect(items[index]).toContain(issue.title);
+      expect(items[index]).toContain(issue.summary);
+      expect(items[index]).toContain(`<time datetime="${issue.published}">${issue.published}</time>`);
+    });
   });
 
   it('keeps the group page self-contained and the homepage free of site-scope copy', () => {

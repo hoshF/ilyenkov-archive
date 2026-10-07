@@ -12,6 +12,9 @@ const LinkSchema = z.object({
 const SiteSchema = z.object({
   name: z.string().trim().min(1),
   description: z.string().trim().min(1),
+  group: z.object({
+    summary: z.string().trim().min(1),
+  }).strict(),
   contact: z.object({
     email: z.email(),
   }).strict(),
@@ -24,3 +27,11 @@ export function readEditorialJson(filename: string): unknown {
 }
 
 export const site = SiteSchema.parse(readEditorialJson('site.json'));
+
+const IlyenkovEditorialSchema = z.object({
+  identity: z.string().trim().min(1),
+  summary: z.string().trim().min(1),
+  introduction: z.array(z.string().trim().min(1)).min(1),
+}).strict();
+
+export const ilyenkov = IlyenkovEditorialSchema.parse(readEditorialJson('ilyenkov.json'));

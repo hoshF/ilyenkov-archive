@@ -1,4 +1,5 @@
 ---
+import { ilyenkov } from '../../lib/editorial';
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import SectionLayout from '../../components/SectionLayout.astro';
 
@@ -34,13 +35,11 @@ const entrances = [
   <SectionLayout pinned>
     <header class="page-header" slot="intro">
       <h1 class="page-title">认识伊里因科夫</h1>
-      <p class="lead">埃瓦尔德·瓦西里耶维奇·伊里因科夫，苏联哲学家。</p>
+      <p class="lead">{ilyenkov.identity}</p>
     </header>
 
     <div class="prose prose--section person-intro">
-      <p>伊里因科夫 1924 年出生，1941 年开始哲学学习，1950 年毕业并获推荐攻读研究生，1953 年进入哲学研究所。</p>
-      <p>他一生追问的核心，是思维如何把握现实：抽象与具体如何转化，逻辑范畴从哪里来，《资本论》使用的究竟是怎样一种方法。1955 年的论文《论科学理论认识中抽象与具体的辩证法》、1960 年的《〈资本论〉中的抽象和具体辩证法》与 1974 年的《辩证逻辑：历史与理论纲要》，是这条线索上最集中的表述。</p>
-      <p>更早的一批文字写于 1945 年的前线报刊。它们不是哲学著作，却标出了他的思想开始成形的处境。</p>
+      {ilyenkov.introduction.map((paragraph) => <p>{paragraph}</p>)}
     </div>
 
     <nav class="entrance-grid" aria-label="伊里因科夫栏目入口">

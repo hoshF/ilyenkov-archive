@@ -1,78 +1,81 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
-import { site } from '../lib/editorial';
+import { site, ilyenkov } from '../lib/editorial';
 import { getSiteData } from '../lib/site-data';
+import { getGroupIssues } from '../lib/group';
+import {
+  getPublicResearchers,
+  getPublicIfiNetwork,
+  getPublicReadingsSeries,
+} from '../lib/research-records';
 import UpdatesList from '../components/UpdatesList.astro';
-import { getLatestContent, HOME_CONTENT_LIMIT } from '../lib/latest-content';
 import { getUpdates, HOME_UPDATES_LIMIT } from '../lib/updates';
 
-// 栏目数据与动态各自保持单一来源：首页只组织入口和截取少量记录。
-const [{ facets }, content] = await Promise.all([getSiteData(), getLatestContent()]);
-const latest = content.slice(0, HOME_CONTENT_LIMIT);
-const updates = getUpdates().slice(0, HOME_UPDATES_LIMIT);
-
-const ilyenkovEntrances = [
-  { href: '/ilyenkov/life', label: '生平' },
-  { href: '/ilyenkov/timeline', label: '年表' },
-  { href: '/ilyenkov/works', label: '作品目录' },
-  { href: '/ilyenkov/circle', label: '交往与活动' },
+const [{ articles }, issues] = await Promise.all([getSiteData(), getGroupIssues()]);
+const texts = articles.slice(0, 4);
+const recentWork = [...issues].sort((left, right) => (
+  right.published.localeCompare(left.published) || right.issue - left.issue
+)).slice(0, 3);
+const maidansky = getPublicResearchers().find((record) => record.id === 'researcher-andrey-maidansky');
+const ifi = getPublicIfiNetwork();
+const readings = getPublicReadingsSeries().find((record) => record.id === 'ilyenkov-readings-series');
+if (!maidansky || !readings) throw new Error('Homepage public research entities are missing');
+const research = [
+  { title: maidansky.name, summary: maidansky.summary, href: '/research/researchers/andrey-maidansky/' },
+  { title: ifi.title, summary: ifi.summary, href: '/research/ifi/' },
+  { title: readings.title, summary: readings.summary, href: '/research/readings/' },
 ];
+const updates = getUpdates().slice(0, HOME_UPDATES_LIMIT);
 ---
 
 <BaseLayout title={site.name}>
   <div class="home-page">
     <p class="home-positioning">从文本出发，整理伊里因科夫及其相关研究的中文资料。</p>
-    <section class="home-browse" aria-labelledby="browse-heading">
-      <h2 id="browse-heading">从哪里开始</h2>
 
-      <div class="home-browse__group">
-        <p class="home-browse__label">文本档案</p>
-        <p class="home-browse__terms">
-          <a href="/archive">全部文章</a>
-          {facets.topics.map((term) => <><span class="home-browse__sep">·</span><a href={term.href}>{term.label}</a></>)}
-        </p>
-        <p class="home-browse__terms">
-          <span class="home-browse__label">人物</span>
-          {facets.persons.map((term, index) => <>{index > 0 && <span class="home-browse__sep">·</span>}<a href={term.href}>{term.label}</a></>)}
-        </p>
-      </div>
-
-      <div class="home-browse__group">
-        <p class="home-browse__label">伊里因科夫</p>
-        <p class="home-browse__terms">
-          {ilyenkovEntrances.map((entrance, index) => <>{index > 0 && <span class="home-browse__sep">·</span>}<a href={entrance.href}>{entrance.label}</a></>)}
-        </p>
-      </div>
-
-      <div class="home-browse__group">
-        <p class="home-browse__label">研究与工作</p>
-        <p class="home-browse__terms">
-          <a href="/research">研究网络与会议</a><span class="home-browse__sep">·</span>
-          <a href="/group">小组工作记录</a><span class="home-browse__sep">·</span>
-          <a href="/books">成书与版次</a>
-        </p>
-      </div>
+    <section class="home-ilyenkov" aria-labelledby="ilyenkov-heading">
+      <h2 id="ilyenkov-heading">伊里因科夫</h2>
+      <p class="home-summary">{ilyenkov.summary}</p>
+      <p class="home-more"><a href="/ilyenkov/life">生平</a> · <a href="/ilyenkov/timeline">年表</a> · <a href="/ilyenkov/works">作品目录</a> · <a href="/ilyenkov/circle">交往与活动</a></p>
     </section>
 
     <section class="home-content" aria-labelledby="content-heading">
-      <h2 id="content-heading">最新内容</h2>
-      <p class="home-content__note">有本站公开日期的内容优先；其余译文按原文年份倒序排列。</p>
-      {latest.length > 0 ? (
-        <ol class="home-content__list">
-          {latest.map((entry) => (
-            <li>
-              <p class="record__meta">
-                {entry.type}{entry.author && <> · {entry.author}</>}
-                {entry.date && <> · {entry.dateLabel} {entry.date.length === 4
-                  ? entry.date
-                  : <time datetime={entry.date}>{entry.date}</time>}</>}
-              </p>
-              <p class="record__title"><a href={entry.href}>{entry.title}</a></p>
-            </li>
-          ))}
-        </ol>
-      ) : <p class="section-note">公开内容正在整理中。</p>}
-      <p class="home-more"><a href="/archive">浏览文本档案</a> · <a href="/group">查看小组工作</a></p>
+      <h2 id="content-heading">文本</h2>
+      <ol class="home-content__list">
+        {texts.map((document) => (
+          <li>
+            <p class="record__title"><a href={document.route}>{document.title}</a></p>
+            <p class="record__meta">{document.authorLabel} · 原文年份 {document.year}</p>
+          </li>
+        ))}
+      </ol>
+      <p class="home-more"><a href="/archive">浏览文本档案</a></p>
+    </section>
+
+    <section class="home-research" aria-labelledby="research-heading">
+      <h2 id="research-heading">研究</h2>
+      <ul class="home-content__list">
+        {research.map((entry) => (
+          <li>
+            <h3 class="record__title"><a href={entry.href}>{entry.title}</a></h3>
+            <p class="home-summary">{entry.summary}</p>
+          </li>
+        ))}
+      </ul>
+    </section>
+
+    <section class="home-group" aria-labelledby="group-heading">
+      <h2 id="group-heading">中文伊里因科夫小组</h2>
+      <p class="home-summary">{site.group.summary}</p>
+      <ol class="home-content__list">
+        {recentWork.map((issue) => (
+          <li>
+            <p class="record__title"><a href={issue.route}>{issue.title}</a></p>
+            <p class="record__meta">{issue.kind} · <time datetime={issue.published}>{issue.published}</time></p>
+            <p class="home-summary">{issue.summary}</p>
+          </li>
+        ))}
+      </ol>
+      <p class="home-more"><a href="/group">小组工作</a> · <a href="/contact/">关注与联系</a></p>
     </section>
 
     <section class="home-updates" aria-labelledby="updates-heading">
@@ -81,12 +84,6 @@ const ilyenkovEntrances = [
         ? <UpdatesList updates={updates} />
         : <p class="section-note">暂无公开动态。</p>}
       <p class="home-more"><a href="/updates/">查看全部动态</a></p>
-    </section>
-
-    <section class="home-follow" aria-labelledby="follow-heading">
-      <h2 id="follow-heading">持续关注</h2>
-      <p class="section-note">网站持续公开新的翻译、资料与研究。</p>
-      <p class="home-more"><a href="/contact/">关注与联系</a></p>
     </section>
   </div>
 </BaseLayout>

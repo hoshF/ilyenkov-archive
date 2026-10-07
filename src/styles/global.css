@@ -46,7 +46,7 @@ h2, h3, h4 { text-wrap: balance; line-height: 1.3; }
 
 .site-header {
   /* 页眉不画整宽底线：当前栏目的下划线已经是页眉里唯一的水平标记，再加一条底线会与它
-     争同一条视觉带。身份用黑色、导航用紫色、当前位置用下划线，页眉与正文之间靠留白分开。 */
+     争同一条视觉带。身份与目录用深色、当前位置用细下划线，页眉与正文之间靠留白分开。 */
   background: var(--paper);
 }
 
@@ -224,20 +224,10 @@ h2, h3, h4 { text-wrap: balance; line-height: 1.3; }
   padding: 0 0 20px; font-weight: 500; line-height: 1.3;
 }
 
-/* 浏览：索引式入口。每个 group 是一条窄栏，条目在栏内自然换行，长标题不会把版心撑开。 */
-.home-browse__group { max-width: 44rem; }
-.home-browse__group + .home-browse__group { margin-top: 28px; }
-.home-browse__label { margin: 0 0 8px; color: var(--ink); font-size: var(--text-secondary); font-weight: 600; }
-.home-browse__terms { margin: 0; font-size: var(--text-secondary); line-height: 2; }
-.home-browse__sep { margin: 0 8px; color: var(--line-strong); }
-/* 人物标签与「文本档案」同级，但它是行内小标，占位更轻。 */
-.home-browse__terms .home-browse__label { margin: 0 4px 0 0; font-size: var(--text-meta); font-weight: 500; }
-.home-browse a { color: var(--accent); text-decoration: none; }
-.home-browse a:hover { color: var(--accent-dark); text-decoration: underline; }
-
-/* 最新内容沿用记录的元信息与题名层级，日期保留各自的来源语义。 */
-.home-content__note { margin: -12px 0 24px; color: var(--muted); font-size: var(--text-meta); line-height: 1.5; }
+/* 首页文本、研究与小组工作沿用同一轻量记录节奏。 */
+.home-summary { margin: 0 0 22px; font-size: var(--text-body); line-height: 1.65; }
 .home-content__list { max-width: var(--reading); margin: 0; padding: 0; list-style: none; display: grid; gap: 22px; }
+.home-content__list .home-summary { margin: 0; }
 .home-content__list .record__meta { margin: 0; }
 .home-content__list .record__title { margin: 4px 0 0; line-height: 1.5; }
 
