@@ -1,0 +1,91 @@
+---
+import BaseLayout from '../../../../layouts/BaseLayout.astro';
+import Breadcrumbs from '../../../../components/Breadcrumbs.astro';
+import SectionLayout from '../../../../components/SectionLayout.astro';
+import { getPublicResearchers, type PublicResearcher } from '../../../../lib/research-records';
+import { getSiteData } from '../../../../lib/site-data';
+
+const researcher = getPublicResearchers().find((record) => record.id === 'researcher-andrey-maidansky');
+if (!researcher) throw new Error('Maidansky public researcher profile is missing');
+const { articles } = await getSiteData();
+// 筛选保留 Archive 的统一顺序：原文年份降序，同年按中文题名、再按 id。
+const translations = articles.filter((document) => document.authorIds.includes(researcher.personId));
+
+const fieldLabels = new Map([
+  ['философия Спинозы', '斯宾诺莎哲学'],
+  ['марксизм', '马克思主义'],
+  ['история советской философии', '苏联哲学史'],
+]);
+const roleLabels = new Map([
+  ['researcher', '研究者'],
+  ['editor', '编辑'],
+]);
+const resourceLabels: Record<PublicResearcher['resources'][number]['kind'], string> = {
+  personal: '个人学术页',
+  orcid: 'ORCID',
+  institution: '机构学术页',
+};
+---
+
+<BaseLayout title={researcher.name} description={researcher.summary}>
+  <SectionLayout>
+    <Breadcrumbs slot="breadcrumb" items={[
+      { label: '世界研究', href: '/research' },
+      { label: researcher.name },
+    ]} />
+    <header class="page-header" slot="intro">
+      <h1 class="page-title">{researcher.name}</h1>
+      <p class="record__original">{researcher.originalName}</p>
+      {researcher.latinName && <p class="record__original">{researcher.latinName}</p>}
+    </header>
+
+    <section class="research-series" aria-labelledby="researcher-intro-heading">
+      <h2 id="researcher-intro-heading">简介</h2>
+      <div class="prose prose--section"><p>{researcher.summary}</p></div>
+    </section>
+
+    {researcher.researchFields && researcher.researchFields.length > 0 && (
+      <section class="research-series" aria-labelledby="researcher-fields-heading">
+        <h2 id="researcher-fields-heading">研究方向</h2>
+        <div class="prose prose--section">
+          <p>{researcher.researchFields.map((field) => fieldLabels.get(field) ?? field).join('、')}。</p>
+        </div>
+      </section>
+    )}
+
+    {researcher.roles && researcher.roles.length > 0 && (
+      <section class="research-series" aria-labelledby="researcher-roles-heading">
+        <h2 id="researcher-roles-heading">角色</h2>
+        <div class="prose prose--section">
+          <p>{researcher.roles.map((role) => roleLabels.get(role) ?? role).join('、')}。</p>
+        </div>
+      </section>
+    )}
+
+    <section class="research-series" aria-labelledby="researcher-resources-heading">
+      <h2 id="researcher-resources-heading">学术入口</h2>
+      <div class="prose prose--section">
+        <ul>
+          {researcher.resources.map((resource) => <li><a href={resource.url}>{resourceLabels[resource.kind]}</a></li>)}
+        </ul>
+      </div>
+    </section>
+
+    <section class="research-series" aria-labelledby="researcher-translations-heading">
+      <h2 id="researcher-translations-heading">本站译文</h2>
+      {translations.length > 0 ? (
+        <ol class="record-list">
+          {translations.map((document) => (
+            <li><article>
+              <p class="record__meta">{document.year} · {document.authorLabel}</p>
+              <h3 class="record__title"><a href={document.route}>{document.title}</a></h3>
+              <p class="record__original">{document.originalTitle}</p>
+            </article></li>
+          ))}
+        </ol>
+      ) : (
+        <div class="prose prose--section"><p>本站暂未公开这位研究者的译文。</p></div>
+      )}
+    </section>
+  </SectionLayout>
+</BaseLayout>

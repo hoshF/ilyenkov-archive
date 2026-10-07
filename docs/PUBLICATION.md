@@ -41,6 +41,39 @@
 字段级的准确定义以 `scripts/sync-research-records.mjs` 的输出和 `src/lib/research-records.ts` 的
 schema 为准；两者不一致时以 schema 为准，并修正同步器。
 
+### 研究者身份与公开字段
+
+人物事实的 canonical identity 由 private `people/persons.json` 维护。`researcher_profile`
+publication 只选择哪个 person 成为公开研究者，并提供中文姓名、简介及资源选择；不维护作品列表。
+条目必须以 `record_path: people/persons.json`、`record_id = person_id` 唯一定位人物，要求非空
+`name_original`、`title_zh` 和 `summary_zh`。不再读取 works master、internet source index 或旧精选作品。
+
+publication 严格只接受 `public_id`、`publication_scope`、`kind`、`record_path`、`record_id`、
+`title_zh`、`summary_zh`、`resource_kinds`。旧 `source_path`、`author_zh`、`author_original`、`works`
+及 `include_roles`、`include_research_fields`、`include_latin_name` 等额外字段均拒绝，不提供兼容路径。
+
+| 公开字段 | 来源与范围 |
+| --- | --- |
+| `id`、`name`、`summary` | publication 的 `public_id`、`title_zh`、`summary_zh` |
+| `personId` | 唯一解析的 canonical `person_id`，与 publication 的 `record_id` 相等 |
+| `originalName` | person 的非空 `name_original` |
+| 可选 `latinName` | person 的 `name_latin` |
+| 可选 `roles`、`researchFields` | person 的 `roles`、`research_fields`；属于固定允许字段，不由 `include_*` 开关选择 |
+| `resources[].kind`、`resources[].url` | publication 的 `resource_kinds` 明选，URL 只来自 person 的对应资源 |
+
+资源种类只允许 `personal`、`orcid`、`institution`，选择不得重复；未知种类、所选资源缺失或无效
+`http(s)` URL 均使同步失败。未选择的资源不输出，中文显示标签仅由页面层提供，不把资源统一称为官网。
+
+generated researcher 不含 `works`、aliases、`positioning_ru`、affiliation、local IDs、event relations、
+private locator 或其他未列入上述允许契约的人物字段。private 新字段默认不公开；不把完整 person
+记录直接复制到 generated data。`personId` 是明确允许的 canonical 身份引用，不是 private 路径。
+
+Archive 文章的 `ReadableDocument.authorIds` 与 researcher 的 `personId` 是独立发布通道之间的身份
+联系。研究者页只从已公开 Archive 集合筛选 `document.authorIds.includes(researcher.personId)`，
+按 Archive 规范顺序展示，并保留合著的完整署名；不另存一份作品事实或 private work ID 列表。
+删除 researcher publication 不影响文章，新增 researcher profile 不公开新文章；没有 public 译文的
+researcher 仍是有效记录，schema 不要求作品存在。人物、译文与 researcher 的发布选择不得相互替代。
+
 ### Readings 活动定位
 
 `ilyenkov_readings` publication 必须通过非空 `record_directory` 定位 private event，并唯一匹配

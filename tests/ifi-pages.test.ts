@@ -166,13 +166,11 @@ describe('IFI public detail and research entry', () => {
       expect(textContent(researchers)).toContain(researcher.name);
       expect(textContent(researchers)).toContain(researcher.originalName);
       expect(textContent(researchers)).toContain(researcher.summary);
-      for (const work of researcher.works) {
-        expect(textContent(researchers)).toContain(work.title);
-        expect(textContent(researchers)).toContain(work.originalTitle);
-        expect(links(researchers).map((link) => link.href)).toContain(work.archiveRoute);
-        expect(links(researchers).map((link) => link.href)).toContain(work.source.url);
-      }
+      expect(links(researchers)).toContainEqual({
+        href: '/research/researchers/andrey-maidansky/', label: '了解研究者 →',
+      });
     }
+    expect(researchers).not.toMatch(/<ol\b|<li\b/);
     const sites = sectionFor(main, '资料站点');
     for (const site of getPublicResearchSites()) {
       expect(textContent(sites)).toContain(site.title);

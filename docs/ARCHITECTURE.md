@@ -20,7 +20,8 @@
 | 档案 | `/archive` | 进入已获准在本站阅读的文本 |
 | 研究 | `/research` | 国际研究与交流地图 |
 | ├ IFI | `/research/ifi/` | IFI 研究实体的简介、形成背景、活动方式、官方资源与主要 symposium 历史 |
-| └ 伊里因科夫学术报告会 | `/research/readings/` | 伊里因科夫学术报告会的系列介绍、历史关系、资料入口和已公开会议记录 |
+| ├ 伊里因科夫学术报告会 | `/research/readings/` | 伊里因科夫学术报告会的系列介绍、历史关系、资料入口和已公开会议记录 |
+| └ 安德烈·迈丹斯基 | `/research/researchers/andrey-maidansky/` | 已公开研究者的简介、研究方向、角色、学术入口与本站译文 |
 | 小组 | `/group` | 经过编辑选择的长期公共记录，按期归档小组以自身名义公开的研究、活动和阶段性成果 |
 | 书籍 | `/books` | 统一维护成书的公开身份 |
 | 近期动态 | `/updates` | 网站、小组、翻译、资料整理与研究工作的公开变化记录 |
@@ -37,8 +38,15 @@ IFI 详情页 `/research/ifi/` 复用现有 public 数据契约，按简介、�
 symposium 历史展开。Readings 详情页 `/research/readings/` 使用已公开的系列记录与会议记录，按简介、
 历史线索、资料与入口、已公开会议记录展开；会议列表是经过选择的公开历史节点，不是完整会议数据库，
 不建立单届会议详情页。两页均采用 breadcrumb、普通 `SectionLayout` 与 `prose` 的单一正文流，不设
-侧目录，不新增 CSS 或客户端 JavaScript。Researchers 与 Research Sites 保持当前展示，未建立其
-详情页；两页不扩展公开字段，也不新增本站相关内容关系。
+侧目录，不新增 CSS 或客户端 JavaScript；两页不扩展公开字段，也不新增本站相关内容关系。
+
+Researchers 区块目前只提供安德烈·迈丹斯基的人物入口，不展开旧精选作品。其详情页采用同样的
+breadcrumb 与普通正文布局，展示由 canonical person 明确发布的姓名、研究方向、角色和选定资源。
+“本站译文”是页面主体，通过 researcher 的 `personId` 与公开 Archive documents 的 `authorIds`
+单向筛选，保留 Archive 规范顺序与完整合著署名，不在 researcher publication 或 generated record
+中维护 `works[]`。人物事实、researcher publication 与文章公开选择各自独立，新增 profile 不使作品
+自动公开，零篇本站译文也不妨碍人物记录成立。当前只建立这个明确路由，不建立 researcher index
+或动态人物路由；Research Sites 保持现有展示。Research 栏目仍处于逐步实体化阶段。
 
 版式上只有三条长期约定：栏目页是“栏目定位在左、内容在右”的双栏；有明确父子关系的页面在正文前
 显示位置导航，一级栏目不显示；文章正文保持单一阅读栏。具体的间距、断点与组件样式以

@@ -41,15 +41,6 @@ function fixture() {
     mkdirSync(path.dirname(target), { recursive: true });
     writeFileSync(target, readFileSync(path.join(researchRoot, relative), 'utf8'));
   }
-  // The researcher adapter only needs the approved translation identity here.
-  // This is a temporary title header, not a copy of any translation body.
-  for (const entry of selectedEntries.filter((record) => record.kind === 'researcher_profile')) {
-    for (const work of entry.works) {
-      const target = path.join(outputRoot, 'articles', `${work.archive_id}.md`);
-      mkdirSync(path.dirname(target), { recursive: true });
-      writeFileSync(target, `---\ntitle_zh: ${JSON.stringify(work.title_zh)}\n---\n`);
-    }
-  }
   return {
     read: (relative) => readJson(sourceRoot, relative),
     write(relative, data) {

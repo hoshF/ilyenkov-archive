@@ -1,5 +1,3 @@
-import { existsSync, readFileSync } from 'node:fs';
-import path from 'node:path';
 import {
   datePattern,
   fail,
@@ -37,6 +35,12 @@ const readingsSeriesPublicationFields = new Set([
   'public_id', 'publication_scope', 'kind', 'record_path', 'record_id',
   'title_zh', 'summary_zh', 'resource_kinds',
 ]);
+const personsRelative = 'people/persons.json';
+const researcherResourceKinds = new Set(['personal', 'orcid', 'institution']);
+const researcherPublicationFields = new Set([
+  'public_id', 'publication_scope', 'kind', 'record_path', 'record_id',
+  'title_zh', 'summary_zh', 'resource_kinds',
+]);
 const supportedKinds = new Set([
   'biography_event',
   'military_service',
@@ -49,18 +53,6 @@ const supportedKinds = new Set([
   'researcher_profile',
   'research_site',
 ]);
-
-function archiveRoute(outputRoot, archiveId, title, label) {
-  if (!idPattern.test(archiveId)) fail(`${label}: invalid archive_id`);
-  const articlePath = path.join(outputRoot, 'articles', `${archiveId}.md`);
-  if (!existsSync(articlePath)) fail(`${label}: selected archive article is unavailable`);
-  const article = readFileSync(articlePath, 'utf8');
-  const titleMatch = article.match(/^title_zh: "(.+)"$/m);
-  if (!titleMatch || titleMatch[1] !== title) {
-    fail(`${label}: selected archive article title does not match`);
-  }
-  return `/archive/${archiveId}`;
-}
 
 function adaptResearchSite({ entry, label, publicId, recordData }) {
   const originalTitle = requiredString(entry, 'original_title', label);
@@ -138,47 +130,39 @@ function adaptResearchSite({ entry, label, publicId, recordData }) {
   };
 }
 
-function adaptResearcher({ entry, label, publicId, recordData, readJson, outputRoot }) {
-  const sourcePath = requiredString(entry, 'source_path', label);
-  const sourceData = readJson(sourcePath, `${label} source_path`);
-  const authorOriginal = requiredString(entry, 'author_original', label);
-  if (requiredString(recordData, 'author', `${label} selected catalog`) !== authorOriginal) {
-    fail(`${label}: selected catalog author does not match`);
-  }
-  if (!Array.isArray(recordData.works)) fail(`${label}: researcher works catalog is unavailable`);
-  const selectedWorks = entry.works;
-  if (!Array.isArray(selectedWorks) || selectedWorks.length === 0) {
-    fail(`${label}: works must select at least one record`);
-  }
-  const seenWorkIds = new Set();
-  const works = selectedWorks.map((rawWork, workIndex) => {
-    const workLabel = `${label} works[${workIndex}]`;
-    const selection = object(rawWork, workLabel);
-    const recordId = requiredString(selection, 'record_id', workLabel);
-    if (seenWorkIds.has(recordId)) fail(`${workLabel}: duplicate record_id`);
-    seenWorkIds.add(recordId);
-    const record = recordData.works.find((item) => item?.id === recordId);
-    if (!record) fail(`${workLabel}: selected researcher work is unavailable`);
-    if (record.record_type !== 'author_text' || record.responsibility !== 'research_author_text') {
-      fail(`${workLabel}: selected record is not an original research author text`);
+function adaptCanonicalResearcher({ entry, label, publicId, recordData }) {
+  for (const key of Object.keys(entry)) {
+    if (!researcherPublicationFields.has(key)) {
+      fail(`${label}: unsupported researcher publication field ${key}`);
     }
-    const title = requiredString(selection, 'title_zh', workLabel);
-    const sourceUrl = publicUrl(requiredString(selection, 'source_url', workLabel), workLabel);
-    const archiveId = requiredString(selection, 'archive_id', workLabel);
-    const source = workSources(sourceData, [sourceUrl], recordId, `${workLabel} source`)[0];
-    return {
-      title,
-      originalTitle: requiredString(record, 'title', `${workLabel} selected record`),
-      source: { title: source.title, url: source.url },
-      archiveRoute: archiveRoute(outputRoot, archiveId, title, workLabel),
-    };
+  }
+  const personId = requiredString(entry, 'record_id', label);
+  if (!idPattern.test(personId)) fail(`${label}: invalid canonical person_id`);
+  if (!Array.isArray(recordData.records)) fail(`${label}: person registry records must be an array`);
+  const matches = recordData.records.filter((record) => record?.person_id === personId);
+  if (matches.length !== 1) fail(`${label}: selected canonical person must exist uniquely`);
+  const person = object(matches[0], `${label} selected person`);
+  const personLabel = `${label} selected person`;
+  if (!Array.isArray(entry.resource_kinds)) fail(`${label}: resource_kinds must be an array`);
+  const selectedKinds = new Set();
+  const resourceUrls = entry.resource_kinds.length ? object(person.resources, `${personLabel} resources`) : {};
+  const resources = entry.resource_kinds.map((kind) => {
+    if (!researcherResourceKinds.has(kind)) fail(`${label}: resource_kinds: unsupported value`);
+    if (selectedKinds.has(kind)) fail(`${label}: resource_kinds: duplicate kind`);
+    selectedKinds.add(kind);
+    if (!Object.hasOwn(resourceUrls, kind)) fail(`${label}: missing selected resource ${kind}`);
+    return { kind, url: publicUrl(resourceUrls[kind], `${personLabel} resources.${kind}`) };
   });
   return {
     id: publicId,
-    name: requiredString(entry, 'author_zh', label),
-    originalName: authorOriginal,
+    personId,
+    name: requiredString(entry, 'title_zh', label),
+    originalName: requiredString(person, 'name_original', personLabel),
+    ...(Object.hasOwn(person, 'name_latin') ? { latinName: requiredString(person, 'name_latin', personLabel) } : {}),
     summary: requiredString(entry, 'summary_zh', label),
-    works,
+    ...(Object.hasOwn(person, 'roles') ? { roles: requiredStringArray(person, 'roles', personLabel) } : {}),
+    ...(Object.hasOwn(person, 'research_fields') ? { researchFields: requiredStringArray(person, 'research_fields', personLabel) } : {}),
+    resources,
   };
 }
 
@@ -503,7 +487,7 @@ function adaptCongress({ entry, label, publicId, recordData, recordId, title, so
   };
 }
 
-export function plannedResearchRecords({ projectRoot, researchRoot, outputRoot }) {
+export function plannedResearchRecords({ projectRoot, researchRoot }) {
   if (researchRoot === projectRoot) fail('Ilyenkov source cannot be the public repository');
   const readJson = (relative, label) => readResearchJson(researchRoot, relative, label);
   const publication = readJson(publicationRelative, publicationRelative);
@@ -535,24 +519,24 @@ export function plannedResearchRecords({ projectRoot, researchRoot, outputRoot }
     const kind = requiredString(entry, 'kind', label);
     if (!supportedKinds.has(kind)) fail(`${label}: unsupported kind`);
     const recordPath = requiredString(entry, 'record_path', label);
+    if (kind === 'researcher_profile') {
+      if (recordPath !== personsRelative) {
+        fail(`${label}: researcher record_path must use ${personsRelative}`);
+      }
+      records.researchers.push(adaptCanonicalResearcher({
+        entry,
+        label,
+        publicId,
+        recordData: readJson(personsRelative, `${label} record_path`),
+      }));
+      continue;
+    }
     const recordData = readJson(recordPath, `${label} record_path`);
 
     if (kind === 'research_site') {
       records.researchSites.push(adaptResearchSite({ entry, label, publicId, recordData }));
       continue;
     }
-    if (kind === 'researcher_profile') {
-      records.researchers.push(adaptResearcher({
-        entry,
-        label,
-        publicId,
-        recordData,
-        readJson,
-        outputRoot,
-      }));
-      continue;
-    }
-
     const recordId = kind === 'ilyenkov_readings' ? null : requiredString(entry, 'record_id', label);
     const title = requiredString(entry, 'title_zh', label);
     const common = { entry, label, publicId, recordData, recordId, title };

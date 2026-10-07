@@ -53,15 +53,7 @@ const researchSites = getPublicResearchSites();
             <h3>{researcher.name}</h3>
             <p class="researcher-card__original">{researcher.originalName}</p>
             <p>{researcher.summary}</p>
-            <ol class="record-list">
-              {researcher.works.map((work) => (
-                <li>
-                  <h4 class="record__title">{work.title}</h4>
-                  <p class="record__original">{work.originalTitle}</p>
-                  <p class="record__links"><a href={work.archiveRoute}>阅读中文译文</a><a href={work.source.url}>查看原文来源</a></p>
-                </li>
-              ))}
-            </ol>
+            <p class="record__links"><a href="/research/researchers/andrey-maidansky/">了解研究者 →</a></p>
           </article>
         ))}
     </section>

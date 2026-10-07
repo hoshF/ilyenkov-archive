@@ -180,11 +180,16 @@ describe('research record publication boundary', () => {
     expect(network).not.toHaveProperty('positioning_en');
 
     for (const researcher of getPublicResearchers()) {
+      expect(researcher.personId).toMatch(/^[a-z0-9]+(?:-[a-z0-9]+)*$/);
       expect(researcher.name.length).toBeGreaterThan(0);
-      for (const work of researcher.works) {
-        expect(work.originalTitle.length).toBeGreaterThan(0);
-        expect(publicUrl.test(work.source.url)).toBe(true);
-        expect(work.archiveRoute.startsWith('/archive/')).toBe(true);
+      expect(researcher.originalName.length).toBeGreaterThan(0);
+      expect(researcher.summary.length).toBeGreaterThan(0);
+      for (const resource of researcher.resources) {
+        expect(['personal', 'orcid', 'institution']).toContain(resource.kind);
+        expect(publicUrl.test(resource.url)).toBe(true);
+      }
+      for (const privateField of ['works', 'aliases', 'positioning_ru', 'record_path', 'record_id']) {
+        expect(researcher).not.toHaveProperty(privateField);
       }
     }
 

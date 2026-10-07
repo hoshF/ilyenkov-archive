@@ -30,7 +30,7 @@ const roots = [];
 
 afterEach(() => roots.splice(0).forEach((root) => rmSync(root, { recursive: true, force: true })));
 
-/** Fixtures contain selected JSON facts and temporary title headers, never research bodies. */
+/** Fixtures contain selected JSON facts, never research bodies. */
 function fixture() {
   const root = mkdtempSync(path.join(tmpdir(), 'ilyenkov-readings-contract-'));
   roots.push(root);
@@ -51,13 +51,6 @@ function fixture() {
     const target = path.join(sourceRoot, relative);
     mkdirSync(path.dirname(target), { recursive: true });
     writeFileSync(target, readFileSync(path.join(researchRoot, relative), 'utf8'));
-  }
-  for (const entry of selectedEntries.filter((record) => record.kind === 'researcher_profile')) {
-    for (const work of entry.works) {
-      const target = path.join(outputRoot, 'articles', `${work.archive_id}.md`);
-      mkdirSync(path.dirname(target), { recursive: true });
-      writeFileSync(target, `---\ntitle_zh: ${JSON.stringify(work.title_zh)}\n---\n`);
-    }
   }
   return {
     read: (relative) => readJson(sourceRoot, relative),

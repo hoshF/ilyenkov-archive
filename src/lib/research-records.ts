@@ -118,22 +118,21 @@ const IfiSymposiumSchema = z.object({
   sources: z.array(SourceSchema).min(1),
 }).strict();
 
-const ResearcherWorkSchema = z.object({
-  title: z.string().trim().min(1),
-  originalTitle: z.string().trim().min(1),
-  source: z.object({
-    title: z.string().trim().min(1),
-    url: PublicUrlSchema,
-  }).strict(),
-  archiveRoute: z.string().regex(/^\/archive\/[a-z0-9]+(?:-[a-z0-9]+)*$/),
-}).strict();
-
-const ResearcherSchema = z.object({
+export const ResearcherSchema = z.object({
   id: z.string().regex(/^[a-z0-9]+(?:-[a-z0-9]+)*$/),
+  personId: z.string().regex(/^[a-z0-9]+(?:-[a-z0-9]+)*$/),
   name: z.string().trim().min(1),
   originalName: z.string().trim().min(1),
+  latinName: z.string().trim().min(1).optional(),
   summary: z.string().trim().min(1),
-  works: z.array(ResearcherWorkSchema).min(1),
+  roles: z.array(z.string().trim().min(1)).min(1).optional(),
+  researchFields: z.array(z.string().trim().min(1)).min(1).optional(),
+  resources: z.array(z.object({
+    kind: z.enum(['personal', 'orcid', 'institution']),
+    url: PublicUrlSchema,
+  }).strict()).refine((resources) => (
+    new Set(resources.map((resource) => resource.kind)).size === resources.length
+  ), { message: 'Researcher resources must have unique kinds' }),
 }).strict();
 
 const ResearchSiteSectionSchema = z.object({

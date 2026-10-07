@@ -72,6 +72,45 @@ private/research/publication.json
 只有 translation publication 明确选择的 work 才生成 article；internal work 与未公开、缺作者的
 work 不输出，后者若被选择为 `website_public` 则必须补齐作者契约。
 
+## 研究者同步与本站译文
+
+`researcher_profile` 走现有 research publication 通道，以 `record_path: people/persons.json` 和
+`record_id = person_id` 在 canonical person registry 中唯一解析人物。目标的 `person_id` 必须与
+locator 相等，`name_original`、publication 的 `title_zh`、`summary_zh` 均须非空。不读取旧
+works master、internet source index 或 researcher selected works，不提供旧 locator fallback。
+
+publication 只决定人物是否公开、中文编辑姓名与简介，以及 `resource_kinds`。条目严格只接受
+`public_id`、`publication_scope`、`kind`、`record_path`、`record_id`、`title_zh`、`summary_zh`、
+`resource_kinds`；旧 `source_path`、`author_zh`、`author_original`、`works` 与 `include_*` 均拒绝。
+
+adapter 显式生成 `id`、`personId`、`name`、`originalName`、`summary`、`resources`，以及 person 中
+存在的 `latinName`、`roles`、`researchFields`。后三者分别读取 `name_latin`、`roles`、`research_fields`，
+是固定公开形状，不依赖 publication 开关。资源只允许 `personal`、`orcid`、`institution`；按明确选择
+读取 person 的对应 URL，重复、未知、缺失或非法 `http(s)` URL 均失败。未选择资源与 aliases、
+`positioning_ru`、affiliation、local IDs、event relations、private locator 等事实不进入 generated data。
+完整字段契约见[发布说明](PUBLICATION.md)的“研究者身份与公开字段”。
+
+研究者页通过公开身份单向派生本站译文：
+
+```text
+private person.person_id
+  ├─ researcher publication ─▶ researcher.personId
+  └─ work.authors[] + translation publication ─▶ document.authorIds
+                                                  │
+公开 Archive documents ── 按 personId 筛选 ─────────┘
+                         ▼
+                  研究者页的本站译文列表
+```
+
+列表只消费 `getSiteData()` 的公开 documents，使用 `authorIds.includes(personId)` 筛选并保留
+Archive 规范顺序与完整作者署名；不读取 private translation 目录、works master、source index 或
+publication work IDs，也不生成 researcher `works[]` 副本。当前 Maidansky 匹配 24 篇，包括三篇合著；
+该数量属于当前公开选择，不是 schema 条件。internal 与未选择的作品始终不进入列表。
+
+Archive article 不需要 researcher public ID 或路由，person registry 与 translation 也不反向依赖
+profile。没有 researcher publication 的作者仍可公开文章；新增或撤下 profile 不改变 translation
+公开选择。researcher schema 允许零篇本站译文，页面保留相应空状态。
+
 ## Readings 活动定位与系列同步
 
 `ilyenkov_readings` publication 必须通过 `record_directory` 定位 private event，对应其
@@ -161,12 +200,13 @@ year DESC  →  title_zh ASC（zh-Hans-CN）  →  id ASC
 第三级 `id` 让结果完全确定，不依赖文件系统的读取顺序。`year` 是原文文献的发表年份（语义见
 [发布说明](PUBLICATION.md)），因此这个顺序是"原文发表年份由新到旧"。
 
-档案的两个消费者读的都是这一份顺序，都不自行排序：
+文章集合的消费者读的都是这一份顺序，都不自行排序：
 
 | 消费者 | 用它做什么 |
 | --- | --- |
 | `/archive/` | 文库列表 |
 | `/archive/[id]` | 上一篇 / 下一篇 |
+| 研究者详情页 | 筛选同一作者的本站译文，保留集合顺序 |
 
 也就是说顺序属于**文章集合的契约**，不是某个页面的视觉选择；某页需要另一种呈现时，应该显式说明
 理由，而不是就地 `sort()`。
