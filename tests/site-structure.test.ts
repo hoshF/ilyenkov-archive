@@ -1112,7 +1112,7 @@ describe('book channel', () => {
     expect(detail).toContain('<dt>体裁</dt>');
     expect(detail).toContain('book.work_type');
 
-    // 每个栏目的条目共用一套记录列表：靠留白分组，不画分隔线，也不配图
+    // 每个栏目的条目共用一套记录列表：靠留白分组，不画分隔线，也不放封面
     expect(page).toContain('<ul class="record-list">');
     expect(declaration('.record-list', 'display')).toBe('grid');
     expect(declaration('.record-list', 'gap')).toBeDefined();
@@ -1227,24 +1227,26 @@ describe('book channel', () => {
     expect(factKeys).toEqual(['作者', '原著初版', '体裁', '原文出处', '当前版次', '获取与权利']);
   });
 
-  it('keeps identity above the introduction and stacks the fields on narrow screens', () => {
+  it('keeps cover and identity above the introduction and stacks them on narrow screens', () => {
     const page = pageSource('books/[id].astro');
     const detailsIndex = page.indexOf('class="book-header__identity"');
     const introductionIndex = page.indexOf('class="prose prose--section book-introduction"');
+    const coverIndex = page.indexOf('class="book-header__cover-panel"');
 
-    expect(detailsIndex).toBeGreaterThan(-1);
+    expect(coverIndex).toBeGreaterThan(-1);
+    expect(detailsIndex).toBeGreaterThan(coverIndex);
     expect(introductionIndex).toBeGreaterThan(detailsIndex);
-    // 封面属于第三方素材，书籍选择不授权复制封面：详情页不含封面图与灯箱。
-    for (const removed of ['book-header__cover', 'cover-lightbox', '/covers/']) {
-      expect(page, removed).not.toContain(removed);
-    }
     expect(declaration('.container.book-page', 'max-width')).toBe('var(--reading)');
-    expect(declaration('.book-header__body', 'grid-template-columns')).toBe('minmax(0, 1fr)');
-    expect(declaration('.book-header__body', 'grid-template-areas')).toBe('"identity" "introduction"');
+    expect(declaration('.book-header__body', 'grid-template-columns')).toContain('clamp(220px, 30vw, 280px)');
+    expect(declaration('.book-header__body', 'column-gap')).toContain('clamp(');
+    expect(declaration('.book-header__body', 'grid-template-areas')).toContain('"cover identity"');
+    expect(declaration('.book-header__body', 'grid-template-areas')).toContain('"introduction introduction"');
+    expect(declaration('.book-header__body--without-cover', 'grid-template-areas')).toContain('"identity"');
     expect(declaration('.book-page .book-introduction', 'grid-area')).toBe('introduction');
     expect(declaration('.book-header__title', 'border')).toBe('0');
 
-    // 窄屏：字段之间靠间距分组
+    // 窄屏：封面收窄，字段之间靠间距分组
+    expect(declaration('.book-header__cover-link', 'width', '@media (max-width: 600px)')).toBe('min(100%, 420px)');
     expect(declaration('.book-page .fact-list > div + div', 'margin-top', '@media (max-width: 600px)')).toBe('28px');
   });
 });

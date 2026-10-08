@@ -44,8 +44,18 @@ const editions = [...book.editions].reverse();
         </div>
       </header>
 
-      {/* 书籍记录只发布书目与版本信息：封面属于第三方素材，不随书籍选择授权，页面不渲染封面。 */}
-      <div class="book-header__body">
+      <div class:list={['book-header__body', !book.cover && 'book-header__body--without-cover']}>
+        {book.cover && (
+          <div class="book-header__cover-panel">
+            <a href="#cover" class="book-header__cover-link" aria-label={`查看《${book.title}》封面大图`}>
+              <img class="book-header__cover" src={book.cover} alt={`《${book.title}》封面`} width="360" height="540" />
+            </a>
+            <a href="#" id="cover" class="cover-lightbox" aria-label="关闭大图">
+              <img src={book.cover} alt={`《${book.title}》封面`} />
+            </a>
+          </div>
+        )}
+
         <div class="book-header__identity">
           {/* 事实表只放“这本书是什么”：作者、原著初版年份、体裁、原文出处、版次、权利。
               本站对这份记录的维护形态（category）属于发布元数据，不在这里展示。

@@ -28,10 +28,6 @@ export function plannedBooks({ researchRoot }) {
     const editorialRoot = `${path.join(realpathSync(researchRoot), 'web', 'editorial', 'books')}${path.sep}`;
     if (!realpathSync(file).startsWith(editorialRoot)) fail(`${label}: editorial_path escapes web/editorial/books`);
     const manuscript = matter(readFileSync(file, 'utf8'));
-    // 封面属于第三方素材：书籍选择不授权复制封面，公开记录不接受这个字段。
-    if ('cover' in manuscript.data) {
-      fail(`${relative}: cover is not an authorized book field; remove it from the manuscript`);
-    }
     const metadata = BookSchema.parse(manuscript.data);
     const introduction = manuscript.content.trim();
     if (!introduction) fail(`${label}: book record has no introduction`);

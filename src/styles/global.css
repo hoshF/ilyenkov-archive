@@ -119,17 +119,38 @@ h2, h3, h4 { text-wrap: balance; line-height: 1.3; }
   max-width: 48rem; font-size: var(--text-content-title); margin: 0; font-weight: 700; line-height: 1.35;
 }
 
-/* 书籍详情只呈现书目、版次与译者引言：封面属于第三方素材，不随书籍选择授权。 */
 .book-header__body {
-  display: grid; max-width: var(--reading); grid-template-columns: minmax(0, 1fr);
+  display: grid; grid-template-columns: clamp(220px, 30vw, 280px) minmax(0, 1fr);
   grid-template-areas:
-    "identity"
-    "introduction";
-  row-gap: 52px; align-items: start; margin-bottom: 52px; padding-top: 36px;
+    "cover identity"
+    "introduction introduction";
+  column-gap: clamp(28px, 5vw, 48px); row-gap: 52px; align-items: start; margin-bottom: 52px; padding-top: 36px;
+}
+
+.book-header__body--without-cover {
+  max-width: var(--reading); grid-template-columns: 1fr; grid-template-areas: "identity""introduction";
 }
 
 .book-header__identity {
   z-index: 2; grid-area: identity; width: 100%; min-width: 0; max-width: 420px; position: relative;
+}
+
+.book-header__cover-panel {
+  grid-area: cover; justify-content: flex-start; align-items: flex-start; min-width: 0; display: flex;
+}
+
+.book-header__cover-link { display: block; width: 100%; max-width: none; cursor: zoom-in; }
+
+.book-header__cover { border: 1px solid var(--line); width: 100%; height: auto; display: block; }
+
+.cover-lightbox {
+  z-index: 100; cursor: zoom-out; background: #000000d9; justify-content: center; align-items: center;
+  padding: 40px; display: none; position: fixed; inset: 0;
+}
+.cover-lightbox:target { display: flex; }
+.cover-lightbox img {
+  width: auto; max-width: min(90vw,640px); height: auto; max-height: 90vh; display: block;
+  box-shadow: 0 10px 40px #00000080;
 }
 
 .book-header__original {
@@ -628,8 +649,14 @@ h2, h3, h4 { text-wrap: balance; line-height: 1.3; }
   .book-page .section-layout__breadcrumb { margin-bottom: 28px; }
   .book-header__title { border-bottom: 0; padding-bottom: 0; }
   .book-header__title h1 { font-size: var(--text-content-title); }
-  .book-header__body { row-gap: 42px; max-width: none; padding-top: 36px; }
+  .book-header__body, .book-header__body--without-cover {
+    grid-template-columns: 1fr; row-gap: 42px; max-width: none; padding-top: 36px;
+  }
+  .book-header__body { grid-template-areas: "cover" "identity" "introduction"; }
+  .book-header__body--without-cover { grid-template-areas: "identity" "introduction"; }
   .book-header__identity { max-width: none; }
+  .book-header__cover-panel { justify-content: center; }
+  .book-header__cover-link { width: min(100%, 420px); max-width: 420px; }
   .book-page .fact-list > div + div { margin-top: 28px; }
   .book-page .fact-list dt { margin-bottom: 7px; }
 }

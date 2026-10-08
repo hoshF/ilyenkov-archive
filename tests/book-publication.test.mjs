@@ -156,8 +156,7 @@ describe('generated book renderer boundary', () => {
       expect(html).toContain(book.title);
       expect(html).toContain(book.introductionHtml);
       expect(html).toContain(book.latestEdition.version);
-      // 封面属于第三方素材，书籍选择不授权复制或发布封面。
-      expect(html).not.toContain('/covers/');
+      if (book.cover) expect(html).toContain(`src="${book.cover}"`);
       if (!book.download) expect(html).toContain('本站不提供下载。');
     }
   });

@@ -21,6 +21,7 @@ export const BookSchema = z.object({
   title: z.string().trim().min(1),
   original_title: z.string().trim().min(1).optional(),
   author: z.string().trim().min(1),
+  cover: z.string().regex(/^\/covers\/[a-z0-9-]+\.(?:jpg|png|webp)$/).optional(),
   /** 原文出处：这段文字原本在哪本书/文集里，不是“翻译时用的印本”那种底本概念。 */
   original_source: z.string().trim().min(1).optional(),
   /** 原著初版年份，只用于列表页的一行元信息；不确定就留空，不要拿本站版次的年份顶替。 */
