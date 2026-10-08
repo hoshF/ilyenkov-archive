@@ -22,19 +22,19 @@ if (!researcher) throw new Error('Maidansky public researcher profile is missing
     </header>
 
     <section class="research-series" aria-labelledby="ifi-heading">
-        <h2 id="ifi-heading"><a href="/research/ifi/">{ifiNetwork.title}</a></h2>
+        <h2 id="ifi-heading"><a href="/research/ifi">{ifiNetwork.title}</a></h2>
         <p class="record__original">{ifiNetwork.name}（{ifiNetwork.abbreviation}）</p>
         <p class="record__summary">{ifiNetwork.summary}</p>
     </section>
 
     <section class="research-series" aria-labelledby="researcher-andrey-maidansky-heading">
-        <h2 id="researcher-andrey-maidansky-heading"><a href="/research/researchers/andrey-maidansky/">{researcher.name}</a></h2>
+        <h2 id="researcher-andrey-maidansky-heading"><a href="/research/researchers/andrey-maidansky">{researcher.name}</a></h2>
         <p class="record__original">{researcher.originalName}</p>
         {researcher.editorial && <p class="record__summary">{researcher.editorial.workDescription}</p>}
     </section>
 
     <section class="research-series" aria-labelledby="readings-heading">
-        <h2 id="readings-heading"><a href="/research/readings/">{readingsSeries.title}</a></h2>
+        <h2 id="readings-heading"><a href="/research/readings">{readingsSeries.title}</a></h2>
         <p class="record__original">{readingsSeries.name}</p>
         <p class="record__summary">{readingsSeries.summary}</p>
     </section>

@@ -69,7 +69,7 @@ export function collectRssItems(
     seenUpdates.add(hash);
     items.push({
       title: `近期动态：${update.summary}`,
-      link: new URL(identity ? update.link! : '/updates/', base).href,
+      link: new URL(identity ? update.link! : '/updates', base).href,
       pubDate: publicDate(update.date),
       description: update.summary,
       customData: guidData(`urn:ilyenkov:update:${hash}`),

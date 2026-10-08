@@ -258,7 +258,7 @@ describe('website-approved data adapter', () => {
     expect(source).toContain('class="page-title">研究</h1>');
 
     // 实际输出依次呈现网络、研究者与学术活动三个站内入口。
-    const html = readFileSync(builtRoutePath('/research/'), 'utf8');
+    const html = readFileSync(builtRoutePath('/research'), 'utf8');
     const main = html.match(/<main>([\s\S]*?)<\/main>/)![1];
     const ids = [...main.matchAll(/<section\b[^>]*aria-labelledby="([^"]+)"[^>]*>/g)]
       .map((match) => match[1]);
@@ -280,9 +280,9 @@ describe('website-approved data adapter', () => {
     const entityTitles = [...main.matchAll(/<h2\b[^>]*><a href="([^"]+)">([^<]+)<\/a><\/h2>/g)]
       .map(([, href, title]) => ({ href, title }));
     expect(entityTitles).toEqual([
-      { href: '/research/ifi/', title: '国际伊里因科夫之友' },
-      { href: '/research/researchers/andrey-maidansky/', title: '安德烈·迈丹斯基' },
-      { href: '/research/readings/', title: '伊里因科夫学术报告会' },
+      { href: '/research/ifi', title: '国际伊里因科夫之友' },
+      { href: '/research/researchers/andrey-maidansky', title: '安德烈·迈丹斯基' },
+      { href: '/research/readings', title: '伊里因科夫学术报告会' },
     ]);
     expect(main.match(/class="record__summary"/g)).toHaveLength(3);
     expect(declaration('.research-hub .record__original', 'margin')).toBe('4px 0 0');
@@ -808,9 +808,9 @@ describe('public navigation', () => {
     expect(declaration('.home-more a:after', 'content')).toBe('" →"');
     const research = main.match(/<section class="home-research"[\s\S]*?<\/section>/)![0];
     const records = [
-      { ...getPublicResearchers().find((record) => record.id === 'researcher-andrey-maidansky')!, href: '/research/researchers/andrey-maidansky/' },
-      { ...getPublicIfiNetwork(), href: '/research/ifi/' },
-      { ...getPublicReadingsSeries().find((record) => record.id === 'ilyenkov-readings-series')!, href: '/research/readings/' },
+      { ...getPublicResearchers().find((record) => record.id === 'researcher-andrey-maidansky')!, href: '/research/researchers/andrey-maidansky' },
+      { ...getPublicIfiNetwork(), href: '/research/ifi' },
+      { ...getPublicReadingsSeries().find((record) => record.id === 'ilyenkov-readings-series')!, href: '/research/readings' },
     ];
     expect([...research.matchAll(/<h3\b/g)].length).toBe(records.length);
     for (const record of records) {
@@ -828,9 +828,9 @@ describe('public navigation', () => {
       .toEqual(['/ilyenkov', '/archive', '/research', '/group', '/books']);
     expect([...nav.matchAll(/href="([^"]+)"/g)].map(([, href]) => href))
       .toEqual(site.navigation.map(({ href }) => href));
-    expect(nav).not.toContain('href="/updates/"');
+    expect(nav).not.toContain('href="/updates"');
     const updates = homepage.match(/<section class="home-updates"[\s\S]*?<\/section>/)![0];
-    expect(updates).toContain('<a href="/updates/">查看全部动态</a>');
+    expect(updates).toContain('<a href="/updates">查看全部动态</a>');
   });
 
   it('samples public Archive texts without treating original years as publication dates', async () => {
@@ -899,7 +899,7 @@ describe('public navigation', () => {
     expect(main).toContain('<h1 class="page-title">中文伊里因科夫小组');
     expect(main).not.toContain(site.group.summary);
     expect(main).toContain('href="/group/0"');
-    expect(main).toContain('href="/contact/"');
+    expect(main).toContain('href="/contact"');
     expect(main).toContain('Китайская группа по изучению Ильенкова');
     expect(main).toContain('Chinese Ilyenkov Group');
     expect(main).not.toContain('entrance-card');
@@ -908,7 +908,7 @@ describe('public navigation', () => {
     const entrances = main.match(/<nav\b[^>]*aria-label="小组相关入口"[^>]*>([\s\S]*?)<\/nav>/)![1];
     expect([...entrances.matchAll(/<a\b[^>]*href="([^"]+)"[^>]*>([^<]*)<\/a>/g)]
       .map(([, href, label]) => ({ href, label })))
-      .toEqual([{ href: '/group/0', label: '小组介绍' }, { href: '/contact/', label: '关注与联系' }]);
+      .toEqual([{ href: '/group/0', label: '小组介绍' }, { href: '/contact', label: '关注与联系' }]);
     expect(main.indexOf('aria-label="小组相关入口"')).toBeLessThan(main.indexOf('class="group-issues"'));
     expect(main).not.toContain('本页按期记录');
   });
@@ -917,7 +917,7 @@ describe('public navigation', () => {
     expect(pageSource('index.astro')).not.toContain('/about');
     const groupPage = pageSource('group/index.astro');
     expect(groupPage).toContain('<SectionLayout');
-    expect(groupPage).toContain('href="/contact/"');
+    expect(groupPage).toContain('href="/contact"');
   });
 
   it('keeps the group pages on their own public editorial channel', () => {

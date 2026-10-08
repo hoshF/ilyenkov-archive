@@ -199,14 +199,14 @@ describe('IFI publication contract', () => {
 
   it('renders every currently selected independent symposium on the IFI detail page', () => {
     const records = readJson(projectRoot, '.website-input/research-records.json');
-    const html = readFileSync(builtRoutePath('/research/ifi/'), 'utf8');
+    const html = readFileSync(builtRoutePath('/research/ifi'), 'utf8');
     expect(records.ifiSymposiums.map((record) => record.id)).toEqual(
       selectedEntries.filter((entry) => entry.kind === 'ifi_symposium').map((entry) => entry.public_id),
     );
     for (const symposium of records.ifiSymposiums) {
       expect(html).toContain(symposium.title);
     }
-    expect(routeExists('/research/ifi/')).toBe(true);
+    expect(routeExists('/research/ifi')).toBe(true);
     expect(records.ifiNetworks[0]).not.toHaveProperty('symposiums');
   });
 

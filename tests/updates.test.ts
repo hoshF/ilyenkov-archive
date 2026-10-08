@@ -113,7 +113,7 @@ describe('public updates', () => {
     }
 
     expect(complete).toContain('<h1 class="page-title">近期动态</h1>');
-    expect(home).toContain('href="/updates/">查看全部动态</a>');
+    expect(home).toContain('href="/updates">查看全部动态</a>');
     for (const html of [home, complete]) {
       expect(html).not.toContain('<script');
     }

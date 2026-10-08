@@ -24,9 +24,9 @@ const ifi = getPublicIfiNetwork();
 const readings = getPublicReadingsSeries().find((record) => record.id === 'ilyenkov-readings-series');
 if (!maidansky || !readings) throw new Error('Homepage public research entities are missing');
 const research = [
-  { title: maidansky.name, summary: maidansky.summary, href: '/research/researchers/andrey-maidansky/' },
-  { title: ifi.title, summary: ifi.summary, href: '/research/ifi/' },
-  { title: readings.title, summary: readings.summary, href: '/research/readings/' },
+  { title: maidansky.name, summary: maidansky.summary, href: '/research/researchers/andrey-maidansky' },
+  { title: ifi.title, summary: ifi.summary, href: '/research/ifi' },
+  { title: readings.title, summary: readings.summary, href: '/research/readings' },
 ];
 const updates = getUpdates().slice(0, HOME_UPDATES_LIMIT);
 ---
@@ -75,7 +75,7 @@ const updates = getUpdates().slice(0, HOME_UPDATES_LIMIT);
           </li>
         ))}
       </ol>
-      <p class="home-more"><a href="/group">小组工作</a> · <a href="/contact/">关注与联系</a></p>
+      <p class="home-more"><a href="/group">小组工作</a> · <a href="/contact">关注与联系</a></p>
     </section>
 
     <section class="home-updates" aria-labelledby="updates-heading">
@@ -83,7 +83,7 @@ const updates = getUpdates().slice(0, HOME_UPDATES_LIMIT);
       {updates.length > 0
         ? <UpdatesList updates={updates} />
         : <p class="section-note">暂无公开动态。</p>}
-      <p class="home-more"><a href="/updates/">查看全部动态</a></p>
+      <p class="home-more"><a href="/updates">查看全部动态</a></p>
     </section>
   </div>
 </BaseLayout>

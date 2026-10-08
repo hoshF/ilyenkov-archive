@@ -55,8 +55,8 @@ const resourceLabels: Record<PublicIfiNetwork['resources'][number]['kind'], stri
 
 describe('IFI public detail and research entry', () => {
   it('statically builds the detail page with the public network identity without duplicate breadcrumb titles', () => {
-    expect(routeExists('/research/ifi/')).toBe(true);
-    const html = builtPage('/research/ifi/');
+    expect(routeExists('/research/ifi')).toBe(true);
+    const html = builtPage('/research/ifi');
     const main = mainContent(html);
     const network = getPublicIfiNetwork();
     expect(textContent(html.match(/<title>([\s\S]*?)<\/title>/)![1]))
@@ -73,7 +73,7 @@ describe('IFI public detail and research entry', () => {
   });
 
   it('presents the editorial introduction without separate formation or activity sections', async () => {
-    const main = mainContent(builtPage('/research/ifi/'));
+    const main = mainContent(builtPage('/research/ifi'));
     const intro = sectionById(main, 'ifi-intro-heading');
     const editorial = getPublicIfiNetwork().editorial!;
     expect(editorial).toBeDefined();
@@ -87,7 +87,7 @@ describe('IFI public detail and research entry', () => {
 
   it('uses exactly the selected public official resource URLs and page-level labels', () => {
     const network = getPublicIfiNetwork();
-    const resources = mainContent(builtPage('/research/ifi/')).match(/<aside\b[^>]*aria-labelledby="ifi-resources-heading"[^>]*>([\s\S]*?)<\/aside>/)![1];
+    const resources = mainContent(builtPage('/research/ifi')).match(/<aside\b[^>]*aria-labelledby="ifi-resources-heading"[^>]*>([\s\S]*?)<\/aside>/)![1];
     expect(textContent(resources)).toContain('资料入口');
     expect(links(resources)).toEqual([
       { href: network.url, label: '官方网站' },
@@ -102,7 +102,7 @@ describe('IFI public detail and research entry', () => {
   });
 
   it('keeps the independent symposium history chronological with public dates, places and sources', () => {
-    const history = sectionById(mainContent(builtPage('/research/ifi/')), 'ifi-symposiums-heading');
+    const history = sectionById(mainContent(builtPage('/research/ifi')), 'ifi-symposiums-heading');
     const symposiums = getPublicIfiSymposiums();
     expect(textContent(history.match(/<p class="research-series__lead">([\s\S]*?)<\/p>/)![1]))
       .toBe(getPublicIfiNetwork().editorial!.symposiumsLead);
@@ -123,32 +123,32 @@ describe('IFI public detail and research entry', () => {
   it('keeps the research IFI section as a linked identity and short summary', () => {
     const network = getPublicIfiNetwork();
     const symposiums = getPublicIfiSymposiums();
-    const html = builtPage('/research/');
+    const html = builtPage('/research');
     const main = mainContent(html);
     expect(textContent(html.match(/<title>([\s\S]*?)<\/title>/)![1])).toBe(`研究｜${site.name}`);
     expect([...main.matchAll(/<h1\b/g)]).toHaveLength(1);
     expect(textContent(main.match(/<h1\b[^>]*>([\s\S]*?)<\/h1>/)![1])).toBe('研究');
     const entry = sectionFor(main, network.title);
     const heading = entry.match(/<h2\b[^>]*>([\s\S]*?)<\/h2>/)![1];
-    expect(links(heading)).toEqual([{ href: '/research/ifi/', label: network.title }]);
+    expect(links(heading)).toEqual([{ href: '/research/ifi', label: network.title }]);
     const paragraphs = [...entry.matchAll(/<p\b[^>]*>([\s\S]*?)<\/p>/g)]
       .map(([, content]) => textContent(content));
     expect(paragraphs).toEqual([`${network.name}（${network.abbreviation}）`, network.summary]);
-    expect(links(entry)).toEqual([{ href: '/research/ifi/', label: network.title }]);
+    expect(links(entry)).toEqual([{ href: '/research/ifi', label: network.title }]);
     expect(entry).not.toMatch(/<ol\b|<ul\b|<li\b|<article\b|<h3\b/);
     for (const symposium of symposiums) expect(textContent(entry)).not.toContain(symposium.title);
     expect(sections(main)).toHaveLength(3);
   });
 
   it('retains the researcher and Readings series entries', () => {
-    const main = mainContent(builtPage('/research/'));
+    const main = mainContent(builtPage('/research'));
     const researcher = getPublicResearchers().find((record) => record.id === 'researcher-andrey-maidansky')!;
     const researchers = sectionById(main, 'researcher-andrey-maidansky-heading');
     expect(textContent(researchers)).toContain(researcher.name);
     expect(textContent(researchers)).toContain(researcher.originalName);
     expect(textContent(researchers)).toContain(getPublicResearchers().find((record) => record.id === 'researcher-andrey-maidansky')!.editorial!.workDescription);
     expect(links(researchers)).toEqual([{
-      href: '/research/researchers/andrey-maidansky/', label: researcher.name,
+      href: '/research/researchers/andrey-maidansky', label: researcher.name,
     }]);
     expect(researchers).not.toMatch(/<ol\b|<li\b|<article\b|<h3\b/);
     expect(main).not.toContain('research-sites-heading');
@@ -156,7 +156,7 @@ describe('IFI public detail and research entry', () => {
     const readings = sectionFor(main, series.title);
     expect(textContent(readings)).toContain(series.name);
     expect(textContent(readings)).toContain(series.summary);
-    expect(links(readings)).toEqual([{ href: '/research/readings/', label: series.title }]);
+    expect(links(readings)).toEqual([{ href: '/research/readings', label: series.title }]);
     expect(readings).not.toMatch(/<ol\b|<ul\b|<li\b|<article\b|<h3\b/);
     expect(sections(main).map((section) => section.heading)).toEqual([
       getPublicIfiNetwork().title, researcher.name, series.title,
@@ -172,7 +172,7 @@ describe('IFI public detail and research entry', () => {
       { href: '/books', label: '书籍' },
     ];
     expect(site.navigation).toEqual(expected);
-    for (const route of ['/research/', '/research/ifi/']) {
+    for (const route of ['/research', '/research/ifi']) {
       const html = builtPage(route);
       const nav = html.match(/<nav\b[^>]*aria-label="主要导航"[^>]*>([\s\S]*?)<\/nav>/)![1];
       expect(links(nav)).toEqual(expected);
@@ -182,7 +182,7 @@ describe('IFI public detail and research entry', () => {
         expect(html, `${route}: ${restricted}`).not.toContain(restricted);
       }
     }
-    const detail = builtPage('/research/ifi/');
+    const detail = builtPage('/research/ifi');
     expect(detail).toContain('section-layout__sidebar');
     expect(detail).not.toMatch(/section-layout--indexed|class="section-layout__toc"|reading-page/);
     expect(detail).not.toMatch(/<form\b|<input\b|<button\b/);

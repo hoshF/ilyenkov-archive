@@ -40,8 +40,8 @@ describe('Readings public series detail and research entry', () => {
   it('statically renders the generated series identity and selected introduction', async () => {
     const series = getPublicReadingsSeries();
     expect(series).toHaveLength(1);
-    expect(routeExists('/research/readings/')).toBe(true);
-    const html = builtPage('/research/readings/');
+    expect(routeExists('/research/readings')).toBe(true);
+    const html = builtPage('/research/readings');
     const main = mainContent(html);
     expect(textContent(html.match(/<title>([\s\S]*?)<\/title>/)![1]))
       .toBe(`${series[0].title}｜${site.name}`);
@@ -63,14 +63,14 @@ describe('Readings public series detail and research entry', () => {
   });
 
   it('omits redundant type, history and event source rows', () => {
-    const main = mainContent(builtPage('/research/readings/'));
+    const main = mainContent(builtPage('/research/readings'));
     expect(sectionById(main, 'readings-intro-heading')).not.toContain('class="record__label"');
     expect(main).not.toContain('来源：');
   });
 
   it('presents only the selected series resources with distinct page-level Chinese labels', () => {
     const series = getPublicReadingsSeries()[0];
-    const resources = mainContent(builtPage('/research/readings/')).match(/<aside\b[^>]*aria-labelledby="readings-resources-heading"[^>]*>([\s\S]*?)<\/aside>/)![1];
+    const resources = mainContent(builtPage('/research/readings')).match(/<aside\b[^>]*aria-labelledby="readings-resources-heading"[^>]*>([\s\S]*?)<\/aside>/)![1];
     expect(textContent(resources)).toContain('资料入口');
     expect(links(resources)).toEqual(series.resources.map((resource) => ({
       href: resource.url,
@@ -84,7 +84,7 @@ describe('Readings public series detail and research entry', () => {
 
   it('renders the current public event selection chronologically without source links', () => {
     const events = getPublicReadings();
-    const records = sectionById(mainContent(builtPage('/research/readings/')), 'readings-events-heading');
+    const records = sectionById(mainContent(builtPage('/research/readings')), 'readings-events-heading');
     const articles = [...records.matchAll(/<article\b[^>]*>([\s\S]*?)<\/article>/g)]
       .map(([, content]) => content);
     expect(articles).toHaveLength(events.length);
@@ -97,30 +97,30 @@ describe('Readings public series detail and research entry', () => {
       expect(textContent(article)).toContain(event.location ?? event.format!);
       expect(links(article)).toEqual([]);
       expect(article).not.toContain('record__sources');
-      expect(routeExists(`/research/readings/${event.id}/`)).toBe(false);
+      expect(routeExists(`/research/readings${event.id}/`)).toBe(false);
     }
   });
 
   it('reduces the research Readings block to a public series entry and retains the IFI entry', () => {
-    const main = mainContent(builtPage('/research/'));
+    const main = mainContent(builtPage('/research'));
     const series = getPublicReadingsSeries()[0];
     const entry = sectionById(main, 'readings-heading');
     expect(textContent(entry)).toContain(series.title);
     expect(textContent(entry)).toContain(series.name);
     expect(textContent(entry)).toContain(series.summary);
     const heading = entry.match(/<h2\b[^>]*>([\s\S]*?)<\/h2>/)![1];
-    expect(links(heading)).toEqual([{ href: '/research/readings/', label: series.title }]);
+    expect(links(heading)).toEqual([{ href: '/research/readings', label: series.title }]);
     const paragraphs = [...entry.matchAll(/<p\b[^>]*>([\s\S]*?)<\/p>/g)]
       .map(([, content]) => textContent(content));
     expect(paragraphs).toEqual([series.name, series.summary]);
-    expect(links(entry)).toEqual([{ href: '/research/readings/', label: series.title }]);
+    expect(links(entry)).toEqual([{ href: '/research/readings', label: series.title }]);
     expect(entry).not.toMatch(/<ol\b|<ul\b|<li\b|<article\b|<h3\b/);
     for (const event of getPublicReadings()) expect(textContent(entry)).not.toContain(event.title);
     const ifi = getPublicIfiNetwork();
     const ifiEntry = sectionById(main, 'ifi-heading');
     expect(textContent(ifiEntry)).toContain(ifi.title);
     expect(textContent(ifiEntry)).toContain(ifi.summary);
-    expect(links(ifiEntry)).toEqual([{ href: '/research/ifi/', label: ifi.title }]);
+    expect(links(ifiEntry)).toEqual([{ href: '/research/ifi', label: ifi.title }]);
     expect([...main.matchAll(/<section\b/g)]).toHaveLength(3);
     expect(routeExists('/research/researchers/')).toBe(false);
   });
@@ -134,7 +134,7 @@ describe('Readings public series detail and research entry', () => {
       { href: '/books', label: '书籍' },
     ];
     expect(site.navigation).toEqual(expected);
-    for (const route of ['/research/', '/research/readings/']) {
+    for (const route of ['/research', '/research/readings']) {
       const html = builtPage(route);
       const nav = html.match(/<nav\b[^>]*aria-label="主要导航"[^>]*>([\s\S]*?)<\/nav>/)![1];
       expect(links(nav)).toEqual(expected);
@@ -146,7 +146,7 @@ describe('Readings public series detail and research entry', () => {
         '/Users/', 'ILYENKOV_ROOT',
       ]) expect(html, `${route}: ${restricted}`).not.toContain(restricted);
     }
-    const detail = builtPage('/research/readings/');
+    const detail = builtPage('/research/readings');
     expect(detail).toContain('section-layout__sidebar');
     expect(detail).not.toMatch(/section-layout--indexed|class="section-layout__toc"|reading-page/);
     expect(detail).not.toMatch(/<form\b|<input\b|<button\b/);

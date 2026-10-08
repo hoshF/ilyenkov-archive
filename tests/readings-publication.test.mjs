@@ -666,18 +666,18 @@ describe('Readings publication regression', () => {
 
   it('renders the selected events in the Readings detail and keeps a concise research entry', () => {
     const records = readJson(projectRoot, '.website-input/research-records.json');
-    const html = readFileSync(builtRoutePath('/research/'), 'utf8');
-    const detail = readFileSync(builtRoutePath('/research/readings/'), 'utf8');
+    const html = readFileSync(builtRoutePath('/research'), 'utf8');
+    const detail = readFileSync(builtRoutePath('/research/readings'), 'utf8');
     for (const reading of records.readings) expect(detail).toContain(reading.title);
     expect(html).toContain('researcher-andrey-maidansky-heading');
     expect(html).not.toContain('research-sites-heading');
     expect(html).toContain('readings-heading');
-    expect(html).toContain('href="/research/readings/"');
+    expect(html).toContain('href="/research/readings"');
     const entry = html.match(/<section\b[^>]*aria-labelledby="readings-heading"[^>]*>([\s\S]*?)<\/section>/)[1];
     expect(entry).not.toMatch(/<ol\b|<article\b|<h3\b/);
     expect(entry).toContain(records.readingsSeries[0].summary);
-    expect(routeExists('/research/')).toBe(true);
-    expect(routeExists('/research/ifi/')).toBe(true);
-    expect(routeExists('/research/readings/')).toBe(true);
+    expect(routeExists('/research')).toBe(true);
+    expect(routeExists('/research/ifi')).toBe(true);
+    expect(routeExists('/research/readings')).toBe(true);
   });
 });

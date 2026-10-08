@@ -10,7 +10,7 @@ import {
 import { getSiteData } from '../src/lib/site-data';
 import { builtRoutePath, routeExists } from './helpers/pages';
 
-const route = '/research/researchers/andrey-maidansky/';
+const route = '/research/researchers/andrey-maidansky';
 const builtPage = (href: string): string => readFileSync(builtRoutePath(href), 'utf8');
 const mainContent = (html: string): string => html.match(/<main>([\s\S]*?)<\/main>/)![1];
 const decode = (value: string): string => value
@@ -126,7 +126,7 @@ describe('canonical researcher detail and research hub entry', () => {
   });
 
   it('presents the researcher as a peer entry with a linked heading, identity and summary', async () => {
-    const main = mainContent(builtPage('/research/'));
+    const main = mainContent(builtPage('/research'));
     const researcher = profile();
     const entry = sectionById(main, 'researcher-andrey-maidansky-heading');
     expect(textContent(entry)).toContain(researcher.name);
@@ -146,11 +146,11 @@ describe('canonical researcher detail and research hub entry', () => {
     const network = getPublicIfiNetwork();
     const ifi = sectionById(main, 'ifi-heading');
     expect(textContent(ifi)).toContain(network.summary);
-    expect(links(ifi)).toEqual([{ href: '/research/ifi/', label: network.title }]);
+    expect(links(ifi)).toEqual([{ href: '/research/ifi', label: network.title }]);
     const series = getPublicReadingsSeries()[0];
     const readings = sectionById(main, 'readings-heading');
     expect(textContent(readings)).toContain(series.summary);
-    expect(links(readings)).toEqual([{ href: '/research/readings/', label: series.title }]);
+    expect(links(readings)).toEqual([{ href: '/research/readings', label: series.title }]);
     expect(main).not.toContain('research-sites-heading');
     expect([...main.matchAll(/<section\b/g)]).toHaveLength(3);
   });
@@ -161,7 +161,7 @@ describe('canonical researcher detail and research hub entry', () => {
       { href: '/research', label: '研究' }, { href: '/group', label: '小组' }, { href: '/books', label: '书籍' },
     ];
     expect(site.navigation).toEqual(expected);
-    for (const href of ['/research/', route]) {
+    for (const href of ['/research', route]) {
       const html = builtPage(href);
       const nav = html.match(/<nav\b[^>]*aria-label="主要导航"[^>]*>([\s\S]*?)<\/nav>/)![1];
       expect(links(nav)).toEqual(expected);

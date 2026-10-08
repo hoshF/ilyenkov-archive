@@ -104,8 +104,8 @@ describe('public RSS feed', () => {
     ];
     const items = collectRssItems([], updates, siteUrl);
     expect(items.map((item) => item.link)).toEqual([
-      new URL('/updates/', siteUrl).href,
-      new URL('/updates/', siteUrl).href,
+      new URL('/updates', siteUrl).href,
+      new URL('/updates', siteUrl).href,
       new URL('/archive', siteUrl).href,
       new URL('/group/20', siteUrl).href,
     ]);
@@ -202,11 +202,11 @@ describe('public RSS feed', () => {
   });
 
   it('offers RSS from contact and footer and advertises the same feed in document heads', () => {
-    const contact = readFileSync(builtRoutePath('/contact/'), 'utf8');
+    const contact = readFileSync(builtRoutePath('/contact'), 'utf8');
     const main = contact.match(/<main>([\s\S]*?)<\/main>/)![1];
     expect(main).toMatch(/<a\b[^>]*href="\/rss\.xml"[^>]*>[^<]*RSS[^<]*<\/a>/);
 
-    for (const route of ['/', '/contact/', '/group/', '/updates/']) {
+    for (const route of ['/', '/contact', '/group/', '/updates']) {
       const html = readFileSync(builtRoutePath(route), 'utf8');
       const head = html.match(/<head>([\s\S]*?)<\/head>/)![1];
       const discoveries = [...head.matchAll(/<link\b[^>]*>/g)]
