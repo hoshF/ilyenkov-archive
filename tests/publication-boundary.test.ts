@@ -235,7 +235,7 @@ describe('research record publication boundary', () => {
     for (const stage of life.stages) {
       expect(stage.recordIds.every((id) => approvedIds.has(id))).toBe(true);
       for (const link of stage.links) {
-        expect(html).toContain(`href="/ilyenkov/${link.target}"`);
+        expect(html).toContain(`href="/ilyenkov/${link.target}/"`);
       }
     }
     for (const privateField of ['record_ids', 'record_kind', 'editorial_path', 'ILYENKOV_ROOT']) {

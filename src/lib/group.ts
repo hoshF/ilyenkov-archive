@@ -70,7 +70,7 @@ export const getGroupIssues = buildCache((): Promise<GroupIssue[]> => (
     return {
       ...metadata,
       id,
-      route: `/group/${id}`,
+      route: `/group/${id}/`,
       html: rendered.html,
       headings: rendered.headings,
     } satisfies GroupIssue;

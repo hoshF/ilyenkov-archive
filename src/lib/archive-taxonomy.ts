@@ -106,7 +106,7 @@ export function termsWithArticles(
       (kind === 'topic' ? article.topics : article.persons).some((item) => item.id === term.id)
     )).length;
     if (count === 0) return [];
-    return [{ id: term.id, label: term.label, href: `/archive/${kind}/${term.id}`, count }];
+    return [{ id: term.id, label: term.label, href: `/archive/${kind}/${term.id}/`, count }];
   });
 }
 

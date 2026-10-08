@@ -12,6 +12,6 @@ export const GET: APIRoute = async (context) => {
     description: `${site.name}的近期公开内容与工作动态。`,
     site: context.site,
     items: await getRssItems(context.site),
-    trailingSlash: false,
+    trailingSlash: true,
   });
 };

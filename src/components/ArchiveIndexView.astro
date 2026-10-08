@@ -47,9 +47,9 @@ const description = current === null ? archiveDescription
       {current && <p class="archive-facets__context">{current.count} 篇</p>}
     </header>
 
-    <aside class="archive-facets" slot="aside" aria-label="档案分类">
+    <aside class="archive-facets" id="facets" slot="aside" tabindex="-1" aria-label="档案分类">
       <p class="archive-facets__all">
-        <a href="/archive" aria-current={isCurrent('/archive') ? 'page' : undefined}>全部文章</a>
+        <a href="/archive/" aria-current={isCurrent('/archive') ? 'page' : undefined}>全部文章</a>
       </p>
 
       {groups.map((group) => (

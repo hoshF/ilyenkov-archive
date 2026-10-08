@@ -130,11 +130,11 @@ describe('IFI public detail and research entry', () => {
     expect(textContent(main.match(/<h1\b[^>]*>([\s\S]*?)<\/h1>/)![1])).toBe('研究');
     const entry = sectionFor(main, network.title);
     const heading = entry.match(/<h2\b[^>]*>([\s\S]*?)<\/h2>/)![1];
-    expect(links(heading)).toEqual([{ href: '/research/ifi', label: network.title }]);
+    expect(links(heading)).toEqual([{ href: '/research/ifi/', label: network.title }]);
     const paragraphs = [...entry.matchAll(/<p\b[^>]*>([\s\S]*?)<\/p>/g)]
       .map(([, content]) => textContent(content));
     expect(paragraphs).toEqual([`${network.name}（${network.abbreviation}）`, network.summary]);
-    expect(links(entry)).toEqual([{ href: '/research/ifi', label: network.title }]);
+    expect(links(entry)).toEqual([{ href: '/research/ifi/', label: network.title }]);
     expect(entry).not.toMatch(/<ol\b|<ul\b|<li\b|<article\b|<h3\b/);
     for (const symposium of symposiums) expect(textContent(entry)).not.toContain(symposium.title);
     expect(sections(main)).toHaveLength(3);
@@ -148,7 +148,7 @@ describe('IFI public detail and research entry', () => {
     expect(textContent(researchers)).toContain(researcher.originalName);
     expect(textContent(researchers)).toContain(getPublicResearchers().find((record) => record.id === 'researcher-andrey-maidansky')!.editorial!.workDescription);
     expect(links(researchers)).toEqual([{
-      href: '/research/researchers/andrey-maidansky', label: researcher.name,
+      href: '/research/researchers/andrey-maidansky/', label: researcher.name,
     }]);
     expect(researchers).not.toMatch(/<ol\b|<li\b|<article\b|<h3\b/);
     expect(main).not.toContain('research-sites-heading');
@@ -156,7 +156,7 @@ describe('IFI public detail and research entry', () => {
     const readings = sectionFor(main, series.title);
     expect(textContent(readings)).toContain(series.name);
     expect(textContent(readings)).toContain(series.summary);
-    expect(links(readings)).toEqual([{ href: '/research/readings', label: series.title }]);
+    expect(links(readings)).toEqual([{ href: '/research/readings/', label: series.title }]);
     expect(readings).not.toMatch(/<ol\b|<ul\b|<li\b|<article\b|<h3\b/);
     expect(sections(main).map((section) => section.heading)).toEqual([
       getPublicIfiNetwork().title, researcher.name, series.title,
@@ -165,18 +165,18 @@ describe('IFI public detail and research entry', () => {
 
   it('keeps both pages static and preserves the five primary navigation entries', () => {
     const expected = [
-      { href: '/ilyenkov', label: '伊里因科夫' },
-      { href: '/archive', label: '档案' },
-      { href: '/research', label: '研究' },
-      { href: '/group', label: '小组' },
-      { href: '/books', label: '书籍' },
+      { href: '/ilyenkov/', label: '伊里因科夫' },
+      { href: '/archive/', label: '档案' },
+      { href: '/research/', label: '研究' },
+      { href: '/group/', label: '小组' },
+      { href: '/books/', label: '书籍' },
     ];
     expect(site.navigation).toEqual(expected);
     for (const route of ['/research', '/research/ifi']) {
       const html = builtPage(route);
       const nav = html.match(/<nav\b[^>]*aria-label="主要导航"[^>]*>([\s\S]*?)<\/nav>/)![1];
       expect(links(nav)).toEqual(expected);
-      expect(nav).toContain('href="/research" aria-current="page"');
+      expect(nav).toContain('href="/research/" aria-current="page"');
       expect(html).not.toMatch(/<script\b|<astro-island\b|<style\b|\sstyle="/);
       for (const restricted of ['positioning_en', 'founded', 'formation_event_id', 'org-ifi', 'internal_notes', 'source_files', '/Users/', 'ILYENKOV_ROOT']) {
         expect(html, `${route}: ${restricted}`).not.toContain(restricted);

@@ -33,27 +33,10 @@ const hasRail = indexed || Astro.slots.has('aside');
   pinned && hasRail && 'section-layout--pinned',
   modifier,
 ]}>
-  {hasRail && (
-    <div class="section-layout__sidebar">
-      {indexed && (
-        <aside class="section-layout__toc">
-          <nav aria-labelledby="section-toc-label">
-            <p class="section-layout__toc-label" id="section-toc-label">{tocLabel}</p>
-            <ol class="section-layout__structured">
-              {toc.map((item) => <li><a href={item.href}>{item.label}</a></li>)}
-            </ol>
-          </nav>
-        </aside>
-      )}
-
-      {Astro.slots.has('aside') && (
-        <div class="section-layout__aside">
-          <slot name="aside" />
-        </div>
-      )}
-    </div>
-  )}
-
+  {/*
+    源码顺序是内容在前、索引栏在后：窄屏堆叠时正文（含搜索与列表）先出现，键盘与读屏的
+    顺序也和视觉一致。桌面不靠源码顺序，由 .section-layout--rail 的显式列位把索引栏放回左侧。
+  */}
   <div class="section-layout__content">
     {/*
       页首排在内容栏里，跟正文共用同一条左边线——它说明"这是什么"，不属于旁侧的
@@ -74,4 +57,25 @@ const hasRail = indexed || Astro.slots.has('aside');
 
     <slot />
   </div>
+
+  {hasRail && (
+    <div class="section-layout__sidebar">
+      {indexed && (
+        <aside class="section-layout__toc">
+          <nav aria-labelledby="section-toc-label">
+            <p class="section-layout__toc-label" id="section-toc-label">{tocLabel}</p>
+            <ol class="section-layout__structured">
+              {toc.map((item) => <li><a href={item.href}>{item.label}</a></li>)}
+            </ol>
+          </nav>
+        </aside>
+      )}
+
+      {Astro.slots.has('aside') && (
+        <div class="section-layout__aside">
+          <slot name="aside" />
+        </div>
+      )}
+    </div>
+  )}
 </div>

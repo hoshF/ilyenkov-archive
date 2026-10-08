@@ -150,7 +150,7 @@ describe('website-approved data adapter', () => {
     expect(absolutePaths.every((value) => publicRoutes.has(value))).toBe(true);
     // 分类只暴露站内路由，不带文件系统路径。
     for (const term of [...data.facets.topics, ...data.facets.persons]) {
-      expect(term.href).toMatch(/^\/archive\/(?:topic|person)\/[a-z0-9-]+$/);
+      expect(term.href).toMatch(/^\/archive\/(?:topic|person)\/[a-z0-9-]+\/$/);
     }
     expect(strings.some((value) => value.startsWith('file:'))).toBe(false);
   });
@@ -167,7 +167,7 @@ describe('website-approved data adapter', () => {
     // 说明这是不存在的地址，并给出两个最基本的出口。
     expect(main).toContain('没有找到这个页面');
     expect(main).toContain('href="/"');
-    expect(main).toContain('href="/archive"');
+    expect(main).toContain('href="/archive/"');
 
     // 404 不属于任何栏目：不套 SectionLayout、不出现面包屑、顶栏没有 active 项。
     expect(notFound).not.toContain('section-layout');
@@ -280,9 +280,9 @@ describe('website-approved data adapter', () => {
     const entityTitles = [...main.matchAll(/<h2\b[^>]*><a href="([^"]+)">([^<]+)<\/a><\/h2>/g)]
       .map(([, href, title]) => ({ href, title }));
     expect(entityTitles).toEqual([
-      { href: '/research/ifi', title: '国际伊里因科夫之友' },
-      { href: '/research/researchers/andrey-maidansky', title: '安德烈·迈丹斯基' },
-      { href: '/research/readings', title: '伊里因科夫学术报告会' },
+      { href: '/research/ifi/', title: '国际伊里因科夫之友' },
+      { href: '/research/researchers/andrey-maidansky/', title: '安德烈·迈丹斯基' },
+      { href: '/research/readings/', title: '伊里因科夫学术报告会' },
     ]);
     expect(main.match(/class="record__summary"/g)).toHaveLength(3);
     expect(declaration('.research-hub .record__original', 'margin')).toBe('4px 0 0');
@@ -307,7 +307,7 @@ describe('website-approved data adapter', () => {
       const page = readFileSync(builtRoutePath(`/ilyenkov/${name}`), 'utf8');
       expect(page).toContain('aria-label="当前位置"');
       const breadcrumb = page.match(/<nav class="breadcrumbs"[\s\S]*?<\/nav>/)![0];
-      expect(breadcrumb).toContain('href="/ilyenkov"');
+      expect(breadcrumb).toContain('href="/ilyenkov/"');
       expect(breadcrumb).toContain('aria-current="page"');
     }
   });
@@ -398,7 +398,7 @@ describe('website-approved data adapter', () => {
     // 篇末保留返回小组与相邻期导航。
     expect(main.match(/返回小组工作/g)).toHaveLength(1);
     expect(content).not.toContain('class="breadcrumbs"');
-    expect(main).toContain('href="/group"');
+    expect(main).toContain('href="/group/"');
   });
 
   it('keeps articles without a table of contents in a single reading column', async () => {
@@ -733,7 +733,7 @@ describe('public navigation', () => {
   it('gives the rights page a permanent entrance from every page', () => {
     // 《项目与权利》讲来源、授权与版本原则，此前只能从小组页正文的一句话走到。
     const hrefs = site.footer.map((link) => link.href);
-    expect(hrefs).toContain('/about');
+    expect(hrefs).toContain('/about/');
     for (const href of hrefs) {
       expect(routeExists(href), `footer link has no page: ${href}`).toBe(true);
     }
@@ -801,7 +801,7 @@ describe('public navigation', () => {
     }
     const links = person.match(/<p class="home-more">[\s\S]*?<\/p>/)![0];
     expect(links).toContain('了解伊里因科夫：');
-    const destinations = ['/ilyenkov/life', '/ilyenkov/timeline', '/ilyenkov/works', '/ilyenkov/circle'];
+    const destinations = ['/ilyenkov/life/', '/ilyenkov/timeline/', '/ilyenkov/works/', '/ilyenkov/circle/'];
     expect([...links.matchAll(/href="([^"]+)"/g)].map(([, href]) => href)).toEqual(destinations);
     for (const href of destinations) {
       expect(routeExists(href)).toBe(true);
@@ -810,9 +810,9 @@ describe('public navigation', () => {
     expect(declaration('.home-more a:after', 'content')).toBe('" →"');
     const research = main.match(/<section class="home-research"[\s\S]*?<\/section>/)![0];
     const records = [
-      { ...getPublicResearchers().find((record) => record.id === 'researcher-andrey-maidansky')!, href: '/research/researchers/andrey-maidansky' },
-      { ...getPublicIfiNetwork(), href: '/research/ifi' },
-      { ...getPublicReadingsSeries().find((record) => record.id === 'ilyenkov-readings-series')!, href: '/research/readings' },
+      { ...getPublicResearchers().find((record) => record.id === 'researcher-andrey-maidansky')!, href: '/research/researchers/andrey-maidansky/' },
+      { ...getPublicIfiNetwork(), href: '/research/ifi/' },
+      { ...getPublicReadingsSeries().find((record) => record.id === 'ilyenkov-readings-series')!, href: '/research/readings/' },
     ];
     expect([...research.matchAll(/<h3\b/g)].length).toBe(records.length);
     for (const record of records) {
@@ -827,12 +827,12 @@ describe('public navigation', () => {
     const homepage = readFileSync(path.join(process.cwd(), 'dist', 'index.html'), 'utf8');
     const nav = homepage.match(/<nav class="site-header__nav"[\s\S]*?<\/nav>/)![0];
     expect(site.navigation.map(({ href }) => href))
-      .toEqual(['/ilyenkov', '/archive', '/research', '/group', '/books']);
+      .toEqual(['/ilyenkov/', '/archive/', '/research/', '/group/', '/books/']);
     expect([...nav.matchAll(/href="([^"]+)"/g)].map(([, href]) => href))
       .toEqual(site.navigation.map(({ href }) => href));
-    expect(nav).not.toContain('href="/updates"');
+    expect(nav).not.toContain('href="/updates/"');
     const updates = homepage.match(/<section class="home-updates"[\s\S]*?<\/section>/)![0];
-    expect(updates).toContain('<a href="/updates">查看全部动态</a>');
+    expect(updates).toContain('<a href="/updates/">查看全部动态</a>');
   });
 
   it('samples public Archive texts without treating original years as publication dates', async () => {
@@ -848,7 +848,7 @@ describe('public navigation', () => {
       expect(items[index]).toContain(`原文年份 ${entry.year}`);
       expect(items[index]).not.toContain('<time');
     });
-    expect(section).toContain('href="/archive"');
+    expect(section).toContain('href="/archive/"');
     expect(section).not.toMatch(/最新内容|公开日期|排序|倒序|最近发布/);
   });
 
@@ -874,7 +874,7 @@ describe('public navigation', () => {
     const nav = html.match(/<nav\b[^>]*aria-label="伊里因科夫栏目入口"[^>]*>([\s\S]*?)<\/nav>/)![1];
     const links = [...nav.matchAll(/<a\b[^>]*href="([^"]+)"[^>]*>([\s\S]*?)<\/a>/g)];
     expect(links.map(([, href, label]) => ({ href, label }))).toEqual(
-      ilyenkov.entrances.map((entrance) => ({ href: `/ilyenkov/${entrance.target}`, label: entrance.label })),
+      ilyenkov.entrances.map((entrance) => ({ href: `/ilyenkov/${entrance.target}/`, label: entrance.label })),
     );
     expect([...nav.matchAll(/class="entrance-card__summary"/g)]).toHaveLength(ilyenkov.entrances.length);
     expect(nav).not.toContain('entrance-card__scope');
@@ -900,8 +900,8 @@ describe('public navigation', () => {
     expect(main).toContain('<h2 id="group-issues-heading">小组工作</h2>');
     expect(main).toContain('<h1 class="page-title">中文伊里因科夫小组');
     expect(main).not.toContain(site.group.summary);
-    expect(main).toContain('href="/group/0"');
-    expect(main).toContain('href="/contact"');
+    expect(main).toContain('href="/group/0/"');
+    expect(main).toContain('href="/contact/"');
     expect(main).toContain('Китайская группа по изучению Ильенкова');
     expect(main).toContain('Chinese Ilyenkov Group');
     expect(main).not.toContain('entrance-card');
@@ -910,7 +910,7 @@ describe('public navigation', () => {
     const entrances = main.match(/<nav\b[^>]*aria-label="小组相关入口"[^>]*>([\s\S]*?)<\/nav>/)![1];
     expect([...entrances.matchAll(/<a\b[^>]*href="([^"]+)"[^>]*>([^<]*)<\/a>/g)]
       .map(([, href, label]) => ({ href, label })))
-      .toEqual([{ href: '/group/0', label: '小组介绍' }, { href: '/contact', label: '关注与联系' }]);
+      .toEqual([{ href: '/group/0/', label: '小组介绍' }, { href: '/contact/', label: '关注与联系' }]);
     expect(main.indexOf('aria-label="小组相关入口"')).toBeLessThan(main.indexOf('class="group-issues"'));
     expect(main).not.toContain('本页按期记录');
   });
@@ -919,7 +919,7 @@ describe('public navigation', () => {
     expect(pageSource('index.astro')).not.toContain('/about');
     const groupPage = pageSource('group/index.astro');
     expect(groupPage).toContain('<SectionLayout');
-    expect(groupPage).toContain('href="/contact"');
+    expect(groupPage).toContain('href="/contact/"');
   });
 
   it('keeps the group pages on their own public editorial channel', () => {
@@ -953,10 +953,10 @@ describe('group work channel', () => {
     for (const issue of issues) {
       expect(issue.id).toMatch(/^[a-z0-9]+(?:-[a-z0-9]+)*$/);
       expect(issue.id).toBe(String(issue.issue));
-      expect(issue.route).toBe(`/group/${issue.id}`);
+      expect(issue.route).toBe(`/group/${issue.id}/`);
       // 期详情是动态路由：页面上限 = group/[id].astro 的 getStaticPaths。
       expect(pageFileExists('group/[id].astro'), 'group detail route should exist').toBe(true);
-      expect(issue.route).toMatch(/^\/group\/[a-z0-9]+(?:-[a-z0-9]+)*$/);
+      expect(issue.route).toMatch(/^\/group\/[a-z0-9]+(?:-[a-z0-9]+)*\/$/);
       expect(Number.isInteger(issue.issue) && issue.issue >= 0).toBe(true);
       expect(issue.title.length).toBeGreaterThan(0);
       expect(issue.kind.length).toBeGreaterThan(0);
@@ -1091,7 +1091,7 @@ describe('book channel', () => {
     const books = await getBooks();
     expect(Array.isArray(books)).toBe(true);
     for (const book of books) {
-      expect(book.route).toBe(`/books/${book.id}`);
+      expect(book.route).toBe(`/books/${book.id}/`);
       expect(book.introductionHtml.length).toBeGreaterThan(0);
       expect(book.editions).toContain(book.latestEdition);
     }
@@ -1112,7 +1112,7 @@ describe('book channel', () => {
     expect(detail).toContain('<dt>体裁</dt>');
     expect(detail).toContain('book.work_type');
 
-    // 每个栏目的条目共用一套记录列表：靠留白分组，不画分隔线，也不放封面
+    // 每个栏目的条目共用一套记录列表：靠留白分组，不画分隔线，也不配图
     expect(page).toContain('<ul class="record-list">');
     expect(declaration('.record-list', 'display')).toBe('grid');
     expect(declaration('.record-list', 'gap')).toBeDefined();
@@ -1227,26 +1227,24 @@ describe('book channel', () => {
     expect(factKeys).toEqual(['作者', '原著初版', '体裁', '原文出处', '当前版次', '获取与权利']);
   });
 
-  it('keeps cover and identity above the introduction and stacks them on narrow screens', () => {
+  it('keeps identity above the introduction and stacks the fields on narrow screens', () => {
     const page = pageSource('books/[id].astro');
     const detailsIndex = page.indexOf('class="book-header__identity"');
     const introductionIndex = page.indexOf('class="prose prose--section book-introduction"');
-    const coverIndex = page.indexOf('class="book-header__cover-panel"');
 
-    expect(coverIndex).toBeGreaterThan(-1);
-    expect(detailsIndex).toBeGreaterThan(coverIndex);
+    expect(detailsIndex).toBeGreaterThan(-1);
     expect(introductionIndex).toBeGreaterThan(detailsIndex);
+    // 封面属于第三方素材，书籍选择不授权复制封面：详情页不含封面图与灯箱。
+    for (const removed of ['book-header__cover', 'cover-lightbox', '/covers/']) {
+      expect(page, removed).not.toContain(removed);
+    }
     expect(declaration('.container.book-page', 'max-width')).toBe('var(--reading)');
-    expect(declaration('.book-header__body', 'grid-template-columns')).toContain('clamp(220px, 30vw, 280px)');
-    expect(declaration('.book-header__body', 'column-gap')).toContain('clamp(');
-    expect(declaration('.book-header__body', 'grid-template-areas')).toContain('"cover identity"');
-    expect(declaration('.book-header__body', 'grid-template-areas')).toContain('"introduction introduction"');
-    expect(declaration('.book-header__body--without-cover', 'grid-template-areas')).toContain('"identity"');
+    expect(declaration('.book-header__body', 'grid-template-columns')).toBe('minmax(0, 1fr)');
+    expect(declaration('.book-header__body', 'grid-template-areas')).toBe('"identity" "introduction"');
     expect(declaration('.book-page .book-introduction', 'grid-area')).toBe('introduction');
     expect(declaration('.book-header__title', 'border')).toBe('0');
 
-    // 窄屏：封面收窄，字段之间靠间距分组
-    expect(declaration('.book-header__cover-link', 'width', '@media (max-width: 600px)')).toBe('min(100%, 420px)');
+    // 窄屏：字段之间靠间距分组
     expect(declaration('.book-page .fact-list > div + div', 'margin-top', '@media (max-width: 600px)')).toBe('28px');
   });
 });

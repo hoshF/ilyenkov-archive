@@ -132,7 +132,7 @@ async function loadArticles(): Promise<ReadableDocument[]> {
     return {
       kind: 'readable',
       id,
-      route: `/archive/${id}`,
+      route: `/archive/${id}/`,
       title: metadata.title_zh,
       titleHtml,
       originalTitle: metadata.title,

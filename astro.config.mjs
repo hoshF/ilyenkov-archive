@@ -6,7 +6,9 @@ import { readFile } from 'node:fs/promises';
 // https://astro.build/config
 export default defineConfig({
   site: 'https://ilyenkov.cn/',
-  trailingSlash: 'never',
+  // Cloudflare Pages 对目录型产物强制 308 到带尾斜杠的地址；用 'always' 让内链、canonical
+  // 与 sitemap 同 Pages 实际服务的 URL 一致，避免每次站内跳转都多一次重定向。
+  trailingSlash: 'always',
   vite: {
     plugins: [{
       name: 'serve-built-search-in-development',

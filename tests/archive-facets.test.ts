@@ -89,11 +89,11 @@ describe('archive facets', () => {
     expect(facets.persons.length).toBeGreaterThan(0);
 
     for (const term of facets.topics) {
-      expect(term.href).toBe(`/archive/topic/${term.id}`);
+      expect(term.href).toBe(`/archive/topic/${term.id}/`);
       expect(existsSync(facetPage(['topic', term.id])), term.href).toBe(true);
     }
     for (const term of facets.persons) {
-      expect(term.href).toBe(`/archive/person/${term.id}`);
+      expect(term.href).toBe(`/archive/person/${term.id}/`);
       expect(existsSync(facetPage(['person', term.id])), term.href).toBe(true);
     }
     // 路由用 canonical id，不用中文 label。
@@ -181,9 +181,9 @@ describe('archive facets', () => {
       expect([...html.matchAll(/aria-current="page"/g)].length, `${file} total current`).toBe(2);
 
       if (expected === null) {
-        expect(rail).toMatch(/href="\/archive" aria-current="page"/);
+        expect(rail).toMatch(/href="\/archive\/" aria-current="page"/);
       } else {
-        expect(rail).toContain(`href="/archive/${expected}" aria-current="page"`);
+        expect(rail).toContain(`href="/archive/${expected}/" aria-current="page"`);
       }
     }
   });

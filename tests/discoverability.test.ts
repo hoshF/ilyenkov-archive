@@ -79,7 +79,10 @@ describe('static discoverability', () => {
       return array(parser.parse(read(url.pathname)).urlset.url).map((entry: { loc: string }) => entry.loc);
     });
     const expected = pages().filter((path) => path !== '404.html').map((path) => {
-      const pathname = path === 'index.html' ? '/' : `/${path.replace(/\/index\.html$/, '').replace(/\.html$/, '')}`;
+      // trailingSlash: 'always' —— 目录页在 sitemap 中同样带尾斜杠。
+      const pathname = path === 'index.html' ? '/'
+        : path.endsWith('/index.html') ? `/${path.slice(0, -'/index.html'.length)}/`
+          : `/${path}`;
       return new URL(pathname, config.site).href;
     });
     expect(locations.toSorted()).toEqual(expected.toSorted());

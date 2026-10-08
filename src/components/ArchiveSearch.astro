@@ -10,6 +10,8 @@ const { current = null } = Astro.props;
       <button type="submit">搜索</button>
     </div>
   </form>
+  {/* 窄屏分类栏排在正文之后（源码顺序以内容优先），这里给一个跳转入口；宽屏分类栏在左栏，链接隐藏。 */}
+  <p class="archive-search__facets"><a href="#facets">按分类浏览</a></p>
   <noscript><p>搜索需要 JavaScript；仍可使用主题、人物分类和下方文章列表。</p></noscript>
   <p class="archive-search__status" role="status" aria-live="polite"></p>
   <ul class="archive-search__results" role="list" hidden></ul>
@@ -25,6 +27,7 @@ const { current = null } = Astro.props;
     const list = root.querySelector('ul');
     const more = root.querySelector('.archive-search__more');
     const archive = document.querySelector('[data-archive-list]');
+    const bundle = '/pagefind/pagefind.js';
     let index;
     let version = 0;
     let results = [];
@@ -39,7 +42,7 @@ const { current = null } = Astro.props;
       for (const result of batch) {
         const item = document.createElement('li');
         const link = document.createElement('a');
-        link.href = result.url.replace(/\/$/, '');
+        link.href = result.url;
         link.textContent = result.meta.title ?? result.url;
         const excerpt = document.createElement('p');
         // Pagefind escapes source text and only adds its own matching <mark> elements.
@@ -63,7 +66,6 @@ const { current = null } = Astro.props;
       // Keep the normal catalogue usable if loading fails.
       archive.hidden = false;
       try {
-        const bundle = '/pagefind/pagefind.js';
         index ??= import(bundle);
         const pagefind = await index;
         const response = await pagefind.search(query, { filters });
@@ -94,5 +96,14 @@ const { current = null } = Astro.props;
       catch { status.textContent = '结果加载失败，请重试。'; }
       finally { more.disabled = false; }
     });
+    // 首屏不加载搜索模块；空闲时预热模块与索引，省掉第一次输入时的等待。
+    // 失败时清掉缓存，让真正输入时重新加载并走 search() 的错误分支。
+    const warm = async () => {
+      index ??= import(bundle);
+      try { (await index).init?.(); }
+      catch { index = undefined; }
+    };
+    if ('requestIdleCallback' in window) window.requestIdleCallback(warm, { timeout: 3000 });
+    else window.setTimeout(warm, 1500);
   }
 </script>

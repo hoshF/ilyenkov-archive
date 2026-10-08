@@ -109,36 +109,36 @@ describe('Readings public series detail and research entry', () => {
     expect(textContent(entry)).toContain(series.name);
     expect(textContent(entry)).toContain(series.summary);
     const heading = entry.match(/<h2\b[^>]*>([\s\S]*?)<\/h2>/)![1];
-    expect(links(heading)).toEqual([{ href: '/research/readings', label: series.title }]);
+    expect(links(heading)).toEqual([{ href: '/research/readings/', label: series.title }]);
     const paragraphs = [...entry.matchAll(/<p\b[^>]*>([\s\S]*?)<\/p>/g)]
       .map(([, content]) => textContent(content));
     expect(paragraphs).toEqual([series.name, series.summary]);
-    expect(links(entry)).toEqual([{ href: '/research/readings', label: series.title }]);
+    expect(links(entry)).toEqual([{ href: '/research/readings/', label: series.title }]);
     expect(entry).not.toMatch(/<ol\b|<ul\b|<li\b|<article\b|<h3\b/);
     for (const event of getPublicReadings()) expect(textContent(entry)).not.toContain(event.title);
     const ifi = getPublicIfiNetwork();
     const ifiEntry = sectionById(main, 'ifi-heading');
     expect(textContent(ifiEntry)).toContain(ifi.title);
     expect(textContent(ifiEntry)).toContain(ifi.summary);
-    expect(links(ifiEntry)).toEqual([{ href: '/research/ifi', label: ifi.title }]);
+    expect(links(ifiEntry)).toEqual([{ href: '/research/ifi/', label: ifi.title }]);
     expect([...main.matchAll(/<section\b/g)]).toHaveLength(3);
     expect(routeExists('/research/researchers/')).toBe(false);
   });
 
   it('preserves the five primary navigation entries and a static, single-flow public boundary', () => {
     const expected = [
-      { href: '/ilyenkov', label: '伊里因科夫' },
-      { href: '/archive', label: '档案' },
-      { href: '/research', label: '研究' },
-      { href: '/group', label: '小组' },
-      { href: '/books', label: '书籍' },
+      { href: '/ilyenkov/', label: '伊里因科夫' },
+      { href: '/archive/', label: '档案' },
+      { href: '/research/', label: '研究' },
+      { href: '/group/', label: '小组' },
+      { href: '/books/', label: '书籍' },
     ];
     expect(site.navigation).toEqual(expected);
     for (const route of ['/research', '/research/readings']) {
       const html = builtPage(route);
       const nav = html.match(/<nav\b[^>]*aria-label="主要导航"[^>]*>([\s\S]*?)<\/nav>/)![1];
       expect(links(nav)).toEqual(expected);
-      expect(nav).toContain('href="/research" aria-current="page"');
+      expect(nav).toContain('href="/research/" aria-current="page"');
       expect(html).not.toMatch(/<script\b|<astro-island\b|<style\b|\sstyle="/);
       for (const restricted of [
         'positioning_ru', 'memorial_background_ru', 'continuity_summary_ru',

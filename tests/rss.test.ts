@@ -44,13 +44,13 @@ const renderFeed = (items: RSSFeedItem[]): Promise<string> => getRssString({
   description: `${site.name}的近期公开内容与工作动态。`,
   site: siteUrl,
   items,
-  trailingSlash: false,
+  trailingSlash: true,
 });
 
 const issue = {
   title: '公开研究 A & B',
   kind: '研究',
-  route: '/group/20',
+  route: '/group/20/',
   published: '2024-03-04',
   summary: '公开摘要：文本 <资料> 与研究。',
 };
@@ -59,7 +59,7 @@ describe('public RSS feed', () => {
   it('orders confirmed publication dates and update dates without adding inferred dates', () => {
     const issues = [
       { ...issue, published: '2020-01-02' },
-      { ...issue, title: '另一份公开研究', route: '/group/21', published: '2024-03-04' },
+      { ...issue, title: '另一份公开研究', route: '/group/21/', published: '2024-03-04' },
     ];
     const updates = [{ date: '2023-02-03', summary: '整理工作的公开变化。' }];
     const originals = structuredClone({ issues, updates });
@@ -79,9 +79,9 @@ describe('public RSS feed', () => {
   it('prefers content over its same-day announcement while preserving later updates', () => {
     for (const link of [
       issue.route,
-      `${issue.route}/`,
+      issue.route.replace(/\/$/, ''),
       `${issue.route}?view=reader#intro`,
-      new URL(`${issue.route}/?view=reader#intro`, siteUrl).href,
+      new URL(`${issue.route}?view=reader#intro`, siteUrl).href,
     ]) {
       const updates = [
         { date: issue.published, summary: '同一成果的发布动态。', link },
@@ -99,15 +99,15 @@ describe('public RSS feed', () => {
     const updates: Update[] = [
       { date: '2024-03-04', summary: '没有独立正文的变化。' },
       { date: '2024-03-03', summary: '有外部来源的变化。', link: 'https://example.org/source' },
-      { date: '2024-03-02', summary: '文本档案变化。', link: '/archive' },
-      { date: '2024-03-01', summary: '小组记录变化。', link: new URL('/group/20', siteUrl).href },
+      { date: '2024-03-02', summary: '文本档案变化。', link: '/archive/' },
+      { date: '2024-03-01', summary: '小组记录变化。', link: new URL('/group/20/', siteUrl).href },
     ];
     const items = collectRssItems([], updates, siteUrl);
     expect(items.map((item) => item.link)).toEqual([
-      new URL('/updates', siteUrl).href,
-      new URL('/updates', siteUrl).href,
-      new URL('/archive', siteUrl).href,
-      new URL('/group/20', siteUrl).href,
+      new URL('/updates/', siteUrl).href,
+      new URL('/updates/', siteUrl).href,
+      new URL('/archive/', siteUrl).href,
+      new URL('/group/20/', siteUrl).href,
     ]);
     for (const item of items) {
       expect(new URL(item.link!).origin).toBe(siteUrl.origin);

@@ -4,7 +4,7 @@ import BaseLayout from '../../layouts/BaseLayout.astro';
 import SectionLayout from '../../components/SectionLayout.astro';
 
 const ilyenkov = getPublicIlyenkov();
-const entrances = ilyenkov.entrances.map((entrance) => ({ ...entrance, href: `/ilyenkov/${entrance.target}` }));
+const entrances = ilyenkov.entrances.map((entrance) => ({ ...entrance, href: `/ilyenkov/${entrance.target}/` }));
 ---
 
 <BaseLayout title={ilyenkov.identity} description={ilyenkov.description}>

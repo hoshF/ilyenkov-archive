@@ -7,37 +7,37 @@
   "navigation": [
     {
       "label": "伊里因科夫",
-      "href": "/ilyenkov"
+      "href": "/ilyenkov/"
     },
     {
       "label": "档案",
-      "href": "/archive"
+      "href": "/archive/"
     },
     {
       "label": "研究",
-      "href": "/research"
+      "href": "/research/"
     },
     {
       "label": "小组",
-      "href": "/group"
+      "href": "/group/"
     },
     {
       "label": "书籍",
-      "href": "/books"
+      "href": "/books/"
     }
   ],
   "footer": [
     {
       "label": "项目与权利",
-      "href": "/about"
+      "href": "/about/"
     },
     {
       "label": "近期动态",
-      "href": "/updates"
+      "href": "/updates/"
     },
     {
       "label": "关注与联系",
-      "href": "/contact"
+      "href": "/contact/"
     },
     {
       "label": "RSS",

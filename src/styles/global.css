@@ -119,38 +119,17 @@ h2, h3, h4 { text-wrap: balance; line-height: 1.3; }
   max-width: 48rem; font-size: var(--text-content-title); margin: 0; font-weight: 700; line-height: 1.35;
 }
 
+/* 书籍详情只呈现书目、版次与译者引言：封面属于第三方素材，不随书籍选择授权。 */
 .book-header__body {
-  display: grid; grid-template-columns: clamp(220px, 30vw, 280px) minmax(0, 1fr);
+  display: grid; max-width: var(--reading); grid-template-columns: minmax(0, 1fr);
   grid-template-areas:
-    "cover identity"
-    "introduction introduction";
-  column-gap: clamp(28px, 5vw, 48px); row-gap: 52px; align-items: start; margin-bottom: 52px; padding-top: 36px;
-}
-
-.book-header__body--without-cover {
-  max-width: var(--reading); grid-template-columns: 1fr; grid-template-areas: "identity""introduction";
+    "identity"
+    "introduction";
+  row-gap: 52px; align-items: start; margin-bottom: 52px; padding-top: 36px;
 }
 
 .book-header__identity {
   z-index: 2; grid-area: identity; width: 100%; min-width: 0; max-width: 420px; position: relative;
-}
-
-.book-header__cover-panel {
-  grid-area: cover; justify-content: flex-start; align-items: flex-start; min-width: 0; display: flex;
-}
-
-.book-header__cover-link { display: block; width: 100%; max-width: none; cursor: zoom-in; }
-
-.book-header__cover { border: 1px solid var(--line); width: 100%; height: auto; display: block; }
-
-.cover-lightbox {
-  z-index: 100; cursor: zoom-out; background: #000000d9; justify-content: center; align-items: center;
-  padding: 40px; display: none; position: fixed; inset: 0;
-}
-.cover-lightbox:target { display: flex; }
-.cover-lightbox img {
-  width: auto; max-width: min(90vw,640px); height: auto; max-height: 90vh; display: block;
-  box-shadow: 0 10px 40px #00000080;
 }
 
 .book-header__original {
@@ -263,6 +242,14 @@ h2, h3, h4 { text-wrap: balance; line-height: 1.3; }
 .section-layout--rail {
   grid-template-columns: minmax(0, var(--rail)) minmax(0, var(--reading));
   justify-content: space-between; column-gap: 64px; display: grid;
+}
+
+/* 源码顺序是内容在前（见 SectionLayout），双栏及以上的宽度用显式列位把索引栏放回左侧：
+   基础 rail 两列、档案列表与书籍页三列都因此继续成立，不再依赖自动排布。窄屏是单列堆叠，
+   行位由源码顺序决定，所以这些定位只在有第二列时生效。 */
+@media (min-width: 801px) {
+  .section-layout--rail .section-layout__sidebar { grid-column: 1; grid-row: 1; }
+  .section-layout--rail .section-layout__content { grid-column: 2; grid-row: 1; }
 }
 
 .section-layout__breadcrumb { margin-bottom: 20px; }
@@ -578,6 +565,17 @@ h2, h3, h4 { text-wrap: balance; line-height: 1.3; }
   .section-layout:not(.section-layout--indexed) { grid-template-columns: 1fr; gap: 40px; }
   .section-layout--pinned .section-layout__sidebar { position: static; }
   .book-header__body { row-gap: 46px; }
+  /* 801px 起分类栏是左侧窄栏（竖排词表合适）；这一档它随版式堆到内容上方，竖排 8 条会吃掉
+     首屏很大一块、把正文列表压下去。折成横排 chip，分组标签与当前项标记都保留：
+     当前项沿用细下划线，边框加深一档（[aria-current] 的文字色与下划线见上方基础规则）。 */
+  .archive-facets { margin-top: 8px; }
+  .archive-facets__all { margin-bottom: 14px; }
+  .archive-facets__group + .archive-facets__group { margin-top: 16px; }
+  .archive-facets__label { margin-bottom: 9px; }
+  .archive-facets .archive-facets__terms { padding-left: 0; display: flex; flex-wrap: wrap; gap: 8px; }
+  .archive-facets .archive-facets__terms li + li { margin-top: 0; }
+  .archive-facets__term { border: 1px solid var(--line); padding: 4px 9px; }
+  .archive-facets__term[aria-current=page] { border-color: var(--line-strong); }
 }
 
 @media (max-width: 600px) {
@@ -630,14 +628,8 @@ h2, h3, h4 { text-wrap: balance; line-height: 1.3; }
   .book-page .section-layout__breadcrumb { margin-bottom: 28px; }
   .book-header__title { border-bottom: 0; padding-bottom: 0; }
   .book-header__title h1 { font-size: var(--text-content-title); }
-  .book-header__body, .book-header__body--without-cover {
-    grid-template-columns: 1fr; row-gap: 42px; max-width: none; padding-top: 36px;
-  }
-  .book-header__body { grid-template-areas: "cover" "identity" "introduction"; }
-  .book-header__body--without-cover { grid-template-areas: "identity" "introduction"; }
+  .book-header__body { row-gap: 42px; max-width: none; padding-top: 36px; }
   .book-header__identity { max-width: none; }
-  .book-header__cover-panel { justify-content: center; }
-  .book-header__cover-link { width: min(100%, 420px); max-width: 420px; }
   .book-page .fact-list > div + div { margin-top: 28px; }
   .book-page .fact-list dt { margin-bottom: 7px; }
 }
@@ -682,6 +674,11 @@ h2, h3, h4 { text-wrap: balance; line-height: 1.3; }
 .archive-search { margin-bottom: 32px; }
 .archive-search label { display: block; margin-bottom: 8px; font-size: var(--text-meta); color: var(--ink-soft); }
 .archive-search__controls { display: flex; gap: 8px; }
+/* 分类栏在窄屏堆到正文之后：搜索处给一个跳转入口。宽屏分类栏就在左侧，链接不出现。 */
+.archive-search__facets { display: none; }
+@media (max-width: 800px) {
+  .archive-search__facets { display: block; margin: 12px 0 0; font-size: var(--text-meta); }
+}
 .archive-search input { flex: 1; min-width: 0; padding: 10px 12px; border: 1px solid var(--line); border-radius: 3px; font: inherit; background: white; color: var(--ink); }
 .archive-search button { padding: 10px 16px; border: 1px solid var(--line); border-radius: 3px; font: inherit; background: white; color: var(--ink); cursor: pointer; }
 .archive-search input:focus-visible, .archive-search button:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }

@@ -6,16 +6,16 @@ import { getPublicLife } from '../../lib/research-records';
 
 const life = getPublicLife();
 const linkTargets = {
-  timeline: '/ilyenkov/timeline',
-  circle: '/ilyenkov/circle',
-  works: '/ilyenkov/works',
+  timeline: '/ilyenkov/timeline/',
+  circle: '/ilyenkov/circle/',
+  works: '/ilyenkov/works/',
 };
 ---
 
 <BaseLayout title="生平" description={life.description}>
   <SectionLayout pinned>
     <Breadcrumbs slot="breadcrumb" items={[
-      { label: '伊里因科夫', href: '/ilyenkov' },
+      { label: '伊里因科夫', href: '/ilyenkov/' },
       { label: '生平' },
     ]} />
     <header class="page-header" slot="intro">

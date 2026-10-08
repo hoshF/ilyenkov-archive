@@ -10,7 +10,7 @@ import {
 import { getSiteData } from '../src/lib/site-data';
 import { builtRoutePath, routeExists } from './helpers/pages';
 
-const route = '/research/researchers/andrey-maidansky';
+const route = '/research/researchers/andrey-maidansky/';
 const builtPage = (href: string): string => readFileSync(builtRoutePath(href), 'utf8');
 const mainContent = (html: string): string => html.match(/<main>([\s\S]*?)<\/main>/)![1];
 const decode = (value: string): string => value
@@ -146,26 +146,26 @@ describe('canonical researcher detail and research hub entry', () => {
     const network = getPublicIfiNetwork();
     const ifi = sectionById(main, 'ifi-heading');
     expect(textContent(ifi)).toContain(network.summary);
-    expect(links(ifi)).toEqual([{ href: '/research/ifi', label: network.title }]);
+    expect(links(ifi)).toEqual([{ href: '/research/ifi/', label: network.title }]);
     const series = getPublicReadingsSeries()[0];
     const readings = sectionById(main, 'readings-heading');
     expect(textContent(readings)).toContain(series.summary);
-    expect(links(readings)).toEqual([{ href: '/research/readings', label: series.title }]);
+    expect(links(readings)).toEqual([{ href: '/research/readings/', label: series.title }]);
     expect(main).not.toContain('research-sites-heading');
     expect([...main.matchAll(/<section\b/g)]).toHaveLength(3);
   });
 
   it('preserves primary navigation, static rendering and the private publication boundary', () => {
     const expected = [
-      { href: '/ilyenkov', label: '伊里因科夫' }, { href: '/archive', label: '档案' },
-      { href: '/research', label: '研究' }, { href: '/group', label: '小组' }, { href: '/books', label: '书籍' },
+      { href: '/ilyenkov/', label: '伊里因科夫' }, { href: '/archive/', label: '档案' },
+      { href: '/research/', label: '研究' }, { href: '/group/', label: '小组' }, { href: '/books/', label: '书籍' },
     ];
     expect(site.navigation).toEqual(expected);
-    for (const href of ['/research', route]) {
+    for (const href of ['/research/', route]) {
       const html = builtPage(href);
       const nav = html.match(/<nav\b[^>]*aria-label="主要导航"[^>]*>([\s\S]*?)<\/nav>/)![1];
       expect(links(nav)).toEqual(expected);
-      expect(nav).toContain('href="/research" aria-current="page"');
+      expect(nav).toContain('href="/research/" aria-current="page"');
       expect(html).not.toMatch(/<script\b|<astro-island\b|<style\b|\sstyle="|<form\b|<input\b/);
       for (const field of [
         'aliases', 'positioning_ru', 'affiliation', 'works_master', 'record_path',

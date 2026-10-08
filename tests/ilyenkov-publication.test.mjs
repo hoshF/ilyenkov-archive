@@ -326,7 +326,7 @@ describe('private life and circle publication', () => {
       if (stage.period) expect(textContent(lifeMain)).toContain(`${stage.period.start.slice(0, 4)}—${stage.period.end.slice(0, 4)}`);
       if (stage.years) expect(textContent(lifeMain)).toContain(stage.years.join('、'));
       for (const link of stage.links) {
-        expect(lifeMain).toContain(`href="/ilyenkov/${link.target}"`);
+        expect(lifeMain).toContain(`href="/ilyenkov/${link.target}/"`);
         expect(textContent(lifeMain)).toContain(link.label);
       }
     }

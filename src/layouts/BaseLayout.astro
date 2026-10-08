@@ -21,11 +21,12 @@ const {
 const pageTitle = title === site.name ? title : `${title}｜${site.name}`;
 const currentPath = Astro.url.pathname;
 if (!Astro.site) throw new Error('A production site URL is required');
-const canonicalUrl = new URL(currentPath.replace(/\/$/, '') || '/', Astro.site);
+const canonicalUrl = new URL(currentPath, Astro.site);
 const shareImage = new URL('/brand/share.png', Astro.site);
 const SiteNameElement = currentPath === '/' ? 'h1' : 'span';
+// 路由 href 一律带尾斜杠，因此栏目命中用前缀判断；文件类 href（如 /rss.xml）仍要求完全相等。
 const current = (href: string) => (
-  currentPath === href || currentPath.startsWith(`${href}/`)
+  href.endsWith('/') ? currentPath.startsWith(href) : currentPath === href
 );
 ---
 
@@ -82,12 +83,12 @@ const current = (href: string) => (
     <footer class="site-footer">
       <div class="site-footer__inner">
         <nav aria-label="页脚导航">
-          {site.footer.filter((item) => item.href !== '/about').map((item) => <a href={item.href}>{item.label}</a>)}
+          {site.footer.filter((item) => item.href !== '/about/').map((item) => <a href={item.href}>{item.label}</a>)}
         </nav>
         <p class="site-footer__identity">
           <a class="site-footer__name" href="/">{site.name}</a>
           <span aria-hidden="true"> · </span>
-          {site.footer.filter((item) => item.href === '/about').map((item) => <a href={item.href}>{item.label}</a>)}
+          {site.footer.filter((item) => item.href === '/about/').map((item) => <a href={item.href}>{item.label}</a>)}
         </p>
       </div>
     </footer>
