@@ -48,13 +48,7 @@ describe('Readings public series detail and research entry', () => {
     expect([...main.matchAll(/<h1\b/g)]).toHaveLength(1);
     expect(textContent(main.match(/<h1\b[^>]*>([\s\S]*?)<\/h1>/)![1])).toBe(series[0].title);
     expect(textContent(main)).toContain(series[0].name);
-    const breadcrumb = main.match(/<nav\b[^>]*aria-label="当前位置"[^>]*>([\s\S]*?)<\/nav>/)![1];
-    expect(links(breadcrumb)).toEqual([
-      { href: '/', label: '首页' },
-      { href: '/research', label: '研究' },
-    ]);
-    expect(breadcrumb).toContain('aria-current="page"');
-    expect(textContent(breadcrumb)).toContain(series[0].title);
+    expect(main).not.toContain('aria-label="当前位置"');
     expect([...main.matchAll(/<h2\b[^>]*>([\s\S]*?)<\/h2>/g)].map(([, content]) => textContent(content)))
       .toEqual(['简介', '已公开会议记录']);
     const intro = sectionById(main, 'readings-intro-heading');

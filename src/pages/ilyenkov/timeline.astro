@@ -1,6 +1,5 @@
 ---
 import BaseLayout from '../../layouts/BaseLayout.astro';
-import Breadcrumbs from '../../components/Breadcrumbs.astro';
 import SectionLayout from '../../components/SectionLayout.astro';
 import { formatHistoricalPeriod, getPublicTimelineEditorial, getPublicTimelineRecords } from '../../lib/research-records';
 
@@ -13,10 +12,7 @@ const sourceLabel = (source: { creator: string | null; title: string }) => (
 
 <BaseLayout title="年表" description={editorial.description}>
   <SectionLayout pinned modifier="compact-intro">
-    <Breadcrumbs slot="breadcrumb" items={[
-      { label: '伊里因科夫', href: '/ilyenkov' },
-      { label: '年表' },
-    ]} />
+    <p class="parent-link" slot="breadcrumb"><a href="/ilyenkov">← 伊里因科夫</a></p>
     <header class="page-header" slot="intro">
       <h1 class="page-title">年表</h1>
     </header>

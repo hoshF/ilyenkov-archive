@@ -35,7 +35,7 @@ const resourceLabels: Record<PublicResearcher['resources'][number]['kind'], stri
 };
 
 describe('canonical researcher detail and research hub entry', () => {
-  it('statically builds the public identity, editorial introduction and research breadcrumb in a single reading flow', () => {
+  it('statically builds the public identity, editorial introduction in a single reading flow', () => {
     expect(routeExists(route)).toBe(true);
     const researcher = profile();
     const html = builtPage(route);
@@ -50,12 +50,7 @@ describe('canonical researcher detail and research hub entry', () => {
     const paragraphs = [...intro.matchAll(/<p\b[^>]*>([\s\S]*?)<\/p>/g)].map(([, content]) => textContent(content));
     expect(paragraphs).toEqual(getPublicResearchers().find((record) => record.id === 'researcher-andrey-maidansky')!.editorial!.introduction.map((paragraph) => paragraph.replace(/\*\*/g, '')));
     expect(intro).toContain('<strong>');
-    const breadcrumb = main.match(/<nav\b[^>]*aria-label="当前位置"[^>]*>([\s\S]*?)<\/nav>/)![1];
-    expect(links(breadcrumb)).toEqual([
-      { href: '/', label: '首页' }, { href: '/research', label: '研究' },
-    ]);
-    expect(breadcrumb).toContain('aria-current="page"');
-    expect(textContent(breadcrumb)).toContain(researcher.name);
+    expect(main).not.toContain('aria-label="当前位置"');
     expect([...main.matchAll(/<h2\b[^>]*>([\s\S]*?)<\/h2>/g)]
       .map(([, content]) => textContent(content)))
       .toEqual(['简介', '本站译文']);

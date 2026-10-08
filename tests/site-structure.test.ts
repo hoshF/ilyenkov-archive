@@ -301,25 +301,13 @@ describe('website-approved data adapter', () => {
     expect(source).not.toContain('<script');
   });
 
-  it('uses location breadcrumbs on nested reading and catalogue pages', () => {
-    const breadcrumb = componentSource('Breadcrumbs');
-    expect(breadcrumb).toContain('aria-label="当前位置"');
-    expect(breadcrumb).toContain('<li><a href="/">首页</a></li>');
-
-    for (const route of [
-      'ilyenkov/life.astro',
-      'ilyenkov/timeline.astro',
-      'ilyenkov/works.astro',
-      'ilyenkov/circle.astro',
-      'archive/[id].astro',
-      'books/[id].astro',
-    ]) {
-      const source = pageSource(route);
-      expect(source, `${route} should use location breadcrumbs`).toContain('Breadcrumbs');
+  it('keeps book breadcrumbs and gives Ilyenkov subpages a simple parent link', () => {
+    expect(pageSource('books/[id].astro')).toContain('Breadcrumbs');
+    for (const name of ['life', 'timeline', 'works', 'circle']) {
+      const page = readFileSync(builtRoutePath(`/ilyenkov/${name}`), 'utf8');
+      expect(page).not.toContain('aria-label="当前位置"');
+      expect(page).toMatch(/<p class="parent-link">\s*<a href="\/ilyenkov">← 伊里因科夫<\/a>/);
     }
-
-    const layout = componentSource('SectionLayout');
-    expect(layout).toContain('<slot name="breadcrumb" />');
   });
 
   it('uses one restrained type scale across public page families', () => {
@@ -344,20 +332,14 @@ describe('website-approved data adapter', () => {
     expect(pixelSized.map((rule) => rule.selector)).toEqual([]);
   });
 
-  it('uses sans-serif for archive prose and retains the other reading defaults', () => {
-    // 界面一律无衬线；译文与小组长文通过 reading 共用连续阅读字体。
+  it('uses shared sans-serif typography for both article families', () => {
     expect(declaration(':root', 'font-family')).toBe('var(--sans)');
     expect(layoutSource('BaseLayout')).toContain("reading && 'reading-page'");
-
-    const serifRules = rules.filter((rule) => (
-      Object.values(rule.declarations).some((value) => value.includes('var(--serif)'))
-    ));
-    expect(serifRules.length).toBeGreaterThan(0);
-    expect(serifRules.every((rule) => (
-      rule.selector.startsWith('.reading-page')
-    ))).toBe(true);
-    expect(declaration('.reading-page .prose', 'font-family')).toBe('var(--serif)');
-    expect(declaration('.reading-page .archive-prose', 'font-family')).toBe('var(--sans)');
+    expect(declaration('.reading-page .document-header', 'font-family')).toBe('var(--sans)');
+    expect(declaration('.reading-page .prose', 'font-family')).toBe('var(--sans)');
+    expect(declaration('.reading-page .prose', 'font-synthesis')).toBe('weight');
+    expect(declaration('.reading-page .prose em', 'font-style')).toBe('normal');
+    expect(declaration('.prose strong', 'font-synthesis')).toBe('weight');
   });
 
   it('uses the same reading presentation for translations and group articles', async () => {
@@ -368,14 +350,15 @@ describe('website-approved data adapter', () => {
       expect(page, document.route).toMatch(/<body[^>]*class="reading-page"/);
       expect(page, document.route).toContain('section-layout--reading');
       expect(page, document.route).toContain('class="document-header"');
+      expect(page, document.route).not.toContain('class="breadcrumbs"');
       expect(page, document.route).toMatch(/<article[^>]*aria-labelledby="[^"]+"[^>]*>\s*<div class="prose(?: [a-z-]+)*">/);
     }
 
-    // 手机隐藏刊头与面包屑，正文共用 16px / 1.77 与左右 20px 留白。
+    // 两类文章沿用书籍正文的字号与行距；手机保留左右 20px 留白。
     expect(declaration('.reading-page .site-header', 'display', '@media (max-width: 600px)')).toBe('none');
-    expect(declaration('.reading-page .section-layout__breadcrumb', 'display', '@media (max-width: 600px)')).toBe('none');
-    expect(declaration('.reading-page article > div.prose', 'font-size', '@media (max-width: 600px)')).toBe('var(--text-body)');
-    expect(declaration('.reading-page article > div.prose', 'line-height', '@media (max-width: 600px)')).toBe('1.77');
+    expect(declaration('.prose', 'font-size')).toBe('var(--text-body)');
+    expect(declaration('.prose', 'line-height')).toBe('1.8');
+    expect(declaration('.prose p', 'margin')).toBe('1em 0');
     expect(declaration('.reading-page .section-layout--reading', 'width', '@media (max-width: 600px)')).toContain('100% - 40px');
   });
 
@@ -389,7 +372,7 @@ describe('website-approved data adapter', () => {
     expect(source).not.toContain('tocLabel=');
     expect(source).not.toContain('pinned');
     expect(source).not.toContain('slot="aside"');
-    expect(source).toContain('<Breadcrumbs slot="breadcrumb"');
+    expect(source).not.toContain('Breadcrumbs');
 
     // 产物里根本没有 rail，而不是把它藏起来。
     for (const gone of ['section-layout__sidebar', 'section-layout__toc', 'section-layout--rail',
@@ -397,26 +380,23 @@ describe('website-approved data adapter', () => {
       expect(main, `期详情不应再出现 ${gone}`).not.toContain(gone);
     }
 
-    // 面包屑 → 期号与日期 → 题名 → 正文，同一条内容轴。
+    // 期号与日期 → 题名 → 正文，同一条内容轴。
     const content = main.slice(main.indexOf('section-layout__content'));
-    const breadcrumbAt = content.indexOf('class="breadcrumbs"');
     const introAt = content.indexOf('section-layout__intro');
     const metaAt = content.indexOf('class="record__meta"');
     const h1At = content.indexOf('<h1');
     const proseAt = content.indexOf('class="prose');
-    for (const [name, at] of [['breadcrumb', breadcrumbAt], ['intro', introAt], ['meta', metaAt],
+    for (const [name, at] of [['intro', introAt], ['meta', metaAt],
       ['h1', h1At], ['prose', proseAt]] as const) {
       expect(at, `${name} 应在内容栏内`).toBeGreaterThan(-1);
     }
-    expect(breadcrumbAt).toBeLessThan(introAt);
     expect(metaAt).toBeLessThan(h1At);
     expect(h1At).toBeLessThan(proseAt);
 
-    // 面包屑已经给出回到 /group 的路径；独立的“返回小组工作”不再占一个 rail。
-    // 篇末的返回链接保留——它服务读完长正文之后的需求，与面包屑的位置不同。
+    // 篇末保留返回小组与相邻期导航。
     expect(main.match(/返回小组工作/g)).toHaveLength(1);
-    const breadcrumb = content.match(/<nav class="breadcrumbs"[\s\S]*?<\/nav>/)![0];
-    expect(breadcrumb).toContain('href="/group"');
+    expect(content).not.toContain('class="breadcrumbs"');
+    expect(main).toContain('href="/group"');
   });
 
   it('keeps articles without a table of contents in a single reading column', async () => {
@@ -740,7 +720,8 @@ describe('public navigation', () => {
     expect(mobileNav['font-size']).toBeUndefined();
     const mobileLink = declarationsFor('.site-header__nav a', '@media (max-width: 600px)');
     expect(mobileLink['font-size']).toBe('var(--text-meta)');
-    expect(declarationsFor('.site-header__nav', '@media (max-width: 600px)')['margin-left']).toBe('0');
+    expect(Number.parseFloat(link['min-height'])).toBeGreaterThanOrEqual(44);
+    expect(declarationsFor('.site-header__nav a:focus-visible').outline).toBeTruthy();
 
     // 普通项与当前项同属深色系，当前位置用细下划线标记，hover 使用 accent。
     const hover = declarationsFor('.site-header__nav a:hover');
@@ -1332,8 +1313,8 @@ describe('compact interface typography experiment', () => {
     const reading = declarationsFor('.reading-page');
     expect(reading['--text-page']).toBe('1.75rem');
     expect(reading['--text-page-mobile']).toBe('1.625rem');
-    expect(reading['--text-section']).toBe('1.375rem');
-    expect(reading['--text-item']).toBe('1.125rem');
+    expect(reading['--text-section']).toBeUndefined();
+    expect(reading['--text-item']).toBeUndefined();
     expect(declaration('.book-header__title h1', 'font-size')).toBe('var(--text-content-title)');
     expect(declaration('.entity-detail .page-title', 'font-size')).toBe('var(--text-content-title)');
     expect(declaration(':root', '--text-content-title', '@media (max-width: 600px)')).toBe('1.625rem');

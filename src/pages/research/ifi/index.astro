@@ -1,7 +1,6 @@
 ---
 import { renderPublicMarkdown } from '../../../lib/markdown';
 import BaseLayout from '../../../layouts/BaseLayout.astro';
-import Breadcrumbs from '../../../components/Breadcrumbs.astro';
 import ResourceLinks from '../../../components/ResourceLinks.astro';
 import SectionLayout from '../../../components/SectionLayout.astro';
 import {
@@ -34,10 +33,6 @@ const sourceLabel = (source: { creator: string | null; title: string }) => (
   <SectionLayout modifier="entity-detail research-profile" pinned>
     <ResourceLinks slot="aside" id="ifi-resources-heading" label="资料入口"
       links={[{ label: '官方网站', href: network.url }, ...network.resources.map((resource) => ({ label: resourceLabels[resource.kind], href: resource.url }))]} />
-    <Breadcrumbs slot="breadcrumb" items={[
-      { label: '研究', href: '/research' },
-      { label: network.title },
-    ]} />
     <header class="page-header" slot="intro">
       <h1 class="page-title">{network.title}</h1>
       <p class="record__original">{network.name}（{network.abbreviation}）</p>

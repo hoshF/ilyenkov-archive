@@ -1,7 +1,6 @@
 ---
 import { renderPublicMarkdown } from '../../../../lib/markdown';
 import BaseLayout from '../../../../layouts/BaseLayout.astro';
-import Breadcrumbs from '../../../../components/Breadcrumbs.astro';
 import TextRecord from '../../../../components/TextRecord.astro';
 import ResourceLinks from '../../../../components/ResourceLinks.astro';
 import SectionLayout from '../../../../components/SectionLayout.astro';
@@ -27,10 +26,6 @@ const resourceLabels: Record<PublicResearcher['resources'][number]['kind'], stri
   <SectionLayout modifier="entity-detail research-profile" pinned>
     <ResourceLinks slot="aside" id="researcher-resources-heading" label="学术入口"
       links={researcher.resources.map((resource) => ({ label: resourceLabels[resource.kind], href: resource.url }))} />
-    <Breadcrumbs slot="breadcrumb" items={[
-      { label: '研究', href: '/research' },
-      { label: researcher.name },
-    ]} />
     <header class="page-header" slot="intro">
       <h1 class="page-title">{researcher.name}</h1>
       <p class="record__original">

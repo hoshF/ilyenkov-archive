@@ -54,7 +54,7 @@ const resourceLabels: Record<PublicIfiNetwork['resources'][number]['kind'], stri
 };
 
 describe('IFI public detail and research entry', () => {
-  it('statically builds the detail page with the public network identity and research breadcrumb', () => {
+  it('statically builds the detail page with the public network identity without duplicate breadcrumb titles', () => {
     expect(routeExists('/research/ifi/')).toBe(true);
     const html = builtPage('/research/ifi/');
     const main = mainContent(html);
@@ -64,13 +64,7 @@ describe('IFI public detail and research entry', () => {
     expect([...main.matchAll(/<h1\b/g)]).toHaveLength(1);
     expect(textContent(main.match(/<h1\b[^>]*>([\s\S]*?)<\/h1>/)![1])).toBe(network.title);
     expect(textContent(main)).toContain(`${network.name}（${network.abbreviation}）`);
-    const breadcrumb = main.match(/<nav\b[^>]*aria-label="当前位置"[^>]*>([\s\S]*?)<\/nav>/)![1];
-    expect(links(breadcrumb)).toEqual([
-      { href: '/', label: '首页' },
-      { href: '/research', label: '研究' },
-    ]);
-    expect(breadcrumb).toContain('aria-current="page"');
-    expect(textContent(breadcrumb)).toContain(network.title);
+    expect(main).not.toContain('aria-label="当前位置"');
     expect(sections(main).map((section) => section.id)).toEqual([
       'ifi-intro-heading',
       'ifi-symposiums-heading',

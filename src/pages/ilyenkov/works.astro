@@ -1,6 +1,5 @@
 ---
 import BaseLayout from '../../layouts/BaseLayout.astro';
-import Breadcrumbs from '../../components/Breadcrumbs.astro';
 import SectionLayout from '../../components/SectionLayout.astro';
 import { getPublicWorks, getPublicWorksEditorial } from '../../lib/research-records';
 
@@ -20,10 +19,7 @@ const workGroups = [...worksByType].sort(([left], [right]) => {
 
 <BaseLayout title="作品目录" description={editorial.description}>
   <SectionLayout pinned>
-    <Breadcrumbs slot="breadcrumb" items={[
-      { label: '伊里因科夫', href: '/ilyenkov' },
-      { label: '作品目录' },
-    ]} />
+    <p class="parent-link" slot="breadcrumb"><a href="/ilyenkov">← 伊里因科夫</a></p>
     <header class="page-header" slot="intro">
       <h1 class="page-title">作品目录</h1>
       <p class="lead">{editorial.lead}</p>

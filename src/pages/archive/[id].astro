@@ -1,6 +1,5 @@
 ---
 import BaseLayout from '../../layouts/BaseLayout.astro';
-import Breadcrumbs from '../../components/Breadcrumbs.astro';
 import SectionLayout from '../../components/SectionLayout.astro';
 import { getSiteData, type ReadableDocument } from '../../lib/site-data';
 
@@ -46,11 +45,6 @@ const toc = document.headings.map((heading) => ({ href: `#${heading.id}`, label:
 
 <BaseLayout title={document.title} description={description} socialType="article" reading>
   <SectionLayout toc={toc} reading>
-    <Breadcrumbs slot="breadcrumb" items={[
-      { label: '档案', href: '/archive' },
-      { label: document.title },
-    ]} />
-
     <header data-pagefind-body class="document-header" slot="intro">
       <p class="record__meta">{document.year} · {document.authorLabel}</p>
       <h1 data-pagefind-meta={`title:${document.title}`} data-pagefind-weight="5" id="document-title" set:html={document.titleHtml} />

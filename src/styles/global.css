@@ -6,12 +6,9 @@
   --text-meta: .875rem; --text-secondary: .9375rem; --text-body: 1rem; --text-item: 1.0625rem;
   --text-home-section: 1.25rem; --text-section: 1.1875rem; --text-page-mobile: 1.5rem; --text-page: 1.5rem;
   --text-content-title: 1.75rem;
-  --section-top: 80px;
+  --section-top: 60px;
   /* 界面字体。无衬线承担全站：导航、标题、列表、元信息、来源。 */
   --sans: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", "Helvetica Neue", Helvetica, Arial, sans-serif;
-  /* 阅读字体，只给连续正文。西文与俄文取前四种衬线之一（Charter 与 Georgia 都带西里尔
-     字母和真斜体），中文由后面的宋体系接续；逐字回退，所以混排里每种文字都落在衬线上。 */
-  --serif: Charter, "Bitstream Charter", "Source Serif 4", Georgia, "Songti SC", STSong, "Source Han Serif SC", "Noto Serif CJK SC", "Noto Serif SC", SimSun, serif;
   color: var(--ink); font-family: var(--sans); font-synthesis: none;
   font-size: 16px;
 }
@@ -22,7 +19,7 @@ html { scroll-behavior: smooth; }
 
 body { background: var(--paper); color: var(--ink); margin: 0; line-height: 1.4; }
 
-a { color: var(--accent); text-underline-offset: .18em; text-decoration-thickness: .055em; }
+a { color: var(--accent); font-weight: 400; text-underline-offset: .18em; text-decoration-thickness: .055em; }
 a:hover { color: var(--accent-dark); }
 
 main { min-height: 70vh; }
@@ -65,14 +62,15 @@ h2, h3, h4 { text-wrap: balance; line-height: 1.3; }
 
 .site-header__nav {
   justify-content: flex-start; align-items: center; display: flex; flex-wrap: wrap;
-  margin-left: 0; gap: 8px clamp(32px, 4vw, 56px);
+  margin-left: -12px; gap: 8px clamp(16px, 3vw, 32px);
 }
 
 .site-header__nav a {
-  color: var(--ink-soft); font-size: var(--text-body); align-items: center; padding: 6px 0;
-  text-decoration: none; display: inline-flex;
+  color: var(--ink-soft); font-size: var(--text-body); align-items: center; padding: 10px 12px;
+  min-height: 44px; border-radius: 4px; text-decoration: none; display: inline-flex;
 }
-.site-header__nav a:hover { color: var(--accent-dark); }
+.site-header__nav a:hover { color: var(--accent-dark); background: #efefef; }
+.site-header__nav a:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
 
 /* 当前栏目与目录同属深色系，只用细下划线标记位置。 */
 .site-header__nav a[aria-current=page] {
@@ -91,6 +89,10 @@ h2, h3, h4 { text-wrap: balance; line-height: 1.3; }
 .document-nav__siblings { justify-content: space-between; gap: 24px; margin-top: 12px; display: flex; }
 
 .document-nav__next { text-align: right; margin-left: auto; }
+
+.parent-link { margin: 0; font-size: var(--text-meta); line-height: 1.5; }
+.parent-link a { text-decoration: none; }
+.parent-link a:hover { text-decoration: underline; }
 
 .breadcrumbs { min-width: 0; color: var(--muted); font-size: var(--text-meta); line-height: 1.5; }
 .breadcrumbs ol {
@@ -191,7 +193,7 @@ h2, h3, h4 { text-wrap: balance; line-height: 1.3; }
 }
 
 .container.book-page {
-  --section-top: 48px;
+  --section-top: 36px;
   width: min(calc(100% - 40px), var(--reading)); max-width: var(--reading); padding-top: var(--section-top); font-size: var(--text-body); display: block;
 }
 
@@ -215,7 +217,7 @@ h2, h3, h4 { text-wrap: balance; line-height: 1.3; }
 
 /* 首页直接组织内容入口；定位句与内容共用同一条阅读列。 */
 .home-positioning { margin: 0 0 24px; }
-.home-page { width: min(calc(100% - 40px), var(--reading)); margin: 0 auto 96px; padding-top: 40px; }
+.home-page { width: min(calc(100% - 40px), var(--reading)); margin: 0 auto 96px; padding-top: 30px; }
 
 .home-page > .home-opening + section, .home-page > section + section { margin-top: 72px; }
 .home-positioning, .home-page h2 {
@@ -290,7 +292,7 @@ h2, h3, h4 { text-wrap: balance; line-height: 1.3; }
    对齐同一条左边线，版式总宽由索引栏、间距和行宽推出来。 */
 .section-layout--reading {
   /* 译文比分区页更早开始：容器的上内边距和索引的吸顶位置都从这里取，两者仍然对齐。 */
-  --section-top: 36px;
+  --section-top: 27px;
   /* 右边留一列与索引等宽的空白，正文就落在屏幕正中；索引待在左边距里，不把正文推离
      中线。左栏有下限，窄下来时先让右边那列空白收掉、再让正文收，索引始终读得出来。 */
   width: min(calc(100% - 40px), calc(var(--reading) + (var(--index) + var(--index-gap)) * 2));
@@ -420,7 +422,7 @@ h2, h3, h4 { text-wrap: balance; line-height: 1.3; }
 .record__links a:hover { color: var(--accent-dark); text-decoration: underline; }
 .record__title a { color: var(--accent); text-decoration: none; }
 .record__link { display: block; color: var(--ink); text-decoration: none; }
-.record__link .record__title { color: var(--accent); }
+.record__link .record__title { color: var(--accent); font-weight: 400; }
 .record__title a:hover, .record__link:hover .record__title { color: var(--accent-dark); text-decoration: underline; }
 
 /* 年表在同一套条目上加一条时间轴。 */
@@ -458,7 +460,7 @@ h2, h3, h4 { text-wrap: balance; line-height: 1.3; }
 
 .entrance-grid { display: grid; grid-template-columns: 1fr; gap: 32px; }
 .entrance-card { display: block; color: var(--ink); text-decoration: none; }
-.entrance-card__label { display: block; width: fit-content; text-decoration: none; color: var(--accent); font-size: var(--text-item); font-weight: 600; line-height: 1.4; }
+.entrance-card__label { display: block; width: fit-content; text-decoration: none; color: var(--accent); font-size: var(--text-item); font-weight: 400; line-height: 1.4; }
 .entrance-card__summary { display: block; margin-top: 0; color: var(--muted); font-size: var(--text-body); line-height: 1.65; }
 .entrance-card__label:hover { color: var(--accent-dark); text-decoration: underline; }
 
@@ -502,22 +504,16 @@ h2, h3, h4 { text-wrap: balance; line-height: 1.3; }
   color: var(--muted); font-size: var(--text-secondary); margin: 10px 0 0; line-height: 1.5;
 }
 
-/* 译文与小组长文共用连续阅读页面（BaseLayout 的 reading），
-   被读的文本用衬线，站点界面——导航、页内索引、面包屑、篇末导航、
-   图注——仍然是无衬线。中文衬线没有斜体，Windows 的 SimSun 连粗体字面都没有；:root 关掉了
-   全部字形合成，这里只放开字重，让 <strong> 在各平台都粗得出来，同时不合成假斜体。 */
+/* 译文与小组长文共用阅读字号；正文允许合成字重，不合成斜体。 */
 .reading-page {
   --ink: #202020;
   --text-page: 1.75rem; --text-page-mobile: 1.625rem;
-  --text-section: 1.375rem; --text-item: 1.125rem;
 }
+/* 两类文章共用页头、正文字体与强调；字号和段落间距沿用通用正文。 */
 .reading-page .document-header, .reading-page .prose {
-  font-family: var(--serif); font-synthesis: weight;
+  font-family: var(--sans); font-synthesis: weight;
 }
-
-/* 档案文章正文使用无衬线；引文与脚注继承正文，保留字重合成以显示强调。 */
-.reading-page:has(.archive-prose) { --reading: 648px; }
-.reading-page .archive-prose { font-family: var(--sans); }
+.reading-page .prose em, .research-profile .prose em { font-style: normal; font-weight: 600; }
 
 .prose { max-width: var(--reading); margin: 0 auto; font-size: var(--text-body); line-height: 1.8; overflow-wrap: anywhere; }
 
@@ -534,13 +530,7 @@ h2, h3, h4 { text-wrap: balance; line-height: 1.3; }
 .prose p, .prose li { line-height: 1.8; }
 .prose p { margin: 1em 0; }
 
-/* 阅读正文统一字号与行距；来源与脚注保留各自的参数。 */
-.reading-page article > div.prose { font-size: 1.0625rem; line-height: 1.78; }
-.reading-page article > div.archive-prose { font-size: 1.0625rem; line-height: 1.8; }
-.reading-page article > div.prose p:not(.footnotes p),
-.reading-page article > div.prose li:not(.footnotes li) { line-height: inherit; }
-.reading-page article > div.prose .footnotes { line-height: 1.8; }
-
+.prose strong { font-synthesis: weight; }
 .prose em { margin-right: .12em; }
 .prose blockquote { color: inherit; border: 0; margin: 1.6em 2em; padding: 0; }
 .prose img {
@@ -595,7 +585,7 @@ h2, h3, h4 { text-wrap: balance; line-height: 1.3; }
 }
 
 @media (max-width: 600px) {
-  :root { --section-top: 3rem; --text-content-title: 1.625rem; }
+  :root { --section-top: 2.25rem; --text-content-title: 1.625rem; }
   .section-layout { grid-template-columns: 1fr; gap: 40px; }
   .section-layout--indexed { display: block; }
   .section-layout--indexed .section-layout__sidebar { display: contents; }
@@ -612,12 +602,10 @@ h2, h3, h4 { text-wrap: balance; line-height: 1.3; }
   .section-layout--indexed .section-layout__toc li + li, .section-layout--indexed .section-layout__content {
     margin-top: 0;
   }
-  /* 手机上的连续阅读页从标题直接进正文：站点标题栏、面包屑和索引都不占地方，
+  /* 手机上的连续阅读页从标题直接进正文：站点标题栏和索引都不占地方，
      出口留在篇末的返回链接与上下篇。 */
-  .reading-page .site-header, .reading-page .section-layout__breadcrumb { display: none; }
+  .reading-page .site-header { display: none; }
   .section-layout--reading .section-layout__toc { display: none; }
-  .reading-page article > div.prose { font-size: var(--text-body); line-height: 1.77; }
-  .reading-page article > div.archive-prose { font-size: var(--text-body); line-height: 1.8; }
   .reading-page .section-layout--reading { width: min(calc(100% - 40px), var(--content)); }
   .document-header { margin-bottom: 23px; }
   .document-header h1 { font-size: var(--text-page-mobile); margin-top: 0; }
@@ -625,13 +613,12 @@ h2, h3, h4 { text-wrap: balance; line-height: 1.3; }
   /* 导航始终另起一行，保持窄屏排列稳定。 */
   .site-header__masthead { align-items: flex-start; gap: 8px; padding: 16px 0 8px; }
   .site-name { width: auto; }
-  /* 手机上导航独占一行：5 个栏目的行宽已经接近 320px 的极限，所以这里保持 14px 与固定
-     间距，不跟着桌面一起放大，也不拉开分布。 */
-  .site-header__nav { justify-content: flex-start; margin-left: 0; gap: 4px 20px; padding: 0; }
-  .site-header__nav a { font-size: var(--text-meta); padding: 8px 0; }
+  /* 手机导航保持小字号与紧凑间距，点击区域仍至少高 44px。 */
+  .site-header__nav { justify-content: flex-start; margin-left: -10px; gap: 4px; padding: 0; }
+  .site-header__nav a { font-size: var(--text-meta); padding: 10px; }
   /* 动态在窄屏把日期放到说明上方，让长文本保有完整行宽。 */
   .updates-list__item { grid-template-columns: minmax(0, 1fr); gap: 6px 0; }
-  .home-page { margin-bottom: 56px; padding-top: 28px; }
+  .home-page { margin-bottom: 56px; padding-top: 21px; }
   .home-page > .home-opening + section, .home-page > section + section { margin-top: 52px; }
   .home-positioning, .home-page h2 { font-size: var(--text-item); }
   .entrance-grid { grid-template-columns: 1fr; gap: 32px; }
@@ -643,7 +630,7 @@ h2, h3, h4 { text-wrap: balance; line-height: 1.3; }
   .fact-list > div { grid-template-columns: 1fr; gap: .15rem; }
   .document-nav__siblings { flex-direction: column; gap: 10px; }
   .document-nav__next { text-align: left; margin-left: 0; }
-  .container.book-page { --section-top: 32px; width: min(calc(100% - 2.5rem), 860px); }
+  .container.book-page { --section-top: 24px; width: min(calc(100% - 2.5rem), 860px); }
   .book-page .section-layout__breadcrumb { margin-bottom: 28px; }
   .book-header__title { border-bottom: 0; padding-bottom: 0; }
   .book-header__title h1 { font-size: var(--text-content-title); }

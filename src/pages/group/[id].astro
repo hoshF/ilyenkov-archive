@@ -1,6 +1,5 @@
 ---
 import BaseLayout from '../../layouts/BaseLayout.astro';
-import Breadcrumbs from '../../components/Breadcrumbs.astro';
 import SectionLayout from '../../components/SectionLayout.astro';
 import { adjacentIssues, getGroupIssues, type GroupIssue } from '../../lib/group';
 
@@ -28,18 +27,8 @@ const { issue, previous, next } = Astro.props;
 ---
 
 <BaseLayout title={issue.title} description={`第 ${issue.issue} 期：${issue.summary}`} reading>
-  {/*
-    期详情复用文章阅读设置：面包屑 → 期号与日期 → 题名 → 正文。它不生成左栏，
-    因为这一期的一级单位就是它自己——一个只有 1 项的“本期内容”不构成 rail 的功能理由，
-    “返回小组工作”也由面包屑和篇末 document-nav 承担。
-    将来某一期真的包含多个独立成果单元时，再按正文真实的 headings 生成目录。
-  */}
+  {/* 单期复用文章阅读排版；返回入口与相邻期导航放在篇末。 */}
   <SectionLayout reading>
-    <Breadcrumbs slot="breadcrumb" items={[
-      { label: '小组', href: '/group' },
-      { label: `第 ${issue.issue} 期` },
-    ]} />
-
     <header class="document-header" slot="intro">
       <p class="record__meta">第 {issue.issue} 期 · {issue.kind} · <time datetime={issue.published}>{issue.published}</time></p>
       <h1 id={`issue-${issue.id}`}>{issue.title}</h1>
