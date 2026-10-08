@@ -55,8 +55,6 @@ function syncFixture() {
       resources: { personal: 'https://private-facts.example.test/' },
     })),
   });
-  // No author has a researcher publication. This manifest is deliberately independent.
-  writeJson(sourceRoot, 'research/publication.json', { records: [] });
   const choices = [
     ['selected-work', 'website_public', [pavlov, maidansky]],
     ['internal-illesh-one', 'internal_public', [illesh]],
@@ -75,11 +73,14 @@ function syncFixture() {
     writeFileSync(path.join(sourceRoot, path.dirname(work_json_path), `${id}.md`), `# Synthetic ${id}\n\nSynthetic fixture body for ${id}.\n`);
     return { work_id: id, work_json_path, publication_scope };
   });
-  writeJson(sourceRoot, 'translation/publication.json', { works });
+  // Both channels share one manifest; author identities do not require researcher publication.
+  writeJson(sourceRoot, 'web/publication.json', { works, records: [] });
   const articlesRoot = path.join(publicRoot, '.website-input/articles');
+  const assetsRoot = path.join(publicRoot, '.website-input/article-assets');
   return {
     sourceRoot,
     articlesRoot,
+    assetsRoot,
     mutate(relative, callback) {
       const value = readJson(sourceRoot, relative);
       callback(value);
@@ -185,6 +186,52 @@ describe('translation author input contract', () => {
 });
 
 describe('translation author generation and publication selection', () => {
+  it('requires the web manifest even when both former manifests exist', () => {
+    const input = syncFixture();
+    const manifest = readJson(input.sourceRoot, 'web/publication.json');
+    writeJson(input.sourceRoot, 'translation/publication.json', { works: manifest.works });
+    writeJson(input.sourceRoot, 'research/publication.json', { records: manifest.records });
+    rmSync(path.join(input.sourceRoot, 'web/publication.json'));
+    const result = input.run();
+    expect(result.status).toBe(2);
+    expect(result.stderr).toContain('missing web/publication.json');
+    expect(existsSync(input.articlesRoot)).toBe(false);
+    expect(existsSync(input.assetsRoot)).toBe(false);
+  });
+
+  it('cleans revoked articles and images while retaining only approved references', () => {
+    const input = syncFixture();
+    const selectedDirectory = path.join(input.sourceRoot, 'translation/fixture/selected-work');
+    const revokedDirectory = path.join(input.sourceRoot, 'translation/fixture/internal-illesh-one');
+    const keptImage = Buffer.from('Synthetic kept image');
+    writeFileSync(path.join(selectedDirectory, 'kept.png'), keptImage);
+    writeFileSync(path.join(selectedDirectory, 'removed.png'), 'Synthetic removed image');
+    writeFileSync(path.join(selectedDirectory, 'unreferenced.png'), 'Synthetic unreferenced image');
+    writeFileSync(path.join(revokedDirectory, 'revoked.png'), 'Synthetic revoked image');
+    writeFileSync(path.join(selectedDirectory, 'selected-work.md'), '# Synthetic title\n\n![Kept](kept.png)\n\n![Removed](removed.png)\n');
+    writeFileSync(path.join(revokedDirectory, 'internal-illesh-one.md'), '# Synthetic title\n\n![Revoked](revoked.png)\n');
+    input.mutate('web/publication.json', (manifest) => {
+      manifest.works.find((work) => work.work_id === 'internal-illesh-one').publication_scope = 'website_public';
+    });
+    const first = input.run();
+    expect(first.status, first.stderr).toBe(0);
+    expect(readdirSync(input.articlesRoot).sort()).toEqual(['internal-illesh-one.md', 'selected-work.md']);
+    expect(readdirSync(path.join(input.assetsRoot, 'selected-work')).sort()).toEqual(['kept.png', 'removed.png']);
+    expect(readFileSync(path.join(input.assetsRoot, 'selected-work/kept.png'))).toEqual(keptImage);
+    expect(existsSync(path.join(input.assetsRoot, 'internal-illesh-one/revoked.png'))).toBe(true);
+
+    input.mutate('web/publication.json', (manifest) => {
+      manifest.works.find((work) => work.work_id === 'internal-illesh-one').publication_scope = 'internal_public';
+    });
+    writeFileSync(path.join(selectedDirectory, 'selected-work.md'), '# Synthetic title\n\n![Kept](kept.png)\n');
+    const second = input.run();
+    expect(second.status, second.stderr).toBe(0);
+    expect(readdirSync(input.articlesRoot)).toEqual(['selected-work.md']);
+    expect(readdirSync(path.join(input.assetsRoot, 'selected-work'))).toEqual(['kept.png']);
+    expect(readFileSync(path.join(input.assetsRoot, 'selected-work/kept.png'))).toEqual(keptImage);
+    expect(existsSync(path.join(input.assetsRoot, 'internal-illesh-one'))).toBe(false);
+  });
+
   it('generates aligned author arrays without registry facts or unpublished works', () => {
     const input = syncFixture();
     const result = input.run();
@@ -199,7 +246,7 @@ describe('translation author generation and publication selection', () => {
       expect(existsSync(path.join(input.articlesRoot, `${id}.md`))).toBe(false);
     }
     const before = readFileSync(path.join(input.articlesRoot, 'selected-work.md'), 'utf8');
-    input.mutate('research/publication.json', (manifest) => {
+    input.mutate('web/publication.json', (manifest) => {
       manifest.records.push({ kind: 'researcher_profile', record_id: maidansky.person_id, publication_scope: 'website_public' });
     });
     const again = input.run();
@@ -218,7 +265,7 @@ describe('translation author generation and publication selection', () => {
 
   it('rejects a Young Hegel without authors only when selected for website publication', () => {
     const input = syncFixture();
-    input.mutate('translation/publication.json', (manifest) => {
+    input.mutate('web/publication.json', (manifest) => {
       manifest.works.find((work) => work.work_id === 'young-hegel').publication_scope = 'website_public';
     });
     const result = input.run();

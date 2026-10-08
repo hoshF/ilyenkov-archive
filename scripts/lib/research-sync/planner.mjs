@@ -1,3 +1,4 @@
+import { publicationRelative } from '../paths.mjs';
 import {
   datePattern,
   fail,
@@ -19,7 +20,6 @@ import {
   workSources,
 } from './sources.mjs';
 
-const publicationRelative = 'research/publication.json';
 const websiteScope = 'website_public';
 const ifiEventsRelative = 'research/friends/events.json';
 const ifiActivityModes = new Set(['symposium', 'webinar', 'collective_reading', 'discussion']);

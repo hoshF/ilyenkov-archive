@@ -8,7 +8,7 @@ import { builtRoutePath, routeExists } from './helpers/pages';
 import { researchRoot } from './helpers/publication';
 
 const projectRoot = process.cwd();
-const publicationPath = 'research/publication.json';
+const publicationPath = 'web/publication.json';
 const eventsPath = 'research/readings/events.json';
 const seriesPath = 'research/readings/series.json';
 const earliestDirectory = 'events/1991-unnumbered-first-readings';

@@ -4,6 +4,11 @@ This public repository owns the website, reader-facing editorial framing, group 
 book publication records, and static deployment. Canonical research facts, source and rights
 evidence, and publication decisions belong to the private research repository.
 
+The private repository exposes publication selections through `web/publication.json` only.
+The translation syncer reads its `works`; the research syncer reads its `records`. Input file
+paths resolve from the private repository root. Syncers consume only `website_public` entries.
+Canonical research and translation files remain in their existing locations.
+
 [docs/PUBLICATION.md](docs/PUBLICATION.md) defines publication permissions and field contracts.
 Public editorial prose must not bypass those boundaries to expose unpublished private data or
 restricted source texts. Generated website inputs live in ignored `.website-input/`; never stage

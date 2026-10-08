@@ -7,7 +7,7 @@ import { ResearcherSchema, ResearchRecordsSchema } from '../src/lib/research-rec
 import { researchRoot } from './helpers/publication';
 
 const projectRoot = process.cwd();
-const publicationPath = 'research/publication.json';
+const publicationPath = 'web/publication.json';
 const personsPath = 'people/persons.json';
 const personId = 'person-andrey-maidansky';
 const researcherId = 'researcher-andrey-maidansky';
@@ -36,6 +36,7 @@ function fixture() {
   }
   return {
     root,
+    remove: (relative) => rmSync(path.join(sourceRoot, relative)),
     read: (relative) => readJson(sourceRoot, relative),
     write(relative, data) {
       const target = path.join(sourceRoot, relative);
@@ -55,6 +56,30 @@ const researcherEntry = (manifest) => manifest.records.find((entry) => entry.pub
 const canonicalPerson = (registry) => registry.records.find((record) => record.person_id === personId);
 
 describe('canonical researcher publication', () => {
+  it('requires the web manifest even when both former manifests exist', () => {
+    const input = fixture();
+    const manifest = input.read(publicationPath);
+    input.write('translation/publication.json', { works: manifest.works });
+    input.write('research/publication.json', { records: manifest.records });
+    input.remove(publicationPath);
+    expect(() => input.plan()).toThrow('missing web/publication.json');
+  });
+
+  it('ignores internal research selections without reading their private files', () => {
+    const input = fixture();
+    const before = input.plan();
+    input.mutate(publicationPath, (manifest) => {
+      manifest.records.push({
+        public_id: 'internal-research-record',
+        publication_scope: 'internal_public',
+        kind: 'biography_event',
+        record_path: 'private/missing.json',
+      });
+    });
+    expect(input.plan()).toEqual(before);
+    expect(JSON.stringify(input.plan())).not.toContain('internal-research-record');
+  });
+
   it('resolves the published canonical person and keeps Chinese framing in publication', () => {
     const input = fixture();
     const entry = researcherEntry(input.read(publicationPath));

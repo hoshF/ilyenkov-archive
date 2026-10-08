@@ -5,6 +5,21 @@
 文件可读取不等于允许发布；允许网页阅读不等于允许进入 Git；不提供下载按钮也不构成访问控制。
 每项内容按精确版本和具体渠道决定公开范围。
 
+## private 公开接口
+
+private 根目录的 `web/publication.json` 是译文与结构化研究记录的唯一发布选择入口：
+
+| 字段 | 内容 |
+| --- | --- |
+| `publication_scopes` | 公开范围：`website_public`、`internal_public` |
+| `works` | 译文的 `work_id`、`publication_scope` 与 `work_json_path` |
+| `records` | 研究记录的公开身份、范围、类型、定位、公开显示文字与来源选择 |
+
+两个同步器只消费 `publication_scope = website_public` 的条目；`internal_public` 不进入公共网站
+生成输入或 `dist/`。`work_json_path`、`record_path`、`source_path` 相对 private 仓库根目录解析；
+canonical 事实、文本、来源与权利证据保持各自的维护位置，接口不另存事实或正文副本。研究条目
+按类型适用下文的字段契约。
+
 ## 三种网站状态
 
 | 状态 | 公开页面 | 正文进入 public 静态构建 | 用途 |
@@ -27,7 +42,7 @@
 站点的结构化记录由 research 同步通道生成，统一遵守以下规则。这里的字段限制约束同步生成的研究
 记录；public 自行维护的读者导引文字见[公开编辑文字](#公开编辑文字)，仍受来源与公开范围约束。
 
-- 每一条都由 private 的 `research/publication.json` **逐项**标记选择。未被选中的条目，不因文件
+- 每一条都由 private 的 `web/publication.json` 中 `records` **逐项**标记选择。未被选中的条目，不因文件
   存在而视为可以公开，也不建立占位数据。
 - 上述类型必须同时有获准条目。任何一类为空，同步器直接失败，不生成半份 `research-records.json`。
   Readings series 是另行选择的可选类型，不因 private 存在 series record 就自动输出，也不属于必备集合。

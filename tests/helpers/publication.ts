@@ -12,7 +12,7 @@ export interface WebsiteWork {
 
 export function websiteWorks(): WebsiteWork[] {
   const publication = JSON.parse(readFileSync(
-    path.join(researchRoot, 'translation/publication.json'),
+    path.join(researchRoot, 'web/publication.json'),
     'utf8',
   ));
   return publication.works.filter((work: Record<string, unknown>) => (

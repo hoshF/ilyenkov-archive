@@ -8,7 +8,7 @@ import { builtRoutePath, routeExists } from './helpers/pages';
 import { researchRoot } from './helpers/publication';
 
 const projectRoot = process.cwd();
-const publicationPath = 'research/publication.json';
+const publicationPath = 'web/publication.json';
 const organizationPath = 'research/friends/organization.json';
 const eventsPath = 'research/friends/events.json';
 const activityModes = ['symposium', 'webinar', 'collective_reading', 'discussion'];

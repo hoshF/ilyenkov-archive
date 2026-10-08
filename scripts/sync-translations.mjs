@@ -3,7 +3,7 @@ import { existsSync, mkdirSync, readFileSync, readdirSync, rmSync, statSync, unl
 import path from 'node:path';
 import { unified } from 'unified';
 import remarkParse from 'remark-parse';
-import { outputRoot, projectRoot, researchRoot } from './lib/paths.mjs';
+import { outputRoot, projectRoot, publicationRelative, researchRoot } from './lib/paths.mjs';
 import { runSync, writeGenerated } from './lib/sync.mjs';
 import { prepareTranslationMarkdown } from './lib/translation-markdown.mjs';
 import { canonicalPersonRegistry, translationAuthors } from './lib/translation-authors.mjs';
@@ -17,7 +17,6 @@ import {
   resolveResearchPath,
 } from './lib/validation.mjs';
 
-const publicationRelative = 'translation/publication.json';
 const articlesRoot = path.join(outputRoot, 'articles');
 const articleAssetsRoot = path.join(outputRoot, 'article-assets');
 const websiteScope = 'website_public';

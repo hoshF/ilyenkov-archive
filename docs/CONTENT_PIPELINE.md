@@ -3,10 +3,14 @@
 本文件说明输入输出、转换、关系解析和派生数据。可发布的字段、权限与日期含义以
 [发布说明](PUBLICATION.md)为准；栏目和编辑文件职责见[架构说明](ARCHITECTURE.md)。
 
-## 两条 private 输入通道
+## 统一 private 入口与两条生成通道
+
+private 根目录的 `web/publication.json` 是唯一发布选择入口；`works` 与 `records` 分别由译文和
+研究同步器消费。`work_json_path`、`record_path`、`source_path` 相对 private 仓库根目录解析，
+不以 `web/` 为基准。接口引用已有事实、文本与来源文件，不复制 canonical 记录或正文。
 
 ```text
-private/translation/publication.json
+private/web/publication.json → works
   │  只选择 publication_scope = website_public
   ▼
 条目指定的 work.json + 同目录 <work_id>.md
@@ -19,7 +23,7 @@ dist/archive/<slug>/index.html + media/<image>
 ```
 
 ```text
-private/research/publication.json
+private/web/publication.json → records
   │  只选择 publication_scope = website_public
   ▼
 条目指定的结构化记录 + 明确选择的公开来源
@@ -31,7 +35,8 @@ private/research/publication.json
 人物、年表、作品目录与研究栏目静态页面
 ```
 
-两个同步器只处理清单逐项指定的条目，不扫描其他研究目录，也不处理 `internal_public`。
+两个同步器只处理同一清单中逐项指定的 `website_public` 条目，不扫描其他研究目录，也不处理
+`internal_public`。
 字段必须同时由发布契约允许、同步器显式序列化、public schema 显式接受，private 新字段不会自动透传。
 生成输入不进入 Git，不手工修改；再次同步更新变化文件并清理不再获准公开的条目。
 

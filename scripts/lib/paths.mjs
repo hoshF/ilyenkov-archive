@@ -8,4 +8,6 @@ export const researchRoot = path.resolve(
   process.env.ILYENKOV_ROOT?.trim() || path.join(projectRoot, '..', 'Ilyenkov'),
 );
 
+export const publicationRelative = 'web/publication.json';
+
 export const outputRoot = path.join(projectRoot, '.website-input');

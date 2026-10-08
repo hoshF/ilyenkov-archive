@@ -88,7 +88,8 @@ RSS 在构建时生成，HTML 订阅发现与 feed 共用 Astro `site` 基址，
 
 | 位置 | 所有权与用途 |
 | --- | --- |
-| private 研究仓库 | canonical 人物、作品、事件、原文、译文、研究笔记、来源和权利证据、发布决定 |
+| private 研究仓库 | canonical 人物、作品、事件、原文、译文、研究笔记、来源和权利证据 |
+| private `web/publication.json` | 译文与结构化研究记录的唯一发布选择入口；引用事实、文本与来源文件 |
 | `editorial/site.json` | 站点身份、五项导航、页脚、小组三语名称、summary 与正式联系邮箱的单一配置源 |
 | `editorial/ilyenkov.json` | 面向读者的人物身份显示、简短 summary 与完整 introduction |
 | `editorial/research/`、`editorial/researchers/` | IFI、Readings、迈丹斯基的公开中文编辑介绍与研究工作说明 |
@@ -107,9 +108,11 @@ public editorial 负责已经选择公开的、以公开资料为依据的中文
 canonical 事实记录，也不扩大发布许可。完整边界见[发布说明](PUBLICATION.md)。新增 private 字段
 不会因为页面需要就自动公开，公开介绍也不能用来复制未获准的正文、附件或内部资料。
 
-译文与结构化研究资料分别由 private 的两个 publication 清单逐项选择；public 不把生成输入改成
-另一份 tracked 内容库。书籍、小组记录、动态、分类和编辑介绍由 public 自行维护，不经过这两条
-同步通道。Archive 分类中的 `persons` 回答文章涉及谁；文章 `authorIds` 回答谁写了它，两者不互相推导。
+译文与结构化研究资料统一由 private `web/publication.json` 逐项选择，分别登记在 `works` 与
+`records` 中；清单引用的事实、文本和来源保持各自的维护位置，不在接口中复制。public 只在同步
+阶段读取 private 输入，页面读取 `.website-input/`，不把生成输入改成另一份 tracked 内容库。
+书籍、小组记录、动态、分类和编辑介绍由 public 自行维护，不经过 private 同步通道。Archive 分类
+中的 `persons` 回答文章涉及谁；文章 `authorIds` 回答谁写了它，两者不互相推导。
 
 研究详情页的辅助链接由 `ResourceLinks` 展示；页面负责选择公开资源及中文标签。
 首页、Archive 与研究者页的公开文本条目共用 `TextRecord`，各模式保留自身的顺序和标题层级；
