@@ -212,6 +212,31 @@ describe('Markdown safety and semantics', () => {
     expect(html).not.toContain('标题文字');
   });
 
+  it('indexes standalone bold abstract labels without changing their presentation', async () => {
+    const { html, headings } = await renderPublicMarkdown(`
+**摘要**
+
+摘要内容。
+
+正文中提到摘要，不是目录项。
+
+**摘要**与其他文字。
+
+## 引言
+
+正文。
+
+## 摘要
+`);
+    expect(headings).toEqual([
+      { id: '摘要', text: '摘要' },
+      { id: '引言', text: '引言' },
+      { id: '摘要-2', text: '摘要' },
+    ]);
+    expect(html).toContain('<p id="摘要"><strong>摘要</strong></p>');
+    expect(html).toContain('<h2 id="摘要-2">摘要</h2>');
+  });
+
   it('anchors each section of the article on its own heading', async () => {
     const { html, headings } = await renderPublicMarkdown(`
 ## 摘要

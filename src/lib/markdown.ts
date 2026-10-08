@@ -111,13 +111,19 @@ function headingId(text: string, taken: Set<string>): string {
   return id;
 }
 
-/** 只认正文自己的二级标题：注释一节由 remark-rehype 在这之后生成，不进索引。 */
+/** 收集正文二级标题及独立加粗的摘要标签；生成的注释不进索引。 */
 function collectHeadings(headings: ArticleHeading[]) {
   return (tree: Root): void => {
     const taken = new Set<string>();
     for (const node of tree.children) {
-      if (node.type !== 'heading' || node.depth !== 2) continue;
-      const text = headingText(node);
+      const isAbstractLabel = node.type === 'paragraph'
+        && node.children.length === 1
+        && node.children[0].type === 'strong'
+        && node.children[0].children.length === 1
+        && node.children[0].children[0].type === 'text'
+        && node.children[0].children[0].value.trim() === '摘要';
+      if (!(node.type === 'heading' && node.depth === 2) && !isAbstractLabel) continue;
+      const text = node.type === 'heading' ? headingText(node) : '摘要';
       if (!text) continue;
       const id = headingId(text, taken);
       node.data = { ...node.data, hProperties: { ...node.data?.hProperties, id } };
