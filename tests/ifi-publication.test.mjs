@@ -33,7 +33,7 @@ function fixture() {
   const sourceRoot = path.join(root, 'research-source');
   const outputRoot = path.join(root, 'generated');
   const relativePaths = new Set([publicationPath, eventsPath]);
-  for (const selection of [publication.timeline, publication.works_catalog]) {
+  for (const selection of [publication.timeline, publication.works_catalog, publication.life, publication.circle]) {
     relativePaths.add(selection.editorial_path);
   }
   selectedEntries.forEach((entry) => {

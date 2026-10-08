@@ -16,13 +16,15 @@ private 根目录的 `web/publication.json` 是译文与结构化研究记录的
 | `records` | 研究记录的公开身份、范围、类型、定位、公开显示文字、来源与成稿选择 |
 | `timeline` | 必选的年表记录类型与成稿选择：`record_kinds`、`editorial_path` |
 | `works_catalog` | 必选的作品目录成稿选择：`editorial_path` |
+| `life` | 必选的生平成稿选择：`editorial_path` |
+| `circle` | 必选的交往与活动成稿选择：`editorial_path` |
 
 两个同步器只消费 `works`、`records` 中 `publication_scope = website_public` 的条目；
-`internal_public` 不进入公共网站生成输入或 `dist/`。年表与作品目录根选择不扩展这些条目的公开
-范围。`work_json_path`、`record_path`、`source_path` 相对 private 仓库根目录解析；
+`internal_public` 不进入公共网站生成输入或 `dist/`。页面根选择不扩展这些条目的公开范围。
+`work_json_path`、`record_path`、`source_path` 相对 private 仓库根目录解析；
 canonical 事实、原文、译文、来源与权利证据保持各自的维护位置，接口不另存其副本。IFI、Readings、
-年表与作品目录公开文字由 `web/editorial/` 维护，经对应选择中的 `editorial_path` 选择。研究条目与
-页面选择按下文的字段契约校验。
+年表、作品目录、生平与交往页面的公开文字由 `web/editorial/` 维护，经对应选择中的
+`editorial_path` 选择。研究条目与页面选择按下文的字段契约校验。
 
 ## 三种网站状态
 
@@ -88,6 +90,34 @@ publication 根对象 `works_catalog` 必须且只含 `editorial_path`，不另�
 两项根选择和成稿均必需；缺失、文件不存在、额外字段或无效字段使同步或 schema 校验失败，
 不提供 public 默认文字或兼容
 路径。成稿路径遵守[公开编辑文字](#公开编辑文字)的限制。
+
+### 生平与交往
+
+publication 根对象 `life`、`circle` 必须且只含 `editorial_path`。生平成稿只接受非空单行
+`description`、`lead`、`note` 与 `stages` 数组；交往成稿只接受非空单行 `description` 与
+`sections` 数组。数组可以为空；根选择和成稿必需，缺失、额外字段或无效字段使同步或 schema
+校验失败，不提供 public 默认内容或兼容路径。
+
+生平每个 stage 接受 `title`、`links`，以及恰好一个 `record_ids` 或 `record_kind`，可选
+`summary`。题名、链接标签与明确填写的摘要均为非空单行文字；`links` 可以为空，`target` 只允许
+`timeline`、`circle`、`works`，实际路由由 public 映射。`record_kind` 只允许 `biography_event`、
+`military_service`、`hegel_congress`、`works_catalog`，表示引用该类型已获准的记录。
+
+`record_ids` 使用已有 publication 的 `public_id`，不得按 private 原始记录 ID 查找。引用数组
+可以为空，重复、未知、未公开或缺失引用均失败；活动与作品不得混合在同一 stage。活动阶段未写
+`summary` 时，getter 按引用顺序连接共享活动摘要；作品阶段必须明确填写摘要，不从作品事实补造
+叙述。成稿不另存日期、地点、作品年份、题名、来源等事实副本。
+
+交往每个 section 必须含 `title`、`lead`、`record_kind`，可选 `record_ids`。题名与导语均为非空
+单行文字；类型只允许 `military_service` 或 `hegel_congress`，同一类型不重复分区。没有
+`record_ids` 时采用该类型全部获准记录；存在时只引用其中明确选择的子集，空数组合法。
+未知、重复、未公开、缺失或不属于指定类型的引用均失败，不自动扩大 publication 范围。
+
+生成 `life.stages` 只包含题名、公开引用 `recordIds`、明确填写的摘要、链接及从引用派生的
+`period` 或 `years`；空引用不生成期间或年份。生成 `circle.sections` 只包含类型、题名、导语与
+`recordIds`。共享活动与作品事实仍只在已有集合中维护。public getter 解析生平缺省摘要与交往
+记录，交往条目按历史日期与题名排序；阶段及分区顺序保持成稿顺序。布局、日期格式、链接路由和
+HTML 标识由 public 维护。
 
 ### 研究者身份与公开字段
 
@@ -217,9 +247,13 @@ private 仓库根目录解析。路径必须为 `web/editorial/<slug>.json`，sl
 由 publication 根对象 `timeline`、`works_catalog` 的 `editorial_path` 选择，并适用同样的路径限制。
 它们是必选输入，字段与引用契约见[年表与作品目录](#年表与作品目录)。
 
-人物总页入口、人物与研究者介绍、生平与交往页及其他 public 编辑文字仍在 public `editorial/` 或
-对应页面中维护。这些文字依据来源组织和解释已获准公开的内容；canonical 研究事实、来源证据与
-发布决定仍由 private 维护，不由公开编辑文字替代。
+生平与交往成稿分别维护在 private `web/editorial/life.json` 与 `web/editorial/circle.json`，由
+publication 根对象 `life`、`circle` 选择，并适用同样的路径限制；字段与引用契约见
+[生平与交往](#生平与交往)。
+
+人物总页入口、人物与研究者介绍及其他 public 编辑文字仍在 public `editorial/` 或对应页面中
+维护。这些文字依据来源组织和解释已获准公开的内容；canonical 研究事实、来源证据与发布决定仍由
+private 维护，不由公开编辑文字替代。
 
 公开编辑文字只使用已经公开或已明确选择公开的内容，不读取未公开的 private 数据，也不通过改写、
 摘述或嵌入把受限正文、原始材料、内部备注与未获准来源送入公共构建。编辑叙述不扩大授权范围，

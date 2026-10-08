@@ -6,16 +6,20 @@ evidence, and publication decisions belong to the private research repository.
 
 The private repository exposes publication selections through `web/publication.json` only.
 The translation syncer reads its `works`; the research syncer reads its `records` and required
-`timeline` and `works_catalog` selections. Input file paths resolve from the private repository
-root. Syncers consume only `website_public` work and record entries. Timeline selection refers
-to those approved records; it never expands publication scope or copies their facts.
+`timeline`, `works_catalog`, `life` and `circle` selections. Input file paths resolve from the
+private repository root. Syncers consume only `website_public` work and record entries. Page selections refer
+to those approved records; they never expand publication scope or copy their facts.
 Canonical research and translation files remain in their existing locations. IFI and Readings
 editorial texts belong to private `web/editorial/` and require `editorial_path` on their selected
 network or series record. Pages read the generated `editorial` payload only; when unselected,
 omit the introduction and IFI lead without fallback. Timeline and works-catalogue descriptions,
 leads, notes and type notes belong to private `web/editorial/` and require the root selections.
-Pages render them from generated data with no fallback; grouping, order and formatting stay in
-public. Other public editorial inputs remain here.
+Life stages, their references and links, and Circle sections and their references also belong
+to private manuscripts selected by the required roots. `record_ids` refers to existing
+publication `public_id` values, never private record IDs. Preserve authored stage and section
+order; resolve missing stage summaries from the referenced public activity summaries without
+saving copies. Pages render generated data with no fallback; route mappings, record sorting,
+work-type grouping and formatting stay in public. Other public editorial inputs remain here.
 
 [docs/PUBLICATION.md](docs/PUBLICATION.md) defines publication permissions and field contracts.
 Public editorial prose must not bypass those boundaries to expose unpublished private data or

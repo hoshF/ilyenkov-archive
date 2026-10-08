@@ -6,10 +6,10 @@
 ## 统一 private 入口与两条生成通道
 
 private 根目录的 `web/publication.json` 是唯一发布选择入口；`works` 由译文同步器消费，
-`records` 与必选的 `timeline`、`works_catalog` 根对象由研究同步器消费。`work_json_path`、
-`record_path`、`source_path` 相对 private 仓库根目录解析，不以 `web/` 为基准。接口引用已有事实、
-原文、译文与来源文件，不复制其 canonical 内容；IFI、Readings、年表与作品目录公开文字在
-`web/editorial/` 中维护，经对应选择中的 `editorial_path` 明确选择。
+`records` 与必选的 `timeline`、`works_catalog`、`life`、`circle` 根对象由研究同步器消费。
+`work_json_path`、`record_path`、`source_path` 相对 private 仓库根目录解析，不以 `web/` 为基准。
+接口引用已有事实、原文、译文与来源文件，不复制其 canonical 内容；IFI、Readings、生平、年表、
+作品目录、交往页面的公开文字在 `web/editorial/` 中维护，经对应选择中的 `editorial_path` 明确选择。
 
 ```text
 private/web/publication.json → works
@@ -25,7 +25,7 @@ dist/archive/<slug>/index.html + media/<image>
 ```
 
 ```text
-private/web/publication.json → records + timeline + works_catalog
+private/web/publication.json → records + timeline + works_catalog + life + circle
   │  records 只选择 publication_scope = website_public
   ▼
 条目指定的结构化记录 + 明确选择的公开来源与成稿
@@ -152,6 +152,25 @@ Readings 来源 URL 按 `current → original → archive → 既有 flat url` �
 
 两项根选择和成稿均必需，缺失或无效时失败，没有 public fallback。成稿路径与字段限制见
 [发布说明](PUBLICATION.md#年表与作品目录)。
+
+## 生平与交往
+
+研究同步器从必选的 `life`、`circle` 根选择读取成稿，只解析已有 `website_public` 结果中的引用。
+成稿中的 `record_ids` 是 publication 的 `public_id`，不按 private 原始 ID 读取未公开记录。
+`record_kind` 采用对应类型的获准集合；明确给出的 ID 列表限定子集，不改变其他页面的事实集合。
+
+生平阶段按成稿顺序生成 `recordIds` 与期间或去重年份；空引用不生成 metadata，活动与作品引用
+不能混合。明确填写的摘要进入生成 stage；省略时不保存摘要副本，`getPublicLife()` 按所引活动
+顺序连接共享摘要，作品阶段不能省略摘要。public 页面只格式化生成期间和年份，不用集合首末项
+或页面 ID 白名单推断分期。
+
+交往分区按成稿顺序生成 `recordKind`、题名、导语与 `recordIds`。`getPublicCircle()` 从共享集合
+解析每区记录并按期间、题名排序，将地点与状态统一为真实值或空值；`records` 只在读取时提供，
+不保存到生成分区中。页面映射 HTML 标识并渲染真实的地点与状态。
+
+空 stages、sections 与引用数组均合法，未知、未公开、重复或错误类型的引用使同步或 schema 校验
+失败，不扫描成稿目录、不复制事实、不自动发布引用对象。字段与路径限制见
+[发布说明](PUBLICATION.md#生平与交往)。
 
 ## 公开成稿同步
 

@@ -43,7 +43,7 @@ function fixture() {
       `research/readings/${directory}/sources.json`
     )),
   ]);
-  for (const selection of [publication.timeline, publication.works_catalog]) {
+  for (const selection of [publication.timeline, publication.works_catalog, publication.life, publication.circle]) {
     relativePaths.add(selection.editorial_path);
   }
   selectedEntries.forEach((entry) => {

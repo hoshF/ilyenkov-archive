@@ -654,5 +654,109 @@ export function plannedResearchRecords({ projectRoot, researchRoot }) {
       })),
     },
   };
+  const pageCollections = { ...timelineCollections, works_catalog: 'works' };
+  const publicPageRecords = Object.entries(pageCollections).flatMap(([kind, collection]) => (
+    records[collection].map((record) => ({ kind, record }))
+  ));
+  const selectReferences = (ids, available, label) => {
+    if (!Array.isArray(ids)) fail(`${label}: record_ids must be an array`);
+    const seenIds = new Set();
+    return ids.map((id) => {
+      if (typeof id !== 'string' || !idPattern.test(id) || seenIds.has(id)) {
+        fail(`${label}: invalid or duplicate record reference`);
+      }
+      seenIds.add(id);
+      const matches = available.filter(({ record }) => record.id === id);
+      if (matches.length !== 1) fail(`${label}: reference must identify exactly one approved public record`);
+      return matches[0];
+    });
+  };
+  const pageEditorial = (key) => {
+    const label = `${publicationRelative} ${key}`;
+    const selection = object(publication[key], label);
+    allowedFields(selection, ['editorial_path'], label);
+    return readEditorial(requiredString(selection, 'editorial_path', label), label);
+  };
+
+  const lifeEditorial = pageEditorial('life');
+  const lifeLabel = `${publicationRelative} life editorial`;
+  allowedFields(lifeEditorial, ['description', 'lead', 'note', 'stages'], lifeLabel);
+  if (!Array.isArray(lifeEditorial.stages)) fail(`${lifeLabel}: stages must be an array`);
+  records.life = {
+    description: requiredString(lifeEditorial, 'description', lifeLabel),
+    lead: requiredString(lifeEditorial, 'lead', lifeLabel),
+    note: requiredString(lifeEditorial, 'note', lifeLabel),
+    stages: lifeEditorial.stages.map((rawStage, index) => {
+      const label = `${lifeLabel} stages[${index}]`;
+      const stage = object(rawStage, label);
+      allowedFields(stage, ['title', 'record_ids', 'record_kind', 'summary', 'links'], label);
+      const byKind = Object.hasOwn(stage, 'record_kind');
+      if (byKind === Object.hasOwn(stage, 'record_ids')) {
+        fail(`${label}: exactly one of record_ids or record_kind is required`);
+      }
+      let selected;
+      if (byKind) {
+        const kind = requiredString(stage, 'record_kind', label);
+        if (!Object.hasOwn(pageCollections, kind)) fail(`${label}: unsupported record_kind`);
+        selected = publicPageRecords.filter((item) => item.kind === kind);
+      } else {
+        selected = selectReferences(stage.record_ids, publicPageRecords, label);
+      }
+      const works = selected.filter((item) => item.kind === 'works_catalog');
+      if (works.length && works.length !== selected.length) fail(`${label}: work and activity references cannot be mixed`);
+      const isWorkStage = works.length > 0 || stage.record_kind === 'works_catalog';
+      if (isWorkStage && !Object.hasOwn(stage, 'summary')) fail(`${label}: work references require an editorial summary`);
+      const coordinates = selected.length === 0 ? {} : isWorkStage ? {
+        years: [...new Set(works.map(({ record }) => record.year))].sort(),
+      } : {
+        period: {
+          start: selected.map(({ record }) => record.period.start).sort()[0],
+          end: selected.map(({ record }) => record.period.end).sort().at(-1),
+        },
+      };
+      if (!Array.isArray(stage.links)) fail(`${label}: links must be an array`);
+      return {
+        title: requiredString(stage, 'title', label),
+        recordIds: selected.map(({ record }) => record.id),
+        ...(Object.hasOwn(stage, 'summary') ? { summary: requiredString(stage, 'summary', label) } : {}),
+        ...coordinates,
+        links: stage.links.map((rawLink, linkIndex) => {
+          const linkLabel = `${label} links[${linkIndex}]`;
+          const link = object(rawLink, linkLabel);
+          allowedFields(link, ['target', 'label'], linkLabel);
+          const target = requiredString(link, 'target', linkLabel);
+          if (!['timeline', 'circle', 'works'].includes(target)) fail(`${linkLabel}: unsupported link target`);
+          return { target, label: requiredString(link, 'label', linkLabel) };
+        }),
+      };
+    }),
+  };
+
+  const circleEditorial = pageEditorial('circle');
+  const circleLabel = `${publicationRelative} circle editorial`;
+  allowedFields(circleEditorial, ['description', 'sections'], circleLabel);
+  if (!Array.isArray(circleEditorial.sections)) fail(`${circleLabel}: sections must be an array`);
+  const sectionKinds = new Set();
+  records.circle = {
+    description: requiredString(circleEditorial, 'description', circleLabel),
+    sections: circleEditorial.sections.map((rawSection, index) => {
+      const label = `${circleLabel} sections[${index}]`;
+      const section = object(rawSection, label);
+      allowedFields(section, ['title', 'lead', 'record_kind', 'record_ids'], label);
+      const kind = requiredString(section, 'record_kind', label);
+      if (!['military_service', 'hegel_congress'].includes(kind)) fail(`${label}: unsupported record_kind`);
+      if (sectionKinds.has(kind)) fail(`${label}: duplicate section record_kind`);
+      sectionKinds.add(kind);
+      const available = publicPageRecords.filter((item) => item.kind === kind);
+      const selected = Object.hasOwn(section, 'record_ids')
+        ? selectReferences(section.record_ids, available, label) : available;
+      return {
+        recordKind: kind,
+        title: requiredString(section, 'title', label),
+        lead: requiredString(section, 'lead', label),
+        recordIds: selected.map(({ record }) => record.id),
+      };
+    }),
+  };
   return records;
 }

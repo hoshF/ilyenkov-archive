@@ -16,8 +16,8 @@ npm run verify
 ```
 
 private 默认位于相邻 `Ilyenkov/`，其他布局用 `ILYENKOV_ROOT=/path/to/Ilyenkov` 指定。构建准备
-阶段从 private `web/publication.json` 读取发布选择并解析获准事实、文本与选定成稿；年表与作品
-目录根选择及成稿必须可用。同步生成 `.website-input/`，页面不直接读取 private 文件。绝对路径
+阶段从 private `web/publication.json` 读取发布选择并解析获准事实、文本与选定成稿；年表、作品
+目录、生平与交往根选择及成稿必须可用。同步生成 `.website-input/`，页面不直接读取 private 文件。绝对路径
 仅用于构建，不进入页面。verify 依次完成公开内容同步与类型检查、静态构建、测试。
 
 Cloudflare Pages 项目为 `ilyenkov-archive`，生产分支为 `main`，

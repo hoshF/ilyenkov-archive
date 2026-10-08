@@ -182,6 +182,39 @@ export const WorksCatalogSchema = z.object({
   }).strict(),
 }).strict();
 
+const PageReferencesSchema = z.array(z.string().regex(/^[a-z0-9]+(?:-[a-z0-9]+)*$/)).refine((ids) => (
+  new Set(ids).size === ids.length
+), { message: 'Page references must be unique' });
+
+export const LifeSchema = z.object({
+  description: EditorialLineSchema,
+  lead: EditorialLineSchema,
+  note: EditorialLineSchema,
+  stages: z.array(z.object({
+    title: EditorialLineSchema,
+    recordIds: PageReferencesSchema,
+    summary: EditorialLineSchema.optional(),
+    period: PeriodSchema.optional(),
+    years: z.array(z.string().regex(/^\d{4}$/)).optional(),
+    links: z.array(z.object({
+      target: z.enum(['timeline', 'circle', 'works']),
+      label: EditorialLineSchema,
+    }).strict()),
+  }).strict()),
+}).strict();
+
+export const CircleSchema = z.object({
+  description: EditorialLineSchema,
+  sections: z.array(z.object({
+    recordKind: z.enum(['military_service', 'hegel_congress']),
+    title: EditorialLineSchema,
+    lead: EditorialLineSchema,
+    recordIds: PageReferencesSchema,
+  }).strict()).refine((sections) => (
+    new Set(sections.map((section) => section.recordKind)).size === sections.length
+  ), { message: 'Circle sections must have unique record kinds' }),
+}).strict();
+
 export const ResearchRecordsSchema = z.object({
   biography: z.array(BiographySchema).min(1),
   military: z.array(ActivitySchema).min(1),
@@ -195,6 +228,8 @@ export const ResearchRecordsSchema = z.object({
   researchSites: z.array(ResearchSiteSchema).min(1),
   timeline: TimelineSchema,
   worksCatalog: WorksCatalogSchema,
+  life: LifeSchema,
+  circle: CircleSchema,
 }).strict().superRefine((records, context) => {
   const activityRecords = [...records.biography, ...records.military, ...records.congresses];
   records.timeline.recordIds.forEach((id, index) => {
@@ -205,6 +240,45 @@ export const ResearchRecordsSchema = z.object({
         message: 'Timeline must reference exactly one public activity record',
       });
     }
+  });
+  records.life.stages.forEach((stage, index) => {
+    const issue = (message: string) => context.addIssue({
+      code: 'custom', path: ['life', 'stages', index], message,
+    });
+    const selectedActivities = activityRecords.filter((record) => stage.recordIds.includes(record.id));
+    const selectedWorks = records.works.filter((work) => stage.recordIds.includes(work.id));
+    for (const id of stage.recordIds) {
+      if ([...selectedActivities, ...selectedWorks].filter((record) => record.id === id).length !== 1) {
+        issue('Life must reference exactly one public activity or work record');
+      }
+    }
+    if (selectedWorks.length && selectedActivities.length) issue('Life work and activity references cannot be mixed');
+    if (selectedWorks.length && !stage.summary) issue('Life work references require an editorial summary');
+    if (stage.recordIds.length === 0) {
+      if (stage.period || stage.years) issue('Empty life references cannot have derived coordinates');
+    } else if (selectedWorks.length) {
+      const years = [...new Set(selectedWorks.map((work) => work.year))].sort();
+      if (stage.period || JSON.stringify(stage.years) !== JSON.stringify(years)) {
+        issue('Life years must derive from the selected public works');
+      }
+    } else if (selectedActivities.length) {
+      const start = selectedActivities.map((record) => record.period.start).sort()[0];
+      const end = selectedActivities.map((record) => record.period.end).sort().at(-1);
+      if (stage.years || stage.period?.start !== start || stage.period?.end !== end) {
+        issue('Life period must derive from the selected public activities');
+      }
+    }
+  });
+  records.circle.sections.forEach((section, index) => {
+    const available = section.recordKind === 'military_service' ? records.military : records.congresses;
+    section.recordIds.forEach((id, referenceIndex) => {
+      if (available.filter((record) => record.id === id).length !== 1) {
+        context.addIssue({
+          code: 'custom', path: ['circle', 'sections', index, 'recordIds', referenceIndex],
+          message: 'Circle must reference exactly one public record of its section kind',
+        });
+      }
+    });
   });
   const workTypes = new Set(records.works.map((work) => work.type));
   for (const type of Object.keys(records.worksCatalog.editorial.typeNotes)) {
@@ -265,6 +339,41 @@ export type PublicTimelineRecord = PublicActivity & {
 export const getPublicResearchRecords = buildCache((): PublicResearchRecords => (
   ResearchRecordsSchema.parse(JSON.parse(readFileSync(recordsPath, 'utf8')))
 ));
+
+export function getPublicLife() {
+  const records = getPublicResearchRecords();
+  const activityById = new Map([
+    ...records.biography, ...records.military, ...records.congresses,
+  ].map((record) => [record.id, record]));
+  return {
+    ...records.life,
+    stages: records.life.stages.map((stage) => ({
+      ...stage,
+      summary: stage.summary ?? stage.recordIds.map((id) => activityById.get(id)!.summary).join(''),
+    })),
+  };
+}
+
+export function getPublicCircle() {
+  const records = getPublicResearchRecords();
+  return {
+    ...records.circle,
+    sections: records.circle.sections.map((section) => {
+      const available = section.recordKind === 'military_service'
+        ? records.military.map((record) => ({ ...record, location: null, status: null }))
+        : records.congresses;
+      const byId = new Map(available.map((record) => [record.id, record]));
+      return {
+        ...section,
+        records: section.recordIds.map((id) => byId.get(id)!).sort((left, right) => (
+          left.period.start.localeCompare(right.period.start)
+            || left.period.end.localeCompare(right.period.end)
+            || left.title.localeCompare(right.title, 'zh-Hans-CN')
+        )),
+      };
+    }),
+  };
+}
 
 export function getPublicTimelineEditorial() {
   return getPublicResearchRecords().timeline.editorial;

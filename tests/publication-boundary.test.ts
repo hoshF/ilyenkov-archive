@@ -12,6 +12,7 @@ import {
 import {
   getPublicBiographyRecords,
   getPublicIfiNetwork,
+  getPublicLife,
   getPublicIfiSymposiums,
   getPublicReadings,
   getPublicResearchers,
@@ -20,7 +21,7 @@ import {
   getPublicTimelineRecords,
   getPublicWorks,
 } from '../src/lib/research-records';
-import { pageSource } from './helpers/pages';
+import { builtRoutePath } from './helpers/pages';
 import { researchRoot, websiteWorks } from './helpers/publication';
 
 describe('translation sync boundary', () => {
@@ -224,14 +225,21 @@ describe('research record publication boundary', () => {
     ))).toBe(true);
   });
 
-  it('provides the life page only with already-public research coordinates', () => {
-    const lifePage = pageSource('ilyenkov/life.astro');
-    for (const route of ['/ilyenkov/circle', '/ilyenkov/timeline', '/ilyenkov/works']) {
-      expect(lifePage).toContain(route);
+  it('provides the life page only with private-selected, already-public research coordinates', () => {
+    const records = getPublicResearchRecords();
+    const approvedIds = new Set([
+      ...records.biography, ...records.military, ...records.congresses, ...records.works,
+    ].map((record) => record.id));
+    const life = getPublicLife();
+    const html = readFileSync(builtRoutePath('/ilyenkov/life'), 'utf8');
+    for (const stage of life.stages) {
+      expect(stage.recordIds.every((id) => approvedIds.has(id))).toBe(true);
+      for (const link of stage.links) {
+        expect(html).toContain(`href="/ilyenkov/${link.target}"`);
+      }
     }
-    expect(lifePage).toContain('getPublicResearchRecords');
-    expect(lifePage).toContain('getPublicBiographyRecords');
-    expect(lifePage).toContain('getPublicWorks');
-    expect(lifePage).not.toContain('ILYENKOV_ROOT');
+    for (const privateField of ['record_ids', 'record_kind', 'editorial_path', 'ILYENKOV_ROOT']) {
+      expect(html).not.toContain(privateField);
+    }
   });
 });
