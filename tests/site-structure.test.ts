@@ -1112,7 +1112,7 @@ describe('book channel', () => {
     expect(detail).toContain('<dt>体裁</dt>');
     expect(detail).toContain('book.work_type');
 
-    // 每个栏目的条目共用一套记录列表：靠留白分组，不画分隔线，也不放封面
+    // 每个栏目的条目共用一套记录列表：靠留白分组，不画分隔线
     expect(page).toContain('<ul class="record-list">');
     expect(declaration('.record-list', 'display')).toBe('grid');
     expect(declaration('.record-list', 'gap')).toBeDefined();
@@ -1245,7 +1245,7 @@ describe('book channel', () => {
     expect(declaration('.book-page .book-introduction', 'grid-area')).toBe('introduction');
     expect(declaration('.book-header__title', 'border')).toBe('0');
 
-    // 窄屏：封面收窄，字段之间靠间距分组
+    // 窄屏：字段之间靠间距分组
     expect(declaration('.book-header__cover-link', 'width', '@media (max-width: 600px)')).toBe('min(100%, 420px)');
     expect(declaration('.book-page .fact-list > div + div', 'margin-top', '@media (max-width: 600px)')).toBe('28px');
   });
