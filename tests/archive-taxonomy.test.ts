@@ -81,16 +81,12 @@ describe('archive taxonomy', () => {
     expect(articles.some((article) => article.topics.length > 0)).toBe(true);
   });
 
-  it('leaves the archive pages untouched by the taxonomy it now carries', async () => {
-    // 本轮只建立数据：列表页与详情页都不展示主题或人物。
+  it('projects existing taxonomy identities into article search filters', async () => {
     const { articles } = await getSiteData();
-    expect(articles.length).toBeGreaterThan(0);
-
-    for (const route of ['src/pages/archive/index.astro', 'src/pages/archive/[id].astro']) {
-      const source = readFileSync(path.join(process.cwd(), route), 'utf8');
-      expect(source, route).not.toContain('topics');
-      expect(source, route).not.toContain('persons');
-      expect(source, route).not.toContain('taxonomy');
+    for (const article of articles) {
+      const html = readFileSync(path.join(process.cwd(), 'dist', 'archive', article.id, 'index.html'), 'utf8');
+      for (const term of article.topics) expect(html).toContain(`data-pagefind-filter="topic:${term.id}"`);
+      for (const term of article.persons) expect(html).toContain(`data-pagefind-filter="person:${term.id}"`);
     }
   });
 });

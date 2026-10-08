@@ -515,6 +515,10 @@ h2, h3, h4 { text-wrap: balance; line-height: 1.3; }
   font-family: var(--serif); font-synthesis: weight;
 }
 
+/* 档案文章正文使用无衬线；引文与脚注继承正文，保留字重合成以显示强调。 */
+.reading-page:has(.archive-prose) { --reading: 648px; }
+.reading-page .archive-prose { font-family: var(--sans); }
+
 .prose { max-width: var(--reading); margin: 0 auto; font-size: var(--text-body); line-height: 1.8; overflow-wrap: anywhere; }
 
 .prose--page { margin-left: 0; }
@@ -532,6 +536,7 @@ h2, h3, h4 { text-wrap: balance; line-height: 1.3; }
 
 /* 阅读正文统一字号与行距；来源与脚注保留各自的参数。 */
 .reading-page article > div.prose { font-size: 1.0625rem; line-height: 1.78; }
+.reading-page article > div.archive-prose { font-size: 1.0625rem; line-height: 1.8; }
 .reading-page article > div.prose p:not(.footnotes p),
 .reading-page article > div.prose li:not(.footnotes li) { line-height: inherit; }
 .reading-page article > div.prose .footnotes { line-height: 1.8; }
@@ -612,6 +617,7 @@ h2, h3, h4 { text-wrap: balance; line-height: 1.3; }
   .reading-page .site-header, .reading-page .section-layout__breadcrumb { display: none; }
   .section-layout--reading .section-layout__toc { display: none; }
   .reading-page article > div.prose { font-size: var(--text-body); line-height: 1.77; }
+  .reading-page article > div.archive-prose { font-size: var(--text-body); line-height: 1.8; }
   .reading-page .section-layout--reading { width: min(calc(100% - 40px), var(--content)); }
   .document-header { margin-bottom: 23px; }
   .document-header h1 { font-size: var(--text-page-mobile); margin-top: 0; }
@@ -689,3 +695,18 @@ h2, h3, h4 { text-wrap: balance; line-height: 1.3; }
   .research-profile .section-layout__content { grid-column: 2; }
   .research-profile .section-layout__sidebar { order: 0; position: sticky; top: var(--section-top); }
 }
+
+.archive-search { margin-bottom: 32px; }
+.archive-search label { display: block; margin-bottom: 8px; font-size: var(--text-meta); color: var(--ink-soft); }
+.archive-search__controls { display: flex; gap: 8px; }
+.archive-search input { flex: 1; min-width: 0; padding: 10px 12px; border: 1px solid var(--line); border-radius: 3px; font: inherit; background: white; color: var(--ink); }
+.archive-search button { padding: 10px 16px; border: 1px solid var(--line); border-radius: 3px; font: inherit; background: white; color: var(--ink); cursor: pointer; }
+.archive-search input:focus-visible, .archive-search button:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+.archive-search__status { color: var(--muted); font-size: var(--text-meta); }
+.archive-search__status:empty { display: none; }
+.archive-search__results { list-style: none; padding: 0; margin: 24px 0; }
+.archive-search__results li { padding: 16px 0; border-bottom: 1px solid var(--line); }
+.archive-search__results a { font-size: var(--text-body); }
+.archive-search__results p { margin: 8px 0 0; font-size: var(--text-meta); line-height: 1.8; color: var(--ink-soft); }
+.archive-search mark { background: #fff0ba; color: inherit; }
+.archive-search [hidden], [data-archive-list][hidden] { display: none; }

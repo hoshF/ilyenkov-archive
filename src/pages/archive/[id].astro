@@ -44,21 +44,24 @@ const doiLabel = document.doiUrl?.replace(/^https?:\/\/doi\.org\//, '') ?? null;
 const toc = document.headings.map((heading) => ({ href: `#${heading.id}`, label: heading.text }));
 ---
 
-<BaseLayout title={document.title} description={description} reading>
+<BaseLayout title={document.title} description={description} socialType="article" reading>
   <SectionLayout toc={toc} reading>
     <Breadcrumbs slot="breadcrumb" items={[
       { label: '档案', href: '/archive' },
       { label: document.title },
     ]} />
 
-    <header class="document-header" slot="intro">
+    <header data-pagefind-body class="document-header" slot="intro">
       <p class="record__meta">{document.year} · {document.authorLabel}</p>
-      <h1 id="document-title" set:html={document.titleHtml} />
+      <h1 data-pagefind-meta={`title:${document.title}`} data-pagefind-weight="5" id="document-title" set:html={document.titleHtml} />
       <p class="document-header__original">{document.originalTitle}</p>
     </header>
 
-    <article aria-labelledby="document-title">
-      <div class="prose" set:html={document.html} />
+    {document.topics.map((term) => <span hidden data-pagefind-filter={`topic:${term.id}`} />)}
+    {document.persons.map((term) => <span hidden data-pagefind-filter={`person:${term.id}`} />)}
+
+    <article data-pagefind-body aria-labelledby="document-title">
+      <div class="prose archive-prose" set:html={document.html} />
       <section class="prose source-info" aria-labelledby="source-info-heading">
         <hr />
         <h2 id="source-info-heading">原文信息</h2>

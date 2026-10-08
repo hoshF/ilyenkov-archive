@@ -33,7 +33,7 @@ describe('archive facets', () => {
       // 只借文章页的水平几何，不启用阅读页的字体、背景或手机隐藏规则。
       expect(layout, file).not.toContain('section-layout--reading');
       expect(html, file).not.toContain('reading-page');
-      expect(html, file).not.toContain('<script');
+      expect(html, file).toContain('class="archive-search"');
     }
   });
 
@@ -249,17 +249,17 @@ describe('archive facets', () => {
     expect(titles.size).toBe(pageCount);
     expect(descriptions.size).toBe(pageCount);
 
-    // 可见结构与导航不因元信息改动：仍是零脚本，左栏分类目录原样存在。
-    expect(root.html).not.toContain('<script');
+    // 可见结构与导航不因元信息改动：搜索渐进增强，左栏分类目录原样存在。
+    expect(root.html).toContain('class="archive-search"');
     expect(root.html).toContain('class="archive-facets"');
   });
 
-  it('exposes the vocabulary only to the archive index, never to articles', async () => {
+  it('keeps the visible vocabulary in the archive index and out of generated article facts', async () => {
     const { topics, persons } = getArchiveVocabulary();
     expect(topics.length).toBeGreaterThan(0);
     expect(persons.length).toBeGreaterThan(0);
 
-    // 详情页与生成输入都不带分类。用当前真正公开的一篇文章，而不是写死某个 id：
+    // 详情页不展示分类目录，生成输入不带分类。用当前真正公开的一篇文章，而不是写死某个 id：
     // 上游可以调整哪些作品进入网站公开范围（见 publication_scope）。
     const { articles } = await getSiteData();
     const sample = articles[0];

@@ -1,4 +1,5 @@
 ---
+import ArchiveSearch from './ArchiveSearch.astro';
 import BaseLayout from '../layouts/BaseLayout.astro';
 import TextRecord from './TextRecord.astro';
 import SectionLayout from './SectionLayout.astro';
@@ -71,6 +72,9 @@ const description = current === null ? archiveDescription
       ))}
     </aside>
 
+    <ArchiveSearch current={current} />
+
+    <div data-archive-list>
     {articles.length > 0 ? (
       <section class="archive-year" aria-label="文章">
         <ul class="record-list" role="list">
@@ -87,5 +91,6 @@ const description = current === null ? archiveDescription
         <p>暂无可公开阅读的文章。</p>
       </div>
     )}
+    </div>
   </SectionLayout>
 </BaseLayout>

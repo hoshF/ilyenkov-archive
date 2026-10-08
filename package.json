@@ -7,11 +7,11 @@
     "node": ">=22.12.0"
   },
   "scripts": {
-    "dev": "npm run publication:prepare && astro dev --background",
+    "dev": "npm run build && astro dev --background",
     "dev:status": "astro dev status",
     "dev:logs": "astro dev logs",
     "dev:stop": "astro dev stop",
-    "build": "npm run publication:prepare && astro build",
+    "build": "npm run publication:prepare && astro build && npm run search:index",
     "deploy": "npm run verify && wrangler pages deploy dist --project-name=ilyenkov-archive --branch=main",
     "preview": "astro preview",
     "astro": "astro",
@@ -19,11 +19,13 @@
     "publication:sync": "node scripts/sync-translations.mjs && node scripts/sync-research-records.mjs",
     "publication:check": "node scripts/sync-translations.mjs --check && node scripts/sync-research-records.mjs --check",
     "check": "npm run publication:prepare && astro check",
-    "verify": "npm run check && astro build && vitest run",
-    "test": "npm run publication:prepare && astro build && vitest run"
+    "verify": "npm run check && astro build && npm run search:index && vitest run",
+    "test": "npm run build && vitest run",
+    "search:index": "node -e \"require('node:fs').rmSync('dist/pagefind', { recursive: true, force: true })\" && pagefind --site dist --glob \"archive/*/index.html\""
   },
   "dependencies": {
     "@astrojs/rss": "^4.0.19",
+    "@astrojs/sitemap": "^3.7.4",
     "astro": "^7.2.2",
     "fast-xml-builder": "^1.3.1",
     "gray-matter": "^4.0.3",
@@ -40,6 +42,7 @@
     "@astrojs/check": "^0.9.10",
     "@types/node": "^26.2.0",
     "fast-xml-parser": "^5.11.2",
+    "pagefind": "^1.5.2",
     "typescript": "^6.0.3",
     "vitest": "^4.1.10",
     "wrangler": "4.135.0"

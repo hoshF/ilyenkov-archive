@@ -1,0 +1,100 @@
+---
+interface Props { current?: { kind: 'topic' | 'person'; id: string; label: string } | null; }
+const { current = null } = Astro.props;
+---
+<section class="archive-search" aria-label="文章搜索" data-kind={current?.kind} data-filter={current?.id}>
+  <form role="search">
+    <label for="archive-query">{current ? `搜索“${current.label}”中的文章` : '搜索文章'}</label>
+    <div class="archive-search__controls">
+      <input id="archive-query" type="search" placeholder="题名、作者或正文关键词" autocomplete="off" />
+      <button type="submit">搜索</button>
+    </div>
+  </form>
+  <noscript><p>搜索需要 JavaScript；仍可使用主题、人物分类和下方文章列表。</p></noscript>
+  <p class="archive-search__status" role="status" aria-live="polite"></p>
+  <ul class="archive-search__results" role="list" hidden></ul>
+  <button class="archive-search__more" type="button" hidden>更多结果</button>
+</section>
+
+<script>
+  interface ResultData { url: string; excerpt: string; meta: { title?: string }; }
+  interface SearchResult { data: () => Promise<ResultData>; }
+  interface Pagefind { search: (query: string, options: { filters: Record<string, string> }) => Promise<{ results: SearchResult[] }>; }
+  const root = document.querySelector<HTMLElement>('.archive-search');
+  if (root) {
+    const form = root.querySelector<HTMLFormElement>('form')!;
+    const input = root.querySelector<HTMLInputElement>('input')!;
+    const status = root.querySelector<HTMLElement>('[role="status"]')!;
+    const list = root.querySelector<HTMLUListElement>('ul')!;
+    const more = root.querySelector<HTMLButtonElement>('.archive-search__more')!;
+    const archive = document.querySelector<HTMLElement>('[data-archive-list]')!;
+    let index: Promise<Pagefind> | undefined;
+    let version = 0;
+    let results: SearchResult[] = [];
+    let shown = 0;
+    let timer: ReturnType<typeof setTimeout>;
+    const filters: Record<string, string> = {};
+    if (root.dataset.kind && root.dataset.filter) filters[root.dataset.kind] = root.dataset.filter;
+    const append = async (request: number) => {
+      const start = shown;
+      const batch = await Promise.all(results.slice(start, start + 10).map((result) => result.data()));
+      if (request !== version) return;
+      for (const result of batch) {
+        const item = document.createElement('li');
+        const link = document.createElement('a');
+        link.href = result.url.replace(/\/$/, '');
+        link.textContent = result.meta.title ?? result.url;
+        const excerpt = document.createElement('p');
+        // Pagefind escapes source text and only adds its own matching <mark> elements.
+        excerpt.innerHTML = result.excerpt;
+        item.append(link, excerpt);
+        list.append(item);
+      }
+      shown = start + batch.length;
+      more.hidden = shown >= results.length;
+    };
+    const search = async () => {
+      const request = ++version;
+      const query = input.value.trim();
+      list.replaceChildren(); more.hidden = true;
+      if (!query) {
+        status.textContent = ''; list.hidden = true; archive.hidden = false;
+        return;
+      }
+      status.textContent = '正在搜索…';
+      list.hidden = false;
+      // Keep the normal catalogue usable if loading fails.
+      archive.hidden = false;
+      try {
+        const bundle = '/pagefind/pagefind.js';
+        index ??= import(/* @vite-ignore */ bundle) as Promise<Pagefind>;
+        const pagefind = await index;
+        const response = await pagefind.search(query, { filters });
+        if (request !== version) return;
+        results = response.results; shown = 0;
+        await append(request);
+        if (request !== version) return;
+        archive.hidden = true;
+        status.textContent = results.length ? `找到 ${results.length} 篇文章` : '没有找到匹配文章，请尝试其他关键词。';
+      } catch {
+        if (request !== version) return;
+        index = undefined; list.hidden = true; more.hidden = true; archive.hidden = false;
+        status.textContent = '搜索暂时不可用，请使用下方文章列表或分类浏览。';
+      }
+    };
+    input.addEventListener('input', (event) => {
+      clearTimeout(timer); ++version;
+      if ((event as InputEvent).isComposing) return;
+      if (!input.value.trim()) { void search(); return; }
+      timer = setTimeout(() => { void search(); }, 250);
+    });
+    input.addEventListener('compositionend', () => { clearTimeout(timer); void search(); });
+    form.addEventListener('submit', (event) => { event.preventDefault(); clearTimeout(timer); void search(); });
+    more.addEventListener('click', async () => {
+      more.disabled = true;
+      try { await append(version); }
+      catch { status.textContent = '结果加载失败，请重试。'; }
+      finally { more.disabled = false; }
+    });
+  }
+</script>

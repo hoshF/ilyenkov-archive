@@ -18,10 +18,10 @@ npm run verify
 private 默认位于相邻 `Ilyenkov/`，其他布局用 `ILYENKOV_ROOT=/path/to/Ilyenkov` 指定。构建准备
 阶段从 private `web/publication.json` 读取发布选择并解析获准事实、文本与选定成稿；年表、作品
 目录、生平与交往根选择及成稿必须可用。同步生成 `.website-input/`，页面不直接读取 private 文件。绝对路径
-仅用于构建，不进入页面。verify 依次完成公开内容同步与类型检查、静态构建、测试。
+仅用于构建，不进入页面。verify 依次完成公开内容同步与类型检查、静态构建、文章搜索索引生成、测试。
 
 Cloudflare Pages 项目为 `ilyenkov-archive`，生产分支为 `main`，
-[正式站点](https://ilyenkov-archive.pages.dev/)由 Direct Upload 更新。
+[正式站点](https://ilyenkov.cn/)由 Direct Upload 更新。
 Cloudflare 不使用 Git 集成或构建命令，只接收受控环境生成的静态产物，不读取 private 或参与构建。
 
 ## 账号准备
@@ -64,8 +64,11 @@ npm run deploy
 
 ## 订阅基址与受限内容
 
-`astro.config.mjs` 的 `site` 使用生产地址 `https://ilyenkov-archive.pages.dev/`；RSS 与 HTML
-订阅发现链接共用这一项。预览部署不改变订阅的生产基址。迁移域名时更新 `site`，并验证 feed
+`astro.config.mjs` 的 `site` 使用生产地址 `https://ilyenkov.cn/`；RSS、canonical、分享元数据和 sitemap
+共用这一项。`/llms.txt` 复用站点简介与导航，提供公开阅读入口及政策链接；页面 head 通过 `rel="describedby"` 指向它。
+sitemap 在静态构建时生成，入口为 `/sitemap-index.xml`；`/robots.txt` 声明公开抓取与 sitemap 地址。
+`Content-Signal` 声明 `search=yes, ai-input=yes, ai-train=no`；使用条件见 `/about`。
+声明不替代作品授权或访问控制，部署后须检查 Cloudflare 返回的实际 robots 是否与本站政策一致。预览部署不改变订阅的生产基址。迁移域名时更新 `site`，并验证 feed
 与订阅发现的绝对 URL。
 
 受限研读正文不进入公开构建。若另设研读站点，应使用独立受保护部署，并在访问静态资源前进行

@@ -106,9 +106,9 @@ describe('website-approved data adapter', () => {
     // 详情页只加同一行身份信息，不动 existing 阅读结构。
     const detail = pageSource('archive/[id].astro');
     expect(detail).toContain('<p class="record__meta">{document.year} · {document.authorLabel}</p>');
-    expect(detail).toContain('<h1 id="document-title" set:html={document.titleHtml} />');
+    expect(detail).toMatch(/<h1\b[^>]*id="document-title"[^>]*set:html=\{document.titleHtml\}/);
     expect(detail).toContain('class="document-header__original"');
-    expect(detail).toContain('class="prose" set:html={document.html}');
+    expect(detail).toMatch(/class="prose(?: [a-z-]+)*" set:html=\{document.html\}/);
     expect(detail).toContain('id="source-info-heading"');
     expect(detail).toContain('class="document-nav"');
     // 译文页的页内目录高亮脚本仍在，且只有这一段。
@@ -181,7 +181,7 @@ describe('website-approved data adapter', () => {
     expect(notFound).not.toContain('<script');
     expect(notFound).not.toContain('rel="canonical"');
     expect(notFound).not.toContain('property="og:');
-    expect(notFound).not.toContain('name="robots"');
+    expect(notFound).toContain('name="robots" content="noindex"');
     // 与其它页面一样只有一个 h1。
     expect([...notFound.matchAll(/<h1\b/g)]).toHaveLength(1);
   });
@@ -344,7 +344,7 @@ describe('website-approved data adapter', () => {
     expect(pixelSized.map((rule) => rule.selector)).toEqual([]);
   });
 
-  it('reserves the reading serif for continuous reading text', () => {
+  it('uses sans-serif for archive prose and retains the other reading defaults', () => {
     // 界面一律无衬线；译文与小组长文通过 reading 共用连续阅读字体。
     expect(declaration(':root', 'font-family')).toBe('var(--sans)');
     expect(layoutSource('BaseLayout')).toContain("reading && 'reading-page'");
@@ -357,6 +357,7 @@ describe('website-approved data adapter', () => {
       rule.selector.startsWith('.reading-page')
     ))).toBe(true);
     expect(declaration('.reading-page .prose', 'font-family')).toBe('var(--serif)');
+    expect(declaration('.reading-page .archive-prose', 'font-family')).toBe('var(--sans)');
   });
 
   it('uses the same reading presentation for translations and group articles', async () => {
@@ -367,7 +368,7 @@ describe('website-approved data adapter', () => {
       expect(page, document.route).toMatch(/<body[^>]*class="reading-page"/);
       expect(page, document.route).toContain('section-layout--reading');
       expect(page, document.route).toContain('class="document-header"');
-      expect(page, document.route).toMatch(/<article[^>]*aria-labelledby="[^"]+"[^>]*>\s*<div class="prose">/);
+      expect(page, document.route).toMatch(/<article[^>]*aria-labelledby="[^"]+"[^>]*>\s*<div class="prose(?: [a-z-]+)*">/);
     }
 
     // 手机隐藏刊头与面包屑，正文共用 16px / 1.77 与左右 20px 留白。
