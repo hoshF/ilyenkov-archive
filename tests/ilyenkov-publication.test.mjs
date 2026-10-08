@@ -553,3 +553,53 @@ describe('strict generated life and circle references', () => {
     expect(ResearchRecordsSchema.safeParse(bundle).success).toBe(false);
   });
 });
+
+
+describe('selected canonical identities resolve uniquely', () => {
+  const catalogs = [
+    ['biography_event', 'events', 'event_id'],
+    ['military_service', 'timeline', 'event_id'],
+    ['hegel_congress', 'events', 'event_id'],
+    ['works_catalog', 'works', 'id'],
+    ['ifi_network', 'records', 'organization_id'],
+    ['ifi_symposium', 'activity_groups', 'event_id'],
+    ['ilyenkov_readings', 'conferences', 'local_directory'],
+    ['ilyenkov_readings_series', 'records', 'series_id'],
+  ];
+  it.each(catalogs.flatMap(([kind, collection, key]) => [
+    [kind, 0, collection, key], [kind, 2, collection, key],
+  ]))('rejects %s identity with %i matches', (kind, count, collection, key) => {
+    const input = fixture();
+    const entry = selectedEntries.find((entry) => entry.kind === kind);
+    const id = entry.record_id ?? entry.record_directory;
+    input.mutate(entry.record_path, (catalog) => {
+      const record = catalog[collection].find((record) => record[key] === id);
+      catalog[collection] = catalog[collection].filter((record) => record[key] !== id);
+      for (let index = 0; index < count; index++) catalog[collection].push(structuredClone(record));
+    });
+    expect(() => input.plan()).toThrow(/exactly one|uniquely/);
+  });
+
+  it('does not reject duplicates of an unselected canonical record', () => {
+    const input = fixture();
+    const before = input.plan();
+    const entry = selectedEntries.find((entry) => entry.kind === 'biography_event');
+    input.mutate(entry.record_path, (catalog) => {
+      const record = { ...catalog.events[0], event_id: 'synthetic-unselected-identity' };
+      catalog.events.push(record, structuredClone(record));
+    });
+    expect(input.plan()).toEqual(before);
+  });
+
+  it.each(['source_pages', 'files'])('rejects an ambiguous selected research site %s identity', (collection) => {
+    const input = fixture();
+    const entry = selectedEntries.find((entry) => entry.kind === 'research_site');
+    const selection = entry.sections.find((section) => section.file_path);
+    input.mutate(entry.record_path, (catalog) => {
+      const record = catalog[collection].find((record) => collection === 'source_pages'
+        ? record.page === selection.source_page_url : record.file === selection.file_path);
+      catalog[collection].push(structuredClone(record));
+    });
+    expect(() => input.plan()).toThrow(/source (page|file).*exactly one/);
+  });
+});

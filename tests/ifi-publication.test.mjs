@@ -13,8 +13,6 @@ const publicationPath = 'web/publication.json';
 const organizationPath = 'research/friends/organization.json';
 const eventsPath = 'research/friends/events.json';
 const editorialPath = 'web/editorial/ifi.json';
-const activityModes = ['symposium', 'webinar', 'collective_reading', 'discussion'];
-const resourceKinds = ['about', 'history', 'texts', 'symposiums', 'youtube', 'facebook'];
 const readJson = (root, relative) => JSON.parse(readFileSync(path.join(root, relative), 'utf8'));
 const publication = readJson(researchRoot, publicationPath);
 const selectedEntries = publication.records.filter((entry) => entry.publication_scope === 'website_public');
@@ -98,7 +96,6 @@ describe('IFI publication contract', () => {
     expect(network.url).toBe(privateOrganization.url);
     expect(network.summary).toBe(selectedNetwork.summary_zh);
     expect(network.activityModes).toEqual(privateOrganization.activity_modes);
-    expect(network.activityModes).toEqual(activityModes);
     expect(network.resources).toEqual(selectedNetwork.resource_kinds.map((kind) => ({
       kind,
       url: privateOrganization.resources[kind],
@@ -200,10 +197,12 @@ describe('IFI publication contract', () => {
     }
   });
 
-  it('keeps all four independent symposium records available on the IFI detail page', () => {
+  it('renders every currently selected independent symposium on the IFI detail page', () => {
     const records = readJson(projectRoot, '.website-input/research-records.json');
     const html = readFileSync(builtRoutePath('/research/ifi/'), 'utf8');
-    expect(records.ifiSymposiums).toHaveLength(4);
+    expect(records.ifiSymposiums.map((record) => record.id)).toEqual(
+      selectedEntries.filter((entry) => entry.kind === 'ifi_symposium').map((entry) => entry.public_id),
+    );
     for (const symposium of records.ifiSymposiums) {
       expect(html).toContain(symposium.title);
     }
@@ -237,7 +236,7 @@ describe('IFI publication contract', () => {
   ])('rejects a formation relation with %s', (_name, relative, mutate) => {
     const input = fixture();
     input.mutate(relative, mutate);
-    expect(() => input.plan()).toThrow(/formation|confirmed symposium|org-ifi/i);
+    expect(() => input.plan()).toThrow(/formation|confirmed symposium|org-ifi|exactly one/i);
   });
 
   it.each(['workshop', 'panel', 'frequency'])('rejects the unsupported activity mode %s', (mode) => {
@@ -377,8 +376,7 @@ describe('strict public IFI schemas', () => {
   it('accepts the selected official resource kinds and activity modes', () => {
     const network = fixture().plan().ifiNetworks[0];
     expect(IfiNetworkSchema.safeParse(network).success).toBe(true);
-    expect(network.resources.map((resource) => resource.kind)).toEqual(resourceKinds);
-    expect(network.activityModes).toEqual(activityModes);
+    expect(network.resources.map((resource) => resource.kind)).toEqual(selectedNetwork.resource_kinds);
   });
 
   it.each([

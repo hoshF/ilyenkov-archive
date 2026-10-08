@@ -95,6 +95,7 @@ profile 不改变文章集合，没有译文的 profile 也可成立。
 
 `ilyenkov_readings` 通过非空 `record_directory` 唯一匹配 private event 的 `local_directory`。
 目标必须是正式 Readings edition，所选 `source_path` 属于同一活动目录；独立纪念会不是 edition。
+公开题名直接取所选 event 的 `title_zh`；publication 不保存题名副本。
 不接受 `record_id`，包括同时提供正确 directory 的双 locator 输入，也不按年份查找。目录只用于
 同步定位，generated identity 使用 `public_id`。输入契约见[Readings 活动定位](PUBLICATION.md#readings-活动定位)。
 
@@ -106,10 +107,12 @@ profile 不改变文章集合，没有译文的 profile 也可成立。
 
 1. 在 `research/readings/events.json` 中用 `earliest_archived_event_directory` 与
    `first_international_event_directory` 各自定位唯一 edition。
-2. 前者须为 1991 年未编号活动，后者须有 `edition_roman === "I"`。
+2. 最早归档关系由 canonical series 指定，不校验固定年份或编号状态；第一届国际会议须有
+   `edition_roman === "I"`。
 3. 对相同 event 找到唯一 `website_public`、`ilyenkov_readings` publication。
 4. 输出对应 `public_id` 到 `history.earliestArchivedEventId`、`history.firstInternationalEventId`。
 
+选中的记录和来源引用须恰好匹配一项，缺失或多项匹配均失败，不通过首项或 Map 覆盖消解歧义。
 未公开、重复匹配、错误活动身份都使同步失败；public schema 再确认每条关系在公开 `readings`
 集合中唯一解析。选择 series 不替代其关联活动的发布选择，也不复制活动列表和日期。
 

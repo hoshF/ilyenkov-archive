@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { readingSources, sourceRecords } from '../scripts/lib/research-sync/sources.mjs';
+import { biographySources, ifiSources, readingSources, sourceRecords, workSources } from '../scripts/lib/research-sync/sources.mjs';
 
 const fixture = (urls) => ({
   records: [{
@@ -95,5 +95,51 @@ describe('research source public URLs', () => {
     data.records[0].supports = ['conference_title'];
     expect(() => readingSources(data, ['selected-source'], 'Readings fixture'))
       .toThrow(/conference dates/);
+  });
+});
+
+
+describe('selected source identities resolve uniquely', () => {
+  const source = {
+    source_id: 'synthetic-source', title: 'Synthetic source', creator: null,
+    url: 'https://example.org/source',
+    supports: ['conference_title', 'conference_dates', 'biographical_fact', 'historical_date',
+      'activity_title', 'activity_dates', 'activity_location'],
+  };
+  const adapters = [
+    ['activity', sourceRecords], ['Readings', readingSources],
+    ['IFI', ifiSources], ['biography', biographySources],
+  ];
+  it.each(adapters.flatMap(([name, adapt]) => [[name, 0, adapt], [name, 2, adapt]]))(
+    'rejects %s source identity with %i matches', (_name, count, adapt) => {
+      const data = { records: Array.from({ length: count }, () => structuredClone(source)) };
+      expect(() => adapt(data, [source.source_id], 'Synthetic source selection')).toThrow(
+        new RegExp(`source_id synthetic-source: expected exactly one match, found ${count}`),
+      );
+    },
+  );
+  it.each(adapters)('allows unselected duplicate identities in %s sources', (_name, adapt) => {
+    const unselected = { ...source, source_id: 'synthetic-unselected' };
+    const data = { records: [source, unselected, structuredClone(unselected)] };
+    expect(adapt(data, [source.source_id], 'Synthetic source selection'))
+      .toEqual(sourceRecords({ records: [source] }, [source.source_id], 'Synthetic source selection'));
+  });
+  it('allows the same URL on distinct sources selected by source_id', () => {
+    const other = { ...source, source_id: 'synthetic-other' };
+    expect(sourceRecords({ records: [source, other] }, [source.source_id, other.source_id], 'Synthetic sources')).toHaveLength(2);
+  });
+
+  const workSource = { title: 'Synthetic work source', url: 'https://example.org/work', kind: 'text', work_id: 'synthetic-work' };
+  it.each([0, 2])('rejects a selected work-source URL with %i matches', (count) => {
+    const data = { sources: Array.from({ length: count }, () => structuredClone(workSource)) };
+    expect(() => workSources(data, [workSource.url], workSource.work_id, 'Synthetic work sources')).toThrow(
+      new RegExp(`expected exactly one match, found ${count}`),
+    );
+  });
+  it('allows unselected duplicate URLs without requiring database-wide URL uniqueness', () => {
+    const unselected = { ...workSource, url: 'https://example.org/unselected' };
+    const data = { sources: [workSource, unselected, structuredClone(unselected)] };
+    expect(workSources(data, [workSource.url], workSource.work_id, 'Synthetic work sources'))
+      .toEqual(workSources({ sources: [workSource] }, [workSource.url], workSource.work_id, 'Synthetic work sources'));
   });
 });

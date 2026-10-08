@@ -82,7 +82,6 @@ const conference = (catalog, directory) => catalog.conferences.find((record) => 
 
 /** Add an explicitly unselected event only; selected baseline records are mutated in place. */
 function addReading(input, directory, publicId) {
-  const event = conference(input.read(eventsPath), directory);
   const sourceIds = directory === unnumbered1997Directory ? ['src-1997-006']
     : directory === edition2011Directory ? ['src-2011-001'] : ['src-2011-03-001'];
   const entry = {
@@ -93,7 +92,6 @@ function addReading(input, directory, publicId) {
     record_directory: directory,
     source_path: `research/readings/${directory}/sources.json`,
     edition_zh: directory === unnumbered1997Directory ? '未编号' : '第十三届',
-    title_zh: event.title_zh,
     location_zh: directory === unnumbered1997Directory ? '莫斯科' : '阿斯塔纳',
     source_ids: sourceIds,
   };
@@ -111,7 +109,7 @@ describe('Readings directory publication locator', () => {
     const entry = readingEntry(input.read(publicationPath), firstInternationalPublicId);
     const reading = input.plan().readings.find((record) => record.id === entry.public_id);
     const event = conference(input.read(eventsPath), firstInternationalDirectory);
-    expect(reading.title).toBe(entry.title_zh);
+    expect(reading.title).toBe(event.title_zh);
     expect(reading.period).toEqual({ start: event.start_date, end: event.end_date });
     expect(reading.edition).toBe(entry.edition_zh);
     expect(event.edition_roman).toBe('I');
@@ -146,15 +144,16 @@ describe('Readings directory publication locator', () => {
 
   it('selects the 2011 edition even when the same-year memorial is first in the catalog', () => {
     const input = fixture();
-    addReading(input, edition2011Directory, 'fixture-2011-edition');
+    const entry = addReading(input, edition2011Directory, 'fixture-2011-edition');
     input.mutate(eventsPath, (catalog) => {
       const memorial = conference(catalog, memorial2011Directory);
       catalog.conferences = [memorial, ...catalog.conferences.filter((event) => event !== memorial)];
     });
     const reading = input.plan().readings.find((record) => record.id === 'fixture-2011-edition');
-    expect(reading.title).toBe('哲学与文化');
-    expect(reading.period).toEqual({ start: '2011-05-12', end: '2011-05-13' });
-    expect(reading.location).toBe('阿斯塔纳');
+    const event = conference(input.read(eventsPath), edition2011Directory);
+    expect(reading.title).toBe(event.title_zh);
+    expect(reading.period).toEqual({ start: event.start_date, end: event.end_date });
+    expect(reading.location).toBe(entry.location_zh);
   });
 
   it('rejects the separate 2011 memorial even when its sources support title and dates', () => {
@@ -174,7 +173,7 @@ describe('Readings directory publication locator', () => {
     input.mutate(publicationPath, (manifest) => {
       readingEntry(manifest).record_directory = 'events/not-an-archived-reading';
     });
-    expect(() => input.plan()).toThrow(/directory must match exactly one event/);
+    expect(() => input.plan()).toThrow(/readings directory.*exactly one/);
   });
 
   it('rejects an ambiguous directory instead of taking the first matching event', () => {
@@ -182,7 +181,7 @@ describe('Readings directory publication locator', () => {
     input.mutate(eventsPath, (catalog) => {
       catalog.conferences.push(structuredClone(conference(catalog, firstInternationalDirectory)));
     });
-    expect(() => input.plan()).toThrow(/directory must match exactly one event/);
+    expect(() => input.plan()).toThrow(/readings directory.*exactly one/);
   });
 
   it('requires the selected source path to belong to the located edition', () => {
@@ -204,16 +203,17 @@ describe('Readings directory publication locator', () => {
     expect(() => input.plan()).toThrow(/not a Readings edition|edition_roman/);
   });
 
-  it('accepts other archived unnumbered editions without treating them as the earliest series relation', () => {
+  it('uses the canonical earliest relation when another approved edition is selected', () => {
     const input = fixture();
     addReading(input, unnumbered1997Directory, 'fixture-1997-unnumbered');
     const record = input.plan().readings.find((reading) => reading.id === 'fixture-1997-unnumbered');
-    expect(record.title).toBe('1997 年伊里因科夫学术报告会');
-    expect(record.period).toEqual({ start: '1997-02-18', end: '1997-02-19' });
+    const event = conference(input.read(eventsPath), unnumbered1997Directory);
+    expect(record.title).toBe(event.title_zh);
+    expect(record.period).toEqual({ start: event.start_date, end: event.end_date });
     input.mutate(seriesPath, (catalog) => {
       seriesRecord(catalog).earliest_archived_event_directory = unnumbered1997Directory;
     });
-    expect(() => input.plan()).toThrow();
+    expect(input.plan().readingsSeries[0].history.earliestArchivedEventId).toBe('fixture-1997-unnumbered');
   });
 
   it('uses directory identity when other archived events share the selected year', () => {
@@ -241,7 +241,39 @@ describe('Readings directory publication locator', () => {
     input.mutate(eventsPath, (catalog) => {
       catalog.conferences.push({ ...conference(catalog, earliestDirectory), year: 1990 });
     });
-    expect(() => input.plan()).toThrow(/directory must match exactly one event/);
+    expect(() => input.plan()).toThrow(/readings directory.*exactly one/);
+  });
+});
+
+describe('Readings canonical title and history', () => {
+  it('updates the generated title when only its canonical title changes', () => {
+    const input = fixture();
+    const before = input.plan();
+    input.mutate(eventsPath, (catalog) => { conference(catalog, earliestDirectory).title_zh = 'SYNTHETIC_CANONICAL_TITLE'; });
+    const after = input.plan();
+    expect(after.readings.find((record) => record.id === earliestPublicId).title).toBe('SYNTHETIC_CANONICAL_TITLE');
+    for (const key of Object.keys(before).filter((key) => key !== 'readings')) expect(after[key]).toEqual(before[key]);
+    expect(readingEntry(input.read(publicationPath))).not.toHaveProperty('title_zh');
+  });
+
+  it('rejects the removed publication title field instead of using a fallback', () => {
+    const input = fixture();
+    input.mutate(publicationPath, (manifest) => { readingEntry(manifest).title_zh = 'SYNTHETIC_OVERRIDE'; });
+    expect(() => input.plan()).toThrow(/title/);
+  });
+
+  it('does not decide a history relation from a hardcoded year or numbering state', () => {
+    const input = fixture();
+    const before = input.plan();
+    input.mutate(eventsPath, (catalog) => {
+      conference(catalog, earliestDirectory).year = 1800;
+      conference(catalog, earliestDirectory).edition_roman = 'II';
+    });
+    expect(input.plan()).toEqual(before);
+    input.mutate(seriesPath, (catalog) => {
+      seriesRecord(catalog).earliest_archived_event_directory = firstInternationalDirectory;
+    });
+    expect(input.plan().readingsSeries[0].history.earliestArchivedEventId).toBe(firstInternationalPublicId);
   });
 });
 
@@ -343,8 +375,6 @@ describe('Readings series publication adapter', () => {
     ['earliest directory duplicated', (catalog) => {
       catalog.conferences.push(structuredClone(conference(catalog, earliestDirectory)));
     }],
-    ['earliest event outside 1991', (catalog) => { conference(catalog, earliestDirectory).year = 1992; }],
-    ['earliest event numbered', (catalog) => { conference(catalog, earliestDirectory).edition_roman = 'I'; }],
     ['first international event absent', (catalog) => {
       catalog.conferences = catalog.conferences.filter((event) => event.local_directory !== firstInternationalDirectory);
     }],
@@ -359,7 +389,6 @@ describe('Readings series publication adapter', () => {
   });
 
   it.each([
-    ['numbered event as earliest history', 'earliest_archived_event_directory', firstInternationalDirectory],
     ['unnumbered event as first international history', 'first_international_event_directory', earliestDirectory],
     ['memorial as first international history', 'first_international_event_directory', memorial2011Directory],
   ])('rejects %s', (_name, field, directory) => {
@@ -529,7 +558,7 @@ describe('strict public Readings series schemas', () => {
   it('accepts the minimal public series schema and all allowed resource kinds', () => {
     const series = fixture().plan().readingsSeries[0];
     expect(ReadingsSeriesSchema.safeParse(series).success).toBe(true);
-    expect(series.resources.map((resource) => resource.kind)).toEqual(resourceKinds);
+    expect(series.resources.map((resource) => resource.kind)).toEqual(seriesEntry(publication).resource_kinds);
   });
 
   it.each([
@@ -583,32 +612,30 @@ describe('Readings publication regression', () => {
     });
     const generated = readJson(projectRoot, '.website-input/research-records.json');
     expect(records).toEqual(generated);
-    expect(records.readings.map((record) => record.id)).toEqual([
-      earliestPublicId,
-      firstInternationalPublicId,
-      'readings-2002-iv-social-ideal',
-      'readings-2004-vi-place-in-philosophy',
-      'readings-2014-xvi-dialectics-culture',
-      'readings-2016-xviii-philosophy-modernity',
-      'readings-2018-xx-ilyenkov-marx',
-      'readings-2019-xxi-unity-wholeness',
-      'readings-2021-xxii-ilyenkov-hegel',
-      'readings-2022-xxiii-human-sensibility',
-    ]);
-    expect(records.readings.find((record) => record.id === earliestPublicId).edition).toBe('早期会议（未编号）');
+    expect(records.readings.map((record) => record.id)).toEqual(selectedReadings.map((entry) => entry.public_id));
+    const events = readJson(researchRoot, eventsPath);
+    for (const entry of selectedReadings) {
+      const event = conference(events, entry.record_directory);
+      const record = records.readings.find((record) => record.id === entry.public_id);
+      expect(record).toMatchObject({
+        title: event.title_zh, edition: entry.edition_zh,
+        period: { start: event.start_date, end: event.end_date },
+      });
+    }
     const selectedSeries = seriesEntry(publication);
+    const relationId = (directory) => selectedReadings.find((entry) => entry.record_directory === directory).public_id;
     expect(records.readingsSeries).toEqual([{
-      id: 'ilyenkov-readings-series',
-      title: '伊里因科夫学术报告会',
-      name: 'Ильенковские чтения',
+      id: selectedSeries.public_id,
+      title: selectedSeries.title_zh,
+      name: privateSeries.name_ru,
       summary: selectedSeries.summary_zh,
       editorial: readJson(researchRoot, selectedSeries.editorial_path),
-      type: 'academic_conference_series',
+      type: privateSeries.type,
       history: {
-        earliestArchivedEventId: earliestPublicId,
-        firstInternationalEventId: firstInternationalPublicId,
+        earliestArchivedEventId: relationId(privateSeries.earliest_archived_event_directory),
+        firstInternationalEventId: relationId(privateSeries.first_international_event_directory),
       },
-      resources: resourceKinds.map((kind) => ({ kind, url: privateSeries.resources[kind] })),
+      resources: selectedSeries.resource_kinds.map((kind) => ({ kind, url: privateSeries.resources[kind] })),
     }]);
     for (const entry of selectedReadings) {
       expect(entry.record_directory).toBeTruthy();

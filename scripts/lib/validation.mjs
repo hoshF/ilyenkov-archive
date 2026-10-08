@@ -15,6 +15,14 @@ export function object(value, label) {
   return value;
 }
 
+export function uniqueMatch(records, predicate, label) {
+  const matches = records.filter(predicate);
+  if (matches.length !== 1) {
+    fail(`${label}: expected exactly one match, found ${matches.length}`);
+  }
+  return matches[0];
+}
+
 export function requiredString(record, key, label) {
   const value = record[key];
   if (typeof value !== 'string' || !value.trim()) fail(`${label}: missing ${key}`);

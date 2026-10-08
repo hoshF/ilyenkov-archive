@@ -61,6 +61,10 @@ canonical 事实、原文、译文、来源与权利证据保持各自的维护�
 - 研究记录中的日期是历史事实，不是网站的发布或更新时间。
 - 外部链接只用于资料定位，不表示本站拥有转载或下载授权。
 
+选中的 canonical 记录身份、作品身份及来源身份须恰好匹配一项；缺失或重复匹配使同步失败。
+source ID、选中的来源 URL、站点页面 URL 与文件路径作为引用键时均须唯一解析；不要求未选中的
+canonical 来源 URL 全局唯一，也不取首个匹配或覆盖重复项。
+
 字段级的准确定义以 `scripts/sync-research-records.mjs` 的输出和 `src/lib/research-records.ts` 的
 schema 为准；两者不一致时以 schema 为准，并修正同步器。
 
@@ -155,9 +159,10 @@ researcher 仍是有效记录，schema 不要求作品存在。人物、译文�
 ### Readings 活动定位
 
 `ilyenkov_readings` publication 必须通过非空 `record_directory` 定位 private event，并唯一匹配
-其 `local_directory`。目标必须是正式 Readings edition，所选来源文件须属于同一活动目录；2011 年
+其 `local_directory`。目标必须是正式 Readings edition，所选来源文件须属于同一活动目录；
 独立纪念会不能作为 Readings edition 发布。event publication 不接受 `record_id`，也不按年份定位。
 其他 publication kind 的 `record_id` 契约不受影响。
+公开题名直接读取 canonical event 的非空 `title_zh`；publication 不接受该字段，不提供 override 或 fallback。
 
 directory 只在同步阶段用于定位，不进入 generated data；活动的公开身份始终来自 `public_id`。
 定位与来源校验见[内容管线](CONTENT_PIPELINE.md)的“Readings 活动定位与系列同步”。
@@ -174,7 +179,7 @@ publication 只允许 `public_id`、`publication_scope`、`kind`、`record_path`
 | --- | --- |
 | `id`、`title`、`summary` | publication 的 `public_id`、`title_zh`、`summary_zh`；正式中文显示名为“伊里因科夫学术报告会” |
 | `name`、`type` | series 的非空 `name_ru`，以及固定类型 `academic_conference_series` |
-| `history.earliestArchivedEventId` | 将 `earliest_archived_event_directory` 解析为 1991 年未编号 Readings，再映射为该活动唯一获准条目的 `public_id` |
+| `history.earliestArchivedEventId` | 将 `earliest_archived_event_directory` 解析为唯一正式 Readings edition，再映射为该活动唯一获准条目的 `public_id` |
 | `history.firstInternationalEventId` | 将 `first_international_event_directory` 解析为 `edition_roman === "I"` 的 Readings，再映射为该活动唯一获准条目的 `public_id` |
 | `resources[].kind`、`resources[].url` | publication 的 `resource_kinds` 选择种类；URL 只来自 series 的对应资源 |
 | 可选 `editorial.introduction` | `editorial_path` 选定成稿的非空 Markdown 段落数组 |

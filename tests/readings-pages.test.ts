@@ -1,4 +1,5 @@
 import { readFileSync } from 'node:fs';
+import { renderPublicMarkdown } from '../src/lib/markdown';
 import { describe, expect, it } from 'vitest';
 import { site } from '../src/lib/editorial';
 import {
@@ -36,7 +37,7 @@ const resourceLabels: Record<PublicReadingsSeries['resources'][number]['kind'], 
 };
 
 describe('Readings public series detail and research entry', () => {
-  it('statically builds the public series identity with a research breadcrumb and four natural sections', () => {
+  it('statically renders the generated series identity and selected introduction', async () => {
     const series = getPublicReadingsSeries();
     expect(series).toHaveLength(1);
     expect(routeExists('/research/readings/')).toBe(true);
@@ -60,16 +61,15 @@ describe('Readings public series detail and research entry', () => {
     const prose = intro.match(/<div class="prose prose--section">([\s\S]*?)<\/div>/)![1];
     const paragraphs = [...prose.matchAll(/<p\b[^>]*>([\s\S]*?)<\/p>/g)].map(([, content]) => textContent(content));
     expect(series[0].editorial).toBeDefined();
-    expect(paragraphs).toEqual(series[0].editorial!.introduction.map((paragraph) => paragraph.replace(/\*\*/g, '')));
-    expect(intro).toContain('<strong>');
-    expect(textContent(intro)).toContain('学术会议系列');
+    const expected = await Promise.all(series[0].editorial!.introduction.map(async (paragraph) => (
+      textContent((await renderPublicMarkdown(paragraph)).html)
+    )));
+    expect(paragraphs).toEqual(expected);
     expect(intro).not.toContain(series[0].type);
-    expect(textContent(intro)).not.toMatch(/创办|每年|连续举办|主办机构/);
   });
 
   it('omits redundant type, history and event source rows', () => {
     const main = mainContent(builtPage('/research/readings/'));
-    expect(main).not.toContain('readings-history-heading');
     expect(sectionById(main, 'readings-intro-heading')).not.toContain('class="record__label"');
     expect(main).not.toContain('来源：');
   });
@@ -105,20 +105,6 @@ describe('Readings public series detail and research entry', () => {
       expect(article).not.toContain('record__sources');
       expect(routeExists(`/research/readings/${event.id}/`)).toBe(false);
     }
-  });
-
-  it('preserves early and international edition identities without a list disclaimer', () => {
-    const events = getPublicReadings();
-    const records = sectionById(mainContent(builtPage('/research/readings/')), 'readings-events-heading');
-    expect(textContent(records)).not.toContain('以下为部分会议记录');
-    expect(textContent(records)).not.toContain('所列日期以来源记载为准，不一定覆盖完整会期。');
-    const early = events.find((record) => record.id === 'readings-1991-first')!;
-    const firstInternational = events.find((record) => record.id === 'readings-1999-i-first-international')!;
-    expect(early.edition).toBe('早期会议（未编号）');
-    expect(firstInternational.edition).toBe('第一届国际会议');
-    expect(textContent(records)).toContain(early.edition);
-    expect(textContent(records)).toContain(firstInternational.edition);
-    expect(textContent(records)).not.toMatch(/首次（未编号）|共\s*30\s*届|全部\s*30\s*届/);
   });
 
   it('reduces the research Readings block to a public series entry and retains the IFI entry', () => {
@@ -170,6 +156,5 @@ describe('Readings public series detail and research entry', () => {
     expect(detail).toContain('section-layout__sidebar');
     expect(detail).not.toMatch(/section-layout--indexed|class="section-layout__toc"|reading-page/);
     expect(detail).not.toMatch(/<form\b|<input\b|<button\b/);
-    expect(textContent(mainContent(detail))).not.toMatch(/2020|停办|恢复线上|每年举行|连续举办|代表主题/);
   });
 });

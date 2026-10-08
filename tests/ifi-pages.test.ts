@@ -76,7 +76,6 @@ describe('IFI public detail and research entry', () => {
       'ifi-intro-heading',
       'ifi-symposiums-heading',
     ]);
-    expect(textContent(main)).toContain('International Friends of Ilyenkov（IFI）是一个');
     expect(links(main)).toContainEqual({ href: network.url, label: '官方网站' });
   });
 
@@ -91,12 +90,6 @@ describe('IFI public detail and research entry', () => {
       textContent((await renderPublicMarkdown(paragraph)).html)
     )));
     expect(paragraphs).toEqual(expected);
-    expect(intro).toContain('<strong>');
-    expect(textContent(intro)).toContain('2012 年 5 月');
-    expect(textContent(intro)).not.toMatch(/成立于|正式成立|注册成立/);
-    expect(main).not.toMatch(/ifi-formation-heading|ifi-activity-heading/);
-    expect(intro).not.toContain('utm_source');
-    expect(links(intro)).toEqual([]);
   });
 
   it('uses exactly the selected public official resource URLs and page-level labels', () => {

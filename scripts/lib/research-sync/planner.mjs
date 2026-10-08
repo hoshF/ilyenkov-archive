@@ -14,6 +14,7 @@ import {
   requiredString,
   requiredStringArray,
   sourceIdsIn,
+  uniqueMatch,
 } from '../validation.mjs';
 import {
   biographySources,
@@ -65,20 +66,17 @@ function adaptResearchSite({ entry, label, publicId, recordData }) {
   if (!Array.isArray(recordData.source_pages)) {
     fail(`${label}: research site source pages are unavailable`);
   }
-  const pagesByUrl = new Map(recordData.source_pages.map((rawPage) => {
+  const pages = recordData.source_pages.map((rawPage) => {
     const page = object(rawPage, `${label} source page`);
-    return [
-      publicUrl(requiredString(page, 'page', `${label} source page`), `${label} source page`),
-      page,
-    ];
-  }));
+    return { url: publicUrl(requiredString(page, 'page', `${label} source page`), `${label} source page`), page };
+  });
   if (!Array.isArray(recordData.files)) fail(`${label}: research site file index is unavailable`);
-  const filesByPath = new Map(recordData.files.filter((rawFile) => (
+  const files = recordData.files.filter((rawFile) => (
     rawFile && typeof rawFile === 'object' && typeof rawFile.file === 'string'
   )).map((rawFile) => {
     const file = object(rawFile, `${label} source file`);
-    return [requiredString(file, 'file', `${label} source file`), file];
-  }));
+    return { path: requiredString(file, 'file', `${label} source file`), file };
+  });
   const sectionTitles = object(recordData.sections, `${label} source sections`);
   const selectedSections = entry.sections;
   if (!Array.isArray(selectedSections) || selectedSections.length === 0) {
@@ -96,14 +94,14 @@ function adaptResearchSite({ entry, label, publicId, recordData }) {
       requiredString(selection, 'source_page_url', sectionLabel),
       sectionLabel,
     );
-    const sourcePage = pagesByUrl.get(sourcePageUrl);
+    const { page: sourcePage } = uniqueMatch(pages, (item) => item.url === sourcePageUrl, `${sectionLabel} source page ${sourcePageUrl}`);
     if (!sourcePage || !Array.isArray(sourcePage.sections) || !sourcePage.sections.includes(sectionId)) {
       fail(`${sectionLabel}: source page does not support the selected section`);
     }
     const url = publicUrl(requiredString(selection, 'url', sectionLabel), sectionLabel);
     const filePath = optionalString(selection, 'file_path', sectionLabel);
     if (filePath) {
-      const file = filesByPath.get(filePath);
+      const { file } = uniqueMatch(files, (item) => item.path === filePath, `${sectionLabel} source file ${filePath}`);
       if (
         !file
         || publicUrl(
@@ -122,7 +120,7 @@ function adaptResearchSite({ entry, label, publicId, recordData }) {
     };
   });
   const url = publicUrl(requiredString(entry, 'site_url', label), label);
-  if (!pagesByUrl.has(url)) fail(`${label}: site URL must be a selected source page`);
+  uniqueMatch(pages, (item) => item.url === url, `${label} site URL ${url}`);
   return {
     id: publicId,
     title: requiredString(entry, 'title_zh', label),
@@ -173,8 +171,8 @@ function adaptBiography({ entry, label, publicId, recordData, recordId, title, r
   const sourcePath = requiredString(entry, 'source_path', label);
   const sourceData = readJson(sourcePath, `${label} source_path`);
   if (!Array.isArray(recordData.events)) fail(`${label}: biography events are unavailable`);
-  const record = recordData.events.find((item) => item?.event_id === recordId);
-  if (!record) fail(`${label}: selected biography event is unavailable`);
+  const record = uniqueMatch(recordData.events, (item) => item?.event_id === recordId,
+    `${label} selected biography event ${recordId}`);
   const sourceIds = requiredStringArray(entry, 'source_ids', label);
   const availableSources = requiredStringArray(record, 'source_ids', `${label} selected record`);
   if (sourceIds.some((id) => !availableSources.includes(id))) {
@@ -197,8 +195,8 @@ function adaptIfiNetwork({ entry, label, publicId, recordData, recordId, title, 
     }
   }
   if (!Array.isArray(recordData.records)) fail(`${label}: IFI organization catalog is unavailable`);
-  const record = recordData.records.find((item) => item?.organization_id === recordId);
-  if (!record) fail(`${label}: selected IFI organization is unavailable`);
+  const record = uniqueMatch(recordData.records, (item) => item?.organization_id === recordId,
+    `${label} selected IFI organization ${recordId}`);
   if (
     recordId !== 'org-ifi'
     || requiredString(record, 'name_en', `${label} selected organization`)
@@ -266,8 +264,8 @@ function adaptWork({ entry, label, publicId, recordData, recordId, title, source
     publicUrl(url, label)
   ));
   if (!Array.isArray(recordData.works)) fail(`${label}: works catalog is unavailable`);
-  const record = recordData.works.find((item) => item?.id === recordId);
-  if (!record) fail(`${label}: selected work is unavailable`);
+  const record = uniqueMatch(recordData.works, (item) => item?.id === recordId,
+    `${label} selected work ${recordId}`);
   if (
     record.canonical_work_status !== 'confirmed'
     || record.record_type !== 'author_text'
@@ -333,7 +331,7 @@ function adaptReadingsSeries({ entry, label, publicId, recordData, recordId, tit
   const historyRelation = (key, accepts) => {
     const directory = requiredString(record, key, seriesLabel);
     const event = readingsEventByDirectory(events, directory, `${label} ${key}`);
-    if (!accepts(event)) fail(`${label}: invalid ${key} event`);
+    if (accepts && !accepts(event)) fail(`${label}: invalid ${key} event`);
     const selections = publication.records.filter((selection) => (
       selection?.publication_scope === websiteScope && selection.kind === 'ilyenkov_readings'
       && selectedReadingsEvent(selection, events, `${label} history publication`).local_directory === directory
@@ -346,9 +344,7 @@ function adaptReadingsSeries({ entry, label, publicId, recordData, recordId, tit
     return id;
   };
   const history = {
-    earliestArchivedEventId: historyRelation('earliest_archived_event_directory', (event) => (
-      event.year === 1991 && event.edition_roman === 'unnumbered'
-    )),
+    earliestArchivedEventId: historyRelation('earliest_archived_event_directory'),
     firstInternationalEventId: historyRelation('first_international_event_directory', (event) => (
       event.edition_roman === 'I'
     )),
@@ -374,7 +370,8 @@ function adaptReadingsSeries({ entry, label, publicId, recordData, recordId, tit
   };
 }
 
-function adaptReadings({ entry, label, publicId, recordData, title, sourceData, sourcePath }) {
+function adaptReadings({ entry, label, publicId, recordData, sourceData, sourcePath }) {
+  if (Object.hasOwn(entry, 'title_zh')) fail(`${label}: Readings title_zh belongs to the canonical event`);
   const sourceIds = requiredStringArray(entry, 'source_ids', label);
   const record = selectedReadingsEvent(entry, recordData, label);
   const directory = requiredString(record, 'local_directory', `${label} selected record`);
@@ -386,9 +383,7 @@ function adaptReadings({ entry, label, publicId, recordData, title, sourceData, 
   if (!start || !end || !datePattern.test(start) || !datePattern.test(end)) {
     fail(`${label}: selected readings record has no usable historical dates`);
   }
-  if (requiredString(record, 'title_zh', `${label} selected record`) !== title) {
-    fail(`${label}: selected readings title does not match the record`);
-  }
+  const title = requiredString(record, 'title_zh', `${label} selected record`);
   const recordFormat = requiredString(record, 'format', `${label} selected record`);
   if (!['in_person', 'online'].includes(recordFormat)) {
     fail(`${label}: selected readings format is unsupported`);
@@ -420,8 +415,8 @@ function adaptReadings({ entry, label, publicId, recordData, title, sourceData, 
 
 function adaptIfiSymposium({ entry, label, publicId, recordData, recordId, title, sourceData, sourcePath }) {
   if (!Array.isArray(recordData.activity_groups)) fail(`${label}: IFI events catalog is unavailable`);
-  const record = recordData.activity_groups.find((item) => item?.event_id === recordId);
-  if (!record) fail(`${label}: selected IFI symposium is unavailable`);
+  const record = uniqueMatch(recordData.activity_groups, (item) => item?.event_id === recordId,
+    `${label} selected IFI symposium ${recordId}`);
   if (record.type !== 'symposium' || record.event_status !== 'confirmed') {
     fail(`${label}: selected IFI event is not a confirmed symposium`);
   }
@@ -448,8 +443,8 @@ function adaptIfiSymposium({ entry, label, publicId, recordData, recordId, title
 function adaptMilitary({ entry, label, publicId, recordData, recordId, title, sourceData }) {
   const sourceIds = requiredStringArray(entry, 'source_ids', label);
   if (!Array.isArray(recordData.timeline)) fail(`${label}: military timeline is unavailable`);
-  const record = recordData.timeline.find((item) => item?.event_id === recordId);
-  if (!record) fail(`${label}: selected military record is unavailable`);
+  const record = uniqueMatch(recordData.timeline, (item) => item?.event_id === recordId,
+    `${label} selected military record ${recordId}`);
   const availableSources = requiredStringArray(record, 'source_ids', `${label} selected record`);
   if (sourceIds.some((id) => !availableSources.includes(id))) {
     fail(`${label}: selected source is not linked to the record`);
@@ -466,8 +461,8 @@ function adaptMilitary({ entry, label, publicId, recordData, recordId, title, so
 function adaptCongress({ entry, label, publicId, recordData, recordId, title, sourceData }) {
   const sourceIds = requiredStringArray(entry, 'source_ids', label);
   if (!Array.isArray(recordData.events)) fail(`${label}: congress events are unavailable`);
-  const record = recordData.events.find((item) => item?.event_id === recordId);
-  if (!record) fail(`${label}: selected congress record is unavailable`);
+  const record = uniqueMatch(recordData.events, (item) => item?.event_id === recordId,
+    `${label} selected congress record ${recordId}`);
   const availableSources = sourceIdsIn(record);
   if (sourceIds.some((id) => !availableSources.has(id))) {
     fail(`${label}: selected source is not linked to the record`);
@@ -567,7 +562,7 @@ export function plannedResearchRecords({ projectRoot, researchRoot }) {
       continue;
     }
     const recordId = kind === 'ilyenkov_readings' ? null : requiredString(entry, 'record_id', label);
-    const title = requiredString(entry, 'title_zh', label);
+    const title = kind === 'ilyenkov_readings' ? undefined : requiredString(entry, 'title_zh', label);
     const common = { entry, label, publicId, recordData, recordId, title };
 
     if (kind === 'biography_event') {
