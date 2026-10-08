@@ -493,9 +493,7 @@ function adaptCongress({ entry, label, publicId, recordData, recordId, title, so
 export function plannedResearchRecords({ projectRoot, researchRoot }) {
   if (researchRoot === projectRoot) fail('Ilyenkov source cannot be the public repository');
   const readJson = (relative, label) => readResearchJson(researchRoot, relative, label);
-  const selectedEditorial = (entry, label, kind) => {
-    if (!Object.hasOwn(entry, 'editorial_path')) return {};
-    const relative = requiredString(entry, 'editorial_path', label);
+  const readEditorial = (relative, label) => {
     if (!/^web\/editorial\/[a-z0-9]+(?:-[a-z0-9]+)*\.json$/.test(relative)) {
       fail(`${label}: editorial_path must use web/editorial/<slug>.json`);
     }
@@ -503,7 +501,11 @@ export function plannedResearchRecords({ projectRoot, researchRoot }) {
     if (!existsSync(file)) fail(`missing ${relative}`);
     const editorialRoot = `${path.join(realpathSync(researchRoot), 'web', 'editorial')}${path.sep}`;
     if (!realpathSync(file).startsWith(editorialRoot)) fail(`${label}: editorial_path escapes web/editorial`);
-    const manuscript = readJson(relative, `${label} editorial_path`);
+    return readJson(relative, `${label} editorial_path`);
+  };
+  const selectedEditorial = (entry, label, kind) => {
+    if (!Object.hasOwn(entry, 'editorial_path')) return {};
+    const manuscript = readEditorial(requiredString(entry, 'editorial_path', label), label);
     const fields = kind === 'ifi_network' ? ['introduction', 'symposiumsLead'] : ['introduction'];
     for (const key of Object.keys(manuscript)) {
       if (!fields.includes(key)) fail(`${label}: unsupported editorial field ${key}`);
@@ -603,5 +605,54 @@ export function plannedResearchRecords({ projectRoot, researchRoot }) {
   if (Object.values(records).some((selected) => selected.length === 0)) {
     fail('website_public selection must include biography, military, congress, works, readings, IFI network, IFI symposium, researcher, and research site records');
   }
+  const timelineLabel = `${publicationRelative} timeline`;
+  const timeline = object(publication.timeline, timelineLabel);
+  const worksLabel = `${publicationRelative} works_catalog`;
+  const worksCatalog = object(publication.works_catalog, worksLabel);
+  const allowedFields = (value, fields, label) => {
+    for (const key of Object.keys(value)) {
+      if (!fields.includes(key)) fail(`${label}: unsupported field ${key}`);
+    }
+  };
+  allowedFields(timeline, ['record_kinds', 'editorial_path'], timelineLabel);
+  allowedFields(worksCatalog, ['editorial_path'], worksLabel);
+  const timelineCollections = {
+    biography_event: 'biography',
+    military_service: 'military',
+    hegel_congress: 'congresses',
+  };
+  if (!Array.isArray(timeline.record_kinds)) fail(`${timelineLabel}: record_kinds must be an array`);
+  const selectedKinds = new Set();
+  const recordIds = timeline.record_kinds.flatMap((kind) => {
+    if (typeof kind !== 'string' || !Object.hasOwn(timelineCollections, kind)) {
+      fail(`${timelineLabel}: record_kinds: unsupported kind`);
+    }
+    if (selectedKinds.has(kind)) fail(`${timelineLabel}: record_kinds: duplicate kind`);
+    selectedKinds.add(kind);
+    return records[timelineCollections[kind]].map((record) => record.id);
+  });
+  const timelineEditorial = readEditorial(requiredString(timeline, 'editorial_path', timelineLabel), timelineLabel);
+  allowedFields(timelineEditorial, ['description'], `${timelineLabel} editorial`);
+  records.timeline = {
+    recordIds,
+    editorial: { description: requiredString(timelineEditorial, 'description', `${timelineLabel} editorial`) },
+  };
+
+  const worksEditorial = readEditorial(requiredString(worksCatalog, 'editorial_path', worksLabel), worksLabel);
+  const worksEditorialLabel = `${worksLabel} editorial`;
+  allowedFields(worksEditorial, ['description', 'lead', 'note', 'typeNotes'], worksEditorialLabel);
+  const typeNotes = object(worksEditorial.typeNotes, `${worksEditorialLabel} typeNotes`);
+  const publicTypes = new Set(records.works.map((work) => work.type));
+  records.worksCatalog = {
+    editorial: {
+      description: requiredString(worksEditorial, 'description', worksEditorialLabel),
+      lead: requiredString(worksEditorial, 'lead', worksEditorialLabel),
+      note: requiredString(worksEditorial, 'note', worksEditorialLabel),
+      typeNotes: Object.fromEntries(Object.keys(typeNotes).map((type) => {
+        if (!publicTypes.has(type)) fail(`${worksEditorialLabel}: typeNotes must reference a public work type`);
+        return [type, requiredString(typeNotes, type, `${worksEditorialLabel} typeNotes`)];
+      })),
+    },
+  };
   return records;
 }

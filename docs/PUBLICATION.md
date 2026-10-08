@@ -14,12 +14,15 @@ private 根目录的 `web/publication.json` 是译文与结构化研究记录的
 | `publication_scopes` | 公开范围：`website_public`、`internal_public` |
 | `works` | 译文的 `work_id`、`publication_scope` 与 `work_json_path` |
 | `records` | 研究记录的公开身份、范围、类型、定位、公开显示文字、来源与成稿选择 |
+| `timeline` | 必选的年表记录类型与成稿选择：`record_kinds`、`editorial_path` |
+| `works_catalog` | 必选的作品目录成稿选择：`editorial_path` |
 
-两个同步器只消费 `publication_scope = website_public` 的条目；`internal_public` 不进入公共网站
-生成输入或 `dist/`。`work_json_path`、`record_path`、`source_path` 相对 private 仓库根目录解析；
-canonical 事实、原文、译文、来源与权利证据保持各自的维护位置，接口不另存其副本。IFI、Readings
-公开成稿由 `web/editorial/` 维护，经对应条目的 `editorial_path` 选择。研究条目按类型适用下文的
-字段契约。
+两个同步器只消费 `works`、`records` 中 `publication_scope = website_public` 的条目；
+`internal_public` 不进入公共网站生成输入或 `dist/`。年表与作品目录根选择不扩展这些条目的公开
+范围。`work_json_path`、`record_path`、`source_path` 相对 private 仓库根目录解析；
+canonical 事实、原文、译文、来源与权利证据保持各自的维护位置，接口不另存其副本。IFI、Readings、
+年表与作品目录公开文字由 `web/editorial/` 维护，经对应选择中的 `editorial_path` 选择。研究条目与
+页面选择按下文的字段契约校验。
 
 ## 三种网站状态
 
@@ -58,6 +61,33 @@ canonical 事实、原文、译文、来源与权利证据保持各自的维护�
 
 字段级的准确定义以 `scripts/sync-research-records.mjs` 的输出和 `src/lib/research-records.ts` 的
 schema 为准；两者不一致时以 schema 为准，并修正同步器。
+
+### 年表与作品目录
+
+publication 根对象 `timeline` 必须且只含 `record_kinds` 与 `editorial_path`。`record_kinds` 只允许
+`biography_event`、`military_service`、`hegel_congress`，可选任意子集或空数组，未知或重复类型均
+拒绝。它从 `records` 已选择的 `website_public` 条目中确定年表范围，不读取或公开其他 canonical
+记录；空选择只生成空年表，不改变其他页面的记录集合。生成 `timeline.recordIds` 必须唯一解析
+到已生成的生平、服役或大会记录；只引用公开 ID，不复制记录事实。public getter 解析引用后按
+历史日期排序，分类标签与日期、来源格式由 public 维护。
+
+publication 根对象 `works_catalog` 必须且只含 `editorial_path`，不另选或复制作品。生成的
+`works` 集合仍来自获准 `works_catalog` 记录条目；页面按已有中文 `type` 分组。各作品类型归属
+来自 publication 的 `work_type_zh`，分组顺序和排序由 public 维护。
+
+| 生成字段 | 所选成稿字段 |
+| --- | --- |
+| `timeline.editorial.description` | 年表的非空单行 `description` |
+| `worksCatalog.editorial.description` | 作品目录的非空单行 `description` |
+| `worksCatalog.editorial.lead`、`worksCatalog.editorial.note` | 作品目录的非空单行导语与范围说明 |
+| `worksCatalog.editorial.typeNotes` | 以已公开作品的中文 `type` 为键、非空单行说明为值的对象 |
+
+年表成稿只接受 `description`；作品目录成稿只接受 `description`、`lead`、`note`、`typeNotes`。
+`typeNotes` 必须存在，可以为空对象；键必须匹配已公开作品的中文 `type`。撤下某类型的全部作品
+时须同时撤下该类型说明。类型注记只承载内容说明，不承载布局、分组或排序配置，不新增类型身份。
+两项根选择和成稿均必需；缺失、文件不存在、额外字段或无效字段使同步或 schema 校验失败，
+不提供 public 默认文字或兼容
+路径。成稿路径遵守[公开编辑文字](#公开编辑文字)的限制。
 
 ### 研究者身份与公开字段
 
@@ -183,9 +213,13 @@ private 仓库根目录解析。路径必须为 `web/editorial/<slug>.json`，sl
 选择时，即使成稿文件存在也不输出，public 页面省略简介及 IFI 导语，不使用本地文字副本、默认
 文字或自动发现的成稿。选定文件缺失或字段无效时同步失败。
 
-人物与研究者介绍以及其他 public 编辑文字仍在 public `editorial/` 或对应页面中维护。这些文字
-依据来源组织和解释已获准公开的内容；canonical 研究事实、来源证据与发布决定仍由 private 维护，
-不由公开编辑文字替代。
+年表与作品目录文字分别维护在 private `web/editorial/timeline.json` 与 `web/editorial/works.json`，
+由 publication 根对象 `timeline`、`works_catalog` 的 `editorial_path` 选择，并适用同样的路径限制。
+它们是必选输入，字段与引用契约见[年表与作品目录](#年表与作品目录)。
+
+人物总页入口、人物与研究者介绍、生平与交往页及其他 public 编辑文字仍在 public `editorial/` 或
+对应页面中维护。这些文字依据来源组织和解释已获准公开的内容；canonical 研究事实、来源证据与
+发布决定仍由 private 维护，不由公开编辑文字替代。
 
 公开编辑文字只使用已经公开或已明确选择公开的内容，不读取未公开的 private 数据，也不通过改写、
 摘述或嵌入把受限正文、原始材料、内部备注与未获准来源送入公共构建。编辑叙述不扩大授权范围，

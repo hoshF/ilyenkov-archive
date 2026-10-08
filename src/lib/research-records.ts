@@ -162,6 +162,26 @@ const ResearchSiteSchema = z.object({
   sections: z.array(ResearchSiteSectionSchema).min(1),
 }).strict();
 
+const EditorialLineSchema = z.string().trim().min(1).refine((value) => !/[\r\n]/.test(value), {
+  message: 'Editorial text must be one line',
+});
+
+export const TimelineSchema = z.object({
+  recordIds: z.array(z.string().regex(/^[a-z0-9]+(?:-[a-z0-9]+)*$/)).refine((ids) => (
+    new Set(ids).size === ids.length
+  ), { message: 'Timeline references must be unique' }),
+  editorial: z.object({ description: EditorialLineSchema }).strict(),
+}).strict();
+
+export const WorksCatalogSchema = z.object({
+  editorial: z.object({
+    description: EditorialLineSchema,
+    lead: EditorialLineSchema,
+    note: EditorialLineSchema,
+    typeNotes: z.record(z.string().trim().min(1), EditorialLineSchema),
+  }).strict(),
+}).strict();
+
 export const ResearchRecordsSchema = z.object({
   biography: z.array(BiographySchema).min(1),
   military: z.array(ActivitySchema).min(1),
@@ -173,7 +193,29 @@ export const ResearchRecordsSchema = z.object({
   ifiSymposiums: z.array(IfiSymposiumSchema).min(1),
   researchers: z.array(ResearcherSchema).min(1),
   researchSites: z.array(ResearchSiteSchema).min(1),
+  timeline: TimelineSchema,
+  worksCatalog: WorksCatalogSchema,
 }).strict().superRefine((records, context) => {
+  const activityRecords = [...records.biography, ...records.military, ...records.congresses];
+  records.timeline.recordIds.forEach((id, index) => {
+    if (activityRecords.filter((record) => record.id === id).length !== 1) {
+      context.addIssue({
+        code: 'custom',
+        path: ['timeline', 'recordIds', index],
+        message: 'Timeline must reference exactly one public activity record',
+      });
+    }
+  });
+  const workTypes = new Set(records.works.map((work) => work.type));
+  for (const type of Object.keys(records.worksCatalog.editorial.typeNotes)) {
+    if (!workTypes.has(type)) {
+      context.addIssue({
+        code: 'custom',
+        path: ['worksCatalog', 'editorial', 'typeNotes', type],
+        message: 'Catalog note must reference a public work type',
+      });
+    }
+  }
   records.readingsSeries?.forEach((series, index) => {
     for (const relation of ['earliestArchivedEventId', 'firstInternationalEventId'] as const) {
       const matchingReadings = records.readings.filter((record) => (
@@ -224,9 +266,17 @@ export const getPublicResearchRecords = buildCache((): PublicResearchRecords => 
   ResearchRecordsSchema.parse(JSON.parse(readFileSync(recordsPath, 'utf8')))
 ));
 
+export function getPublicTimelineEditorial() {
+  return getPublicResearchRecords().timeline.editorial;
+}
+
+export function getPublicWorksEditorial() {
+  return getPublicResearchRecords().worksCatalog.editorial;
+}
+
 export function getPublicTimelineRecords(): PublicTimelineRecord[] {
-  const { biography, military, congresses } = getPublicResearchRecords();
-  return [
+  const { biography, military, congresses, timeline } = getPublicResearchRecords();
+  const byId = new Map([
     ...biography.map((record) => ({
       ...record,
       category: 'biography' as const,
@@ -245,7 +295,8 @@ export function getPublicTimelineRecords(): PublicTimelineRecord[] {
       category: 'congress' as const,
       categoryLabel: '国际黑格尔大会',
     })),
-  ].sort((left, right) => (
+  ].map((record) => [record.id, record] as const));
+  return timeline.recordIds.map((id) => byId.get(id)!).sort((left, right) => (
     left.period.start.localeCompare(right.period.start)
       || left.period.end.localeCompare(right.period.end)
       || left.title.localeCompare(right.title, 'zh-Hans-CN')

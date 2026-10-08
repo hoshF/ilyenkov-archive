@@ -90,7 +90,7 @@ RSS 在构建时生成，HTML 订阅发现与 feed 共用 Astro `site` 基址，
 | --- | --- |
 | private 研究仓库 | canonical 人物、作品、事件、原文、译文、研究笔记、来源和权利证据 |
 | private `web/publication.json` | 译文与研究记录的唯一发布选择入口；引用事实、文本、来源文件及选定的公开成稿 |
-| private `web/editorial/` | IFI、Readings 的中文介绍与 IFI 历史列表导语；不替代 canonical 事实记录 |
+| private `web/editorial/` | IFI、Readings 的中文介绍与 IFI 历史列表导语，年表与作品目录的内容说明及类型注记；不替代 canonical 事实记录 |
 | `editorial/site.json` | 站点身份、五项导航、页脚、小组三语名称、summary 与正式联系邮箱的单一配置源 |
 | `editorial/ilyenkov.json` | 面向读者的人物身份显示、简短 summary 与完整 introduction |
 | `editorial/researchers/` | 迈丹斯基的公开中文编辑介绍与研究工作说明 |
@@ -107,7 +107,13 @@ RSS 在构建时生成，HTML 订阅发现与 feed 共用 Astro `site` 基址，
 
 IFI、Readings 的中文成稿由 private `web/editorial/` 唯一维护，通过对应 network、series 发布条目
 的 `editorial_path` 选择，生成输入中的 `editorial` 由 public 渲染。没有该选择时不输出成稿，页面
-不保留文字副本或 fallback。人物与研究者介绍及其他 public 编辑输入仍按上表维护。
+不保留文字副本或 fallback。
+
+年表的内容范围由 private publication 根对象 `timeline.record_kinds` 从已获准记录类型中选择，
+生成输入只保存 `recordIds` 引用；其 description 来自所选成稿。作品目录的 description、lead、
+note 与 `typeNotes` 由根对象 `works_catalog` 选择成稿，作品本身仍由 `records` 选择。页面只渲染
+生成文字，合并、分组、排序与格式由 public 负责，类型注记不指定布局或展示顺序。人物总页入口、
+人物与研究者介绍、生平与交往页及其他 public 编辑输入保持各自的维护位置。
 
 公开编辑文字依据已获准公开的内容组织叙述，不替代 canonical 事实，也不扩大发布许可。完整边界
 见[发布说明](PUBLICATION.md)。新增 private 字段不会因为页面需要就自动公开，公开介绍也不能用来

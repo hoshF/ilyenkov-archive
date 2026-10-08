@@ -43,6 +43,9 @@ function fixture() {
       `research/readings/${directory}/sources.json`
     )),
   ]);
+  for (const selection of [publication.timeline, publication.works_catalog]) {
+    relativePaths.add(selection.editorial_path);
+  }
   selectedEntries.forEach((entry) => {
     for (const field of ['record_path', 'source_path', 'editorial_path']) {
       if (entry[field]) relativePaths.add(entry[field]);

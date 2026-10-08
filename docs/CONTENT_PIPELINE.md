@@ -5,10 +5,11 @@
 
 ## 统一 private 入口与两条生成通道
 
-private 根目录的 `web/publication.json` 是唯一发布选择入口；`works` 与 `records` 分别由译文和
-研究同步器消费。`work_json_path`、`record_path`、`source_path` 相对 private 仓库根目录解析，
-不以 `web/` 为基准。接口引用已有事实、原文、译文与来源文件，不复制其 canonical 内容；IFI、
-Readings 公开成稿在 `web/editorial/` 中维护，经对应记录的 `editorial_path` 明确选择。
+private 根目录的 `web/publication.json` 是唯一发布选择入口；`works` 由译文同步器消费，
+`records` 与必选的 `timeline`、`works_catalog` 根对象由研究同步器消费。`work_json_path`、
+`record_path`、`source_path` 相对 private 仓库根目录解析，不以 `web/` 为基准。接口引用已有事实、
+原文、译文与来源文件，不复制其 canonical 内容；IFI、Readings、年表与作品目录公开文字在
+`web/editorial/` 中维护，经对应选择中的 `editorial_path` 明确选择。
 
 ```text
 private/web/publication.json → works
@@ -24,10 +25,10 @@ dist/archive/<slug>/index.html + media/<image>
 ```
 
 ```text
-private/web/publication.json → records
-  │  只选择 publication_scope = website_public
+private/web/publication.json → records + timeline + works_catalog
+  │  records 只选择 publication_scope = website_public
   ▼
-条目指定的结构化记录 + 明确选择的公开来源
+条目指定的结构化记录 + 明确选择的公开来源与成稿
   │  scripts/sync-research-records.mjs
   ▼
 .website-input/research-records.json
@@ -135,6 +136,22 @@ Readings 来源 URL 按 `current → original → archive → 既有 flat url` �
 `activity_modes` 按原顺序映射为 `activityModes`，资源输出为选定的 `{ kind, url }`。network 不复制
 形成活动的日期、地点或题名，也不嵌入 symposium 列表；独立 symposium 继续按各自 publication
 与来源契约输出。公开资源链接不意味着复制对应页面全文。
+
+## 年表与作品目录
+
+研究同步器先生成 `records` 选择的获准记录，再按 `timeline.record_kinds` 从这些结果生成
+`timeline.recordIds`。每个 public ID 只引用一条获准活动记录，不重复保存事实；类型选择不扩大
+`website_public` 范围。`record_kinds` 可为空，空选择只生成空年表；未知或重复类型使同步失败。
+`getPublicTimelineRecords()` 解析这些引用后按日期排序，添加界面分类标签。
+
+`timeline.editorial` 读取根选择指定的年表成稿，`worksCatalog.editorial` 读取作品目录成稿。
+`getPublicTimelineEditorial()` 与 `getPublicWorksEditorial()` 只返回对应生成文字。作品仍由
+`getPublicWorks()` 从共享 `works` 集合读取，页面按类型分组；成稿的 `typeNotes` 只提供各类型的
+内容说明，可以为空对象；键必须匹配获准作品类型。分组、排序和格式由 public 维护，不将页面
+事实另存到成稿中。
+
+两项根选择和成稿均必需，缺失或无效时失败，没有 public fallback。成稿路径与字段限制见
+[发布说明](PUBLICATION.md#年表与作品目录)。
 
 ## 公开成稿同步
 

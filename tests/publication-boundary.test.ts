@@ -210,8 +210,8 @@ describe('research record publication boundary', () => {
   it('builds one chronological timeline from the approved activity records', () => {
     const records = getPublicTimelineRecords();
     expect(records.length).toBeGreaterThan(0);
-    expect(new Set(records.map((record) => record.category))).toEqual(
-      new Set(['biography', 'military', 'congress']),
+    expect(new Set(records.map((record) => record.id))).toEqual(
+      new Set(getPublicResearchRecords().timeline.recordIds),
     );
     expect(records.every((record) => (
       record.categoryLabel.length > 0

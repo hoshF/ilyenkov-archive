@@ -2,14 +2,12 @@
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import Breadcrumbs from '../../components/Breadcrumbs.astro';
 import SectionLayout from '../../components/SectionLayout.astro';
-import { getPublicWorks } from '../../lib/research-records';
+import { getPublicWorks, getPublicWorksEditorial } from '../../lib/research-records';
 
+const editorial = getPublicWorksEditorial();
 const works = getPublicWorks();
 const worksByType = Map.groupBy(works, (work) => work.type);
 const typeOrder = ['著作', '论文', '战时写作'];
-const typeNotes: Record<string, string> = {
-  战时写作: '下列中文题名为工作题名，仅用于目录定位；本站不提供中文译文或下载。',
-};
 const workGroups = [...worksByType].sort(([left], [right]) => {
   const leftIndex = typeOrder.indexOf(left);
   const rightIndex = typeOrder.indexOf(right);
@@ -20,7 +18,7 @@ const workGroups = [...worksByType].sort(([left], [right]) => {
 });
 ---
 
-<BaseLayout title="作品目录" description="伊里因科夫已公开、可核验作品的目录。">
+<BaseLayout title="作品目录" description={editorial.description}>
   <SectionLayout pinned>
     <Breadcrumbs slot="breadcrumb" items={[
       { label: '伊里因科夫', href: '/ilyenkov' },
@@ -28,14 +26,14 @@ const workGroups = [...worksByType].sort(([left], [right]) => {
     ]} />
     <header class="page-header" slot="intro">
       <h1 class="page-title">作品目录</h1>
-      <p class="lead">著作、论文与战时写作的原文题名、年份和来源。</p>
-      <p class="section-note">目录中的作品不一定有本站可阅读的中文译文。</p>
+      <p class="lead">{editorial.lead}</p>
+      <p class="section-note">{editorial.note}</p>
     </header>
 
     {workGroups.map(([type, entries]) => (
         <section class="works-catalog-section" aria-labelledby={`work-type-${type}`}>
           <h2 id={`work-type-${type}`}>{type}</h2>
-          {typeNotes[type] && <p class="works-catalog-section__note">{typeNotes[type]}</p>}
+          {editorial.typeNotes[type] && <p class="works-catalog-section__note">{editorial.typeNotes[type]}</p>}
           <ol class="record-list">
             {entries.map((work) => (
               <li>

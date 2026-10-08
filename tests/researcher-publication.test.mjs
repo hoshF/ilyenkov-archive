@@ -24,6 +24,9 @@ function fixture() {
   roots.push(root);
   const sourceRoot = path.join(root, 'research-source');
   const relativePaths = new Set([publicationPath, personsPath]);
+  for (const selection of [publication.timeline, publication.works_catalog]) {
+    relativePaths.add(selection.editorial_path);
+  }
   selectedEntries.forEach((entry) => {
     for (const field of ['record_path', 'source_path', 'editorial_path']) {
       if (entry[field]) relativePaths.add(entry[field]);

@@ -2,15 +2,16 @@
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import Breadcrumbs from '../../components/Breadcrumbs.astro';
 import SectionLayout from '../../components/SectionLayout.astro';
-import { formatHistoricalPeriod, getPublicTimelineRecords } from '../../lib/research-records';
+import { formatHistoricalPeriod, getPublicTimelineEditorial, getPublicTimelineRecords } from '../../lib/research-records';
 
+const editorial = getPublicTimelineEditorial();
 const records = getPublicTimelineRecords();
 const sourceLabel = (source: { creator: string | null; title: string }) => (
   source.creator ? `${source.creator}：《${source.title}》` : source.title
 );
 ---
 
-<BaseLayout title="年表" description="目前已公开、可核验的伊里因科夫生平、服役与活动记录。">
+<BaseLayout title="年表" description={editorial.description}>
   <SectionLayout pinned modifier="compact-intro">
     <Breadcrumbs slot="breadcrumb" items={[
       { label: '伊里因科夫', href: '/ilyenkov' },
