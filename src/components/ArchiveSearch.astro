@@ -16,26 +16,23 @@ const { current = null } = Astro.props;
   <button class="archive-search__more" type="button" hidden>更多结果</button>
 </section>
 
-<script>
-  interface ResultData { url: string; excerpt: string; meta: { title?: string }; }
-  interface SearchResult { data: () => Promise<ResultData>; }
-  interface Pagefind { search: (query: string, options: { filters: Record<string, string> }) => Promise<{ results: SearchResult[] }>; }
-  const root = document.querySelector<HTMLElement>('.archive-search');
+<script is:inline type="module">
+  const root = document.querySelector('.archive-search');
   if (root) {
-    const form = root.querySelector<HTMLFormElement>('form')!;
-    const input = root.querySelector<HTMLInputElement>('input')!;
-    const status = root.querySelector<HTMLElement>('[role="status"]')!;
-    const list = root.querySelector<HTMLUListElement>('ul')!;
-    const more = root.querySelector<HTMLButtonElement>('.archive-search__more')!;
-    const archive = document.querySelector<HTMLElement>('[data-archive-list]')!;
-    let index: Promise<Pagefind> | undefined;
+    const form = root.querySelector('form');
+    const input = root.querySelector('input');
+    const status = root.querySelector('[role="status"]');
+    const list = root.querySelector('ul');
+    const more = root.querySelector('.archive-search__more');
+    const archive = document.querySelector('[data-archive-list]');
+    let index;
     let version = 0;
-    let results: SearchResult[] = [];
+    let results = [];
     let shown = 0;
-    let timer: ReturnType<typeof setTimeout>;
-    const filters: Record<string, string> = {};
+    let timer;
+    const filters = {};
     if (root.dataset.kind && root.dataset.filter) filters[root.dataset.kind] = root.dataset.filter;
-    const append = async (request: number) => {
+    const append = async (request) => {
       const start = shown;
       const batch = await Promise.all(results.slice(start, start + 10).map((result) => result.data()));
       if (request !== version) return;
@@ -67,7 +64,7 @@ const { current = null } = Astro.props;
       archive.hidden = false;
       try {
         const bundle = '/pagefind/pagefind.js';
-        index ??= import(/* @vite-ignore */ bundle) as Promise<Pagefind>;
+        index ??= import(bundle);
         const pagefind = await index;
         const response = await pagefind.search(query, { filters });
         if (request !== version) return;
@@ -76,7 +73,8 @@ const { current = null } = Astro.props;
         if (request !== version) return;
         archive.hidden = true;
         status.textContent = results.length ? `找到 ${results.length} 篇文章` : '没有找到匹配文章，请尝试其他关键词。';
-      } catch {
+      } catch (error) {
+        console.error('Archive search failed:', error);
         if (request !== version) return;
         index = undefined; list.hidden = true; more.hidden = true; archive.hidden = false;
         status.textContent = '搜索暂时不可用，请使用下方文章列表或分类浏览。';
@@ -84,7 +82,7 @@ const { current = null } = Astro.props;
     };
     input.addEventListener('input', (event) => {
       clearTimeout(timer); ++version;
-      if ((event as InputEvent).isComposing) return;
+      if (event.isComposing) return;
       if (!input.value.trim()) { void search(); return; }
       timer = setTimeout(() => { void search(); }, 250);
     });

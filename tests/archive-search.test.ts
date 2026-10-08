@@ -4,6 +4,7 @@ import { tmpdir } from 'node:os';
 import { gunzipSync } from 'node:zlib';
 import { execFileSync } from 'node:child_process';
 import { describe, expect, it } from 'vitest';
+import { builtRoutePath } from './helpers/pages';
 import { getSiteData } from '../src/lib/site-data';
 
 interface Fragment { url: string; content: string; meta: { title: string }; filters: Record<string, string[]>; }
@@ -14,6 +15,15 @@ const fragments = (root: string): Fragment[] => readdirSync(join(root, 'pagefind
 const packageJson = JSON.parse(readFileSync('package.json', 'utf8'));
 
 describe('public article search index', () => {
+  it('ships a native module loader without unresolved build placeholders', () => {
+    const html = readFileSync(builtRoutePath('/archive/'), 'utf8');
+    const scripts = [...html.matchAll(/<script\b[^>]*>([\s\S]*?)<\/script>/g)].map((match) => match[1]);
+    const search = scripts.find((script) => script.includes('/pagefind/pagefind.js'));
+    expect(search).toBeDefined();
+    expect(search).not.toMatch(/__VITE_[A-Z_]+__/);
+    expect(search).toContain('import(bundle)');
+  });
+
   it('contains exactly the approved article routes, canonical titles and existing facets', async () => {
     const { articles } = await getSiteData();
     const indexed = fragments('dist');
