@@ -22,7 +22,9 @@ saving copies. Pages render generated data with no fallback; route mappings, rec
 work-type grouping and formatting stay in public. Researcher introductions and work descriptions
 belong to private `web/editorial/`, selected by the researcher publication `editorial_path`.
 Home summaries reuse publication metadata; translations derive from public article author identities.
-Other public editorial inputs remain here.
+Ilyenkov overview summary, introduction and entrance wording belong to a manuscript selected
+by `ilyenkov_profile`. Resolve its canonical person and approved biography birth reference only.
+Public maps entrance targets to routes. Other public editorial inputs remain here.
 
 [docs/PUBLICATION.md](docs/PUBLICATION.md) defines publication permissions and field contracts.
 Public editorial prose must not bypass those boundaries to expose unpublished private data or
@@ -40,7 +42,7 @@ npm run verify     # publication sync and type check → static build → tests
 ```
 
 The dev server handles source and stylesheet updates. Data loaders using `buildCache` reread
-records in development; `src/lib/editorial.ts` parses site and introduction JSON at module load,
+records in development; `src/lib/editorial.ts` parses site JSON at module load,
 so external JSON changes may require a dev-server restart. Private changes need
 `npm run publication:sync`. Data flow and caching are documented in
 [docs/CONTENT_PIPELINE.md](docs/CONTENT_PIPELINE.md).

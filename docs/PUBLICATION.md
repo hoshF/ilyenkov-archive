@@ -259,7 +259,7 @@ private 仓库根目录解析。路径必须为 `web/editorial/<slug>.json`，sl
 publication 根对象 `life`、`circle` 选择，并适用同样的路径限制；字段与引用契约见
 [生平与交往](#生平与交往)。
 
-人物总页入口、人物总页介绍及其他 public 编辑文字仍在 public `editorial/` 或对应页面中
+其他 public 编辑文字仍在 public `editorial/` 或对应页面中
 维护。这些文字依据来源组织和解释已获准公开的内容；canonical 研究事实、来源证据与发布决定仍由
 private 维护，不由公开编辑文字替代。
 
@@ -461,3 +461,20 @@ RSS 只复用已有小组公开记录与动态的日期、摘要和链接，不�
 公开日期的译文不作为内容条目纳入；原文年份、研究历史日期和内部版次日期不能代替 `pubDate`。将来接入
 译文须由 private 发布清单明确记录 `website_published`，并显式更新公开字段契约、同步器与 schema，
 不得在 public 侧补造日期。排序、重复处理与动态身份规则见[内容管线](CONTENT_PIPELINE.md)的“RSS 订阅”。
+
+
+## Ilyenkov 总页发布
+
+`records` 中的 `ilyenkov_profile` 只接受 `public_id`、`publication_scope`、`kind`、
+`record_path`、`record_id`、`title_zh`、`birth_record_id`、`editorial_path`。
+`record_path` 必须为 `people/persons.json`；`record_id` 必须唯一解析为 person_id。
+`birth_record_id` 必须唯一解析为已获准生成的 biography 记录，不能指向其他类型或未公开记录。
+人物原名取 canonical `name_original`；生年取所选出生记录日期，死亡年份取 canonical `death_year`。
+只允许一个获准的总页 profile。成稿路径沿用 `web/editorial/<slug>.json` 及实际文件边界。
+
+成稿只接受非空短摘要 `summary`、非空单行 `description`、非空段落数组 `introduction` 与
+有序 `entrances` 数组。入口只接受 `target`、`label`、`summary`；target 为 life、timeline、
+works、circle，不得重复。入口数组可以为空，不保存路由、事件或作品清单。
+介绍中的 `{{identity}}`、`{{originalName}}`、`{{lifespan}}` 只引用当前获准身份投影；未知引用失败。
+成稿不另存姓名、生卒年或 canonical 记录副本，不扩大发布范围。
+未选择或非 website_public 条目不读取成稿；撤回后清除生成 profile，不保留 fallback。

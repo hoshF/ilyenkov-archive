@@ -55,6 +55,7 @@ const supportedKinds = new Set([
   'ifi_network',
   'ifi_symposium',
   'researcher_profile',
+  'ilyenkov_profile',
   'research_site',
 ]);
 
@@ -535,6 +536,7 @@ export function plannedResearchRecords({ projectRoot, researchRoot }) {
     researchSites: [],
   };
 
+  let profileSelection;
   for (const [index, rawEntry] of publication.records.entries()) {
     const label = `${publicationRelative} records[${index}]`;
     const entry = object(rawEntry, label);
@@ -547,6 +549,11 @@ export function plannedResearchRecords({ projectRoot, researchRoot }) {
     const kind = requiredString(entry, 'kind', label);
     if (!supportedKinds.has(kind)) fail(`${label}: unsupported kind`);
     const recordPath = requiredString(entry, 'record_path', label);
+    if (kind === 'ilyenkov_profile') {
+      if (profileSelection) fail(`${label}: duplicate Ilyenkov profile selection`);
+      profileSelection = { entry, label, publicId };
+      continue;
+    }
     if (kind === 'researcher_profile') {
       if (recordPath !== personsRelative) {
         fail(`${label}: researcher record_path must use ${personsRelative}`);
@@ -760,5 +767,52 @@ export function plannedResearchRecords({ projectRoot, researchRoot }) {
       };
     }),
   };
+  if (profileSelection) {
+    const { entry, label, publicId } = profileSelection;
+    allowedFields(entry, ['public_id', 'publication_scope', 'kind', 'record_path', 'record_id',
+      'title_zh', 'birth_record_id', 'editorial_path'], label);
+    if (entry.record_path !== personsRelative) fail(`${label}: profile record_path must use ${personsRelative}`);
+    const registry = object(readJson(personsRelative, label), label);
+    if (!Array.isArray(registry.records)) fail(`${label}: person records must be an array`);
+    const personId = requiredString(entry, 'record_id', label);
+    if (!idPattern.test(personId)) fail(`${label}: invalid person identity`);
+    const person = uniqueMatch(registry.records, (record) => record.person_id === personId, `${label} person identity`);
+    const birth = uniqueMatch(records.biography,
+      (record) => record.id === requiredString(entry, 'birth_record_id', label), `${label} public birth reference`);
+    const deathYear = requiredString(person, 'death_year', label);
+    if (!/^\d{4}$/.test(deathYear)) fail(`${label}: invalid death_year`);
+    const identity = requiredString(entry, 'title_zh', label);
+    const originalName = requiredString(person, 'name_original', label);
+    const lifespan = `${birth.period.start.slice(0, 4)}—${deathYear}`;
+    const manuscript = object(readEditorial(requiredString(entry, 'editorial_path', label), label), label);
+    allowedFields(manuscript, ['summary', 'description', 'introduction', 'entrances'], `${label} editorial`);
+    const replacements = { identity, originalName, lifespan };
+    const introduction = requiredStringArray(manuscript, 'introduction', label).map((paragraph) => (
+      paragraph.replace(/\{\{([^{}]+)\}\}/g, (_match, field) => {
+        if (!Object.hasOwn(replacements, field)) fail(`${label}: unsupported introduction reference ${field}`);
+        return replacements[field];
+      })
+    ));
+    if (!Array.isArray(manuscript.entrances)) fail(`${label}: entrances must be an array`);
+    const targets = new Set();
+    records.ilyenkov = {
+      id: publicId, personId, identity, originalName, lifespan,
+      summary: requiredString(manuscript, 'summary', label),
+      description: requiredString(manuscript, 'description', label),
+      introduction,
+      entrances: manuscript.entrances.map((rawEntrance, index) => {
+        const entranceLabel = `${label} entrances[${index}]`;
+        const entrance = object(rawEntrance, entranceLabel);
+        allowedFields(entrance, ['target', 'label', 'summary'], entranceLabel);
+        const target = requiredString(entrance, 'target', entranceLabel);
+        if (!['life', 'timeline', 'works', 'circle'].includes(target) || targets.has(target)) {
+          fail(`${entranceLabel}: invalid or duplicate target`);
+        }
+        targets.add(target);
+        return { target, label: requiredString(entrance, 'label', entranceLabel),
+          summary: requiredString(entrance, 'summary', entranceLabel) };
+      }),
+    };
+  }
   return records;
 }

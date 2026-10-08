@@ -4,13 +4,15 @@ import matter from 'gray-matter';
 import { describe, expect, it } from 'vitest';
 import { generatedArticleIds, resolveGeneratedArticlePath } from '../src/lib/article-source';
 import { getBooks } from '../src/lib/books';
-import { site, ilyenkov, readEditorialJson } from '../src/lib/editorial';
+import { site, readEditorialJson } from '../src/lib/editorial';
 import { adjacentIssues, getGroupIssues, GroupIssueSchema } from '../src/lib/group';
-import { getPublicResearchers, getPublicIfiNetwork, getPublicReadingsSeries } from '../src/lib/research-records';
+import { getPublicIlyenkov, getPublicResearchers, getPublicIfiNetwork, getPublicReadingsSeries } from '../src/lib/research-records';
 import { getSiteData } from '../src/lib/site-data';
 import { builtRoutePath, componentSource, layoutSource, pageFileExists, pageSource, routeExists } from './helpers/pages';
 import { researchRoot, websiteWorks } from './helpers/publication';
 import { declaration, declarationsFor, rules } from './helpers/styles';
+
+const ilyenkov = getPublicIlyenkov();
 
 describe('website-approved data adapter', () => {
   it('loads every approved translation without assuming a current artifact count', async () => {
@@ -809,10 +811,6 @@ describe('public navigation', () => {
     expect(person).toContain(ilyenkov.summary);
     expect(personPage).toContain(ilyenkov.identity);
     expect(person.match(/<p class="home-summary">/g)).toHaveLength(1);
-    expect(ilyenkov.summary).not.toContain('本站');
-    const hanLength = [...ilyenkov.summary.matchAll(/[\u4e00-\u9fff]/g)].length;
-    expect(hanLength).toBeGreaterThan(0);
-    expect(hanLength).toBeLessThanOrEqual(150);
     for (const paragraph of ilyenkov.introduction) {
       expect(personPage.replace(/<[^>]*>/g, '')).toContain(paragraph);
       expect(person).not.toContain(paragraph);
@@ -891,13 +889,10 @@ describe('public navigation', () => {
     const html = readFileSync(builtRoutePath('/ilyenkov'), 'utf8');
     const nav = html.match(/<nav\b[^>]*aria-label="伊里因科夫栏目入口"[^>]*>([\s\S]*?)<\/nav>/)![1];
     const links = [...nav.matchAll(/<a\b[^>]*href="([^"]+)"[^>]*>([\s\S]*?)<\/a>/g)];
-    expect(links.map(([, href, label]) => ({ href, label }))).toEqual([
-      { href: '/ilyenkov/life', label: '生平' },
-      { href: '/ilyenkov/timeline', label: '年表' },
-      { href: '/ilyenkov/works', label: '作品目录' },
-      { href: '/ilyenkov/circle', label: '交往与活动' },
-    ]);
-    expect([...nav.matchAll(/class="entrance-card__summary"/g)]).toHaveLength(4);
+    expect(links.map(([, href, label]) => ({ href, label }))).toEqual(
+      ilyenkov.entrances.map((entrance) => ({ href: `/ilyenkov/${entrance.target}`, label: entrance.label })),
+    );
+    expect([...nav.matchAll(/class="entrance-card__summary"/g)]).toHaveLength(ilyenkov.entrances.length);
     expect(nav).not.toContain('entrance-card__scope');
     for (const [, , label] of links) expect(label).not.toContain('entrance-card__summary');
   });

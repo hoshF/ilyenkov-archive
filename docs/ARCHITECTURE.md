@@ -41,7 +41,7 @@
 
 首页使用 672px 单列：定位句、人物简介与相关链接组成开场导读，随后依次为文本、研究、
 中文伊里因科夫小组和近期动态；正文栏目标题从“文本”开始。
-首页 `/` 读取 `editorial/ilyenkov.json` 的简短 `summary`，人物页 `/ilyenkov/` 使用 `identity`、
+首页 `/` 读取生成输入 `ilyenkov.summary`，人物页 `/ilyenkov/` 使用 `identity`、
 `originalName`、`lifespan` 与完整 `introduction`。首页的小组范围说明来自 `site.json` 的 `group.summary`；
 小组页使用同一配置中的三语名称，以“小组介绍”和“关注与联系”链接进入说明与联系方式。
 研究摘要复用已公开记录；文本、小组工作和动态从各自集合派生，不复制事实源。
@@ -92,7 +92,7 @@ RSS 在构建时生成，HTML 订阅发现与 feed 共用 Astro `site` 基址，
 | private `web/publication.json` | 译文与研究记录的唯一发布选择入口；引用事实、文本、来源文件及选定的公开成稿 |
 | private `web/editorial/` | IFI、Readings 的介绍与导语，研究者中文介绍与研究工作说明，年表与作品目录说明，生平分期与导引、交往主题与记录范围；不替代 canonical 事实记录 |
 | `editorial/site.json` | 站点身份、五项导航、页脚、小组三语名称、summary 与正式联系邮箱的单一配置源 |
-| `editorial/ilyenkov.json` | 面向读者的人物身份显示、简短 summary 与完整 introduction |
+| private `web/editorial/ilyenkov.json` | 人物总页短摘要、完整介绍、页面说明与子页入口名称和导语；人物事实引用 canonical records |
 | `editorial/books/` | 成书的出版元数据、版次与译者引言 |
 | `editorial/group/` | 小组按期公共工作记录及其摘要、公开日期 |
 | `editorial/updates.json` | 简短公开动态的单一事实源 |
@@ -117,7 +117,7 @@ note 与 `typeNotes` 由根对象 `works_catalog` 选择成稿，作品本身仍
 根对象 `circle` 选择主题分区、文字与记录范围。阶段及主题顺序由 private 成稿维护，public 只
 渲染选定顺序，格式化生成的期间与年份，映射专题链接和 HTML 标识，不维护 ID 白名单或用集合首末项
 推断生平。引用只解析到已获准记录，生成输入不保存活动或作品的事实副本；缺省阶段摘要在读取时
-复用所引活动摘要。人物总页入口、人物总页介绍及其他 public 编辑输入保持各自的维护位置。
+复用所引活动摘要。人物总页的入口文字与介绍由 private 成稿维护，路由映射与渲染由 public 维护。
 
 公开编辑文字依据已获准公开的内容组织叙述，不替代 canonical 事实，也不扩大发布许可。完整边界
 见[发布说明](PUBLICATION.md)。新增 private 字段不会因为页面需要就自动公开，公开介绍也不能用来
@@ -126,7 +126,7 @@ note 与 `typeNotes` 由根对象 `works_catalog` 选择成稿，作品本身仍
 译文与结构化研究资料统一由 private `web/publication.json` 逐项选择，分别登记在 `works` 与
 `records` 中；清单引用的事实、文本和来源保持各自的维护位置，不在接口中复制。public 只在同步
 阶段读取 private 输入，页面读取 `.website-input/`，不把生成输入改成另一份 tracked 内容库。
-书籍、小组记录、动态、分类与人物总页介绍由 public 自行维护，不经过 private 同步通道。
+书籍、小组记录、动态与分类由 public 自行维护，不经过 private 同步通道。
 Archive 分类中的 `persons` 回答文章涉及谁；文章 `authorIds` 回答谁写了它，两者不互相推导。
 
 研究详情页的辅助链接由 `ResourceLinks` 展示；页面负责选择公开资源及中文标签。

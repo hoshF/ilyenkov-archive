@@ -1,6 +1,7 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
-import { site, ilyenkov } from '../lib/editorial';
+import { site } from '../lib/editorial';
+import { getPublicIlyenkov } from '../lib/research-records';
 import { getSiteData } from '../lib/site-data';
 import { getGroupIssues } from '../lib/group';
 import {
@@ -12,6 +13,7 @@ import TextRecord from '../components/TextRecord.astro';
 import UpdatesList from '../components/UpdatesList.astro';
 import { getUpdates, HOME_UPDATES_LIMIT } from '../lib/updates';
 
+const ilyenkov = getPublicIlyenkov();
 const [{ articles }, issues] = await Promise.all([getSiteData(), getGroupIssues()]);
 const texts = articles.slice(0, 4);
 const recentWork = [...issues].sort((left, right) => (
@@ -34,7 +36,7 @@ const updates = getUpdates().slice(0, HOME_UPDATES_LIMIT);
     <div class="home-opening">
       <p class="home-positioning">伊里因科夫的中文译文与研究资料</p>
       <p class="home-summary">{ilyenkov.summary}</p>
-      <p class="home-more">了解伊里因科夫：<a href="/ilyenkov/life">生平</a> · <a href="/ilyenkov/timeline">年表</a> · <a href="/ilyenkov/works">作品目录</a> · <a href="/ilyenkov/circle">交往与活动</a></p>
+      <p class="home-more">了解伊里因科夫：{ilyenkov.entrances.map((entrance, index) => <>{index > 0 && ' · '}<a href={`/ilyenkov/${entrance.target}`}>{entrance.label}</a></>)}</p>
     </div>
 
     <section class="home-content" aria-labelledby="content-heading">

@@ -221,7 +221,25 @@ export const CircleSchema = z.object({
   ), { message: 'Circle sections must have unique record kinds' }),
 }).strict();
 
+export const IlyenkovProfileSchema = z.object({
+  id: z.string().regex(/^[a-z0-9]+(?:-[a-z0-9]+)*$/),
+  personId: z.string().regex(/^[a-z0-9]+(?:-[a-z0-9]+)*$/),
+  identity: EditorialLineSchema,
+  originalName: EditorialLineSchema,
+  lifespan: z.string().regex(/^\d{4}—\d{4}$/),
+  summary: EditorialLineSchema,
+  description: EditorialLineSchema,
+  introduction: z.array(z.string().trim().min(1)).min(1),
+  entrances: z.array(z.object({
+    target: z.enum(['life', 'timeline', 'works', 'circle']),
+    label: EditorialLineSchema,
+    summary: EditorialLineSchema,
+  }).strict()).refine((entrances) => new Set(entrances.map((entrance) => entrance.target)).size === entrances.length,
+    { message: 'Ilyenkov entrance targets must be unique' }),
+}).strict();
+
 export const ResearchRecordsSchema = z.object({
+  ilyenkov: IlyenkovProfileSchema.optional(),
   biography: z.array(BiographySchema).min(1),
   military: z.array(ActivitySchema).min(1),
   congresses: z.array(CongressSchema).min(1),
@@ -472,4 +490,11 @@ export function formatHistoricalPeriod({ start, end }: PublicActivity['period'])
     return `${year} 年${Number(month)} 月${Number(day)} 日`;
   };
   return start === end ? format(start) : `${format(start)}—${format(end)}`;
+}
+
+
+export function getPublicIlyenkov() {
+  const profile = getPublicResearchRecords().ilyenkov;
+  if (!profile) throw new Error('Public Ilyenkov profile is missing');
+  return profile;
 }

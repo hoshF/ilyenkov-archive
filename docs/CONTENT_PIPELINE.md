@@ -189,13 +189,12 @@ Readings 来源 URL 按 `current → original → archive → 既有 flat url` �
 
 ## public 编辑输入与缓存
 
-`editorial/` 的站点配置、人物总页介绍、书籍、小组工作、分类与动态直接由 public 读取，不经过
-private 同步通道，也不进入 `.website-input/`。人物总页介绍由 `src/lib/editorial.ts` 校验，
-Markdown 介绍复用 `renderPublicMarkdown()`。`summary` 与 `introduction` 的使用分工见架构说明；
+`editorial/` 的站点配置、书籍、小组工作、分类与动态直接由 public 读取，不经过
+private 同步通道，也不进入 `.website-input/`。站点配置由 `src/lib/editorial.ts` 校验。`summary` 与 `introduction` 的使用分工见架构说明；
 公开编辑叙述的权限边界见发布说明的[公开编辑文字](PUBLICATION.md#公开编辑文字)。
 
 使用 `buildCache` 的数据 getter 在生产构建中只加载一次，在开发中每次调用重新读取。
-`src/lib/editorial.ts` 的站点与介绍 JSON 则在模块加载时解析；外部 JSON 更改可能需要重启开发
+`src/lib/editorial.ts` 的站点 JSON 则在模块加载时解析；外部 JSON 更改可能需要重启开发
 服务器，不应把页面刷新当作所有配置均会重新加载。private 更改须先重新同步生成输入。
 
 ## 文章集合与首页派生
@@ -250,3 +249,16 @@ publication sync → astro check → astro build → vitest run
 ```
 
 `publication:check` 仅比较生成输入，退出码 1 表示输入过期，2 表示同步失败；不改写文件。
+
+
+## Ilyenkov 人物总页
+
+`ilyenkov_profile` 发布条目显式选择 `people/persons.json` 中唯一的人物身份、中文姓名、
+已获准的 biography 出生记录与 `web/editorial/ilyenkov.json` 成稿。原名取自 person，
+生年取自所选出生记录的开始日期，死亡年份取自 person 的 `death_year`。
+成稿只维护 `summary`、`description`、`introduction` 与有序 `entrances`；入口只含
+`target`、`label`、`summary`，target 为 life、timeline、works、circle。public 映射路由。
+介绍只允许 `{{identity}}`、`{{originalName}}`、`{{lifespan}}` 三种显式引用，
+同步时以获准人物事实投影替换，未知引用失败；不读取或发布任意被提及的研究记录。
+首页消费短摘要与入口名称，总页消费完整介绍与入口导语；子页继续消费原有共享集合。
+撤回发布条目后删除生成 `ilyenkov`，不回退到 public 文字；需要该资料的页面缺少输入时构建失败。

@@ -1,33 +1,13 @@
 ---
-import { ilyenkov } from '../../lib/editorial';
+import { getPublicIlyenkov } from '../../lib/research-records';
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import SectionLayout from '../../components/SectionLayout.astro';
 
-const entrances = [
-  {
-    href: '/ilyenkov/life',
-    label: '生平',
-    summary: '生平经历、哲学学习与早期学术工作。',
-  },
-  {
-    href: '/ilyenkov/timeline',
-    label: '年表',
-    summary: '按时间梳理生平与重要活动。',
-  },
-  {
-    href: '/ilyenkov/works',
-    label: '作品目录',
-    summary: '著作与文章的原文题名、年份及来源。',
-  },
-  {
-    href: '/ilyenkov/circle',
-    label: '交往与活动',
-    summary: '战时服役与国际学术交往记录。',
-  },
-];
+const ilyenkov = getPublicIlyenkov();
+const entrances = ilyenkov.entrances.map((entrance) => ({ ...entrance, href: `/ilyenkov/${entrance.target}` }));
 ---
 
-<BaseLayout title={ilyenkov.identity} description="面向中文读者的伊里因科夫人物、年表、作品与交往入口。">
+<BaseLayout title={ilyenkov.identity} description={ilyenkov.description}>
   <SectionLayout pinned>
     <header class="page-header" slot="intro">
       <h1 class="page-title">{ilyenkov.identity}</h1>

@@ -236,7 +236,8 @@ describe('private timeline and works publication', () => {
     const input = fixture();
     const first = input.run();
     expect(first.status, first.stderr).toBe(0);
-    const activity = selectedEntries.find((entry) => entry.kind === 'biography_event');
+    const birthId = selectedEntries.find((entry) => entry.kind === 'ilyenkov_profile').birth_record_id;
+    const activity = selectedEntries.find((entry) => entry.kind === 'biography_event' && entry.public_id !== birthId);
     const work = selectedEntries.find((entry) => entry.kind === 'works_catalog' && entry.work_type_zh === '战时写作');
     input.mutate(publication.life.editorial_path, (manuscript) => {
       for (const stage of manuscript.stages) {
@@ -469,7 +470,8 @@ describe('private life and circle publication', () => {
 
   it('requires explicit stage edits before an approved referenced record can be withdrawn', () => {
     const input = fixture();
-    const id = input.plan().biography[0].id;
+    const birthId = selectedEntries.find((entry) => entry.kind === 'ilyenkov_profile').birth_record_id;
+    const id = input.plan().biography.find((record) => record.id !== birthId).id;
     input.mutate(publication.life.editorial_path, (text) => {
       text.stages = [{ title: 'Referenced activity', record_ids: [id], links: [] }];
     });
@@ -601,5 +603,121 @@ describe('selected canonical identities resolve uniquely', () => {
       catalog[collection].push(structuredClone(record));
     });
     expect(() => input.plan()).toThrow(/source (page|file).*exactly one/);
+  });
+});
+
+
+const overviewEntry = (manifest) => manifest.records.find((entry) => entry.kind === 'ilyenkov_profile');
+
+describe('explicit Ilyenkov overview publication', () => {
+  it('projects canonical identity and dates into prose and keeps other pages on the shared facts', () => {
+    const input = fixture();
+    const entry = overviewEntry(input.read(publicationPath));
+    const before = input.plan();
+    input.mutate(entry.record_path, (registry) => {
+      const person = registry.records.find((record) => record.person_id === entry.record_id);
+      person.name_original = 'Synthetic canonical name';
+      person.death_year = '2000';
+      person.private_fact = 'PRIVATE_FACT_SENTINEL';
+    });
+    const birthSelection = selectedEntries.find((selection) => selection.public_id === entry.birth_record_id);
+    input.mutate(birthSelection.record_path, (catalog) => {
+      catalog.events.find((record) => record.event_id === birthSelection.record_id).date = '1900-01-02';
+    });
+    const after = input.plan();
+    expect(after.ilyenkov.originalName).toBe('Synthetic canonical name');
+    expect(after.ilyenkov.lifespan).toBe('1900—2000');
+    expect(after.ilyenkov.introduction.join('')).toContain('Synthetic canonical name，1900—2000');
+    expect(JSON.stringify(after.ilyenkov)).not.toMatch(/PRIVATE_FACT_SENTINEL|record_path|editorial_path/);
+    expect(after.biography.find((record) => record.id === entry.birth_record_id).period.start).toBe('1900-01-02');
+    expect(after.works).toEqual(before.works);
+    expect(after.circle).toEqual(before.circle);
+  });
+
+  it.each(['internal_public', 'unauthorized', 'unselected'])('does not read or export %s overview editorial', (scope) => {
+    const input = fixture();
+    const entry = overviewEntry(input.read(publicationPath));
+    input.mutate(publicationPath, (manifest) => {
+      if (scope === 'unselected') manifest.records = manifest.records.filter((record) => record.kind !== 'ilyenkov_profile');
+      else { overviewEntry(manifest).publication_scope = scope; overviewEntry(manifest).record_path = 'private/missing.json'; }
+    });
+    input.write(entry.editorial_path, { invalid: 'UNSELECTED_MANUSCRIPT_SENTINEL' });
+    const output = input.plan();
+    expect(output).not.toHaveProperty('ilyenkov');
+    expect(JSON.stringify(output)).not.toContain('UNSELECTED_MANUSCRIPT_SENTINEL');
+    expect(ResearchRecordsSchema.safeParse(output).success).toBe(true);
+  });
+
+  it.each(['missing', 'wrong-type', 'internal_public', 'unselected'])('rejects a %s canonical birth reference without expanding publication scope', (caseName) => {
+    const input = fixture();
+    const entry = overviewEntry(input.read(publicationPath));
+    input.mutate(publicationPath, (manifest) => {
+      overviewEntry(manifest).birth_record_id = caseName === 'wrong-type' ? input.plan().works[0].id : 'synthetic-private-birth';
+      if (caseName === 'internal_public') manifest.records.push({ public_id: 'synthetic-private-birth',
+        publication_scope: 'internal_public', kind: 'biography_event', record_path: 'private/missing.json' });
+    });
+    expect(() => input.plan()).toThrow(/public birth reference/);
+    // Prose placeholders cannot act as arbitrary record lookups either.
+    input.mutate(publicationPath, (manifest) => { overviewEntry(manifest).birth_record_id = entry.birth_record_id; });
+    input.mutate(entry.editorial_path, (text) => { text.introduction = ['{{record:synthetic-private-birth}}']; });
+    expect(() => input.plan()).toThrow(/unsupported introduction reference/);
+  });
+
+  it.each([
+    (manifest) => { overviewEntry(manifest).editorial_path = 'people/persons.json'; },
+    (manifest) => { overviewEntry(manifest).editorial_path = 'web/editorial/missing.json'; },
+    (manifest) => { overviewEntry(manifest).record_id = 'person-missing'; },
+    (manifest) => { overviewEntry(manifest).lifespan = '1900—2000'; },
+    (manifest) => { manifest.records.push({ ...overviewEntry(manifest), public_id: 'duplicate-profile' }); },
+  ])('rejects invalid selected identity, manuscript and fact overrides', (mutate) => {
+    const input = fixture(); input.mutate(publicationPath, mutate); expect(() => input.plan()).toThrow();
+  });
+
+  it('rejects duplicate canonical person identity', () => {
+    const input = fixture(); const entry = overviewEntry(input.read(publicationPath));
+    input.mutate(entry.record_path, (registry) => registry.records.push(structuredClone(
+      registry.records.find((person) => person.person_id === entry.record_id),
+    )));
+    expect(() => input.plan()).toThrow(/person identity.*found 2/);
+  });
+
+  it('cleans withdrawn overview and individual entrances through the actual sync CLI', () => {
+    const input = fixture(); const entry = overviewEntry(input.read(publicationPath));
+    expect(input.run().status).toBe(0); const before = input.generated();
+    input.mutate(entry.editorial_path, (text) => { text.entrances = []; });
+    expect(input.run(true).status).toBe(1); expect(input.run().status).toBe(0);
+    expect(input.generated().ilyenkov.entrances).toEqual([]);
+    input.mutate(publicationPath, (manifest) => { overviewEntry(manifest).publication_scope = 'internal_public'; });
+    expect(input.run(true).status).toBe(1); expect(input.run().status).toBe(0);
+    delete before.ilyenkov; expect(input.generated()).toEqual(before);
+    const check = input.run(true); expect(check.status, check.stderr).toBe(0);
+    expect(check.stdout).toContain('written=0 stale=0');
+  });
+});
+
+
+describe('strict overview manuscript contract', () => {
+  it.each([
+    (text) => { text.summary = ''; },
+    (text) => { text.introduction = []; },
+    (text) => { text.identity = 'Duplicated name'; },
+    (text) => { text.lifespan = '1900—2000'; },
+    (text) => { text.events = []; },
+    (text) => { text.entrances = [{ target: 'private', label: 'Label', summary: 'Summary.' }]; },
+    (text) => { text.entrances.push(structuredClone(text.entrances[0])); },
+    (text) => { text.entrances[0].css = 'layout'; },
+  ])('rejects malformed prose, fact copies, arbitrary targets and layout fields', (change) => {
+    const input = fixture(); const entry = overviewEntry(input.read(publicationPath));
+    input.mutate(entry.editorial_path, change); expect(() => input.plan()).toThrow();
+  });
+
+  it('keeps summary and introduction independently authored without duplicating their consumers', () => {
+    const input = fixture(); const entry = overviewEntry(input.read(publicationPath));
+    const before = input.plan();
+    input.mutate(entry.editorial_path, (text) => { text.summary = 'Synthetic homepage summary.'; });
+    const after = input.plan();
+    expect(after.ilyenkov.summary).toBe('Synthetic homepage summary.');
+    expect(after.ilyenkov.introduction).toEqual(before.ilyenkov.introduction);
+    for (const key of Object.keys(before).filter((key) => key !== 'ilyenkov')) expect(after[key]).toEqual(before[key]);
   });
 });
