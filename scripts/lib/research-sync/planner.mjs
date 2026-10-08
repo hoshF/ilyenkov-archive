@@ -43,7 +43,7 @@ const personsRelative = 'people/persons.json';
 const researcherResourceKinds = new Set(['personal', 'orcid', 'institution']);
 const researcherPublicationFields = new Set([
   'public_id', 'publication_scope', 'kind', 'record_path', 'record_id',
-  'title_zh', 'summary_zh', 'resource_kinds',
+  'title_zh', 'summary_zh', 'resource_kinds', 'editorial_path',
 ]);
 const supportedKinds = new Set([
   'biography_event',
@@ -501,7 +501,8 @@ export function plannedResearchRecords({ projectRoot, researchRoot }) {
   const selectedEditorial = (entry, label, kind) => {
     if (!Object.hasOwn(entry, 'editorial_path')) return {};
     const manuscript = readEditorial(requiredString(entry, 'editorial_path', label), label);
-    const fields = kind === 'ifi_network' ? ['introduction', 'symposiumsLead'] : ['introduction'];
+    const fields = kind === 'ifi_network' ? ['introduction', 'symposiumsLead']
+      : kind === 'researcher_profile' ? ['introduction', 'workDescription'] : ['introduction'];
     for (const key of Object.keys(manuscript)) {
       if (!fields.includes(key)) fail(`${label}: unsupported editorial field ${key}`);
     }
@@ -510,6 +511,9 @@ export function plannedResearchRecords({ projectRoot, researchRoot }) {
         introduction: requiredStringArray(manuscript, 'introduction', `${label} editorial`),
         ...(kind === 'ifi_network' ? {
           symposiumsLead: requiredString(manuscript, 'symposiumsLead', `${label} editorial`),
+        } : {}),
+        ...(kind === 'researcher_profile' ? {
+          workDescription: requiredString(manuscript, 'workDescription', `${label} editorial`),
         } : {}),
       },
     };
@@ -547,12 +551,15 @@ export function plannedResearchRecords({ projectRoot, researchRoot }) {
       if (recordPath !== personsRelative) {
         fail(`${label}: researcher record_path must use ${personsRelative}`);
       }
-      records.researchers.push(adaptCanonicalResearcher({
-        entry,
-        label,
-        publicId,
-        recordData: readJson(personsRelative, `${label} record_path`),
-      }));
+      records.researchers.push({
+        ...adaptCanonicalResearcher({
+          entry,
+          label,
+          publicId,
+          recordData: readJson(personsRelative, `${label} record_path`),
+        }),
+        ...selectedEditorial(entry, label, kind),
+      });
       continue;
     }
     const recordData = readJson(recordPath, `${label} record_path`);

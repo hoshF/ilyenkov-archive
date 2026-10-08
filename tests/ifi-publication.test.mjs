@@ -358,9 +358,13 @@ describe('IFI private editorial publication', () => {
     const expected = input.generated();
     expect(expected.ifiNetworks[0].editorial).toBeDefined();
     expect(expected.readingsSeries[0].editorial).toBeDefined();
-    const paths = input.read(publicationPath).records.flatMap((entry) => entry.editorial_path ? [entry.editorial_path] : []);
+    const paths = input.read(publicationPath).records.flatMap((entry) => (
+      ['ifi_network', 'ilyenkov_readings_series'].includes(entry.kind) && entry.editorial_path ? [entry.editorial_path] : []
+    ));
     input.mutate(publicationPath, (manifest) => {
-      for (const entry of manifest.records) delete entry.editorial_path;
+      for (const entry of manifest.records) {
+        if (['ifi_network', 'ilyenkov_readings_series'].includes(entry.kind)) delete entry.editorial_path;
+      }
     });
     for (const selectedPath of paths) input.write(selectedPath, { unsupported: 'UNSELECTED_EDITORIAL_SENTINEL' });
     const second = input.run();

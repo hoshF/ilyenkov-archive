@@ -1,4 +1,3 @@
-import { maidanskyEditorial } from '../src/lib/editorial';
 import { renderPublicMarkdown } from '../src/lib/markdown';
 import { readFileSync } from 'node:fs';
 import { describe, expect, it } from 'vitest';
@@ -153,7 +152,7 @@ describe('IFI public detail and research entry', () => {
     const researchers = sectionById(main, 'researcher-andrey-maidansky-heading');
     expect(textContent(researchers)).toContain(researcher.name);
     expect(textContent(researchers)).toContain(researcher.originalName);
-    expect(textContent(researchers)).toContain(maidanskyEditorial.workDescription);
+    expect(textContent(researchers)).toContain(getPublicResearchers().find((record) => record.id === 'researcher-andrey-maidansky')!.editorial!.workDescription);
     expect(links(researchers)).toEqual([{
       href: '/research/researchers/andrey-maidansky/', label: researcher.name,
     }]);

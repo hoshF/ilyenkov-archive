@@ -19,7 +19,10 @@ to private manuscripts selected by the required roots. `record_ids` refers to ex
 publication `public_id` values, never private record IDs. Preserve authored stage and section
 order; resolve missing stage summaries from the referenced public activity summaries without
 saving copies. Pages render generated data with no fallback; route mappings, record sorting,
-work-type grouping and formatting stay in public. Other public editorial inputs remain here.
+work-type grouping and formatting stay in public. Researcher introductions and work descriptions
+belong to private `web/editorial/`, selected by the researcher publication `editorial_path`.
+Home summaries reuse publication metadata; translations derive from public article author identities.
+Other public editorial inputs remain here.
 
 [docs/PUBLICATION.md](docs/PUBLICATION.md) defines publication permissions and field contracts.
 Public editorial prose must not bypass those boundaries to expose unpublished private data or

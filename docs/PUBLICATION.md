@@ -126,12 +126,12 @@ HTML 标识由 public 维护。
 ### 研究者身份与公开字段
 
 人物事实的 canonical identity 由 private `people/persons.json` 维护。`researcher_profile`
-publication 只选择哪个 person 成为公开研究者，并提供中文姓名、简介及资源选择；不维护作品列表。
+publication 只选择哪个 person 成为公开研究者，并提供中文姓名、短摘要、资源选择及可选的成稿路径；不维护作品列表。
 条目必须以 `record_path: people/persons.json`、`record_id = person_id` 唯一定位人物，要求非空
 `name_original`、`title_zh` 和 `summary_zh`。不读取 works master、internet source index 或 researcher 精选作品。
 
 publication 严格只接受 `public_id`、`publication_scope`、`kind`、`record_path`、`record_id`、
-`title_zh`、`summary_zh`、`resource_kinds`。`source_path`、`author_zh`、`author_original`、`works`
+`title_zh`、`summary_zh`、`resource_kinds` 与可选 `editorial_path`。`source_path`、`author_zh`、`author_original`、`works`
 及 `include_roles`、`include_research_fields`、`include_latin_name` 等额外字段均拒绝，不提供兼容路径。
 
 | 公开字段 | 来源与范围 |
@@ -139,6 +139,7 @@ publication 严格只接受 `public_id`、`publication_scope`、`kind`、`record
 | `id`、`name`、`summary` | publication 的 `public_id`、`title_zh`、`summary_zh` |
 | `personId` | 唯一解析的 canonical `person_id`，与 publication 的 `record_id` 相等 |
 | `originalName` | person 的非空 `name_original` |
+| 可选 `editorial.introduction`、`editorial.workDescription` | `editorial_path` 选定的 Markdown 段落数组与非空单行研究工作说明 |
 | 可选 `latinName` | person 的 `name_latin` |
 | 可选 `roles`、`researchFields` | person 的 `roles`、`research_fields`；属于固定允许字段，不由 `include_*` 开关选择 |
 | `resources[].kind`、`resources[].url` | publication 的 `resource_kinds` 明选，URL 只来自 person 的对应资源 |
@@ -237,14 +238,16 @@ Webinar series 的 `official_page` 属于其独立 private 记录，本契约不
 
 ## 公开编辑文字
 
+研究者成稿只接受 `introduction` Markdown 段落数组与非空单行 `workDescription`。中文短摘要仍由 publication 的 `summary_zh` 唯一维护，首页和详情描述复用；研究入口显示 `workDescription`，详情正文显示 `introduction`。成稿不保存人物事实、文章清单或布局字段。
+
 IFI 与 Readings 的公开中文成稿分别维护在 private `web/editorial/ifi.json` 与
 `web/editorial/readings.json`。成稿包含非空 `introduction` Markdown 段落数组；IFI 成稿另含
 非空 `symposiumsLead` 历史列表导语。只接受各类型的这些成稿字段，额外字段使同步失败。
 
-`ifi_network` 与 `ilyenkov_readings_series` 条目可用 `editorial_path` 明确选择成稿文件，路径相对
+`ifi_network`、`ilyenkov_readings_series` 与 `researcher_profile` 条目可用 `editorial_path` 明确选择成稿文件，路径相对
 private 仓库根目录解析。路径必须为 `web/editorial/<slug>.json`，slug 使用小写字母、数字与连字符；
 绝对路径、目录穿越、其他目录以及实际解析后离开 `web/editorial/` 的符号链接均拒绝。
-只有获准条目选择的成稿才进入生成 network 或 series 的可选 `editorial`；路径本身不输出。没有
+只有获准条目选择的成稿才进入生成 network、series 或 researcher 的可选 `editorial`；路径本身不输出。没有
 选择时，即使成稿文件存在也不输出，public 页面省略简介及 IFI 导语，不使用本地文字副本、默认
 文字或自动发现的成稿。选定文件缺失或字段无效时同步失败。
 
@@ -256,7 +259,7 @@ private 仓库根目录解析。路径必须为 `web/editorial/<slug>.json`，sl
 publication 根对象 `life`、`circle` 选择，并适用同样的路径限制；字段与引用契约见
 [生平与交往](#生平与交往)。
 
-人物总页入口、人物与研究者介绍及其他 public 编辑文字仍在 public `editorial/` 或对应页面中
+人物总页入口、人物总页介绍及其他 public 编辑文字仍在 public `editorial/` 或对应页面中
 维护。这些文字依据来源组织和解释已获准公开的内容；canonical 研究事实、来源证据与发布决定仍由
 private 维护，不由公开编辑文字替代。
 

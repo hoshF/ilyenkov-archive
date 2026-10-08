@@ -40,15 +40,3 @@ const IlyenkovEditorialSchema = z.object({
 }).strict();
 
 export const ilyenkov = IlyenkovEditorialSchema.parse(readEditorialJson('ilyenkov.json'));
-
-const IntroductionSchema = z.object({
-  introduction: z.array(z.string().trim().min(1)).min(1),
-}).strict();
-
-const ResearcherEditorialSchema = IntroductionSchema.extend({
-  workDescription: z.string().trim().min(1),
-}).strict();
-
-export const maidanskyEditorial = ResearcherEditorialSchema.parse(
-  readEditorialJson('researchers/andrey-maidansky.json'),
-);

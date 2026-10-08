@@ -177,20 +177,20 @@ Readings 来源 URL 按 `current → original → archive → 既有 flat url` �
 
 ## 公开成稿同步
 
-所选 `ifi_network` 或 `ilyenkov_readings_series` publication 的 `editorial_path` 指向 private
-`web/editorial/` 中的成稿。研究同步器读取并校验类型允许的字段，分别写入生成 network 或 series
-的可选 `editorial`。IFI 允许 `introduction` 与 `symposiumsLead`，Readings 只允许 `introduction`；
+所选 `ifi_network`、`ilyenkov_readings_series` 或 `researcher_profile` publication 的 `editorial_path` 指向 private
+`web/editorial/` 中的成稿。研究同步器读取并校验类型允许的字段，分别写入生成 network、series 或 researcher
+的可选 `editorial`。IFI 允许 `introduction` 与 `symposiumsLead`，Readings 只允许 `introduction`；研究者只允许 `introduction` 与非空单行 `workDescription`；
 额外字段使同步失败。路径限制与字段契约见[公开编辑文字](PUBLICATION.md#公开编辑文字)。
 不输出 locator、不扫描成稿目录、不复制 canonical 记录。
 
 未选择成稿时不生成 `editorial`；选定文件缺失或字段无效时同步失败。页面只读取
 `.website-input/research-records.json` 中的成稿，`introduction` 经 `renderPublicMarkdown()` 渲染；
-不存在时省略简介及 IFI 导语，不读取 private 文件或 public 文字副本。
+不存在时省略简介、IFI 导语及研究者工作说明，不读取 private 文件或 public 文字副本。
 
 ## public 编辑输入与缓存
 
-`editorial/` 的站点配置、人物与研究者介绍、书籍、小组工作、分类与动态直接由 public 读取，不经过
-private 同步通道，也不进入 `.website-input/`。人物与研究者介绍由 `src/lib/editorial.ts` 校验，
+`editorial/` 的站点配置、人物总页介绍、书籍、小组工作、分类与动态直接由 public 读取，不经过
+private 同步通道，也不进入 `.website-input/`。人物总页介绍由 `src/lib/editorial.ts` 校验，
 Markdown 介绍复用 `renderPublicMarkdown()`。`summary` 与 `introduction` 的使用分工见架构说明；
 公开编辑叙述的权限边界见发布说明的[公开编辑文字](PUBLICATION.md#公开编辑文字)。
 

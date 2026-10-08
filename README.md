@@ -12,7 +12,7 @@ GitHub 仓库为 `hoshF/ilyenkov-archive`；本地目录 `Ilyenkov-public` 与�
 - **private**：canonical 研究事实、原文、翻译、审校、来源与权利证据；统一公开接口为根目录的
   `web/publication.json`，其中 `works` 选择译文，`records` 选择研究记录；根对象 `timeline` 指定
   年表采用的获准记录类型与成稿；`works_catalog`、`life`、`circle` 分别指定作品目录、生平、
-  交往与活动成稿。canonical 事实与原文、译文保持各自的维护位置；这些页面及 IFI、Readings 的
+  交往与活动成稿。canonical 事实与原文、译文保持各自的维护位置；这些页面及 IFI、Readings、研究者的
   公开文字由 `web/editorial/` 维护，经 `editorial_path` 明确选择后同步。生平分期、主题范围与
   导引由 private 维护，记录排序、版式与格式由 public 维护。
 - **生成输入**：`web/publication.json` 中 `website_public` 条目同步到 `.website-input/`；该目录与构建产物

@@ -1,5 +1,4 @@
 ---
-import { maidanskyEditorial } from '../lib/editorial';
 import BaseLayout from '../layouts/BaseLayout.astro';
 import SectionLayout from '../components/SectionLayout.astro';
 import {
@@ -31,7 +30,7 @@ if (!researcher) throw new Error('Maidansky public researcher profile is missing
     <section class="research-series" aria-labelledby="researcher-andrey-maidansky-heading">
         <h2 id="researcher-andrey-maidansky-heading"><a href="/research/researchers/andrey-maidansky/">{researcher.name}</a></h2>
         <p class="record__original">{researcher.originalName}</p>
-        <p class="record__summary">{maidanskyEditorial.workDescription}</p>
+        {researcher.editorial && <p class="record__summary">{researcher.editorial.workDescription}</p>}
     </section>
 
     <section class="research-series" aria-labelledby="readings-heading">

@@ -1,7 +1,9 @@
-import { existsSync, mkdirSync, mkdtempSync, readFileSync, rmSync, writeFileSync } from 'node:fs';
+import { spawnSync } from 'node:child_process';
+import { cpSync, existsSync, mkdirSync, mkdtempSync, readFileSync, rmSync, writeFileSync } from 'node:fs';
 import { tmpdir } from 'node:os';
 import path from 'node:path';
 import { afterEach, describe, expect, it } from 'vitest';
+import { writeGenerated } from '../scripts/lib/sync.mjs';
 import { plannedResearchRecords } from '../scripts/lib/research-sync/planner.mjs';
 import { ResearcherSchema, ResearchRecordsSchema } from '../src/lib/research-records';
 import { researchRoot } from './helpers/publication';
@@ -39,6 +41,16 @@ function fixture() {
   }
   return {
     root,
+    run(checkOnly = false) {
+      const publicRoot = path.join(root, 'public');
+      mkdirSync(path.join(publicRoot, 'scripts'), { recursive: true });
+      cpSync(path.join(projectRoot, 'scripts/lib'), path.join(publicRoot, 'scripts/lib'), { recursive: true });
+      cpSync(path.join(projectRoot, 'scripts/sync-research-records.mjs'), path.join(publicRoot, 'scripts/sync-research-records.mjs'));
+      return spawnSync(process.execPath, ['scripts/sync-research-records.mjs', ...(checkOnly ? ['--check'] : [])], {
+        cwd: publicRoot, env: { ...process.env, ILYENKOV_ROOT: sourceRoot }, encoding: 'utf8', timeout: 10_000,
+      });
+    },
+    generated: () => readJson(path.join(root, 'public'), '.website-input/research-records.json'),
     remove: (relative) => rmSync(path.join(sourceRoot, relative)),
     read: (relative) => readJson(sourceRoot, relative),
     write(relative, data) {
@@ -88,6 +100,7 @@ describe('canonical researcher publication', () => {
     const entry = researcherEntry(input.read(publicationPath));
     const person = canonicalPerson(input.read(personsPath));
     expect(input.plan().researchers).toEqual([{
+      editorial: input.read(entry.editorial_path),
       id: researcherId,
       personId,
       name: entry.title_zh,
@@ -117,7 +130,7 @@ describe('canonical researcher publication', () => {
     });
     const researcher = input.plan().researchers[0];
     expect(Object.keys(researcher).sort()).toEqual([
-      'id', 'latinName', 'name', 'originalName', 'personId', 'researchFields',
+      'editorial', 'id', 'latinName', 'name', 'originalName', 'personId', 'researchFields',
       'resources', 'roles', 'summary',
     ]);
     const serialized = JSON.stringify(researcher);
@@ -136,6 +149,7 @@ describe('canonical researcher publication', () => {
       registry.records.push({ person_id: 'person-no-public-translations', name_original: 'A researcher' });
     });
     input.mutate(publicationPath, (manifest) => {
+      delete researcherEntry(manifest).editorial_path;
       Object.assign(researcherEntry(manifest), {
         record_id: 'person-no-public-translations',
         title_zh: '研究者',
@@ -315,4 +329,89 @@ describe('strict public researcher schema', () => {
     mutate(record);
     expect(ResearcherSchema.safeParse(record).success).toBe(false);
   });
+});
+
+
+describe('explicit researcher editorial selection', () => {
+  it('projects only selected manuscript fields and removes withdrawn prose from generated input', () => {
+    const input = fixture();
+    const entry = researcherEntry(input.read(publicationPath));
+    input.write(entry.editorial_path, { introduction: ['Synthetic introduction.'], workDescription: 'Synthetic research description.' });
+    const target = path.join(input.root, 'generated', 'research-records.json');
+    const sync = (checkOnly = false) => writeGenerated(target, `${JSON.stringify(input.plan())}\n`, { checkOnly });
+    expect(sync()).toBe(true);
+    expect(input.plan().researchers[0].editorial).toEqual(input.read(entry.editorial_path));
+    expect(JSON.stringify(input.plan())).not.toContain(entry.editorial_path);
+    input.mutate(publicationPath, (manifest) => { delete researcherEntry(manifest).editorial_path; });
+    input.write(entry.editorial_path, { invalid: 'Unselected manuscript must not be read.' });
+    expect(sync(true)).toBe(true);
+    expect(sync()).toBe(true);
+    expect(sync(true)).toBe(false);
+    expect(readJson(path.dirname(target), path.basename(target)).researchers[0]).not.toHaveProperty('editorial');
+    expect(readFileSync(target, 'utf8')).not.toContain('Synthetic introduction.');
+  });
+
+  it.each(['internal_public', 'unauthorized'])('does not read %s researcher editorial or its canonical person', (scope) => {
+    const input = fixture();
+    const before = input.plan();
+    input.mutate(publicationPath, (manifest) => {
+      manifest.records.push({ public_id: 'researcher-private', publication_scope: scope,
+        kind: 'researcher_profile', record_path: 'private/missing.json',
+        record_id: 'person-private', editorial_path: 'web/editorial/missing.json' });
+    });
+    expect(input.plan()).toEqual(before);
+  });
+
+  it('does not interpret prose references as publication selections', () => {
+    const input = fixture();
+    const entry = researcherEntry(input.read(publicationPath));
+    const before = input.plan();
+    input.mutate(personsPath, (registry) => {
+      registry.records.push({ person_id: 'person-unpublished', name_original: 'PRIVATE_PERSON_SENTINEL' });
+    });
+    input.write(entry.editorial_path, { introduction: ['person-unpublished: research/private/missing.json'], workDescription: 'Synthetic description.' });
+    const after = input.plan();
+    expect(after.researchers.map((record) => record.personId)).toEqual(before.researchers.map((record) => record.personId));
+    expect(JSON.stringify(after)).not.toContain('PRIVATE_PERSON_SENTINEL');
+    for (const key of Object.keys(before).filter((key) => key !== 'researchers')) expect(after[key]).toEqual(before[key]);
+  });
+
+  it.each(['', null, '../private.json', 'people/persons.json', 'web/editorial/missing.json'])('rejects invalid or dangling manuscript path %j', (editorialPath) => {
+    const input = fixture();
+    input.mutate(publicationPath, (manifest) => { researcherEntry(manifest).editorial_path = editorialPath; });
+    expect(() => input.plan()).toThrow();
+  });
+
+  it.each([
+    { introduction: [], workDescription: 'Description.' },
+    { introduction: [' '], workDescription: 'Description.' },
+    { introduction: ['Introduction.'] },
+    { introduction: ['Introduction.'], workDescription: ' ' },
+    { introduction: ['Introduction.'], workDescription: 'Two\nlines' },
+    { introduction: ['Introduction.'], workDescription: 'Description.', personId: 'person-private' },
+    { introduction: ['Introduction.'], workDescription: 'Description.', works: [] },
+  ])('rejects malformed prose or structured reference overrides %j', (manuscript) => {
+    const input = fixture();
+    const entry = researcherEntry(input.read(publicationPath));
+    input.write(entry.editorial_path, manuscript);
+    expect(() => input.plan()).toThrow();
+    expect(ResearcherSchema.safeParse({ ...fixture().plan().researchers[0], editorial: manuscript }).success).toBe(false);
+  });
+});
+
+
+it('cleans withdrawn researcher editorial through the actual sync CLI without changing articles or other records', () => {
+  const input = fixture();
+  const first = input.run();
+  expect(first.status, first.stderr).toBe(0);
+  const before = input.generated();
+  input.mutate(publicationPath, (manifest) => { delete researcherEntry(manifest).editorial_path; });
+  expect(input.run(true).status).toBe(1);
+  const second = input.run();
+  expect(second.status, second.stderr).toBe(0);
+  delete before.researchers[0].editorial;
+  expect(input.generated()).toEqual(before);
+  const check = input.run(true);
+  expect(check.status, check.stderr).toBe(0);
+  expect(check.stdout).toContain('written=0 stale=0');
 });

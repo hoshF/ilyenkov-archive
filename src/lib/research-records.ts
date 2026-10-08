@@ -131,7 +131,13 @@ const IfiSymposiumSchema = z.object({
   sources: z.array(SourceSchema).min(1),
 }).strict();
 
+const ResearcherEditorialSchema = z.object({
+  introduction: z.array(z.string().trim().min(1)).min(1),
+  workDescription: z.string().trim().min(1).regex(/^[^\r\n]+$/),
+}).strict();
+
 export const ResearcherSchema = z.object({
+  editorial: ResearcherEditorialSchema.optional(),
   id: z.string().regex(/^[a-z0-9]+(?:-[a-z0-9]+)*$/),
   personId: z.string().regex(/^[a-z0-9]+(?:-[a-z0-9]+)*$/),
   name: z.string().trim().min(1),
