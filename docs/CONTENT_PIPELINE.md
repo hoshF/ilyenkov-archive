@@ -189,7 +189,7 @@ Readings 来源 URL 按 `current → original → archive → 既有 flat url` �
 
 ## public 编辑输入与缓存
 
-`editorial/` 的站点配置、小组工作、分类与动态直接由 public 读取，不经过
+`editorial/` 的站点配置、小组工作与动态直接由 public 读取，不经过
 private 同步通道，也不进入 `.website-input/`。站点配置由 `src/lib/editorial.ts` 校验。`summary` 与 `introduction` 的使用分工见架构说明；
 公开编辑叙述的权限边界见发布说明的[公开编辑文字](PUBLICATION.md#公开编辑文字)。
 
@@ -286,3 +286,12 @@ publication sync → astro check → astro build → vitest run
 编译介绍并派生路由和最新显示版次；分组与展示继续由 public 实现。
 空选择生成空数组，撤回记录后整份输入重写清理；缺少生成输入时失败，不提供旧路径 fallback。
 书籍记录选择不改变 works 正文范围，不读取或复制正文、PDF、EPUB、扫描件或封面资产。
+
+## Archive 分类投影
+
+`archive_taxonomy` 选择 private `web/editorial/archive-taxonomy.json`。
+`scripts/sync-archive-taxonomy.mjs` 在译文同步后校验指派与 website_public selection 及生成文章 ID，
+只输出词表 label 和文章的分类 ID 到 `.website-input/archive-taxonomy.json`。
+未选择时移除该生成文件；无效引用在正常同步时清除旧输入并失败，--check 不改写。
+`src/lib/archive-taxonomy.ts` 只读取生成输入，派生词条、命中数与筛选路由。
+分类人物不参与 authorIds；文章事实仍来自既有 articles 输入。

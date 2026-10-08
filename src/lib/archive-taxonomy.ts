@@ -1,33 +1,10 @@
 import { readFileSync } from 'node:fs';
 import path from 'node:path';
-import { z } from 'zod';
+import { ArchiveTaxonomySchema } from './archive-taxonomy-record.mjs';
 import { buildCache } from './cache';
 
-/**
- * Archive 的受控编辑分类。
- *
- * 这是 public 仓库自己维护的正式编辑数据，与 editorial/group/ 同一所有权层：
- * 不经过 private 同步通道，也不进入 .website-input/。它回答的是"这篇关于什么、主要研究谁"，
- * 属于站点的浏览分类，而题名、作者、年份、来源那些文献事实来自 private 的 website_public 选择。
- */
-
-const taxonomyPath = path.join(process.cwd(), 'editorial', 'archive-taxonomy.json');
-const idPattern = /^[a-z0-9]+(?:-[a-z0-9]+)*$/;
-
-const TermSchema = z.object({
-  label: z.string().trim().min(1),
-}).strict();
-
-const AssignmentSchema = z.object({
-  topics: z.array(z.string().regex(idPattern)).default([]),
-  persons: z.array(z.string().regex(idPattern)).default([]),
-}).strict();
-
-const ArchiveTaxonomySchema = z.object({
-  topics: z.record(z.string().regex(idPattern), TermSchema),
-  persons: z.record(z.string().regex(idPattern), TermSchema),
-  articles: z.record(z.string().regex(idPattern), AssignmentSchema),
-}).strict();
+/** Archive 分类由 private 选择，public 只消费生成输入并派生展示数据。 */
+const taxonomyPath = path.join(process.cwd(), '.website-input', 'archive-taxonomy.json');
 
 export interface TaxonomyTerm {
   id: string;

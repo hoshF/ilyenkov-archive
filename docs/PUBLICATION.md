@@ -337,10 +337,16 @@ resources 或其他完整事实纳入 article。人物是否已有 researcher pu
 作者；registry 中存在一个人物也不使其作品自动公开。internal work 仍受 translation publication
 selection 控制；未公开且缺少 `authors[]` 的 work 不阻塞同步，若被选择公开则必须满足同一作者契约。
 
-`topics` 与 `persons` **不属于**这份 allowlist：它们是 public 仓库自行维护的 Archive 编辑分类
-（`editorial/archive-taxonomy.json`），不是 translation 的发布元数据，因此不写进 `work.json`，
-也不由同步器输出。`persons` 表示文章研究或涉及的人物，不能派生作者，也不接收 `author_ids`。
-所有权与完整性规则见[架构说明](ARCHITECTURE.md)的“文件所有权”，分类集合由 public schema 校验。
+`topics` 与 `persons` 是 private 的 Archive 编辑分类，不写进 translation `work.json`。
+`persons` 表示文章研究或涉及的人物，不能派生作者，也不接收 `author_ids`。
+`web/publication.json` 的可选 `archive_taxonomy` 只接受 `publication_scope` 与 `editorial_path`；
+website_public 选择只允许 `web/editorial/archive-taxonomy.json`，实际文件不得越出 editorial 目录。
+成稿只接受 topics、persons 词表（公开 label）及以 work_id 为键的 articles 指派（词条 ID 数组）。
+不复制文章事实，不读取其他分类文件，不自动发布引用的文章。
+指派须与已获准的生成文章完全一致；缺失、dangling、非 website_public、重复发布身份、
+未定义词条或重复指派均失败。未选择 taxonomy 时不读取文件且撤回生成输入。
+正常同步遇到错误会移除旧 taxonomy 并失败；--check 只报告不改写。
+Archive 构建必须有有效的生成 taxonomy，不保留 public 成稿或 fallback。
 
 ## 书籍与正式成果
 

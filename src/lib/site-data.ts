@@ -60,7 +60,7 @@ export interface ReadableDocument {
   /** 列表与详情页共用的作者署名。 */
   authorLabel: string;
   year: string;
-  /** public 编辑分类；用于 Archive 分类视图，不作为作者身份。 */
+  /** private 发布的编辑分类；用于 Archive 分类视图，不作为作者身份。 */
   topics: ArticleTaxonomy['topics'];
   persons: ArticleTaxonomy['persons'];
   html: string;

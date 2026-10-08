@@ -28,6 +28,9 @@ Public maps entrance targets to routes. Website book metadata and Markdown belon
 `web/editorial/books/`, explicitly selected by `books` in the same manifest. The book syncer writes
 `.website-input/books.json`; pages never load the former public editorial or fall back to it.
 Book selections do not authorize translation bodies or copy PDFs, EPUBs, scans or covers.
+Archive vocabulary and article classifications belong to private `web/editorial/archive-taxonomy.json`,
+selected by `archive_taxonomy` and projected into `.website-input/archive-taxonomy.json`. References
+must match approved generated articles and cannot authorize them. Public only implements filtering and display.
 Other public editorial inputs remain here.
 
 [docs/PUBLICATION.md](docs/PUBLICATION.md) defines publication permissions and field contracts.

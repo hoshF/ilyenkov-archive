@@ -96,7 +96,7 @@ RSS 在构建时生成，HTML 订阅发现与 feed 共用 Astro `site` 基址，
 | private `web/editorial/books/` | 网站书籍元数据、版次与介绍；由 books 显式选择，经生成输入消费 |
 | `editorial/group/` | 小组按期公共工作记录及其摘要、公开日期 |
 | `editorial/updates.json` | 简短公开动态的单一事实源 |
-| `editorial/archive-taxonomy.json` | Archive 的公开编辑分类及逐篇指派，不是作者事实 |
+| private `web/editorial/archive-taxonomy.json` | Archive 的公开编辑分类及逐篇指派，不是作者事实 |
 | `scripts/` | 发布选择校验、同步、字段裁剪与输入生成 |
 | `src/` | 页面、组件、布局、公开数据适配、Markdown 渲染与样式 |
 | `tests/` | 权限边界、数据契约、页面结构和样式行为的回归检查；共享读取入口在 `tests/helpers/` |
@@ -126,7 +126,7 @@ note 与 `typeNotes` 由根对象 `works_catalog` 选择成稿，作品本身仍
 译文与结构化研究资料统一由 private `web/publication.json` 逐项选择，分别登记在 `works` 与
 `records` 中；清单引用的事实、文本和来源保持各自的维护位置，不在接口中复制。public 只在同步
 阶段读取 private 输入，页面读取 `.website-input/`，不把生成输入改成另一份 tracked 内容库。
-小组记录、动态与分类由 public 自行维护，不经过 private 同步通道。
+小组记录与动态由 public 自行维护；Archive 分类由 private 选择，经生成输入消费。
 Archive 分类中的 `persons` 回答文章涉及谁；文章 `authorIds` 回答谁写了它，两者不互相推导。
 
 研究详情页的辅助链接由 `ResourceLinks` 展示；页面负责选择公开资源及中文标签。

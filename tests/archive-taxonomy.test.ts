@@ -4,6 +4,7 @@ import { describe, expect, it } from 'vitest';
 import {
   assertTaxonomyCoversArticles,
   getArchiveTaxonomy,
+  getArchiveVocabulary,
 } from '../src/lib/archive-taxonomy';
 import { getSiteData } from '../src/lib/site-data';
 
@@ -49,20 +50,13 @@ describe('archive taxonomy', () => {
       .toThrow(new RegExp(`no longer published: ${first}`));
   });
 
-  it('keeps the first version of the vocabulary scoped and free of single-use terms', async () => {
+  it('uses the selected vocabulary without duplicating its identities in tests', () => {
     const taxonomy = getArchiveTaxonomy();
-    const topics = new Set([...taxonomy.values()].flatMap((a) => a.topics.map((t) => t.id)));
-    const persons = new Set([...taxonomy.values()].flatMap((a) => a.persons.map((p) => p.id)));
-
-    // 词表是编辑决策：只有确定在用的主题与人物才留在受控表里。
-    expect([...topics].sort()).toEqual([
-      'dialectics',
-      'education',
-      'ideal',
-      'psychology',
-      'soviet-philosophy',
-    ]);
-    expect([...persons].sort()).toEqual(['spinoza', 'vygotsky']);
+    const vocabulary = getArchiveVocabulary();
+    for (const kind of ['topics', 'persons'] as const) {
+      const used = new Set([...taxonomy.values()].flatMap((assignment) => assignment[kind].map((term) => term.id)));
+      expect([...used].sort()).toEqual(vocabulary[kind].map((term) => term.id).sort());
+    }
   });
 
   it('assigns a defensible number of terms per article', async () => {
