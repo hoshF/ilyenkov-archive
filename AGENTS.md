@@ -1,17 +1,14 @@
 ## Development
 
-This repository is the public identity, website, and publication anchor of the Chinese Ilyenkov
-Group: routes, rendering, styles, public editorial framing, publication records, and deployment.
-Research facts and publication decisions belong to the private research repository.
+This public repository owns the website, reader-facing editorial framing, group records,
+book publication records, and static deployment. Canonical research facts, source and rights
+evidence, and publication decisions belong to the private research repository.
 
-Website build inputs are generated into ignored `.website-input/` files from the private
-repository's publication manifests. Never stage them or replace them with a tracked content
-directory. Set `ILYENKOV_ROOT` when the private repository is not the sibling `Ilyenkov`
-directory.
-
-Restricted study texts never enter the public `dist/`.
-[docs/PUBLICATION.md](docs/PUBLICATION.md) governs what may enter the build;
-[docs/CONTENT_PIPELINE.md](docs/CONTENT_PIPELINE.md) describes the two input channels.
+[docs/PUBLICATION.md](docs/PUBLICATION.md) defines publication permissions and field contracts.
+Public editorial prose must not bypass those boundaries to expose unpublished private data or
+restricted source texts. Generated website inputs live in ignored `.website-input/`; never stage
+them or replace them with a tracked content directory. Restricted texts never enter public `dist/`.
+Set `ILYENKOV_ROOT` when the private repository is not the sibling `Ilyenkov` directory.
 
 Commit messages default to English, with an imperative subject line.
 
@@ -19,25 +16,26 @@ Use the npm scripts as the canonical development interface:
 
 ```
 npm run dev        # background server; dev:status, dev:logs, dev:stop manage it
-npm run verify     # type check, tests, build
+npm run verify     # publication sync and type check → static build → tests
 ```
 
-The dev server rereads records and the stylesheet on every request, so changes under
-`editorial/` and `src/` appear on `http://localhost:4321` without a restart. Changes in the
-private repository need `npm run publication:sync`.
+The dev server handles source and stylesheet updates. Data loaders using `buildCache` reread
+records in development; `src/lib/editorial.ts` parses site and introduction JSON at module load,
+so external JSON changes may require a dev-server restart. Private changes need
+`npm run publication:sync`. Data flow and caching are documented in
+[docs/CONTENT_PIPELINE.md](docs/CONTENT_PIPELINE.md).
 
 Shared entry points:
 
 - `scripts/lib/` — paths, validation, and the write/`--check` shell both syncers use;
   `research-sync/` holds the research planner and source resolution.
-- `src/lib/cache.ts` — what a production build caches.
-- `tests/helpers/` — page sources (`pages.ts`), the parsed stylesheet (`styles.ts`), and the
-  private publication manifest (`publication.ts`).
+- `src/lib/cache.ts` — production-build data caching.
+- `tests/helpers/` — page sources (`pages.ts`), parsed stylesheet (`styles.ts`), and private
+  publication manifest (`publication.ts`).
 
 Tests assert behaviour, not source text: read style declarations through `helpers/styles.ts`,
 and state the field contract rather than the current record count.
 
-The production site is static and should remain compatible with Cloudflare Pages. See
-[docs/ARCHITECTURE.md](docs/ARCHITECTURE.md) for information architecture,
-[docs/DEPLOYMENT.md](docs/DEPLOYMENT.md) for deployment boundaries, and
-https://docs.astro.build for the framework.
+Keep Astro static output compatible with Cloudflare Pages. Route and layout responsibilities
+are in [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md); deployment procedures and boundaries are in
+[docs/DEPLOYMENT.md](docs/DEPLOYMENT.md). Framework reference: https://docs.astro.build.

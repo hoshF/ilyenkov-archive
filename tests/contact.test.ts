@@ -45,7 +45,7 @@ describe('following and contacting the group', () => {
     expect([...main.matchAll(/<h1\b/g)]).toHaveLength(1);
     expect(main).toContain('关注与联系</h1>');
     expect([...main.matchAll(/<h2\b[^>]*>([^<]*)<\/h2>/g)].map(([, heading]) => heading))
-      .toEqual(['获取更新', '联系', '参与']);
+      .toEqual(['获取更新', '联系', '参与研究与整理']);
     expect(links(main).some(({ href }) => href === '/updates/')).toBe(true);
     expect(links(main)).toContainEqual({ href: `mailto:${site.contact.email}`, label: site.contact.email });
 
@@ -82,7 +82,6 @@ describe('following and contacting the group', () => {
   it('keeps public information and following options in the compact footer', () => {
     const expected = [
       { label: '项目与权利', href: '/about' },
-      { label: '小组', href: '/group' },
       { label: '近期动态', href: '/updates/' },
       { label: '关注与联系', href: '/contact/' },
       { label: 'RSS', href: '/rss.xml' },
@@ -90,8 +89,12 @@ describe('following and contacting the group', () => {
     expect(site.footer).toEqual(expected);
     for (const route of ['/', '/contact/', '/group/', '/updates/']) {
       const footer = builtPage(route).match(/<footer class="site-footer">([\s\S]*?)<\/footer>/)![1];
-      // 页脚站名字标保留；其余文字入口仍全部来自站点配置。
-      expect(links(footer)).toEqual([{ href: '/', label: site.name }, ...site.footer]);
+      // 关注入口在第一行，站名与权利入口在第二行。
+      expect(links(footer)).toEqual([
+        ...site.footer.filter((item) => item.href !== '/about'),
+        { href: '/', label: site.name },
+        ...site.footer.filter((item) => item.href === '/about'),
+      ]);
     }
     for (const item of site.footer) {
       expect(routeExists(item.href), item.href).toBe(true);

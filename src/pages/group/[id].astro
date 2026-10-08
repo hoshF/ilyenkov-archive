@@ -27,25 +27,27 @@ interface Props {
 const { issue, previous, next } = Astro.props;
 ---
 
-<BaseLayout title={issue.title} description={`第 ${issue.issue} 期：${issue.summary}`}>
+<BaseLayout title={issue.title} description={`第 ${issue.issue} 期：${issue.summary}`} reading>
   {/*
-    期详情默认是 Natural Flow：面包屑 → 期号与日期 → 题名 → 正文。它不生成左栏，
+    期详情复用文章阅读设置：面包屑 → 期号与日期 → 题名 → 正文。它不生成左栏，
     因为这一期的一级单位就是它自己——一个只有 1 项的“本期内容”不构成 rail 的功能理由，
     “返回小组工作”也由面包屑和篇末 document-nav 承担。
     将来某一期真的包含多个独立成果单元时，再按正文真实的 headings 生成目录。
   */}
-  <SectionLayout modifier="group-issue-page">
+  <SectionLayout reading>
     <Breadcrumbs slot="breadcrumb" items={[
       { label: '小组', href: '/group' },
       { label: `第 ${issue.issue} 期` },
     ]} />
 
-    <header class="page-header" slot="intro">
+    <header class="document-header" slot="intro">
       <p class="record__meta">第 {issue.issue} 期 · {issue.kind} · <time datetime={issue.published}>{issue.published}</time></p>
-      <h1 class="page-title" id={`issue-${issue.id}`}>{issue.title}</h1>
+      <h1 id={`issue-${issue.id}`}>{issue.title}</h1>
     </header>
 
-    <article class="prose prose--section" set:html={issue.html} />
+    <article aria-labelledby={`issue-${issue.id}`}>
+      <div class="prose" set:html={issue.html} />
+    </article>
 
     <nav class="document-nav" aria-label="小组工作导航">
       <p class="document-nav__back"><a href="/group">« 返回小组工作</a></p>

@@ -248,7 +248,7 @@ describe('website-approved data adapter', () => {
     expect(source).not.toContain('toc={toc}');
     expect(source).not.toContain('const toc =');
     expect(source).toContain('<header class="page-header" slot="intro">');
-    expect(source).toContain('class="page-title">世界研究</h1>');
+    expect(source).toContain('class="page-title">研究</h1>');
 
     // 实际输出依次呈现网络、研究者、学术活动、外部资料；四个深链接目标仍稳定。
     const html = readFileSync(builtRoutePath('/research/'), 'utf8');
@@ -257,7 +257,7 @@ describe('website-approved data adapter', () => {
       .map((match) => match[1]);
     expect(ids).toEqual([
       'ifi-heading',
-      'researchers-heading',
+      'researcher-andrey-maidansky-heading',
       'readings-heading',
       'research-sites-heading',
     ]);
@@ -267,8 +267,19 @@ describe('website-approved data adapter', () => {
     const text = main.replace(/<[^>]+>/g, '');
     expect(text).not.toMatch(/首批|目前先|后续将|正在逐步|第一阶段/);
     expect(text).not.toContain('从研究网络、研究者、学术活动与外部资料站点进入国际伊里因科夫研究。');
-    expect(text).toContain('介绍与伊里因科夫研究密切相关的研究者。');
+    expect(text).not.toContain('介绍与伊里因科夫研究密切相关的研究者。');
+    expect(text).not.toMatch(/了解 IFI|了解研究者|了解学术报告会|其国际网络形成于|现存会程资料中最早的会议/);
     expect(text).toContain('以下链接指向外部资料站点。');
+    const entityTitles = [...main.matchAll(/<h2\b[^>]*><a href="([^"]+)">([^<]+)<\/a><\/h2>/g)]
+      .map(([, href, title]) => ({ href, title }));
+    expect(entityTitles).toEqual([
+      { href: '/research/ifi/', title: '国际伊里因科夫之友' },
+      { href: '/research/researchers/andrey-maidansky/', title: '安德烈·迈丹斯基' },
+      { href: '/research/readings/', title: '伊里因科夫学术报告会' },
+    ]);
+    expect(main.match(/class="record__summary"/g)).toHaveLength(4);
+    expect(declaration('.research-hub .record__original', 'margin')).toBe('12px 0 0');
+    expect(declaration('.research-hub .record__summary', 'margin')).toBe('9px 0 0');
 
     // 深链接只保留标题自身的跳转留白；移动端沿用同一契约。
     for (const media of ['', '@media (max-width: 600px)']) {
@@ -327,8 +338,7 @@ describe('website-approved data adapter', () => {
   });
 
   it('reserves the reading serif for continuous reading text', () => {
-    // 界面一律无衬线；衬线只给连续正文——译文页（BaseLayout 的 reading）与小组期详情
-    // （group-issue-page 局部复用同一套字体语义）。
+    // 界面一律无衬线；译文与小组长文通过 reading 共用连续阅读字体。
     expect(declaration(':root', 'font-family')).toBe('var(--sans)');
     expect(layoutSource('BaseLayout')).toContain("reading && 'reading-page'");
 
@@ -337,23 +347,28 @@ describe('website-approved data adapter', () => {
     ));
     expect(serifRules.length).toBeGreaterThan(0);
     expect(serifRules.every((rule) => (
-      rule.selector.startsWith('.reading-page') || rule.selector.startsWith('.group-issue-page')
+      rule.selector.startsWith('.reading-page')
     ))).toBe(true);
-    expect(declaration('.group-issue-page .prose', 'font-family')).toBe('var(--serif)');
+    expect(declaration('.reading-page .prose', 'font-family')).toBe('var(--serif)');
   });
 
-  it('keeps the group issue reading column whole at intermediate widths', () => {
-    // 正文与篇末导航共用同一条水平基准：窄于行宽时一起填满，而不是一个靠左一个居中。
-    expect(declaration('.group-issue-page .document-nav', 'margin-left')).toBe('0');
-    expect(declaration('.group-issue-page .document-nav', 'margin-right')).toBe('0');
-    expect(declaration('.document-nav', 'margin')).toContain('auto');
+  it('uses the same reading presentation for translations and group articles', async () => {
+    const { articles } = await getSiteData();
+    const issues = await getGroupIssues();
+    for (const document of [...articles, ...issues]) {
+      const page = readFileSync(builtRoutePath(document.route), 'utf8');
+      expect(page, document.route).toMatch(/<body[^>]*class="reading-page"/);
+      expect(page, document.route).toContain('section-layout--reading');
+      expect(page, document.route).toContain('class="document-header"');
+      expect(page, document.route).toMatch(/<article[^>]*aria-labelledby="[^"]+"[^>]*>\s*<div class="prose">/);
+    }
 
-    // 只借阅读字体，不启用 reading-page：窄屏的站点标题栏与面包屑保持可见。
-    const detail = pageSource('group/[id].astro');
-    expect(detail).toContain('modifier="group-issue-page"');
-    expect(detail).not.toContain('reading={');
-    expect(detail).toContain('<BaseLayout title={issue.title}');
+    // 手机隐藏刊头与面包屑，正文共用 16px / 1.77 与左右 20px 留白。
     expect(declaration('.reading-page .site-header', 'display', '@media (max-width: 600px)')).toBe('none');
+    expect(declaration('.reading-page .section-layout__breadcrumb', 'display', '@media (max-width: 600px)')).toBe('none');
+    expect(declaration('.reading-page article > div.prose', 'font-size', '@media (max-width: 600px)')).toBe('var(--text-body)');
+    expect(declaration('.reading-page article > div.prose', 'line-height', '@media (max-width: 600px)')).toBe('1.77');
+    expect(declaration('.reading-page .section-layout--reading', 'width', '@media (max-width: 600px)')).toContain('100% - 40px');
   });
 
   it('gives the group issue no sidebar and puts its title in the content flow', () => {
@@ -366,8 +381,6 @@ describe('website-approved data adapter', () => {
     expect(source).not.toContain('tocLabel=');
     expect(source).not.toContain('pinned');
     expect(source).not.toContain('slot="aside"');
-    // modifier 仍然在：它承担正文的衬线与篇末导航宽度，不是为左栏服务。
-    expect(source).toContain('modifier="group-issue-page"');
     expect(source).toContain('<Breadcrumbs slot="breadcrumb"');
 
     // 产物里根本没有 rail，而不是把它藏起来。
@@ -398,18 +411,21 @@ describe('website-approved data adapter', () => {
     expect(breadcrumb).toContain('href="/group"');
   });
 
-  it('removes the group issue rail from the layout and leaves no dead modifier', () => {
-    // 左栏专属的网格模板整段消失：不再有 801–1040 的窄左栏退化问题。
-    for (const media of ['', '@media (max-width: 1040px)', '@media (min-width: 1041px)']) {
-      expect(declaration('.section-layout--indexed.group-issue-page', 'grid-template-areas', media))
-        .toBeUndefined();
-      expect(declaration('.section-layout--indexed.group-issue-page .section-layout__toc', 'position', media))
-        .toBeUndefined();
+  it('keeps articles without a table of contents in a single reading column', async () => {
+    // 单改 grid-template-columns 不会清除三列命名区域；无目录时应退出网格。
+    const fallback = '.section-layout--reading:not(.section-layout--indexed)';
+    expect(declaration(fallback, 'display')).toBe('block');
+    expect(declaration(fallback, 'width')).toBe('min(calc(100% - 40px), var(--reading))');
+
+    const { articles } = await getSiteData();
+    const withoutToc = articles.filter((article) => article.headings.length === 0);
+    expect(withoutToc.map((article) => article.id)).toContain('history-and-social-ideals');
+    for (const article of withoutToc) {
+      const page = readFileSync(builtRoutePath(article.route), 'utf8');
+      expect(page, article.route).toContain('section-layout--reading');
+      expect(page, article.route).not.toContain('section-layout--indexed');
+      expect(page, article.route).not.toContain('section-layout__sidebar');
     }
-    // 期详情的 modifier 仍有真实职责：阅读衬线、篇末导航与正文同宽。
-    expect(declaration('.group-issue-page .prose', 'font-family')).toBe('var(--serif)');
-    expect(declaration('.group-issue-page .document-nav', 'margin-left')).toBe('0');
-    expect(hasRule('.group-issue-page .prose')).toBe(true);
   });
 
   it('does not invent a table of contents for a single-unit issue', async () => {
@@ -610,10 +626,10 @@ describe('public navigation', () => {
       'utf8',
     ).match(/<main>([\s\S]*?)<\/main>/)![1];
     expect(articleMain).toContain('section-layout--reading');
-    // 期详情没有目录，因此也不再是 --indexed 或 --pinned：它只保留页面限定 modifier。
+    // 小组长文复用阅读布局；没有目录时不产生 --indexed 或 --pinned。
     const issueMain = readFileSync(path.join(process.cwd(), 'dist', 'group/0/index.html'), 'utf8')
       .match(/<main>([\s\S]*?)<\/main>/)![1];
-    expect(issueMain).toContain('group-issue-page');
+    expect(issueMain).toContain('section-layout--reading');
     expect(issueMain).not.toContain('section-layout--pinned');
     expect(issueMain).not.toContain('section-layout--indexed');
 
@@ -733,7 +749,7 @@ describe('public navigation', () => {
 
     const layout = layoutSource('BaseLayout');
     expect(layout).toContain('class="site-footer"');
-    expect(layout).toContain('site.footer.map');
+    expect(layout).toContain('site.footer.filter');
   });
 
   it('orders the homepage around public entities, texts, group work and updates', () => {
@@ -780,7 +796,7 @@ describe('public navigation', () => {
     expect(hanLength).toBeGreaterThanOrEqual(80);
     expect(hanLength).toBeLessThanOrEqual(150);
     for (const paragraph of ilyenkov.introduction) {
-      expect(personPage).toContain(paragraph);
+      expect(personPage.replace(/<[^>]*>/g, '')).toContain(paragraph);
       expect(person).not.toContain(paragraph);
     }
     for (const href of ['/ilyenkov/life', '/ilyenkov/timeline', '/ilyenkov/works', '/ilyenkov/circle']) {
@@ -846,6 +862,18 @@ describe('public navigation', () => {
       expect(items[index]).toContain(issue.summary);
       expect(items[index]).toContain(`<time datetime="${issue.published}">${issue.published}</time>`);
     });
+  });
+
+  it('opens Group with its scope and context links, keeping the work heading compact', () => {
+    const main = readFileSync(builtRoutePath('/group'), 'utf8').match(/<main>([\s\S]*?)<\/main>/)![1];
+    expect([...main.matchAll(/<h1\b/g)]).toHaveLength(1);
+    expect(main).toContain('<h2 id="group-issues-heading">小组工作</h2>');
+    expect(main).toContain('<h1 class="page-title">中文伊里因科夫小组');
+    expect(main).toContain(site.group.summary);
+    expect(main).toContain('href="/group/0"');
+    expect(main).toContain('href="/contact/"');
+    expect(main).toContain('关于小组成立的缘起和我们希望开展的工作');
+    expect(main).not.toContain('本页按期记录');
   });
 
   it('keeps the group page self-contained and the homepage free of site-scope copy', () => {
@@ -1222,6 +1250,14 @@ describe('compact directory introductions', () => {
     expect(declaration('.section-layout__intro', 'margin-bottom')).toBe('44px');
   });
 
+  it('identifies the books directory with a compact title and no introductory lead', () => {
+    const html = readFileSync(builtRoutePath('/books'), 'utf8');
+    expect(html).toMatch(/<h1\b[^>]*>书籍<\/h1>/);
+    expect(html).toContain('section-layout__intro');
+    expect(pageSource('books/index.astro')).not.toContain('class="lead"');
+    expect(html).toContain('books-shelf');
+  });
+
   it('keeps archive filter identity beside the page title instead of below the list heading', () => {
     const source = componentSource('ArchiveIndexView');
     const intro = source.match(/<header class="page-header" slot="intro">([\s\S]*?)<\/header>/)![1];
@@ -1243,7 +1279,6 @@ describe('compact interface typography experiment', () => {
     expect(reading['--text-item']).toBe('1.125rem');
     expect(declaration('.book-header__title h1', 'font-size')).toBe('var(--text-content-title)');
     expect(declaration('.entity-detail .page-title', 'font-size')).toBe('var(--text-content-title)');
-    expect(declaration('.group-issue-page .page-title', 'font-size')).toBe('var(--text-content-title)');
     expect(declaration(':root', '--text-content-title', '@media (max-width: 600px)')).toBe('1.625rem');
   });
 });

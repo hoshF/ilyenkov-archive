@@ -1,3 +1,4 @@
+import { maidanskyEditorial, ifiEditorial } from '../src/lib/editorial';
 import { readFileSync } from 'node:fs';
 import { describe, expect, it } from 'vitest';
 import { site } from '../src/lib/editorial';
@@ -44,12 +45,6 @@ function sectionFor(html: string, heading: string): string {
   return section!.html;
 }
 
-const activityLabels: Record<PublicIfiNetwork['activityModes'][number], string> = {
-  symposium: '国际研讨会',
-  webinar: '线上 Webinar',
-  collective_reading: '集体阅读',
-  discussion: '讨论',
-};
 const resourceLabels: Record<PublicIfiNetwork['resources'][number]['kind'], string> = {
   about: '组织介绍',
   history: '历史与活动',
@@ -73,42 +68,28 @@ describe('IFI public detail and research entry', () => {
     const breadcrumb = main.match(/<nav\b[^>]*aria-label="当前位置"[^>]*>([\s\S]*?)<\/nav>/)![1];
     expect(links(breadcrumb)).toEqual([
       { href: '/', label: '首页' },
-      { href: '/research', label: '世界研究' },
+      { href: '/research', label: '研究' },
     ]);
     expect(breadcrumb).toContain('aria-current="page"');
     expect(textContent(breadcrumb)).toContain(network.title);
     expect(sections(main).map((section) => section.id)).toEqual([
-      'ifi-intro-heading', 'ifi-formation-heading', 'ifi-activity-heading',
+      'ifi-intro-heading',
       'ifi-resources-heading', 'ifi-symposiums-heading',
     ]);
-    expect(textContent(main)).toContain(network.summary);
+    expect(textContent(main)).toContain('International Friends of Ilyenkov（IFI）是一个');
     expect(links(main)).toContainEqual({ href: network.url, label: '官方网站' });
   });
 
-  it('resolves formation through the public symposium relation without calling it a founding date', () => {
-    const network = getPublicIfiNetwork();
-    const symposium = getPublicIfiSymposiums().find((record) => record.id === network.formation.symposiumId)!;
-    const formation = sectionById(mainContent(builtPage('/research/ifi/')), 'ifi-formation-heading');
-    expect(textContent(formation)).toContain(symposium.period.start.slice(0, 4));
-    expect(textContent(formation)).toContain(symposium.location);
-    expect(textContent(formation)).toContain(symposium.title);
-    expect(textContent(formation)).toContain(formatHistoricalPeriod(symposium.period));
-    expect(textContent(formation)).not.toMatch(/成立于|正式成立|注册成立/);
-    expect(links(formation).map((link) => link.href)).toEqual(symposium.sources.map((source) => source.url));
-    for (const source of symposium.sources) {
-      expect(textContent(formation)).toContain(source.title);
-    }
-  });
-
-  it('presents only the public activity modes with Chinese labels in their source order', () => {
-    const network = getPublicIfiNetwork();
-    const activity = sectionById(mainContent(builtPage('/research/ifi/')), 'ifi-activity-heading');
-    const text = textContent(activity);
-    const positions = network.activityModes.map((mode) => text.indexOf(activityLabels[mode]));
-    expect(positions.every((position) => position >= 0)).toBe(true);
-    expect(positions).toEqual([...positions].sort((a, b) => a - b));
-    expect(text).toContain('IFI 通过国际研讨会、线上 Webinar、集体阅读与讨论等形式持续开展研究交流。');
-    expect(activity).not.toMatch(/<a\b|webinar-notes|workshop|panel|frequency/);
+  it('presents the editorial introduction without separate formation or activity sections', () => {
+    const main = mainContent(builtPage('/research/ifi/'));
+    const intro = sectionById(main, 'ifi-intro-heading');
+    expect([...intro.matchAll(/<p\b/g)].length).toBe(ifiEditorial.introduction.length);
+    expect(intro).toContain('<strong>');
+    expect(textContent(intro)).toContain('2012 年 5 月');
+    expect(textContent(intro)).not.toMatch(/成立于|正式成立|注册成立/);
+    expect(main).not.toMatch(/ifi-formation-heading|ifi-activity-heading/);
+    expect(intro).not.toContain('utm_source');
+    expect(links(intro)).toEqual([]);
   });
 
   it('uses exactly the selected public official resource URLs and page-level labels', () => {
@@ -143,17 +124,21 @@ describe('IFI public detail and research entry', () => {
     }
   });
 
-  it('keeps the research IFI section as a short identity, formation and detail entrance', () => {
+  it('keeps the research IFI section as a linked identity and short summary', () => {
     const network = getPublicIfiNetwork();
     const symposiums = getPublicIfiSymposiums();
-    const formation = symposiums.find((record) => record.id === network.formation.symposiumId)!;
-    const main = mainContent(builtPage('/research/'));
+    const html = builtPage('/research/');
+    const main = mainContent(html);
+    expect(textContent(html.match(/<title>([\s\S]*?)<\/title>/)![1])).toBe(`研究｜${site.name}`);
+    expect([...main.matchAll(/<h1\b/g)]).toHaveLength(1);
+    expect(textContent(main.match(/<h1\b[^>]*>([\s\S]*?)<\/h1>/)![1])).toBe('研究');
     const entry = sectionFor(main, network.title);
-    expect(textContent(entry)).toContain(network.summary);
-    expect(textContent(entry)).toContain(formation.period.start.slice(0, 4));
-    expect(textContent(entry)).toContain('形成');
-    expect(textContent(entry)).not.toContain('成立于');
-    expect(links(entry)).toEqual([{ href: '/research/ifi/', label: '了解 IFI →' }]);
+    const heading = entry.match(/<h2\b[^>]*>([\s\S]*?)<\/h2>/)![1];
+    expect(links(heading)).toEqual([{ href: '/research/ifi/', label: network.title }]);
+    const paragraphs = [...entry.matchAll(/<p\b[^>]*>([\s\S]*?)<\/p>/g)]
+      .map(([, content]) => textContent(content));
+    expect(paragraphs).toEqual([`${network.name}（${network.abbreviation}）`, network.summary]);
+    expect(links(entry)).toEqual([{ href: '/research/ifi/', label: network.title }]);
     expect(entry).not.toMatch(/<ol\b|<ul\b|<li\b|<article\b|<h3\b/);
     for (const symposium of symposiums) expect(textContent(entry)).not.toContain(symposium.title);
     expect(sections(main)).toHaveLength(4);
@@ -161,16 +146,15 @@ describe('IFI public detail and research entry', () => {
 
   it('retains the researchers and research sites while providing a Readings series entry', () => {
     const main = mainContent(builtPage('/research/'));
-    const researchers = sectionFor(main, '研究者');
-    for (const researcher of getPublicResearchers()) {
-      expect(textContent(researchers)).toContain(researcher.name);
-      expect(textContent(researchers)).toContain(researcher.originalName);
-      expect(textContent(researchers)).toContain(researcher.summary);
-      expect(links(researchers)).toContainEqual({
-        href: '/research/researchers/andrey-maidansky/', label: '了解研究者 →',
-      });
-    }
-    expect(researchers).not.toMatch(/<ol\b|<li\b/);
+    const researcher = getPublicResearchers().find((record) => record.id === 'researcher-andrey-maidansky')!;
+    const researchers = sectionById(main, 'researcher-andrey-maidansky-heading');
+    expect(textContent(researchers)).toContain(researcher.name);
+    expect(textContent(researchers)).toContain(researcher.originalName);
+    expect(textContent(researchers)).toContain(maidanskyEditorial.workDescription);
+    expect(links(researchers)).toEqual([{
+      href: '/research/researchers/andrey-maidansky/', label: researcher.name,
+    }]);
+    expect(researchers).not.toMatch(/<ol\b|<li\b|<article\b|<h3\b/);
     const sites = sectionFor(main, '资料站点');
     for (const site of getPublicResearchSites()) {
       expect(textContent(sites)).toContain(site.title);
@@ -185,8 +169,11 @@ describe('IFI public detail and research entry', () => {
     const readings = sectionFor(main, series.title);
     expect(textContent(readings)).toContain(series.name);
     expect(textContent(readings)).toContain(series.summary);
-    expect(links(readings)).toEqual([{ href: '/research/readings/', label: '了解学术报告会 →' }]);
+    expect(links(readings)).toEqual([{ href: '/research/readings/', label: series.title }]);
     expect(readings).not.toMatch(/<ol\b|<ul\b|<li\b|<article\b|<h3\b/);
+    expect(sections(main).map((section) => section.heading)).toEqual([
+      getPublicIfiNetwork().title, researcher.name, series.title, '资料站点',
+    ]);
   });
 
   it('keeps both pages static and preserves the five primary navigation entries', () => {

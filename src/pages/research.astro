@@ -1,67 +1,45 @@
 ---
+import { maidanskyEditorial } from '../lib/editorial';
 import BaseLayout from '../layouts/BaseLayout.astro';
 import SectionLayout from '../components/SectionLayout.astro';
 import {
   getPublicIfiNetwork,
-  getPublicIfiSymposiums,
-  getPublicReadings,
   getPublicReadingsSeries,
   getPublicResearchers,
   getPublicResearchSites,
 } from '../lib/research-records';
 
-const readings = getPublicReadings();
 const readingsSeriesRecords = getPublicReadingsSeries();
 if (readingsSeriesRecords.length !== 1) throw new Error('Expected exactly one public Readings series');
 const readingsSeries = readingsSeriesRecords[0];
-const earliestReading = readings.find((record) => record.id === readingsSeries.history.earliestArchivedEventId);
-const firstInternationalReading = readings.find((record) => record.id === readingsSeries.history.firstInternationalEventId);
-if (!earliestReading || !firstInternationalReading) throw new Error('Readings history events are missing');
-const earliestYear = earliestReading.period.start.slice(0, 4);
-const firstInternationalYear = firstInternationalReading.period.start.slice(0, 4);
 const ifiNetwork = getPublicIfiNetwork();
-const ifiSymposiums = getPublicIfiSymposiums();
-const formationSymposium = ifiSymposiums.find((symposium) => (
-  symposium.id === ifiNetwork.formation.symposiumId
-));
-if (!formationSymposium) throw new Error('IFI formation symposium is missing');
-const formationYear = formationSymposium.period.start.slice(0, 4);
-const researchers = getPublicResearchers();
+const researcher = getPublicResearchers().find((record) => record.id === 'researcher-andrey-maidansky');
+if (!researcher) throw new Error('Maidansky public researcher profile is missing');
 const researchSites = getPublicResearchSites();
 ---
 
-<BaseLayout title="世界研究" description="连接国际伊里因科夫研究、会议、组织和中文介绍。">
+<BaseLayout title="研究" description="连接国际伊里因科夫研究、会议、组织和中文介绍。">
   <SectionLayout pinned modifier="compact-intro research-hub">
     <header class="page-header" slot="intro">
-      <h1 class="page-title">世界研究</h1>
+      <h1 class="page-title">研究</h1>
     </header>
 
-    <section class="research-series research-series--ifi" aria-labelledby="ifi-heading">
-        <h2 id="ifi-heading">{ifiNetwork.title}</h2>
+    <section class="research-series" aria-labelledby="ifi-heading">
+        <h2 id="ifi-heading"><a href="/research/ifi/">{ifiNetwork.title}</a></h2>
         <p class="record__original">{ifiNetwork.name}（{ifiNetwork.abbreviation}）</p>
-        <p class="research-series__lead">{ifiNetwork.summary}其国际网络形成于 {formationYear} 年。</p>
-        <p class="record__links"><a href="/research/ifi/">了解 IFI →</a></p>
+        <p class="record__summary">{ifiNetwork.summary}</p>
     </section>
 
-    <section class="research-series" aria-labelledby="researchers-heading">
-        <h2 id="researchers-heading">研究者</h2>
-        <p class="research-series__lead">介绍与伊里因科夫研究密切相关的研究者。</p>
-        {researchers.map((researcher) => (
-          <article class="researcher-card">
-            <h3>{researcher.name}</h3>
-            <p class="researcher-card__original">{researcher.originalName}</p>
-            <p>{researcher.summary}</p>
-            <p class="record__links"><a href="/research/researchers/andrey-maidansky/">了解研究者 →</a></p>
-          </article>
-        ))}
+    <section class="research-series" aria-labelledby="researcher-andrey-maidansky-heading">
+        <h2 id="researcher-andrey-maidansky-heading"><a href="/research/researchers/andrey-maidansky/">{researcher.name}</a></h2>
+        <p class="record__original">{researcher.originalName}</p>
+        <p class="record__summary">{maidanskyEditorial.workDescription}</p>
     </section>
 
     <section class="research-series" aria-labelledby="readings-heading">
-        <h2 id="readings-heading">{readingsSeries.title}</h2>
+        <h2 id="readings-heading"><a href="/research/readings/">{readingsSeries.title}</a></h2>
         <p class="record__original">{readingsSeries.name}</p>
-        <p class="research-series__lead">{readingsSeries.summary}</p>
-        <p class="research-series__lead">现存会程资料中最早的会议可追溯到 {earliestYear} 年；{firstInternationalYear} 年起采用国际会议编号。</p>
-        <p class="record__links"><a href="/research/readings/">了解学术报告会 →</a></p>
+        <p class="record__summary">{readingsSeries.summary}</p>
     </section>
 
     <section class="research-series" aria-labelledby="research-sites-heading">
@@ -70,8 +48,8 @@ const researchSites = getPublicResearchSites();
         {researchSites.map((site) => (
           <article class="research-site-card">
             <h3><a href={site.url}>{site.title}</a></h3>
-            <p class="research-site-card__original">{site.originalTitle}</p>
-            <p>{site.summary}</p>
+            <p class="record__original">{site.originalTitle}</p>
+            <p class="record__summary">{site.summary}</p>
             <p class="record__links">
               {site.sections.map((section) => <a href={section.url}>{section.label}</a>)}
             </p>

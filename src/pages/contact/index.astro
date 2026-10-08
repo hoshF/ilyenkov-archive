@@ -5,7 +5,7 @@ import { site } from '../../lib/editorial';
 ---
 
 <BaseLayout title="关注与联系" description="获取网站更新，联系中文伊里因科夫小组，介绍长期的翻译、资料整理与研究兴趣。">
-  <SectionLayout>
+  <SectionLayout modifier="compact-intro">
     <header class="page-header" slot="intro">
       <h1 class="page-title">关注与联系</h1>
     </header>
@@ -13,12 +13,13 @@ import { site } from '../../lib/editorial';
     <div class="prose prose--section">
       <h2>获取更新</h2>
       <p>本站持续公开新的伊里因科夫中文译文、第一手资料及整理成果、研究内容与相关工作记录。</p>
-      <p>可通过<a href="/updates/">近期动态</a>查看近期公开内容与工作进展，也可使用<a href="/rss.xml">RSS 订阅</a>。</p>
+      <p><a href="/updates/">近期动态</a> · <a href="/rss.xml">RSS 订阅</a></p>
 
       <h2>联系</h2>
-      <p>有关文本与资料、译文校订、研究交流或网站问题，可来信至<a href={`mailto:${site.contact.email}`}>{site.contact.email}</a>。</p>
+      <p><a href={`mailto:${site.contact.email}`}>{site.contact.email}</a></p>
+      <p>有关文本与资料、译文校订、研究交流或网站问题，均可来信联系。</p>
 
-      <h2>参与</h2>
+      <h2>参与研究与整理</h2>
       <p>如果你长期关注伊里因科夫、苏联哲学及相关问题，并希望参与翻译、校订、资料整理或研究，可以来信介绍自己的兴趣和正在进行的工作。</p>
     </div>
   </SectionLayout>

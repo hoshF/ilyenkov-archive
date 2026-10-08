@@ -31,7 +31,26 @@ export const site = SiteSchema.parse(readEditorialJson('site.json'));
 const IlyenkovEditorialSchema = z.object({
   identity: z.string().trim().min(1),
   summary: z.string().trim().min(1),
+  originalName: z.string().trim().min(1),
+  lifespan: z.string().regex(/^\d{4}—\d{4}$/),
   introduction: z.array(z.string().trim().min(1)).min(1),
 }).strict();
 
 export const ilyenkov = IlyenkovEditorialSchema.parse(readEditorialJson('ilyenkov.json'));
+
+const ResearcherEditorialSchema = z.object({
+  introduction: z.array(z.string().trim().min(1)).min(1),
+  workDescription: z.string().trim().min(1),
+}).strict();
+
+export const maidanskyEditorial = ResearcherEditorialSchema.parse(
+  readEditorialJson('researchers/andrey-maidansky.json'),
+);
+
+export const ifiEditorial = z.object({
+  introduction: z.array(z.string().trim().min(1)).min(1),
+}).strict().parse(readEditorialJson('research/ifi.json'));
+
+export const readingsEditorial = z.object({
+  introduction: z.array(z.string().trim().min(1)).min(1),
+}).strict().parse(readEditorialJson('research/readings.json'));

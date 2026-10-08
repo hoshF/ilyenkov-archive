@@ -1,6 +1,6 @@
 import { existsSync, readFileSync } from 'node:fs';
 import { describe, expect, it } from 'vitest';
-import { site } from '../src/lib/editorial';
+import { site, maidanskyEditorial } from '../src/lib/editorial';
 import {
   getPublicIfiNetwork,
   getPublicReadingsSeries,
@@ -36,7 +36,7 @@ const resourceLabels: Record<PublicResearcher['resources'][number]['kind'], stri
 };
 
 describe('canonical researcher detail and research hub entry', () => {
-  it('statically builds the public identity, summary and research breadcrumb in a single reading flow', () => {
+  it('statically builds the public identity, editorial introduction and research breadcrumb in a single reading flow', () => {
     expect(routeExists(route)).toBe(true);
     const researcher = profile();
     const html = builtPage(route);
@@ -49,20 +49,22 @@ describe('canonical researcher detail and research hub entry', () => {
     expect(researcher.latinName).toBe('Andrey D. Maidansky');
     expect(textContent(main)).toContain(researcher.latinName!);
     const intro = sectionById(main, 'researcher-intro-heading');
-    expect(textContent(intro.match(/<p\b[^>]*>([\s\S]*?)<\/p>/)![1])).toBe(researcher.summary);
+    const paragraphs = [...intro.matchAll(/<p\b[^>]*>([\s\S]*?)<\/p>/g)].map(([, content]) => textContent(content));
+    expect(paragraphs).toEqual(maidanskyEditorial.introduction.map((paragraph) => paragraph.replace(/\*\*/g, '')));
+    expect(intro).toContain('<strong>');
     const breadcrumb = main.match(/<nav\b[^>]*aria-label="当前位置"[^>]*>([\s\S]*?)<\/nav>/)![1];
     expect(links(breadcrumb)).toEqual([
-      { href: '/', label: '首页' }, { href: '/research', label: '世界研究' },
+      { href: '/', label: '首页' }, { href: '/research', label: '研究' },
     ]);
     expect(breadcrumb).toContain('aria-current="page"');
     expect(textContent(breadcrumb)).toContain(researcher.name);
     expect([...main.matchAll(/<h2\b[^>]*>([\s\S]*?)<\/h2>/g)]
       .map(([, content]) => textContent(content)))
-      .toEqual(['简介', '研究方向', '角色', '学术入口', '本站译文']);
+      .toEqual(['简介', '研究方向', '研究工作', '学术入口', '本站译文']);
     expect(html).not.toMatch(/section-layout--rail|section-layout--indexed|section-layout__sidebar|section-layout__toc|section-layout__aside/);
   });
 
-  it('maps only the current known public fields and roles to page-level Chinese labels', () => {
+  it('maps public research fields and presents the editorial account of research work', () => {
     const researcher = profile();
     const main = mainContent(builtPage(route));
     expect(researcher.researchFields).toEqual([
@@ -70,11 +72,11 @@ describe('canonical researcher detail and research hub entry', () => {
     ]);
     expect(researcher.roles).toEqual(['researcher', 'editor']);
     const fieldsSection = sectionById(main, 'researcher-fields-heading');
-    const rolesSection = sectionById(main, 'researcher-roles-heading');
+    const rolesSection = sectionById(main, 'researcher-work-heading');
     const fields = textContent(fieldsSection.match(/<p\b[^>]*>([\s\S]*?)<\/p>/)![1]);
     const roles = textContent(rolesSection.match(/<p\b[^>]*>([\s\S]*?)<\/p>/)![1]);
     expect(fields).toBe('斯宾诺莎哲学、马克思主义、苏联哲学史。');
-    expect(roles).toBe('研究者、编辑。');
+    expect(roles).toBe(maidanskyEditorial.workDescription);
     for (const raw of researcher.researchFields!) expect(fields).not.toContain(raw);
     for (const raw of researcher.roles!) expect(roles).not.toContain(raw);
   });
@@ -143,26 +145,32 @@ describe('canonical researcher detail and research hub entry', () => {
     }
   });
 
-  it('reduces the researchers hub to identity, summary and a single detail entrance', async () => {
+  it('presents the researcher as a peer entry with a linked heading, identity and summary', async () => {
     const main = mainContent(builtPage('/research/'));
     const researcher = profile();
-    const entry = sectionById(main, 'researchers-heading');
+    const entry = sectionById(main, 'researcher-andrey-maidansky-heading');
     expect(textContent(entry)).toContain(researcher.name);
     expect(textContent(entry)).toContain(researcher.originalName);
-    expect(textContent(entry)).toContain(researcher.summary);
-    expect(links(entry)).toEqual([{ href: route, label: '了解研究者 →' }]);
-    expect(entry).not.toMatch(/<ol\b|<ul\b|<li\b|<h4\b/);
+    expect(textContent(entry)).toContain(maidanskyEditorial.workDescription);
+    const heading = entry.match(/<h2\b[^>]*>([\s\S]*?)<\/h2>/)![1];
+    expect(links(heading)).toEqual([{ href: route, label: researcher.name }]);
+    const paragraphs = [...entry.matchAll(/<p\b[^>]*>([\s\S]*?)<\/p>/g)]
+      .map(([, content]) => textContent(content));
+    expect(paragraphs).toEqual([researcher.originalName, maidanskyEditorial.workDescription]);
+    expect(links(entry)).toEqual([{ href: route, label: researcher.name }]);
+    expect(entry).not.toMatch(/<ol\b|<ul\b|<li\b|<article\b|<h3\b|<h4\b/);
+    expect(main).not.toContain('aria-labelledby="researchers-heading"');
     const { articles } = await getSiteData();
     for (const article of articles) expect(textContent(entry)).not.toContain(article.title);
     expect(routeExists('/research/researchers/')).toBe(false);
     const network = getPublicIfiNetwork();
     const ifi = sectionById(main, 'ifi-heading');
     expect(textContent(ifi)).toContain(network.summary);
-    expect(links(ifi)).toEqual([{ href: '/research/ifi/', label: '了解 IFI →' }]);
+    expect(links(ifi)).toEqual([{ href: '/research/ifi/', label: network.title }]);
     const series = getPublicReadingsSeries()[0];
     const readings = sectionById(main, 'readings-heading');
     expect(textContent(readings)).toContain(series.summary);
-    expect(links(readings)).toEqual([{ href: '/research/readings/', label: '了解学术报告会 →' }]);
+    expect(links(readings)).toEqual([{ href: '/research/readings/', label: series.title }]);
     const sites = sectionById(main, 'research-sites-heading');
     for (const site of getPublicResearchSites()) {
       expect(textContent(sites)).toContain(site.title);

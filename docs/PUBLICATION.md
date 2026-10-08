@@ -24,18 +24,19 @@
 ## 受控输出
 
 生平、服役、黑格尔大会、作品目录、伊里因科夫讨论会、IFI 网络、IFI 研讨会、研究者、外部资料
-站点——这九类结构化研究资料走同一条规则，不因栏目不同而另立标准：
+站点的结构化记录由 research 同步通道生成，统一遵守以下规则。这里的字段限制约束同步生成的研究
+记录；public 自行维护的读者导引文字见[公开编辑文字](#公开编辑文字)，仍受来源与公开范围约束。
 
 - 每一条都由 private 的 `research/publication.json` **逐项**标记选择。未被选中的条目，不因文件
   存在而视为可以公开，也不建立占位数据。
-- 上述九类记录必须同时有获准条目。任何一类为空，同步器直接失败，不生成半份 `research-records.json`。
-  Readings series 是另行选择的可选类型，不因 private 存在 series record 就自动输出，也不属于这九类的必备集合。
-- public 只输出该条目获准的最小公开字段：稳定 ID、中文与原文题名、摘要或简短定位、历史日期或
+- 上述类型必须同时有获准条目。任何一类为空，同步器直接失败，不生成半份 `research-records.json`。
+  Readings series 是另行选择的可选类型，不因 private 存在 series record 就自动输出，也不属于必备集合。
+- 同步器只输出该条目获准的最小公开字段：稳定 ID、中文与原文题名、摘要或简短定位、历史日期或
   日期范围、地点或状态、以及明确选定的外部来源链接。每项事实都必须由所选来源支持。
-- 以下一律不进入 public 与 `dist/`：正文、自传原文、扫描件、附件、照片、视频、统计、成员名单与
-  联系方式、机构与履历、内部置信度、冲突分析、研究备注、来源 ID、日志、问题记录、本地路径。
+- 以下一律不经研究同步通道进入生成输入与 `dist/`：正文、自传原文、扫描件、附件、照片、视频、
+  统计、成员名单与联系方式、机构与履历、内部置信度、冲突分析、研究备注、来源 ID、日志、问题记录、本地路径。
 - 来源之间存在冲突时，公开数据只保留能够共同支持的最小事实，不在网站上代替研究系统作出裁决。
-- 页面上的日期是历史事实，不是网站的发布或更新时间。
+- 研究记录中的日期是历史事实，不是网站的发布或更新时间。
 - 外部链接只用于资料定位，不表示本站拥有转载或下载授权。
 
 字段级的准确定义以 `scripts/sync-research-records.mjs` 的输出和 `src/lib/research-records.ts` 的
@@ -46,10 +47,10 @@ schema 为准；两者不一致时以 schema 为准，并修正同步器。
 人物事实的 canonical identity 由 private `people/persons.json` 维护。`researcher_profile`
 publication 只选择哪个 person 成为公开研究者，并提供中文姓名、简介及资源选择；不维护作品列表。
 条目必须以 `record_path: people/persons.json`、`record_id = person_id` 唯一定位人物，要求非空
-`name_original`、`title_zh` 和 `summary_zh`。不再读取 works master、internet source index 或旧精选作品。
+`name_original`、`title_zh` 和 `summary_zh`。不读取 works master、internet source index 或 researcher 精选作品。
 
 publication 严格只接受 `public_id`、`publication_scope`、`kind`、`record_path`、`record_id`、
-`title_zh`、`summary_zh`、`resource_kinds`。旧 `source_path`、`author_zh`、`author_original`、`works`
+`title_zh`、`summary_zh`、`resource_kinds`。`source_path`、`author_zh`、`author_original`、`works`
 及 `include_roles`、`include_research_fields`、`include_latin_name` 等额外字段均拒绝，不提供兼容路径。
 
 | 公开字段 | 来源与范围 |
@@ -86,7 +87,7 @@ directory 只在同步阶段用于定位，不进入 generated data；活动的�
 
 ### Readings series 的公开字段
 
-`ilyenkov_readings_series` 沿用 research publication 通道，采用显式允许契约。条目以
+`ilyenkov_readings_series` 使用 research publication 通道，采用显式允许契约。条目以
 `record_path: research/readings/series.json` 和 `record_id = series_id` 选择唯一 series record。
 publication 只允许 `public_id`、`publication_scope`、`kind`、`record_path`、`record_id`、`title_zh`、
 `summary_zh`、`resource_kinds`，不得通过 `url`、`resources`、`source_url` 等字段覆盖 private 资源 URL。
@@ -104,8 +105,9 @@ publication 只允许 `public_id`、`publication_scope`、`kind`、`record_path`
 未选择的资源不输出。中文叙述由 publication 与 public 编辑层承担，不自动翻译或透传俄文事实摘要。
 
 private 的目录、`positioning_ru`、`memorial_background_ru`、`continuity_summary_ru`、全部活动标识、
-组织者名单、报告、出版物、媒体、转录、内部备注与问题记录仍属于 private-only。private 新增字段默认
-不公开，只有本契约允许、同步器显式序列化且 public schema 显式接受的字段才可进入 generated data。
+组织者名单、报告、出版物、媒体、转录、内部备注与问题记录不通过 series 同步进入 generated data。
+private 新增字段默认不公开，只有本契约允许、同步器显式序列化且 public schema 显式接受的字段
+才可进入 generated data。
 
 历史关系必须经过“private directory → 唯一 Readings edition → 唯一 `website_public`
 `ilyenkov_readings` publication → public ID”。缺失、错误活动类型、未公开或重复发布匹配都使同步失败；
@@ -113,9 +115,7 @@ public schema 还要求两条关系各自在 `readings` 中恰好解析到一条
 活动日期、题名与地点；directory 只用于 private publication 定位，不是 public identity。
 
 未启用 series publication 时，生成输入不包含 `readingsSeries`，getter 返回空数组；启用时该数组必须
-非空。当前清单已选择十个 Readings 活动与一条 `ilyenkov-readings-series`，其两条历史关系分别指向
-`readings-1991-first` 与 `readings-1999-i-first-international`，资源为明确选定的 `archive`、`society`、
-`historical_archive`。集合规模由 publication 选择决定，不是固定 schema 要求。
+非空。集合规模由 publication 选择决定，不是固定 schema 要求。
 
 ### IFI 网络的公开字段
 
@@ -144,10 +144,20 @@ IFI network publication 只接受 `public_id`、`publication_scope`、`kind`、`
 资源及 private event ID 一律不进入 generated data 与 `dist/`。公开官方资源链接不构成对相应正文或
 媒体的复制授权。
 
-`founded` 契约已删除，不读取、不输出，也不生成兼容年份。形成关系只引用独立的公开 symposium，
+不读取或输出 `founded`，也不生成兼容年份。形成关系只引用独立的公开 symposium，
 不复制该活动的日期、地点、题名，不把 symposium 数组嵌入 network。页面需要形成年份时，从被引用
 symposium 的 `period.start` 读取。映射与引用校验见[内容管线](CONTENT_PIPELINE.md)的“IFI 网络同步”。
-Webinar series 的 `official_page` 继续属于其独立 private 记录，本契约不建立 webinar public 类型。
+Webinar series 的 `official_page` 属于其独立 private 记录，本契约不建立 webinar public 类型。
+
+## 公开编辑文字
+
+面向读者的介绍、导引与中文叙述由 public 在 `editorial/` 中维护，包括人物、研究实体与研究者的介绍。
+这些文字依据来源组织和解释已获准公开的内容；canonical 研究事实、来源证据与发布决定仍由 private
+维护，不由 public 编辑文字替代。
+
+公开编辑文字只使用已经公开或已明确选择公开的内容，不读取未公开的 private 数据，也不通过改写、
+摘述或嵌入把受限正文、原始材料、内部备注与未获准来源送入公共构建。编辑叙述不扩大授权范围，
+也不替代具体版本和渠道的发布决定。
 
 ## 小组联系信息
 
@@ -196,7 +206,7 @@ generated files 再靠页面隐藏。
 ### 译文作者输入与身份边界
 
 被 `website_public` 选择的 work 必须提供非空 `authors[]`。每项严格只有两个非空字符串字段：
-`person_id` 与 `name_zh`；同一作品的 `person_id` 不得重复。旧 `author[]`、单独的 `author_ids[]`
+`person_id` 与 `name_zh`；同一作品的 `person_id` 不得重复。`author[]`、单独的 `author_ids[]`
 和只有姓名的对象不属于输入契约，不提供 fallback 或双写兼容。
 
 canonical identity 来自 private `people/persons.json`。同步器校验 registry 的 `records` 结构与
@@ -221,17 +231,13 @@ selection 控制；未公开且缺少 `authors[]` 的 work 不阻塞同步，若
 `topics` 与 `persons` **不属于**这份 allowlist：它们是 public 仓库自行维护的 Archive 编辑分类
 （`editorial/archive-taxonomy.json`），不是 translation 的发布元数据，因此不写进 `work.json`，
 也不由同步器输出。`persons` 表示文章研究或涉及的人物，不能派生作者，也不接收 `author_ids`。
-所有权与完整性规则见[架构说明](ARCHITECTURE.md)的"内容归属"。
+所有权与完整性规则见[架构说明](ARCHITECTURE.md)的“文件所有权”，分类集合由 public schema 校验。
 
 ## 书籍与正式成果
 
-以中文伊里因科夫名义发行的每项成果至少记录：
-
-- 稳定出版 ID、书名和作者；
-- 原文出处，即这段文字原本出自哪本书或文集；
-- 版本号、发布日期和文件校验值；
-- 公开、下载和印刷的权利依据；
-- 勘误、修订和后续版本关系。
+书籍记录必须有来自文件名的稳定出版 ID、非空书名与作者、至少一条包含非空版本号和日期的版次记录，
+以及非空译者引言。原文出处、文件校验值、公开与下载的权利说明、勘误和修订说明是可选字段，
+应在材料已经确认且可公开时补充。字段可选不免除具体版本和渠道的权利判断。
 
 private 中存在 LaTeX 或 PDF 不构成发行。正式记录只在对应版本获准后建立；大文件可以作为项目
 Release 或外部对象存储中的版本化附件，但其公开身份和维护记录仍由本仓库承载。
@@ -271,7 +277,7 @@ errata: [勘误条目]                # 可选
 类别显示标题，空分类不显示。同一 `collection` 的书聚成一组，组内按 `editorial/books/` 里文件名的
 字典序排列——要固定成卷次顺序就按顺序命名文件（如 `wenji-01-xxx.md`、`wenji-02-xxx.md`）。
 
-书籍详情页的版次历史使用原生 `<details>` 浮层，不需要 JavaScript。
+版次记录维护同一出版 ID 下的版本、发布日期与修订关系；页面展示原则见[架构说明](ARCHITECTURE.md)。
 
 封面之外不放置书籍文件；未获许可的正文不进入 `public/`，也不进入 `dist/`。
 

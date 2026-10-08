@@ -1,6 +1,6 @@
 :root {
   color-scheme: light; --ink: #000; --ink-soft: #1a1a1a; --muted: #706b62; --line: #ddd9d1;
-  --line-strong: #b8b2a7; --paper: #fff; --accent: #2f3a86;
+  --line-strong: #b8b2a7; --paper: #fafafa; --accent: #2f3a86;
   --accent-dark: #1b1f4b; --content: 1040px; --section: 1040px; --reading: 672px; --index: 216px; --index-gap: 56px;
   --rail: 248px;
   --text-meta: .875rem; --text-secondary: .9375rem; --text-body: 1rem; --text-item: 1.0625rem;
@@ -27,18 +27,17 @@ a:hover { color: var(--accent-dark); }
 
 main { min-height: 70vh; }
 
-/* 页脚是《项目与权利》在全站唯一的常设入口；手机上的译文页藏起了标题栏，
-   这里的站名也是“这是哪个站”的唯一回答。规则本身由它链向的页面讲。 */
-.site-footer { border-top: 1px solid var(--line); margin-top: 80px; }
+/* 页脚提供持续关注入口，站点身份与权利说明另起一行。 */
+.site-footer { margin-top: 56px; }
 .site-footer__inner {
-  width: min(calc(100% - 40px), var(--content)); align-items: baseline; gap: 12px 28px;
-  flex-wrap: wrap; margin: 0 auto; padding: 28px 0 40px; display: flex;
+  width: min(calc(100% - 40px), var(--reading)); margin: 0 auto; padding: 0 0 40px;
+  display: flex; flex-direction: column; gap: 12px;
 }
-.site-footer__name { color: var(--ink-soft); font-size: var(--text-meta); text-decoration: none; }
-.site-footer__name:hover { color: var(--accent); }
-.site-footer nav { flex-wrap: wrap; gap: 12px 20px; margin-left: auto; display: flex; }
-.site-footer nav a { color: var(--muted); font-size: var(--text-meta); text-decoration: none; }
-.site-footer nav a:hover { color: var(--accent); text-decoration: underline; }
+.site-footer nav { display: flex; flex-wrap: wrap; gap: 8px 20px; }
+.site-footer nav a { font-size: var(--text-secondary); font-weight: 400; }
+.site-footer__identity { margin: 0; color: var(--muted); font-size: var(--text-meta); }
+.site-footer__identity a { color: inherit; text-decoration: none; }
+.site-footer__identity a:hover { color: var(--accent); text-decoration: underline; }
 
 h1 { text-wrap: pretty; word-break: auto-phrase; line-height: 1.3; }
 
@@ -201,7 +200,7 @@ h2, h3, h4 { text-wrap: balance; line-height: 1.3; }
 .book-page .prose { max-width: none; font-size: var(--text-body); margin-left: 0; }
 .book-page .book-introduction { grid-area: introduction; width: 100%; max-width: var(--reading); margin: 0 auto; }
 
-.entity-detail .page-title, .group-issue-page .page-title { font-size: var(--text-content-title); }
+.entity-detail .page-title { font-size: var(--text-content-title); }
 
 .page-title { margin: 0; font-size: var(--text-page); font-weight: 700; line-height: 1.3; letter-spacing: normal; }
 
@@ -301,7 +300,7 @@ h2, h3, h4 { text-wrap: balance; line-height: 1.3; }
    所以在窄屏下正文是「视口 − 40px」而不是撑满整宽，宽屏下也不会超过 --reading。
    这是有意的：译文在任何宽度都保持一行读得下来的长度，不随视口无限拉长。 */
 .section-layout--reading:not(.section-layout--indexed) {
-  width: min(calc(100% - 40px), var(--reading));
+  width: min(calc(100% - 40px), var(--reading)); display: block;
 }
 
 /* 版次只占正文两侧的余白；余白不足时隐藏辅助栏，不挤压书籍内容。 */
@@ -489,27 +488,10 @@ h2, h3, h4 { text-wrap: balance; line-height: 1.3; }
 .research-series__lead a { color: var(--accent); text-decoration-color: var(--line-strong); }
 .research-series__lead a:hover { color: var(--accent-dark); }
 
-.researcher-card { margin: 0; }
-.researcher-card h3 { font-size: var(--text-item); margin: 0; font-weight: 700; }
-/* 摘要段：用 :not() 把原文拼写行排除在外，两条规则各管各的，不必再靠 !important。
-   注意两条都是 0,2,1——:not() 记入参数的特异性——所以原文拼写行靠源码顺序（在后）胜出。
-   这个特异性同时决定卡片末行 .record__links（0,1,0）的层叠结果，因此收缩为 0,1,0 会
-   把那一行链接从 16px 变回它自己的 15px，连带改变卡片高度。保持现状即维持改动前的几何。 */
-.researcher-card > p:not(.researcher-card__original) { font-size: var(--text-body); margin: 9px 0 0; line-height: 1.65; }
-
-/* 原文拼写行：字号、行距、上间距自己声明，不依赖上面那条。 */
-.researcher-card__original { color: var(--muted); font-size: var(--text-secondary); margin: 9px 0 0; line-height: 1.65; }
-
 .research-site-card { margin: 0; }
 .research-site-card h3 { font-size: var(--text-item); margin: 0; font-weight: 700; }
 .research-site-card h3 a { color: var(--accent); text-decoration: none; }
 .research-site-card h3 a:hover { color: var(--accent-dark); text-decoration: underline; }
-/* 同上：把站点卡的原文题名行排除在外，两条规则同为 0,2,1。 */
-.research-site-card > p:not(.research-site-card__original) { font-size: var(--text-body); margin: 9px 0 0; line-height: 1.65; }
-
-/* 与研究者卡同理：自足声明、不依赖上一条、不用 !important。 */
-.research-site-card__original { color: var(--muted); font-size: var(--text-secondary); margin: 9px 0 0; line-height: 1.65; }
-
 .research-site-card a { color: var(--accent); text-decoration: none; }
 .research-site-card a:hover { color: var(--accent-dark); text-decoration: underline; }
 
@@ -526,12 +508,12 @@ h2, h3, h4 { text-wrap: balance; line-height: 1.3; }
   color: var(--muted); font-size: var(--text-secondary); margin: 10px 0 0; line-height: 1.5;
 }
 
-/* 译文页是全站唯一的连续阅读页面（BaseLayout 的 reading 只传给 /archive/[id]），
-   衬线就只落在这里：被读的文本用衬线，站点界面——导航、页内索引、面包屑、篇末导航、
+/* 译文与小组长文共用连续阅读页面（BaseLayout 的 reading），
+   被读的文本用衬线，站点界面——导航、页内索引、面包屑、篇末导航、
    图注——仍然是无衬线。中文衬线没有斜体，Windows 的 SimSun 连粗体字面都没有；:root 关掉了
    全部字形合成，这里只放开字重，让 <strong> 在各平台都粗得出来，同时不合成假斜体。 */
 .reading-page {
-  --paper: #fafafa; --ink: #202020;
+  --ink: #202020;
   --text-page: 1.75rem; --text-page-mobile: 1.625rem;
   --text-section: 1.375rem; --text-item: 1.125rem;
 }
@@ -612,16 +594,6 @@ h2, h3, h4 { text-wrap: balance; line-height: 1.3; }
   .book-header__body { row-gap: 46px; }
 }
 
-/* 小组期详情不是栏目页，也没有需要长期放在旁边的工具，所以它走 Natural Flow：
-   面包屑、期号、题名和正文共用一条内容轴，不再为“本期内容 + 返程链接”留一列。
-   这个 modifier 现在只剩两件事：正文取阅读页的衬线，以及篇末导航与正文同宽。 */
-
-/* 正文与篇末导航共用同一条水平基准：容器宽于行宽时一起居中，窄于行宽时一起填满。 */
-.group-issue-page .document-nav { margin-right: 0; margin-left: 0; }
-
-/* 正文取阅读页的衬线：只借字体语义。 */
-.group-issue-page .prose { font-family: var(--serif); font-synthesis: weight; }
-
 @media (max-width: 600px) {
   :root { --section-top: 3rem; --text-content-title: 1.625rem; }
   .section-layout { grid-template-columns: 1fr; gap: 40px; }
@@ -640,15 +612,15 @@ h2, h3, h4 { text-wrap: balance; line-height: 1.3; }
   .section-layout--indexed .section-layout__toc li + li, .section-layout--indexed .section-layout__content {
     margin-top: 0;
   }
-  /* 手机上的译文页从标题直接进正文：站点标题栏、面包屑和索引都不占地方，
-     出口留在篇末的“返回文本档案”和上下篇。 */
+  /* 手机上的连续阅读页从标题直接进正文：站点标题栏、面包屑和索引都不占地方，
+     出口留在篇末的返回链接与上下篇。 */
   .reading-page .site-header, .reading-page .section-layout__breadcrumb { display: none; }
   .section-layout--reading .section-layout__toc { display: none; }
   .reading-page article > div.prose { font-size: var(--text-body); line-height: 1.77; }
   .reading-page .section-layout--reading { width: min(calc(100% - 40px), var(--content)); }
   .document-header { margin-bottom: 23px; }
   .document-header h1 { font-size: var(--text-page-mobile); margin-top: 0; }
-  .site-header__masthead, .site-footer__inner, .container, .home-page { width: min(calc(100% - 1.5rem), var(--content)); }
+  .site-header__masthead, .container, .home-page { width: min(calc(100% - 1.5rem), var(--content)); }
   /* 导航始终另起一行，保持窄屏排列稳定。 */
   .site-header__masthead { align-items: flex-start; gap: 8px; padding: 16px 0 8px; }
   .site-name { width: auto; }
@@ -695,8 +667,8 @@ h2, h3, h4 { text-wrap: balance; line-height: 1.3; }
 /* 以单一留白分组，不再靠分隔线两侧的双重间距划分层级。 */
 .research-hub .research-series + .research-series { border-top: 0; margin-top: 56px; padding-top: 0; }
 .research-hub .research-series__lead { margin: 12px 0 24px; }
-.research-hub .research-series > .record__original { margin-top: 12px; }
-.research-hub .researcher-card__original,
-.research-hub .research-site-card__original { margin-top: 12px; }
-.research-hub .researcher-card > .record__links,
-.research-hub .research-site-card > .record__links { margin-top: 20px; }
+.research-hub .record__original { margin: 12px 0 0; }
+.research-hub .record__summary { margin: 9px 0 0; }
+.research-hub .record__links { margin: 20px 0 0; }
+.research-hub .research-series h2 a { color: var(--accent); text-decoration: none; }
+.research-hub .research-series h2 a:hover { color: var(--accent-dark); text-decoration: underline; }

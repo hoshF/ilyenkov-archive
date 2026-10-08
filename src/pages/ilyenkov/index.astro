@@ -31,15 +31,17 @@ const entrances = [
 ];
 ---
 
-<BaseLayout title="认识伊里因科夫" description="面向中文读者的伊里因科夫人物、年表、作品与交往入口。">
+<BaseLayout title={ilyenkov.identity} description="面向中文读者的伊里因科夫人物、年表、作品与交往入口。">
   <SectionLayout pinned>
     <header class="page-header" slot="intro">
-      <h1 class="page-title">认识伊里因科夫</h1>
-      <p class="lead">{ilyenkov.identity}</p>
+      <h1 class="page-title">{ilyenkov.identity}</h1>
+      <p class="record__original">{ilyenkov.originalName} · {ilyenkov.lifespan}</p>
     </header>
 
     <div class="prose prose--section person-intro">
-      {ilyenkov.introduction.map((paragraph) => <p>{paragraph}</p>)}
+      {ilyenkov.introduction.map((paragraph, index) => <p>{index === 0
+        ? <><strong>{paragraph.slice(0, paragraph.indexOf('。') + 1)}</strong>{paragraph.slice(paragraph.indexOf('。') + 1)}</>
+        : paragraph}</p>)}
     </div>
 
     <nav class="entrance-grid" aria-label="伊里因科夫栏目入口">

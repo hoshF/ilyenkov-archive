@@ -1,4 +1,6 @@
 ---
+import { ifiEditorial } from '../../../lib/editorial';
+import { renderPublicMarkdown } from '../../../lib/markdown';
 import BaseLayout from '../../../layouts/BaseLayout.astro';
 import Breadcrumbs from '../../../components/Breadcrumbs.astro';
 import SectionLayout from '../../../components/SectionLayout.astro';
@@ -11,16 +13,8 @@ import {
 
 const network = getPublicIfiNetwork();
 const symposiums = getPublicIfiSymposiums();
-const formation = symposiums.find((symposium) => symposium.id === network.formation.symposiumId);
-if (!formation) throw new Error('IFI formation symposium is missing');
-const formationYear = formation.period.start.slice(0, 4);
+const introduction = await renderPublicMarkdown(ifiEditorial.introduction.join('\n\n'));
 
-const activityLabels: Record<PublicIfiNetwork['activityModes'][number], string> = {
-  symposium: '国际研讨会',
-  webinar: '线上 Webinar',
-  collective_reading: '集体阅读',
-  discussion: '讨论',
-};
 const resourceLabels: Record<PublicIfiNetwork['resources'][number]['kind'], string> = {
   about: '组织介绍',
   history: '历史与活动',
@@ -37,7 +31,7 @@ const sourceLabel = (source: { creator: string | null; title: string }) => (
 <BaseLayout title={network.title} description={network.summary}>
   <SectionLayout modifier="entity-detail">
     <Breadcrumbs slot="breadcrumb" items={[
-      { label: '世界研究', href: '/research' },
+      { label: '研究', href: '/research' },
       { label: network.title },
     ]} />
     <header class="page-header" slot="intro">
@@ -47,26 +41,7 @@ const sourceLabel = (source: { creator: string | null; title: string }) => (
 
     <section class="research-series" aria-labelledby="ifi-intro-heading">
       <h2 id="ifi-intro-heading">简介</h2>
-      <div class="prose prose--section">
-        <p>{network.summary}</p>
-        <p><a href={network.url}>官方网站</a></p>
-      </div>
-    </section>
-
-    <section class="research-series" aria-labelledby="ifi-formation-heading">
-      <h2 id="ifi-formation-heading">形成</h2>
-      <div class="prose prose--section">
-        <p>IFI 的国际网络形成于 {formationYear} 年在{formation.location}举行的《{formation.title}》研讨会背景中。</p>
-        <p>研讨会日期：{formatHistoricalPeriod(formation.period)}。</p>
-      </div>
-      <p class="record__sources">来源：{formation.sources.map((source, index) => <><a href={source.url}>{sourceLabel(source)}</a>{index < formation.sources.length - 1 && '；'}</>)}</p>
-    </section>
-
-    <section class="research-series" aria-labelledby="ifi-activity-heading">
-      <h2 id="ifi-activity-heading">活动方式</h2>
-      <div class="prose prose--section">
-        <p>IFI 通过{network.activityModes.map((mode) => activityLabels[mode]).join('、').replace(/、([^、]+)$/, '与$1')}等形式持续开展研究交流。</p>
-      </div>
+      <div class="prose prose--section" set:html={introduction.html} />
     </section>
 
     <section class="research-series" aria-labelledby="ifi-resources-heading">
