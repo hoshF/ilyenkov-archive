@@ -1,7 +1,7 @@
 ## Development
 
 This public repository owns the website, reader-facing editorial framing, group records,
-book publication records, and static deployment. Canonical research facts, source and rights
+and static deployment. Canonical research facts, source and rights
 evidence, and publication decisions belong to the private research repository.
 
 The private repository exposes publication selections through `web/publication.json` only.
@@ -24,7 +24,11 @@ belong to private `web/editorial/`, selected by the researcher publication `edit
 Home summaries reuse publication metadata; translations derive from public article author identities.
 Ilyenkov overview summary, introduction and entrance wording belong to a manuscript selected
 by `ilyenkov_profile`. Resolve its canonical person and approved biography birth reference only.
-Public maps entrance targets to routes. Other public editorial inputs remain here.
+Public maps entrance targets to routes. Website book metadata and Markdown belong to private
+`web/editorial/books/`, explicitly selected by `books` in the same manifest. The book syncer writes
+`.website-input/books.json`; pages never load the former public editorial or fall back to it.
+Book selections do not authorize translation bodies or copy PDFs, EPUBs, scans or covers.
+Other public editorial inputs remain here.
 
 [docs/PUBLICATION.md](docs/PUBLICATION.md) defines publication permissions and field contracts.
 Public editorial prose must not bypass those boundaries to expose unpublished private data or

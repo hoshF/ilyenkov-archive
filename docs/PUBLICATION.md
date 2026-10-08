@@ -7,19 +7,20 @@
 
 ## private 公开接口
 
-private 根目录的 `web/publication.json` 是译文与结构化研究记录的唯一发布选择入口：
+private 根目录的 `web/publication.json` 是译文、结构化研究与网站书籍记录的唯一发布选择入口：
 
 | 字段 | 内容 |
 | --- | --- |
 | `publication_scopes` | 公开范围：`website_public`、`internal_public` |
 | `works` | 译文的 `work_id`、`publication_scope` 与 `work_json_path` |
 | `records` | 研究记录的公开身份、范围、类型、定位、公开显示文字、来源与成稿选择 |
+| `books` | 网站书籍记录的 book_id、publication_scope 与 editorial_path |
 | `timeline` | 必选的年表记录类型与成稿选择：`record_kinds`、`editorial_path` |
 | `works_catalog` | 必选的作品目录成稿选择：`editorial_path` |
 | `life` | 必选的生平成稿选择：`editorial_path` |
 | `circle` | 必选的交往与活动成稿选择：`editorial_path` |
 
-两个同步器只消费 `works`、`records` 中 `publication_scope = website_public` 的条目；
+同步器只消费 `works`、`records`、`books` 中 `publication_scope = website_public` 的条目；
 `internal_public` 不进入公共网站生成输入或 `dist/`。页面根选择不扩展这些条目的公开范围。
 `work_json_path`、`record_path`、`source_path` 相对 private 仓库根目录解析；
 canonical 事实、原文、译文、来源与权利证据保持各自的维护位置，接口不另存其副本。IFI、Readings、
@@ -343,16 +344,20 @@ selection 控制；未公开且缺少 `authors[]` 的 work 不阻塞同步，若
 
 ## 书籍与正式成果
 
-书籍记录必须有来自文件名的稳定出版 ID、非空书名与作者、至少一条包含非空版本号和日期的版次记录，
+书籍记录必须有发布选择指定的稳定 book_id、非空书名与作者、至少一条包含非空版本号和日期的版次记录，
 以及非空译者引言。原文出处、文件校验值、公开与下载的权利说明、勘误和修订说明是可选字段，
 应在材料已经确认且可公开时补充。字段可选不免除具体版本和渠道的权利判断。
 
 private 中存在 LaTeX 或 PDF 不构成发行。正式记录只在对应版本获准后建立；大文件可以作为项目
-Release 或外部对象存储中的版本化附件，但其公开身份和维护记录仍由本仓库承载。
+Release 或外部对象存储中的版本化附件，但其公开选择和维护记录由 private 网站接口承载。
 
 ### 记录位置与格式
 
-每本书是 `editorial/books/<book_id>.md` 中的一个文件，由 `src/lib/books.ts` 读取并校验，生成
+每本书的成稿在 private `web/editorial/books/<book_id>.md`，由 `web/publication.json` 的 `books`
+显式选择。条目只接受 `book_id`、`publication_scope`、`editorial_path`；只读取 website_public，
+获准 ID 不得重复，路径须对应上述文件名且实际文件不得越出成稿目录。books 数组可以为空。
+同步器校验所选 front matter 和非空介绍，输出 `.website-input/books.json`；public 的
+`src/lib/books.ts` 只消费生成输入，生成
 `/books/<book_id>` 页面。frontmatter 保存出版元数据，正文是**译者引言**——由小组撰写、用于介绍这本
 书的文字，不是书籍正文。
 
@@ -382,10 +387,10 @@ errata: [勘误条目]                # 可选
 没有 `translators` 字段：本站的书统一由中文伊里因科夫小组制作，这是站点层面的事实。
 
 `category` 决定 `/books` 的书籍分组：`translation` 是不显示标题的默认书架，`digitization` 等其他
-类别显示标题，空分类不显示。同一 `collection` 的书聚成一组，组内按 `editorial/books/` 里文件名的
+类别显示标题，空分类不显示。同一 `collection` 的书聚成一组，组内按 book_id 的
 字典序排列——要固定成卷次顺序就按顺序命名文件（如 `wenji-01-xxx.md`、`wenji-02-xxx.md`）。
 
-版次记录维护同一出版 ID 下的版本、发布日期与修订关系；页面展示原则见[架构说明](ARCHITECTURE.md)。
+版次记录维护同一网站书籍 ID 下的版本、日期与修订说明；页面展示原则见[架构说明](ARCHITECTURE.md)。
 
 封面之外不放置书籍文件；未获许可的正文不进入 `public/`，也不进入 `dist/`。
 
@@ -478,3 +483,9 @@ works、circle，不得重复。入口数组可以为空，不保存路由、事
 介绍中的 `{{identity}}`、`{{originalName}}`、`{{lifespan}}` 只引用当前获准身份投影；未知引用失败。
 成稿不另存姓名、生卒年或 canonical 记录副本，不扩大发布范围。
 未选择或非 website_public 条目不读取成稿；撤回后清除生成 profile，不保留 fallback。
+
+
+网站书籍选择与 `works` 的正文公开选择相互独立：选择书籍成稿不将 internal_public 正文提升为
+website_public，不读取作品正文、PDF、EPUB或扫描件，也不推导下载许可。封面仅保留既有 public
+图片路径选择。同步输出不含 private locator 或 publication_scope；撤回后删除生成记录，
+全部撤回时生成空数组，不扫描未选择成稿，不保留 public editorial 或旧加载 fallback。

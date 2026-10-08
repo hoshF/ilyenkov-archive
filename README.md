@@ -8,9 +8,9 @@ GitHub 仓库为 `hoshF/ilyenkov-archive`；本地目录 `Ilyenkov-public` 与�
 
 ## 仓库边界
 
-- **public**：网站页面、组件、样式、其余公开编辑介绍、小组记录、成书身份与版本记录，以及静态构建和部署。
+- **public**：网站页面、组件、样式、其余公开编辑介绍、小组记录，以及静态构建和部署。
 - **private**：canonical 研究事实、原文、翻译、审校、来源与权利证据；统一公开接口为根目录的
-  `web/publication.json`，其中 `works` 选择译文，`records` 选择研究记录；根对象 `timeline` 指定
+  `web/publication.json`，其中 `works` 选择译文，`records` 选择研究记录，`books` 选择网站书籍成稿；根对象 `timeline` 指定
   年表采用的获准记录类型与成稿；`works_catalog`、`life`、`circle` 分别指定作品目录、生平、
   交往与活动成稿。canonical 事实与原文、译文保持各自的维护位置；这些页面及 IFI、Readings、研究者及 Ilyenkov 总页的
   公开文字由 `web/editorial/` 维护，经 `editorial_path` 明确选择后同步。生平分期、主题范围与

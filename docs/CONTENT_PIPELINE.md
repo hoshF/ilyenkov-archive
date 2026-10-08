@@ -3,7 +3,7 @@
 本文件说明输入输出、转换、关系解析和派生数据。可发布的字段、权限与日期含义以
 [发布说明](PUBLICATION.md)为准；栏目和编辑文件职责见[架构说明](ARCHITECTURE.md)。
 
-## 统一 private 入口与两条生成通道
+## 统一 private 入口与生成通道
 
 private 根目录的 `web/publication.json` 是唯一发布选择入口；`works` 由译文同步器消费，
 `records` 与必选的 `timeline`、`works_catalog`、`life`、`circle` 根对象由研究同步器消费。
@@ -37,7 +37,7 @@ private/web/publication.json → records + timeline + works_catalog + life + cir
 人物、年表、作品目录与研究栏目静态页面
 ```
 
-两个同步器只处理同一清单中逐项指定的 `website_public` 条目，不扫描其他研究目录，也不处理
+同步器只处理同一清单中逐项指定的 `website_public` 条目，不扫描其他研究目录，也不处理
 `internal_public`。
 字段必须同时由发布契约允许、同步器显式序列化、public schema 显式接受，private 新字段不会自动透传。
 生成输入不进入 Git，不手工修改；再次同步更新变化文件并清理不再获准公开的条目。
@@ -189,7 +189,7 @@ Readings 来源 URL 按 `current → original → archive → 既有 flat url` �
 
 ## public 编辑输入与缓存
 
-`editorial/` 的站点配置、书籍、小组工作、分类与动态直接由 public 读取，不经过
+`editorial/` 的站点配置、小组工作、分类与动态直接由 public 读取，不经过
 private 同步通道，也不进入 `.website-input/`。站点配置由 `src/lib/editorial.ts` 校验。`summary` 与 `introduction` 的使用分工见架构说明；
 公开编辑叙述的权限边界见发布说明的[公开编辑文字](PUBLICATION.md#公开编辑文字)。
 
@@ -241,7 +241,7 @@ RSS 不读取文章正文或 private-only 元数据，权限与日期约束见�
 
 ## 命令顺序
 
-`publication:sync` 依次执行译文与研究同步器；`publication:prepare` 复用该命令。`check`、`test`
+`publication:sync` 依次执行译文、研究与书籍同步器；`publication:prepare` 复用该命令。`check`、`test`
 与 `build` 均先同步。`verify` 的实际顺序为：
 
 ```text
@@ -275,3 +275,14 @@ publication sync → astro check → astro build → vitest run
 
 `npm run dev` 先构建搜索索引，开发服务器从 `dist/pagefind/` 提供搜索资源。修改公开正文
 或分类后，执行 `npm run build` 并刷新浏览器，以更新开发搜索索引。
+
+
+## 网站书籍成稿
+
+`web/publication.json` 的 `books` 逐项选择 `website_public` 的网站书籍记录。
+`editorial_path` 指向 private `web/editorial/books/<book_id>.md`，目录内其他成稿不扫描。
+`scripts/sync-books.mjs` 通过 `src/lib/book-record.mjs` 校验 front matter，保留 Markdown 介绍，
+输出 `.website-input/books.json`。`src/lib/books.ts` 只读取生成输入，按 ID 与版次日期排序，
+编译介绍并派生路由和最新显示版次；分组与展示继续由 public 实现。
+空选择生成空数组，撤回记录后整份输入重写清理；缺少生成输入时失败，不提供旧路径 fallback。
+书籍记录选择不改变 works 正文范围，不读取或复制正文、PDF、EPUB、扫描件或封面资产。

@@ -6,7 +6,7 @@ import { buildCache } from './cache';
 /**
  * Archive 的受控编辑分类。
  *
- * 这是 public 仓库自己维护的正式编辑数据，与 editorial/books/、editorial/group/ 同一所有权层：
+ * 这是 public 仓库自己维护的正式编辑数据，与 editorial/group/ 同一所有权层：
  * 不经过 private 同步通道，也不进入 .website-input/。它回答的是"这篇关于什么、主要研究谁"，
  * 属于站点的浏览分类，而题名、作者、年份、来源那些文献事实来自 private 的 website_public 选择。
  */

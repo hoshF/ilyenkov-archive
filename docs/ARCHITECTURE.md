@@ -93,7 +93,7 @@ RSS 在构建时生成，HTML 订阅发现与 feed 共用 Astro `site` 基址，
 | private `web/editorial/` | IFI、Readings 的介绍与导语，研究者中文介绍与研究工作说明，年表与作品目录说明，生平分期与导引、交往主题与记录范围；不替代 canonical 事实记录 |
 | `editorial/site.json` | 站点身份、五项导航、页脚、小组三语名称、summary 与正式联系邮箱的单一配置源 |
 | private `web/editorial/ilyenkov.json` | 人物总页短摘要、完整介绍、页面说明与子页入口名称和导语；人物事实引用 canonical records |
-| `editorial/books/` | 成书的出版元数据、版次与译者引言 |
+| private `web/editorial/books/` | 网站书籍元数据、版次与介绍；由 books 显式选择，经生成输入消费 |
 | `editorial/group/` | 小组按期公共工作记录及其摘要、公开日期 |
 | `editorial/updates.json` | 简短公开动态的单一事实源 |
 | `editorial/archive-taxonomy.json` | Archive 的公开编辑分类及逐篇指派，不是作者事实 |
@@ -126,7 +126,7 @@ note 与 `typeNotes` 由根对象 `works_catalog` 选择成稿，作品本身仍
 译文与结构化研究资料统一由 private `web/publication.json` 逐项选择，分别登记在 `works` 与
 `records` 中；清单引用的事实、文本和来源保持各自的维护位置，不在接口中复制。public 只在同步
 阶段读取 private 输入，页面读取 `.website-input/`，不把生成输入改成另一份 tracked 内容库。
-书籍、小组记录、动态与分类由 public 自行维护，不经过 private 同步通道。
+小组记录、动态与分类由 public 自行维护，不经过 private 同步通道。
 Archive 分类中的 `persons` 回答文章涉及谁；文章 `authorIds` 回答谁写了它，两者不互相推导。
 
 研究详情页的辅助链接由 `ResourceLinks` 展示；页面负责选择公开资源及中文标签。
