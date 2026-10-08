@@ -8,10 +8,11 @@ GitHub 仓库为 `hoshF/ilyenkov-archive`；本地目录 `Ilyenkov-public` 与�
 
 ## 仓库边界
 
-- **public**：网站页面、组件、样式、公开编辑介绍、小组记录、成书身份与版本记录，以及静态构建和部署。
+- **public**：网站页面、组件、样式、其余公开编辑介绍、小组记录、成书身份与版本记录，以及静态构建和部署。
 - **private**：canonical 研究事实、原文、翻译、审校、来源与权利证据；统一公开接口为根目录的
-  `web/publication.json`，其中 `works` 选择译文，`records` 选择研究记录。事实与文本由清单引用，
-  不复制到接口中。
+  `web/publication.json`，其中 `works` 选择译文，`records` 选择研究记录。canonical 事实与原文、
+  译文保持各自的维护位置；IFI、Readings 的中文成稿由 `web/editorial/` 维护，经对应 publication
+  条目的 `editorial_path` 明确选择后同步。
 - **生成输入**：`web/publication.json` 中 `website_public` 条目同步到 `.website-input/`；该目录与构建产物
   `dist/` 均不进入 Git。网页公开许可不等于公共 Git 仓库收录许可。
 

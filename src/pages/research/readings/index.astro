@@ -1,5 +1,4 @@
 ---
-import { readingsEditorial } from '../../../lib/editorial';
 import { renderPublicMarkdown } from '../../../lib/markdown';
 import BaseLayout from '../../../layouts/BaseLayout.astro';
 import Breadcrumbs from '../../../components/Breadcrumbs.astro';
@@ -15,7 +14,9 @@ import {
 const seriesRecords = getPublicReadingsSeries();
 if (seriesRecords.length !== 1) throw new Error('Expected exactly one public Readings series');
 const series = seriesRecords[0];
-const introduction = await renderPublicMarkdown(readingsEditorial.introduction.join('\n\n'));
+const introduction = series.editorial
+  ? await renderPublicMarkdown(series.editorial.introduction.join('\n\n'))
+  : null;
 const readings = getPublicReadings();
 const resourceLabels: Record<PublicReadingsSeries['resources'][number]['kind'], string> = {
   archive: 'Readings 资料档案',
@@ -37,10 +38,10 @@ const resourceLabels: Record<PublicReadingsSeries['resources'][number]['kind'], 
       <p class="record__original">{series.name}</p>
     </header>
 
-    <section class="research-series" aria-labelledby="readings-intro-heading">
+    {introduction && <section class="research-series" aria-labelledby="readings-intro-heading">
       <h2 id="readings-intro-heading">简介</h2>
       <div class="prose prose--section" set:html={introduction.html} />
-    </section>
+    </section>}
 
 
 

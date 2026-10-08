@@ -13,12 +13,13 @@ private 根目录的 `web/publication.json` 是译文与结构化研究记录的
 | --- | --- |
 | `publication_scopes` | 公开范围：`website_public`、`internal_public` |
 | `works` | 译文的 `work_id`、`publication_scope` 与 `work_json_path` |
-| `records` | 研究记录的公开身份、范围、类型、定位、公开显示文字与来源选择 |
+| `records` | 研究记录的公开身份、范围、类型、定位、公开显示文字、来源与成稿选择 |
 
 两个同步器只消费 `publication_scope = website_public` 的条目；`internal_public` 不进入公共网站
 生成输入或 `dist/`。`work_json_path`、`record_path`、`source_path` 相对 private 仓库根目录解析；
-canonical 事实、文本、来源与权利证据保持各自的维护位置，接口不另存事实或正文副本。研究条目
-按类型适用下文的字段契约。
+canonical 事实、原文、译文、来源与权利证据保持各自的维护位置，接口不另存其副本。IFI、Readings
+公开成稿由 `web/editorial/` 维护，经对应条目的 `editorial_path` 选择。研究条目按类型适用下文的
+字段契约。
 
 ## 三种网站状态
 
@@ -40,15 +41,16 @@ canonical 事实、文本、来源与权利证据保持各自的维护位置，�
 
 生平、服役、黑格尔大会、作品目录、伊里因科夫讨论会、IFI 网络、IFI 研讨会、研究者、外部资料
 站点的结构化记录由 research 同步通道生成，统一遵守以下规则。这里的字段限制约束同步生成的研究
-记录；public 自行维护的读者导引文字见[公开编辑文字](#公开编辑文字)，仍受来源与公开范围约束。
+记录；通过 `editorial_path` 选定的成稿及 public 维护的其他导引文字见[公开编辑文字](#公开编辑文字)，
+仍受来源与公开范围约束。
 
 - 每一条都由 private 的 `web/publication.json` 中 `records` **逐项**标记选择。未被选中的条目，不因文件
   存在而视为可以公开，也不建立占位数据。
 - 上述类型必须同时有获准条目。任何一类为空，同步器直接失败，不生成半份 `research-records.json`。
   Readings series 是另行选择的可选类型，不因 private 存在 series record 就自动输出，也不属于必备集合。
 - 同步器只输出该条目获准的最小公开字段：稳定 ID、中文与原文题名、摘要或简短定位、历史日期或
-  日期范围、地点或状态、以及明确选定的外部来源链接。每项事实都必须由所选来源支持。
-- 以下一律不经研究同步通道进入生成输入与 `dist/`：正文、自传原文、扫描件、附件、照片、视频、
+  日期范围、地点或状态、明确选定的外部来源链接，以及类型契约允许的选定成稿。每项事实都必须由所选来源支持。
+- 以下一律不经研究同步通道进入生成输入与 `dist/`：原始正文、自传原文、扫描件、附件、照片、视频、
   统计、成员名单与联系方式、机构与履历、内部置信度、冲突分析、研究备注、来源 ID、日志、问题记录、本地路径。
 - 来源之间存在冲突时，公开数据只保留能够共同支持的最小事实，不在网站上代替研究系统作出裁决。
 - 研究记录中的日期是历史事实，不是网站的发布或更新时间。
@@ -105,7 +107,8 @@ directory 只在同步阶段用于定位，不进入 generated data；活动的�
 `ilyenkov_readings_series` 使用 research publication 通道，采用显式允许契约。条目以
 `record_path: research/readings/series.json` 和 `record_id = series_id` 选择唯一 series record。
 publication 只允许 `public_id`、`publication_scope`、`kind`、`record_path`、`record_id`、`title_zh`、
-`summary_zh`、`resource_kinds`，不得通过 `url`、`resources`、`source_url` 等字段覆盖 private 资源 URL。
+`summary_zh`、`resource_kinds` 与可选的 `editorial_path`，不得通过 `url`、`resources`、`source_url`
+等字段覆盖 private 资源 URL。
 
 | 公开字段 | 来源与范围 |
 | --- | --- |
@@ -114,10 +117,11 @@ publication 只允许 `public_id`、`publication_scope`、`kind`、`record_path`
 | `history.earliestArchivedEventId` | 将 `earliest_archived_event_directory` 解析为 1991 年未编号 Readings，再映射为该活动唯一获准条目的 `public_id` |
 | `history.firstInternationalEventId` | 将 `first_international_event_directory` 解析为 `edition_roman === "I"` 的 Readings，再映射为该活动唯一获准条目的 `public_id` |
 | `resources[].kind`、`resources[].url` | publication 的 `resource_kinds` 选择种类；URL 只来自 series 的对应资源 |
+| 可选 `editorial.introduction` | `editorial_path` 选定成稿的非空 Markdown 段落数组 |
 
 资源种类只允许 `archive`、`society`、`historical_archive`，选择不得重复；所选资源必须存在并提供
 合法非空 `http(s)` URL。输出仅含 `{ kind, url }`，没有标签、图标、描述、权重或统一的“官方”标记；
-未选择的资源不输出。中文叙述由 publication 与 public 编辑层承担，不自动翻译或透传俄文事实摘要。
+未选择的资源不输出。中文题名与摘要来自 publication，完整介绍来自选定成稿，不自动翻译或透传俄文事实摘要。
 
 private 的目录、`positioning_ru`、`memorial_background_ru`、`continuity_summary_ru`、全部活动标识、
 组织者名单、报告、出版物、媒体、转录、内部备注与问题记录不通过 series 同步进入 generated data。
@@ -138,7 +142,8 @@ IFI organization 采用显式允许契约：private 以后新增字段默认属�
 同步器显式序列化、且 public schema 显式接受的字段才能进入 `.website-input/research-records.json`。
 
 IFI network publication 只接受 `public_id`、`publication_scope`、`kind`、`record_path`、`record_id`、
-`title_zh`、`summary_zh`、`resource_kinds`；出现 `source_url`、`url`、`resources` 等额外字段会使同步失败，不会静默忽略。
+`title_zh`、`summary_zh`、`resource_kinds` 与可选的 `editorial_path`；出现 `source_url`、`url`、`resources`
+等额外字段会使同步失败，不会静默忽略。
 
 公开字段以集合为准，不以当前字段数量为准：
 
@@ -150,6 +155,7 @@ IFI network publication 只接受 `public_id`、`publication_scope`、`kind`、`
 | `formation.symposiumId` | 将 organization 的 `formation_event_id` 解析并映射为获准公开的 symposium ID；不输出 private event ID |
 | `activityModes` | 严格枚举 `symposium`、`webinar`、`collective_reading`、`discussion`，保持 private 顺序 |
 | `resources[].kind`、`resources[].url` | publication 的 `resource_kinds` 选择资源种类，URL 只来自 organization 的对应资源 |
+| 可选 `editorial.introduction`、`editorial.symposiumsLead` | `editorial_path` 选定成稿的 Markdown 段落数组与历史列表导语 |
 
 资源种类只允许 `about`、`history`、`texts`、`symposiums`、`youtube`、`facebook`。选择列表不得重复，
 所选资源必须存在且提供合法非空 `http(s)` URL；未知活动方式、未知资源种类、缺失资源或无效 URL 都
@@ -166,9 +172,20 @@ Webinar series 的 `official_page` 属于其独立 private 记录，本契约不
 
 ## 公开编辑文字
 
-面向读者的介绍、导引与中文叙述由 public 在 `editorial/` 中维护，包括人物、研究实体与研究者的介绍。
-这些文字依据来源组织和解释已获准公开的内容；canonical 研究事实、来源证据与发布决定仍由 private
-维护，不由 public 编辑文字替代。
+IFI 与 Readings 的公开中文成稿分别维护在 private `web/editorial/ifi.json` 与
+`web/editorial/readings.json`。成稿包含非空 `introduction` Markdown 段落数组；IFI 成稿另含
+非空 `symposiumsLead` 历史列表导语。只接受各类型的这些成稿字段，额外字段使同步失败。
+
+`ifi_network` 与 `ilyenkov_readings_series` 条目可用 `editorial_path` 明确选择成稿文件，路径相对
+private 仓库根目录解析。路径必须为 `web/editorial/<slug>.json`，slug 使用小写字母、数字与连字符；
+绝对路径、目录穿越、其他目录以及实际解析后离开 `web/editorial/` 的符号链接均拒绝。
+只有获准条目选择的成稿才进入生成 network 或 series 的可选 `editorial`；路径本身不输出。没有
+选择时，即使成稿文件存在也不输出，public 页面省略简介及 IFI 导语，不使用本地文字副本、默认
+文字或自动发现的成稿。选定文件缺失或字段无效时同步失败。
+
+人物与研究者介绍以及其他 public 编辑文字仍在 public `editorial/` 或对应页面中维护。这些文字
+依据来源组织和解释已获准公开的内容；canonical 研究事实、来源证据与发布决定仍由 private 维护，
+不由公开编辑文字替代。
 
 公开编辑文字只使用已经公开或已明确选择公开的内容，不读取未公开的 private 数据，也不通过改写、
 摘述或嵌入把受限正文、原始材料、内部备注与未获准来源送入公共构建。编辑叙述不扩大授权范围，

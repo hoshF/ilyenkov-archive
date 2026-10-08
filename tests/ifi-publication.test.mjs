@@ -1,4 +1,5 @@
-import { mkdirSync, mkdtempSync, readFileSync, rmSync, writeFileSync } from 'node:fs';
+import { spawnSync } from 'node:child_process';
+import { cpSync, mkdirSync, mkdtempSync, readFileSync, rmSync, symlinkSync, writeFileSync } from 'node:fs';
 import { tmpdir } from 'node:os';
 import path from 'node:path';
 import { afterEach, describe, expect, it } from 'vitest';
@@ -11,6 +12,7 @@ const projectRoot = process.cwd();
 const publicationPath = 'web/publication.json';
 const organizationPath = 'research/friends/organization.json';
 const eventsPath = 'research/friends/events.json';
+const editorialPath = 'web/editorial/ifi.json';
 const activityModes = ['symposium', 'webinar', 'collective_reading', 'discussion'];
 const resourceKinds = ['about', 'history', 'texts', 'symposiums', 'youtube', 'facebook'];
 const readJson = (root, relative) => JSON.parse(readFileSync(path.join(root, relative), 'utf8'));
@@ -32,7 +34,7 @@ function fixture() {
   const outputRoot = path.join(root, 'generated');
   const relativePaths = new Set([publicationPath, eventsPath]);
   selectedEntries.forEach((entry) => {
-    for (const field of ['record_path', 'source_path']) {
+    for (const field of ['record_path', 'source_path', 'editorial_path']) {
       if (entry[field]) relativePaths.add(entry[field]);
     }
   });
@@ -41,10 +43,16 @@ function fixture() {
     mkdirSync(path.dirname(target), { recursive: true });
     writeFileSync(target, readFileSync(path.join(researchRoot, relative), 'utf8'));
   }
+  const publicRoot = path.join(root, 'public');
   return {
+    root,
+    sourceRoot,
+    remove: (relative) => rmSync(path.join(sourceRoot, relative)),
     read: (relative) => readJson(sourceRoot, relative),
     write(relative, data) {
-      writeFileSync(path.join(sourceRoot, relative), `${JSON.stringify(data, null, 2)}\n`);
+      const target = path.join(sourceRoot, relative);
+      mkdirSync(path.dirname(target), { recursive: true });
+      writeFileSync(target, `${JSON.stringify(data, null, 2)}\n`);
     },
     mutate(relative, callback) {
       const data = this.read(relative);
@@ -52,6 +60,16 @@ function fixture() {
       this.write(relative, data);
     },
     plan: () => plannedResearchRecords({ projectRoot, researchRoot: sourceRoot, outputRoot }),
+    run() {
+      mkdirSync(path.join(publicRoot, 'scripts'), { recursive: true });
+      cpSync(path.join(projectRoot, 'scripts/lib'), path.join(publicRoot, 'scripts/lib'), { recursive: true });
+      cpSync(path.join(projectRoot, 'scripts/sync-research-records.mjs'), path.join(publicRoot, 'scripts/sync-research-records.mjs'));
+      return spawnSync(process.execPath, ['scripts/sync-research-records.mjs'], {
+        cwd: publicRoot, env: { ...process.env, ILYENKOV_ROOT: sourceRoot },
+        encoding: 'utf8', timeout: 10_000,
+      });
+    },
+    generated: () => readJson(publicRoot, '.website-input/research-records.json'),
   };
 }
 
@@ -144,7 +162,7 @@ describe('IFI publication contract', () => {
     });
     const network = input.plan().ifiNetworks[0];
     expect(Object.keys(network).sort()).toEqual([
-      'abbreviation', 'activityModes', 'formation', 'id', 'name', 'resources', 'summary', 'title', 'url',
+      'abbreviation', 'activityModes', 'editorial', 'formation', 'id', 'name', 'resources', 'summary', 'title', 'url',
     ]);
     expect(network.formation).toEqual({ symposiumId: formationPublication(publication).public_id });
     expect(JSON.stringify(network)).not.toContain('PRIVATE_');
@@ -255,6 +273,103 @@ describe('IFI publication contract', () => {
   });
 });
 
+describe('IFI private editorial publication', () => {
+  it('publishes only the selected introduction and symposium lead without its source locator', () => {
+    const input = fixture();
+    const network = input.plan().ifiNetworks[0];
+    expect(network.editorial).toEqual(input.read(editorialPath));
+    expect(Object.keys(network.editorial).sort()).toEqual(['introduction', 'symposiumsLead']);
+    expect(JSON.stringify(network)).not.toContain('editorial_path');
+    expect(JSON.stringify(network)).not.toContain(editorialPath);
+    expect(IfiNetworkSchema.safeParse(network).success).toBe(true);
+  });
+
+  it.each(['', null, 42, '../ifi.json', 'research/friends/organization.json', 'web/editorial/ifi/intro.json'])(
+    'rejects an invalid selected editorial path %j', (selectedPath) => {
+      const input = fixture();
+      input.mutate(publicationPath, (manifest) => { networkEntry(manifest).editorial_path = selectedPath; });
+      expect(() => input.plan()).toThrow(/editorial_path/i);
+    },
+  );
+
+  it('fails when the selected editorial file is missing', () => {
+    const input = fixture();
+    input.remove(editorialPath);
+    expect(() => input.plan()).toThrow(/missing.*web\/editorial\/ifi\.json/);
+  });
+
+  it('rejects a selected editorial symlink outside the editorial directory', () => {
+    const input = fixture();
+    const outside = path.join(input.root, 'outside.json');
+    writeFileSync(outside, JSON.stringify(input.read(editorialPath)));
+    input.remove(editorialPath);
+    symlinkSync(outside, path.join(input.sourceRoot, editorialPath));
+    expect(() => input.plan()).toThrow(/escapes web\/editorial/);
+  });
+
+  it.each([
+    ['missing introduction', (editorial) => { delete editorial.introduction; }],
+    ['non-array introduction', (editorial) => { editorial.introduction = 'Text'; }],
+    ['empty introduction', (editorial) => { editorial.introduction = []; }],
+    ['blank paragraph', (editorial) => { editorial.introduction = [' ']; }],
+    ['missing symposium lead', (editorial) => { delete editorial.symposiumsLead; }],
+    ['multiline symposium lead', (editorial) => { editorial.symposiumsLead = 'First\nSecond'; }],
+    ['private metadata', (editorial) => { editorial.source_path = 'PRIVATE_SOURCE_SENTINEL'; }],
+    ['structured references', (editorial) => { editorial.references = ['org-ifi']; }],
+  ])('rejects editorial content with %s', (_name, mutate) => {
+    const input = fixture();
+    input.mutate(editorialPath, mutate);
+    expect(() => input.plan()).toThrow(/editorial|introduction|symposiumsLead/i);
+  });
+
+  it('ignores internal editorial selections without reading their files', () => {
+    const input = fixture();
+    const before = input.plan();
+    input.mutate(publicationPath, (manifest) => {
+      manifest.records.push({
+        public_id: 'internal-ifi-editorial', publication_scope: 'internal_public',
+        kind: 'ifi_network', editorial_path: 'web/editorial/missing.json',
+      });
+    });
+    expect(input.plan()).toEqual(before);
+  });
+
+  it('does not expand prose references or scan unselected manuscripts into public facts', () => {
+    const input = fixture();
+    const before = input.plan();
+    const paragraphs = ['{{org-ifi.members}}', '{{record:unselected-activity}}'];
+    input.mutate(editorialPath, (editorial) => { editorial.introduction = paragraphs; });
+    input.mutate(organizationPath, (catalog) => {
+      organization(catalog).members = ['PRIVATE_MEMBER_SENTINEL'];
+    });
+    input.write('web/editorial/unselected.json', { introduction: ['UNSELECTED_EDITORIAL_SENTINEL'], references: ['org-ifi'] });
+    before.ifiNetworks[0].editorial.introduction = paragraphs;
+    const after = input.plan();
+    expect(after).toEqual(before);
+    expect(JSON.stringify(after)).not.toMatch(/PRIVATE_MEMBER_SENTINEL|UNSELECTED_EDITORIAL_SENTINEL/);
+  });
+
+  it('removes both manuscripts from generated JSON when their selections are removed', () => {
+    const input = fixture();
+    const first = input.run();
+    expect(first.status, first.stderr).toBe(0);
+    const expected = input.generated();
+    expect(expected.ifiNetworks[0].editorial).toBeDefined();
+    expect(expected.readingsSeries[0].editorial).toBeDefined();
+    const paths = input.read(publicationPath).records.flatMap((entry) => entry.editorial_path ? [entry.editorial_path] : []);
+    input.mutate(publicationPath, (manifest) => {
+      for (const entry of manifest.records) delete entry.editorial_path;
+    });
+    for (const selectedPath of paths) input.write(selectedPath, { unsupported: 'UNSELECTED_EDITORIAL_SENTINEL' });
+    const second = input.run();
+    expect(second.status, second.stderr).toBe(0);
+    delete expected.ifiNetworks[0].editorial;
+    delete expected.readingsSeries[0].editorial;
+    expect(input.generated()).toEqual(expected);
+    expect(JSON.stringify(input.generated())).not.toContain('UNSELECTED_EDITORIAL_SENTINEL');
+  });
+});
+
 describe('strict public IFI schemas', () => {
   it('accepts the selected official resource kinds and activity modes', () => {
     const network = fixture().plan().ifiNetworks[0];
@@ -264,6 +379,9 @@ describe('strict public IFI schemas', () => {
   });
 
   it.each([
+    ['private editorial locator', (record) => { record.editorial.editorial_path = editorialPath; }],
+    ['empty editorial introduction', (record) => { record.editorial.introduction = []; }],
+    ['structured editorial references', (record) => { record.editorial.references = ['org-ifi']; }],
     ['private formation identity', (record) => { record.formation = { event_id: 'private-id' }; }],
     ['invalid public ID', (record) => { record.formation.symposiumId = '../private-id'; }],
     ['duplicated formation year', (record) => { record.formation.year = '2012'; }],

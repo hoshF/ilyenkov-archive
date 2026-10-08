@@ -70,12 +70,24 @@ const ReadingsSchema = z.object({
   message: 'A reading must have either a location or an activity format',
 });
 
+export const IfiEditorialSchema = z.object({
+  introduction: z.array(z.string().trim().min(1)).min(1),
+  symposiumsLead: z.string().trim().min(1).refine((value) => !/[\r\n]/.test(value), {
+    message: 'Editorial lead must be one line',
+  }),
+}).strict();
+
+export const ReadingsEditorialSchema = z.object({
+  introduction: z.array(z.string().trim().min(1)).min(1),
+}).strict();
+
 export const ReadingsSeriesSchema = z.object({
   id: z.string().regex(/^[a-z0-9]+(?:-[a-z0-9]+)*$/),
   title: z.string().trim().min(1),
   name: z.string().trim().min(1),
   summary: z.string().trim().min(1),
   type: z.literal('academic_conference_series'),
+  editorial: ReadingsEditorialSchema.optional(),
   history: z.object({
     earliestArchivedEventId: z.string().regex(/^[a-z0-9]+(?:-[a-z0-9]+)*$/),
     firstInternationalEventId: z.string().regex(/^[a-z0-9]+(?:-[a-z0-9]+)*$/),
@@ -93,6 +105,7 @@ export const IfiNetworkSchema = z.object({
   title: z.string().trim().min(1),
   name: z.string().trim().min(1),
   abbreviation: z.string().trim().min(1),
+  editorial: IfiEditorialSchema.optional(),
   formation: z.object({
     symposiumId: z.string().regex(/^[a-z0-9]+(?:-[a-z0-9]+)*$/),
   }).strict(),

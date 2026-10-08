@@ -1,5 +1,4 @@
 ---
-import { ifiEditorial } from '../../../lib/editorial';
 import { renderPublicMarkdown } from '../../../lib/markdown';
 import BaseLayout from '../../../layouts/BaseLayout.astro';
 import Breadcrumbs from '../../../components/Breadcrumbs.astro';
@@ -14,7 +13,9 @@ import {
 
 const network = getPublicIfiNetwork();
 const symposiums = getPublicIfiSymposiums();
-const introduction = await renderPublicMarkdown(ifiEditorial.introduction.join('\n\n'));
+const introduction = network.editorial
+  ? await renderPublicMarkdown(network.editorial.introduction.join('\n\n'))
+  : null;
 
 const resourceLabels: Record<PublicIfiNetwork['resources'][number]['kind'], string> = {
   about: '组织介绍',
@@ -42,16 +43,16 @@ const sourceLabel = (source: { creator: string | null; title: string }) => (
       <p class="record__original">{network.name}（{network.abbreviation}）</p>
     </header>
 
-    <section class="research-series" aria-labelledby="ifi-intro-heading">
+    {introduction && <section class="research-series" aria-labelledby="ifi-intro-heading">
       <h2 id="ifi-intro-heading">简介</h2>
       <div class="prose prose--section" set:html={introduction.html} />
-    </section>
+    </section>}
 
 
 
     <section class="research-series" aria-labelledby="ifi-symposiums-heading">
       <h2 id="ifi-symposiums-heading">历次 Symposium</h2>
-      <p class="research-series__lead">以下记录呈现 IFI 的主要历史节点。</p>
+      {network.editorial && <p class="research-series__lead">{network.editorial.symposiumsLead}</p>}
       <ol class="record-list">
         {symposiums.map((record) => (
           <li id={record.id}>

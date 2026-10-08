@@ -7,7 +7,8 @@
 
 private 根目录的 `web/publication.json` 是唯一发布选择入口；`works` 与 `records` 分别由译文和
 研究同步器消费。`work_json_path`、`record_path`、`source_path` 相对 private 仓库根目录解析，
-不以 `web/` 为基准。接口引用已有事实、文本与来源文件，不复制 canonical 记录或正文。
+不以 `web/` 为基准。接口引用已有事实、原文、译文与来源文件，不复制其 canonical 内容；IFI、
+Readings 公开成稿在 `web/editorial/` 中维护，经对应记录的 `editorial_path` 明确选择。
 
 ```text
 private/web/publication.json → works
@@ -135,12 +136,24 @@ Readings 来源 URL 按 `current → original → archive → 既有 flat url` �
 形成活动的日期、地点或题名，也不嵌入 symposium 列表；独立 symposium 继续按各自 publication
 与来源契约输出。公开资源链接不意味着复制对应页面全文。
 
+## 公开成稿同步
+
+所选 `ifi_network` 或 `ilyenkov_readings_series` publication 的 `editorial_path` 指向 private
+`web/editorial/` 中的成稿。研究同步器读取并校验类型允许的字段，分别写入生成 network 或 series
+的可选 `editorial`。IFI 允许 `introduction` 与 `symposiumsLead`，Readings 只允许 `introduction`；
+额外字段使同步失败。路径限制与字段契约见[公开编辑文字](PUBLICATION.md#公开编辑文字)。
+不输出 locator、不扫描成稿目录、不复制 canonical 记录。
+
+未选择成稿时不生成 `editorial`；选定文件缺失或字段无效时同步失败。页面只读取
+`.website-input/research-records.json` 中的成稿，`introduction` 经 `renderPublicMarkdown()` 渲染；
+不存在时省略简介及 IFI 导语，不读取 private 文件或 public 文字副本。
+
 ## public 编辑输入与缓存
 
-`editorial/` 的站点配置、中文介绍、书籍、小组工作、分类与动态直接由 public 读取，不经过两条
-private 同步通道，也不进入 `.website-input/`。中文介绍由 `src/lib/editorial.ts` 校验，Markdown
-介绍复用 `renderPublicMarkdown()`。`summary` 与 `introduction` 的使用分工见架构说明；公开编辑
-叙述的权限边界见发布说明的[公开编辑文字](PUBLICATION.md#公开编辑文字)。
+`editorial/` 的站点配置、人物与研究者介绍、书籍、小组工作、分类与动态直接由 public 读取，不经过
+private 同步通道，也不进入 `.website-input/`。人物与研究者介绍由 `src/lib/editorial.ts` 校验，
+Markdown 介绍复用 `renderPublicMarkdown()`。`summary` 与 `introduction` 的使用分工见架构说明；
+公开编辑叙述的权限边界见发布说明的[公开编辑文字](PUBLICATION.md#公开编辑文字)。
 
 使用 `buildCache` 的数据 getter 在生产构建中只加载一次，在开发中每次调用重新读取。
 `src/lib/editorial.ts` 的站点与介绍 JSON 则在模块加载时解析；外部 JSON 更改可能需要重启开发

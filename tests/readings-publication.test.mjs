@@ -11,6 +11,7 @@ const projectRoot = process.cwd();
 const publicationPath = 'web/publication.json';
 const eventsPath = 'research/readings/events.json';
 const seriesPath = 'research/readings/series.json';
+const editorialPath = 'web/editorial/readings.json';
 const earliestDirectory = 'events/1991-unnumbered-first-readings';
 const firstInternationalDirectory = 'events/1999-I-first-international';
 const unnumbered1997Directory = 'events/1997-unnumbered-mgap';
@@ -43,7 +44,7 @@ function fixture() {
     )),
   ]);
   selectedEntries.forEach((entry) => {
-    for (const field of ['record_path', 'source_path']) {
+    for (const field of ['record_path', 'source_path', 'editorial_path']) {
       if (entry[field]) relativePaths.add(entry[field]);
     }
   });
@@ -53,6 +54,7 @@ function fixture() {
     writeFileSync(target, readFileSync(path.join(researchRoot, relative), 'utf8'));
   }
   return {
+    remove: (relative) => rmSync(path.join(sourceRoot, relative)),
     read: (relative) => readJson(sourceRoot, relative),
     write(relative, data) {
       const target = path.join(sourceRoot, relative);
@@ -255,6 +257,7 @@ describe('Readings series publication adapter', () => {
       title: entry.title_zh,
       name: privateSeries.name_ru,
       summary: entry.summary_zh,
+      editorial: input.read(entry.editorial_path),
       type: 'academic_conference_series',
       history: {
         earliestArchivedEventId: earliestPublicId,
@@ -299,7 +302,7 @@ describe('Readings series publication adapter', () => {
       });
     });
     const series = input.plan().readingsSeries[0];
-    expect(Object.keys(series).sort()).toEqual(['history', 'id', 'name', 'resources', 'summary', 'title', 'type']);
+    expect(Object.keys(series).sort()).toEqual(['editorial', 'history', 'id', 'name', 'resources', 'summary', 'title', 'type']);
     expect(Object.keys(series.history).sort()).toEqual(['earliestArchivedEventId', 'firstInternationalEventId']);
     expect(JSON.stringify(series)).not.toContain('PRIVATE_');
     expect(JSON.stringify(series)).not.toContain('events/');
@@ -462,6 +465,63 @@ describe('selected Readings series resources', () => {
   });
 });
 
+describe('Readings private editorial publication', () => {
+  it('publishes only the explicitly selected introduction without its source locator', () => {
+    const input = fixture();
+    const series = input.plan().readingsSeries[0];
+    expect(series.editorial).toEqual(input.read(editorialPath));
+    expect(Object.keys(series.editorial)).toEqual(['introduction']);
+    expect(JSON.stringify(series)).not.toContain('editorial_path');
+    expect(JSON.stringify(series)).not.toContain(editorialPath);
+    expect(ReadingsSeriesSchema.safeParse(series).success).toBe(true);
+  });
+
+  it.each(['research/readings/series.json'])(
+    'rejects an invalid selected editorial path %j', (selectedPath) => {
+      const input = fixture();
+      input.mutate(publicationPath, (manifest) => { seriesEntry(manifest).editorial_path = selectedPath; });
+      expect(() => input.plan()).toThrow(/editorial_path/i);
+    },
+  );
+
+  it('fails when the selected editorial file is missing', () => {
+    const input = fixture();
+    input.remove(editorialPath);
+    expect(() => input.plan()).toThrow(/missing.*web\/editorial\/readings\.json/);
+  });
+
+  it.each([
+    ['structured references', (editorial) => { editorial.references = [earliestDirectory]; }],
+    ['IFI-specific lead', (editorial) => { editorial.symposiumsLead = 'Other content'; }],
+  ])('rejects editorial content with %s', (_name, mutate) => {
+    const input = fixture();
+    input.mutate(editorialPath, mutate);
+    expect(() => input.plan()).toThrow(/editorial|introduction/i);
+  });
+
+  it('does not turn prose mentions into additional conference selections or private facts', () => {
+    const input = fixture();
+    const before = input.plan();
+    const paragraphs = [`{{conference:${unnumbered1997Directory}}}`, '{{series:organizers}}'];
+    input.mutate(editorialPath, (editorial) => { editorial.introduction = paragraphs; });
+    input.mutate(seriesPath, (catalog) => { seriesRecord(catalog).organizers = ['PRIVATE_ORGANIZER_SENTINEL']; });
+    before.readingsSeries[0].editorial.introduction = paragraphs;
+    const after = input.plan();
+    expect(after).toEqual(before);
+    expect(after.readings).toEqual(before.readings);
+    expect(JSON.stringify(after)).not.toContain('PRIVATE_ORGANIZER_SENTINEL');
+  });
+
+  it('omits unselected editorial even when the former file is invalid', () => {
+    const input = fixture();
+    const before = input.plan();
+    input.mutate(publicationPath, (manifest) => { delete seriesEntry(manifest).editorial_path; });
+    input.write(editorialPath, { unsupported: 'UNSELECTED_EDITORIAL_SENTINEL' });
+    delete before.readingsSeries[0].editorial;
+    expect(input.plan()).toEqual(before);
+  });
+});
+
 describe('strict public Readings series schemas', () => {
   it('accepts the minimal public series schema and all allowed resource kinds', () => {
     const series = fixture().plan().readingsSeries[0];
@@ -470,6 +530,10 @@ describe('strict public Readings series schemas', () => {
   });
 
   it.each([
+    ['private editorial locator', (record) => { record.editorial.editorial_path = editorialPath; }],
+    ['empty editorial introduction', (record) => { record.editorial.introduction = []; }],
+    ['structured editorial references', (record) => { record.editorial.references = [earliestDirectory]; }],
+    ['IFI-specific editorial lead', (record) => { record.editorial.symposiumsLead = 'Other content'; }],
     ['private locator', (record) => { record.local_directory = earliestDirectory; }],
     ['private earliest relation', (record) => { record.history.earliest_archived_event_directory = earliestDirectory; }],
     ['private first international relation', (record) => { record.history.first_international_event_directory = firstInternationalDirectory; }],
@@ -535,6 +599,7 @@ describe('Readings publication regression', () => {
       title: '伊里因科夫学术报告会',
       name: 'Ильенковские чтения',
       summary: selectedSeries.summary_zh,
+      editorial: readJson(researchRoot, selectedSeries.editorial_path),
       type: 'academic_conference_series',
       history: {
         earliestArchivedEventId: earliestPublicId,

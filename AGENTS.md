@@ -7,7 +7,10 @@ evidence, and publication decisions belong to the private research repository.
 The private repository exposes publication selections through `web/publication.json` only.
 The translation syncer reads its `works`; the research syncer reads its `records`. Input file
 paths resolve from the private repository root. Syncers consume only `website_public` entries.
-Canonical research and translation files remain in their existing locations.
+Canonical research and translation files remain in their existing locations. IFI and Readings
+editorial texts belong to private `web/editorial/` and require `editorial_path` on their selected
+network or series record. Pages read the generated `editorial` payload only; when unselected,
+omit the introduction and IFI lead without fallback. Other public editorial inputs remain here.
 
 [docs/PUBLICATION.md](docs/PUBLICATION.md) defines publication permissions and field contracts.
 Public editorial prose must not bypass those boundaries to expose unpublished private data or

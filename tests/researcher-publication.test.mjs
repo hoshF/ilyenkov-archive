@@ -25,7 +25,7 @@ function fixture() {
   const sourceRoot = path.join(root, 'research-source');
   const relativePaths = new Set([publicationPath, personsPath]);
   selectedEntries.forEach((entry) => {
-    for (const field of ['record_path', 'source_path']) {
+    for (const field of ['record_path', 'source_path', 'editorial_path']) {
       if (entry[field]) relativePaths.add(entry[field]);
     }
   });

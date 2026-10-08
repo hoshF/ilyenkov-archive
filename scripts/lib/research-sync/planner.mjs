@@ -1,3 +1,5 @@
+import { existsSync, realpathSync } from 'node:fs';
+import path from 'node:path';
 import { publicationRelative } from '../paths.mjs';
 import {
   datePattern,
@@ -8,6 +10,7 @@ import {
   optionalString,
   publicUrl,
   readResearchJson,
+  resolveResearchPath,
   requiredString,
   requiredStringArray,
   sourceIdsIn,
@@ -26,14 +29,14 @@ const ifiActivityModes = new Set(['symposium', 'webinar', 'collective_reading', 
 const ifiResourceKinds = new Set(['about', 'history', 'texts', 'symposiums', 'youtube', 'facebook']);
 const ifiNetworkPublicationFields = new Set([
   'public_id', 'publication_scope', 'kind', 'record_path', 'record_id',
-  'title_zh', 'summary_zh', 'resource_kinds',
+  'title_zh', 'summary_zh', 'resource_kinds', 'editorial_path',
 ]);
 const readingsEventsRelative = 'research/readings/events.json';
 const readingsSeriesRelative = 'research/readings/series.json';
 const readingsResourceKinds = new Set(['archive', 'society', 'historical_archive']);
 const readingsSeriesPublicationFields = new Set([
   'public_id', 'publication_scope', 'kind', 'record_path', 'record_id',
-  'title_zh', 'summary_zh', 'resource_kinds',
+  'title_zh', 'summary_zh', 'resource_kinds', 'editorial_path',
 ]);
 const personsRelative = 'people/persons.json';
 const researcherResourceKinds = new Set(['personal', 'orcid', 'institution']);
@@ -490,6 +493,30 @@ function adaptCongress({ entry, label, publicId, recordData, recordId, title, so
 export function plannedResearchRecords({ projectRoot, researchRoot }) {
   if (researchRoot === projectRoot) fail('Ilyenkov source cannot be the public repository');
   const readJson = (relative, label) => readResearchJson(researchRoot, relative, label);
+  const selectedEditorial = (entry, label, kind) => {
+    if (!Object.hasOwn(entry, 'editorial_path')) return {};
+    const relative = requiredString(entry, 'editorial_path', label);
+    if (!/^web\/editorial\/[a-z0-9]+(?:-[a-z0-9]+)*\.json$/.test(relative)) {
+      fail(`${label}: editorial_path must use web/editorial/<slug>.json`);
+    }
+    const file = resolveResearchPath(researchRoot, relative, `${label} editorial_path`);
+    if (!existsSync(file)) fail(`missing ${relative}`);
+    const editorialRoot = `${path.join(realpathSync(researchRoot), 'web', 'editorial')}${path.sep}`;
+    if (!realpathSync(file).startsWith(editorialRoot)) fail(`${label}: editorial_path escapes web/editorial`);
+    const manuscript = readJson(relative, `${label} editorial_path`);
+    const fields = kind === 'ifi_network' ? ['introduction', 'symposiumsLead'] : ['introduction'];
+    for (const key of Object.keys(manuscript)) {
+      if (!fields.includes(key)) fail(`${label}: unsupported editorial field ${key}`);
+    }
+    return {
+      editorial: {
+        introduction: requiredStringArray(manuscript, 'introduction', `${label} editorial`),
+        ...(kind === 'ifi_network' ? {
+          symposiumsLead: requiredString(manuscript, 'symposiumsLead', `${label} editorial`),
+        } : {}),
+      },
+    };
+  };
   const publication = readJson(publicationRelative, publicationRelative);
   if (!Array.isArray(publication.records)) {
     fail(`${publicationRelative}: records must be an array`);
@@ -546,13 +573,19 @@ export function plannedResearchRecords({ projectRoot, researchRoot }) {
       continue;
     }
     if (kind === 'ifi_network') {
-      records.ifiNetworks.push(adaptIfiNetwork({ ...common, readJson, publication }));
+      records.ifiNetworks.push({
+        ...adaptIfiNetwork({ ...common, readJson, publication }),
+        ...selectedEditorial(entry, label, kind),
+      });
       continue;
     }
     if (kind === 'ilyenkov_readings_series') {
       // Omit this collection entirely until publication enables it, preserving current input.
       records.readingsSeries ??= [];
-      records.readingsSeries.push(adaptReadingsSeries({ ...common, readJson, publication }));
+      records.readingsSeries.push({
+        ...adaptReadingsSeries({ ...common, readJson, publication }),
+        ...selectedEditorial(entry, label, kind),
+      });
       continue;
     }
 

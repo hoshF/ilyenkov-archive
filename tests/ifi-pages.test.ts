@@ -1,4 +1,5 @@
-import { maidanskyEditorial, ifiEditorial } from '../src/lib/editorial';
+import { maidanskyEditorial } from '../src/lib/editorial';
+import { renderPublicMarkdown } from '../src/lib/markdown';
 import { readFileSync } from 'node:fs';
 import { describe, expect, it } from 'vitest';
 import { site } from '../src/lib/editorial';
@@ -79,10 +80,17 @@ describe('IFI public detail and research entry', () => {
     expect(links(main)).toContainEqual({ href: network.url, label: '官方网站' });
   });
 
-  it('presents the editorial introduction without separate formation or activity sections', () => {
+  it('presents the editorial introduction without separate formation or activity sections', async () => {
     const main = mainContent(builtPage('/research/ifi/'));
     const intro = sectionById(main, 'ifi-intro-heading');
-    expect([...intro.matchAll(/<p\b/g)].length).toBe(ifiEditorial.introduction.length);
+    const editorial = getPublicIfiNetwork().editorial!;
+    expect(editorial).toBeDefined();
+    const paragraphs = [...intro.matchAll(/<p\b[^>]*>([\s\S]*?)<\/p>/g)]
+      .map(([, content]) => textContent(content));
+    const expected = await Promise.all(editorial.introduction.map(async (paragraph) => (
+      textContent((await renderPublicMarkdown(paragraph)).html)
+    )));
+    expect(paragraphs).toEqual(expected);
     expect(intro).toContain('<strong>');
     expect(textContent(intro)).toContain('2012 年 5 月');
     expect(textContent(intro)).not.toMatch(/成立于|正式成立|注册成立/);
@@ -110,6 +118,8 @@ describe('IFI public detail and research entry', () => {
   it('keeps the independent symposium history chronological with public dates, places and sources', () => {
     const history = sectionById(mainContent(builtPage('/research/ifi/')), 'ifi-symposiums-heading');
     const symposiums = getPublicIfiSymposiums();
+    expect(textContent(history.match(/<p class="research-series__lead">([\s\S]*?)<\/p>/)![1]))
+      .toBe(getPublicIfiNetwork().editorial!.symposiumsLead);
     const articles = [...history.matchAll(/<article\b[^>]*>([\s\S]*?)<\/article>/g)]
       .map(([, content]) => content);
     expect(articles).toHaveLength(symposiums.length);

@@ -52,7 +52,3 @@ const ResearcherEditorialSchema = IntroductionSchema.extend({
 export const maidanskyEditorial = ResearcherEditorialSchema.parse(
   readEditorialJson('researchers/andrey-maidansky.json'),
 );
-
-export const ifiEditorial = IntroductionSchema.parse(readEditorialJson('research/ifi.json'));
-
-export const readingsEditorial = IntroductionSchema.parse(readEditorialJson('research/readings.json'));

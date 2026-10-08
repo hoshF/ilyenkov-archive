@@ -1,4 +1,3 @@
-import { readingsEditorial } from '../src/lib/editorial';
 import { readFileSync } from 'node:fs';
 import { describe, expect, it } from 'vitest';
 import { site } from '../src/lib/editorial';
@@ -60,7 +59,8 @@ describe('Readings public series detail and research entry', () => {
     const intro = sectionById(main, 'readings-intro-heading');
     const prose = intro.match(/<div class="prose prose--section">([\s\S]*?)<\/div>/)![1];
     const paragraphs = [...prose.matchAll(/<p\b[^>]*>([\s\S]*?)<\/p>/g)].map(([, content]) => textContent(content));
-    expect(paragraphs).toEqual(readingsEditorial.introduction.map((paragraph) => paragraph.replace(/\*\*/g, '')));
+    expect(series[0].editorial).toBeDefined();
+    expect(paragraphs).toEqual(series[0].editorial!.introduction.map((paragraph) => paragraph.replace(/\*\*/g, '')));
     expect(intro).toContain('<strong>');
     expect(textContent(intro)).toContain('学术会议系列');
     expect(intro).not.toContain(series[0].type);
