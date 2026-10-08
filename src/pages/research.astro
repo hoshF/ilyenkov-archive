@@ -6,7 +6,6 @@ import {
   getPublicIfiNetwork,
   getPublicReadingsSeries,
   getPublicResearchers,
-  getPublicResearchSites,
 } from '../lib/research-records';
 
 const readingsSeriesRecords = getPublicReadingsSeries();
@@ -15,7 +14,6 @@ const readingsSeries = readingsSeriesRecords[0];
 const ifiNetwork = getPublicIfiNetwork();
 const researcher = getPublicResearchers().find((record) => record.id === 'researcher-andrey-maidansky');
 if (!researcher) throw new Error('Maidansky public researcher profile is missing');
-const researchSites = getPublicResearchSites();
 ---
 
 <BaseLayout title="研究" description="连接国际伊里因科夫研究、会议、组织和中文介绍。">
@@ -42,20 +40,7 @@ const researchSites = getPublicResearchSites();
         <p class="record__summary">{readingsSeries.summary}</p>
     </section>
 
-    <section class="research-series" aria-labelledby="research-sites-heading">
-        <h2 id="research-sites-heading">资料站点</h2>
-        <p class="research-series__lead">以下链接指向外部资料站点。</p>
-        {researchSites.map((site) => (
-          <article class="research-site-card">
-            <h3><a href={site.url}>{site.title}</a></h3>
-            <p class="record__original">{site.originalTitle}</p>
-            <p class="record__summary">{site.summary}</p>
-            <p class="record__links">
-              {site.sections.map((section) => <a href={section.url}>{section.label}</a>)}
-            </p>
-          </article>
-        ))}
-    </section>
+
 
   </SectionLayout>
 </BaseLayout>

@@ -1,0 +1,20 @@
+---
+import type { ReadableDocument } from '../lib/site-data';
+interface Props {
+  document: ReadableDocument;
+  mode: 'home' | 'archive' | 'researcher';
+}
+const { document, mode } = Astro.props;
+---
+
+{mode === 'home' ? <>
+  <p class="record__title"><a href={document.route}>{document.title}</a></p>
+  <p class="record__meta">{document.authorLabel} · 原文年份 {document.year}</p>
+</> : mode === 'archive' ? <>
+  <p class="record__meta">{document.year} · {document.authorLabel}</p>
+  <p class="record__title"><a href={document.route}>{document.title}</a></p>
+</> : <article>
+  <p class="record__meta">{document.year} · {document.authorLabel}</p>
+  <h3 class="record__title"><a href={document.route}>{document.title}</a></h3>
+  <p class="record__original">{document.originalTitle}</p>
+</article>}

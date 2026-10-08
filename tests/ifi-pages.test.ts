@@ -8,7 +8,6 @@ import {
   getPublicIfiSymposiums,
   getPublicReadingsSeries,
   getPublicResearchers,
-  getPublicResearchSites,
   type PublicIfiNetwork,
 } from '../src/lib/research-records';
 import { builtRoutePath, routeExists } from './helpers/pages';
@@ -74,7 +73,7 @@ describe('IFI public detail and research entry', () => {
     expect(textContent(breadcrumb)).toContain(network.title);
     expect(sections(main).map((section) => section.id)).toEqual([
       'ifi-intro-heading',
-      'ifi-resources-heading', 'ifi-symposiums-heading',
+      'ifi-symposiums-heading',
     ]);
     expect(textContent(main)).toContain('International Friends of Ilyenkov（IFI）是一个');
     expect(links(main)).toContainEqual({ href: network.url, label: '官方网站' });
@@ -94,7 +93,8 @@ describe('IFI public detail and research entry', () => {
 
   it('uses exactly the selected public official resource URLs and page-level labels', () => {
     const network = getPublicIfiNetwork();
-    const resources = sectionById(mainContent(builtPage('/research/ifi/')), 'ifi-resources-heading');
+    const resources = mainContent(builtPage('/research/ifi/')).match(/<aside\b[^>]*aria-labelledby="ifi-resources-heading"[^>]*>([\s\S]*?)<\/aside>/)![1];
+    expect(textContent(resources)).toContain('资料入口');
     expect(links(resources)).toEqual([
       { href: network.url, label: '官方网站' },
       ...network.resources.map((resource) => ({
@@ -141,10 +141,10 @@ describe('IFI public detail and research entry', () => {
     expect(links(entry)).toEqual([{ href: '/research/ifi/', label: network.title }]);
     expect(entry).not.toMatch(/<ol\b|<ul\b|<li\b|<article\b|<h3\b/);
     for (const symposium of symposiums) expect(textContent(entry)).not.toContain(symposium.title);
-    expect(sections(main)).toHaveLength(4);
+    expect(sections(main)).toHaveLength(3);
   });
 
-  it('retains the researchers and research sites while providing a Readings series entry', () => {
+  it('retains the researcher and Readings series entries', () => {
     const main = mainContent(builtPage('/research/'));
     const researcher = getPublicResearchers().find((record) => record.id === 'researcher-andrey-maidansky')!;
     const researchers = sectionById(main, 'researcher-andrey-maidansky-heading');
@@ -155,16 +155,7 @@ describe('IFI public detail and research entry', () => {
       href: '/research/researchers/andrey-maidansky/', label: researcher.name,
     }]);
     expect(researchers).not.toMatch(/<ol\b|<li\b|<article\b|<h3\b/);
-    const sites = sectionFor(main, '资料站点');
-    for (const site of getPublicResearchSites()) {
-      expect(textContent(sites)).toContain(site.title);
-      expect(textContent(sites)).toContain(site.originalTitle);
-      expect(textContent(sites)).toContain(site.summary);
-      expect(links(sites).map((link) => link.href)).toContain(site.url);
-      for (const section of site.sections) {
-        expect(links(sites)).toContainEqual({ href: section.url, label: section.label });
-      }
-    }
+    expect(main).not.toContain('research-sites-heading');
     const series = getPublicReadingsSeries()[0];
     const readings = sectionFor(main, series.title);
     expect(textContent(readings)).toContain(series.name);
@@ -172,7 +163,7 @@ describe('IFI public detail and research entry', () => {
     expect(links(readings)).toEqual([{ href: '/research/readings/', label: series.title }]);
     expect(readings).not.toMatch(/<ol\b|<ul\b|<li\b|<article\b|<h3\b/);
     expect(sections(main).map((section) => section.heading)).toEqual([
-      getPublicIfiNetwork().title, researcher.name, series.title, '资料站点',
+      getPublicIfiNetwork().title, researcher.name, series.title,
     ]);
   });
 
@@ -196,7 +187,8 @@ describe('IFI public detail and research entry', () => {
       }
     }
     const detail = builtPage('/research/ifi/');
-    expect(detail).not.toMatch(/section-layout--rail|section-layout--indexed|section-layout__sidebar|section-layout__toc|section-layout__aside|reading-page/);
-    expect(detail).not.toMatch(/<aside\b|<form\b|<input\b|<button\b/);
+    expect(detail).toContain('section-layout__sidebar');
+    expect(detail).not.toMatch(/section-layout--indexed|class="section-layout__toc"|reading-page/);
+    expect(detail).not.toMatch(/<form\b|<input\b|<button\b/);
   });
 });

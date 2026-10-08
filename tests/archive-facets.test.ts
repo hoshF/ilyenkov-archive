@@ -56,7 +56,7 @@ describe('archive facets', () => {
       '.archive-index-page .archive-facets__all a',
       '.archive-index-page .archive-facets__term',
     ]) {
-      expect(declaration(selector, 'font-size', desktop), selector).toBe('.75rem');
+      expect(declaration(selector, 'font-size', desktop), selector).toBe('var(--text-meta)');
     }
 
     // 分类目录自己吸顶；页眉仍在正常文档流内，不给目录增加补偿高度。
@@ -142,15 +142,24 @@ describe('archive facets', () => {
     }
   });
 
-  it('shows the real per-term counts in the left rail', async () => {
+  it('keeps classification labels compact without a redundant sidebar heading', () => {
+    const html = readFileSync(facetPage([]), 'utf8');
+    const rail = html.match(/<aside class="archive-facets"[\s\S]*?<\/aside>/)![0];
+    expect(rail).toContain('aria-label="档案分类"');
+    expect(rail).toContain('aria-label="相关人物"');
+    expect(rail).not.toContain('按分类浏览');
+    expect(declaration('.archive-facets__term', 'display')).toBe('block');
+    expect(declaration('.archive-facets__term[aria-current=page]', 'color')).toBe('var(--ink-soft)');
+  });
+
+  it('shows classification names without counts in the auxiliary rail', async () => {
     const { facets } = await getSiteData();
     const html = readFileSync(facetPage([]), 'utf8');
+    const rail = html.match(/<aside class="archive-facets"[\s\S]*?<\/aside>/)![0];
+    expect(rail).not.toContain('archive-facets__count');
     for (const term of [...facets.topics, ...facets.persons]) {
-      // 数字是派生的：词条 label 与命中数同时出现在同一个链接里。
-      const pattern = new RegExp(
-        `href="${term.href}"[\\s\\S]*?${term.label}</span><span class="archive-facets__count">${term.count}<`,
-      );
-      expect(html, `${term.id} count`).toMatch(pattern);
+      expect(rail).toContain(`href="${term.href}"`);
+      expect(rail).toContain(`<span class="archive-facets__name">${term.label}</span>`);
     }
   });
 
@@ -200,19 +209,20 @@ describe('archive facets', () => {
     };
 
     const root = head(facetPage([]));
-    // 栏目根页保持原样。
+    // 总目录使用“全部文章”作为可见标题。
     expect(root.title).toBe('文本档案｜中文伊里因科夫');
-    expect(root.h1).toBe('文本档案');
+    expect(root.h1).toBe('全部文章');
+    expect(root.html).not.toContain('<h2>文章</h2>');
     expect(root.description).toBe('伊里因科夫著作、中文译文及相关研究译文的公开档案。');
 
-    // facet 是同一个 collection 的筛选视图：h1 不变，只有文档元信息区分。
+    // 分类视图以当前目录名作为 h1；文档元信息仍保留档案栏目身份。
     const titles = new Set([root.title]);
     const descriptions = new Set([root.description]);
 
     for (const term of facets.topics) {
       const page = head(facetPage(['topic', term.id]));
       expect(page.title, term.id).toBe(`${term.label}｜文本档案｜中文伊里因科夫`);
-      expect(page.h1, `${term.id} keeps the archive h1`).toBe('文本档案');
+      expect(page.h1, `${term.id} shows its directory name`).toBe(term.label);
       expect(page.description, term.id).toContain(term.label);
       expect(page.description, term.id).toContain('主题');
       expect(page.description, term.id).not.toBe(root.description);
@@ -225,7 +235,7 @@ describe('archive facets', () => {
     for (const term of facets.persons) {
       const page = head(facetPage(['person', term.id]));
       expect(page.title, term.id).toBe(`${term.label}｜文本档案｜中文伊里因科夫`);
-      expect(page.h1, `${term.id} keeps the archive h1`).toBe('文本档案');
+      expect(page.h1, `${term.id} shows its directory name`).toBe(term.label);
       expect(page.description, term.id).toContain(term.label);
       expect(page.description, term.id).toContain('中心人物');
       expect(page.description, term.id).not.toBe(root.description);

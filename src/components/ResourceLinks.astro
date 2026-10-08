@@ -1,0 +1,15 @@
+---
+interface Props {
+  id: string;
+  label: string;
+  links: { label: string; href: string }[];
+}
+const { id, label, links } = Astro.props;
+---
+
+<aside aria-labelledby={id}>
+  <p class="section-layout__toc-label" id={id}>{label}</p>
+  <ul class="section-layout__structured">
+    {links.map((link) => <li><a href={link.href}>{link.label}</a></li>)}
+  </ul>
+</aside>

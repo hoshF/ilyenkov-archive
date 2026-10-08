@@ -5,7 +5,6 @@ import {
   getPublicIfiNetwork,
   getPublicReadingsSeries,
   getPublicResearchers,
-  getPublicResearchSites,
   type PublicResearcher,
 } from '../src/lib/research-records';
 import { getSiteData } from '../src/lib/site-data';
@@ -60,34 +59,28 @@ describe('canonical researcher detail and research hub entry', () => {
     expect(textContent(breadcrumb)).toContain(researcher.name);
     expect([...main.matchAll(/<h2\b[^>]*>([\s\S]*?)<\/h2>/g)]
       .map(([, content]) => textContent(content)))
-      .toEqual(['简介', '研究方向', '研究工作', '学术入口', '本站译文']);
-    expect(html).not.toMatch(/section-layout--rail|section-layout--indexed|section-layout__sidebar|section-layout__toc|section-layout__aside/);
+      .toEqual(['简介', '本站译文']);
+    expect(html).toContain('section-layout__sidebar');
+    expect(html).not.toMatch(/section-layout--indexed|class="section-layout__toc"/);
   });
 
-  it('maps public research fields and presents the editorial account of research work', () => {
-    const researcher = profile();
+  it('keeps the introduction and translations without redundant fields or work sections', () => {
     const main = mainContent(builtPage(route));
-    expect(researcher.researchFields).toEqual([
-      'философия Спинозы', 'марксизм', 'история советской философии',
-    ]);
-    expect(researcher.roles).toEqual(['researcher', 'editor']);
-    const fieldsSection = sectionById(main, 'researcher-fields-heading');
-    const rolesSection = sectionById(main, 'researcher-work-heading');
-    const fields = textContent(fieldsSection.match(/<p\b[^>]*>([\s\S]*?)<\/p>/)![1]);
-    const roles = textContent(rolesSection.match(/<p\b[^>]*>([\s\S]*?)<\/p>/)![1]);
-    expect(fields).toBe('斯宾诺莎哲学、马克思主义、苏联哲学史。');
-    expect(roles).toBe(maidanskyEditorial.workDescription);
-    for (const raw of researcher.researchFields!) expect(fields).not.toContain(raw);
-    for (const raw of researcher.roles!) expect(roles).not.toContain(raw);
+    expect(main).not.toContain('researcher-fields-heading');
+    expect(main).not.toContain('researcher-work-heading');
+    expect(textContent(main)).not.toContain(maidanskyEditorial.workDescription);
   });
 
   it('offers only the selected public academic resources with distinct navigation labels', () => {
     const researcher = profile();
-    const resources = sectionById(mainContent(builtPage(route)), 'researcher-resources-heading');
+    const main = mainContent(builtPage(route));
+    const resources = main.match(/<aside\b[^>]*aria-labelledby="researcher-resources-heading"[^>]*>([\s\S]*?)<\/aside>/)![1];
     expect(researcher.resources.map((resource) => resource.kind)).toEqual(['personal', 'orcid']);
     expect(links(resources)).toEqual(researcher.resources.map((resource) => ({
       href: resource.url, label: resourceLabels[resource.kind],
     })));
+    expect(textContent(resources)).toContain('学术入口');
+    for (const resource of researcher.resources) expect(links(main).filter((link) => link.href === resource.url)).toHaveLength(1);
     expect(textContent(resources)).not.toMatch(/官方网站|文章来源/);
     expect(resources).not.toMatch(/<img\b|<svg\b|<button\b/);
   });
@@ -171,13 +164,8 @@ describe('canonical researcher detail and research hub entry', () => {
     const readings = sectionById(main, 'readings-heading');
     expect(textContent(readings)).toContain(series.summary);
     expect(links(readings)).toEqual([{ href: '/research/readings/', label: series.title }]);
-    const sites = sectionById(main, 'research-sites-heading');
-    for (const site of getPublicResearchSites()) {
-      expect(textContent(sites)).toContain(site.title);
-      expect(links(sites)).toContainEqual({ href: site.url, label: site.title });
-      for (const section of site.sections) expect(links(sites)).toContainEqual({ href: section.url, label: section.label });
-    }
-    expect([...main.matchAll(/<section\b/g)]).toHaveLength(4);
+    expect(main).not.toContain('research-sites-heading');
+    expect([...main.matchAll(/<section\b/g)]).toHaveLength(3);
   });
 
   it('preserves primary navigation, static rendering and the private publication boundary', () => {

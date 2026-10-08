@@ -3,6 +3,7 @@ import { readingsEditorial } from '../../../lib/editorial';
 import { renderPublicMarkdown } from '../../../lib/markdown';
 import BaseLayout from '../../../layouts/BaseLayout.astro';
 import Breadcrumbs from '../../../components/Breadcrumbs.astro';
+import ResourceLinks from '../../../components/ResourceLinks.astro';
 import SectionLayout from '../../../components/SectionLayout.astro';
 import {
   formatHistoricalPeriod,
@@ -24,7 +25,9 @@ const resourceLabels: Record<PublicReadingsSeries['resources'][number]['kind'], 
 ---
 
 <BaseLayout title={series.title} description={series.summary}>
-  <SectionLayout modifier="entity-detail">
+  <SectionLayout modifier="entity-detail research-profile" pinned>
+    <ResourceLinks slot="aside" id="readings-resources-heading" label="资料入口"
+      links={series.resources.map((resource) => ({ label: resourceLabels[resource.kind], href: resource.url }))} />
     <Breadcrumbs slot="breadcrumb" items={[
       { label: '研究', href: '/research' },
       { label: series.title },
@@ -39,14 +42,7 @@ const resourceLabels: Record<PublicReadingsSeries['resources'][number]['kind'], 
       <div class="prose prose--section" set:html={introduction.html} />
     </section>
 
-    <section class="research-series" aria-labelledby="readings-resources-heading">
-      <h2 id="readings-resources-heading">资料与入口</h2>
-      <div class="prose prose--section">
-        <ul>
-          {series.resources.map((resource) => <li><a href={resource.url}>{resourceLabels[resource.kind]}</a></li>)}
-        </ul>
-      </div>
-    </section>
+
 
     <section class="research-series" aria-labelledby="readings-events-heading">
       <h2 id="readings-events-heading">已公开会议记录</h2>

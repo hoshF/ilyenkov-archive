@@ -72,7 +72,9 @@ describe('following and contacting the group', () => {
     for (const route of ['/group/', '/about/']) {
       const main = pageMain(builtPage(route));
       expect(main, route).not.toMatch(/参与方式[\s\S]{0,12}尚未发布|联系方式尚未发布/);
-      expect(links(main), route).toContainEqual({ href: '/contact/', label: '关注与联系' });
+      const contactLink = [...main.matchAll(/<a\b[^>]*href="\/contact\/"[^>]*>([\s\S]*?)<\/a>/g)];
+      expect(contactLink, route).toHaveLength(1);
+      expect(contactLink[0][1].replace(/<[^>]+>/g, ''), route).toContain('关注与联系');
       // 身份、工作与权利页只提供入口，联系信息由 contact 页说明。
       expect(main, route).not.toContain(site.contact.email);
       expect(main, route).not.toContain('mailto:');

@@ -1,4 +1,5 @@
 ---
+import { site } from '../lib/editorial';
 import BaseLayout from '../layouts/BaseLayout.astro';
 import SectionLayout from '../components/SectionLayout.astro';
 ---
@@ -10,7 +11,7 @@ import SectionLayout from '../components/SectionLayout.astro';
     </header>
 
     <div class="prose prose--section">
-      <p>“中文伊里因科夫”是中文伊里因科夫小组维护的研究与资料网站。本站围绕埃瓦尔德·伊里因科夫及相关苏联哲学整理和发布中文译文、原始文献信息、书目记录以及研究资料。网站以长期、可核验、可修订的文本和资料积累为主要工作方式。</p>
+      <p>“{site.name}”是{site.group.name}维护的研究与资料网站。本站围绕埃瓦尔德·伊里因科夫及相关苏联哲学整理和发布中文译文、原始文献信息、书目记录以及研究资料。网站以长期、可核验、可修订的文本和资料积累为主要工作方式。</p>
       <p>网站的代码与公开项目文档维护在 GitHub 项目 <a href="https://github.com/hoshF/ilyenkov-archive">ilyenkov-archive</a> 中，可在那里查看网站实现与修改记录。</p>
 
       <h2>来源与编辑</h2>

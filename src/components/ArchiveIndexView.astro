@@ -1,5 +1,6 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
+import TextRecord from './TextRecord.astro';
 import SectionLayout from './SectionLayout.astro';
 import type { ReadableDocument } from '../lib/site-data';
 import type { TermWithArticles } from '../lib/archive-taxonomy';
@@ -24,11 +25,10 @@ const here = Astro.url.pathname.replace(/\/+$/, '') || '/';
 const isCurrent = (href: string) => href.replace(/\/+$/, '') === here;
 const groups = [
   { kind: 'topic' as const, label: '主题', terms: facets.topics },
-  { kind: 'person' as const, label: '人物', terms: facets.persons },
+  { kind: 'person' as const, label: '相关人物', terms: facets.persons },
 ].filter((group) => group.terms.length > 0);
 
-// 文档元信息。facet 是同一个 Archive collection 的筛选视图，所以页面身份仍是「文本档案」，
-// h1 不变；但它是独立的公开 URL，<title> 与 description 必须能与其它 facet 区分。
+// 文档元信息保留档案栏目身份；可见 h1 使用当前目录名称。
 // 站名后缀由 BaseLayout 统一追加，这里不拼「｜中文伊里因科夫」。
 const archiveTitle = '文本档案';
 const archiveDescription = '伊里因科夫著作、中文译文及相关研究译文的公开档案。';
@@ -42,13 +42,11 @@ const description = current === null ? archiveDescription
 <BaseLayout title={title} description={description}>
   <SectionLayout pinned modifier="archive-index-page compact-intro">
     <header class="page-header" slot="intro">
-      <h1 class="page-title">文本档案</h1>
-      {current && <p class="archive-facets__context">{current.label} · {current.count} 篇</p>}
+      <h1 class="page-title">{current?.label ?? '全部文章'}</h1>
+      {current && <p class="archive-facets__context">{current.count} 篇</p>}
     </header>
 
-    <aside class="archive-facets" slot="aside" aria-labelledby="archive-facets-heading">
-      <p class="archive-facets__label" id="archive-facets-heading">按分类浏览</p>
-
+    <aside class="archive-facets" slot="aside" aria-label="档案分类">
       <p class="archive-facets__all">
         <a href="/archive" aria-current={isCurrent('/archive') ? 'page' : undefined}>全部文章</a>
       </p>
@@ -65,7 +63,6 @@ const description = current === null ? archiveDescription
                   aria-current={isCurrent(term.href) ? 'page' : undefined}
                 >
                   <span class="archive-facets__name">{term.label}</span>
-                  <span class="archive-facets__count">{term.count}</span>
                 </a>
               </li>
             ))}
@@ -76,12 +73,10 @@ const description = current === null ? archiveDescription
 
     {articles.length > 0 ? (
       <section class="archive-year" aria-label="文章">
-        <h2>文章</h2>
         <ul class="record-list" role="list">
           {articles.map((article) => (
             <li>
-              <p class="record__meta">{article.year} · {article.authorLabel}</p>
-              <p class="record__title"><a href={article.route}>{article.title}</a></p>
+              <TextRecord document={article} mode="archive" />
             </li>
           ))}
         </ul>

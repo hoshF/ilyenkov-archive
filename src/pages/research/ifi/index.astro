@@ -3,6 +3,7 @@ import { ifiEditorial } from '../../../lib/editorial';
 import { renderPublicMarkdown } from '../../../lib/markdown';
 import BaseLayout from '../../../layouts/BaseLayout.astro';
 import Breadcrumbs from '../../../components/Breadcrumbs.astro';
+import ResourceLinks from '../../../components/ResourceLinks.astro';
 import SectionLayout from '../../../components/SectionLayout.astro';
 import {
   formatHistoricalPeriod,
@@ -29,7 +30,9 @@ const sourceLabel = (source: { creator: string | null; title: string }) => (
 ---
 
 <BaseLayout title={network.title} description={network.summary}>
-  <SectionLayout modifier="entity-detail">
+  <SectionLayout modifier="entity-detail research-profile" pinned>
+    <ResourceLinks slot="aside" id="ifi-resources-heading" label="资料入口"
+      links={[{ label: '官方网站', href: network.url }, ...network.resources.map((resource) => ({ label: resourceLabels[resource.kind], href: resource.url }))]} />
     <Breadcrumbs slot="breadcrumb" items={[
       { label: '研究', href: '/research' },
       { label: network.title },
@@ -44,15 +47,7 @@ const sourceLabel = (source: { creator: string | null; title: string }) => (
       <div class="prose prose--section" set:html={introduction.html} />
     </section>
 
-    <section class="research-series" aria-labelledby="ifi-resources-heading">
-      <h2 id="ifi-resources-heading">官方资源</h2>
-      <div class="prose prose--section">
-        <ul>
-          <li><a href={network.url}>官方网站</a></li>
-          {network.resources.map((resource) => <li><a href={resource.url}>{resourceLabels[resource.kind]}</a></li>)}
-        </ul>
-      </div>
-    </section>
+
 
     <section class="research-series" aria-labelledby="ifi-symposiums-heading">
       <h2 id="ifi-symposiums-heading">历次 Symposium</h2>

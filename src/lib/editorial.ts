@@ -13,6 +13,9 @@ const SiteSchema = z.object({
   name: z.string().trim().min(1),
   description: z.string().trim().min(1),
   group: z.object({
+    name: z.string().trim().min(1),
+    originalName: z.string().trim().min(1),
+    englishName: z.string().trim().min(1),
     summary: z.string().trim().min(1),
   }).strict(),
   contact: z.object({
@@ -38,8 +41,11 @@ const IlyenkovEditorialSchema = z.object({
 
 export const ilyenkov = IlyenkovEditorialSchema.parse(readEditorialJson('ilyenkov.json'));
 
-const ResearcherEditorialSchema = z.object({
+const IntroductionSchema = z.object({
   introduction: z.array(z.string().trim().min(1)).min(1),
+}).strict();
+
+const ResearcherEditorialSchema = IntroductionSchema.extend({
   workDescription: z.string().trim().min(1),
 }).strict();
 
@@ -47,10 +53,6 @@ export const maidanskyEditorial = ResearcherEditorialSchema.parse(
   readEditorialJson('researchers/andrey-maidansky.json'),
 );
 
-export const ifiEditorial = z.object({
-  introduction: z.array(z.string().trim().min(1)).min(1),
-}).strict().parse(readEditorialJson('research/ifi.json'));
+export const ifiEditorial = IntroductionSchema.parse(readEditorialJson('research/ifi.json'));
 
-export const readingsEditorial = z.object({
-  introduction: z.array(z.string().trim().min(1)).min(1),
-}).strict().parse(readEditorialJson('research/readings.json'));
+export const readingsEditorial = IntroductionSchema.parse(readEditorialJson('research/readings.json'));

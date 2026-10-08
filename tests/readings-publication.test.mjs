@@ -575,7 +575,7 @@ describe('Readings publication regression', () => {
     const detail = readFileSync(builtRoutePath('/research/readings/'), 'utf8');
     for (const reading of records.readings) expect(detail).toContain(reading.title);
     expect(html).toContain('researcher-andrey-maidansky-heading');
-    expect(html).toContain('research-sites-heading');
+    expect(html).not.toContain('research-sites-heading');
     expect(html).toContain('readings-heading');
     expect(html).toContain('href="/research/readings/"');
     const entry = html.match(/<section\b[^>]*aria-labelledby="readings-heading"[^>]*>([\s\S]*?)<\/section>/)[1];

@@ -7,26 +7,22 @@ const entrances = [
   {
     href: '/ilyenkov/life',
     label: '生平',
-    scope: '1924—1953',
     summary: '生平经历、哲学学习与早期学术工作。',
   },
   {
     href: '/ilyenkov/timeline',
     label: '年表',
-    scope: '生平 · 服役 · 国际活动',
-    summary: '按时间梳理他的生平、服役与国际活动。',
+    summary: '按时间梳理生平与重要活动。',
   },
   {
     href: '/ilyenkov/works',
     label: '作品目录',
-    scope: '著作 · 论文 · 战时写作',
-    summary: '著作、论文与战时写作的原文题名、年份和来源。',
+    summary: '著作与文章的原文题名、年份及来源。',
   },
   {
     href: '/ilyenkov/circle',
     label: '交往与活动',
-    scope: '服役 · 国际会议',
-    summary: '卫国战争中的服役经历，以及参加国际黑格尔大会的记录。',
+    summary: '战时服役与国际学术交往记录。',
   },
 ];
 ---
@@ -46,11 +42,10 @@ const entrances = [
 
     <nav class="entrance-grid" aria-label="伊里因科夫栏目入口">
       {entrances.map((entrance) => (
-        <a class="entrance-card" href={entrance.href}>
-          <span class="entrance-card__label">{entrance.label}</span>
-          <span class="entrance-card__scope">{entrance.scope}</span>
+        <div class="entrance-card">
+          <a class="entrance-card__label" href={entrance.href}>{entrance.label}</a>
           <span class="entrance-card__summary">{entrance.summary}</span>
-        </a>
+        </div>
       ))}
     </nav>
   </SectionLayout>

@@ -56,7 +56,7 @@ describe('Readings public series detail and research entry', () => {
     expect(breadcrumb).toContain('aria-current="page"');
     expect(textContent(breadcrumb)).toContain(series[0].title);
     expect([...main.matchAll(/<h2\b[^>]*>([\s\S]*?)<\/h2>/g)].map(([, content]) => textContent(content)))
-      .toEqual(['简介', '资料与入口', '已公开会议记录']);
+      .toEqual(['简介', '已公开会议记录']);
     const intro = sectionById(main, 'readings-intro-heading');
     const prose = intro.match(/<div class="prose prose--section">([\s\S]*?)<\/div>/)![1];
     const paragraphs = [...prose.matchAll(/<p\b[^>]*>([\s\S]*?)<\/p>/g)].map(([, content]) => textContent(content));
@@ -76,7 +76,8 @@ describe('Readings public series detail and research entry', () => {
 
   it('presents only the selected series resources with distinct page-level Chinese labels', () => {
     const series = getPublicReadingsSeries()[0];
-    const resources = sectionById(mainContent(builtPage('/research/readings/')), 'readings-resources-heading');
+    const resources = mainContent(builtPage('/research/readings/')).match(/<aside\b[^>]*aria-labelledby="readings-resources-heading"[^>]*>([\s\S]*?)<\/aside>/)![1];
+    expect(textContent(resources)).toContain('资料入口');
     expect(links(resources)).toEqual(series.resources.map((resource) => ({
       href: resource.url,
       label: resourceLabels[resource.kind],
@@ -140,7 +141,7 @@ describe('Readings public series detail and research entry', () => {
     expect(textContent(ifiEntry)).toContain(ifi.title);
     expect(textContent(ifiEntry)).toContain(ifi.summary);
     expect(links(ifiEntry)).toEqual([{ href: '/research/ifi/', label: ifi.title }]);
-    expect([...main.matchAll(/<section\b/g)]).toHaveLength(4);
+    expect([...main.matchAll(/<section\b/g)]).toHaveLength(3);
     expect(routeExists('/research/researchers/')).toBe(false);
   });
 
@@ -166,8 +167,9 @@ describe('Readings public series detail and research entry', () => {
       ]) expect(html, `${route}: ${restricted}`).not.toContain(restricted);
     }
     const detail = builtPage('/research/readings/');
-    expect(detail).not.toMatch(/section-layout--rail|section-layout--indexed|section-layout__sidebar|section-layout__toc|section-layout__aside|reading-page/);
-    expect(detail).not.toMatch(/<aside\b|<form\b|<input\b|<button\b/);
+    expect(detail).toContain('section-layout__sidebar');
+    expect(detail).not.toMatch(/section-layout--indexed|class="section-layout__toc"|reading-page/);
+    expect(detail).not.toMatch(/<form\b|<input\b|<button\b/);
     expect(textContent(mainContent(detail))).not.toMatch(/2020|停办|恢复线上|每年举行|连续举办|代表主题/);
   });
 });

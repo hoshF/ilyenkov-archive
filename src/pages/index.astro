@@ -8,6 +8,7 @@ import {
   getPublicIfiNetwork,
   getPublicReadingsSeries,
 } from '../lib/research-records';
+import TextRecord from '../components/TextRecord.astro';
 import UpdatesList from '../components/UpdatesList.astro';
 import { getUpdates, HOME_UPDATES_LIMIT } from '../lib/updates';
 
@@ -30,21 +31,18 @@ const updates = getUpdates().slice(0, HOME_UPDATES_LIMIT);
 
 <BaseLayout title={site.name}>
   <div class="home-page">
-    <p class="home-positioning">从文本出发，整理伊里因科夫及其相关研究的中文资料。</p>
-
-    <section class="home-ilyenkov" aria-labelledby="ilyenkov-heading">
-      <h2 id="ilyenkov-heading">伊里因科夫</h2>
+    <div class="home-opening">
+      <p class="home-positioning">伊里因科夫的中文译文与研究资料</p>
       <p class="home-summary">{ilyenkov.summary}</p>
-      <p class="home-more"><a href="/ilyenkov/life">生平</a> · <a href="/ilyenkov/timeline">年表</a> · <a href="/ilyenkov/works">作品目录</a> · <a href="/ilyenkov/circle">交往与活动</a></p>
-    </section>
+      <p class="home-more">了解伊里因科夫：<a href="/ilyenkov/life">生平</a> · <a href="/ilyenkov/timeline">年表</a> · <a href="/ilyenkov/works">作品目录</a> · <a href="/ilyenkov/circle">交往与活动</a></p>
+    </div>
 
     <section class="home-content" aria-labelledby="content-heading">
       <h2 id="content-heading">文本</h2>
       <ol class="home-content__list">
         {texts.map((document) => (
           <li>
-            <p class="record__title"><a href={document.route}>{document.title}</a></p>
-            <p class="record__meta">{document.authorLabel} · 原文年份 {document.year}</p>
+            <TextRecord document={document} mode="home" />
           </li>
         ))}
       </ol>
@@ -64,7 +62,7 @@ const updates = getUpdates().slice(0, HOME_UPDATES_LIMIT);
     </section>
 
     <section class="home-group" aria-labelledby="group-heading">
-      <h2 id="group-heading">中文伊里因科夫小组</h2>
+      <h2 id="group-heading">{site.group.name}</h2>
       <p class="home-summary">{site.group.summary}</p>
       <ol class="home-content__list">
         {recentWork.map((issue) => (

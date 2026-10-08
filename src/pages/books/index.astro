@@ -1,4 +1,5 @@
 ---
+import { site } from '../../lib/editorial';
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import SectionLayout from '../../components/SectionLayout.astro';
 import BookCard from '../../components/BookCard.astro';
@@ -8,7 +9,7 @@ const books = await getBooks();
 const groups = groupBooks(books);
 ---
 
-<BaseLayout title="书籍" description="由中文伊里因科夫小组制作并公开维护的成书记录。">
+<BaseLayout title="书籍" description={`由${site.group.name}制作并公开维护的成书记录。`}>
   <SectionLayout pinned modifier="compact-intro">
     <header class="page-header" slot="intro">
       <h1 class="page-title">书籍</h1>

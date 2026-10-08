@@ -20,9 +20,9 @@
 | ├ 作品目录 | `/ilyenkov/works` | 以作品为单位连接公开书目来源 |
 | └ 交往与活动 | `/ilyenkov/circle` | 已公开活动资料的主题入口 |
 | 档案 | `/archive` | 获准在本站阅读的文本及主题、人物分类视图 |
-| 研究 | `/research` | IFI、迈丹斯基、Readings 的并列站内入口，以及外部资料站点 |
-| ├ IFI | `/research/ifi/` | 网络介绍、官方资源与主要 symposium 历史 |
-| ├ 安德烈·迈丹斯基 | `/research/researchers/andrey-maidansky/` | 人物介绍、研究方向与工作、学术入口及本站译文 |
+| 研究 | `/research` | IFI、迈丹斯基、Readings 的并列站内入口 |
+| ├ IFI | `/research/ifi/` | 网络介绍、辅助资料入口与主要 symposium 历史 |
+| ├ 安德烈·迈丹斯基 | `/research/researchers/andrey-maidansky/` | 人物介绍、辅助学术入口及本站译文 |
 | └ 伊里因科夫学术报告会 | `/research/readings/` | 会议系列介绍、资料入口与已公开会议记录 |
 | 小组 | `/group`、`/group/<issue>` | 小组身份、联系入口与按期归档的公共工作记录 |
 | 书籍 | `/books`、`/books/<id>` | 成书的公开身份、译者引言、版次及获取与权利说明 |
@@ -39,14 +39,16 @@
 
 ## 内容组织
 
-首页使用 672px 单列：定位句之后依次为伊里因科夫、文本、研究、中文伊里因科夫小组和近期动态。
+首页使用 672px 单列：定位句、人物简介与相关链接组成开场导读，随后依次为文本、研究、
+中文伊里因科夫小组和近期动态；正文栏目标题从“文本”开始。
 首页 `/` 读取 `editorial/ilyenkov.json` 的简短 `summary`，人物页 `/ilyenkov/` 使用 `identity`、
-`originalName`、`lifespan` 与完整 `introduction`。小组范围说明来自 `site.json` 的 `group.summary`，
-首页与小组页共用。研究摘要复用已公开记录；文本、小组工作和动态从各自集合派生，不复制事实源。
+`originalName`、`lifespan` 与完整 `introduction`。首页的小组范围说明来自 `site.json` 的 `group.summary`；
+小组页使用同一配置中的三语名称，以“小组介绍”和“关注与联系”链接进入说明与联系方式。
+研究摘要复用已公开记录；文本、小组工作和动态从各自集合派生，不复制事实源。
 派生顺序与日期语义见内容管线及发布说明。
 
 研究栏目以成熟对象组织入口。IFI、迈丹斯基与 Readings 的名称同级且可点击，随后呈现原名和简短
-介绍；外部资料站点单独列在最后。详情页以单一正文流容纳编辑介绍、资源与记录，不因存在多个章节
+介绍。详情页以单一正文流容纳编辑介绍与记录；IFI、Readings 的资料入口与迈丹斯基的学术入口置于辅助栏，窄屏移至正文之后。不因存在多个章节
 而增加侧目录。公开会议是选择后的历史节点，不是完整会议数据库，不建立单届会议详情页。
 
 研究者的“本站译文”由 `personId` 与公开 Archive 的 `authorIds` 单向关联，保留档案顺序及完整合著
@@ -87,7 +89,7 @@ RSS 在构建时生成，HTML 订阅发现与 feed 共用 Astro `site` 基址，
 | 位置 | 所有权与用途 |
 | --- | --- |
 | private 研究仓库 | canonical 人物、作品、事件、原文、译文、研究笔记、来源和权利证据、发布决定 |
-| `editorial/site.json` | 站点身份、五项导航、页脚、小组 summary 与正式联系邮箱的单一配置源 |
+| `editorial/site.json` | 站点身份、五项导航、页脚、小组三语名称、summary 与正式联系邮箱的单一配置源 |
 | `editorial/ilyenkov.json` | 面向读者的人物身份显示、简短 summary 与完整 introduction |
 | `editorial/research/`、`editorial/researchers/` | IFI、Readings、迈丹斯基的公开中文编辑介绍与研究工作说明 |
 | `editorial/books/` | 成书的出版元数据、版次与译者引言 |
@@ -108,3 +110,7 @@ canonical 事实记录，也不扩大发布许可。完整边界见[发布说明
 译文与结构化研究资料分别由 private 的两个 publication 清单逐项选择；public 不把生成输入改成
 另一份 tracked 内容库。书籍、小组记录、动态、分类和编辑介绍由 public 自行维护，不经过这两条
 同步通道。Archive 分类中的 `persons` 回答文章涉及谁；文章 `authorIds` 回答谁写了它，两者不互相推导。
+
+研究详情页的辅助链接由 `ResourceLinks` 展示；页面负责选择公开资源及中文标签。
+首页、Archive 与研究者页的公开文本条目共用 `TextRecord`，各模式保留自身的顺序和标题层级；
+排序、人物关联及列表容器仍由调用页面负责。

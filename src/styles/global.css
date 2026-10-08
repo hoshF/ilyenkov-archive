@@ -214,14 +214,15 @@ h2, h3, h4 { text-wrap: balance; line-height: 1.3; }
 .page-header .lead { margin: 18px 0 0; }
 
 /* 首页直接组织内容入口；定位句与内容共用同一条阅读列。 */
-.home-positioning { margin: 0 0 24px; font-size: var(--text-body); line-height: 1.65; color: var(--ink-soft); }
+.home-positioning { margin: 0 0 24px; }
 .home-page { width: min(calc(100% - 40px), var(--reading)); margin: 0 auto 96px; padding-top: 40px; }
 
-.home-page > section + section { margin-top: 72px; }
-.home-page h2 {
-  color: var(--muted); font-size: var(--text-home-section); letter-spacing: .03em; margin: 0;
-  padding: 0 0 20px; font-weight: 500; line-height: 1.3;
+.home-page > .home-opening + section, .home-page > section + section { margin-top: 72px; }
+.home-positioning, .home-page h2 {
+  color: var(--muted); font-size: var(--text-home-section); letter-spacing: .03em;
+  font-weight: 500; line-height: 1.3;
 }
+.home-page h2 { margin: 0; padding: 0 0 20px; }
 
 /* 首页文本、研究与小组工作沿用同一轻量记录节奏。 */
 .home-summary { margin: 0 0 22px; font-size: var(--text-body); line-height: 1.65; }
@@ -237,10 +238,21 @@ h2, h3, h4 { text-wrap: balance; line-height: 1.3; }
 .updates-list__body { min-width: 0; font-size: var(--text-body); line-height: 1.65; overflow-wrap: anywhere; }
 .updates-list__text { margin: 0; }
 .updates-list__link { margin: 6px 0 0; font-size: var(--text-secondary); }
+.updates-page .updates-list,
+.home-page .updates-list { gap: 24px; }
+.updates-page .updates-list__item { grid-template-columns: 6rem minmax(0, 1fr); column-gap: 16px; }
+.updates-page .updates-list__text,
+.home-page .updates-list__text { display: inline; }
+.updates-page .updates-list__link,
+.home-page .updates-list__link { display: inline; margin: 0 0 0 8px; }
+@media (max-width: 600px) {
+  .updates-page .updates-list__item { grid-template-columns: minmax(0, 1fr); gap: 4px 0; }
+}
 
 .home-more { margin: 22px 0 0; font-size: var(--text-secondary); }
 .home-more a { color: var(--accent); text-decoration: none; }
 .home-more a:after { content: " →"; }
+.home-opening .home-more a:after { content: none; }
 .home-more a:hover { color: var(--accent-dark); text-decoration: underline; }
 
 .section-layout {
@@ -330,7 +342,7 @@ h2, h3, h4 { text-wrap: balance; line-height: 1.3; }
   .archive-index-page .section-layout__aside, .archive-index-page .archive-facets { margin-top: 0; }
   .archive-index-page .archive-facets__label,
   .archive-index-page .archive-facets__all a,
-  .archive-index-page .archive-facets__term { font-size: .75rem; }
+  .archive-index-page .archive-facets__term { font-size: var(--text-meta); }
 }
 
 .section-layout__sidebar, .section-layout__intro, .section-layout__content { min-width: 0; }
@@ -359,7 +371,6 @@ h2, h3, h4 { text-wrap: balance; line-height: 1.3; }
 .section-note {
   color: var(--muted); font-size: var(--text-meta); margin: 18px 0 0; line-height: 1.65;
 }
-
 
 /* --section-top 同时保留索引自身的顶部留白；索引随页面滚到此处后吸顶，不为页眉预留空间。 */
 .section-layout__toc { position: sticky; top: var(--section-top); min-width: 0; }
@@ -423,11 +434,7 @@ h2, h3, h4 { text-wrap: balance; line-height: 1.3; }
   border: 2px solid var(--accent); border-radius: 50%; background: var(--paper);
 }
 
-.archive-year h2 { font-size: var(--text-section); margin: 0 0 24px; font-weight: 700; }
-
-/* 档案左栏的分类目录：栏目身份之后是"全部文章"与两组受控分类。
-   两端布局让篇数落在右侧；当前分类只换颜色并画文字自己的下划线，不动字重、不加背景，
-   所以条目宽度不变，篇数也不会跟着跳。 */
+/* 档案分类是辅助目录；仅显示分类名称，当前项使用深色与细下划线。 */
 .archive-facets { margin-top: 24px; }
 .archive-facets__label {
   color: var(--muted); font-size: var(--text-meta); letter-spacing: .04em; margin: 0 0 15px;
@@ -437,26 +444,23 @@ h2, h3, h4 { text-wrap: balance; line-height: 1.3; }
 .archive-facets__all a { color: var(--ink-soft); font-size: var(--text-meta); text-decoration: none; }
 .archive-facets__all a:hover { color: var(--accent); text-decoration: underline; }
 .archive-facets__group + .archive-facets__group { margin-top: 24px; }
-.archive-facets__terms { margin: 0; }
+.archive-facets .archive-facets__terms { margin: 0; padding-left: 12px; }
 .archive-facets__term {
-  display: flex; align-items: baseline; justify-content: space-between; gap: 12px;
-  color: var(--ink-soft); font-size: var(--text-meta); line-height: 1.45; text-decoration: none;
+  display: block; color: var(--ink-soft); font-size: var(--text-meta); line-height: 1.45; text-decoration: none;
 }
 .archive-facets__term:hover { color: var(--accent); }
-.archive-facets__name { min-width: 0; }
-.archive-facets__count { color: var(--muted); font-variant-numeric: tabular-nums; }
 .archive-facets__all a[aria-current=page], .archive-facets__term[aria-current=page] {
-  color: var(--accent-dark); text-decoration: underline; text-underline-offset: .18em;
+  color: var(--ink-soft); text-decoration: underline; text-underline-offset: .18em;
 }
+.archive-facets__all a[aria-current=page]:hover, .archive-facets__term[aria-current=page]:hover { color: var(--accent); }
 .archive-facets__context { color: var(--muted); font-size: var(--text-meta); margin: 12px 0 0; line-height: 1.5; }
 .person-intro { margin: 0 0 48px; }
 
 .entrance-grid { display: grid; grid-template-columns: 1fr; gap: 32px; }
 .entrance-card { display: block; color: var(--ink); text-decoration: none; }
-.entrance-card__label { display: block; color: var(--accent); font-size: var(--text-item); font-weight: 600; line-height: 1.4; }
-.entrance-card__scope { display: block; margin-top: 5px; color: var(--muted); font-size: var(--text-meta); }
-.entrance-card__summary { display: block; margin-top: 11px; color: var(--muted); font-size: var(--text-body); line-height: 1.65; }
-.entrance-card:hover .entrance-card__label { color: var(--accent-dark); text-decoration: underline; }
+.entrance-card__label { display: block; width: fit-content; text-decoration: none; color: var(--accent); font-size: var(--text-item); font-weight: 600; line-height: 1.4; }
+.entrance-card__summary { display: block; margin-top: 0; color: var(--muted); font-size: var(--text-body); line-height: 1.65; }
+.entrance-card__label:hover { color: var(--accent-dark); text-decoration: underline; }
 
 /* 左栏条目列表的通用骨架。页内目录另有一套更紧的排版（见 .section-layout__toc）；
    Archive 的 facet 词表也用这里的骨架，再由 .archive-facets__terms 调间距。 */
@@ -485,21 +489,11 @@ h2, h3, h4 { text-wrap: balance; line-height: 1.3; }
 .research-series h2 { margin: 0; scroll-margin-top: 32px; font-size: var(--text-section); font-weight: 700; }
 
 .research-series__lead { color: var(--muted); font-size: var(--text-body); margin: 12px 0 28px; line-height: 1.6; }
-.research-series__lead a { color: var(--accent); text-decoration-color: var(--line-strong); }
-.research-series__lead a:hover { color: var(--accent-dark); }
-
-.research-site-card { margin: 0; }
-.research-site-card h3 { font-size: var(--text-item); margin: 0; font-weight: 700; }
-.research-site-card h3 a { color: var(--accent); text-decoration: none; }
-.research-site-card h3 a:hover { color: var(--accent-dark); text-decoration: underline; }
-.research-site-card a { color: var(--accent); text-decoration: none; }
-.research-site-card a:hover { color: var(--accent-dark); text-decoration: underline; }
 
 .activity-section + .activity-section { border-top: 1px solid var(--line); margin-top: 60px; padding-top: 60px; }
 .activity-section h2 { font-size: var(--text-section); margin: 0; font-weight: 700; }
 
 .activity-section__lead { color: var(--muted); font-size: var(--text-body); margin: 12px 0 28px; line-height: 1.6; }
-
 
 .document-header { max-width: var(--reading); text-align: left; margin: 0 auto 23px; }
 .document-header h1 { margin: 36px 0 0; font-size: var(--text-page); font-weight: 700; line-height: 1.3; letter-spacing: normal; }
@@ -564,6 +558,7 @@ h2, h3, h4 { text-wrap: balance; line-height: 1.3; }
   border-top: 1px solid var(--line); font-size: var(--text-secondary); margin-top: 4rem; padding-top: 1.5rem;
 }
 .prose .footnotes h2 { margin-top: 0; }
+.reading-page .prose a[data-footnote-ref] { color: var(--accent); }
 
 .source-info { margin-top: 3rem; }
 .reading-page .source-info { font-family: var(--sans); font-size: var(--text-secondary); }
@@ -631,8 +626,8 @@ h2, h3, h4 { text-wrap: balance; line-height: 1.3; }
   /* 动态在窄屏把日期放到说明上方，让长文本保有完整行宽。 */
   .updates-list__item { grid-template-columns: minmax(0, 1fr); gap: 6px 0; }
   .home-page { margin-bottom: 56px; padding-top: 28px; }
-  .home-page > section + section { margin-top: 52px; }
-  .home-page h2 { font-size: var(--text-item); }
+  .home-page > .home-opening + section, .home-page > section + section { margin-top: 52px; }
+  .home-positioning, .home-page h2 { font-size: var(--text-item); }
   .entrance-grid { grid-template-columns: 1fr; gap: 32px; }
   .page-title { font-size: var(--text-page-mobile); }
   .lead { font-size: var(--text-body); }
@@ -658,17 +653,39 @@ h2, h3, h4 { text-wrap: balance; line-height: 1.3; }
   .book-page .fact-list dt { margin-bottom: 7px; }
 }
 
-/* 浏览页节奏实验：仅限定栏目列表，不改变实体详情与连续阅读。 */
+/* 栏目列表的垂直节奏；实体详情与连续阅读保留各自规则。 */
 .group-index .section-layout__intro { margin-bottom: 24px; }
 .group-issues > h2 { font-size: var(--text-section); font-weight: 700; margin: 0 0 16px; }
-.archive-index-page .archive-year > h2,
 .books-shelf .book-category > h2 { margin-bottom: 16px; }
 
 /* 以单一留白分组，不再靠分隔线两侧的双重间距划分层级。 */
 .research-hub .research-series + .research-series { border-top: 0; margin-top: 56px; padding-top: 0; }
-.research-hub .research-series__lead { margin: 12px 0 24px; }
-.research-hub .record__original { margin: 12px 0 0; }
+.research-hub .record__original { margin: 4px 0 0; }
 .research-hub .record__summary { margin: 9px 0 0; }
-.research-hub .record__links { margin: 20px 0 0; }
 .research-hub .research-series h2 a { color: var(--accent); text-decoration: none; }
 .research-hub .research-series h2 a:hover { color: var(--accent-dark); text-decoration: underline; }
+
+/* 研究实体正文保持居中；外部入口作为独立的辅助栏。窄屏回到正文之后。 */
+.container.research-profile {
+  width: min(calc(100% - 40px), var(--reading));
+  display: flex;
+  flex-direction: column;
+  gap: 40px;
+}
+.research-profile .section-layout__content { order: 0; width: 100%; }
+.research-profile .section-layout__sidebar { order: 1; position: static; }
+.research-profile .section-layout__aside { margin-top: 0; }
+.research-profile .section-layout__structured a { color: var(--ink-soft); text-decoration: none; }
+.research-profile .section-layout__structured a:hover { color: var(--accent); text-decoration: underline; }
+@media (min-width: 1101px) {
+  .container.research-profile {
+    --index: 160px;
+    --index-gap: 32px;
+    width: min(calc(100% - 40px), calc(var(--reading) + (var(--index) + var(--index-gap)) * 2));
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(0, var(--reading)) minmax(0, 1fr);
+    column-gap: var(--index-gap);
+  }
+  .research-profile .section-layout__content { grid-column: 2; }
+  .research-profile .section-layout__sidebar { order: 0; position: sticky; top: var(--section-top); }
+}

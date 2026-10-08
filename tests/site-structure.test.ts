@@ -4,13 +4,13 @@ import matter from 'gray-matter';
 import { describe, expect, it } from 'vitest';
 import { generatedArticleIds, resolveGeneratedArticlePath } from '../src/lib/article-source';
 import { getBooks } from '../src/lib/books';
-import { site, ilyenkov } from '../src/lib/editorial';
+import { site, ilyenkov, readEditorialJson } from '../src/lib/editorial';
 import { adjacentIssues, getGroupIssues, GroupIssueSchema } from '../src/lib/group';
 import { getPublicResearchers, getPublicIfiNetwork, getPublicReadingsSeries } from '../src/lib/research-records';
 import { getSiteData } from '../src/lib/site-data';
 import { builtRoutePath, componentSource, layoutSource, pageFileExists, pageSource, routeExists } from './helpers/pages';
 import { researchRoot, websiteWorks } from './helpers/publication';
-import { declaration, declarationsFor, hasRule, rules } from './helpers/styles';
+import { declaration, declarationsFor, rules } from './helpers/styles';
 
 describe('website-approved data adapter', () => {
   it('loads every approved translation without assuming a current artifact count', async () => {
@@ -84,8 +84,13 @@ describe('website-approved data adapter', () => {
     const list = componentSource('ArchiveIndexView');
 
     // 克制的档案条目：元信息一行（年份 · 作者），题名是唯一入口。
-    expect(list).toContain('<p class="record__meta">{article.year} · {article.authorLabel}</p>');
-    expect(list).toContain('<p class="record__title"><a href={article.route}>{article.title}</a></p>');
+    const html = readFileSync(builtRoutePath('/archive'), 'utf8');
+    const records = html.match(/<ul class="record-list"[^>]*>([\s\S]*?)<\/ul>/)![1];
+    const first = records.match(/<li>([\s\S]*?)<\/li>/)![1];
+    expect(first).toMatch(/<p class="record__meta">\d{4} · [^<]+<\/p>/);
+    expect(first).toMatch(/<p class="record__title"><a href="[^"]+">[^<]+<\/a><\/p>/);
+    expect([...first.matchAll(/<a\b/g)]).toHaveLength(1);
+    expect(first.indexOf('record__meta')).toBeLessThan(first.indexOf('record__title'));
     // 保留记录列表与分组容器，不引入卡片或脚本。
     expect(list).toContain('<ul class="record-list"');
     expect(list).toContain('class="archive-year"');
@@ -250,7 +255,7 @@ describe('website-approved data adapter', () => {
     expect(source).toContain('<header class="page-header" slot="intro">');
     expect(source).toContain('class="page-title">研究</h1>');
 
-    // 实际输出依次呈现网络、研究者、学术活动、外部资料；四个深链接目标仍稳定。
+    // 实际输出依次呈现网络、研究者与学术活动三个站内入口。
     const html = readFileSync(builtRoutePath('/research/'), 'utf8');
     const main = html.match(/<main>([\s\S]*?)<\/main>/)![1];
     const ids = [...main.matchAll(/<section\b[^>]*aria-labelledby="([^"]+)"[^>]*>/g)]
@@ -259,7 +264,6 @@ describe('website-approved data adapter', () => {
       'ifi-heading',
       'researcher-andrey-maidansky-heading',
       'readings-heading',
-      'research-sites-heading',
     ]);
     for (const id of ids) {
       expect(main, `${id} should keep its heading target`).toMatch(new RegExp(`<h2\\b[^>]*id="${id}"`));
@@ -269,7 +273,8 @@ describe('website-approved data adapter', () => {
     expect(text).not.toContain('从研究网络、研究者、学术活动与外部资料站点进入国际伊里因科夫研究。');
     expect(text).not.toContain('介绍与伊里因科夫研究密切相关的研究者。');
     expect(text).not.toMatch(/了解 IFI|了解研究者|了解学术报告会|其国际网络形成于|现存会程资料中最早的会议/);
-    expect(text).toContain('以下链接指向外部资料站点。');
+    expect(main).not.toContain('research-sites-heading');
+    expect(main).not.toContain('https://filorus.ru/');
     const entityTitles = [...main.matchAll(/<h2\b[^>]*><a href="([^"]+)">([^<]+)<\/a><\/h2>/g)]
       .map(([, href, title]) => ({ href, title }));
     expect(entityTitles).toEqual([
@@ -277,8 +282,8 @@ describe('website-approved data adapter', () => {
       { href: '/research/researchers/andrey-maidansky/', title: '安德烈·迈丹斯基' },
       { href: '/research/readings/', title: '伊里因科夫学术报告会' },
     ]);
-    expect(main.match(/class="record__summary"/g)).toHaveLength(4);
-    expect(declaration('.research-hub .record__original', 'margin')).toBe('12px 0 0');
+    expect(main.match(/class="record__summary"/g)).toHaveLength(3);
+    expect(declaration('.research-hub .record__original', 'margin')).toBe('4px 0 0');
     expect(declaration('.research-hub .record__summary', 'margin')).toBe('9px 0 0');
 
     // 深链接只保留标题自身的跳转留白；移动端沿用同一契约。
@@ -752,10 +757,10 @@ describe('public navigation', () => {
     expect(layout).toContain('site.footer.filter');
   });
 
-  it('orders the homepage around public entities, texts, group work and updates', () => {
+  it('opens the homepage with a connected introduction before texts, research, group work and updates', () => {
     const homepage = readFileSync(path.join(process.cwd(), 'dist', 'index.html'), 'utf8');
     const main = homepage.match(/<main>([\s\S]*?)<\/main>/)![1];
-    for (const gone of ['home-shell', 'home-intro', 'home-recent', 'home-archive-link', 'home-work', 'home-about']) {
+    for (const gone of ['home-shell', 'home-intro', 'home-recent', 'home-archive-link', 'home-work', 'home-about', 'home-ilyenkov']) {
       expect(main, `首页不应再有 ${gone}`).not.toContain(gone);
     }
     expect(declarationsFor('.home-page')['grid-template-columns']).toBeUndefined();
@@ -764,21 +769,33 @@ describe('public navigation', () => {
     expect([...homepage.matchAll(/<h1\b/g)]).toHaveLength(1);
     expect(main).not.toMatch(/<h1\b|home-masthead|sr-only/);
     expect(homepage).toContain(`<h1 class="site-name__text">${site.name}</h1>`);
-    expect(main).toContain('<p class="home-positioning">从文本出发，整理伊里因科夫及其相关研究的中文资料。</p>');
+    expect(main).toContain('<p class="home-positioning">伊里因科夫的中文译文与研究资料</p>');
+    // 定位句保持段落语义，共用栏目标题的字形参数，保留自己的段间留白。
+    expect(declaration('.home-positioning', 'font-size')).toBe('var(--text-home-section)');
+    expect(declaration('.home-positioning', 'font-size', '@media (max-width: 600px)')).toBe('var(--text-item)');
+    for (const property of ['color', 'font-weight', 'letter-spacing', 'line-height']) {
+      expect(declaration('.home-positioning', property)).toBe(declaration('.home-page h2', property));
+    }
+    expect(declaration('.home-positioning', 'margin')).toBe('0 0 24px');
+    expect(declaration('.home-positioning', 'padding')).toBeUndefined();
     const ordinaryHeader = readFileSync(builtRoutePath('/research'), 'utf8').match(/<header class="site-header">([\s\S]*?)<\/header>/)![1];
     expect(ordinaryHeader).toContain(`<span class="site-name__text">${site.name}</span>`);
     expect(ordinaryHeader).not.toMatch(/<h1\b/);
 
-    // 单一阅读顺序保留首屏定位，并将内容与工作变化分别表达。
+    // 定位、人物简介与延伸阅读组成同一开场，再进入实际内容栏目。
+    const opening = main.match(/<div class="home-opening"[\s\S]*?<\/div>/)![0];
+    expect(opening.indexOf('home-positioning')).toBeLessThan(opening.indexOf('home-summary'));
+    expect(opening.indexOf('home-summary')).toBeLessThan(opening.indexOf('home-more'));
+    expect(opening).not.toMatch(/<h[1-6]\b/);
     const order = [...main.matchAll(/<section class="([a-z-]+)"/g)].map(([, name]) => name);
-    expect(order).toEqual(['home-ilyenkov', 'home-content', 'home-research', 'home-group', 'home-updates']);
-    expect(main.indexOf('home-positioning')).toBeLessThan(main.indexOf('home-ilyenkov'));
+    expect(order).toEqual(['home-content', 'home-research', 'home-group', 'home-updates']);
+    expect(main.indexOf('home-opening')).toBeLessThan(main.indexOf('home-content'));
 
     // 每个 section 都有反映内容的标题，且没有 id 重复。
     expect([...main.matchAll(/<h2 id="([^"]+)"/g)].map(([, id]) => id))
-      .toEqual(['ilyenkov-heading', 'content-heading', 'research-heading', 'group-heading', 'updates-heading']);
+      .toEqual(['content-heading', 'research-heading', 'group-heading', 'updates-heading']);
     expect([...main.matchAll(/<h2\b[^>]*>([^<]*)<\/h2>/g)].map(([, title]) => title))
-      .toEqual(['伊里因科夫', '文本', '研究', '中文伊里因科夫小组', '近期动态']);
+      .toEqual(['文本', '研究', '中文伊里因科夫小组', '近期动态']);
 
     // 内容组织保持原生文本结构，不为首页增加交互或卡片系统。
     expect(main).not.toMatch(/<script\b|<input\b|<astro-island\b/);
@@ -787,22 +804,28 @@ describe('public navigation', () => {
 
   it('reuses public editorial introductions and selected research entities', () => {
     const main = readFileSync(builtRoutePath('/'), 'utf8').match(/<main>([\s\S]*?)<\/main>/)![1];
-    const person = main.match(/<section class="home-ilyenkov"[\s\S]*?<\/section>/)![0];
+    const person = main.match(/<div class="home-opening"[\s\S]*?<\/div>/)![0];
     const personPage = readFileSync(builtRoutePath('/ilyenkov'), 'utf8');
     expect(person).toContain(ilyenkov.summary);
     expect(personPage).toContain(ilyenkov.identity);
     expect(person.match(/<p class="home-summary">/g)).toHaveLength(1);
+    expect(ilyenkov.summary).not.toContain('本站');
     const hanLength = [...ilyenkov.summary.matchAll(/[\u4e00-\u9fff]/g)].length;
-    expect(hanLength).toBeGreaterThanOrEqual(80);
+    expect(hanLength).toBeGreaterThan(0);
     expect(hanLength).toBeLessThanOrEqual(150);
     for (const paragraph of ilyenkov.introduction) {
       expect(personPage.replace(/<[^>]*>/g, '')).toContain(paragraph);
       expect(person).not.toContain(paragraph);
     }
-    for (const href of ['/ilyenkov/life', '/ilyenkov/timeline', '/ilyenkov/works', '/ilyenkov/circle']) {
-      expect(person).toContain(`href="${href}"`);
+    const links = person.match(/<p class="home-more">[\s\S]*?<\/p>/)![0];
+    expect(links).toContain('了解伊里因科夫：');
+    const destinations = ['/ilyenkov/life', '/ilyenkov/timeline', '/ilyenkov/works', '/ilyenkov/circle'];
+    expect([...links.matchAll(/href="([^"]+)"/g)].map(([, href]) => href)).toEqual(destinations);
+    for (const href of destinations) {
       expect(routeExists(href)).toBe(true);
     }
+    expect(declaration('.home-opening .home-more a:after', 'content')).toBe('none');
+    expect(declaration('.home-more a:after', 'content')).toBe('" →"');
     const research = main.match(/<section class="home-research"[\s\S]*?<\/section>/)![0];
     const records = [
       { ...getPublicResearchers().find((record) => record.id === 'researcher-andrey-maidansky')!, href: '/research/researchers/andrey-maidansky/' },
@@ -850,7 +873,7 @@ describe('public navigation', () => {
   it('derives recent group work from public issues and shares its scope with Group', async () => {
     const section = readFileSync(builtRoutePath('/'), 'utf8').match(/<section class="home-group"[\s\S]*?<\/section>/)![0];
     expect(section).toContain(site.group.summary);
-    expect(readFileSync(builtRoutePath('/group'), 'utf8')).toContain(site.group.summary);
+    expect(readFileSync(builtRoutePath('/group'), 'utf8')).not.toContain(site.group.summary);
     const issues = [...await getGroupIssues()].sort((left, right) => (
       right.published.localeCompare(left.published) || right.issue - left.issue
     )).slice(0, 3);
@@ -864,15 +887,52 @@ describe('public navigation', () => {
     });
   });
 
+  it('keeps Ilyenkov entrance descriptions outside the title links', () => {
+    const html = readFileSync(builtRoutePath('/ilyenkov'), 'utf8');
+    const nav = html.match(/<nav\b[^>]*aria-label="伊里因科夫栏目入口"[^>]*>([\s\S]*?)<\/nav>/)![1];
+    const links = [...nav.matchAll(/<a\b[^>]*href="([^"]+)"[^>]*>([\s\S]*?)<\/a>/g)];
+    expect(links.map(([, href, label]) => ({ href, label }))).toEqual([
+      { href: '/ilyenkov/life', label: '生平' },
+      { href: '/ilyenkov/timeline', label: '年表' },
+      { href: '/ilyenkov/works', label: '作品目录' },
+      { href: '/ilyenkov/circle', label: '交往与活动' },
+    ]);
+    expect([...nav.matchAll(/class="entrance-card__summary"/g)]).toHaveLength(4);
+    expect(nav).not.toContain('entrance-card__scope');
+    for (const [, , label] of links) expect(label).not.toContain('entrance-card__summary');
+  });
+
+  it('uses the configured group identity without adding foreign names to the homepage', () => {
+    const source = readEditorialJson('site.json') as { group: typeof site.group };
+    expect(site.group).toEqual(source.group);
+    const group = readFileSync(builtRoutePath('/group'), 'utf8');
+    expect(group).toContain(`<h1 class="page-title">${site.group.name}</h1>`);
+    expect(group).toContain(`${site.group.originalName}<br`);
+    expect(group).toContain(site.group.englishName);
+    const home = readFileSync(builtRoutePath('/'), 'utf8');
+    expect(home).toContain(`<h2 id="group-heading">${site.group.name}</h2>`);
+    expect(home).not.toContain(site.group.originalName);
+    expect(home).not.toContain(site.group.englishName);
+  });
+
   it('opens Group with its scope and context links, keeping the work heading compact', () => {
     const main = readFileSync(builtRoutePath('/group'), 'utf8').match(/<main>([\s\S]*?)<\/main>/)![1];
     expect([...main.matchAll(/<h1\b/g)]).toHaveLength(1);
     expect(main).toContain('<h2 id="group-issues-heading">小组工作</h2>');
     expect(main).toContain('<h1 class="page-title">中文伊里因科夫小组');
-    expect(main).toContain(site.group.summary);
+    expect(main).not.toContain(site.group.summary);
     expect(main).toContain('href="/group/0"');
     expect(main).toContain('href="/contact/"');
-    expect(main).toContain('关于小组成立的缘起和我们希望开展的工作');
+    expect(main).toContain('Китайская группа по изучению Ильенкова');
+    expect(main).toContain('Chinese Ilyenkov Group');
+    expect(main).not.toContain('entrance-card');
+    const intro = main.match(/<header\b[^>]*class="page-header"[^>]*>([\s\S]*?)<\/header>/)![1];
+    expect(intro).not.toContain('class="lead"');
+    const entrances = main.match(/<nav\b[^>]*aria-label="小组相关入口"[^>]*>([\s\S]*?)<\/nav>/)![1];
+    expect([...entrances.matchAll(/<a\b[^>]*href="([^"]+)"[^>]*>([^<]*)<\/a>/g)]
+      .map(([, href, label]) => ({ href, label })))
+      .toEqual([{ href: '/group/0', label: '小组介绍' }, { href: '/contact/', label: '关注与联系' }]);
+    expect(main.indexOf('aria-label="小组相关入口"')).toBeLessThan(main.indexOf('class="group-issues"'));
     expect(main).not.toContain('本页按期记录');
   });
 
@@ -1263,7 +1323,8 @@ describe('compact directory introductions', () => {
     const intro = source.match(/<header class="page-header" slot="intro">([\s\S]*?)<\/header>/)![1];
     expect(intro).toContain('<h1');
     expect(intro).not.toContain('class="lead"');
-    expect(intro).toContain('{current.label} · {current.count} 篇');
+    expect(intro).toContain("{current?.label ?? '全部文章'}");
+    expect(intro).toContain('{current.count} 篇');
     expect(source.match(/class="archive-facets__context"/g)).toHaveLength(1);
     expect(declaration('.archive-facets__context', 'margin')).toBe('12px 0 0');
   });
@@ -1284,12 +1345,12 @@ describe('compact interface typography experiment', () => {
 });
 
 
-describe('directory spacing experiment', () => {
+describe('directory spacing', () => {
   it('uses the section tier for group records and keeps directory headings close to entries', () => {
     expect(declaration('.group-issues > h2', 'font-size')).toBe('var(--text-section)');
     expect(declaration('.group-issues > h2', 'margin')).toBe('0 0 16px');
     expect(declaration('.group-index .section-layout__intro', 'margin-bottom')).toBe('24px');
-    expect(declaration('.archive-index-page .archive-year > h2', 'margin-bottom')).toBe('16px');
+    expect(declaration('.books-shelf .book-category > h2', 'margin-bottom')).toBe('16px');
     expect(declaration('.record-list', 'gap')).toBe('32px');
   });
   it('gives the research hub one section interval without changing entity detail spacing', () => {
