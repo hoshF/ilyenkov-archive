@@ -301,12 +301,14 @@ describe('website-approved data adapter', () => {
     expect(source).not.toContain('<script');
   });
 
-  it('keeps book breadcrumbs and gives Ilyenkov subpages a simple parent link', () => {
+  it('keeps breadcrumbs on book details and Ilyenkov subpages', () => {
     expect(pageSource('books/[id].astro')).toContain('Breadcrumbs');
     for (const name of ['life', 'timeline', 'works', 'circle']) {
       const page = readFileSync(builtRoutePath(`/ilyenkov/${name}`), 'utf8');
-      expect(page).not.toContain('aria-label="当前位置"');
-      expect(page).toMatch(/<p class="parent-link">\s*<a href="\/ilyenkov">← 伊里因科夫<\/a>/);
+      expect(page).toContain('aria-label="当前位置"');
+      const breadcrumb = page.match(/<nav class="breadcrumbs"[\s\S]*?<\/nav>/)![0];
+      expect(breadcrumb).toContain('href="/ilyenkov"');
+      expect(breadcrumb).toContain('aria-current="page"');
     }
   });
 

@@ -1,5 +1,6 @@
 ---
 import BaseLayout from '../../layouts/BaseLayout.astro';
+import Breadcrumbs from '../../components/Breadcrumbs.astro';
 import SectionLayout from '../../components/SectionLayout.astro';
 import { formatHistoricalPeriod, getPublicCircle } from '../../lib/research-records';
 
@@ -15,7 +16,10 @@ const sourceLabel = (source: { creator: string | null; title: string }) => (
 
 <BaseLayout title="交往与活动" description={circle.description}>
   <SectionLayout pinned modifier="compact-intro">
-    <p class="parent-link" slot="breadcrumb"><a href="/ilyenkov">← 伊里因科夫</a></p>
+    <Breadcrumbs slot="breadcrumb" items={[
+      { label: '伊里因科夫', href: '/ilyenkov' },
+      { label: '交往与活动' },
+    ]} />
     <header class="page-header" slot="intro">
       <h1 class="page-title">交往与活动</h1>
     </header>

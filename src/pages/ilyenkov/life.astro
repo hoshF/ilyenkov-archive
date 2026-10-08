@@ -1,5 +1,6 @@
 ---
 import BaseLayout from '../../layouts/BaseLayout.astro';
+import Breadcrumbs from '../../components/Breadcrumbs.astro';
 import SectionLayout from '../../components/SectionLayout.astro';
 import { getPublicLife } from '../../lib/research-records';
 
@@ -13,7 +14,10 @@ const linkTargets = {
 
 <BaseLayout title="生平" description={life.description}>
   <SectionLayout pinned>
-    <p class="parent-link" slot="breadcrumb"><a href="/ilyenkov">← 伊里因科夫</a></p>
+    <Breadcrumbs slot="breadcrumb" items={[
+      { label: '伊里因科夫', href: '/ilyenkov' },
+      { label: '生平' },
+    ]} />
     <header class="page-header" slot="intro">
       <h1 class="page-title">生平</h1>
       <p class="lead">{life.lead}</p>
