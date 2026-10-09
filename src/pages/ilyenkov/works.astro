@@ -2,12 +2,14 @@
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import Breadcrumbs from '../../components/Breadcrumbs.astro';
 import SectionLayout from '../../components/SectionLayout.astro';
+import IlyenkovNav from '../../components/IlyenkovNav.astro';
+import PageOutline from '../../components/PageOutline.astro';
 import { getPublicWorks, getPublicWorksEditorial } from '../../lib/research-records';
 
 const editorial = getPublicWorksEditorial();
 const works = getPublicWorks();
 const worksByType = Map.groupBy(works, (work) => work.type);
-const typeOrder = ['著作', '论文', '战时写作'];
+const typeOrder = ['著作', '论文', '百科条目', '学位论文摘要', '报刊文章', '身后发表的文章', '战时写作'];
 const workGroups = [...worksByType].sort(([left], [right]) => {
   const leftIndex = typeOrder.indexOf(left);
   const rightIndex = typeOrder.indexOf(right);
@@ -19,16 +21,19 @@ const workGroups = [...worksByType].sort(([left], [right]) => {
 ---
 
 <BaseLayout title="作品目录" description={editorial.description}>
-  <SectionLayout pinned>
+  <SectionLayout pinned modifier="ilyenkov-topic">
     <Breadcrumbs slot="breadcrumb" items={[
       { label: '伊里因科夫', href: '/ilyenkov/' },
       { label: '作品目录' },
     ]} />
     <header class="page-header" slot="intro">
+      <IlyenkovNav current="works" />
       <h1 class="page-title">作品目录</h1>
       <p class="lead">{editorial.lead}</p>
-      <p class="section-note">{editorial.note}</p>
     </header>
+
+    <PageOutline label="按体裁浏览" items={workGroups.map(([type]) => ({ href: `#work-type-${type}`, label: type }))} />
+    <p class="catalog-note">{editorial.note}</p>
 
     {workGroups.map(([type, entries]) => (
         <section class="works-catalog-section" aria-labelledby={`work-type-${type}`}>
@@ -37,11 +42,13 @@ const workGroups = [...worksByType].sort(([left], [right]) => {
           <ol class="record-list">
             {entries.map((work) => (
               <li>
-                <article>
+                <article class="catalog-record">
                   <p class="record__meta">{work.year}</p>
-                  <h3 class="record__title">{work.title}</h3>
-                  <p class="record__original">{work.originalTitle}</p>
-                  <p class="record__sources">{work.sources.map((source, index) => <><a href={source.url}>{source.label}</a>{index < work.sources.length - 1 && ' · '}</>)}</p>
+                  <div class="catalog-record__content">
+                    <h3 class="record__title">{work.title}</h3>
+                    <p class="record__original">{work.originalTitle}</p>
+                    <p class="record__sources">{work.sources.map((source, index) => <><a href={source.url}>{source.label}</a>{index < work.sources.length - 1 && ' · '}</>)}</p>
+                  </div>
                 </article>
               </li>
             ))}

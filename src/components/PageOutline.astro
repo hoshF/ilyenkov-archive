@@ -1,0 +1,13 @@
+---
+interface Props {
+  label: string;
+  items: { href: string; label: string }[];
+}
+const { label, items } = Astro.props;
+---
+{items.length > 0 && <details class="page-outline">
+  <summary>{label}</summary>
+  <nav aria-label={label}>
+    <ol>{items.map((item) => <li><a href={item.href}>{item.label}</a></li>)}</ol>
+  </nav>
+</details>}

@@ -2,6 +2,8 @@
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import Breadcrumbs from '../../components/Breadcrumbs.astro';
 import SectionLayout from '../../components/SectionLayout.astro';
+import IlyenkovNav from '../../components/IlyenkovNav.astro';
+import PageOutline from '../../components/PageOutline.astro';
 import { getPublicLife } from '../../lib/research-records';
 
 const life = getPublicLife();
@@ -13,26 +15,32 @@ const linkTargets = {
 ---
 
 <BaseLayout title="生平" description={life.description}>
-  <SectionLayout pinned>
+  <SectionLayout pinned modifier="ilyenkov-topic">
     <Breadcrumbs slot="breadcrumb" items={[
       { label: '伊里因科夫', href: '/ilyenkov/' },
       { label: '生平' },
     ]} />
     <header class="page-header" slot="intro">
+      <IlyenkovNav current="life" />
       <h1 class="page-title">生平</h1>
       <p class="lead">{life.lead}</p>
       <p class="section-note">{life.note}</p>
     </header>
 
-    <ol class="record-list">
-      {life.stages.map((stage) => (
+    <PageOutline label="浏览生平阶段" items={life.stages.map((stage, index) => ({ href: `#life-stage-${index + 1}`, label: stage.title }))} />
+    <ol class="record-list life-stages">
+      {life.stages.map((stage, index) => (
         <li>
-          <article>
-            {stage.period && <p class="record__meta">{stage.period.start.slice(0, 4)}—{stage.period.end.slice(0, 4)}</p>}
-            {stage.years && stage.years.length > 0 && <p class="record__meta">{stage.years.join('、')}</p>}
-            <h2 class="record__title">{stage.title}</h2>
-            {stage.summary && <p class="record__summary">{stage.summary}</p>}
-            {stage.links.length > 0 && <p class="record__links">{stage.links.map((link) => <a href={linkTargets[link.target]}>{link.label}</a>)}</p>}
+          <article class="life-stage" aria-labelledby={`life-stage-${index + 1}`}>
+            <div class="life-stage__period">
+              {stage.period && <p class="record__meta">{stage.period.start.slice(0, 4)}—{stage.period.end.slice(0, 4)}</p>}
+              {stage.years && stage.years.length > 0 && <p class="record__meta">{stage.years.join('、')}</p>}
+            </div>
+            <div class="life-stage__content">
+              <h2 class="record__title" id={`life-stage-${index + 1}`}>{stage.title}</h2>
+              {stage.summary && <p class="record__summary">{stage.summary}</p>}
+              {stage.links.length > 0 && <p class="record__links">{stage.links.map((link) => <a href={linkTargets[link.target]}>{link.label}</a>)}</p>}
+            </div>
           </article>
         </li>
       ))}

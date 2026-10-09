@@ -1,0 +1,9 @@
+---
+import { getPublicIlyenkov } from '../lib/research-records';
+interface Props { current: 'life' | 'timeline' | 'works' | 'circle'; }
+const { current } = Astro.props;
+const { entrances } = getPublicIlyenkov();
+---
+<nav class="ilyenkov-nav" aria-label="伊里因科夫专题">
+  {entrances.map((entrance) => <a href={`/ilyenkov/${entrance.target}/`} aria-current={entrance.target === current ? 'page' : undefined}>{entrance.label}</a>)}
+</nav>

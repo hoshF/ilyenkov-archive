@@ -2,39 +2,51 @@
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import Breadcrumbs from '../../components/Breadcrumbs.astro';
 import SectionLayout from '../../components/SectionLayout.astro';
+import IlyenkovNav from '../../components/IlyenkovNav.astro';
+import PageOutline from '../../components/PageOutline.astro';
+import RecordSources from '../../components/RecordSources.astro';
 import { formatHistoricalPeriod, getPublicTimelineEditorial, getPublicTimelineRecords } from '../../lib/research-records';
 
 const editorial = getPublicTimelineEditorial();
 const records = getPublicTimelineRecords();
-const sourceLabel = (source: { creator: string | null; title: string }) => (
-  source.creator ? `${source.creator}：《${source.title}》` : source.title
-);
+const decades = [...Map.groupBy(records, (record) => Math.floor(Number(record.period.start.slice(0, 4)) / 10) * 10)];
 ---
 
 <BaseLayout title="年表" description={editorial.description}>
-  <SectionLayout pinned modifier="compact-intro">
+  <SectionLayout pinned modifier="compact-intro ilyenkov-topic">
     <Breadcrumbs slot="breadcrumb" items={[
       { label: '伊里因科夫', href: '/ilyenkov/' },
       { label: '年表' },
     ]} />
     <header class="page-header" slot="intro">
+      <IlyenkovNav current="timeline" />
       <h1 class="page-title">年表</h1>
     </header>
 
-    <ol class="record-list record-list--timeline">
-        {records.map((record) => (
-          <li>
-            <article>
-              <p class="record__meta">{formatHistoricalPeriod(record.period)}</p>
-              <p class="record__label">{record.categoryLabel}</p>
-              <h2 class="record__title">{record.title}</h2>
-              <p class="record__summary">{record.summary}</p>
-              {record.location && <p class="record__note">地点：{record.location}</p>}
-              {record.status && <p class="record__note">{record.status}</p>}
-              <p class="record__sources">来源：{record.sources.map((source, index) => <><a href={source.url}>{sourceLabel(source)}</a>{index < record.sources.length - 1 && '；'}</>)}</p>
-            </article>
-          </li>
-        ))}
-    </ol>
+    <PageOutline label="按年代浏览" items={decades.map(([decade]) => ({ href: `#timeline-${decade}`, label: `${decade}年代` }))} />
+    {decades.map(([decade, entries]) => (
+      <section class="timeline-section" aria-labelledby={`timeline-${decade}`}>
+        <h2 id={`timeline-${decade}`}>{decade}年代</h2>
+        <ol class="record-list record-list--timeline">
+          {entries.map((record) => (
+            <li>
+              <article class="timeline-record">
+                <div class="timeline-record__date">
+                  <p class="record__meta">{formatHistoricalPeriod(record.period)}</p>
+                  <p class="record__label">{record.categoryLabel}</p>
+                </div>
+                <div class="timeline-record__content">
+                  <h3 class="record__title">{record.title}</h3>
+                  <p class="record__summary">{record.summary}</p>
+                  {record.location && <p class="record__note">地点：{record.location}</p>}
+                  {record.status && <p class="record__note">{record.status}</p>}
+                  <RecordSources sources={record.sources} />
+                </div>
+              </article>
+            </li>
+          ))}
+        </ol>
+      </section>
+    ))}
   </SectionLayout>
 </BaseLayout>

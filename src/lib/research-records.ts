@@ -212,13 +212,16 @@ export const LifeSchema = z.object({
 export const CircleSchema = z.object({
   description: EditorialLineSchema,
   sections: z.array(z.object({
-    recordKind: z.enum(['military_service', 'hegel_congress']),
+    recordKind: z.enum(['biography_event', 'military_service', 'hegel_congress']),
     title: EditorialLineSchema,
     lead: EditorialLineSchema,
     recordIds: PageReferencesSchema,
   }).strict()).refine((sections) => (
-    new Set(sections.map((section) => section.recordKind)).size === sections.length
-  ), { message: 'Circle sections must have unique record kinds' }),
+    new Set(sections.map((section) => section.title)).size === sections.length
+  ), { message: 'Circle sections must have unique titles' }).refine((sections) => {
+    const ids = sections.flatMap((section) => section.recordIds);
+    return new Set(ids).size === ids.length;
+  }, { message: 'Circle references cannot repeat across sections' }),
 }).strict();
 
 export const IlyenkovProfileSchema = z.object({
@@ -294,7 +297,11 @@ export const ResearchRecordsSchema = z.object({
     }
   });
   records.circle.sections.forEach((section, index) => {
-    const available = section.recordKind === 'military_service' ? records.military : records.congresses;
+    const available = {
+      biography_event: records.biography,
+      military_service: records.military,
+      hegel_congress: records.congresses,
+    }[section.recordKind];
     section.recordIds.forEach((id, referenceIndex) => {
       if (available.filter((record) => record.id === id).length !== 1) {
         context.addIssue({
@@ -380,12 +387,15 @@ export function getPublicLife() {
 
 export function getPublicCircle() {
   const records = getPublicResearchRecords();
+  const collections = {
+    biography_event: records.biography.map((record) => ({ ...record, status: null })),
+    military_service: records.military.map((record) => ({ ...record, location: null, status: null })),
+    hegel_congress: records.congresses,
+  };
   return {
     ...records.circle,
     sections: records.circle.sections.map((section) => {
-      const available = section.recordKind === 'military_service'
-        ? records.military.map((record) => ({ ...record, location: null, status: null }))
-        : records.congresses;
+      const available = collections[section.recordKind];
       const byId = new Map(available.map((record) => [record.id, record]));
       return {
         ...section,

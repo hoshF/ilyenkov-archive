@@ -2,31 +2,30 @@
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import Breadcrumbs from '../../components/Breadcrumbs.astro';
 import SectionLayout from '../../components/SectionLayout.astro';
+import IlyenkovNav from '../../components/IlyenkovNav.astro';
+import PageOutline from '../../components/PageOutline.astro';
+import RecordSources from '../../components/RecordSources.astro';
 import { formatHistoricalPeriod, getPublicCircle } from '../../lib/research-records';
 
 const circle = getPublicCircle();
-const headingIds = {
-  military_service: 'military-heading',
-  hegel_congress: 'hegel-heading',
-};
-const sourceLabel = (source: { creator: string | null; title: string }) => (
-  source.creator ? `${source.creator}：《${source.title}》` : source.title
-);
 ---
 
 <BaseLayout title="交往与活动" description={circle.description}>
-  <SectionLayout pinned modifier="compact-intro">
+  <SectionLayout pinned modifier="compact-intro ilyenkov-topic">
     <Breadcrumbs slot="breadcrumb" items={[
       { label: '伊里因科夫', href: '/ilyenkov/' },
       { label: '交往与活动' },
     ]} />
     <header class="page-header" slot="intro">
+      <IlyenkovNav current="circle" />
       <h1 class="page-title">交往与活动</h1>
     </header>
 
-    {circle.sections.map((section) => (
-      <section class="activity-section" aria-labelledby={headingIds[section.recordKind]}>
-        <h2 id={headingIds[section.recordKind]}>{section.title}</h2>
+    <PageOutline label="浏览活动主题" items={circle.sections.map((section, index) => ({ href: `#circle-section-${index + 1}-heading`, label: section.title }))} />
+
+    {circle.sections.map((section, index) => (
+      <section class="activity-section" aria-labelledby={`circle-section-${index + 1}-heading`}>
+        <h2 id={`circle-section-${index + 1}-heading`}>{section.title}</h2>
         <p class="activity-section__lead">{section.lead}</p>
         <ol class="record-list">
           {section.records.map((record) => (
@@ -36,7 +35,7 @@ const sourceLabel = (source: { creator: string | null; title: string }) => (
                 <h3 class="record__title">{record.title}</h3>
                 <p class="record__summary">{record.summary}</p>
                 {record.status && <p class="record__note">{record.status}</p>}
-                <p class="record__sources">来源：{record.sources.map((source, index) => <><a href={source.url}>{sourceLabel(source)}</a>{index < record.sources.length - 1 && '；'}</>)}</p>
+                <RecordSources sources={record.sources} />
               </article>
             </li>
           ))}

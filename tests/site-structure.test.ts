@@ -401,20 +401,22 @@ describe('website-approved data adapter', () => {
     expect(main).toContain('href="/group/"');
   });
 
-  it('keeps articles without a table of contents in a single reading column', async () => {
-    // 单改 grid-template-columns 不会清除三列命名区域；无目录时应退出网格。
+  it('includes original-source information even when an article has no body headings', async () => {
+    // 阅读布局的空目录仍收为单栏；文章另有原文信息，因此目录不会为空。
     const fallback = '.section-layout--reading:not(.section-layout--indexed)';
     expect(declaration(fallback, 'display')).toBe('block');
     expect(declaration(fallback, 'width')).toBe('min(calc(100% - 40px), var(--reading))');
 
     const { articles } = await getSiteData();
-    const withoutToc = articles.filter((article) => article.headings.length === 0);
-    expect(withoutToc.map((article) => article.id)).toContain('history-and-social-ideals');
-    for (const article of withoutToc) {
+    const withoutBodyHeadings = articles.filter((article) => article.headings.length === 0);
+    expect(withoutBodyHeadings.map((article) => article.id)).toContain('history-and-social-ideals');
+    for (const article of withoutBodyHeadings) {
       const page = readFileSync(builtRoutePath(article.route), 'utf8');
       expect(page, article.route).toContain('section-layout--reading');
-      expect(page, article.route).not.toContain('section-layout--indexed');
-      expect(page, article.route).not.toContain('section-layout__sidebar');
+      expect(page, article.route).toContain('section-layout--indexed');
+      const toc = page.match(/<aside class="section-layout__toc"[\s\S]*?<\/aside>/)![0];
+      expect([...toc.matchAll(/href="#([^"]+)"/g)].map(([, id]) => id)).toEqual(['source-info-heading']);
+      expect(toc).toContain('原文信息');
     }
   });
 
@@ -599,7 +601,7 @@ describe('public navigation', () => {
   });
 
   it('keeps the rail when a page really has one, and matches the index', () => {
-    // 有标题才有页内目录；没有标题就不渲染空目录，正文单列。
+    // 非空目录产生辅助栏；文章的原文信息也是一个可跳转的章节。
     const source = componentSource('SectionLayout');
     expect(source).toContain("const indexed = toc.length > 0");
 
@@ -633,6 +635,7 @@ describe('public navigation', () => {
     const anchors = [...toc.matchAll(/href="#([^"]+)"/g)].map(([, id]) => id);
     expect(anchors.length).toBeGreaterThan(0);
     expect(new Set(anchors).size).toBe(anchors.length);
+    expect(anchors.at(-1)).toBe('source-info-heading');
     for (const id of anchors) {
       expect(article, `目录锚点 ${id} 不存在`).toContain(`id="${id}"`);
     }

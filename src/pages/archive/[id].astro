@@ -40,7 +40,10 @@ function finalUrlSegment(value: string): string {
 
 const sourceLabel = document.sourceUrl ? finalUrlSegment(document.sourceUrl) : null;
 const doiLabel = document.doiUrl?.replace(/^https?:\/\/doi\.org\//, '') ?? null;
-const toc = document.headings.map((heading) => ({ href: `#${heading.id}`, label: heading.text }));
+const toc = [
+  ...document.headings.map((heading) => ({ href: `#${heading.id}`, label: heading.text })),
+  { href: '#source-info-heading', label: '原文信息' },
+];
 ---
 
 <BaseLayout title={document.title} description={description} socialType="article" reading>
@@ -102,6 +105,10 @@ const toc = document.headings.map((heading) => ({ href: `#${heading.id}`, label:
       let active = sections[0].link;
       for (const section of sections) {
         if (section.heading.getBoundingClientRect().top <= line) active = section.link;
+      }
+      // 篇末无法继续上滚时，最后一个标题可能还未到达基准线。
+      if (window.scrollY + window.innerHeight >= document.documentElement.scrollHeight - 2) {
+        active = sections[sections.length - 1].link;
       }
       if (active === current) return;
       current?.removeAttribute('aria-current');

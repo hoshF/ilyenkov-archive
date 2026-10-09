@@ -717,3 +717,45 @@ h2, h3, h4 { text-wrap: balance; line-height: 1.3; }
 .archive-search__results p { margin: 8px 0 0; font-size: var(--text-meta); line-height: 1.8; color: var(--ink-soft); }
 .archive-search mark { background: #fff0ba; color: inherit; }
 .archive-search [hidden], [data-archive-list][hidden] { display: none; }
+
+/* 伊里因科夫专题：页间导航、页内浏览与正文分开，日期退到辅助列。 */
+.ilyenkov-topic .record-list .record__summary { margin-top: 9px; }
+.ilyenkov-topic .record-list .record__original { margin-top: 4px; }
+.ilyenkov-topic .record-list .record__note { margin-top: 10px; }
+.ilyenkov-topic .record-list .record__links { margin-top: 12px; }
+.ilyenkov-topic .record-list .record__sources { margin-top: 14px; }
+.ilyenkov-topic .record-list .record__label { margin-top: 4px; }
+.ilyenkov-nav { display: flex; flex-wrap: wrap; gap: 10px 24px; margin-bottom: 28px; }
+.ilyenkov-nav a { color: var(--muted); font-size: var(--text-secondary); text-decoration: none; }
+.ilyenkov-nav a[aria-current=page] { color: var(--ink); text-decoration: underline; text-underline-offset: .4em; }
+.ilyenkov-nav a:hover { color: var(--accent); }
+.page-outline { margin: 0 0 32px; padding: 12px 0; border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); }
+.page-outline summary { cursor: pointer; color: var(--ink-soft); font-size: var(--text-secondary); }
+.page-outline ol { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px 24px; list-style: none; margin: 20px 0 8px; padding: 0; }
+.page-outline a { font-size: var(--text-secondary); text-decoration: none; }
+.page-outline a:hover { text-decoration: underline; }
+.life-stages { gap: 40px; }
+.life-stage { display: grid; grid-template-columns: 100px minmax(0, 1fr); gap: 24px; }
+.life-stage__period { padding-top: 2px; }
+.life-stage__content .record__title { margin-top: 0; scroll-margin-top: 32px; }
+.life-stages > li + li { padding-top: 32px; border-top: 1px solid var(--line); }
+.catalog-note { margin: 0 0 36px; color: var(--muted); font-size: var(--text-meta); line-height: 1.65; }
+.catalog-record { display: grid; grid-template-columns: 60px minmax(0, 1fr); gap: 20px; }
+.catalog-record > .record__meta { padding-top: 2px; }
+.catalog-record__content .record__title { margin-top: 0; }
+.works-catalog-section h2, .activity-section h2 { scroll-margin-top: 32px; }
+.timeline-section + .timeline-section { margin-top: 48px; }
+.timeline-section h2 { margin: 0 0 28px; font-size: var(--text-section); scroll-margin-top: 32px; }
+.timeline-record { display: grid; grid-template-columns: 130px minmax(0, 1fr); gap: 24px; }
+.timeline-record__content .record__title { margin-top: 0; }
+.record-sources { margin-top: 14px; }
+.record-sources summary { width: fit-content; cursor: pointer; color: var(--muted); font-size: var(--text-meta); line-height: 1.6; }
+.ilyenkov-topic .record-sources .record__sources { margin-top: 10px; }
+@media (max-width: 600px) {
+  .ilyenkov-nav { gap: 10px 20px; }
+  .page-outline ol { grid-template-columns: minmax(0, 1fr); }
+  .life-stage, .timeline-record { grid-template-columns: minmax(0, 1fr); gap: 8px; }
+  .catalog-record { grid-template-columns: 44px minmax(0, 1fr); gap: 12px; }
+  .timeline-record__date { display: flex; flex-wrap: wrap; gap: 4px 12px; align-items: baseline; }
+  .ilyenkov-topic .timeline-record__date .record__label { margin-top: 0; }
+}

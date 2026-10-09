@@ -320,6 +320,10 @@ describe('private life and circle publication', () => {
       .toEqual(life.stages.map((stage) => stage.title));
     expect([...circleMain.matchAll(/<h2\b[^>]*>([\s\S]*?)<\/h2>/g)].map(([, title]) => textContent(title)))
       .toEqual(circle.sections.map((section) => section.title));
+    const circleHeadingIds = [...circleMain.matchAll(/<h2\b[^>]*\bid="([^"]+)"/g)].map(([, id]) => id);
+    expect(circleHeadingIds).toHaveLength(circle.sections.length);
+    expect(new Set(circleHeadingIds).size).toBe(circleHeadingIds.length);
+    for (const id of circleHeadingIds) expect(circleMain).toContain(`aria-labelledby="${id}"`);
     for (const field of ['lead', 'note']) expect(textContent(lifeMain)).toContain(life[field]);
     for (const stage of life.stages) {
       expect(textContent(lifeMain)).toContain(stage.summary);
@@ -359,9 +363,11 @@ describe('private life and circle publication', () => {
     });
     input.mutate(publication.circle.editorial_path, (text) => {
       text.sections.reverse();
-      for (const section of text.sections) {
-        section.title = `Private ${section.record_kind}`;
-        section.record_ids = [...before[collectionForKind[section.record_kind]]].reverse().map((record) => record.id);
+      for (const [index, section] of text.sections.entries()) {
+        section.title = `Private ${section.record_kind} ${index}`;
+        const selected = section.record_ids === undefined ? null : new Set(section.record_ids);
+        section.record_ids = before[collectionForKind[section.record_kind]]
+          .filter((record) => selected === null || selected.has(record.id)).reverse().map((record) => record.id);
       }
     });
     input.mutate(publicationPath, (manifest) => { manifest.records.reverse(); });
@@ -437,8 +443,8 @@ describe('private life and circle publication', () => {
     ['life', 'unsupported link target', (text) => { text.stages[0].links = [{ target: 'archive', label: 'Private URL' }]; }],
     ['life', 'private link field', (text) => { text.stages[0].links = [{ target: 'timeline', label: 'Read more', url: 'private.json' }]; }],
     ['circle', 'missing sections', (text) => { delete text.sections; }],
-    ['circle', 'unsupported section kind', (text) => { text.sections = [{ title: 'Invalid', lead: 'Invalid', record_kind: 'biography_event' }]; }],
-    ['circle', 'duplicate section kind', (text) => { text.sections.push(structuredClone(text.sections[0])); }],
+    ['circle', 'unsupported section kind', (text) => { text.sections = [{ title: 'Invalid', lead: 'Invalid', record_kind: 'works_catalog' }]; }],
+    ['circle', 'duplicate section title', (text) => { text.sections.push(structuredClone(text.sections[0])); }],
     ['circle', 'wrong-kind approved reference', (text, bundle) => { text.sections = [{ title: 'Invalid', lead: 'Invalid', record_kind: 'military_service', record_ids: [bundle.congresses[0].id] }]; }],
     ['circle', 'unsupported section source locator', (text) => { text.sections[0].record_path = 'private.json'; }],
   ])('rejects %s manuscript with %s', (key, _reason, change) => {
@@ -536,6 +542,143 @@ describe('private life and circle publication', () => {
   });
 });
 
+describe('circle biography publication', () => {
+  const section = (title, ids) => ({
+    title, lead: 'Authored relationship framing', record_kind: 'biography_event',
+    ...(ids === undefined ? {} : { record_ids: ids }),
+  });
+
+  it('accepts approved biography records and preserves two authored sections while sorting their records', () => {
+    const input = fixture();
+    const before = input.plan();
+    const biography = [...before.biography].sort((left, right) => left.period.start.localeCompare(right.period.start));
+    const firstIds = [biography.at(-1).id, biography[0].id];
+    const secondIds = [biography[2].id, biography[1].id];
+    input.mutate(publication.circle.editorial_path, (text) => {
+      text.sections = [section('Academic dialogue', firstIds), section('Psychology and education', secondIds)];
+    });
+    const generated = input.plan();
+    expect(generated.circle.sections.map((item) => item.title)).toEqual(['Academic dialogue', 'Psychology and education']);
+    expect(generated.circle.sections.map((item) => item.recordIds)).toEqual([firstIds, secondIds]);
+    expect(factsWithoutPageSelections(generated)).toEqual(factsWithoutPageSelections(before));
+    expect(CircleSchema.safeParse(generated.circle).success).toBe(true);
+    expect(ResearchRecordsSchema.safeParse(generated).success).toBe(true);
+    injected.bundle = generated;
+    const rendered = getPublicCircle().sections;
+    expect(rendered.map((item) => item.title)).toEqual(['Academic dialogue', 'Psychology and education']);
+    const sort = (ids) => ids.map((id) => before.biography.find((record) => record.id === id)).sort((left, right) => (
+      left.period.start.localeCompare(right.period.start) || left.period.end.localeCompare(right.period.end)
+        || left.title.localeCompare(right.title, 'zh-Hans-CN')
+    ));
+    for (const [index, ids] of [firstIds, secondIds].entries()) {
+      expect(rendered[index].records).toEqual(sort(ids).map((record) => ({ ...record, status: null })));
+    }
+  });
+
+  it('keeps the single-section default selection and allows explicitly empty repeated sections', () => {
+    const input = fixture();
+    const before = input.plan();
+    input.mutate(publication.circle.editorial_path, (text) => { text.sections = [section('All biography')]; });
+    expect(input.plan().circle.sections[0].recordIds).toEqual(before.biography.map((record) => record.id));
+    input.mutate(publication.circle.editorial_path, (text) => {
+      text.sections = [section('Empty academic dialogue', []), section('Empty education', [])];
+    });
+    const generated = input.plan();
+    expect(generated.circle.sections.map((item) => item.recordIds)).toEqual([[], []]);
+    expect(ResearchRecordsSchema.safeParse(generated).success).toBe(true);
+  });
+
+  it.each([
+    ['wrong-kind approved record', (bundle) => [section('Invalid biography', [bundle.military[0].id])]],
+    ['cross-section duplicate record', (bundle) => [section('Academic dialogue', [bundle.biography[0].id]), section('Education', [bundle.biography[0].id])]],
+    ['duplicate section title', (bundle) => [section('Same title', [bundle.biography[0].id]), section('Same title', [bundle.biography[1].id])]],
+    ['default then repeated kind', () => [section('Default biography'), section('Explicit empty biography', [])]],
+    ['repeated kind then default', () => [section('Explicit empty biography', []), section('Default biography')]],
+  ])('rejects %s', (_name, sections) => {
+    const input = fixture();
+    const before = input.plan();
+    input.mutate(publication.circle.editorial_path, (text) => { text.sections = sections(before); });
+    expect(() => input.plan()).toThrow(/circle/);
+  });
+
+  it.each(['internal_public', 'unauthorized', 'unselected'])('rejects %s biography references without reading private facts', (scope) => {
+    const input = fixture();
+    if (scope !== 'unselected') input.mutate(publicationPath, (manifest) => {
+      manifest.records.push({ public_id: 'private-circle-biography', publication_scope: scope,
+        kind: 'biography_event', record_path: 'private/missing.json' });
+    });
+    input.mutate('research/biography/records.json', (catalog) => {
+      catalog.events.push({ event_id: 'private-circle-biography', event_zh: 'UNSELECTED_CIRCLE_FACT_SENTINEL' });
+    });
+    input.mutate(publication.circle.editorial_path, (text) => {
+      text.sections = [section('Private biography', ['private-circle-biography'])];
+    });
+    expect(() => input.plan()).toThrow(/circle.*approved public record/);
+    input.mutate(publication.circle.editorial_path, (text) => { text.sections = [section('Empty biography', [])]; });
+    expect(JSON.stringify(input.plan())).not.toContain('UNSELECTED_CIRCLE_FACT_SENTINEL');
+  });
+
+  it('cleans withdrawn biography sections, prose and references through the sync CLI', () => {
+    const input = fixture();
+    const before = input.plan();
+    const birthId = selectedEntries.find((entry) => entry.kind === 'ilyenkov_profile').birth_record_id;
+    const biography = before.biography.filter((record) => record.id !== birthId);
+    const retained = biography[0];
+    const withdrawn = biography[1];
+    input.mutate(publication.circle.editorial_path, (text) => {
+      text.sections = [
+        section('Retained biography section', [retained.id]),
+        { ...section('WITHDRAWN_BIOGRAPHY_SECTION_SENTINEL', [withdrawn.id]), lead: 'WITHDRAWN_BIOGRAPHY_LEAD_SENTINEL' },
+      ];
+    });
+    const first = input.run();
+    expect(first.status, first.stderr).toBe(0);
+    expect(JSON.stringify(input.generated())).toContain('WITHDRAWN_BIOGRAPHY_LEAD_SENTINEL');
+    input.mutate(publicationPath, (manifest) => {
+      manifest.records = manifest.records.filter((entry) => entry.public_id !== withdrawn.id);
+    });
+    expect(() => input.plan()).toThrow(/life|circle|reference/);
+    input.mutate(publication.circle.editorial_path, (text) => { text.sections.pop(); });
+    input.mutate(publication.life.editorial_path, (text) => {
+      for (const stage of text.stages) {
+        if (stage.record_ids) stage.record_ids = stage.record_ids.filter((id) => id !== withdrawn.id);
+      }
+    });
+    expect(input.run(true).status).toBe(1);
+    const next = input.run();
+    expect(next.status, next.stderr).toBe(0);
+    const generated = input.generated();
+    expect(generated.circle.sections).toEqual([{
+      recordKind: 'biography_event', title: 'Retained biography section',
+      lead: 'Authored relationship framing', recordIds: [retained.id],
+    }]);
+    expect(JSON.stringify(generated)).not.toMatch(/WITHDRAWN_BIOGRAPHY_(?:SECTION|LEAD)_SENTINEL/);
+    expect(JSON.stringify(generated)).not.toContain(withdrawn.id);
+    expect(generated.military).toEqual(before.military);
+    expect(generated.congresses).toEqual(before.congresses);
+    expect(ResearchRecordsSchema.safeParse(generated).success).toBe(true);
+    const checked = input.run(true);
+    expect(checked.status, checked.stderr).toBe(0);
+    expect(checked.stdout).toContain('stale=0');
+  });
+
+  it.each([
+    ['wrong-kind reference', (bundle) => { bundle.circle.sections[0].recordIds = [bundle.military[0].id]; }],
+    ['cross-section duplicate record', (bundle) => { bundle.circle.sections[1].recordIds = [bundle.circle.sections[0].recordIds[0]]; }],
+    ['duplicate section title', (bundle) => { bundle.circle.sections[1].title = bundle.circle.sections[0].title; }],
+    ['extra section field', (bundle) => { bundle.circle.sections[0].record_path = 'private.json'; }],
+  ])('rejects generated %s', (_name, change) => {
+    const input = fixture();
+    const before = input.plan();
+    input.mutate(publication.circle.editorial_path, (text) => {
+      text.sections = [section('Academic dialogue', [before.biography[0].id]), section('Education', [before.biography[1].id])];
+    });
+    const generated = input.plan();
+    change(generated);
+    expect(ResearchRecordsSchema.safeParse(generated).success).toBe(false);
+  });
+});
+
 describe('strict generated life and circle references', () => {
   it.each([
     (bundle) => { bundle.life.stages[0].recordIds = ['not-public']; },
@@ -545,7 +688,9 @@ describe('strict generated life and circle references', () => {
     (bundle) => { bundle.life.stages[0].recordIds = []; },
     (bundle) => { bundle.life.stages[0].summary_zh = 'Copied canonical summary'; },
     (bundle) => { bundle.life.stages.find((stage) => stage.years).years.push('1900'); },
-    (bundle) => { bundle.circle.sections[0].recordIds = [bundle.biography[0].id]; },
+    (bundle) => { bundle.circle.sections[0].recordIds = [
+      bundle.circle.sections[0].recordKind === 'biography_event' ? bundle.military[0].id : bundle.biography[0].id,
+    ]; },
     (bundle) => { bundle.circle.sections[0].recordIds.push(bundle.circle.sections[0].recordIds[0]); },
     (bundle) => { bundle.circle.sections.push(structuredClone(bundle.circle.sections[0])); },
     (bundle) => { bundle.circle.sections[0].editorial_path = 'private.json'; },

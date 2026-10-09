@@ -114,9 +114,11 @@ publication 根对象 `life`、`circle` 必须且只含 `editorial_path`。生�
 叙述。成稿不另存日期、地点、作品年份、题名、来源等事实副本。
 
 交往每个 section 必须含 `title`、`lead`、`record_kind`，可选 `record_ids`。题名与导语均为非空
-单行文字；类型只允许 `military_service` 或 `hegel_congress`，同一类型不重复分区。没有
+单行文字；类型只允许 `biography_event`、`military_service` 或 `hegel_congress`，分区题名不得重复。
+同一类型可分为多个主题区，该类型的每个分区必须显式提供 `record_ids`。没有
 `record_ids` 时采用该类型全部获准记录；存在时只引用其中明确选择的子集，空数组合法。
-未知、重复、未公开、缺失或不属于指定类型的引用均失败，不自动扩大 publication 范围。
+未知、重复、未公开、缺失或不属于指定类型的引用均失败；同一公开记录不得跨分区重复。
+分区引用不自动扩大 publication 范围。
 
 生成 `life.stages` 只包含题名、公开引用 `recordIds`、明确填写的摘要、链接及从引用派生的
 `period` 或 `years`；空引用不生成期间或年份。生成 `circle.sections` 只包含类型、题名、导语与

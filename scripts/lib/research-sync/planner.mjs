@@ -745,7 +745,9 @@ export function plannedResearchRecords({ projectRoot, researchRoot }) {
   const circleLabel = `${publicationRelative} circle editorial`;
   allowedFields(circleEditorial, ['description', 'sections'], circleLabel);
   if (!Array.isArray(circleEditorial.sections)) fail(`${circleLabel}: sections must be an array`);
-  const sectionKinds = new Set();
+  const sectionKinds = new Map();
+  const sectionTitles = new Set();
+  const sectionRecordIds = new Set();
   records.circle = {
     description: requiredString(circleEditorial, 'description', circleLabel),
     sections: circleEditorial.sections.map((rawSection, index) => {
@@ -753,15 +755,25 @@ export function plannedResearchRecords({ projectRoot, researchRoot }) {
       const section = object(rawSection, label);
       allowedFields(section, ['title', 'lead', 'record_kind', 'record_ids'], label);
       const kind = requiredString(section, 'record_kind', label);
-      if (!['military_service', 'hegel_congress'].includes(kind)) fail(`${label}: unsupported record_kind`);
-      if (sectionKinds.has(kind)) fail(`${label}: duplicate section record_kind`);
-      sectionKinds.add(kind);
+      if (!['biography_event', 'military_service', 'hegel_congress'].includes(kind)) fail(`${label}: unsupported record_kind`);
+      const explicitIds = Object.hasOwn(section, 'record_ids');
+      if (sectionKinds.has(kind) && (!explicitIds || !sectionKinds.get(kind))) {
+        fail(`${label}: repeated section record_kind requires explicit record_ids in every section of that kind`);
+      }
+      sectionKinds.set(kind, explicitIds);
+      const title = requiredString(section, 'title', label);
+      if (sectionTitles.has(title)) fail(`${label}: duplicate section title`);
+      sectionTitles.add(title);
       const available = publicPageRecords.filter((item) => item.kind === kind);
-      const selected = Object.hasOwn(section, 'record_ids')
+      const selected = explicitIds
         ? selectReferences(section.record_ids, available, label) : available;
+      for (const { record } of selected) {
+        if (sectionRecordIds.has(record.id)) fail(`${label}: duplicate record reference across circle sections`);
+        sectionRecordIds.add(record.id);
+      }
       return {
         recordKind: kind,
-        title: requiredString(section, 'title', label),
+        title,
         lead: requiredString(section, 'lead', label),
         recordIds: selected.map(({ record }) => record.id),
       };
