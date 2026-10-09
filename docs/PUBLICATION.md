@@ -371,6 +371,7 @@ Release 或外部对象存储中的版本化附件，但其公开选择和维护
 title: 中文书名
 original_title: 原文书名          # 可选
 author: 作者
+cover: /covers/<book_id>.png      # 可选；jpg / png / webp，放在 public/covers/
 original_source: 原文出处          # 可选；缺省则页面不显示这一行
 original_year: '1997'             # 可选，四位年份字符串；原著年份
 work_type: 专著                    # 可选，自由格式；缺省时列表页退回 category 的标签
@@ -397,7 +398,7 @@ errata: [勘误条目]                # 可选
 
 版次记录维护同一网站书籍 ID 下的版本、日期与修订说明；页面展示原则见[架构说明](ARCHITECTURE.md)。
 
-不放置书籍文件；未获许可的正文不进入 `public/`，也不进入 `dist/`。
+书籍以书目记录与封面图的形式公开；成书文件与未获许可的正文不进入 `public/`，也不进入 `dist/`。
 
 ### 小组工作
 
@@ -491,6 +492,6 @@ works、circle，不得重复。入口数组可以为空，不保存路由、事
 
 
 网站书籍选择与 `works` 的正文公开选择相互独立：选择书籍成稿不将 internal_public 正文提升为
-website_public，不读取作品正文、PDF、EPUB或扫描件，也不推导下载许可。同步输出不含 private
-locator 或 publication_scope；撤回后删除生成记录，
+website_public，不读取作品正文、PDF、EPUB或扫描件，也不推导下载许可。封面以 public 路径随记录输出。
+同步输出不含 private locator 或 publication_scope；撤回后删除生成记录，
 全部撤回时生成空数组，不扫描未选择成稿，不保留 public editorial 或旧加载 fallback。

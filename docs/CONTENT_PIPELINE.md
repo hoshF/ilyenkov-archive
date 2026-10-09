@@ -285,7 +285,7 @@ publication sync → astro check → astro build → vitest run
 输出 `.website-input/books.json`。`src/lib/books.ts` 只读取生成输入，按 ID 与版次日期排序，
 编译介绍并派生路由和最新显示版次；分组与展示继续由 public 实现。
 空选择生成空数组，撤回记录后整份输入重写清理；缺少生成输入时失败，不提供旧路径 fallback。
-书籍记录选择不改变 works 正文范围，不读取或复制正文、PDF、EPUB 或扫描件。
+书籍记录选择不改变 works 正文范围；同步器读取所选手稿的 front matter 与介绍，输出书目字段与封面路径。
 
 ## Archive 分类投影
 
