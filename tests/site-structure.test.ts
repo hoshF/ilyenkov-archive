@@ -816,9 +816,14 @@ describe('public navigation', () => {
     const research = main.match(/<section class="home-research"[\s\S]*?<\/section>/)![0];
     const records = [
       { ...getPublicResearchers().find((record) => record.id === 'researcher-andrey-maidansky')!, href: '/research/researchers/andrey-maidansky/' },
+      { ...getPublicResearchers().find((record) => record.id === 'researcher-elena-illesh')!, href: '/research/researchers/elena-illesh/' },
       { ...getPublicIfiNetwork(), href: '/research/ifi/' },
       { ...getPublicReadingsSeries().find((record) => record.id === 'ilyenkov-readings-series')!, href: '/research/readings/' },
     ];
+    const researchHub = readFileSync(builtRoutePath('/research'), 'utf8').match(/<main>([\s\S]*?)<\/main>/)![1];
+    const homeLinks = [...research.matchAll(/<h3\b[^>]*>\s*<a href="([^"]+)"/g)].map(([, href]) => href);
+    const hubLinks = [...researchHub.matchAll(/<h2\b[^>]*>\s*<a href="([^"]+)"/g)].map(([, href]) => href);
+    expect(homeLinks.sort()).toEqual(hubLinks.sort());
     expect([...research.matchAll(/<h3\b/g)].length).toBe(records.length);
     for (const record of records) {
       expect(research).toContain(record.summary);

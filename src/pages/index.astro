@@ -20,11 +20,13 @@ const recentWork = [...issues].sort((left, right) => (
   right.published.localeCompare(left.published) || right.issue - left.issue
 )).slice(0, 3);
 const maidansky = getPublicResearchers().find((record) => record.id === 'researcher-andrey-maidansky');
+const illesh = getPublicResearchers().find((record) => record.id === 'researcher-elena-illesh');
 const ifi = getPublicIfiNetwork();
 const readings = getPublicReadingsSeries().find((record) => record.id === 'ilyenkov-readings-series');
-if (!maidansky || !readings) throw new Error('Homepage public research entities are missing');
+if (!maidansky || !illesh || !readings) throw new Error('Homepage public research entities are missing');
 const research = [
   { title: maidansky.name, summary: maidansky.summary, href: '/research/researchers/andrey-maidansky/' },
+  { title: illesh.name, summary: illesh.summary, href: '/research/researchers/elena-illesh/' },
   { title: ifi.title, summary: ifi.summary, href: '/research/ifi/' },
   { title: readings.title, summary: readings.summary, href: '/research/readings/' },
 ];
