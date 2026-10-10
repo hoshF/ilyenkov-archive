@@ -99,7 +99,7 @@ describe('canonical researcher publication', () => {
     const input = fixture();
     const entry = researcherEntry(input.read(publicationPath));
     const person = canonicalPerson(input.read(personsPath));
-    expect(input.plan().researchers).toEqual([{
+    expect(input.plan().researchers.find((record) => record.id === researcherId)).toEqual({
       editorial: input.read(entry.editorial_path),
       id: researcherId,
       personId,
@@ -110,7 +110,7 @@ describe('canonical researcher publication', () => {
       roles: person.roles,
       researchFields: person.research_fields,
       resources: entry.resource_kinds.map((kind) => ({ kind, url: person.resources[kind] })),
-    }]);
+    });
     expect(ResearchRecordsSchema.safeParse(input.plan()).success).toBe(true);
   });
 

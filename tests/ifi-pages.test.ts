@@ -137,7 +137,7 @@ describe('IFI public detail and research entry', () => {
     expect(links(entry)).toEqual([{ href: '/research/ifi/', label: network.title }]);
     expect(entry).not.toMatch(/<ol\b|<ul\b|<li\b|<article\b|<h3\b/);
     for (const symposium of symposiums) expect(textContent(entry)).not.toContain(symposium.title);
-    expect(sections(main)).toHaveLength(3);
+    expect(sections(main)).toHaveLength(2 + getPublicResearchers().length);
   });
 
   it('retains the researcher and Readings series entries', () => {
@@ -159,7 +159,7 @@ describe('IFI public detail and research entry', () => {
     expect(links(readings)).toEqual([{ href: '/research/readings/', label: series.title }]);
     expect(readings).not.toMatch(/<ol\b|<ul\b|<li\b|<article\b|<h3\b/);
     expect(sections(main).map((section) => section.heading)).toEqual([
-      getPublicIfiNetwork().title, researcher.name, series.title,
+      getPublicIfiNetwork().title, ...getPublicResearchers().map((profile) => profile.name), series.title,
     ]);
   });
 

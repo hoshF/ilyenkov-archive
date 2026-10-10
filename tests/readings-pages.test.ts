@@ -7,6 +7,7 @@ import {
   getPublicIfiNetwork,
   getPublicReadings,
   getPublicReadingsSeries,
+  getPublicResearchers,
   type PublicReadingsSeries,
 } from '../src/lib/research-records';
 import { builtRoutePath, routeExists } from './helpers/pages';
@@ -121,7 +122,7 @@ describe('Readings public series detail and research entry', () => {
     expect(textContent(ifiEntry)).toContain(ifi.title);
     expect(textContent(ifiEntry)).toContain(ifi.summary);
     expect(links(ifiEntry)).toEqual([{ href: '/research/ifi/', label: ifi.title }]);
-    expect([...main.matchAll(/<section\b/g)]).toHaveLength(3);
+    expect([...main.matchAll(/<section\b/g)]).toHaveLength(2 + getPublicResearchers().length);
     expect(routeExists('/research/researchers/')).toBe(false);
   });
 

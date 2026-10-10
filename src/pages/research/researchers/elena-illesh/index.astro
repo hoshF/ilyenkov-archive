@@ -1,0 +1,47 @@
+---
+import { renderPublicMarkdown } from '../../../../lib/markdown';
+import BaseLayout from '../../../../layouts/BaseLayout.astro';
+import TextRecord from '../../../../components/TextRecord.astro';
+import SectionLayout from '../../../../components/SectionLayout.astro';
+import { getPublicResearchers } from '../../../../lib/research-records';
+import { getSiteData } from '../../../../lib/site-data';
+
+const researcher = getPublicResearchers().find((record) => record.id === 'researcher-elena-illesh');
+if (!researcher) throw new Error('Illesh public researcher profile is missing');
+const introduction = researcher.editorial
+  ? await renderPublicMarkdown(researcher.editorial.introduction.join('\n\n')) : undefined;
+const { articles } = await getSiteData();
+// 筛选保留 Archive 的统一顺序：原文年份降序，同年按中文题名、再按 id。
+const translations = articles.filter((document) => document.authorIds.includes(researcher.personId));
+
+---
+
+<BaseLayout title={researcher.name} description={researcher.summary}>
+  <SectionLayout modifier="entity-detail research-profile">
+    <header class="page-header" slot="intro">
+      <h1 class="page-title">{researcher.name}</h1>
+      <p class="record__original">
+        {researcher.originalName}
+        {researcher.latinName && <><br />{researcher.latinName}</>}
+      </p>
+    </header>
+
+    {introduction && <section class="research-series" aria-labelledby="researcher-intro-heading">
+      <h2 id="researcher-intro-heading">简介</h2>
+      <div class="prose prose--section" set:html={introduction.html} />
+    </section>}
+
+    <section class="research-series" aria-labelledby="researcher-translations-heading">
+      <h2 id="researcher-translations-heading">本站译文</h2>
+      {translations.length > 0 ? (
+        <ol class="record-list">
+          {translations.map((document) => (
+            <li><TextRecord document={document} mode="researcher" /></li>
+          ))}
+        </ol>
+      ) : (
+        <div class="prose prose--section"><p>本站暂未公开这位研究者的译文。</p></div>
+      )}
+    </section>
+  </SectionLayout>
+</BaseLayout>

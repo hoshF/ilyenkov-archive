@@ -265,6 +265,7 @@ describe('website-approved data adapter', () => {
     expect(ids).toEqual([
       'ifi-heading',
       'researcher-andrey-maidansky-heading',
+      'researcher-elena-illesh-heading',
       'readings-heading',
     ]);
     for (const id of ids) {
@@ -282,9 +283,10 @@ describe('website-approved data adapter', () => {
     expect(entityTitles).toEqual([
       { href: '/research/ifi/', title: '国际伊里因科夫之友' },
       { href: '/research/researchers/andrey-maidansky/', title: '安德烈·迈丹斯基' },
+      { href: '/research/researchers/elena-illesh/', title: '叶莲娜·伊列什' },
       { href: '/research/readings/', title: '伊里因科夫学术报告会' },
     ]);
-    expect(main.match(/class="record__summary"/g)).toHaveLength(3);
+    expect(main.match(/class="record__summary"/g)).toHaveLength(4);
     expect(declaration('.research-hub .record__original', 'margin')).toBe('4px 0 0');
     expect(declaration('.research-hub .record__summary', 'margin')).toBe('9px 0 0');
 

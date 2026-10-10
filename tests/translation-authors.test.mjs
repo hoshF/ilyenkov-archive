@@ -309,7 +309,9 @@ describe('translation author generation and publication selection', () => {
       expect(generatedIds).not.toContain(id);
     }
     const publicResearcherNames = getPublicResearchers().map((researcher) => researcher.name);
-    for (const author of [oittinen, pavlov, illesh]) {
+    expect(publicResearcherNames).toContain(illesh.name_zh);
+    expect(articles.some((article) => article.authorIds.includes(illesh.person_id))).toBe(true);
+    for (const author of [oittinen, pavlov]) {
       expect(articles.some((article) => article.authorIds.includes(author.person_id))).toBe(true);
       expect(publicResearcherNames).not.toContain(author.name_zh);
     }

@@ -119,7 +119,16 @@ describe('canonical researcher detail and research hub entry', () => {
       expect(translations).not.toContain(`/archive/${id}`);
     }
     const publishedPersonIds = getPublicResearchers().map((researcher) => researcher.personId);
-    for (const personId of ['person-vesa-oittinen', 'person-evgeni-v-pavlov', 'person-elena-illesh']) {
+    expect(publishedPersonIds).toContain('person-elena-illesh');
+    const illeshMain = mainContent(builtPage('/research/researchers/elena-illesh/'));
+    const illeshTranslations = sectionById(illeshMain, 'researcher-translations-heading');
+    expect(links(illeshTranslations).map((link) => link.href)).toEqual(
+      articles.filter((article) => article.authorIds.includes('person-elena-illesh')).map((article) => article.route),
+    );
+    for (const id of ['bankir-1988', 'prezident-chitaet-buharina-1988']) {
+      expect(illeshMain).not.toContain(`/archive/${id}`);
+    }
+    for (const personId of ['person-vesa-oittinen', 'person-evgeni-v-pavlov']) {
       expect(publishedPersonIds).not.toContain(personId);
       expect(articles.some((article) => article.authorIds.includes(personId))).toBe(true);
     }
@@ -152,7 +161,7 @@ describe('canonical researcher detail and research hub entry', () => {
     expect(textContent(readings)).toContain(series.summary);
     expect(links(readings)).toEqual([{ href: '/research/readings/', label: series.title }]);
     expect(main).not.toContain('research-sites-heading');
-    expect([...main.matchAll(/<section\b/g)]).toHaveLength(3);
+    expect([...main.matchAll(/<section\b/g)]).toHaveLength(2 + getPublicResearchers().length);
   });
 
   it('preserves primary navigation, static rendering and the private publication boundary', () => {
