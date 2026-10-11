@@ -163,10 +163,11 @@ describe('IFI public detail and research entry', () => {
     ]);
   });
 
-  it('keeps both pages static and preserves the five primary navigation entries', () => {
+  it('keeps both pages static and preserves the primary navigation entries', () => {
     const expected = [
       { href: '/ilyenkov/', label: '伊里因科夫' },
       { href: '/archive/', label: '档案' },
+      { href: '/glossary/', label: '术语库' },
       { href: '/research/', label: '研究' },
       { href: '/group/', label: '小组' },
       { href: '/books/', label: '书籍' },

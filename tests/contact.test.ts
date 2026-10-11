@@ -104,9 +104,9 @@ describe('following and contacting the group', () => {
     }
   });
 
-  it('keeps the five content sections as the only primary navigation destinations', () => {
+  it('keeps the content sections as the only primary navigation destinations', () => {
     expect(site.navigation.map(({ href }) => href))
-      .toEqual(['/ilyenkov/', '/archive/', '/research/', '/group/', '/books/']);
+      .toEqual(['/ilyenkov/', '/archive/', '/glossary/', '/research/', '/group/', '/books/']);
     for (const route of ['/', '/contact/', '/group/', '/updates/']) {
       const html = builtPage(route);
       const nav = html.match(/<nav\b[^>]*aria-label="主要导航"[^>]*>([\s\S]*?)<\/nav>/)![1];

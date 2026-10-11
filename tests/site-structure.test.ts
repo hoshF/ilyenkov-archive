@@ -4,6 +4,7 @@ import matter from 'gray-matter';
 import { describe, expect, it } from 'vitest';
 import { generatedArticleIds, resolveGeneratedArticlePath } from '../src/lib/article-source';
 import { getBooks } from '../src/lib/books';
+import { getGlossary } from '../src/lib/glossary';
 import { site, readEditorialJson } from '../src/lib/editorial';
 import { adjacentIssues, getGroupIssues, GroupIssueSchema } from '../src/lib/group';
 import { getPublicIlyenkov, getPublicResearchers, getPublicIfiNetwork, getPublicReadingsSeries } from '../src/lib/research-records';
@@ -175,7 +176,7 @@ describe('website-approved data adapter', () => {
     const nav = notFound.match(/<nav[^>]*aria-label="主要导航"[^>]*>([\s\S]*?)<\/nav>/)![1];
     expect(nav).not.toContain('aria-current');
     expect([...nav.matchAll(/<a[^>]*>([^<]*)<\/a>/g)].map(([, label]) => label))
-      .toEqual(['伊里因科夫', '档案', '研究', '小组', '书籍']);
+      .toEqual(['伊里因科夫', '档案', '术语库', '研究', '小组', '书籍']);
 
     // 纯静态：没有脚本，也不在本轮引入 canonical / OG / robots meta。
     expect(notFound).not.toContain('<script');
@@ -569,6 +570,18 @@ describe('public navigation', () => {
     expect(active['border-bottom']).toBeUndefined();
   });
 
+  it('marks the glossary as the current section on its index and entry pages', () => {
+    const routes = ['/glossary/', ...getGlossary().slice(0, 1).map((entry) => entry.route)];
+    for (const route of routes) {
+      const html = readFileSync(builtRoutePath(route), 'utf8');
+      const nav = html.match(/<nav\b[^>]*aria-label="主要导航"[^>]*>([\s\S]*?)<\/nav>/)![1];
+      const current = [...nav.matchAll(/<a\b[^>]*>/g)]
+        .filter(([link]) => /\baria-current="page"/.test(link));
+      expect(current, route).toHaveLength(1);
+      expect(current[0][0], route).toContain('href="/glossary/"');
+    }
+  });
+
   it('gives a sidebar only to pages that have a real one', () => {
     const read = (route: string) => readFileSync(path.join(process.cwd(), 'dist', route), 'utf8')
       .match(/<main>([\s\S]*?)<\/main>/)![1];
@@ -669,7 +682,7 @@ describe('public navigation', () => {
     }
   });
 
-  it('uses a visible publication name above the five-item directory', () => {
+  it('uses a visible publication name above the primary directory', () => {
     const layout = layoutSource('BaseLayout');
     const homepage = readFileSync(path.join(process.cwd(), 'dist', 'index.html'), 'utf8');
     const header = homepage.match(/<header class="site-header">([\s\S]*?)<\/header>/)![1];
@@ -701,7 +714,7 @@ describe('public navigation', () => {
     expect(homepage.match(/<footer class="site-footer">([\s\S]*?)<\/footer>/)![1]).toContain(site.name);
     expect(layout).toContain('site-name__text');
 
-    // 五个一级栏目仍是页眉的主体，且顺序与 site.navigation 一致。
+    // 一级栏目仍是页眉的主体，且顺序与 site.navigation 一致。
     const nav = header.match(/<nav[^>]*aria-label="主要导航"[^>]*>([\s\S]*?)<\/nav>/)![1];
     expect([...nav.matchAll(/<a[^>]*>([^<]*)<\/a>/g)].map(([, label]) => label))
       .toEqual(site.navigation.map((item) => item.label));
@@ -722,7 +735,7 @@ describe('public navigation', () => {
     expect(link.color).toBe('var(--ink-soft)');
     expect(link['font-weight']).toBeUndefined();
 
-    // 手机宽度下导航另起一行、退回 14px 并收紧间距，320px 仍能容纳五项。
+    // 手机宽度下导航另起一行、退回 14px 并收紧间距，栏目可自然换行。
     const mobileNav = declarationsFor('.site-header__nav', '@media (max-width: 600px)');
     expect(mobileNav['font-size']).toBeUndefined();
     const mobileLink = declarationsFor('.site-header__nav a', '@media (max-width: 600px)');
@@ -833,11 +846,11 @@ describe('public navigation', () => {
     expect(main).not.toMatch(/从哪里开始|持续关注|最近发布|home-content__note/);
   });
 
-  it('keeps the five primary navigation destinations while adding updates contextually', () => {
+  it('keeps the primary navigation destinations while adding updates contextually', () => {
     const homepage = readFileSync(path.join(process.cwd(), 'dist', 'index.html'), 'utf8');
     const nav = homepage.match(/<nav class="site-header__nav"[\s\S]*?<\/nav>/)![0];
     expect(site.navigation.map(({ href }) => href))
-      .toEqual(['/ilyenkov/', '/archive/', '/research/', '/group/', '/books/']);
+      .toEqual(['/ilyenkov/', '/archive/', '/glossary/', '/research/', '/group/', '/books/']);
     expect([...nav.matchAll(/href="([^"]+)"/g)].map(([, href]) => href))
       .toEqual(site.navigation.map(({ href }) => href));
     expect(nav).not.toContain('href="/updates/"');

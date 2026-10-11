@@ -1,0 +1,184 @@
+---
+import BaseLayout from '../../../layouts/BaseLayout.astro';
+import Breadcrumbs from '../../../components/Breadcrumbs.astro';
+import SectionLayout from '../../../components/SectionLayout.astro';
+import { getGlossary, type GlossaryEntry } from '../../../lib/glossary';
+import { NAME_TYPE_LABELS } from '../../../lib/glossary-query';
+
+export function getStaticPaths() {
+  return getGlossary().map((entry) => ({
+    params: { collection: entry.collection, id: entry.id },
+    props: { entry },
+  }));
+}
+
+interface Props { entry: GlossaryEntry; }
+const { entry } = Astro.props;
+const nameTypeLabel = entry.type ? NAME_TYPE_LABELS[entry.type] : undefined;
+---
+
+<BaseLayout
+  title={`${entry.zh_preferred}｜术语库`}
+  description={`${entry.zh_preferred}（${entry.canonical}）的译名与用法查询。`}
+>
+  <SectionLayout modifier="glossary-detail-page">
+    <Breadcrumbs slot="breadcrumb" items={[
+      { label: '术语库', href: '/glossary/' },
+      { label: entry.zh_preferred },
+    ]} />
+
+    <article class="glossary-detail">
+      <header class="glossary-detail__header">
+        <h1 class="page-title">{entry.zh_preferred}</h1>
+      </header>
+
+      <dl class="glossary-detail__fields">
+        <div>
+          <dt>原词</dt>
+          <dd><bdi dir="auto">{entry.canonical}</bdi></dd>
+        </div>
+        <div>
+          <dt>类别</dt>
+          <dd>{entry.categoryLabel}</dd>
+        </div>
+        {entry.category === 'concepts' && (
+          <div>
+            <dt>作者</dt>
+            <dd>{entry.collectionLabel}</dd>
+          </div>
+        )}
+        {entry.category === 'names' && nameTypeLabel && (
+          <div>
+            <dt>类型</dt>
+            <dd>{nameTypeLabel}</dd>
+          </div>
+        )}
+        {entry.zh_alternatives.length > 0 && (
+          <div>
+            <dt>其他中文形式</dt>
+            <dd>
+              <ul class="glossary-detail__forms" role="list">
+                {entry.zh_alternatives.map((value) => <li><bdi dir="auto">{value}</bdi></li>)}
+              </ul>
+            </dd>
+          </div>
+        )}
+        {entry.forms.length > 0 && (
+          <div>
+            <dt>外文词形</dt>
+            <dd>
+              <ul class="glossary-detail__forms" role="list">
+                {entry.forms.map((value) => <li><bdi dir="auto">{value}</bdi></li>)}
+              </ul>
+            </dd>
+          </div>
+        )}
+      </dl>
+
+      {entry.notes.trim().length > 0 && (
+        <section class="glossary-detail__notes" aria-labelledby="glossary-notes-heading">
+          <h2 id="glossary-notes-heading">用法与译名说明</h2>
+          <p>{entry.notes}</p>
+        </section>
+      )}
+
+      <p class="glossary-detail__return"><a href="/glossary/">返回术语库</a></p>
+    </article>
+  </SectionLayout>
+</BaseLayout>
+
+<script>
+  if (document.referrer) {
+    const previous = new URL(document.referrer);
+    if (previous.origin === window.location.origin && previous.pathname === '/glossary/') {
+      const destination = new URL('/glossary/', window.location.origin);
+      for (const key of ['q', 'category', 'collection', 'type']) {
+        const value = previous.searchParams.get(key);
+        if (value) destination.searchParams.set(key, value);
+      }
+      document.querySelectorAll<HTMLAnchorElement>('.breadcrumbs a[href="/glossary/"], .glossary-detail__return a')
+        .forEach((link) => { link.href = `${destination.pathname}${destination.search}`; });
+    }
+  }
+</script>
+
+<style>
+  .glossary-detail {
+    min-width: 0;
+    overflow-wrap: anywhere;
+  }
+
+  .glossary-detail__header {
+    margin-bottom: 28px;
+  }
+
+  .glossary-detail__fields {
+    margin: 0;
+    font-size: var(--text-body);
+    line-height: 1.65;
+  }
+
+  .glossary-detail__fields > div {
+    display: grid;
+    grid-template-columns: 7rem minmax(0, 1fr);
+    gap: 12px 24px;
+  }
+
+  .glossary-detail__fields > div + div {
+    margin-top: 20px;
+  }
+
+  .glossary-detail__fields dt {
+    color: var(--muted);
+    font-size: var(--text-meta);
+    padding-top: 2px;
+  }
+
+  .glossary-detail__fields dd {
+    min-width: 0;
+    margin: 0;
+  }
+
+  .glossary-detail__forms {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+
+  .glossary-detail__forms li + li {
+    margin-top: 6px;
+  }
+
+  .glossary-detail__notes {
+    margin-top: 36px;
+  }
+
+  .glossary-detail__notes h2 {
+    font-size: var(--text-section);
+    margin: 0 0 16px;
+  }
+
+  .glossary-detail__notes p {
+    margin: 0;
+    white-space: pre-wrap;
+    line-height: 1.8;
+  }
+
+  .glossary-detail__return {
+    margin: 40px 0 0;
+    padding-top: 20px;
+    border-top: 1px solid var(--line);
+    font-size: var(--text-secondary);
+  }
+
+  @media (max-width: 600px) {
+    .glossary-detail__fields > div {
+      grid-template-columns: minmax(0, 1fr);
+      gap: 4px;
+    }
+
+    .glossary-detail__fields dt {
+      padding-top: 0;
+    }
+  }
+</style>

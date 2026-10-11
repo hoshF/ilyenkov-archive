@@ -167,6 +167,7 @@ describe('canonical researcher detail and research hub entry', () => {
   it('preserves primary navigation, static rendering and the private publication boundary', () => {
     const expected = [
       { href: '/ilyenkov/', label: '伊里因科夫' }, { href: '/archive/', label: '档案' },
+      { href: '/glossary/', label: '术语库' },
       { href: '/research/', label: '研究' }, { href: '/group/', label: '小组' }, { href: '/books/', label: '书籍' },
     ];
     expect(site.navigation).toEqual(expected);

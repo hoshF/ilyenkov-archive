@@ -1,0 +1,211 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import SectionLayout from '../../components/SectionLayout.astro';
+import { getGlossary } from '../../lib/glossary';
+import { getGlossaryFacets, NAME_TYPE_LABELS } from '../../lib/glossary-query';
+
+const entries = getGlossary();
+const facets = getGlossaryFacets(entries);
+// 用法说明只在详情页展示，不随查询数据发送到浏览器。
+const searchData = JSON.stringify(entries.map((entry) => ({ ...entry, notes: '' })))
+  .replaceAll('<', '\\u003c');
+---
+
+<BaseLayout title="术语库" description="查询中文译名、外文原词、词形与用法说明，可按类别、作者和名称类型筛选。">
+  <SectionLayout modifier="glossary-index-page">
+    <header class="page-header" slot="intro">
+      <h1 class="page-title">术语库</h1>
+      <p class="lead">查译名、原词与用法。</p>
+    </header>
+
+    <section class="glossary-index" data-glossary-index aria-label="术语查询">
+      <form class="glossary-search" role="search" hidden>
+        <label for="glossary-query">搜索术语</label>
+        <div class="glossary-search__query">
+          <input id="glossary-query" name="q" type="search" placeholder="中文译名、外文原词或词形" autocomplete="off" />
+          <button type="submit">搜索</button>
+        </div>
+        <details class="glossary-search__filter-panel">
+          <summary><span data-glossary-filter-summary>筛选类别、作者与名称类型</span></summary>
+          <div class="glossary-search__filters">
+          <div>
+            <label for="glossary-category">类别</label>
+            <select id="glossary-category" name="category">
+              <option value="">全部类别</option>
+              {facets.categories.map((facet) => <option value={facet.id}>{facet.label}</option>)}
+            </select>
+          </div>
+          <div>
+            <label for="glossary-collection">作者</label>
+            <select id="glossary-collection" name="collection">
+              <option value="">全部作者</option>
+              {facets.authors.map((facet) => <option value={facet.id}>{facet.label}</option>)}
+            </select>
+          </div>
+          <div>
+            <label for="glossary-type">名称类型</label>
+            <select id="glossary-type" name="type">
+              <option value="">全部类型</option>
+              {facets.types.map((facet) => <option value={facet.id}>{facet.label}</option>)}
+            </select>
+          </div>
+          <button type="reset">重置</button>
+          </div>
+        </details>
+      </form>
+      <noscript><p>搜索与筛选需要启用 JavaScript；仍可浏览下方词条并打开详情。</p></noscript>
+      <p class="glossary-status" role="status" aria-live="polite">共 {entries.length} 个词条</p>
+      <p data-glossary-empty hidden={entries.length > 0}>
+        {entries.length > 0 ? '没有找到匹配的术语，请调整关键词或筛选条件。' : '暂无公开的术语。'}
+      </p>
+      <ul class="glossary-list" role="list" data-glossary-list>
+        {entries.map((entry) => (
+          <li data-glossary-entry={entry.route}>
+            <article>
+              <h2><a href={entry.route}>{entry.zh_preferred}</a></h2>
+              <p class="glossary-list__original"><bdi dir="auto">{entry.canonical}</bdi></p>
+              <p class="glossary-list__context">
+                <span>{entry.categoryLabel}</span>
+                {entry.category === 'concepts' && <span>{entry.collectionLabel}</span>}
+                {entry.category === 'names' && entry.type && <span>{NAME_TYPE_LABELS[entry.type]}</span>}
+              </p>
+            </article>
+          </li>
+        ))}
+      </ul>
+      <script is:inline type="application/json" data-glossary-data set:html={searchData} />
+    </section>
+  </SectionLayout>
+</BaseLayout>
+
+<script>
+  import { searchGlossary, type GlossaryEntry, type GlossaryCategory, type GlossaryNameType } from '../../lib/glossary-query';
+
+  const root = document.querySelector<HTMLElement>('[data-glossary-index]');
+  if (root) {
+    const form = root.querySelector<HTMLFormElement>('form')!;
+    const query = form.querySelector<HTMLInputElement>('[name="q"]')!;
+    const category = form.querySelector<HTMLSelectElement>('[name="category"]')!;
+    const collection = form.querySelector<HTMLSelectElement>('[name="collection"]')!;
+    const type = form.querySelector<HTMLSelectElement>('[name="type"]')!;
+    const filterPanel = form.querySelector<HTMLDetailsElement>('details')!;
+    const filterSummary = form.querySelector<HTMLElement>('[data-glossary-filter-summary]')!;
+    const status = root.querySelector<HTMLElement>('[role="status"]')!;
+    const empty = root.querySelector<HTMLElement>('[data-glossary-empty]')!;
+    const list = root.querySelector<HTMLUListElement>('[data-glossary-list]')!;
+    const entries: GlossaryEntry[] = JSON.parse(root.querySelector('[data-glossary-data]')!.textContent!);
+    const items = new Map([...list.querySelectorAll<HTMLLIElement>('[data-glossary-entry]')]
+      .map((item) => [item.dataset.glossaryEntry!, item]));
+
+    const syncFilters = () => {
+      collection.disabled = category.value !== '' && category.value !== 'concepts';
+      type.disabled = category.value !== '' && category.value !== 'names';
+      if (collection.disabled) collection.value = '';
+      if (type.disabled) type.value = '';
+    };
+
+    const update = (saveLocation = true) => {
+      syncFilters();
+      const results = searchGlossary(entries, {
+        query: query.value,
+        category: (category.value || undefined) as GlossaryCategory | undefined,
+        collection: collection.value || undefined,
+        type: (type.value || undefined) as GlossaryNameType | undefined,
+      });
+      const visible = new Set(results.map((entry) => entry.route));
+      for (const [route, item] of items) item.hidden = !visible.has(route);
+      const fragment = document.createDocumentFragment();
+      for (const entry of results) fragment.append(items.get(entry.route)!);
+      list.append(fragment);
+      empty.hidden = results.length > 0;
+      const active = query.value.trim() || category.value || collection.value || type.value;
+      status.textContent = `${active ? '找到' : '共'} ${results.length} 个词条`;
+      const selected = [category, collection, type]
+        .filter((control) => control.value)
+        .map((control) => control.selectedOptions[0]!.textContent);
+      filterSummary.textContent = selected.length > 0
+        ? `筛选：${selected.join(' · ')}` : '筛选类别、作者与名称类型';
+      if (saveLocation) {
+        const url = new URL(window.location.href);
+        for (const control of [query, category, collection, type]) {
+          const value = control.value.trim();
+          if (value) url.searchParams.set(control.name, value);
+          else url.searchParams.delete(control.name);
+        }
+        window.history.replaceState(null, '', `${url.pathname}${url.search}${url.hash}`);
+      }
+    };
+
+    const readLocation = () => {
+      const params = new URL(window.location.href).searchParams;
+      query.value = params.get('q') ?? '';
+      for (const control of [category, collection, type]) {
+        const value = params.get(control.name) ?? '';
+        control.value = [...control.options].some((option) => option.value === value) ? value : '';
+      }
+      // 单独的作者或名称类型链接也能打开相应分类。
+      if (!category.value) {
+        if (collection.value) category.value = 'concepts';
+        else if (type.value) category.value = 'names';
+      }
+      update(false);
+    };
+
+    query.addEventListener('input', (event) => {
+      if (!(event instanceof InputEvent && event.isComposing)) update();
+    });
+    query.addEventListener('compositionend', () => update());
+    category.addEventListener('change', () => update());
+    collection.addEventListener('change', () => {
+      if (collection.value) category.value = 'concepts';
+      update();
+    });
+    type.addEventListener('change', () => {
+      if (type.value) category.value = 'names';
+      update();
+    });
+    form.addEventListener('submit', (event) => { event.preventDefault(); update(); });
+    form.addEventListener('reset', (event) => {
+      event.preventDefault();
+      for (const control of [query, category, collection, type]) control.value = '';
+      update();
+    });
+    window.addEventListener('popstate', readLocation);
+    readLocation();
+    filterPanel.open = window.matchMedia('(min-width: 601px)').matches;
+    form.hidden = false;
+  }
+</script>
+
+<style>
+  .glossary-index [hidden] { display: none; }
+  .glossary-search { margin-bottom: 24px; }
+  .glossary-search label { display: block; margin-bottom: 8px; font-size: var(--text-meta); color: var(--ink-soft); }
+  .glossary-search__query { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 8px; }
+  .glossary-search input, .glossary-search select, .glossary-search button {
+    min-width: 0; min-height: 44px; padding: 10px 12px; border: 1px solid var(--line);
+    border-radius: 3px; background: white; color: var(--ink); font: inherit;
+  }
+  .glossary-search select { width: 100%; }
+  .glossary-search button { cursor: pointer; }
+  .glossary-search select:disabled { background: var(--paper); color: var(--muted); }
+  .glossary-search input:focus-visible, .glossary-search select:focus-visible, .glossary-search button:focus-visible {
+    outline: 2px solid var(--accent); outline-offset: 2px;
+  }
+  .glossary-search__filter-panel { margin-top: 12px; }
+  .glossary-search__filter-panel summary { min-height: 44px; padding: 12px 0; color: var(--accent); font-size: var(--text-meta); cursor: pointer; overflow-wrap: anywhere; }
+  .glossary-search__filter-panel summary:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+  .glossary-search__filters { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)) auto; align-items: end; gap: 12px; margin-top: 8px; }
+  .glossary-status { margin: 0 0 12px; color: var(--muted); font-size: var(--text-meta); }
+  .glossary-list { margin: 0; padding: 0; list-style: none; }
+  .glossary-list li { padding: 20px 0; border-bottom: 1px solid var(--line); overflow-wrap: anywhere; }
+  .glossary-list h2 { margin: 0; font-size: var(--text-item); line-height: 1.5; }
+  .glossary-list h2 a { text-decoration: none; }
+  .glossary-list h2 a:hover { text-decoration: underline; }
+  .glossary-list__original { margin: 6px 0 0; color: var(--ink-soft); font-size: var(--text-body); line-height: 1.6; }
+  .glossary-list__context { display: flex; flex-wrap: wrap; gap: 4px 16px; margin: 10px 0 0; color: var(--muted); font-size: var(--text-meta); line-height: 1.6; }
+  @media (max-width: 600px) {
+    .glossary-search__filters { grid-template-columns: minmax(0, 1fr); }
+    .glossary-search__filters button { justify-self: start; }
+  }
+</style>
