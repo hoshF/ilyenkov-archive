@@ -7,7 +7,7 @@
 
 ## private 公开接口
 
-private 根目录的 `web/publication.json` 是译文、结构化研究与网站书籍记录的唯一发布选择入口：
+private 根目录的 `web/publication.json` 是获准 private 内容的唯一网站发布选择入口：
 
 | 字段 | 内容 |
 | --- | --- |
@@ -15,6 +15,7 @@ private 根目录的 `web/publication.json` 是译文、结构化研究与网站
 | `works` | 译文的 `work_id`、`publication_scope` 与 `work_json_path` |
 | `records` | 研究记录的公开身份、范围、类型、定位、公开显示文字、来源与成稿选择 |
 | `books` | 网站书籍记录的 book_id、publication_scope 与 editorial_path |
+| `glossary` | 可选的术语表选择：`publication_scope`、`source_paths` |
 | `timeline` | 必选的年表记录类型与成稿选择：`record_kinds`、`editorial_path` |
 | `works_catalog` | 必选的作品目录成稿选择：`editorial_path` |
 | `life` | 必选的生平成稿选择：`editorial_path` |
@@ -349,6 +350,38 @@ website_public 选择只允许 `web/editorial/archive-taxonomy.json`，实际文
 未定义词条或重复指派均失败。未选择 taxonomy 时不读取文件且撤回生成输入。
 正常同步遇到错误会移除旧 taxonomy 并失败；--check 只报告不改写。
 Archive 构建必须有有效的生成 taxonomy，不保留 public 成稿或 fallback。
+
+## 术语库的公开字段
+
+`glossary` 是可选根对象，只接受 `publication_scope` 与 `source_paths`；只有
+`publication_scope = website_public` 时读取所选术语表。`source_paths` 为不重复的路径数组，可以为空。
+路径相对 private 根目录，必须为 `glossary/<slug>.json`；`slug` 使用小写字母、数字和连字符，
+不得有首尾或连续连字符。实际文件必须在 private 的 `glossary/` 内，不得通过符号链接越出该目录。
+
+private 术语表是词条内容的唯一手工维护来源。表须为词条数组，同表 `id` 不得重复；
+只输出 `status = approved` 的条目。跨表同名或同 ID 的词条分别保留，以 `(collection, id)`
+共同确定公开身份，不在原表另加网站身份、类别或作者字段。
+
+生成的 `.website-input/glossary.json` 为词条数组，每条只接受以下字段：
+
+| 字段 | 契约 |
+| --- | --- |
+| `collection` | 从所选文件名去除 `.json` 派生的表标识 |
+| `id` | 原有词条 ID；沿用表标识的 slug 格式 |
+| `canonical` | 非空外文原词或名称 |
+| `forms` | 外文词形与固定形式的字符串数组，可以为空，成员不得为空 |
+| `zh_preferred` | 非空中文主译 |
+| `zh_alternatives` | 其他中文形式的字符串数组，可以为空，成员不得为空 |
+| `notes` | 保留原文的用法与译名说明，可以为空字符串 |
+| `type` | 只在 `collection = glossary` 时输出且必需；允许 `person`、`organization`、`institution`、`work`、`journal` |
+
+不输出 `status`、private 路径、发布选择字段或原表的其他字段。所选 `approved` 条目的公开字段
+缺失或无效时同步失败。`notes` 作为普通文字展示，其中的参见不自动建立关系、读取文件或发布其他词条。
+类别、作者显示标签与详情路由由 public 从 `collection` 和 `id` 派生，不作为手工内容维护。
+
+未选择根对象、选择非 `website_public` 或路径数组为空时生成空数组。撤回表、删除词条或撤销
+`approved` 后，同步移除对应生成条目。正常同步遇到无效输入时删除旧术语生成输入并失败；
+`--check` 只报告，不改写。页面只读取生成输入，缺失或无效时失败，不提供 private 读取或旧内容 fallback。
 
 ## 书籍与正式成果
 

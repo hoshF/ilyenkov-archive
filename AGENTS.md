@@ -31,6 +31,12 @@ Book selections do not authorize translation bodies or copy PDFs, EPUBs or scans
 Archive vocabulary and article classifications belong to private `web/editorial/archive-taxonomy.json`,
 selected by `archive_taxonomy` and projected into `.website-input/archive-taxonomy.json`. References
 must match approved generated articles and cannot authorize them. Public only implements filtering and display.
+The glossary syncer reads the optional `glossary` selection and projects only `approved` entries
+from explicitly selected `website_public` tables into `.website-input/glossary.json`. Private
+`glossary/` tables remain the only manually maintained term source. Entries use collection and
+ID together as identity; public derives category, author labels, ordering and routes. Pages read
+only the generated input and fail when it is missing or invalid. Notes remain literal usage
+text on detail pages; search covers the preferred translation, canonical term and other forms.
 Other public editorial inputs remain here.
 
 [docs/PUBLICATION.md](docs/PUBLICATION.md) defines publication permissions and field contracts.
@@ -56,7 +62,7 @@ so external JSON changes may require a dev-server restart. Private changes need
 
 Shared entry points:
 
-- `scripts/lib/` — paths, validation, and the write/`--check` shell both syncers use;
+- `scripts/lib/` — paths, validation, and the write/`--check` shell syncers use;
   `research-sync/` holds the research planner and source resolution.
 - `src/lib/cache.ts` — production-build data caching.
 - `tests/helpers/` — page sources (`pages.ts`), parsed stylesheet (`styles.ts`), and private

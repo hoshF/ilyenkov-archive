@@ -10,7 +10,8 @@ GitHub 仓库为 `hoshF/ilyenkov-archive`；本地目录 `Ilyenkov-public` 与�
 
 - **public**：网站页面、组件、样式、其余公开编辑介绍、小组记录，以及静态构建和部署。
 - **private**：canonical 研究事实、原文、翻译、审校、来源与权利证据；统一公开接口为根目录的
-  `web/publication.json`，其中 `works` 选择译文，`records` 选择研究记录，`books` 选择网站书籍成稿；根对象 `timeline` 指定
+  `web/publication.json`，其中 `works` 选择译文，`records` 选择研究记录，`books` 选择网站书籍成稿，
+  `glossary` 选择术语源表；根对象 `timeline` 指定
   年表采用的获准记录类型与成稿；`works_catalog`、`life`、`circle` 分别指定作品目录、生平、
   交往与活动成稿。canonical 事实与原文、译文保持各自的维护位置；这些页面及 IFI、Readings、研究者及 Ilyenkov 总页的
   公开文字由 `web/editorial/` 维护，经 `editorial_path` 明确选择后同步。生平分期、主题范围与
@@ -18,12 +19,16 @@ GitHub 仓库为 `hoshF/ilyenkov-archive`；本地目录 `Ilyenkov-public` 与�
 - **生成输入**：`web/publication.json` 中 `website_public` 条目同步到 `.website-input/`；该目录与构建产物
   `dist/` 均不进入 Git。网页公开许可不等于公共 Git 仓库收录许可。
 
+术语内容只在 private `glossary/` 的原表维护；公开投影与更新步骤见
+[术语库同步与查询](docs/CONTENT_PIPELINE.md#术语库同步与查询)。
+
 ## 常用命令
 
 ```sh
 npm ci
 npm run dev                # 后台开发服务器；dev:status / dev:logs / dev:stop 管理它
-npm run verify             # 同步与类型检查 → 静态构建 → 测试
+npm run publication:sync   # 按 private 发布选择更新生成输入
+npm run verify             # 同步与类型检查 → 静态构建与搜索索引 → 测试
 npm run publication:check  # 比较生成输入，不改写
 npm run deploy             # 完整验证通过后，Direct Upload 到 Production
 ```

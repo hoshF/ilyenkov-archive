@@ -241,11 +241,11 @@ RSS 不读取文章正文或 private-only 元数据，权限与日期约束见�
 
 ## 命令顺序
 
-`publication:sync` 依次执行译文、研究与书籍同步器；`publication:prepare` 复用该命令。`check`、`test`
+`publication:sync` 依次执行译文、研究、书籍、Archive 分类与术语同步器；`publication:prepare` 复用该命令。`check`、`test`
 与 `build` 均先同步。`verify` 的实际顺序为：
 
 ```text
-publication sync → astro check → astro build → vitest run
+publication sync → astro check → astro build → search:index → vitest run
 ```
 
 `publication:check` 仅比较生成输入，退出码 1 表示输入过期，2 表示同步失败；不改写文件。
@@ -295,3 +295,36 @@ publication sync → astro check → astro build → vitest run
 未选择时移除该生成文件；无效引用在正常同步时清除旧输入并失败，--check 不改写。
 `src/lib/archive-taxonomy.ts` 只读取生成输入，派生词条、命中数与筛选路由。
 分类人物不参与 authorIds；文章事实仍来自既有 articles 输入。
+
+## 术语库同步与查询
+
+`web/publication.json` 的可选 `glossary` 根对象选择 `website_public` 的术语表。
+`scripts/sync-glossary.mjs` 只投影所选表中的 `approved` 条目，输出
+`.website-input/glossary.json`；同步器与读取端共用 `src/lib/glossary-record.mjs` 校验公开字段。
+路径、字段与撤回规则见[术语库的公开字段](PUBLICATION.md#术语库的公开字段)。
+
+```text
+private glossary 源表 + web/publication.json 的 glossary 选择
+  │  publication:sync → sync-glossary.mjs
+  ▼
+.website-input/glossary.json
+  │  glossary-record.mjs 校验 → glossary.ts 读取 → glossary-query.ts 派生
+  ▼
+/glossary/ 列表与浏览器查询 + /glossary/<collection>/<id>/ 静态详情
+```
+
+`getGlossary()` 只读取生成输入，按中文主译、原词、表标识、词条 ID 保持稳定次序。
+`collection = glossary` 派生为专名与体制词，`terms` 为通用学科术语，其他表为作者理论概念。
+分类与作者标签、名称类型标签、详情路由和筛选项由 public 派生，不保存到 private 词条或生成输入。
+
+浏览器按类别、作者与名称类型筛选；搜索先匹配 `zh_preferred` 与 `canonical`，再匹配
+`zh_alternatives` 与 `forms`。同一层内按完整匹配、前缀匹配、包含匹配排列，同等级沿用规范次序。
+`notes` 不参与搜索，其原文不纳入列表页的浏览器查询数据，只在详情页按普通文字渲染，
+不自动解析参见或建立词条关系。查询与筛选保存在列表 URL 中；从列表打开详情后，返回链接保留查询条件。
+
+未选择、非 `website_public` 或空路径选择生成空数组；撤回表或 `approved` 条目后重写输入清理旧词条。
+正常同步遇到无效输入时删除旧生成文件并失败，`publication:check` 不改写文件；读取端遇到缺失或
+无效输入时失败，不读取 private 源表或旧内容副本。
+
+维护时只修改 private 术语源表与 `web/publication.json` 的选择，再在 public 执行
+`npm run publication:sync` 更新生成输入，执行 `npm run verify` 验证网站。不手工修改生成数据或静态产物。
