@@ -2,12 +2,15 @@
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import SectionLayout from '../../components/SectionLayout.astro';
 import { getGlossary } from '../../lib/glossary';
-import { getGlossaryFacets, NAME_TYPE_LABELS } from '../../lib/glossary-query';
+import { getGlossaryFacets, NAME_TYPE_LABELS, type GlossarySearchEntry } from '../../lib/glossary-query';
 
 const entries = getGlossary();
 const facets = getGlossaryFacets(entries);
-// 用法说明只在详情页展示，不随查询数据发送到浏览器。
-const searchData = JSON.stringify(entries.map((entry) => ({ ...entry, notes: '' })))
+// 浏览器只接收搜索、排序与筛选所需字段。
+const searchEntries: GlossarySearchEntry[] = entries.map(({
+  collection, id, canonical, forms, zh_preferred, zh_alternatives, category, type, route,
+}) => ({ collection, id, canonical, forms, zh_preferred, zh_alternatives, category, type, route }));
+const searchData = JSON.stringify(searchEntries)
   .replaceAll('<', '\\u003c');
 ---
 
@@ -79,7 +82,7 @@ const searchData = JSON.stringify(entries.map((entry) => ({ ...entry, notes: '' 
 </BaseLayout>
 
 <script>
-  import { searchGlossary, type GlossaryEntry, type GlossaryCategory, type GlossaryNameType } from '../../lib/glossary-query';
+  import { searchGlossary, type GlossarySearchEntry, type GlossaryCategory, type GlossaryNameType } from '../../lib/glossary-query';
 
   const root = document.querySelector<HTMLElement>('[data-glossary-index]');
   if (root) {
@@ -93,7 +96,7 @@ const searchData = JSON.stringify(entries.map((entry) => ({ ...entry, notes: '' 
     const status = root.querySelector<HTMLElement>('[role="status"]')!;
     const empty = root.querySelector<HTMLElement>('[data-glossary-empty]')!;
     const list = root.querySelector<HTMLUListElement>('[data-glossary-list]')!;
-    const entries: GlossaryEntry[] = JSON.parse(root.querySelector('[data-glossary-data]')!.textContent!);
+    const entries: GlossarySearchEntry[] = JSON.parse(root.querySelector('[data-glossary-data]')!.textContent!);
     const items = new Map([...list.querySelectorAll<HTMLLIElement>('[data-glossary-entry]')]
       .map((item) => [item.dataset.glossaryEntry!, item]));
 
@@ -183,8 +186,8 @@ const searchData = JSON.stringify(entries.map((entry) => ({ ...entry, notes: '' 
   .glossary-search label { display: block; margin-bottom: 8px; font-size: var(--text-meta); color: var(--ink-soft); }
   .glossary-search__query { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 8px; }
   .glossary-search input, .glossary-search select, .glossary-search button {
-    min-width: 0; min-height: 44px; padding: 10px 12px; border: 1px solid var(--line);
-    border-radius: 3px; background: white; color: var(--ink); font: inherit;
+    min-width: 0; min-height: 44px; padding: 10px 12px; border: 1px solid var(--control-border);
+    border-radius: 3px; background: var(--control-bg); color: var(--ink); font: inherit;
   }
   .glossary-search select { width: 100%; }
   .glossary-search button { cursor: pointer; }

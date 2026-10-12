@@ -38,6 +38,11 @@ export type GlossaryEntry = GeneratedGlossaryEntry & {
   route: string;
 };
 
+export type GlossarySearchEntry = Pick<GlossaryEntry,
+  'collection' | 'id' | 'canonical' | 'forms' | 'zh_preferred' | 'zh_alternatives'
+  | 'category' | 'type' | 'route'
+>;
+
 export function toGlossaryEntry(record: GeneratedGlossaryEntry): GlossaryEntry {
   const category: GlossaryCategory = record.collection === 'glossary'
     ? 'names'
@@ -56,7 +61,7 @@ export function toGlossaryEntry(record: GeneratedGlossaryEntry): GlossaryEntry {
   };
 }
 
-export function compareGlossaryEntries(left: GlossaryEntry, right: GlossaryEntry): number {
+export function compareGlossaryEntries(left: GlossarySearchEntry, right: GlossarySearchEntry): number {
   return left.zh_preferred.localeCompare(right.zh_preferred, 'zh-Hans-CN')
     || left.canonical.localeCompare(right.canonical, 'zh-Hans-CN')
     || left.collection.localeCompare(right.collection, 'en')
@@ -82,7 +87,7 @@ function fieldMatchRank(value: string, query: string): number {
   return Infinity;
 }
 
-function entryMatchRank(entry: GlossaryEntry, query: string): number {
+function entryMatchRank(entry: GlossarySearchEntry, query: string): number {
   const primaryRank = Math.min(
     fieldMatchRank(entry.zh_preferred, query),
     fieldMatchRank(entry.canonical, query),
@@ -96,10 +101,10 @@ function entryMatchRank(entry: GlossaryEntry, query: string): number {
   return otherRank + 3;
 }
 
-export function searchGlossary(
-  entries: readonly GlossaryEntry[],
+export function searchGlossary<Entry extends GlossarySearchEntry>(
+  entries: readonly Entry[],
   { query = '', category, collection, type }: GlossarySearchOptions = {},
-): GlossaryEntry[] {
+): Entry[] {
   const filtered = entries.filter((entry) => (
     (category === undefined || entry.category === category)
     && (collection === undefined || entry.collection === collection)

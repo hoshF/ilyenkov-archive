@@ -2,7 +2,7 @@ import { existsSync, readFileSync, readdirSync } from 'node:fs';
 import path from 'node:path';
 import { describe, expect, it } from 'vitest';
 import { getGlossary } from '../src/lib/glossary';
-import { getGlossaryFacets, NAME_TYPE_LABELS, type GlossaryEntry } from '../src/lib/glossary-query';
+import { getGlossaryFacets, NAME_TYPE_LABELS, searchGlossary, type GlossaryEntry, type GlossarySearchEntry, type GlossarySearchOptions } from '../src/lib/glossary-query';
 import { builtRoutePath } from './helpers/pages';
 
 const glossary = getGlossary();
@@ -105,12 +105,36 @@ describe('static glossary index and entry pages', () => {
       expect(article, entry.route).not.toMatch(/\shidden(?:[\s=>]|$)/);
     }
 
-    const payload = [...main.matchAll(/<script\b([^>]*)>([\s\S]*?)<\/script>/g)]
+  });
+
+  it('omits display-only fields from browser data while preserving search, filtering and ordering', () => {
+    const payload = [...indexMain().matchAll(/<script\b([^>]*)>([\s\S]*?)<\/script>/g)]
       .find(([, attributes]) => attributes.includes('type="application/json"'));
     expect(payload).toBeDefined();
-    const searchEntries = JSON.parse(payload![2]) as GlossaryEntry[];
+    const searchEntries = JSON.parse(payload![2]) as GlossarySearchEntry[];
     expect(searchEntries.map((entry) => entry.route)).toEqual(glossary.map((entry) => entry.route));
-    expect(searchEntries.every((entry) => entry.notes === '')).toBe(true);
+    for (const entry of searchEntries) {
+      for (const field of ['notes', 'categoryLabel', 'collectionLabel']) {
+        expect(entry).not.toHaveProperty(field);
+      }
+    }
+    const queries = new Set(['', '思维', 'МЫШЛЕНИЕ', ' ＦＯＲＭ ', ...glossary.flatMap((entry) => [
+      entry.zh_preferred, entry.canonical, ...entry.forms, ...entry.zh_alternatives,
+    ])]);
+    const facets = getGlossaryFacets(glossary);
+    const options: GlossarySearchOptions[] = [
+      ...[...queries].map((query) => ({ query })),
+      ...facets.categories.map(({ id }) => ({ category: id })),
+      ...facets.authors.flatMap(({ id }) => [
+        { category: 'concepts' as const, collection: id },
+        { query: '思维', category: 'concepts' as const, collection: id },
+      ]),
+      ...facets.types.map(({ id }) => ({ category: 'names' as const, type: id })),
+    ];
+    for (const option of options) {
+      expect(searchGlossary(searchEntries, option).map(({ route }) => route), JSON.stringify(option))
+        .toEqual(searchGlossary(glossary, option).map(({ route }) => route));
+    }
   });
 
   it('offers labelled search and filter controls with a reset and live result count', () => {
