@@ -1,6 +1,9 @@
 :root {
   color-scheme: light; --ink: #000; --ink-soft: #1a1a1a; --muted: #706b62; --line: #ddd9d1;
   --line-strong: #b8b2a7; --paper: #fafafa; --accent: #2f3a86;
+  --reading-ink: #202020; --logo-ink: #232323; --nav-hover: #efefef;
+  --control-bg: white; --control-border: var(--line);
+  --highlight-bg: #fff0ba; --highlight-ink: var(--ink-soft);
   --accent-dark: #1b1f4b; --content: 1040px; --section: 1040px; --reading: 672px; --index: 216px; --index-gap: 56px;
   --rail: 248px;
   --text-meta: .875rem; --text-secondary: .9375rem; --text-body: 1rem; --text-item: 1.0625rem;
@@ -14,6 +17,17 @@
 }
 
 * { box-sizing: border-box; }
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    color-scheme: dark; --paper: #1c1d1f; --ink: #d8d9db; --ink-soft: #d8d9db;
+    --reading-ink: #d8d9db; --muted: #aaa6a0; --accent: #acb8f4; --accent-dark: #d0d7ff;
+    --line: #3b3d42; --line-strong: #74777f; --logo-ink: #d8d9db; --nav-hover: #25272b;
+    --control-bg: #25272b; --control-border: #74777f;
+    --highlight-bg: #574b2b; --highlight-ink: #f3e7be;
+  }
+  .archive-search input::placeholder, .glossary-search input::placeholder { color: var(--muted); opacity: 1; }
+}
 
 html { scroll-behavior: smooth; }
 
@@ -56,7 +70,7 @@ h2, h3, h4 { text-wrap: balance; line-height: 1.3; }
   display: inline-flex; align-items: center; gap: 12px; flex-shrink: 0;
 }
 
-.site-name__logo { display: block; width: auto; height: 24px; flex-shrink: 0; }
+.site-name__logo { display: block; width: auto; height: 24px; flex-shrink: 0; color: var(--logo-ink); }
 
 .site-name__text { margin: 0; font-size: 1.25rem; font-weight: 600; line-height: 1.4; }
 
@@ -69,7 +83,7 @@ h2, h3, h4 { text-wrap: balance; line-height: 1.3; }
   color: var(--ink-soft); font-size: var(--text-body); align-items: center; padding: 10px 12px;
   min-height: 44px; border-radius: 4px; text-decoration: none; display: inline-flex;
 }
-.site-header__nav a:hover { color: var(--accent-dark); background: #efefef; }
+.site-header__nav a:hover { color: var(--accent-dark); background: var(--nav-hover); }
 .site-header__nav a:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
 
 /* 当前栏目与目录同属深色系，只用细下划线标记位置。 */
@@ -224,6 +238,12 @@ h2, h3, h4 { text-wrap: balance; line-height: 1.3; }
 
 /* 首页文本、研究与小组工作沿用同一轻量记录节奏。 */
 .home-summary { margin: 0 0 22px; font-size: var(--text-body); line-height: 1.65; }
+.home-announcement {
+  display: flex; align-items: baseline; gap: 12px; margin: 0 0 22px;
+  font-size: var(--text-body); line-height: 1.65;
+}
+.home-announcement strong { flex-shrink: 0; color: var(--accent); font-weight: 600; }
+.home-announcement a { min-width: 0; }
 .home-content__list { max-width: var(--reading); margin: 0; padding: 0; list-style: none; display: grid; gap: 22px; }
 .home-content__list .home-summary { margin: 0; }
 .home-content__list .record__meta { margin: 0; }
@@ -510,7 +530,7 @@ h2, h3, h4 { text-wrap: balance; line-height: 1.3; }
 
 /* 译文与小组长文共用阅读字号；正文允许合成字重，不合成斜体。 */
 .reading-page {
-  --ink: #202020;
+  --ink: var(--reading-ink);
   --text-page: 1.75rem; --text-page-mobile: 1.625rem;
 }
 /* 两类文章共用页头、正文字体与强调；字号和段落间距沿用通用正文。 */
@@ -663,6 +683,13 @@ h2, h3, h4 { text-wrap: balance; line-height: 1.3; }
 
 /* 栏目列表的垂直节奏；实体详情与连续阅读保留各自规则。 */
 .group-index .section-layout__intro { margin-bottom: 24px; }
+.group-announcement {
+  margin: 0 0 48px; padding: 20px clamp(16px, 3vw, 24px); border-left: 3px solid var(--accent);
+  background: color-mix(in srgb, var(--accent) 5%, var(--paper));
+}
+.group-announcement__label { margin: 0 0 12px; color: var(--accent); font-size: var(--text-meta); font-weight: 600; }
+.group-announcement .prose > h2:first-child { scroll-margin-top: 76px; }
+.group-announcement .prose > :last-child { margin-bottom: 0; }
 .group-issues > h2 { font-size: var(--text-section); font-weight: 700; margin: 0 0 16px; }
 .books-shelf .book-category > h2 { margin-bottom: 16px; }
 
@@ -706,8 +733,8 @@ h2, h3, h4 { text-wrap: balance; line-height: 1.3; }
 @media (max-width: 800px) {
   .archive-search__facets { display: block; margin: 12px 0 0; font-size: var(--text-meta); }
 }
-.archive-search input { flex: 1; min-width: 0; padding: 10px 12px; border: 1px solid var(--line); border-radius: 3px; font: inherit; background: white; color: var(--ink); }
-.archive-search button { padding: 10px 16px; border: 1px solid var(--line); border-radius: 3px; font: inherit; background: white; color: var(--ink); cursor: pointer; }
+.archive-search input { flex: 1; min-width: 0; padding: 10px 12px; border: 1px solid var(--control-border); border-radius: 3px; font: inherit; background: var(--control-bg); color: var(--ink); }
+.archive-search button { padding: 10px 16px; border: 1px solid var(--control-border); border-radius: 3px; font: inherit; background: var(--control-bg); color: var(--ink); cursor: pointer; }
 .archive-search input:focus-visible, .archive-search button:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
 .archive-search__status { color: var(--muted); font-size: var(--text-meta); }
 .archive-search__status:empty { display: none; }
@@ -715,7 +742,7 @@ h2, h3, h4 { text-wrap: balance; line-height: 1.3; }
 .archive-search__results li { padding: 16px 0; border-bottom: 1px solid var(--line); }
 .archive-search__results a { font-size: var(--text-body); }
 .archive-search__results p { margin: 8px 0 0; font-size: var(--text-meta); line-height: 1.8; color: var(--ink-soft); }
-.archive-search mark { background: #fff0ba; color: inherit; }
+.archive-search mark { background: var(--highlight-bg); color: var(--highlight-ink); }
 .archive-search [hidden], [data-archive-list][hidden] { display: none; }
 
 /* 伊里因科夫专题：页间导航、页内浏览与正文分开，日期退到辅助列。 */

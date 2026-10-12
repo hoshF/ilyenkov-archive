@@ -3,7 +3,7 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 import { site } from '../lib/editorial';
 import { getPublicIlyenkov } from '../lib/research-records';
 import { getSiteData } from '../lib/site-data';
-import { getGroupIssues } from '../lib/group';
+import { getGroupIssues, getGroupAnnouncement } from '../lib/group';
 import {
   getPublicResearchers,
   getPublicIfiNetwork,
@@ -14,7 +14,9 @@ import UpdatesList from '../components/UpdatesList.astro';
 import { getUpdates, HOME_UPDATES_LIMIT } from '../lib/updates';
 
 const ilyenkov = getPublicIlyenkov();
-const [{ articles }, issues] = await Promise.all([getSiteData(), getGroupIssues()]);
+const [{ articles }, issues, announcement] = await Promise.all([getSiteData(), getGroupIssues(), getGroupAnnouncement()]);
+const announcementHeading = announcement.headings[0];
+if (!announcementHeading) throw new Error('Group announcement requires a section heading');
 const texts = articles.slice(0, 4);
 const recentWork = [...issues].sort((left, right) => (
   right.published.localeCompare(left.published) || right.issue - left.issue
@@ -67,6 +69,10 @@ const updates = getUpdates().slice(0, HOME_UPDATES_LIMIT);
 
     <section class="home-group" aria-labelledby="group-heading">
       <h2 id="group-heading">{site.group.name}</h2>
+      <p class="home-announcement">
+        <strong>公告</strong>
+        <a href={`/group/#${encodeURIComponent(announcementHeading.id)}`}>{announcementHeading.text} <span aria-hidden="true">→</span></a>
+      </p>
       <p class="home-summary">{site.group.summary}</p>
       <ol class="home-content__list">
         {recentWork.map((issue) => (

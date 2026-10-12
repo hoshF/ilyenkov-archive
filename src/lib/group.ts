@@ -55,6 +55,10 @@ function byIssueDescending(left: GroupIssue, right: GroupIssue): number {
   return right.issue - left.issue || left.id.localeCompare(right.id);
 }
 
+export const getGroupAnnouncement = buildCache(() => renderPublicMarkdown(
+  readFileSync(path.join(process.cwd(), 'editorial', 'group-announcement.md'), 'utf8'),
+));
+
 export const getGroupIssues = buildCache((): Promise<GroupIssue[]> => (
   Promise.all(recordIds().map(async (id) => {
     const record = matter(readFileSync(path.join(groupRoot, `${id}.md`), 'utf8'));

@@ -2,9 +2,11 @@
 import { site } from '../../lib/editorial';
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import SectionLayout from '../../components/SectionLayout.astro';
-import { getGroupIssues } from '../../lib/group';
+import { getGroupIssues, getGroupAnnouncement } from '../../lib/group';
 
-const issues = await getGroupIssues();
+const [issues, announcement] = await Promise.all([getGroupIssues(), getGroupAnnouncement()]);
+const announcementHeading = announcement.headings[0];
+if (!announcementHeading) throw new Error('Group announcement requires a section heading');
 ---
 
 <BaseLayout title={site.group.name} description={`${site.group.name}的公共工作档案，按期记录已公开的研究、讨论、资料整理与阶段性成果。`}>
@@ -24,6 +26,11 @@ const issues = await getGroupIssues();
         </nav>
       </div>
     </div>
+
+    <section class="group-announcement" aria-labelledby={announcementHeading.id}>
+      <p class="group-announcement__label">公告</p>
+      <div class="prose prose--section" set:html={announcement.html} />
+    </section>
 
     <section class="group-issues" aria-labelledby="group-issues-heading">
       <h2 id="group-issues-heading">小组工作</h2>
