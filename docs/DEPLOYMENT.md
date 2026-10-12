@@ -62,6 +62,16 @@ npm run deploy
 
 上传命令返回的部署专用 URL 用于核对该次产物，仍需确认正式地址更新。验收完成后才记为已上线。
 
+## 响应头与兼容入口
+
+`public/_headers` 配置 Cloudflare Pages 的静态响应头：正式域名 `ilyenkov.cn` 使用
+`Strict-Transport-Security: max-age=31536000`，不包含 `includeSubDomains` 或 `preload`；
+所有静态页面设置 `X-Frame-Options: DENY`，并通过 `Permissions-Policy` 禁用摄像头、麦克风和定位。
+
+`public/_redirects` 将 `/sitemap.xml` 以 301 跳转到 `/sitemap-index.xml`。
+两份配置随构建进入 `dist/`，由 Cloudflare Pages 应用；上线验收须检查正式域名的响应头、
+兼容入口的跳转状态及目标网站地图。重定向先于响应头规则，安全头以目标页面响应为准。
+
 ## 订阅基址与受限内容
 
 `astro.config.mjs` 的 `site` 使用生产地址 `https://ilyenkov.cn/`；RSS、canonical、分享元数据和 sitemap

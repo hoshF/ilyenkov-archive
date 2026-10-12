@@ -1,0 +1,6 @@
+https://ilyenkov.cn/*
+  Strict-Transport-Security: max-age=31536000
+
+/*
+  X-Frame-Options: DENY
+  Permissions-Policy: camera=(), microphone=(), geolocation=()
