@@ -1,11 +1,12 @@
 ---
 interface Props {
+  label?: string;
   sources: { url: string; creator: string | null; title: string }[];
 }
-const { sources } = Astro.props;
+const { sources, label = '资料来源' } = Astro.props;
 const sourceLabel = (source: Props['sources'][number]) => source.creator ? `${source.creator}：《${source.title}》` : source.title;
 ---
 {sources.length > 0 && <details class="record-sources">
-  <summary>文献来源 · {sources.length}</summary>
+  <summary>{label} · {sources.length}</summary>
   <p class="record__sources">{sources.map((source, index) => <><a href={source.url}>{sourceLabel(source)}</a>{index < sources.length - 1 && '；'}</>)}</p>
 </details>}

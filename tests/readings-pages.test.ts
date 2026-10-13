@@ -7,7 +7,6 @@ import {
   getPublicIfiNetwork,
   getPublicReadings,
   getPublicReadingsSeries,
-  getPublicResearchers,
   type PublicReadingsSeries,
 } from '../src/lib/research-records';
 import { builtRoutePath, routeExists } from './helpers/pages';
@@ -49,9 +48,12 @@ describe('Readings public series detail and research entry', () => {
     expect([...main.matchAll(/<h1\b/g)]).toHaveLength(1);
     expect(textContent(main.match(/<h1\b[^>]*>([\s\S]*?)<\/h1>/)![1])).toBe(series[0].title);
     expect(textContent(main)).toContain(series[0].name);
-    expect(main).not.toContain('aria-label="当前位置"');
+    expect(main).toContain('aria-label="当前位置"');
+    const breadcrumb = main.match(/<nav\b[^>]*aria-label="当前位置"[^>]*>([\s\S]*?)<\/nav>/)![1];
+    expect(links(breadcrumb)).toEqual([{ href: '/', label: '首页' }, { href: '/research/', label: '研究' }]);
+    expect(textContent(breadcrumb)).toContain(series[0].title);
     expect([...main.matchAll(/<h2\b[^>]*>([\s\S]*?)<\/h2>/g)].map(([, content]) => textContent(content)))
-      .toEqual(['简介', '已公开会议记录']);
+      .toEqual(['简介', ...[...new Set(getPublicReadings().map((record) => Math.floor(Number(record.period.start.slice(0, 4)) / 10) * 10))].map((decade) => `${decade} 年代`)]);
     const intro = sectionById(main, 'readings-intro-heading');
     const prose = intro.match(/<div class="prose prose--section">([\s\S]*?)<\/div>/)![1];
     const paragraphs = [...prose.matchAll(/<p\b[^>]*>([\s\S]*?)<\/p>/g)].map(([, content]) => textContent(content));
@@ -63,10 +65,10 @@ describe('Readings public series detail and research entry', () => {
     expect(intro).not.toContain(series[0].type);
   });
 
-  it('omits redundant type, history and event source rows', () => {
+  it('keeps type metadata out of the authored introduction', () => {
     const main = mainContent(builtPage('/research/readings'));
     expect(sectionById(main, 'readings-intro-heading')).not.toContain('class="record__label"');
-    expect(main).not.toContain('来源：');
+    expect(textContent(sectionById(main, 'readings-intro-heading'))).not.toContain(getPublicReadingsSeries()[0].type);
   });
 
   it('presents only the selected series resources with distinct page-level Chinese labels', () => {
@@ -81,13 +83,14 @@ describe('Readings public series detail and research entry', () => {
     for (const resource of series.resources) expect(Object.keys(resource).sort()).toEqual(['kind', 'url']);
     expect(textContent(resources)).not.toContain('官方网站');
     expect(resources).not.toMatch(/<img\b|<svg\b|<button\b/);
+    const main = mainContent(builtPage('/research/readings'));
+    expect(main.lastIndexOf('</article>')).toBeLessThan(main.indexOf('<aside'));
   });
 
-  it('renders the current public event selection chronologically without source links', () => {
+  it('renders every selected event chronologically by decade with expandable sources', () => {
     const events = getPublicReadings();
-    const records = sectionById(mainContent(builtPage('/research/readings')), 'readings-events-heading');
-    const articles = [...records.matchAll(/<article\b[^>]*>([\s\S]*?)<\/article>/g)]
-      .map(([, content]) => content);
+    const main = mainContent(builtPage('/research/readings'));
+    const articles = [...main.matchAll(/<article\b[^>]*>([\s\S]*?)<\/article>/g)].map(([, content]) => content);
     expect(articles).toHaveLength(events.length);
     expect(events.map((event) => event.period.start)).toEqual(events.map((event) => event.period.start).sort());
     for (const [index, event] of events.entries()) {
@@ -96,10 +99,38 @@ describe('Readings public series detail and research entry', () => {
       expect(textContent(article)).toContain(event.edition);
       expect(textContent(article)).toContain(formatHistoricalPeriod(event.period));
       expect(textContent(article)).toContain(event.location ?? event.format!);
-      expect(links(article)).toEqual([]);
-      expect(article).not.toContain('record__sources');
-      expect(routeExists(`/research/readings${event.id}/`)).toBe(false);
+      expect(links(article).map((link) => link.href)).toEqual(event.sources.map((source) => source.url));
+      expect(article).toMatch(/<details class="record-sources">/);
+      expect(textContent(article)).toContain(`资料来源 · ${event.sources.length}`);
+      expect(main).toContain(`id="${event.id}"`);
+      const decade = Math.floor(Number(event.period.start.slice(0, 4)) / 10) * 10;
+      expect(sectionById(main, `readings-${decade}-heading`)).toContain(`id="${event.id}"`);
+      expect(routeExists(`/research/readings/${event.id}/`)).toBe(false);
+      if (/^\d{4}$/.test(event.period.start) && /^\d{4}$/.test(event.period.end)) {
+        const date = textContent(article.match(/<p class="record__meta">([\s\S]*?)<\/p>/)![1]);
+        expect(date).toBe(formatHistoricalPeriod(event.period));
+        expect(date).not.toMatch(/月|日/);
+      }
     }
+  });
+
+  it('provides neighboring research links and an expandable outline covering every decade', () => {
+    const main = mainContent(builtPage('/research/readings'));
+    const nav = main.match(/<nav\b[^>]*aria-label="研究专题"[^>]*>([\s\S]*?)<\/nav>/)![1];
+    expect(links(nav)).toEqual([
+      { href: '/research/ifi/', label: getPublicIfiNetwork().title },
+      { href: '/research/researchers/', label: '研究者' },
+      { href: '/research/readings/', label: getPublicReadingsSeries()[0].title },
+    ]);
+    expect(nav).toContain('href="/research/readings/" aria-current="page"');
+    expect([...nav.matchAll(/aria-current="page"/g)]).toHaveLength(1);
+    for (const link of links(nav)) expect(routeExists(link.href)).toBe(true);
+    const outline = main.match(/<details class="page-outline">([\s\S]*?)<\/details>/)![1];
+    const decades = [...new Set(getPublicReadings().map((record) => Math.floor(Number(record.period.start.slice(0, 4)) / 10) * 10))];
+    expect(links(outline).map((link) => link.href)).toEqual([
+      '#readings-intro-heading', ...decades.map((decade) => `#readings-${decade}-heading`), '#readings-resources-heading',
+    ]);
+    for (const { href } of links(outline)) expect(main).toContain(`id="${href.slice(1)}"`);
   });
 
   it('reduces the research Readings block to a public series entry and retains the IFI entry', () => {
@@ -122,8 +153,8 @@ describe('Readings public series detail and research entry', () => {
     expect(textContent(ifiEntry)).toContain(ifi.title);
     expect(textContent(ifiEntry)).toContain(ifi.summary);
     expect(links(ifiEntry)).toEqual([{ href: '/research/ifi/', label: ifi.title }]);
-    expect([...main.matchAll(/<section\b/g)]).toHaveLength(2 + getPublicResearchers().length);
-    expect(routeExists('/research/researchers/')).toBe(false);
+    expect([...main.matchAll(/<section\b/g)]).toHaveLength(3);
+    expect(routeExists('/research/researchers/')).toBe(true);
   });
 
   it('preserves the primary navigation entries and a static, single-flow public boundary', () => {
@@ -149,8 +180,21 @@ describe('Readings public series detail and research entry', () => {
       ]) expect(html, `${route}: ${restricted}`).not.toContain(restricted);
     }
     const detail = builtPage('/research/readings');
-    expect(detail).toContain('section-layout__sidebar');
+    expect(detail).not.toContain('section-layout__sidebar');
+    expect(detail).toContain('research-meetings');
     expect(detail).not.toMatch(/section-layout--indexed|class="section-layout__toc"|reading-page/);
     expect(detail).not.toMatch(/<form\b|<input\b|<button\b/);
+  });
+});
+
+describe('meeting date readability and precision', () => {
+  it.each([
+    ['1991-02-14', '1991-02-15', '1991.02.14–15'],
+    ['2026-04-05', '2026-04-05', '2026.04.05'],
+    ['1998', '1998', '1998'],
+    ['2018-04-19', '2018-05-16', '2018.04.19–05.16'],
+    ['1999-12-31', '2000-01-01', '1999.12.31–2000.01.01'],
+  ])('formats %s through %s without repeating common date parts', (start, end, expected) => {
+    expect(formatHistoricalPeriod({ start, end })).toBe(expected);
   });
 });

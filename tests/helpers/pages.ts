@@ -27,7 +27,7 @@ export function pageFileExists(route: string): boolean {
 /** 站内链接是否有对应页面或静态 endpoint。 */
 export function routeExists(href: string): boolean {
   const relative = href === '/' ? 'index' : href.replace(/^\//, '').replace(/\/$/, '');
-  return ['astro', 'ts', 'js'].some((extension) => (
+  return (/^\/research\/researchers\/[^/]+\/$/.test(href) && existsSync(builtRoutePath(href))) || ['astro', 'ts', 'js'].some((extension) => (
     pageFileExists(`${relative}.${extension}`)
       || pageFileExists(path.join(relative, `index.${extension}`))
   ));

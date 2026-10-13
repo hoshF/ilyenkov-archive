@@ -514,7 +514,6 @@ h2, h3, h4 { text-wrap: balance; line-height: 1.3; }
 /* 栏目页不显示页内目录，但各段的 id 仍是稳定的深链接目标；与 .prose 标题一样保留 32px 跳转留白。 */
 .research-series h2 { margin: 0; scroll-margin-top: 32px; font-size: var(--text-section); font-weight: 700; }
 
-.research-series__lead { color: var(--muted); font-size: var(--text-body); margin: 12px 0 28px; line-height: 1.6; }
 
 .activity-section + .activity-section { border-top: 1px solid var(--line); margin-top: 60px; padding-top: 60px; }
 .activity-section h2 { font-size: var(--text-section); margin: 0; font-weight: 700; }
@@ -745,6 +744,27 @@ h2, h3, h4 { text-wrap: balance; line-height: 1.3; }
 .archive-search mark { background: var(--highlight-bg); color: var(--highlight-ink); }
 .archive-search [hidden], [data-archive-list][hidden] { display: none; }
 
+/* 会议记录沿用专题页的正文列、日期列与折叠来源；资料入口位于正文末。 */
+.research-meetings .research-series + .research-series { border-top: 0; margin-top: 48px; padding-top: 0; }
+.research-meetings-section h2 { margin-bottom: 20px; }
+.research-meetings .record-list { gap: 0; }
+.research-meetings .record-list > li { padding: 16px 0; border-bottom: 1px solid var(--line); }
+.research-meetings .record-list > li:first-child { padding-top: 0; }
+.research-meetings .record-list > li:last-child { padding-bottom: 0; border-bottom: 0; }
+.research-meetings .record-sources { margin-top: 6px; }
+.research-meetings .timeline-record { gap: 4px 20px; }
+.research-meetings__note { color: var(--muted); font-size: var(--text-secondary); line-height: 1.65; margin: 40px 0 28px; }
+.research-meetings__resources { border-top: 1px solid var(--line); margin-top: 56px; padding-top: 24px; }
+.research-meetings__resources .section-layout__structured { display: flex; flex-wrap: wrap; gap: 12px 24px; }
+.research-meetings__resources .section-layout__structured li + li { margin-top: 0; }
+.research-meetings__resources a { color: var(--ink-soft); text-decoration: none; }
+.research-meetings__resources a:hover { color: var(--accent); text-decoration: underline; }
+.research-meetings__resources [id] { scroll-margin-top: 32px; }
+.research-meetings .prose em { font-style: normal; font-weight: 600; }
+.research-meetings .timeline-record__content .record__note { margin-top: 10px; }
+.research-meetings .timeline-record__content .record__label { margin-top: 6px; color: var(--muted); }
+.research-meetings .record-sources .record__sources { margin-top: 10px; }
+
 /* 伊里因科夫专题：页间导航、页内浏览与正文分开，日期退到辅助列。 */
 .ilyenkov-topic .record-list .record__summary { margin-top: 9px; }
 .ilyenkov-topic .record-list .record__original { margin-top: 4px; }
@@ -752,10 +772,10 @@ h2, h3, h4 { text-wrap: balance; line-height: 1.3; }
 .ilyenkov-topic .record-list .record__links { margin-top: 12px; }
 .ilyenkov-topic .record-list .record__sources { margin-top: 14px; }
 .ilyenkov-topic .record-list .record__label { margin-top: 4px; }
-.ilyenkov-nav { display: flex; flex-wrap: wrap; gap: 10px 24px; margin-bottom: 28px; }
-.ilyenkov-nav a { color: var(--muted); font-size: var(--text-secondary); text-decoration: none; }
-.ilyenkov-nav a[aria-current=page] { color: var(--ink); text-decoration: underline; text-underline-offset: .4em; }
-.ilyenkov-nav a:hover { color: var(--accent); }
+.ilyenkov-nav, .research-nav { display: flex; flex-wrap: wrap; gap: 10px 24px; margin-bottom: 28px; }
+.ilyenkov-nav a, .research-nav a { color: var(--muted); font-size: var(--text-secondary); text-decoration: none; }
+.ilyenkov-nav a[aria-current=page], .research-nav a[aria-current=page] { color: var(--ink); text-decoration: underline; text-underline-offset: .4em; }
+.ilyenkov-nav a:hover, .research-nav a:hover { color: var(--accent); }
 .page-outline { margin: 0 0 32px; padding: 12px 0; border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); }
 .page-outline summary { cursor: pointer; color: var(--ink-soft); font-size: var(--text-secondary); }
 .page-outline ol { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px 24px; list-style: none; margin: 20px 0 8px; padding: 0; }
@@ -779,10 +799,10 @@ h2, h3, h4 { text-wrap: balance; line-height: 1.3; }
 .record-sources summary { width: fit-content; cursor: pointer; color: var(--muted); font-size: var(--text-meta); line-height: 1.6; }
 .ilyenkov-topic .record-sources .record__sources { margin-top: 10px; }
 @media (max-width: 600px) {
-  .ilyenkov-nav { gap: 10px 20px; }
+  .ilyenkov-nav, .research-nav { gap: 10px 20px; }
   .page-outline ol { grid-template-columns: minmax(0, 1fr); }
   .life-stage, .timeline-record { grid-template-columns: minmax(0, 1fr); gap: 8px; }
   .catalog-record { grid-template-columns: 44px minmax(0, 1fr); gap: 12px; }
   .timeline-record__date { display: flex; flex-wrap: wrap; gap: 4px 12px; align-items: baseline; }
-  .ilyenkov-topic .timeline-record__date .record__label { margin-top: 0; }
+  .ilyenkov-topic .timeline-record__date .record__label, .research-meetings .timeline-record__date .record__label { margin-top: 0; }
 }

@@ -4,7 +4,7 @@ import Breadcrumbs from '../../components/Breadcrumbs.astro';
 import SectionLayout from '../../components/SectionLayout.astro';
 import IlyenkovNav from '../../components/IlyenkovNav.astro';
 import PageOutline from '../../components/PageOutline.astro';
-import { getPublicLife } from '../../lib/research-records';
+import { formatHistoricalPeriod, getPublicLife } from '../../lib/research-records';
 
 const life = getPublicLife();
 const linkTargets = {
@@ -33,7 +33,7 @@ const linkTargets = {
         <li>
           <article class="life-stage" aria-labelledby={`life-stage-${index + 1}`}>
             <div class="life-stage__period">
-              {stage.period && <p class="record__meta">{stage.period.start.slice(0, 4)}—{stage.period.end.slice(0, 4)}</p>}
+              {stage.period && <p class="record__meta">{formatHistoricalPeriod({ start: stage.period.start.slice(0, 4), end: stage.period.end.slice(0, 4) })}</p>}
               {stage.years && stage.years.length > 0 && <p class="record__meta">{stage.years.join('、')}</p>}
             </div>
             <div class="life-stage__content">

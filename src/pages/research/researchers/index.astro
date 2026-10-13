@@ -1,0 +1,24 @@
+---
+import BaseLayout from '../../../layouts/BaseLayout.astro';
+import SectionLayout from '../../../components/SectionLayout.astro';
+import Breadcrumbs from '../../../components/Breadcrumbs.astro';
+import ResearchNav from '../../../components/ResearchNav.astro';
+import { getPublicResearchers } from '../../../lib/research-records';
+const researchers = getPublicResearchers();
+---
+<BaseLayout title="研究者" description="伊里因科夫研究者的人物介绍、学术入口与本站译文。">
+  <SectionLayout modifier="compact-intro research-hub" pinned>
+    <Breadcrumbs slot="breadcrumb" items={[{ label: '研究', href: '/research/' }, { label: '研究者' }]} />
+    <header class="page-header" slot="intro">
+      <ResearchNav current="researchers" />
+      <h1 class="page-title">研究者</h1>
+    </header>
+    {researchers.map((researcher) => (
+      <section class="research-series" aria-labelledby={`${researcher.id}-heading`}>
+        <h2 id={`${researcher.id}-heading`}><a href={`/research/researchers/${researcher.id.replace(/^researcher-/, '')}/`}>{researcher.name}</a></h2>
+        <p class="record__original">{researcher.originalName}</p>
+        <p class="record__summary">{researcher.editorial?.workDescription ?? researcher.summary}</p>
+      </section>
+    ))}
+  </SectionLayout>
+</BaseLayout>

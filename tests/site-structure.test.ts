@@ -265,8 +265,7 @@ describe('website-approved data adapter', () => {
       .map((match) => match[1]);
     expect(ids).toEqual([
       'ifi-heading',
-      'researcher-andrey-maidansky-heading',
-      'researcher-elena-illesh-heading',
+      'researchers-heading',
       'readings-heading',
     ]);
     for (const id of ids) {
@@ -283,11 +282,10 @@ describe('website-approved data adapter', () => {
       .map(([, href, title]) => ({ href, title }));
     expect(entityTitles).toEqual([
       { href: '/research/ifi/', title: '国际伊里因科夫之友' },
-      { href: '/research/researchers/andrey-maidansky/', title: '安德烈·迈丹斯基' },
-      { href: '/research/researchers/elena-illesh/', title: '叶莲娜·伊列什' },
+      { href: '/research/researchers/', title: '研究者' },
       { href: '/research/readings/', title: '伊里因科夫学术报告会' },
     ]);
-    expect(main.match(/class="record__summary"/g)).toHaveLength(4);
+    expect(main.match(/class="record__summary"/g)).toHaveLength(3);
     expect(declaration('.research-hub .record__original', 'margin')).toBe('4px 0 0');
     expect(declaration('.research-hub .record__summary', 'margin')).toBe('9px 0 0');
 
@@ -836,7 +834,8 @@ describe('public navigation', () => {
     const researchHub = readFileSync(builtRoutePath('/research'), 'utf8').match(/<main>([\s\S]*?)<\/main>/)![1];
     const homeLinks = [...research.matchAll(/<h3\b[^>]*>\s*<a href="([^"]+)"/g)].map(([, href]) => href);
     const hubLinks = [...researchHub.matchAll(/<h2\b[^>]*>\s*<a href="([^"]+)"/g)].map(([, href]) => href);
-    expect(homeLinks.sort()).toEqual(hubLinks.sort());
+    expect(homeLinks.sort()).toEqual(records.map((record) => record.href).sort());
+    expect(hubLinks.sort()).toEqual(['/research/ifi/', '/research/researchers/', '/research/readings/'].sort());
     expect([...research.matchAll(/<h3\b/g)].length).toBe(records.length);
     for (const record of records) {
       expect(research).toContain(record.summary);

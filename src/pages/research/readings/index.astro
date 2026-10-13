@@ -1,6 +1,10 @@
 ---
 import { renderPublicMarkdown } from '../../../lib/markdown';
 import BaseLayout from '../../../layouts/BaseLayout.astro';
+import Breadcrumbs from '../../../components/Breadcrumbs.astro';
+import PageOutline from '../../../components/PageOutline.astro';
+import RecordSources from '../../../components/RecordSources.astro';
+import ResearchNav from '../../../components/ResearchNav.astro';
 import ResourceLinks from '../../../components/ResourceLinks.astro';
 import SectionLayout from '../../../components/SectionLayout.astro';
 import {
@@ -17,6 +21,12 @@ const introduction = series.editorial
   ? await renderPublicMarkdown(series.editorial.introduction.join('\n\n'))
   : null;
 const readings = getPublicReadings();
+const decades = [...Map.groupBy(readings, (record) => Math.floor(Number(record.period.start.slice(0, 4)) / 10) * 10)];
+const outline = [
+  ...(introduction ? [{ href: '#readings-intro-heading', label: '简介' }] : []),
+  ...decades.map(([decade]) => ({ href: `#readings-${decade}-heading`, label: `${decade} 年代` })),
+  { href: '#readings-resources-heading', label: '资料入口' },
+];
 const resourceLabels: Record<PublicReadingsSeries['resources'][number]['kind'], string> = {
   archive: 'Readings 资料档案',
   society: '“辩证法与文化”学会',
@@ -25,34 +35,48 @@ const resourceLabels: Record<PublicReadingsSeries['resources'][number]['kind'], 
 ---
 
 <BaseLayout title={series.title} description={series.summary}>
-  <SectionLayout modifier="entity-detail research-profile" pinned>
-    <ResourceLinks slot="aside" id="readings-resources-heading" label="资料入口"
-      links={series.resources.map((resource) => ({ label: resourceLabels[resource.kind], href: resource.url }))} />
+  <SectionLayout modifier="research-meetings">
+    <Breadcrumbs slot="breadcrumb" items={[
+      { label: '研究', href: '/research/' },
+      { label: series.title },
+    ]} />
     <header class="page-header" slot="intro">
+      <ResearchNav current="readings" />
       <h1 class="page-title">{series.title}</h1>
       <p class="record__original">{series.name}</p>
     </header>
 
+    <PageOutline label="浏览简介与历届会议" items={outline} />
     {introduction && <section class="research-series" aria-labelledby="readings-intro-heading">
       <h2 id="readings-intro-heading">简介</h2>
       <div class="prose prose--section" set:html={introduction.html} />
     </section>}
 
+    {decades.map(([decade, records]) => (
+      <section class="research-series research-meetings-section" aria-labelledby={`readings-${decade}-heading`}>
+        <h2 id={`readings-${decade}-heading`}>{decade} 年代</h2>
+        <ol class="record-list">
+          {records.map((record) => (
+            <li id={record.id}>
+              <article class="timeline-record">
+                <div class="timeline-record__date">
+                  <p class="record__meta">{formatHistoricalPeriod(record.period)}</p>
+                </div>
+                <div class="timeline-record__content">
+                  <h3 class="record__title">{record.title}</h3>
+                  <p class="record__label">{record.edition} · {record.location ?? record.format}</p>
+                  <RecordSources sources={record.sources} label="资料来源" />
+                </div>
+              </article>
+            </li>
+          ))}
+        </ol>
+      </section>
+    ))}
 
-
-    <section class="research-series" aria-labelledby="readings-events-heading">
-      <h2 id="readings-events-heading">已公开会议记录</h2>
-      <ol class="record-list">
-        {readings.map((record) => (
-          <li id={record.id}>
-            <article>
-              <p class="record__meta">{formatHistoricalPeriod(record.period)} · {record.location ?? record.format}</p>
-              <p class="record__label">{record.edition}</p>
-              <h3 class="record__title">{record.title}</h3>
-            </article>
-          </li>
-        ))}
-      </ol>
-    </section>
+    <div class="research-meetings__resources">
+      <ResourceLinks id="readings-resources-heading" label="资料入口"
+        links={series.resources.map((resource) => ({ label: resourceLabels[resource.kind], href: resource.url }))} />
+    </div>
   </SectionLayout>
 </BaseLayout>

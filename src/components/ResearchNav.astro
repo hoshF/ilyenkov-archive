@@ -1,0 +1,16 @@
+---
+import { getPublicIfiNetwork, getPublicReadingsSeries } from '../lib/research-records';
+interface Props { current: 'ifi' | 'readings' | 'researchers'; }
+const { current } = Astro.props;
+const network = getPublicIfiNetwork();
+const series = getPublicReadingsSeries()[0];
+if (!series) throw new Error('Public Readings series is missing');
+const entries = [
+  { id: 'ifi', label: network.title, href: '/research/ifi/' },
+  { id: 'researchers', label: '研究者', href: '/research/researchers/' },
+  { id: 'readings', label: series.title, href: '/research/readings/' },
+];
+---
+<nav class="research-nav" aria-label="研究专题">
+  {entries.map((entry) => <a href={entry.href} aria-current={entry.id === current ? 'page' : undefined}>{entry.label}</a>)}
+</nav>

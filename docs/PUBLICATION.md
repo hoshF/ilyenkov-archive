@@ -169,6 +169,10 @@ researcher 仍是有效记录，schema 不要求作品存在。人物、译文�
 其他 publication kind 的 `record_id` 契约不受影响。
 公开题名直接读取 canonical event 的非空 `title_zh`；publication 不接受该字段，不提供 override 或 fallback。
 
+日期按 canonical 记录的精度输出。起止日期均明确为 `null` 且 `year` 为有效四位整数时，
+只输出年份期间，并要求所选来源支持 `conference_year`；具体日期要求来源支持 `conference_dates`。
+单边缺失、无效日期或缺少年份证据须失败，不推定月日。
+
 directory 只在同步阶段用于定位，不进入 generated data；活动的公开身份始终来自 `public_id`。
 定位与来源校验见[内容管线](CONTENT_PIPELINE.md)的“Readings 活动定位与系列同步”。
 
@@ -239,6 +243,13 @@ IFI network publication 只接受 `public_id`、`publication_scope`、`kind`、`
 不复制该活动的日期、地点、题名，不把 symposium 数组嵌入 network。页面需要形成年份时，从被引用
 symposium 的 `period.start` 读取。映射与引用校验见[内容管线](CONTENT_PIPELINE.md)的“IFI 网络同步”。
 Webinar series 的 `official_page` 属于其独立 private 记录，本契约不建立 webinar public 类型。
+
+### IFI 专题研讨会的公开状态
+
+专题研讨会只接受 canonical `event_status` 为 `confirmed` 或 `planned` 的记录；
+公开 `status` 保留该枚举，`format` 只接受 `in_person`、`online`、`hybrid`。
+计划活动的日期表示公告会期，页面须明确标记计划状态；
+组织形成关系仍只引用 `confirmed` 活动，不以日期经过自动改变活动状态。
 
 ## 公开编辑文字
 

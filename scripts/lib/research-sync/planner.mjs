@@ -379,8 +379,12 @@ function adaptReadings({ entry, label, publicId, recordData, sourceData, sourceP
   if (sourcePath !== `research/readings/${directory}/sources.json`) {
     fail(`${label}: selected source path is not the Readings event source directory`);
   }
-  const start = optionalString(record, 'start_date', `${label} selected record`);
-  const end = optionalString(record, 'end_date', `${label} selected record`);
+  let start = optionalString(record, 'start_date', `${label} selected record`);
+  let end = optionalString(record, 'end_date', `${label} selected record`);
+  const yearOnly = record.start_date === null && record.end_date === null;
+  if (yearOnly && Number.isInteger(record.year) && /^\d{4}$/.test(String(record.year))) {
+    start = end = String(record.year);
+  }
   if (!start || !end || !datePattern.test(start) || !datePattern.test(end)) {
     fail(`${label}: selected readings record has no usable historical dates`);
   }
@@ -410,6 +414,7 @@ function adaptReadings({ entry, label, publicId, recordData, sourceData, sourceP
       sourceIds,
       `${label} sources`,
       isOnline ? ['online_format'] : [],
+      yearOnly ? 'conference_year' : 'conference_dates',
     ),
   };
 }
@@ -418,8 +423,8 @@ function adaptIfiSymposium({ entry, label, publicId, recordData, recordId, title
   if (!Array.isArray(recordData.activity_groups)) fail(`${label}: IFI events catalog is unavailable`);
   const record = uniqueMatch(recordData.activity_groups, (item) => item?.event_id === recordId,
     `${label} selected IFI symposium ${recordId}`);
-  if (record.type !== 'symposium' || record.event_status !== 'confirmed') {
-    fail(`${label}: selected IFI event is not a confirmed symposium`);
+  if (record.type !== 'symposium' || !['confirmed', 'planned'].includes(record.event_status)) {
+    fail(`${label}: selected IFI event must be a confirmed or planned symposium`);
   }
   const directory = requiredString(record, 'local_directory', `${label} selected record`);
   if (sourcePath !== `research/friends/${directory}/sources.json`) {
@@ -431,10 +436,16 @@ function adaptIfiSymposium({ entry, label, publicId, recordData, recordId, title
     fail(`${label}: selected IFI symposium has no usable historical dates`);
   }
   const sourceIds = requiredStringArray(entry, 'source_ids', label);
+  const format = requiredString(record, 'format', `${label} selected record`);
+  if (!['in_person', 'online', 'hybrid'].includes(format)) {
+    fail(`${label}: selected IFI symposium format is unsupported`);
+  }
   return {
     id: publicId,
     title,
     context: requiredString(entry, 'context_zh', label),
+    status: record.event_status,
+    format,
     location: requiredString(entry, 'location_zh', label),
     period: { start, end },
     sources: ifiSources(sourceData, sourceIds, `${label} sources`),

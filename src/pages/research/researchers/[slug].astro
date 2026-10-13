@@ -1,14 +1,22 @@
 ---
-import { renderPublicMarkdown } from '../../../../lib/markdown';
-import BaseLayout from '../../../../layouts/BaseLayout.astro';
-import TextRecord from '../../../../components/TextRecord.astro';
-import ResourceLinks from '../../../../components/ResourceLinks.astro';
-import SectionLayout from '../../../../components/SectionLayout.astro';
-import { getPublicResearchers, type PublicResearcher } from '../../../../lib/research-records';
-import { getSiteData } from '../../../../lib/site-data';
+import { renderPublicMarkdown } from '../../../lib/markdown';
+import BaseLayout from '../../../layouts/BaseLayout.astro';
+import Breadcrumbs from '../../../components/Breadcrumbs.astro';
+import ResearchNav from '../../../components/ResearchNav.astro';
+import TextRecord from '../../../components/TextRecord.astro';
+import ResourceLinks from '../../../components/ResourceLinks.astro';
+import SectionLayout from '../../../components/SectionLayout.astro';
+import { getPublicResearchers, type PublicResearcher } from '../../../lib/research-records';
+import { getSiteData } from '../../../lib/site-data';
 
-const researcher = getPublicResearchers().find((record) => record.id === 'researcher-andrey-maidansky');
-if (!researcher) throw new Error('Maidansky public researcher profile is missing');
+export function getStaticPaths() {
+  return getPublicResearchers().map((researcher) => ({
+    params: { slug: researcher.id.replace(/^researcher-/, '') },
+    props: { researcher },
+  }));
+}
+interface Props { researcher: PublicResearcher; }
+const { researcher } = Astro.props;
 const introduction = researcher.editorial
   ? await renderPublicMarkdown(researcher.editorial.introduction.join('\n\n')) : undefined;
 const { articles } = await getSiteData();
@@ -23,10 +31,16 @@ const resourceLabels: Record<PublicResearcher['resources'][number]['kind'], stri
 ---
 
 <BaseLayout title={researcher.name} description={researcher.summary}>
-  <SectionLayout modifier="entity-detail research-profile" pinned>
-    <ResourceLinks slot="aside" id="researcher-resources-heading" label="学术入口"
-      links={researcher.resources.map((resource) => ({ label: resourceLabels[resource.kind], href: resource.url }))} />
+  <SectionLayout modifier="entity-detail research-profile" pinned={researcher.resources.length > 0}>
+    {researcher.resources.length > 0 && <ResourceLinks slot="aside" id="researcher-resources-heading" label="学术入口"
+      links={researcher.resources.map((resource) => ({ label: resourceLabels[resource.kind], href: resource.url }))} />}
+    <Breadcrumbs slot="breadcrumb" items={[
+      { label: '研究', href: '/research/' },
+      { label: '研究者', href: '/research/researchers/' },
+      { label: researcher.name },
+    ]} />
     <header class="page-header" slot="intro">
+      <ResearchNav current="researchers" />
       <h1 class="page-title">{researcher.name}</h1>
       <p class="record__original">
         {researcher.originalName}

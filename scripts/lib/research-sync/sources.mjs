@@ -38,7 +38,7 @@ export function sourceRecords(sourceData, sourceIds, label) {
   });
 }
 
-export function readingSources(sourceData, sourceIds, label, requiredCapabilities = []) {
+export function readingSources(sourceData, sourceIds, label, requiredCapabilities = [], dateCapability = 'conference_dates') {
   const selected = selectedSources(sourceData, sourceIds, label);
   const supports = (source, capability) => (
     Array.isArray(source.supports) && source.supports.includes(capability)
@@ -48,8 +48,8 @@ export function readingSources(sourceData, sourceIds, label, requiredCapabilitie
   ))) {
     fail(`${label}: selected sources do not support the conference title`);
   }
-  if (!selected.some((source) => supports(source, 'conference_dates'))) {
-    fail(`${label}: selected sources do not support the conference dates`);
+  if (!selected.some((source) => supports(source, dateCapability))) {
+    fail(`${label}: selected sources do not support the ${dateCapability.replaceAll('_', ' ')}`);
   }
   for (const capability of requiredCapabilities) {
     if (!selected.some((source) => supports(source, capability))) {

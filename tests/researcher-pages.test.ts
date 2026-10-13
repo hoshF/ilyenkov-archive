@@ -50,12 +50,30 @@ describe('canonical researcher detail and research hub entry', () => {
     const paragraphs = [...intro.matchAll(/<p\b[^>]*>([\s\S]*?)<\/p>/g)].map(([, content]) => textContent(content));
     expect(paragraphs).toEqual(getPublicResearchers().find((record) => record.id === 'researcher-andrey-maidansky')!.editorial!.introduction.map((paragraph) => paragraph.replace(/\*\*/g, '')));
     expect(intro).toContain('<strong>');
-    expect(main).not.toContain('aria-label="当前位置"');
+    expect(main).toContain('aria-label="当前位置"');
     expect([...main.matchAll(/<h2\b[^>]*>([\s\S]*?)<\/h2>/g)]
       .map(([, content]) => textContent(content)))
       .toEqual(['简介', '本站译文']);
     expect(html).toContain('section-layout__sidebar');
     expect(html).not.toMatch(/section-layout--indexed|class="section-layout__toc"/);
+  });
+
+  it.each(getPublicResearchers())('keeps shared research navigation and breadcrumb on $name', (researcher) => {
+    const href = `/research/researchers/${researcher.id.replace(/^researcher-/, '')}/`;
+    const main = mainContent(builtPage(href));
+    const nav = main.match(/<nav\b[^>]*aria-label="研究专题"[^>]*>([\s\S]*?)<\/nav>/)![1];
+    const expected = [
+      { href: '/research/ifi/', label: getPublicIfiNetwork().title },
+      { href: '/research/researchers/', label: '研究者' },
+      { href: '/research/readings/', label: getPublicReadingsSeries()[0].title },
+    ];
+    expect(links(nav)).toEqual(expected);
+    expect([...nav.matchAll(/aria-current="page"/g)]).toHaveLength(1);
+    expect(nav).toContain('href="/research/researchers/" aria-current="page"');
+    for (const link of links(nav)) expect(routeExists(link.href)).toBe(true);
+    const breadcrumb = main.match(/<nav\b[^>]*aria-label="当前位置"[^>]*>([\s\S]*?)<\/nav>/)![1];
+    expect(links(breadcrumb)).toEqual([{ href: '/', label: '首页' }, { href: '/research/', label: '研究' }, { href: '/research/researchers/', label: '研究者' }]);
+    expect(textContent(breadcrumb)).toContain(researcher.name);
   });
 
   it('keeps the introduction and translations without redundant fields or work sections', () => {
@@ -134,34 +152,17 @@ describe('canonical researcher detail and research hub entry', () => {
     }
   });
 
-  it('presents the researcher as a peer entry with a linked heading, identity and summary', async () => {
-    const main = mainContent(builtPage('/research'));
-    const researcher = profile();
-    const entry = sectionById(main, 'researcher-andrey-maidansky-heading');
-    expect(textContent(entry)).toContain(researcher.name);
+  it.each(getPublicResearchers())('lists every selected researcher and builds its detail: $name', (researcher) => {
+    const main = mainContent(builtPage('/research/researchers/'));
+    const entry = sectionById(main, `${researcher.id}-heading`);
+    const href = `/research/researchers/${researcher.id.replace(/^researcher-/, '')}/`;
+    expect(links(entry)).toEqual([{ href, label: researcher.name }]);
     expect(textContent(entry)).toContain(researcher.originalName);
-    expect(textContent(entry)).toContain(getPublicResearchers().find((record) => record.id === 'researcher-andrey-maidansky')!.editorial!.workDescription);
-    const heading = entry.match(/<h2\b[^>]*>([\s\S]*?)<\/h2>/)![1];
-    expect(links(heading)).toEqual([{ href: route, label: researcher.name }]);
-    const paragraphs = [...entry.matchAll(/<p\b[^>]*>([\s\S]*?)<\/p>/g)]
-      .map(([, content]) => textContent(content));
-    expect(paragraphs).toEqual([researcher.originalName, getPublicResearchers().find((record) => record.id === 'researcher-andrey-maidansky')!.editorial!.workDescription]);
-    expect(links(entry)).toEqual([{ href: route, label: researcher.name }]);
-    expect(entry).not.toMatch(/<ol\b|<ul\b|<li\b|<article\b|<h3\b|<h4\b/);
-    expect(main).not.toContain('aria-labelledby="researchers-heading"');
-    const { articles } = await getSiteData();
-    for (const article of articles) expect(textContent(entry)).not.toContain(article.title);
-    expect(routeExists('/research/researchers/')).toBe(false);
-    const network = getPublicIfiNetwork();
-    const ifi = sectionById(main, 'ifi-heading');
-    expect(textContent(ifi)).toContain(network.summary);
-    expect(links(ifi)).toEqual([{ href: '/research/ifi/', label: network.title }]);
-    const series = getPublicReadingsSeries()[0];
-    const readings = sectionById(main, 'readings-heading');
-    expect(textContent(readings)).toContain(series.summary);
-    expect(links(readings)).toEqual([{ href: '/research/readings/', label: series.title }]);
-    expect(main).not.toContain('research-sites-heading');
-    expect([...main.matchAll(/<section\b/g)]).toHaveLength(2 + getPublicResearchers().length);
+    expect(textContent(entry)).toContain(researcher.editorial?.workDescription ?? researcher.summary);
+    expect(routeExists(href)).toBe(true);
+    expect(textContent(mainContent(builtPage(href)))).toContain(researcher.name);
+    expect(links(sectionById(mainContent(builtPage('/research/')), 'researchers-heading')))
+      .toEqual([{ href: '/research/researchers/', label: '研究者' }]);
   });
 
   it('preserves primary navigation, static rendering and the private publication boundary', () => {

@@ -80,7 +80,7 @@ const seriesEntry = (manifest) => manifest.records.find((entry) => entry.kind ==
 const seriesRecord = (catalog) => catalog.records.find((record) => record.series_id === privateSeries.series_id);
 const conference = (catalog, directory) => catalog.conferences.find((record) => record.local_directory === directory);
 
-/** Add an explicitly unselected event only; selected baseline records are mutated in place. */
+/** Replace an edition selection with a distinct fixture identity. */
 function addReading(input, directory, publicId) {
   const sourceIds = directory === unnumbered1997Directory ? ['src-1997-006']
     : directory === edition2011Directory ? ['src-2011-001'] : ['src-2011-03-001'];
@@ -96,8 +96,8 @@ function addReading(input, directory, publicId) {
     source_ids: sourceIds,
   };
   input.mutate(publicationPath, (manifest) => {
-    expect(manifest.records.some((record) => record.kind === 'ilyenkov_readings'
-      && record.record_directory === directory)).toBe(false);
+    manifest.records = manifest.records.filter((record) => !(record.kind === 'ilyenkov_readings'
+      && record.record_directory === directory));
     manifest.records.push(entry);
   });
   return entry;
@@ -242,6 +242,39 @@ describe('Readings directory publication locator', () => {
       catalog.conferences.push({ ...conference(catalog, earliestDirectory), year: 1990 });
     });
     expect(() => input.plan()).toThrow(/readings directory.*exactly one/);
+  });
+});
+
+describe('Readings date precision', () => {
+  it('publishes a source-supported year without inventing unknown months or days', () => {
+    const input = fixture();
+    input.mutate(eventsPath, (catalog) => {
+      const event = conference(catalog, earliestDirectory);
+      event.start_date = event.end_date = null;
+    });
+    const entry = readingEntry(input.read(publicationPath));
+    input.mutate(entry.source_path, (catalog) => {
+      for (const source of catalog.records) {
+        if (entry.source_ids.includes(source.source_id)) {
+          source.supports = source.supports.filter((capability) => capability !== 'conference_dates');
+          source.supports.push('conference_year');
+        }
+      }
+    });
+    const reading = input.plan().readings.find((record) => record.id === earliestPublicId);
+    expect(reading.period).toEqual({ start: '1991', end: '1991' });
+    expect(ResearchRecordsSchema.safeParse(input.plan()).success).toBe(true);
+    expect(conference(input.read(eventsPath), earliestDirectory).start_date).toBeNull();
+    input.mutate(entry.source_path, (catalog) => {
+      for (const source of catalog.records) source.supports = source.supports.filter((capability) => capability !== 'conference_year');
+    });
+    expect(() => input.plan()).toThrow(/conference year/);
+  });
+
+  it('rejects a partly missing period rather than filling it with the event year', () => {
+    const input = fixture();
+    input.mutate(eventsPath, (catalog) => { conference(catalog, earliestDirectory).end_date = null; });
+    expect(() => input.plan()).toThrow(/historical dates/);
   });
 });
 
@@ -617,9 +650,11 @@ describe('Readings publication regression', () => {
     for (const entry of selectedReadings) {
       const event = conference(events, entry.record_directory);
       const record = records.readings.find((record) => record.id === entry.public_id);
+      const period = event.start_date === null && event.end_date === null
+        ? { start: String(event.year), end: String(event.year) }
+        : { start: event.start_date, end: event.end_date };
       expect(record).toMatchObject({
-        title: event.title_zh, edition: entry.edition_zh,
-        period: { start: event.start_date, end: event.end_date },
+        title: event.title_zh, edition: entry.edition_zh, period,
       });
     }
     const selectedSeries = seriesEntry(publication);
@@ -669,7 +704,7 @@ describe('Readings publication regression', () => {
     const html = readFileSync(builtRoutePath('/research'), 'utf8');
     const detail = readFileSync(builtRoutePath('/research/readings'), 'utf8');
     for (const reading of records.readings) expect(detail).toContain(reading.title);
-    expect(html).toContain('researcher-andrey-maidansky-heading');
+    expect(html).toContain('researchers-heading');
     expect(html).not.toContain('research-sites-heading');
     expect(html).toContain('readings-heading');
     expect(html).toContain('href="/research/readings/"');

@@ -327,7 +327,7 @@ describe('private life and circle publication', () => {
     for (const field of ['lead', 'note']) expect(textContent(lifeMain)).toContain(life[field]);
     for (const stage of life.stages) {
       expect(textContent(lifeMain)).toContain(stage.summary);
-      if (stage.period) expect(textContent(lifeMain)).toContain(`${stage.period.start.slice(0, 4)}—${stage.period.end.slice(0, 4)}`);
+      if (stage.period) expect(textContent(lifeMain)).toContain(formatHistoricalPeriod({ start: stage.period.start.slice(0, 4), end: stage.period.end.slice(0, 4) }));
       if (stage.years) expect(textContent(lifeMain)).toContain(stage.years.join('、'));
       for (const link of stage.links) {
         expect(lifeMain).toContain(`href="/ilyenkov/${link.target}/"`);

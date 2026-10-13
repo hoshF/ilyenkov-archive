@@ -126,6 +126,8 @@ const IfiSymposiumSchema = z.object({
   id: z.string().regex(/^[a-z0-9]+(?:-[a-z0-9]+)*$/),
   title: z.string().trim().min(1),
   context: z.string().trim().min(1),
+  status: z.enum(['confirmed', 'planned']),
+  format: z.enum(['in_person', 'online', 'hybrid']),
   location: z.string().trim().min(1),
   period: PeriodSchema,
   sources: z.array(SourceSchema).min(1),
@@ -339,11 +341,11 @@ export const ResearchRecordsSchema = z.object({
     const matchingSymposiums = records.ifiSymposiums.filter((symposium) => (
       symposium.id === network.formation.symposiumId
     ));
-    if (matchingSymposiums.length !== 1) {
+    if (matchingSymposiums.length !== 1 || matchingSymposiums[0].status !== 'confirmed') {
       context.addIssue({
         code: 'custom',
         path: ['ifiNetworks', index, 'formation', 'symposiumId'],
-        message: 'IFI formation must reference exactly one public symposium',
+        message: 'IFI formation must reference exactly one confirmed public symposium',
       });
     }
   });
@@ -493,15 +495,18 @@ export function getPublicResearchSites(): PublicResearchSite[] {
 }
 
 export function formatHistoricalPeriod({ start, end }: PublicActivity['period']): string {
-  const format = (value: string) => {
-    const [year, month, day] = value.split('-');
-    if (!month) return `${year} 年`;
-    if (!day) return `${year} 年${Number(month)} 月`;
-    return `${year} 年${Number(month)} 月${Number(day)} 日`;
-  };
-  return start === end ? format(start) : `${format(start)}—${format(end)}`;
+  const format = (value: string) => value.replaceAll('-', '.');
+  if (start === end) return format(start);
+  const [startYear, startMonth, startDay] = start.split('-');
+  const [endYear, endMonth, endDay] = end.split('-');
+  if (startYear === endYear && startMonth === endMonth && startDay && endDay) {
+    return `${format(start)}–${endDay}`;
+  }
+  if (startYear === endYear && startMonth && endMonth && Boolean(startDay) === Boolean(endDay)) {
+    return `${format(start)}–${end.slice(5).replaceAll('-', '.')}`;
+  }
+  return `${format(start)}–${format(end)}`;
 }
-
 
 export function getPublicIlyenkov() {
   const profile = getPublicResearchRecords().ilyenkov;

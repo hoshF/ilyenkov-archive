@@ -275,6 +275,42 @@ describe('IFI publication contract', () => {
   });
 });
 
+describe('IFI symposium public status', () => {
+  it('publishes a planned symposium with its status while keeping formation historical', () => {
+    const input = fixture();
+    const eventId = input.read(eventsPath).activity_groups.find((record) => record.type === 'symposium'
+      && record.event_id !== privateOrganization.formation_event_id).event_id;
+    input.mutate(eventsPath, (catalog) => {
+      catalog.activity_groups.find((record) => record.event_id === eventId).event_status = 'planned';
+    });
+    const records = input.plan();
+    const entry = input.read(publicationPath).records.find((record) => record.record_id === eventId);
+    expect(records.ifiSymposiums.find((record) => record.id === entry.public_id).status).toBe('planned');
+    expect(records.ifiSymposiums.find((record) => record.id === records.ifiNetworks[0].formation.symposiumId).status)
+      .toBe('confirmed');
+    expect(ResearchRecordsSchema.safeParse(records).success).toBe(true);
+    input.mutate(eventsPath, (catalog) => {
+      catalog.activity_groups.find((record) => record.event_id === eventId).event_status = 'unverified';
+    });
+    expect(() => input.plan()).toThrow(/confirmed or planned/);
+  });
+
+  it('rejects a planned formation reference in generated data', () => {
+    const records = fixture().plan();
+    const formationId = records.ifiNetworks[0].formation.symposiumId;
+    records.ifiSymposiums.find((record) => record.id === formationId).status = 'planned';
+    expect(ResearchRecordsSchema.safeParse(records).success).toBe(false);
+  });
+
+  it('requires a supported symposium status in generated data', () => {
+    const records = fixture().plan();
+    records.ifiSymposiums[0].status = 'unverified';
+    expect(ResearchRecordsSchema.safeParse(records).success).toBe(false);
+    delete records.ifiSymposiums[0].status;
+    expect(ResearchRecordsSchema.safeParse(records).success).toBe(false);
+  });
+});
+
 describe('IFI private editorial publication', () => {
   it('publishes only the selected introduction and symposium lead without its source locator', () => {
     const input = fixture();

@@ -119,6 +119,7 @@ profile 不改变文章集合，没有译文的 profile 也可成立。
 Readings 来源 URL 按 `current → original → archive → 既有 flat url` 选择首个非空值，再校验为合法
 `http(s)` 地址；优先值无效时失败，不通过 fallback 掩盖错误。数组形式取第一项，不输出抓取时间或
 其他 archive metadata。单个 event 记录表示一届会议，不另建 session 集合。
+日期投影保持已有精度；两端明确为空时只用有来源支持的 canonical 年份，不补月日。
 
 ## IFI 网络同步
 
@@ -134,11 +135,12 @@ Readings 来源 URL 按 `current → original → archive → 既有 flat url` �
 4. 输出其 `public_id` 到 `formation.symposiumId`，不透传 private event ID。
 
 归属、类型、状态错误，活动不存在、未公开或重复发布，都使同步失败；public schema 再确认关系在
-`ifiSymposiums` 中唯一解析。即使 private 与 public ID 字面相同，也须经过映射。
+`ifiSymposiums` 中唯一解析并为 `confirmed`。即使 private 与 public ID 字面相同，也须经过映射。
 
 `activity_modes` 按原顺序映射为 `activityModes`，资源输出为选定的 `{ kind, url }`。network 不复制
 形成活动的日期、地点或题名，也不嵌入 symposium 列表；独立 symposium 继续按各自 publication
-与来源契约输出。公开资源链接不意味着复制对应页面全文。
+与来源契约输出。专题研讨会投影显式保留 `confirmed` / `planned` 状态及活动形式，
+页面标明计划状态，不根据当前日期自动推断举行。公开资源链接不意味着复制对应页面全文。
 
 ## 年表与作品目录
 
