@@ -112,8 +112,8 @@ describe('website-approved data adapter', () => {
     expect(detail).toMatch(/class="prose(?: [a-z-]+)*" set:html=\{document.html\}/);
     expect(detail).toContain('id="source-info-heading"');
     expect(detail).toContain('class="document-nav"');
-    // 译文页的页内目录高亮脚本仍在，且只有这一段。
-    expect(detail).toContain('<script>');
+    // 译文与小组文章复用同一份目录交互。
+    expect(detail).toContain('<ReadingTocBehavior />');
   });
 
   it('uses source information generated directly from work.json', async () => {
@@ -503,19 +503,22 @@ describe('website-approved data adapter', () => {
     expect(declaration('.section-layout--indexed .section-layout__toc', 'top', '@media (max-width: 600px)')).toBe('0');
   });
 
-  it('marks the current section only where a translation is being read', () => {
-    // 高亮由脚本给出，脚本只随译文页输出：其他用 SectionLayout 的栏目页不加载它，
-    // 共用组件本身也不带脚本。
-    expect(pageSource('archive/[id].astro')).toContain('<script>');
+  it('shares current-section marking between translations and group articles only', async () => {
+    const { articles } = await getSiteData();
+    const issues = await getGroupIssues();
+    let sharedEnhancement: string | undefined;
+    expect(articles.length + issues.length).toBeGreaterThan(0);
+    for (const document of [...articles, ...issues]) {
+      const page = readFileSync(builtRoutePath(document.route), 'utf8');
+      const scripts = page.match(/<script\b[^>]*type="module"[^>]*>[\s\S]*?<\/script>/g) ?? [];
+      expect(scripts, document.route).toHaveLength(1);
+      sharedEnhancement ??= scripts[0];
+      expect(scripts[0], document.route).toBe(sharedEnhancement);
+    }
     expect(componentSource('SectionLayout')).not.toContain('<script');
-    for (const route of [
-      'research.astro',
-      'group/index.astro',
-      'group/[id].astro',
-      'about.astro',
-      'books/index.astro',
-    ]) {
-      expect(pageSource(route), `${route} should carry no script`).not.toContain('<script');
+    for (const route of ['/research/', '/group/', '/about/', '/books/']) {
+      const page = readFileSync(builtRoutePath(route), 'utf8');
+      expect(page, route).not.toContain(sharedEnhancement!);
     }
 
     // 状态写在目录条目上，用的是 location，不和顶栏当前栏目的 page 混用。
@@ -1089,9 +1092,9 @@ describe('group work channel', () => {
     expect(detail).toContain('{issue.kind}');
     expect(detail).toContain('issue.summary');
 
-    // 两个页面都不带脚本。
+    // 列表不加载阅读交互；详情复用统一的目录组件。
     expect(source).not.toContain('<script');
-    expect(detail).not.toContain('<script');
+    expect(detail).toContain('<ReadingTocBehavior />');
   });
 
   it('refuses a filename that disagrees with the issue number', () => {

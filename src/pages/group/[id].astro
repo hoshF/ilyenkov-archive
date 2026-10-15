@@ -1,6 +1,7 @@
 ---
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import SectionLayout from '../../components/SectionLayout.astro';
+import ReadingTocBehavior from '../../components/ReadingTocBehavior.astro';
 import { adjacentIssues, getGroupIssues, type GroupIssue } from '../../lib/group';
 
 export async function getStaticPaths() {
@@ -53,3 +54,5 @@ const toc = issue.headings.map((heading) => ({
     </nav>
   </SectionLayout>
 </BaseLayout>
+
+<ReadingTocBehavior />
