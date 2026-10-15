@@ -1,5 +1,11 @@
 [
   {
+    "date": "2026-10-14",
+    "summary": "中文伊里因科夫小组公开实际使用的文献数字化、Agent 辅助翻译、独立审阅、术语管理、统稿与文本成书工作流，提供规范、辅助工具和教学示例，欢迎阅读、复用并提出建议。",
+    "link": "https://github.com/hoshF/ilyenkov-translation-workflow",
+    "link_label": "浏览翻译工作流"
+  },
+  {
     "date": "2026-10-13",
     "summary": "补充伊里因科夫学术报告会的历届会议条目，按年代组织列表，并整理日期、举办地点与资料来源入口。",
     "link": "/research/readings/",
