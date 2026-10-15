@@ -430,12 +430,16 @@ describe('website-approved data adapter', () => {
     expect(detail).not.toContain('label: issue.kind');
     expect(detail).toContain('{issue.kind}');
 
-    // kind 仍然是真实数据，只是现在显示在题名上方的 metadata 行里。
+    // 每期的期号、分类和标题都以该期元数据为准。
     expect(issues.length).toBeGreaterThan(0);
+    const escapeText = (value: string) => value.replace(/&/g, '&amp;')
+      .replace(/</g, '&lt;').replace(/>/g, '&gt;')
+      .replace(/'/g, '&#39;').replace(/"/g, '&quot;');
     for (const issue of issues) {
       expect(issue.kind.length, issue.route).toBeGreaterThan(0);
       const page = readFileSync(builtRoutePath(issue.route), 'utf8');
-      expect(page, issue.route).toContain(`第 ${issue.issue} 期 · ${issue.kind}`);
+      expect(page, issue.route).toContain(`第 ${issue.issue} 期 · ${escapeText(issue.kind)}`);
+      expect(page, issue.route).toContain(`<h1 id="issue-${issue.id}">${escapeText(issue.title)}</h1>`);
     }
   });
 
