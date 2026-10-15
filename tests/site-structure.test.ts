@@ -431,13 +431,12 @@ describe('website-approved data adapter', () => {
     expect(detail).toContain('{issue.kind}');
 
     // kind 仍然是真实数据，只是现在显示在题名上方的 metadata 行里。
-    const kinds = new Set(issues.map((issue) => issue.kind));
-    expect(kinds.size).toBeGreaterThan(0);
-    for (const kind of kinds) {
-      expect(kind.length).toBeGreaterThan(0);
+    expect(issues.length).toBeGreaterThan(0);
+    for (const issue of issues) {
+      expect(issue.kind.length, issue.route).toBeGreaterThan(0);
+      const page = readFileSync(builtRoutePath(issue.route), 'utf8');
+      expect(page, issue.route).toContain(`第 ${issue.issue} 期 · ${issue.kind}`);
     }
-    const page = readFileSync(path.join(process.cwd(), 'dist', 'group/0/index.html'), 'utf8');
-    expect(page).toContain(`第 0 期 · ${[...kinds][0]}`);
   });
 
   it('keeps the header in normal flow and navigation sticky without header offsets', () => {
