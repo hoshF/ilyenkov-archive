@@ -365,14 +365,12 @@ describe('website-approved data adapter', () => {
     expect(declaration('.reading-page .section-layout--reading', 'width', '@media (max-width: 600px)')).toContain('100% - 40px');
   });
 
-  it('gives the group issue no sidebar and puts its title in the content flow', () => {
+  it('keeps an unsectioned group issue single-column with its title in the content flow', () => {
     const source = pageSource('group/[id].astro');
     const page = readFileSync(path.join(process.cwd(), 'dist', 'group/0/index.html'), 'utf8');
     const main = page.match(/<main>([\s\S]*?)<\/main>/)![1];
 
-    // 调用端不再传 toc / tocLabel / pinned，也不再有 aside。
-    expect(source).not.toContain('toc={toc}');
-    expect(source).not.toContain('tocLabel=');
+    // 无分节文章不产生空侧栏，也不另设辅助内容。
     expect(source).not.toContain('pinned');
     expect(source).not.toContain('slot="aside"');
     expect(source).not.toContain('Breadcrumbs');
@@ -421,12 +419,11 @@ describe('website-approved data adapter', () => {
     }
   });
 
-  it('does not invent a table of contents for a single-unit issue', async () => {
+  it('indexes each issue using its own headings and metadata', async () => {
     const issues = await getGroupIssues();
     const detail = pageSource('group/[id].astro');
 
-    // 期详情不再生成目录：这一期的一级单位就是它自己，只有 1 项的目录不构成 rail 的理由。
-    expect(detail).not.toContain('const toc');
+    // 目录只列正文分节，不把文章分类当作章节。
     expect(detail).not.toContain('label: issue.kind');
     expect(detail).toContain('{issue.kind}');
 
@@ -440,6 +437,21 @@ describe('website-approved data adapter', () => {
       const page = readFileSync(builtRoutePath(issue.route), 'utf8');
       expect(page, issue.route).toContain(`第 ${issue.issue} 期 · ${escapeText(issue.kind)}`);
       expect(page, issue.route).toContain(`<h1 id="issue-${issue.id}">${escapeText(issue.title)}</h1>`);
+
+      const toc = page.match(/<aside class="section-layout__toc"[\s\S]*?<\/aside>/)?.[0];
+      if (issue.headings.length === 0) {
+        expect(toc, issue.route).toBeUndefined();
+        expect(page, issue.route).not.toContain('section-layout--rail');
+      } else {
+        expect(toc, issue.route).toBeDefined();
+        expect(page, issue.route).toContain('section-layout--indexed');
+        expect([...toc!.matchAll(/href="([^"]+)"/g)].map(([, href]) => href))
+          .toEqual(issue.headings.map((heading) => `#${escapeText(heading.id)}`));
+        for (const heading of issue.headings) {
+          expect(toc, issue.route).toContain(`>${escapeText(heading.text)}</a>`);
+          expect(page, issue.route).toContain(`id="${escapeText(heading.id)}"`);
+        }
+      }
     }
   });
 

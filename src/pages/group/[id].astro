@@ -24,11 +24,15 @@ interface Props {
   next: Sibling | null;
 }
 const { issue, previous, next } = Astro.props;
+const toc = issue.headings.map((heading) => ({
+  href: `#${heading.id}`,
+  label: heading.text,
+}));
 ---
 
 <BaseLayout title={issue.title} description={`第 ${issue.issue} 期：${issue.summary}`} reading>
   {/* 单期复用文章阅读排版；返回入口与相邻期导航放在篇末。 */}
-  <SectionLayout reading>
+  <SectionLayout toc={toc} reading>
     <header class="document-header" slot="intro">
       <p class="record__meta">第 {issue.issue} 期 · {issue.kind} · <time datetime={issue.published}>{issue.published}</time></p>
       <h1 id={`issue-${issue.id}`}>{issue.title}</h1>
