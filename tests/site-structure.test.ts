@@ -11,7 +11,7 @@ import { getPublicIlyenkov, getPublicResearchers, getPublicIfiNetwork, getPublic
 import { getSiteData } from '../src/lib/site-data';
 import { builtRoutePath, componentSource, layoutSource, pageFileExists, pageSource, routeExists } from './helpers/pages';
 import { researchRoot, websiteWorks } from './helpers/publication';
-import { declaration, declarationsFor, rules } from './helpers/styles';
+import { declaration, declarationsFor, rules, stylesheetSource } from './helpers/styles';
 
 const ilyenkov = getPublicIlyenkov();
 
@@ -345,6 +345,36 @@ describe('website-approved data adapter', () => {
     expect(declaration('.prose strong', 'font-synthesis')).toBe('weight');
   });
 
+  it('sets CJK dashes and ellipses in the CJK interface font without touching quotes', () => {
+    // 西文字体排在字体栈前面；破折号与省略号必须改由中文字体排，“——”才连成一条、“……”才占两个字宽。
+    const faces = [...stylesheetSource.matchAll(/@font-face\s*{([^}]*)}/g)].map(([, body]) => body);
+    const family = faces.map((body) => body.match(/font-family:\s*"([^"]+)"/)![1]);
+    expect(new Set(family).size).toBe(1);
+    expect(declaration(':root', '--sans')).toMatch(new RegExp(`^"${family[0]}",`));
+    // 常规与粗体各有一份，标题与正文中的破折号跟随所在文字的字重。
+    expect(faces.map((body) => body.match(/font-weight:\s*([^;]+);/)![1])).toEqual(['100 500', '600 900']);
+    for (const body of faces) {
+      const range = body.match(/unicode-range:\s*([^;]+);/)![1].split(',').map((item) => item.trim());
+      expect(range).toEqual(['U+2014', 'U+2026']);
+    }
+    // 注释号不改变所在行的行高。
+    expect(declaration('.prose sup', 'line-height')).toBe('0');
+    expect(declaration('.document-header h1 sup', 'line-height')).toBe('0');
+    expect(Number.parseFloat(declaration('.document-header h1 sup', 'font-size')!)).toBeLessThanOrEqual(.5);
+  });
+
+  it('keeps record labels neutral and browser chrome on the page colour', () => {
+    // 标签不可点击，不能借用链接色；暗色模式也不能比链接更亮。
+    expect(declaration('.record__label', 'color')).toBe('var(--label)');
+    expect(declaration(':root', '--label')).not.toBe(declaration(':root', '--accent'));
+    const dark = '@media (prefers-color-scheme: dark)';
+    expect(declaration(':root', '--label', dark)).toBeDefined();
+    expect(declaration(':root', '--label', dark)).not.toBe(declaration(':root', '--accent', dark));
+    const layout = layoutSource('BaseLayout');
+    expect(layout).toContain(`<meta name="theme-color" content="${declaration(':root', '--paper')}" media="(prefers-color-scheme: light)" />`);
+    expect(layout).toContain(`<meta name="theme-color" content="${declaration(':root', '--paper', dark)}" media="(prefers-color-scheme: dark)" />`);
+  });
+
   it('uses the same reading presentation for translations and group articles', async () => {
     const { articles } = await getSiteData();
     const issues = await getGroupIssues();
@@ -579,7 +609,7 @@ describe('public navigation', () => {
     // 当前项沿用普通目录文字颜色，以细下划线标示位置。
     expect(active.color).toBe('var(--ink-soft)');
     expect(active['text-decoration-thickness']).toBe('1px');
-    expect(declaration('.site-header__nav a[aria-current=page]:hover', 'color')).toBe('var(--accent-dark)');
+    expect(declaration('.site-header__nav a[aria-current=page]:hover', 'color')).toBe('var(--accent-hover)');
     expect(active['text-decoration']).toBe('underline');
     expect(active['text-decoration-color']).toBeUndefined();
     // 底线是文字自己的下划线：导航项不因为当前状态而变高。
@@ -756,12 +786,16 @@ describe('public navigation', () => {
     expect(mobileNav['font-size']).toBeUndefined();
     const mobileLink = declarationsFor('.site-header__nav a', '@media (max-width: 600px)');
     expect(mobileLink['font-size']).toBe('var(--text-meta)');
+    // 最窄的手机排不下一行六项：改为三列两行，不让最后一项单独换行。
+    const narrowNav = declarationsFor('.site-header__nav', '@media (max-width: 400px)');
+    expect(narrowNav.display).toBe('grid');
+    expect(narrowNav['grid-template-columns']).toBe(`repeat(${site.navigation.length / 2}, max-content)`);
     expect(Number.parseFloat(link['min-height'])).toBeGreaterThanOrEqual(44);
     expect(declarationsFor('.site-header__nav a:focus-visible').outline).toBeTruthy();
 
     // 普通项与当前项同属深色系，当前位置用细下划线标记，hover 使用 accent。
     const hover = declarationsFor('.site-header__nav a:hover');
-    expect(hover.color).toBe('var(--accent-dark)');
+    expect(hover.color).toBe('var(--accent-hover)');
   });
 
   it('gives the rights page a permanent entrance from every page', () => {
@@ -841,6 +875,7 @@ describe('public navigation', () => {
       expect(routeExists(href)).toBe(true);
     }
     expect(declaration('.home-opening .home-more a:after', 'content')).toBe('none');
+    expect(declaration('.home-opening .home-more a', 'white-space')).toBe('nowrap');
     expect(declaration('.home-more a:after', 'content')).toBe('" →"');
     const research = main.match(/<section class="home-research"[\s\S]*?<\/section>/)![0];
     const records = [
