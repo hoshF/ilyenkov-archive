@@ -668,9 +668,10 @@ h2, h3, h4 { text-wrap: balance; line-height: 1.3; }
   /* 导航始终另起一行，保持窄屏排列稳定。 */
   .site-header__masthead { align-items: flex-start; gap: 8px; padding: 16px 0 8px; }
   .site-name { width: auto; }
-  /* 手机导航保持小字号与紧凑间距，点击区域仍至少高 44px。 */
-  .site-header__nav { justify-content: flex-start; margin-left: -10px; gap: 4px; padding: 0; }
-  .site-header__nav a { font-size: var(--text-meta); padding: 10px; }
+  /* 手机导航保持小字号与紧凑间距，点击区域仍至少高 44px；左右内边距收到 8px，
+     375px 起六个栏目排得进一行，负外边距与内边距相等，首项文字仍对齐正文左边线。 */
+  .site-header__nav { justify-content: flex-start; margin-left: -8px; gap: 4px; padding: 0; }
+  .site-header__nav a { font-size: var(--text-meta); padding: 10px 8px; }
   /* 动态在窄屏把日期放到说明上方，让长文本保有完整行宽。 */
   .updates-list__item { grid-template-columns: minmax(0, 1fr); gap: 6px 0; }
   .home-page { margin-bottom: 56px; padding-top: 21px; }
@@ -701,8 +702,8 @@ h2, h3, h4 { text-wrap: balance; line-height: 1.3; }
   .book-page .fact-list dt { margin-bottom: 7px; }
 }
 
-/* 六个栏目在这一宽度排不进一行；按三列两行排，最后一项不会单独落到第二行。 */
-@media (max-width: 400px) {
+/* 更窄时六个栏目排不进一行；按三列两行排，最后一项不会单独落到第二行。 */
+@media (max-width: 365px) {
   .site-header__nav { display: grid; grid-template-columns: repeat(3, max-content); }
 }
 

@@ -84,3 +84,19 @@ export function hasRule(selector: string, media = ''): boolean {
 }
 
 export const stylesheetSource = stylesheet;
+
+/** @font-face 声明，按源码顺序；它们不属于任何选择器，不进入 rules。 */
+export const fontFaces: Record<string, string>[] = [
+  ...stylesheet.replace(/\/\*[\s\S]*?\*\//g, '').matchAll(/@font-face\s*{([^}]*)}/g),
+].map(([, body]) => splitDeclarations(body));
+
+/** unicode-range 是否包含某个码位；未声明时字体覆盖全部码位。 */
+export function coversCodePoint(unicodeRange: string | undefined, codePoint: number): boolean {
+  if (!unicodeRange) return true;
+  return unicodeRange.split(',').some((item) => {
+    const [start, end = start] = item.trim().replace(/^U\+/i, '').split('-');
+    const low = Number.parseInt(start.replace(/\?/g, '0'), 16);
+    const high = Number.parseInt(end.replace(/\?/g, 'F'), 16);
+    return codePoint >= low && codePoint <= high;
+  });
+}

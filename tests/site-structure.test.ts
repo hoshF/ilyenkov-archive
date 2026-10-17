@@ -11,7 +11,7 @@ import { getPublicIlyenkov, getPublicResearchers, getPublicIfiNetwork, getPublic
 import { getSiteData } from '../src/lib/site-data';
 import { builtRoutePath, componentSource, layoutSource, pageFileExists, pageSource, routeExists } from './helpers/pages';
 import { researchRoot, websiteWorks } from './helpers/publication';
-import { declaration, declarationsFor, rules, stylesheetSource } from './helpers/styles';
+import { coversCodePoint, declaration, declarationsFor, fontFaces, rules } from './helpers/styles';
 
 const ilyenkov = getPublicIlyenkov();
 
@@ -347,15 +347,29 @@ describe('website-approved data adapter', () => {
 
   it('sets CJK dashes and ellipses in the CJK interface font without touching quotes', () => {
     // 西文字体排在字体栈前面；破折号与省略号必须改由中文字体排，“——”才连成一条、“……”才占两个字宽。
-    const faces = [...stylesheetSource.matchAll(/@font-face\s*{([^}]*)}/g)].map(([, body]) => body);
-    const family = faces.map((body) => body.match(/font-family:\s*"([^"]+)"/)![1]);
-    expect(new Set(family).size).toBe(1);
-    expect(declaration(':root', '--sans')).toMatch(new RegExp(`^"${family[0]}",`));
-    // 常规与粗体各有一份，标题与正文中的破折号跟随所在文字的字重。
-    expect(faces.map((body) => body.match(/font-weight:\s*([^;]+);/)![1])).toEqual(['100 500', '600 900']);
-    for (const body of faces) {
-      const range = body.match(/unicode-range:\s*([^;]+);/)![1].split(',').map((item) => item.trim());
-      expect(range).toEqual(['U+2014', 'U+2026']);
+    // 字体栈首项只为个别码位声明，其余字符仍落到原来的系统字体。
+    const first = declaration(':root', '--sans')!.split(',')[0].trim().replace(/^"|"$/g, '');
+    const faces = fontFaces.filter((face) => face['font-family'].replace(/^"|"$/g, '') === first);
+    expect(faces.length).toBeGreaterThan(0);
+    for (const face of faces) {
+      expect(face['unicode-range']).toBeDefined();
+      expect(face.src).toMatch(/^local\(/);
+      for (const codePoint of [0x2014, 0x2026]) expect(coversCodePoint(face['unicode-range'], codePoint)).toBe(true);
+      // 西文与俄文引文没有语言标记：引号、撇号与拉丁、西里尔字母留给西文字体。
+      for (const codePoint of [0x2018, 0x2019, 0x201C, 0x201D, 0x41, 0x416]) {
+        expect(coversCodePoint(face['unicode-range'], codePoint)).toBe(false);
+      }
+    }
+    // 正文、半粗标题与粗体标题都有对应字重，破折号跟随所在文字的粗细。
+    const weightRange = (face: Record<string, string>) => {
+      const [low, high = low] = face['font-weight'].split(/\s+/).map(Number);
+      return [low, high];
+    };
+    for (const weight of [400, 600, 700]) {
+      expect(faces.some((face) => {
+        const [low, high] = weightRange(face);
+        return weight >= low && weight <= high;
+      })).toBe(true);
     }
     // 注释号不改变所在行的行高。
     expect(declaration('.prose sup', 'line-height')).toBe('0');
@@ -786,10 +800,19 @@ describe('public navigation', () => {
     expect(mobileNav['font-size']).toBeUndefined();
     const mobileLink = declarationsFor('.site-header__nav a', '@media (max-width: 600px)');
     expect(mobileLink['font-size']).toBe('var(--text-meta)');
-    // 最窄的手机排不下一行六项：改为三列两行，不让最后一项单独换行。
-    const narrowNav = declarationsFor('.site-header__nav', '@media (max-width: 400px)');
-    expect(narrowNav.display).toBe('grid');
-    expect(narrowNav['grid-template-columns']).toBe(`repeat(${site.navigation.length / 2}, max-content)`);
+    // 链接左右内边距与导航负外边距相等，首项文字对齐正文左边线；内边距收紧到 8px 以内，
+    // 375–393px 的常见手机仍排成一行。
+    const [, horizontal] = mobileLink.padding.split(/\s+/).map(Number.parseFloat);
+    expect(horizontal).toBeLessThanOrEqual(8);
+    expect(Number.parseFloat(mobileNav['margin-left'])).toBe(-horizontal);
+    // 只有更窄的屏幕排不下六项：改为三列两行，不让最后一项单独换行。
+    const gridRules = rules.filter((rule) => rule.selector === '.site-header__nav' && rule.declarations.display === 'grid');
+    expect(gridRules.length).toBeGreaterThan(0);
+    for (const rule of gridRules) {
+      const maxWidth = Number.parseFloat(rule.media.match(/max-width:\s*(\d+)px/)![1]);
+      expect(maxWidth).toBeLessThan(375);
+      expect(rule.declarations['grid-template-columns']).toBe(`repeat(${site.navigation.length / 2}, max-content)`);
+    }
     expect(Number.parseFloat(link['min-height'])).toBeGreaterThanOrEqual(44);
     expect(declarationsFor('.site-header__nav a:focus-visible').outline).toBeTruthy();
 
