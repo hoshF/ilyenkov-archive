@@ -17,7 +17,7 @@
 :root {
   color-scheme: light; --ink: #1a1a1a; --ink-soft: #1a1a1a; --muted: #706b62; --line: #ddd9d1;
   --line-strong: #b8b2a7; --paper: #fafafa; --accent: #2f3a86;
-  --label: #5c5852; --logo-ink: #232323; --nav-hover: #efefef;
+  --label: #5c5852; --nav-hover: #efefef;
   --control-bg: white; --control-border: var(--line);
   --highlight-bg: #fff0ba; --highlight-ink: var(--ink-soft);
   --accent-hover: #1b1f4b; --content: 1040px; --section: 1040px; --reading: 672px; --index: 216px; --index-gap: 56px;
@@ -38,7 +38,7 @@
   :root {
     color-scheme: dark; --paper: #1c1d1f; --ink: #d8d9db; --ink-soft: #d8d9db;
     --label: #b5b1ab; --muted: #aaa6a0; --accent: #acb8f4; --accent-hover: #d0d7ff;
-    --line: #3b3d42; --line-strong: #74777f; --logo-ink: #d8d9db; --nav-hover: #25272b;
+    --line: #3b3d42; --line-strong: #74777f; --nav-hover: #25272b;
     --control-bg: #25272b; --control-border: #74777f;
     --highlight-bg: #574b2b; --highlight-ink: #f3e7be;
   }
@@ -80,13 +80,11 @@ h2, h3, h4 { text-wrap: balance; line-height: 1.3; }
   width: min(calc(100% - 40px), var(--reading)); align-items: flex-start; margin: 0 auto; padding: 20px 0 12px; display: flex; flex-direction: column; gap: 12px;
 }
 
-/* 字标与刊名构成第一行，目录独立成第二行。 */
+/* 文字刊名构成第一行，目录独立成第二行；刊名不配图形字标，字标只保留在 favicon 与分享图中。 */
 .site-name {
   color: var(--ink); white-space: nowrap; text-decoration: none;
-  display: inline-flex; align-items: center; gap: 12px; flex-shrink: 0;
+  display: inline-flex; align-items: center; flex-shrink: 0;
 }
-
-.site-name__logo { display: block; width: auto; height: 24px; flex-shrink: 0; color: var(--logo-ink); }
 
 .site-name__text { margin: 0; font-size: 1.25rem; font-weight: 600; line-height: 1.4; }
 

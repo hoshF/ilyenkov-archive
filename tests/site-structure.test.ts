@@ -1,4 +1,4 @@
-import { readFileSync, readdirSync } from 'node:fs';
+import { existsSync, readFileSync, readdirSync } from 'node:fs';
 import path from 'node:path';
 import matter from 'gray-matter';
 import { describe, expect, it } from 'vitest';
@@ -747,27 +747,19 @@ describe('public navigation', () => {
     const homepage = readFileSync(path.join(process.cwd(), 'dist', 'index.html'), 'utf8');
     const header = homepage.match(/<header class="site-header">([\s\S]*?)<\/header>/)![1];
 
-    // 刊头第一行的字标与可见刊名共用唯一的主页链接。字标是内联 SVG，随 HTML 一起首屏绘制，
-    // 不再是新 document 里要等一次图片请求/解码才出现的独立资源；图形 aria-hidden，
-    // 不产生第二个名称，链接保持单一可访问名称。
+    // 刊头第一行只有文字刊名，与主页链接合一；图形字标不进页眉，链接保持单一可访问名称。
     const homeLinks = [...header.matchAll(/<a\b[^>]*href="\/"[^>]*>([\s\S]*?)<\/a>/g)];
     expect(homeLinks).toHaveLength(1);
     expect(homeLinks[0][0]).toContain(`aria-label="${site.name}首页"`);
     const mark = homeLinks[0][1];
-    expect(mark).toContain('<svg class="site-name__logo"');
-    expect(mark).toContain('aria-hidden="true"');
-    expect(mark).not.toContain('<img');
-    expect(mark).not.toContain('<title');
-    // 路径数据与 viewBox 取自 public/brand/evi-wordmark.svg，未做改动。
-    const source = readFileSync(path.join(process.cwd(), 'public', 'brand', 'evi-wordmark.svg'), 'utf8');
-    const sourcePath = source.match(/<path d="([^"]*)"/)![1];
-    expect(mark).toContain(`d="${sourcePath}"`);
-    expect(source).toContain('viewBox="0 0 966 367"');
-    expect(mark).toContain('viewBox="0 0 966 367"');
-    // 页眉里不再引用那个独立图片资源。
+    expect(mark).not.toMatch(/<svg|<img/);
     expect(header).not.toContain('evi-wordmark.svg');
+    // 字标仍是站点品牌资源：favicon 与分享图照旧引用，源文件保留。
+    expect(existsSync(path.join(process.cwd(), 'public', 'brand', 'evi-wordmark.svg'))).toBe(true);
+    expect(homepage).toMatch(/<link rel="icon" href="\/favicon\.svg/);
+    expect(homepage).toContain('/brand/share.png');
 
-    // 刊名可见，并与内联字标共用唯一的首页链接。
+    // 刊名可见，就是首页链接的全部内容。
     expect(mark).toContain('site-name__text');
     expect(mark).toContain(`>${site.name}<`);
     expect(homepage).toContain(`<title>${site.name}</title>`);
