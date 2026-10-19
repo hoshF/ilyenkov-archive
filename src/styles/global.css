@@ -705,7 +705,7 @@ h2, h3, h4 { text-wrap: balance; line-height: 1.3; }
   .section-layout--indexed .section-layout__toc li + li, .section-layout--indexed .section-layout__content {
     margin-top: 0;
   }
-  /* 手机上的连续阅读页从标题直接进正文：站点标题栏和索引都不占地方，
+  /* 手机上的连续阅读页从标题直接进正文：站点标题栏不占地方，目录只剩页头之后那份默认折叠的，
      出口留在篇末的返回链接与上下篇。 */
   .reading-page .site-header { display: none; }
   .reading-page .section-layout--reading { width: min(calc(100% - 40px), var(--content)); }
