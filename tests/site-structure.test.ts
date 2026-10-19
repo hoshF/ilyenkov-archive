@@ -409,6 +409,28 @@ describe('website-approved data adapter', () => {
     expect(declaration('.reading-page .section-layout--reading', 'width', '@media (max-width: 600px)')).toContain('100% - 40px');
   });
 
+  it('marks block quotations with a thin left rule instead of a card or narrower measure', () => {
+    const quote = declarationsFor('.prose blockquote');
+    expect(quote['border-left']).toBe('2px solid var(--line-strong)');
+    expect(quote.background).toBeUndefined();
+    expect(quote['background-color']).toBeUndefined();
+    expect(quote['border-radius']).toBeUndefined();
+    expect(quote['box-shadow']).toBeUndefined();
+    // 右侧不收窄，字号与行高沿用正文。
+    const [vertical, horizontal] = quote.margin.split(/\s+/);
+    expect(Number.parseFloat(vertical)).toBeGreaterThan(1);
+    expect(horizontal).toBe('0');
+    expect(quote['font-size']).toBeUndefined();
+    expect(quote['line-height']).toBeUndefined();
+    // 手机只收窄线内缩进，不再加两侧外边距。
+    const mobile = declarationsFor('.prose blockquote', '@media (max-width: 600px)');
+    expect(mobile.margin).toBeUndefined();
+    expect(Number.parseFloat(mobile['padding-left'])).toBeLessThan(Number.parseFloat(quote.padding.split(/\s+/).at(-1)!));
+    // 多段引文的段距小于正文段距。
+    expect(Number.parseFloat(declaration('.reading-page .prose blockquote p', 'margin')!))
+      .toBeLessThan(Number.parseFloat(declaration('.reading-page .prose p', 'margin')!));
+  });
+
   it('tightens article paragraph and heading spacing without changing the reading line', () => {
     const em = (value: string) => value.split(/\s+/).map((part) => Number.parseFloat(part));
     // 文章正文：字号与行高不变，段距收紧但仍小于一行，换段可辨。
