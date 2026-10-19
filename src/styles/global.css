@@ -47,6 +47,10 @@
 }
 
 html { scroll-behavior: smooth; }
+/* 选择减少动画的读者不被带着平滑滚过整篇长文：从正文到文末注释可能相隔数万像素。 */
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+}
 
 body { background: var(--paper); color: var(--ink); margin: 0; line-height: 1.4; }
 
@@ -617,7 +621,19 @@ h2, h3, h4 { text-wrap: balance; line-height: 1.3; }
 .reading-page .prose .footnotes li { line-height: 1.7; }
 .reading-page .prose .footnotes li + li { margin-top: .35em; }
 .reading-page .prose .footnotes li p { margin: 0; }
+.reading-page .prose .footnotes li p + p { margin-top: .5em; }
+/* 注释号和注释条目都是锚点目标。从注释点 ↩ 回来时，注释号停在视口约三成处，上方仍能看到
+   原句前文；跳到文末时注释条目离开顶边一点，当前条目在编号左侧多一条细线。
+   这些都只影响滚动落点和描边，不改字号、行高或文字位置。 */
 .reading-page .prose a[data-footnote-ref] { color: var(--accent); }
+/* 题名上的注释号也算在内：它在 .document-header 里，不在 .prose 里。 */
+.reading-page a[data-footnote-ref] { scroll-margin-top: 30vh; }
+.reading-page a[data-footnote-ref]:target { outline: 1px solid var(--line-strong); outline-offset: 2px; }
+.reading-page .prose .footnotes li { scroll-margin-top: 1.5rem; }
+.reading-page .prose .footnotes li:target { position: relative; }
+.reading-page .prose .footnotes li:target::before {
+  content: ""; position: absolute; top: .2em; bottom: .2em; left: -2.5rem; width: 2px; background: var(--accent);
+}
 
 .source-info { margin-top: 3rem; }
 .reading-page .source-info { font-family: var(--sans); font-size: var(--text-secondary); }

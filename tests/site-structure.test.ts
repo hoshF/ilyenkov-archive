@@ -478,6 +478,34 @@ describe('website-approved data adapter', () => {
       .toBeLessThan(Number.parseFloat(declaration('.reading-page .prose p', 'margin')!));
   });
 
+  it('lands note jumps with context and marks the current note without moving text', () => {
+    // 从注释点 ↩ 回到正文时，注释号停在视口上部约三成处，上方保留原句前文；题名上的注释号也一样。
+    const ref = declarationsFor('.reading-page a[data-footnote-ref]');
+    expect(ref['scroll-margin-top']).toMatch(/vh$/);
+    const refMargin = Number.parseFloat(ref['scroll-margin-top']);
+    expect(refMargin).toBeGreaterThanOrEqual(20);
+    expect(refMargin).toBeLessThanOrEqual(45);
+    // 注释号作为目标时只描边，不改字号、行高或位置。
+    const refTarget = declarationsFor('.reading-page a[data-footnote-ref]:target');
+    expect(refTarget.outline).toBeTruthy();
+    for (const property of ['font-size', 'line-height', 'padding', 'margin', 'border', 'background']) {
+      expect(refTarget[property], property).toBeUndefined();
+    }
+    // 跳到文末时注释条目离开顶边，当前条目左侧一条主色细线；细线绝对定位，正文不位移。
+    expect(Number.parseFloat(declaration('.reading-page .prose .footnotes li', 'scroll-margin-top')!)).toBeGreaterThan(0);
+    expect(declarationsFor('.reading-page .prose .footnotes li:target')).toEqual({ position: 'relative' });
+    const mark = declarationsFor('.reading-page .prose .footnotes li:target::before');
+    expect(mark.position).toBe('absolute');
+    expect(mark.width).toBe('2px');
+    expect(mark.background).toBe('var(--accent)');
+    // 同一条注释里的后续段落有间距，条目之间的间距不变。
+    expect(declaration('.reading-page .prose .footnotes li p + p', 'margin-top')).toBeDefined();
+    expect(declaration('.reading-page .prose .footnotes li + li', 'margin-top')).toBe('.35em');
+    // 减少动画时不做长距离平滑滚动；默认仍保持平滑。
+    expect(declaration('html', 'scroll-behavior')).toBe('smooth');
+    expect(declaration('html', 'scroll-behavior', '@media (prefers-reduced-motion: reduce)')).toBe('auto');
+  });
+
   it('tightens article paragraph and heading spacing without changing the reading line', () => {
     const em = (value: string) => value.split(/\s+/).map((part) => Number.parseFloat(part));
     // 文章正文：字号与行高不变，段距收紧但仍小于一行，换段可辨。
