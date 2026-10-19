@@ -1,3 +1,5 @@
+import { readFileSync } from 'node:fs';
+import { imageMetadata } from 'astro/assets/utils';
 import { unified } from 'unified';
 import remarkParse from 'remark-parse';
 import remarkGfm from 'remark-gfm';
@@ -5,10 +7,13 @@ import remarkCjkFriendly from 'remark-cjk-friendly/parseOnly';
 import remarkRehype from 'remark-rehype';
 import rehypeSanitize, { defaultSchema } from 'rehype-sanitize';
 import rehypeStringify from 'rehype-stringify';
+import type { Element, Root as HastRoot, RootContent as HastContent } from 'hast';
 import type { Heading, Image, Root } from 'mdast';
 
 interface MarkdownOptions {
   imageBaseUrl?: string;
+  /** imageBaseUrl 下的文件名到本地文件路径；给出时插图带上固有宽高。 */
+  imageFile?: (asset: string) => string;
   title?: string;
   titleNotes?: string[];
 }
@@ -62,6 +67,35 @@ function resolveRelativeImages(imageBaseUrl: string | undefined) {
       if ('children' in node) node.children.forEach(visit);
     };
     visit(tree);
+  };
+}
+
+/**
+ * 本地插图写入文件的固有宽高：浏览器在图片下载前就按比例留出位置，
+ * 慢速网络下按锚点直接打开文章时，后到的图片不再把目标标题推离视口。
+ */
+function reserveLocalImageSpace(
+  imageBaseUrl: string | undefined,
+  imageFile: MarkdownOptions['imageFile'],
+) {
+  return async (tree: HastRoot): Promise<void> => {
+    if (!imageBaseUrl || !imageFile) return;
+
+    const images: Element[] = [];
+    const visit = (node: HastRoot | HastContent): void => {
+      if (node.type === 'element' && node.tagName === 'img') images.push(node);
+      if ('children' in node) node.children.forEach(visit);
+    };
+    visit(tree);
+
+    await Promise.all(images.map(async (image) => {
+      const src = String(image.properties.src ?? '');
+      if (!src.startsWith(imageBaseUrl)) return;
+      const asset = decodeURIComponent(src.slice(imageBaseUrl.length));
+      const { width, height } = await imageMetadata(readFileSync(imageFile(asset)), src);
+      image.properties.width = width;
+      image.properties.height = height;
+    }));
   };
 }
 
@@ -134,7 +168,7 @@ function collectHeadings(headings: ArticleHeading[]) {
 
 export async function renderPublicMarkdown(
   markdown: string,
-  { imageBaseUrl, title, titleNotes = [] }: MarkdownOptions = {},
+  { imageBaseUrl, imageFile, title, titleNotes = [] }: MarkdownOptions = {},
 ): Promise<RenderedMarkdown> {
   const headings: ArticleHeading[] = [];
   const processor = unified()
@@ -154,6 +188,7 @@ export async function renderPublicMarkdown(
     // remark-rehype has already added the defensive `user-content-` prefix.
     // Avoid adding the same prefix a second time while sanitizing the tree.
     .use(rehypeSanitize, { ...defaultSchema, clobberPrefix: '' })
+    .use(reserveLocalImageSpace, imageBaseUrl, imageFile)
     .use(rehypeStringify);
 
   const tree = await processor.run(processor.parse(markdown));

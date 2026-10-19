@@ -49,7 +49,9 @@ private/web/publication.json → records + timeline + works_catalog + life + cir
 
 正文以 Markdown 引用同目录图片时，同步器只复制实际引用的 `jpg`、`jpeg`、`png`、`webp`、`gif`
 或 `avif`，不允许 `../` 跨目录引用，不扫描或整目录复制附件。站点根路径与 `http(s)` 图片地址
-保留原样。图片公开权限由 private 发布决定控制，替代文字应描述图片内容。
+保留原样。图片公开权限由 private 发布决定控制，替代文字应描述图片内容。构建时从生成的图片文件
+读出固有宽高写入 `<img>` 的 `width`、`height`，图片下载前即按比例占位；文件缺失或无法读出尺寸时
+构建失败。
 
 “原文信息”按生成 frontmatter 中实际存在的 `source_edition`、`source_url`、`doi` 呈现，不写死在
 Markdown 正文里。完整字段见发布说明的[译文的公开字段](PUBLICATION.md#译文的公开字段)。

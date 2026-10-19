@@ -1,5 +1,20 @@
+import { mkdtempSync, writeFileSync } from 'node:fs';
+import { tmpdir } from 'node:os';
+import path from 'node:path';
 import { describe, expect, it } from 'vitest';
 import { renderPublicMarkdown } from '../src/lib/markdown';
+
+/** 只含 IHDR 头的 PNG：足以读出固有宽高。 */
+function pngHeader(width: number, height: number): Buffer {
+  const header = Buffer.alloc(33);
+  Buffer.from([0x89, 0x50, 0x4e, 0x47, 0x0d, 0x0a, 0x1a, 0x0a]).copy(header, 0);
+  header.writeUInt32BE(13, 8);
+  header.write('IHDR', 12, 'ascii');
+  header.writeUInt32BE(width, 16);
+  header.writeUInt32BE(height, 20);
+  header.writeUInt8(8, 24);
+  return header;
+}
 
 describe('Markdown safety and semantics', () => {
   it('renders headings, quotations, lists, emphasis, links, and footnotes while dropping raw HTML', async () => {
@@ -156,6 +171,31 @@ describe('Markdown safety and semantics', () => {
       '<img src="/archive/an-article/media/portrait.jpg" alt="档案照片" title="摄于莫斯科">',
     );
     expect(html).toContain('<img src="https://example.com/photo.webp" alt="外部照片">');
+  });
+
+  it('reserves intrinsic dimensions for article-local images only', async () => {
+    const directory = mkdtempSync(path.join(tmpdir(), 'markdown-images-'));
+    writeFileSync(path.join(directory, 'scan.png'), pngHeader(939, 1617));
+    const { html } = await renderPublicMarkdown(`
+![档案扫描](scan.png)
+
+![外部照片](https://example.com/photo.webp)
+`, {
+      imageBaseUrl: '/archive/an-article/media/',
+      imageFile: (asset) => path.join(directory, asset),
+    });
+    expect(html).toContain(
+      '<img src="/archive/an-article/media/scan.png" alt="档案扫描" width="939" height="1617">',
+    );
+    expect(html).toContain('<img src="https://example.com/photo.webp" alt="外部照片">');
+  });
+
+  it('fails instead of rendering an article-local image without its file', async () => {
+    const directory = mkdtempSync(path.join(tmpdir(), 'markdown-images-'));
+    await expect(renderPublicMarkdown('![缺失](missing.png)', {
+      imageBaseUrl: '/archive/an-article/media/',
+      imageFile: (asset) => path.join(directory, asset),
+    })).rejects.toThrow();
   });
 
   it('gives repeated footnote references unique anchors and backlinks', async () => {

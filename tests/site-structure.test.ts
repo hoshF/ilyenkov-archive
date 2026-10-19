@@ -2,7 +2,13 @@ import { existsSync, readFileSync, readdirSync } from 'node:fs';
 import path from 'node:path';
 import matter from 'gray-matter';
 import { describe, expect, it } from 'vitest';
-import { generatedArticleIds, resolveGeneratedArticlePath } from '../src/lib/article-source';
+import { imageMetadata } from 'astro/assets/utils';
+import {
+  generatedArticleAssets,
+  generatedArticleIds,
+  resolveGeneratedArticleAssetPath,
+  resolveGeneratedArticlePath,
+} from '../src/lib/article-source';
 import { getBooks } from '../src/lib/books';
 import { getGlossary } from '../src/lib/glossary';
 import { site, readEditorialJson } from '../src/lib/editorial';
@@ -454,6 +460,27 @@ describe('website-approved data adapter', () => {
     expect(declaration('.prose', 'line-height')).toBe('1.8');
     expect(declaration('.prose p', 'margin')).toBe('1em 0');
     expect(declaration('.reading-page .section-layout--reading', 'width', '@media (max-width: 600px)')).toContain('100% - 40px');
+  });
+
+  it('reserves each article image box before the image file arrives', async () => {
+    // 慢速网络下按锚点直接打开文章时，标题上方的插图后到也不能把标题推离视口。
+    const assets = generatedArticleAssets();
+    expect(assets.length).toBeGreaterThan(0);
+    for (const { id, asset } of assets) {
+      const page = readFileSync(builtRoutePath(`/archive/${id}/`), 'utf8');
+      const src = `/archive/${id}/media/${asset}`;
+      const start = page.indexOf(`<img src="${src}"`);
+      expect(start, src).toBeGreaterThanOrEqual(0);
+      const tag = page.slice(start, page.indexOf('>', start) + 1);
+      const { width, height } = await imageMetadata(readFileSync(resolveGeneratedArticleAssetPath(id, asset)));
+      expect(tag, src).toContain(` width="${width}"`);
+      expect(tag, src).toContain(` height="${height}"`);
+    }
+    // 宽度来自 width 属性，高度由属性比例推出；样式只限制最大尺寸。
+    const image = declarationsFor('.prose img');
+    expect(image.width).toBeUndefined();
+    expect(image.height).toBe('auto');
+    expect(image['max-width']).toBe('100%');
   });
 
   it('marks block quotations with a thin left rule instead of a card or narrower measure', () => {

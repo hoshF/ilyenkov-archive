@@ -3,7 +3,11 @@ import matter from 'gray-matter';
 import { z } from 'zod';
 import { buildCache } from './cache';
 import { renderPublicMarkdown, type ArticleHeading } from './markdown';
-import { generatedArticleIds, resolveGeneratedArticlePath } from './article-source';
+import {
+  generatedArticleIds,
+  resolveGeneratedArticleAssetPath,
+  resolveGeneratedArticlePath,
+} from './article-source';
 import {
   assertEveryTermHasArticles,
   assertTaxonomyCoversArticles,
@@ -125,6 +129,7 @@ async function loadArticles(): Promise<ReadableDocument[]> {
 
     const { html, titleHtml, headings } = await renderPublicMarkdown(article.content, {
       imageBaseUrl: `/archive/${id}/media/`,
+      imageFile: (asset) => resolveGeneratedArticleAssetPath(id, asset),
       title: metadata.title_zh,
       titleNotes: metadata.title_notes,
     });
