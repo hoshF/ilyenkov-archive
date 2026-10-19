@@ -409,6 +409,25 @@ describe('website-approved data adapter', () => {
     expect(declaration('.reading-page .section-layout--reading', 'width', '@media (max-width: 600px)')).toContain('100% - 40px');
   });
 
+  it('tightens article paragraph and heading spacing without changing the reading line', () => {
+    const em = (value: string) => value.split(/\s+/).map((part) => Number.parseFloat(part));
+    // 文章正文：字号与行高不变，段距收紧但仍小于一行，换段可辨。
+    expect(declarationsFor('.reading-page .prose').font).toBeUndefined();
+    expect(declaration('.reading-page .prose p', 'line-height')).toBeUndefined();
+    const [paragraphGap] = em(declaration('.reading-page .prose p', 'margin')!);
+    expect(paragraphGap).toBeLessThan(1);
+    expect(paragraphGap).toBeGreaterThanOrEqual(.6);
+    // 小节标题离上文远、离下文近：上距至少是下距的四倍。
+    const [above, , below] = em(declaration('.reading-page .prose h2', 'margin')!);
+    expect(above / below).toBeGreaterThanOrEqual(4);
+    // 题名换行均衡；注释条目之间有间隔，条内段落不再叠加段距。
+    expect(declaration('.document-header h1', 'text-wrap')).toBe('balance');
+    expect(declaration('.reading-page .prose .footnotes li + li', 'margin-top')).toBeDefined();
+    expect(declaration('.reading-page .prose .footnotes li p', 'margin')).toBe('0');
+    // 原文信息紧跟分隔线，不继承小节标题的上距。
+    expect(declaration('.reading-page .source-info h2', 'margin-top')).toBe('0');
+  });
+
   it('keeps an unsectioned group issue single-column with its title in the content flow', () => {
     const source = pageSource('group/[id].astro');
     const page = readFileSync(path.join(process.cwd(), 'dist', 'group/0/index.html'), 'utf8');
