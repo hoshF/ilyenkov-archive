@@ -574,7 +574,11 @@ describe('website-approved data adapter', () => {
       expect(page, article.route).toContain('section-layout--reading');
       expect(page, article.route).toContain('section-layout--indexed');
       const toc = page.match(/<aside class="section-layout__toc"[\s\S]*?<\/aside>/)![0];
-      expect([...toc.matchAll(/href="#([^"]+)"/g)].map(([, id]) => id)).toEqual(['source-info-heading']);
+      // 没有小节时，目录只剩文末的去处：有注释区就先列注释，原文信息总在最后。
+      const expected = page.includes('id="footnote-label"')
+        ? ['footnote-label', 'source-info-heading']
+        : ['source-info-heading'];
+      expect([...toc.matchAll(/href="#([^"]+)"/g)].map(([, id]) => id)).toEqual(expected);
       expect(toc).toContain('原文信息');
     }
   });
@@ -692,12 +696,64 @@ describe('website-approved data adapter', () => {
       'position',
     )).toBe('absolute');
 
-    // 窄屏译文页仍然不显示目录，本轮没有顺手做手机目录。
-    expect(declaration(
-      '.section-layout--reading .section-layout__toc',
-      'display',
-      '@media (max-width: 600px)',
-    )).toBe('none');
+    // 860px 以下没有侧边余白：侧栏目录整份隐藏，改由页头之后的折叠目录接替，两份不会同时可见。
+    expect(declaration('.section-layout--reading .section-layout__toc', 'display', '@media (max-width: 860px)')).toBe('none');
+    expect(declaration('.reading-outline', 'display')).toBe('none');
+    expect(declaration('.reading-outline', 'display', '@media (max-width: 860px)')).toBe('block');
+    // 当前章节标记只作用于侧栏目录，不去操作折叠目录。
+    const behavior = componentSource('ReadingTocBehavior');
+    expect(behavior).toContain('.section-layout--reading .section-layout__toc');
+    expect(behavior).not.toContain('page-outline');
+  });
+
+  it('gives phones and tablets a folded copy of the article index after the title', async () => {
+    const { articles } = await getSiteData();
+    const issues = await getGroupIssues();
+    let withOutline = 0;
+    let withoutOutline = 0;
+    let withNotes = 0;
+    for (const document of [...articles, ...issues]) {
+      const page = readFileSync(builtRoutePath(document.route), 'utf8');
+      const ids = new Set([...page.matchAll(/\sid="([^"]+)"/g)].map(([, id]) => decodeURIComponent(id)));
+      const linksIn = (fragment: string) => [...fragment.matchAll(/<a href="#([^"]+)">([^<]*)<\/a>/g)]
+        .map(([, href, label]) => ({ id: decodeURIComponent(href), label }));
+      const sidebar = page.match(/<aside class="section-layout__toc">([\s\S]*?)<\/aside>/)?.[1] ?? '';
+      const sidebarLinks = linksIn(sidebar);
+      const outline = page.match(/<div class="reading-outline">([\s\S]*?)<\/div>/)?.[1];
+
+      // 注释区存在时目录才列“注释”，并排在原文信息之前，与文档中的先后一致。
+      const hasNotes = page.includes('id="footnote-label"');
+      const labels = sidebarLinks.map((link) => link.label);
+      expect(labels.includes('注释'), document.route).toBe(hasNotes);
+      if (hasNotes) withNotes += 1;
+      if (labels.includes('注释') && labels.includes('原文信息')) {
+        expect(labels.indexOf('注释'), document.route).toBe(labels.indexOf('原文信息') - 1);
+      }
+
+      if (sidebarLinks.length < 2) {
+        // 只剩一项（例如只有“原文信息”）或没有目录时，不输出折叠目录。
+        expect(outline, document.route).toBeUndefined();
+        withoutOutline += 1;
+        continue;
+      }
+      withOutline += 1;
+      // 与侧栏同一份目录，每一项都指向页面里真实存在的目标；默认折叠，只用原生 details 与锚点。
+      expect(outline, document.route).toBeDefined();
+      expect(linksIn(outline!), document.route).toEqual(sidebarLinks);
+      for (const link of sidebarLinks) expect(ids.has(link.id), `${document.route} #${link.id}`).toBe(true);
+      expect(outline).toMatch(/^<details class="page-outline"><summary>本文目录<\/summary><nav aria-label="本文目录"><ol>/);
+      expect(outline).not.toMatch(/<details[^>]*\sopen/);
+      // 位置在页头（题名与原题）之后、正文之前。
+      const header = page.indexOf('class="document-header"');
+      const folded = page.indexOf('class="reading-outline"');
+      const article = page.indexOf('<article');
+      expect(header, document.route).toBeLessThan(folded);
+      expect(folded, document.route).toBeLessThan(article);
+    }
+    // 这一组页面同时覆盖了有折叠目录、没有折叠目录与带注释入口三种情形。
+    expect(withOutline).toBeGreaterThan(0);
+    expect(withoutOutline).toBeGreaterThan(0);
+    expect(withNotes).toBeGreaterThan(0);
   });
 
   it('stacks translations without a section index in one reading column', () => {

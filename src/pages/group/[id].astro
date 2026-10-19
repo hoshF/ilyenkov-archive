@@ -2,6 +2,8 @@
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import SectionLayout from '../../components/SectionLayout.astro';
 import ReadingTocBehavior from '../../components/ReadingTocBehavior.astro';
+import PageOutline from '../../components/PageOutline.astro';
+import { READING_OUTLINE_MINIMUM, readingToc } from '../../lib/reading-toc';
 import { adjacentIssues, getGroupIssues, type GroupIssue } from '../../lib/group';
 
 export async function getStaticPaths() {
@@ -25,10 +27,7 @@ interface Props {
   next: Sibling | null;
 }
 const { issue, previous, next } = Astro.props;
-const toc = issue.headings.map((heading) => ({
-  href: `#${heading.id}`,
-  label: heading.text,
-}));
+const toc = readingToc(issue.headings, issue.html);
 ---
 
 <BaseLayout title={issue.title} description={`第 ${issue.issue} 期：${issue.summary}`} reading>
@@ -38,6 +37,10 @@ const toc = issue.headings.map((heading) => ({
       <p class="record__meta">第 {issue.issue} 期 · {issue.kind} · <time datetime={issue.published}>{issue.published}</time></p>
       <h1 id={`issue-${issue.id}`}>{issue.title}</h1>
     </header>
+    {/* 手机与平板不显示侧栏目录，改在页头之后给一份默认折叠的同一目录。 */}
+    {toc.length >= READING_OUTLINE_MINIMUM && (
+      <div class="reading-outline" slot="intro"><PageOutline label="本文目录" items={toc} /></div>
+    )}
 
     <article aria-labelledby={`issue-${issue.id}`}>
       <div class="prose" set:html={issue.html} />

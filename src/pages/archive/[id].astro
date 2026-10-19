@@ -2,6 +2,8 @@
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import SectionLayout from '../../components/SectionLayout.astro';
 import ReadingTocBehavior from '../../components/ReadingTocBehavior.astro';
+import PageOutline from '../../components/PageOutline.astro';
+import { READING_OUTLINE_MINIMUM, readingToc } from '../../lib/reading-toc';
 import { getSiteData, type ReadableDocument } from '../../lib/site-data';
 
 export async function getStaticPaths() {
@@ -41,10 +43,9 @@ function finalUrlSegment(value: string): string {
 
 const sourceLabel = document.sourceUrl ? finalUrlSegment(document.sourceUrl) : null;
 const doiLabel = document.doiUrl?.replace(/^https?:\/\/doi\.org\//, '') ?? null;
-const toc = [
-  ...document.headings.map((heading) => ({ href: `#${heading.id}`, label: heading.text })),
-  { href: '#source-info-heading', label: '原文信息' },
-];
+const toc = readingToc(document.headings, document.html, {
+  sourceInfo: { href: '#source-info-heading', label: '原文信息' },
+});
 ---
 
 <BaseLayout title={document.title} description={description} socialType="article" reading>
@@ -54,6 +55,10 @@ const toc = [
       <h1 data-pagefind-meta={`title:${document.title}`} data-pagefind-weight="5" id="document-title" set:html={document.titleHtml} />
       <p class="document-header__original">{document.originalTitle}</p>
     </header>
+    {/* 手机与平板不显示侧栏目录，改在页头之后给一份默认折叠的同一目录。 */}
+    {toc.length >= READING_OUTLINE_MINIMUM && (
+      <div class="reading-outline" slot="intro"><PageOutline label="本文目录" items={toc} /></div>
+    )}
 
     {document.topics.map((term) => <span hidden data-pagefind-filter={`topic:${term.id}`} />)}
     {document.persons.map((term) => <span hidden data-pagefind-filter={`person:${term.id}`} />)}
