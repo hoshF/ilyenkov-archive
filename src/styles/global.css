@@ -651,7 +651,11 @@ h2, h3, h4 { text-wrap: balance; line-height: 1.3; }
 
 /* 文章页的折叠目录只在侧栏目录隐藏时出现，两份目录不会同时可见。 */
 .reading-outline { display: none; }
-.reading-outline .page-outline { margin: 4px 0 28px; }
+/* 文章目录的整条标题行都是点击区：外层上下留白移到 summary 上，可点高度不低于 44px，
+   收起与展开时的视觉间距与原来相同。其他页面的 PageOutline 不受影响。 */
+.reading-outline .page-outline { margin: 4px 0 28px; padding: 0; }
+.reading-outline .page-outline summary { min-height: 44px; padding: 12px 0; }
+.reading-outline .page-outline ol { margin: 8px 0 20px; }
 
 @media (max-width: 860px) {
   .section-layout--indexed {

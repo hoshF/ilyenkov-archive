@@ -700,6 +700,14 @@ describe('website-approved data adapter', () => {
     expect(declaration('.section-layout--reading .section-layout__toc', 'display', '@media (max-width: 860px)')).toBe('none');
     expect(declaration('.reading-outline', 'display')).toBe('none');
     expect(declaration('.reading-outline', 'display', '@media (max-width: 860px)')).toBe('block');
+    // 折叠目录的整条标题行就是点击区，可点高度不低于 44px；外层上下留白移进 summary，视觉间距不变。
+    const summary = declarationsFor('.reading-outline .page-outline summary');
+    expect(Number.parseFloat(summary['min-height'])).toBeGreaterThanOrEqual(44);
+    const [summaryPadding] = summary.padding.split(/\s+/);
+    expect(summaryPadding).toBe(declaration('.page-outline', 'padding')!.split(/\s+/)[0]);
+    expect(declaration('.reading-outline .page-outline', 'padding')).toBe('0');
+    // 其他页面共用的 PageOutline 保持原样。
+    expect(declaration('.page-outline summary', 'min-height')).toBeUndefined();
     // 当前章节标记只作用于侧栏目录，不去操作折叠目录。
     const behavior = componentSource('ReadingTocBehavior');
     expect(behavior).toContain('.section-layout--reading .section-layout__toc');
