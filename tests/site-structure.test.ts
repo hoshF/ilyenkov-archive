@@ -377,6 +377,53 @@ describe('website-approved data adapter', () => {
     expect(Number.parseFloat(declaration('.document-header h1 sup', 'font-size')!)).toBeLessThanOrEqual(.5);
   });
 
+  it('keeps every text colour readable against the page in both schemes', () => {
+    // WCAG 2 相对亮度对比度；普通文字至少 4.5:1。
+    const luminance = (hex: string) => {
+      const channels = hex.replace('#', '').match(/../g)!.map((pair) => Number.parseInt(pair, 16) / 255);
+      const [r, g, b] = channels.map((c) => (c <= 0.03928 ? c / 12.92 : ((c + 0.055) / 1.055) ** 2.4));
+      return 0.2126 * r + 0.7152 * g + 0.0722 * b;
+    };
+    const contrast = (a: string, b: string) => {
+      const [light, dark] = [luminance(a), luminance(b)].sort((x, y) => y - x);
+      return (light + 0.05) / (dark + 0.05);
+    };
+    for (const media of ['', '@media (prefers-color-scheme: dark)']) {
+      const tokens = declarationsFor(':root', media);
+      for (const name of ['--ink', '--ink-soft', '--muted', '--label', '--accent', '--accent-hover']) {
+        expect(contrast(tokens[name], tokens['--paper']), `${name} ${media}`).toBeGreaterThanOrEqual(4.5);
+      }
+    }
+  });
+
+  it('underlines content links and leaves navigation to its position', () => {
+    // 正文区链接默认有细下划线：线色弱于文字，悬停时变实；不依赖悬停才能看出可点。
+    const link = declarationsFor('a');
+    expect(link['text-decoration-line']).toBe('underline');
+    expect(link['text-decoration-color']).toMatch(/color-mix\(.*currentColor/);
+    expect(Number.parseFloat(link['text-underline-offset'])).toBeGreaterThanOrEqual(.2);
+    expect(declaration('a:hover', 'text-decoration-color')).toBe('currentColor');
+    // 内容链接不取消下划线：档案与首页题名、首页入口、书目来源、人物入口、研究条目、学术入口与资料入口。
+    for (const selector of [
+      '.record__title a', '.home-more a', '.record__links a', '.entrance-card__label',
+      '.research-hub .research-series h2 a', '.research-profile .section-layout__structured a',
+      '.research-meetings__resources a',
+    ]) {
+      expect(declaration(selector, 'text-decoration'), selector).toBeUndefined();
+    }
+    // 导航性质的链接保持无下划线：刊名、主导航、面包屑、页内目录与提纲、档案分类、栏目子导航。
+    for (const selector of [
+      '.site-name', '.site-header__nav a', '.breadcrumbs a', '.section-layout__toc a', '.page-outline a',
+      '.archive-facets__all a', '.archive-facets__term', '.ilyenkov-nav a', '.research-nav a',
+    ]) {
+      expect(declaration(selector, 'text-decoration'), selector).toBe('none');
+    }
+    // 键盘焦点统一为可见的描边，任何规则都不把链接的焦点框去掉。
+    expect(declaration('a:focus-visible', 'outline')).toBe('2px solid var(--accent)');
+    const hidden = rules.filter((rule) => /(^|\s)a\b|a:/.test(rule.selector) && /^(none|0)$/.test(rule.declarations.outline ?? ''));
+    expect(hidden.map((rule) => rule.selector)).toEqual([]);
+  });
+
   it('keeps record labels neutral and browser chrome on the page colour', () => {
     // 标签不可点击，不能借用链接色；暗色模式也不能比链接更亮。
     expect(declaration('.record__label', 'color')).toBe('var(--label)');
@@ -847,7 +894,7 @@ describe('public navigation', () => {
       expect(rule.declarations['grid-template-columns']).toBe(`repeat(${site.navigation.length / 2}, max-content)`);
     }
     expect(Number.parseFloat(link['min-height'])).toBeGreaterThanOrEqual(44);
-    expect(declarationsFor('.site-header__nav a:focus-visible').outline).toBeTruthy();
+    expect(declarationsFor('a:focus-visible').outline).toBeTruthy();
 
     // 普通项与当前项同属深色系，当前位置用细下划线标记，hover 使用 accent。
     const hover = declarationsFor('.site-header__nav a:hover');

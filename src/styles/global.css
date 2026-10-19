@@ -15,12 +15,13 @@
 }
 
 :root {
-  color-scheme: light; --ink: #1a1a1a; --ink-soft: #1a1a1a; --muted: #706b62; --line: #ddd9d1;
-  --line-strong: #b8b2a7; --paper: #fafafa; --accent: #2f3a86;
-  --label: #5c5852; --nav-hover: #efefef;
-  --control-bg: white; --control-border: var(--line);
+  /* 灰白文档配色：近白纸面、柔和深灰正文、克制的蓝色链接；灰阶一律中性，不带冷暖偏色。 */
+  color-scheme: light; --ink: #383838; --ink-soft: #383838; --muted: #666666; --line: #dedede;
+  --line-strong: #b0b0b0; --paper: #fdfdfd; --accent: #34507f;
+  --label: #555555; --nav-hover: #f0f0f0;
+  --control-bg: #ffffff; --control-border: var(--line);
   --highlight-bg: #fff0ba; --highlight-ink: var(--ink-soft);
-  --accent-hover: #1b1f4b; --content: 1040px; --section: 1040px; --reading: 672px; --index: 216px; --index-gap: 56px;
+  --accent-hover: #22365a; --content: 1040px; --section: 1040px; --reading: 672px; --index: 216px; --index-gap: 56px;
   --rail: 248px;
   --text-meta: .875rem; --text-secondary: .9375rem; --text-body: 1rem; --text-item: 1.0625rem;
   --text-home-section: 1.25rem; --text-section: 1.1875rem; --text-page-mobile: 1.5rem; --text-page: 1.5rem;
@@ -36,10 +37,10 @@
 
 @media (prefers-color-scheme: dark) {
   :root {
-    color-scheme: dark; --paper: #1c1d1f; --ink: #d8d9db; --ink-soft: #d8d9db;
-    --label: #b5b1ab; --muted: #aaa6a0; --accent: #acb8f4; --accent-hover: #d0d7ff;
-    --line: #3b3d42; --line-strong: #74777f; --nav-hover: #25272b;
-    --control-bg: #25272b; --control-border: #74777f;
+    color-scheme: dark; --paper: #202123; --ink: #d2d2d2; --ink-soft: #d2d2d2;
+    --label: #bdbdbd; --muted: #aaaaaa; --accent: #a3b8ec; --accent-hover: #d3defa;
+    --line: #48494c; --line-strong: #77797d; --nav-hover: #2a2b2e;
+    --control-bg: #2a2b2e; --control-border: #77797d;
     --highlight-bg: #574b2b; --highlight-ink: #f3e7be;
   }
   .archive-search input::placeholder, .glossary-search input::placeholder { color: var(--muted); opacity: 1; }
@@ -49,8 +50,14 @@ html { scroll-behavior: smooth; }
 
 body { background: var(--paper); color: var(--ink); margin: 0; line-height: 1.4; }
 
-a { color: var(--accent); font-weight: 400; text-underline-offset: .18em; text-decoration-thickness: .055em; }
-a:hover { color: var(--accent-hover); }
+/* 链接色克制，靠细下划线辨认：线取链接色的四成，离开汉字底部一段距离，悬停时变实。
+   导航、页内目录、档案分类与栏目子导航各自取消下划线，靠位置说明可点。 */
+a {
+  color: var(--accent); font-weight: 400; text-decoration-line: underline; text-decoration-thickness: 1px;
+  text-underline-offset: .24em; text-decoration-color: color-mix(in srgb, currentColor 40%, transparent);
+}
+a:hover { color: var(--accent-hover); text-decoration-color: currentColor; }
+a:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
 
 main { min-height: 70vh; }
 
@@ -98,7 +105,6 @@ h2, h3, h4 { text-wrap: balance; line-height: 1.3; }
   min-height: 44px; border-radius: 4px; text-decoration: none; display: inline-flex;
 }
 .site-header__nav a:hover { color: var(--accent-hover); background: var(--nav-hover); }
-.site-header__nav a:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
 
 /* 当前栏目与目录同属深色系，只用细下划线标记位置。 */
 .site-header__nav a[aria-current=page] {
@@ -282,12 +288,12 @@ h2, h3, h4 { text-wrap: balance; line-height: 1.3; }
 }
 
 .home-more { margin: 22px 0 0; font-size: var(--text-secondary); }
-.home-more a { color: var(--accent); text-decoration: none; }
+.home-more a { color: var(--accent); }
 .home-more a:after { content: " →"; }
 .home-opening .home-more a:after { content: none; }
 /* 人物入口各自成词，换行只落在分隔点之间。 */
 .home-opening .home-more a { white-space: nowrap; }
-.home-more a:hover { color: var(--accent-hover); text-decoration: underline; }
+.home-more a:hover { color: var(--accent-hover); }
 
 .section-layout {
   width: min(calc(100% - 40px), var(--section));
@@ -458,12 +464,12 @@ h2, h3, h4 { text-wrap: balance; line-height: 1.3; }
 .record__sources a { color: var(--muted); text-decoration-color: var(--line-strong); }
 .record__sources a:hover { color: var(--accent-hover); }
 .record__links { display: flex; flex-wrap: wrap; gap: 12px 20px; margin-top: 12px; font-size: var(--text-secondary); }
-.record__links a { color: var(--accent); text-decoration: none; }
-.record__links a:hover { color: var(--accent-hover); text-decoration: underline; }
-.record__title a { color: var(--accent); text-decoration: none; }
+.record__links a { color: var(--accent); }
+.record__links a:hover { color: var(--accent-hover); }
+.record__title a { color: var(--accent); }
 .record__link { display: block; color: var(--ink); text-decoration: none; }
 .record__link .record__title { color: var(--accent); font-weight: 400; }
-.record__title a:hover, .record__link:hover .record__title { color: var(--accent-hover); text-decoration: underline; }
+.record__title a:hover, .record__link:hover .record__title { color: var(--accent-hover); }
 
 /* 年表在同一套条目上加一条时间轴。 */
 .record-list--timeline { position: relative; }
@@ -500,9 +506,9 @@ h2, h3, h4 { text-wrap: balance; line-height: 1.3; }
 
 .entrance-grid { display: grid; grid-template-columns: 1fr; gap: 32px; }
 .entrance-card { display: block; color: var(--ink); text-decoration: none; }
-.entrance-card__label { display: block; width: fit-content; text-decoration: none; color: var(--accent); font-size: var(--text-item); font-weight: 400; line-height: 1.4; }
+.entrance-card__label { display: block; width: fit-content; color: var(--accent); font-size: var(--text-item); font-weight: 400; line-height: 1.4; }
 .entrance-card__summary { display: block; margin-top: 0; color: var(--muted); font-size: var(--text-body); line-height: 1.65; }
-.entrance-card__label:hover { color: var(--accent-hover); text-decoration: underline; }
+.entrance-card__label:hover { color: var(--accent-hover); }
 
 /* 左栏条目列表的通用骨架。页内目录另有一套更紧的排版（见 .section-layout__toc）；
    Archive 的 facet 词表也用这里的骨架，再由 .archive-facets__terms 调间距。 */
@@ -737,8 +743,8 @@ h2, h3, h4 { text-wrap: balance; line-height: 1.3; }
 .research-hub .research-series + .research-series { border-top: 0; margin-top: 56px; padding-top: 0; }
 .research-hub .record__original { margin: 4px 0 0; }
 .research-hub .record__summary { margin: 9px 0 0; }
-.research-hub .research-series h2 a { color: var(--accent); text-decoration: none; }
-.research-hub .research-series h2 a:hover { color: var(--accent-hover); text-decoration: underline; }
+.research-hub .research-series h2 a { color: var(--accent); }
+.research-hub .research-series h2 a:hover { color: var(--accent-hover); }
 
 /* 研究实体正文保持居中；外部入口作为独立的辅助栏。窄屏回到正文之后。 */
 .container.research-profile {
@@ -750,8 +756,8 @@ h2, h3, h4 { text-wrap: balance; line-height: 1.3; }
 .research-profile .section-layout__content { order: 0; width: 100%; }
 .research-profile .section-layout__sidebar { order: 1; position: static; }
 .research-profile .section-layout__aside { margin-top: 0; }
-.research-profile .section-layout__structured a { color: var(--ink-soft); text-decoration: none; }
-.research-profile .section-layout__structured a:hover { color: var(--accent); text-decoration: underline; }
+.research-profile .section-layout__structured a { color: var(--ink-soft); }
+.research-profile .section-layout__structured a:hover { color: var(--accent); }
 @media (min-width: 1101px) {
   .container.research-profile {
     --index: 160px;
@@ -798,8 +804,8 @@ h2, h3, h4 { text-wrap: balance; line-height: 1.3; }
 .research-meetings__resources { border-top: 1px solid var(--line); margin-top: 56px; padding-top: 24px; }
 .research-meetings__resources .section-layout__structured { display: flex; flex-wrap: wrap; gap: 12px 24px; }
 .research-meetings__resources .section-layout__structured li + li { margin-top: 0; }
-.research-meetings__resources a { color: var(--ink-soft); text-decoration: none; }
-.research-meetings__resources a:hover { color: var(--accent); text-decoration: underline; }
+.research-meetings__resources a { color: var(--ink-soft); }
+.research-meetings__resources a:hover { color: var(--accent); }
 .research-meetings__resources [id] { scroll-margin-top: 32px; }
 .research-meetings .prose em { font-style: normal; font-weight: 600; }
 .research-meetings .timeline-record__content .record__note { margin-top: 10px; }
