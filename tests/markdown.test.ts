@@ -1,8 +1,11 @@
 import { mkdtempSync, writeFileSync } from 'node:fs';
 import { tmpdir } from 'node:os';
 import path from 'node:path';
+import { fromHtml } from 'hast-util-from-html';
+import type { Element, Nodes } from 'hast';
 import { describe, expect, it } from 'vitest';
 import { renderPublicMarkdown } from '../src/lib/markdown';
+import { prepareTranslationMarkdown } from '../scripts/lib/translation-markdown.mjs';
 
 /** 只含 IHDR 头的 PNG：足以读出固有宽高。 */
 function pngHeader(width: number, height: number): Buffer {
@@ -304,5 +307,236 @@ describe('Markdown safety and semantics', () => {
 
     // 注释一节由 remark-rehype 生成，不属于正文结构，不进索引。
     expect(headings.some((heading) => heading.text === '注释')).toBe(false);
+  });
+});
+
+function elementsOf(node: Nodes): Element[] {
+  const found: Element[] = [];
+  const visit = (current: Nodes): void => {
+    if (current.type === 'element') found.push(current);
+    if ('children' in current) current.children.forEach(visit);
+  };
+  visit(node);
+  return found;
+}
+
+function textOf(node: Nodes): string {
+  if (node.type === 'text') return node.value;
+  return 'children' in node ? node.children.map(textOf).join('') : '';
+}
+
+/** 解析生成的 HTML，读出注释号、注释条目、返回链接与全部元素 ID。 */
+function footnotesOf(html: string, titleHtml = '') {
+  const elements = elementsOf(fromHtml(`<h1>${titleHtml}</h1>${html}`, { fragment: true }));
+  const section = elements.find((element) => element.tagName === 'section' && element.properties.dataFootnotes !== undefined);
+  const items = section ? elementsOf(section).filter((element) => element.tagName === 'li') : [];
+  return {
+    ids: elements.map((element) => element.properties.id).filter((id) => id !== undefined).map(String),
+    references: elements
+      .filter((element) => element.tagName === 'a' && element.properties.dataFootnoteRef !== undefined)
+      .map((link) => ({ label: textOf(link), href: String(link.properties.href), id: String(link.properties.id) })),
+    items: items.map((item) => ({
+      id: String(item.properties.id),
+      value: String(item.properties.value),
+      backrefs: elementsOf(item)
+        .filter((element) => element.tagName === 'a' && element.properties.dataFootnoteBackref !== undefined)
+        .map((link) => String(link.properties.href)),
+      text: textOf(item).replace(/↩\d*/gu, '').trim(),
+    })),
+    notesHeadings: elements.filter((element) => element.tagName === 'h2' && textOf(element) === '注释').length,
+  };
+}
+
+/** 每个注释号、返回链接都指向存在的元素，元素 ID 不重复。 */
+function expectConsistentLinks(footnotes: ReturnType<typeof footnotesOf>): void {
+  expect(new Set(footnotes.ids).size).toBe(footnotes.ids.length);
+  for (const reference of footnotes.references) expect(footnotes.ids).toContain(reference.href.slice(1));
+  for (const item of footnotes.items) {
+    for (const backref of item.backrefs) expect(footnotes.ids).toContain(backref.slice(1));
+  }
+}
+
+function renderSource(markdown: string, options: Parameters<typeof renderPublicMarkdown>[1] = {}) {
+  return renderPublicMarkdown(markdown, { sourceFootnoteLabels: true, ...options });
+}
+
+describe('source footnote labels in translated articles', () => {
+  it('keeps consecutive numbering and otherwise matches the default footnote markup', async () => {
+    const markdown = '甲。[^1] 乙。[^2] 丙。[^3]\n\n[^1]: 一。\n[^2]: 二。\n[^3]: 三。\n';
+    const { html } = await renderSource(markdown);
+    const footnotes = footnotesOf(html);
+    expect(footnotes.references.map((reference) => reference.label)).toEqual(['1', '2', '3']);
+    expect(footnotes.items.map((item) => item.value)).toEqual(['1', '2', '3']);
+    expectConsistentLinks(footnotes);
+    const { html: defaultHtml } = await renderPublicMarkdown(markdown);
+    expect(html.replace(/ value="\d+"/gu, '')).toBe(defaultHtml);
+  });
+
+  it('shows source note numbers that start above one or skip numbers', async () => {
+    const late = footnotesOf((await renderSource('甲。[^4] 乙。[^5] 丙。[^12]\n\n[^4]: 四。\n[^5]: 五。\n[^12]: 十二。\n')).html);
+    expect(late.references.map((reference) => reference.label)).toEqual(['4', '5', '12']);
+    expect(late.items.map((item) => [item.id, item.value])).toEqual([
+      ['user-content-fn-4', '4'], ['user-content-fn-5', '5'], ['user-content-fn-12', '12'],
+    ]);
+    expectConsistentLinks(late);
+
+    const gap = footnotesOf((await renderSource('甲。[^1] 乙。[^3] 丙。[^4]\n\n[^1]: 一。\n[^3]: 三。\n[^4]: 四。\n')).html);
+    expect(gap.references.map((reference) => reference.label)).toEqual(['1', '3', '4']);
+    expect(gap.items.map((item) => item.value)).toEqual(['1', '3', '4']);
+  });
+
+  it('shows repeated source numbers from note-label markers while anchors keep the technical ids', async () => {
+    const { html } = await renderSource(`甲。[^2] 乙。[^3] 丙。[^4] 丁。[^5] 末节。[^6]
+
+<!-- note-label: 1 -->
+[^2]: 第一条。
+<!-- note-label: 2 -->
+[^3]: 第二条。
+<!-- note-label: 3 -->
+[^4]: 第三条。
+<!-- note-label: 4 -->
+[^5]: 第四条。
+<!-- note-label: 1 -->
+[^6]: 末节重新起编的第一条。
+`);
+    const footnotes = footnotesOf(html);
+    expect(footnotes.references.map((reference) => [reference.label, reference.href])).toEqual([
+      ['1', '#user-content-fn-2'], ['2', '#user-content-fn-3'], ['3', '#user-content-fn-4'],
+      ['4', '#user-content-fn-5'], ['1', '#user-content-fn-6'],
+    ]);
+    expect(footnotes.items.map((item) => [item.id, item.value])).toEqual([
+      ['user-content-fn-2', '1'], ['user-content-fn-3', '2'], ['user-content-fn-4', '3'],
+      ['user-content-fn-5', '4'], ['user-content-fn-6', '1'],
+    ]);
+    expect(html).not.toContain('<!--');
+    expectConsistentLinks(footnotes);
+  });
+
+  it('lists an unreferenced note in definition order without a return link', async () => {
+    const { html } = await renderSource(`甲。[^10] 乙。[^12]
+
+[^10]: 第十条。
+[^11]: 正文没有注码的注文。〔原刊保留注文，正文未见对应注码——本站编者〕
+[^12]: 第十二条。
+`);
+    const footnotes = footnotesOf(html);
+    expect(footnotes.references.map((reference) => reference.label)).toEqual(['10', '12']);
+    expect(footnotes.items.map((item) => [item.value, item.backrefs.length])).toEqual([['10', 1], ['11', 0], ['12', 1]]);
+    expect(footnotes.items[1].text).toBe('正文没有注码的注文。〔原刊保留注文，正文未见对应注码——本站编者〕');
+    expect(footnotes.ids).not.toContain('user-content-fnref-11');
+    expectConsistentLinks(footnotes);
+  });
+
+  it('orders notes by their definitions rather than by numeric id', async () => {
+    const { html } = await renderSource('甲。[^2] 乙。[^1]\n\n[^2]: 先定义。\n[^1]: 后定义。\n');
+    expect(footnotesOf(html).items.map((item) => item.id)).toEqual(['user-content-fn-2', 'user-content-fn-1']);
+  });
+
+  it('builds a notes section for an article whose only notes are unreferenced', async () => {
+    const { html } = await renderSource('正文没有注码。\n\n## 注释\n\n[^11]: 只有注文。\n');
+    const footnotes = footnotesOf(html);
+    expect(footnotes.notesHeadings).toBe(1);
+    expect(html).toContain('id="footnote-label"');
+    expect(footnotes.references).toEqual([]);
+    expect(footnotes.items).toEqual([{ id: 'user-content-fn-11', value: '11', backrefs: [], text: '只有注文。' }]);
+  });
+
+  it('keeps unique anchors and return links for repeated references, including relabelled notes', async () => {
+    const { html } = await renderSource(`甲。[^3] 乙。[^3] 丙。[^6] 丁。[^6]
+
+[^3]: 第三条。
+<!-- note-label: 1 -->
+[^6]: 显示为一的注释。
+`);
+    const footnotes = footnotesOf(html);
+    expect(footnotes.references.map((reference) => [reference.label, reference.id])).toEqual([
+      ['3', 'user-content-fnref-3'], ['3', 'user-content-fnref-3-2'],
+      ['1', 'user-content-fnref-6'], ['1', 'user-content-fnref-6-2'],
+    ]);
+    expect(footnotes.items.map((item) => item.backrefs)).toEqual([
+      ['#user-content-fnref-3', '#user-content-fnref-3-2'],
+      ['#user-content-fnref-6', '#user-content-fnref-6-2'],
+    ]);
+    expectConsistentLinks(footnotes);
+  });
+
+  it('labels title notes like body notes', async () => {
+    const { html, titleHtml } = await renderSource('正文。[^3]\n\n[^2]: 标题注。\n[^3]: 正文注。\n', {
+      title: '题名',
+      titleNotes: ['2'],
+    });
+    const footnotes = footnotesOf(html, titleHtml);
+    expect(footnotes.references.map((reference) => [reference.label, reference.href])).toEqual([
+      ['2', '#user-content-fn-2'], ['3', '#user-content-fn-3'],
+    ]);
+    expect(footnotes.items.map((item) => item.value)).toEqual(['2', '3']);
+    expectConsistentLinks(footnotes);
+  });
+
+  it('accepts a note-label between a block-id and its definition', async () => {
+    const { body } = prepareTranslationMarkdown(`正文。[^6]
+
+<!-- block-id: b000123 -->
+<!-- note-label: 1 -->
+[^6]: 注文。
+`);
+    expect(body).not.toContain('block-id');
+    const footnotes = footnotesOf((await renderSource(body)).html);
+    expect(footnotes.references.map((reference) => reference.label)).toEqual(['1']);
+    expect(footnotes.items.map((item) => item.value)).toEqual(['1']);
+  });
+
+  it('rejects a note-label written before the block-id of its definition', async () => {
+    const markdown = `正文。[^6]
+
+<!-- note-label: 1 -->
+<!-- block-id: b000123 -->
+[^6]: 注文。
+`;
+    expect(() => prepareTranslationMarkdown(markdown)).toThrow(/not immediately followed by a footnote definition/u);
+    await expect(renderSource(markdown)).rejects.toThrow(/not immediately followed by a footnote definition/u);
+  });
+
+  it('removes the manuscript notes heading when the first definition carries a note-label', async () => {
+    const { html } = await renderSource(`正文。[^6]
+
+## 注释
+
+<!-- note-label: 1 -->
+[^6]: 注文。
+`);
+    expect(footnotesOf(html).notesHeadings).toBe(1);
+  });
+
+  it.each([
+    ['a marker followed by a blank line', '正文。[^6]\n\n<!-- note-label: 1 -->\n\n[^6]: 注文。\n', /not immediately followed/u],
+    ['an orphan marker at the end', '正文。[^6]\n\n[^6]: 注文。\n\n<!-- note-label: 1 -->\n', /not immediately followed/u],
+    ['two markers for one definition', '正文。[^6]\n\n<!-- note-label: 1 -->\n<!-- note-label: 2 -->\n[^6]: 注文。\n', /not immediately followed/u],
+    ['a marker inside a paragraph', '正文 <!-- note-label: 1 --> 文字。[^6]\n\n[^6]: 注文。\n', /not immediately followed/u],
+    ['a non-integer label', '正文。[^6]\n\n<!-- note-label: x -->\n[^6]: 注文。\n', /positive integer/u],
+    ['a zero label', '正文。[^6]\n\n<!-- note-label: 0 -->\n[^6]: 注文。\n', /positive integer/u],
+    ['a malformed marker', '正文。[^6]\n\n<!-- note-label 1 -->\n[^6]: 注文。\n', /Malformed note-label/u],
+    ['a label equal to the id', '正文。[^6]\n\n<!-- note-label: 6 -->\n[^6]: 注文。\n', /repeats footnote id 6/u],
+    ['a marker in a document with non-numeric ids', '正文。[^a] [^6]\n\n[^a]: 甲。\n<!-- note-label: 1 -->\n[^6]: 注文。\n', /numeric footnote ids/u],
+    ['a duplicate definition', '正文。[^6]\n\n[^6]: 甲。\n[^6]: 乙。\n', /Duplicate footnote definition: 6/u],
+    ['a reference without a definition', '正文。[^6] 又见[^9]。\n\n[^6]: 注文。\n', /without a definition: \[\^9\]/u],
+  ])('rejects %s', async (_, markdown, message) => {
+    await expect(renderSource(markdown)).rejects.toThrow(message);
+  });
+
+  it('keeps default numbering for documents with non-numeric footnote ids', async () => {
+    const markdown = '甲。[^note] 乙。[^zh-1]\n\n[^note]: 甲注。\n[^zh-1]: 乙注。\n[^unused]: 未引用。\n';
+    const { html } = await renderSource(markdown);
+    expect(html).toBe((await renderPublicMarkdown(markdown)).html);
+    expect(footnotesOf(html).references.map((reference) => reference.label)).toEqual(['1', '2']);
+  });
+
+  it('leaves ordinary Markdown unchanged when the option is off', async () => {
+    const { html } = await renderPublicMarkdown('甲。[^4] 乙。[^6]\n\n[^4]: 四。\n<!-- note-label: 1 -->\n[^6]: 六。\n[^7]: 未引用。\n');
+    const footnotes = footnotesOf(html);
+    expect(footnotes.references.map((reference) => reference.label)).toEqual(['1', '2']);
+    expect(footnotes.items.map((item) => item.id)).toEqual(['user-content-fn-4', 'user-content-fn-6']);
+    expect(html).not.toContain('value=');
+    expect(html).not.toContain('未引用');
   });
 });

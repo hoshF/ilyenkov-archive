@@ -132,6 +132,9 @@ async function loadArticles(): Promise<ReadableDocument[]> {
       imageFile: (asset) => resolveGeneratedArticleAssetPath(id, asset),
       title: metadata.title_zh,
       titleNotes: metadata.title_notes,
+      sourceFootnoteLabels: true,
+    }).catch((error: Error) => {
+      throw new Error(`${id}: ${error.message}`);
     });
 
     return {

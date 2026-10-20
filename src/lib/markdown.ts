@@ -5,10 +5,11 @@ import remarkParse from 'remark-parse';
 import remarkGfm from 'remark-gfm';
 import remarkCjkFriendly from 'remark-cjk-friendly/parseOnly';
 import remarkRehype from 'remark-rehype';
+import { defaultHandlers, toHast, type State } from 'mdast-util-to-hast';
 import rehypeSanitize, { defaultSchema } from 'rehype-sanitize';
 import rehypeStringify from 'rehype-stringify';
-import type { Element, Root as HastRoot, RootContent as HastContent } from 'hast';
-import type { Heading, Image, Root } from 'mdast';
+import type { Element, ElementContent, Root as HastRoot, RootContent as HastContent } from 'hast';
+import type { FootnoteDefinition, FootnoteReference, Heading, Image, Parents, Root } from 'mdast';
 
 interface MarkdownOptions {
   imageBaseUrl?: string;
@@ -16,6 +17,8 @@ interface MarkdownOptions {
   imageFile?: (asset: string) => string;
   title?: string;
   titleNotes?: string[];
+  /** 单篇译文：注释显示原刊注码（数字技术 ID 或 note-label），并呈现正文未引用的注文。 */
+  sourceFootnoteLabels?: boolean;
 }
 
 /** 正文里的一节：左栏索引按它跳转。 */
@@ -123,6 +126,143 @@ function removeRedundantNotesHeading() {
   };
 }
 
+/** 单篇译文注释的显示注码与定义顺序；enabled 为 false 时沿用默认脚注渲染。 */
+interface SourceFootnotes {
+  enabled: boolean;
+  labels: Map<string, string>;
+  definitions: FootnoteDefinition[];
+}
+
+const NOTES_LABEL = '注释';
+const FOOTNOTE_PREFIX = 'user-content-';
+const noteLabelMarker = /^<!--\s*note-label:\s*(.*?)\s*-->$/su;
+const positiveInteger = /^[1-9]\d*$/u;
+const numericId = /^\d+$/u;
+/** GFM 只把有定义的 `[^id]` 解析为注释引用，其余留作正文文字。 */
+const unresolvedReference = /\[\^[^\]\s]+\]/u;
+
+/** mdast-util-to-hast 以大写标识符登记注释。 */
+function footnoteKey(identifier: string): string {
+  return identifier.toUpperCase();
+}
+
+function displayLabel(footnotes: SourceFootnotes, identifier: string): string {
+  return footnotes.labels.get(footnoteKey(identifier)) ?? identifier;
+}
+
+/**
+ * 读取并移除紧接在注释定义前的 note-label 标记，校验注释定义与引用。
+ * 全部注释使用纯数字技术 ID 时按原刊注码显示；否则沿用默认渲染，且不得使用标记。
+ */
+function readSourceFootnotes(footnotes: SourceFootnotes, enabled: boolean) {
+  return (tree: Root): void => {
+    if (!enabled) return;
+    const definitions: FootnoteDefinition[] = [];
+    const labels = new Map<string, string>();
+
+    const visit = (parent: Parents): void => {
+      for (let index = 0; index < parent.children.length; index += 1) {
+        const node = parent.children[index];
+        if (node.type === 'html' && node.value.includes('note-label')) {
+          const marker = node.value.trim();
+          const match = marker.match(noteLabelMarker);
+          if (!match) throw new Error(`Malformed note-label marker: ${marker}`);
+          const label = match[1];
+          if (!positiveInteger.test(label)) throw new Error(`note-label must be a positive integer: ${marker}`);
+          const next = parent.children[index + 1];
+          if (next?.type !== 'footnoteDefinition' || next.position?.start.line !== (node.position?.end.line ?? 0) + 1) {
+            throw new Error(`note-label is not immediately followed by a footnote definition: ${marker}`);
+          }
+          if (label === next.identifier) throw new Error(`note-label repeats footnote id ${next.identifier}`);
+          labels.set(footnoteKey(next.identifier), label);
+          parent.children.splice(index, 1);
+          index -= 1;
+          continue;
+        }
+        if (node.type === 'footnoteDefinition') {
+          if (definitions.some((definition) => footnoteKey(definition.identifier) === footnoteKey(node.identifier))) {
+            throw new Error(`Duplicate footnote definition: ${node.identifier}`);
+          }
+          definitions.push(node);
+        }
+        if (node.type === 'text' && unresolvedReference.test(node.value)) {
+          throw new Error(`Footnote reference without a definition: ${node.value.match(unresolvedReference)![0]}`);
+        }
+        if ('children' in node) visit(node);
+      }
+    };
+    visit(tree);
+
+    const numeric = definitions.every((definition) => numericId.test(definition.identifier));
+    if (labels.size > 0 && !numeric) throw new Error('note-label requires numeric footnote ids throughout the document');
+    footnotes.enabled = definitions.length > 0 && numeric;
+    footnotes.labels = labels;
+    footnotes.definitions = definitions;
+  };
+}
+
+/** 注释号沿用默认的链接、锚点与多次引用后缀，只把可见文字换成显示注码。 */
+function sourceFootnoteReference(footnotes: SourceFootnotes) {
+  return (state: State, node: FootnoteReference): Element => {
+    const sup = defaultHandlers.footnoteReference(state, node);
+    const link = sup.children[0];
+    if (footnotes.enabled && link?.type === 'element') {
+      link.children = [{ type: 'text', value: displayLabel(footnotes, node.identifier) }];
+    }
+    return sup;
+  };
+}
+
+function lines(children: ElementContent[]): ElementContent[] {
+  return [{ type: 'text', value: '\n' }, ...children.flatMap((child): ElementContent[] => [child, { type: 'text', value: '\n' }])];
+}
+
+/**
+ * 注释区按定义顺序列出全部注释，列表号为显示注码。
+ * 正文未引用的注文补成条目，不加返回链接；全文没有引用时另建注释区。
+ */
+function completeSourceFootnotes(footnotes: SourceFootnotes) {
+  return (tree: HastRoot): void => {
+    if (!footnotes.enabled) return;
+
+    let section = tree.children.find((node): node is Element => (
+      node.type === 'element' && node.tagName === 'section' && node.properties.dataFootnotes !== undefined
+    ));
+    if (!section) {
+      section = {
+        type: 'element',
+        tagName: 'section',
+        properties: { dataFootnotes: true, className: ['footnotes'] },
+        children: [
+          { type: 'element', tagName: 'h2', properties: { id: 'footnote-label' }, children: [{ type: 'text', value: NOTES_LABEL }] },
+          { type: 'text', value: '\n' },
+          { type: 'element', tagName: 'ol', properties: {}, children: [] },
+          { type: 'text', value: '\n' },
+        ],
+      };
+      tree.children.push({ type: 'text', value: '\n' }, section);
+    }
+
+    const list = section.children.find((node): node is Element => node.type === 'element' && node.tagName === 'ol');
+    if (!list) throw new Error('Footnote section has no list');
+    const rendered = new Map(list.children
+      .filter((node): node is Element => node.type === 'element' && node.tagName === 'li')
+      .map((item) => [String(item.properties.id), item]));
+
+    list.children = lines(footnotes.definitions.map((definition) => {
+      const id = `${FOOTNOTE_PREFIX}fn-${definition.identifier}`;
+      const item: Element = rendered.get(id) ?? {
+        type: 'element',
+        tagName: 'li',
+        properties: { id },
+        children: lines((toHast({ type: 'root', children: definition.children }) as HastRoot).children as ElementContent[]),
+      };
+      item.properties.value = displayLabel(footnotes, definition.identifier);
+      return item;
+    }));
+  };
+}
+
 function headingText(node: Heading): string {
   const parts: string[] = [];
   const visit = (node: Heading['children'][number]): void => {
@@ -168,23 +308,28 @@ function collectHeadings(headings: ArticleHeading[]) {
 
 export async function renderPublicMarkdown(
   markdown: string,
-  { imageBaseUrl, imageFile, title, titleNotes = [] }: MarkdownOptions = {},
+  { imageBaseUrl, imageFile, title, titleNotes = [], sourceFootnoteLabels = false }: MarkdownOptions = {},
 ): Promise<RenderedMarkdown> {
   const headings: ArticleHeading[] = [];
+  const footnotes: SourceFootnotes = { enabled: false, labels: new Map(), definitions: [] };
   const processor = unified()
     .use(remarkParse)
     .use(remarkGfm)
     .use(remarkCjkFriendly)
     .use(resolveRelativeImages, imageBaseUrl)
+    // 标记必须先于“注释”稿件标题的判断移除，否则标题后不再紧接注释定义。
+    .use(readSourceFootnotes, footnotes, sourceFootnoteLabels)
     .use(removeRedundantNotesHeading)
     .use(collectHeadings, headings)
     .use(prependDocumentTitle, title, titleNotes)
     .use(remarkRehype, {
       allowDangerousHtml: false,
-      footnoteLabel: '注释',
+      footnoteLabel: NOTES_LABEL,
       footnoteLabelProperties: {},
       footnoteBackLabel: '返回正文',
+      handlers: { footnoteReference: sourceFootnoteReference(footnotes) },
     })
+    .use(completeSourceFootnotes, footnotes)
     // remark-rehype has already added the defensive `user-content-` prefix.
     // Avoid adding the same prefix a second time while sanitizing the tree.
     .use(rehypeSanitize, { ...defaultSchema, clobberPrefix: '' })

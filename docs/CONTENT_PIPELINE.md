@@ -53,6 +53,13 @@ private/web/publication.json → records + timeline + works_catalog + life + cir
 读出固有宽高写入 `<img>` 的 `width`、`height`，图片下载前即按比例占位；文件缺失或无法读出尺寸时
 构建失败。
 
+单篇译文的注释按原刊注码显示：注释定义全部使用纯数字技术 ID 时，注释号与注释列表的 `<li value>`
+显示该 ID；定义前一行的 `<!-- note-label: N -->` 改为显示 `N`，可以重复、缺号或不从 1 起。
+HTML 锚点仍由技术 ID 生成。注释区按定义顺序列出全部注释，正文未引用的注文也列出，但没有返回链接。
+同步时标记必须紧接注释定义（block-id 只能写在标记之前）；渲染时标记格式错误、取值不是正整数、
+与技术 ID 相同、出现在非纯数字 ID 的文档中，以及注释重复定义或正文引用缺少定义，都会使构建失败。
+含非数字技术 ID 的文档和其他 Markdown 内容沿用默认脚注编号。
+
 “原文信息”按生成 frontmatter 中实际存在的 `source_edition`、`source_url`、`doi` 呈现，不写死在
 Markdown 正文里。完整字段见发布说明的[译文的公开字段](PUBLICATION.md#译文的公开字段)。
 

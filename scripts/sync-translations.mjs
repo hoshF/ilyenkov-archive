@@ -152,7 +152,13 @@ function plannedArticles() {
     };
     if (!existsSync(textPath)) fail(`missing ${textRelative}`);
 
-    const { body, titleNotes } = prepareTranslationMarkdown(readFileSync(textPath, 'utf8'));
+    let prepared;
+    try {
+      prepared = prepareTranslationMarkdown(readFileSync(textPath, 'utf8'));
+    } catch (error) {
+      fail(`${textRelative}: ${error.message}`);
+    }
+    const { body, titleNotes } = prepared;
     if (!body) fail(`${textRelative}: Markdown body is empty`);
     const imageNames = localImageNames(body, textRelative);
     const imageRelatives = imageNames.map((name) => path.posix.join(path.posix.dirname(textRelative), name));
