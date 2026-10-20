@@ -533,6 +533,20 @@ describe('website-approved data adapter', () => {
     expect(declaration('html', 'scroll-behavior', '@media (prefers-reduced-motion: reduce)')).toBe('auto');
   });
 
+  it('writes source asterisk note marks in place of the list number', () => {
+    // 星号注条目不显示浏览器生成的列表号，标号文字挂在列表号的位置，不推移注文。
+    expect(declaration('.prose .footnotes li[data-note-label]', 'list-style')).toBe('none');
+    for (const selector of [
+      '.prose .footnotes li[data-note-label] > p:first-child > span:first-child',
+      '.prose .footnotes li[data-note-label] > span:first-child',
+    ]) {
+      const mark = declarationsFor(selector);
+      expect(mark.display).toBe('inline-block');
+      expect(mark.width).toBe('2em');
+      expect(mark['margin-left']).toBe('-2em');
+    }
+  });
+
   it('tightens article paragraph and heading spacing without changing the reading line', () => {
     const em = (value: string) => value.split(/\s+/).map((part) => Number.parseFloat(part));
     // 文章正文：字号与行高不变，段距收紧但仍小于一行，换段可辨。

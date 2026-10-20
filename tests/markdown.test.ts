@@ -338,6 +338,7 @@ function footnotesOf(html: string, titleHtml = '') {
     items: items.map((item) => ({
       id: String(item.properties.id),
       value: String(item.properties.value),
+      noteLabel: item.properties.dataNoteLabel === undefined ? undefined : String(item.properties.dataNoteLabel),
       backrefs: elementsOf(item)
         .filter((element) => element.tagName === 'a' && element.properties.dataFootnoteBackref !== undefined)
         .map((link) => String(link.properties.href)),
@@ -438,7 +439,7 @@ describe('source footnote labels in translated articles', () => {
     expect(footnotes.notesHeadings).toBe(1);
     expect(html).toContain('id="footnote-label"');
     expect(footnotes.references).toEqual([]);
-    expect(footnotes.items).toEqual([{ id: 'user-content-fn-11', value: '11', backrefs: [], text: '只有注文。' }]);
+    expect(footnotes.items).toEqual([{ id: 'user-content-fn-11', value: '11', noteLabel: undefined, backrefs: [], text: '只有注文。' }]);
   });
 
   it('keeps unique anchors and return links for repeated references, including relabelled notes', async () => {
@@ -522,6 +523,77 @@ describe('source footnote labels in translated articles', () => {
     ['a reference without a definition', '正文。[^6] 又见[^9]。\n\n[^6]: 注文。\n', /without a definition: \[\^9\]/u],
   ])('rejects %s', async (_, markdown, message) => {
     await expect(renderSource(markdown)).rejects.toThrow(message);
+  });
+
+  it('shows source asterisk notes beside numbered notes without shifting the numbers', async () => {
+    const { html } = await renderSource(`甲。[^11] 乙。[^12] 丙。[^13] 丁。[^14] 戊。[^15] 己。[^16]
+
+[^11]: 第十一条。
+<!-- note-label: * -->
+[^12]: 第一条星号注。
+<!-- note-label: ** -->
+[^13]: 双星号注。
+<!-- note-label: 12 -->
+[^14]: 原刊第十二条。
+<!-- note-label: * -->
+[^15]: 另一页的星号注。
+<!-- note-label: 13 -->
+[^16]: 原刊第十三条。
+`);
+    const footnotes = footnotesOf(html);
+    expect(footnotes.references.map((reference) => [reference.label, reference.href])).toEqual([
+      ['11', '#user-content-fn-11'], ['*', '#user-content-fn-12'], ['**', '#user-content-fn-13'],
+      ['12', '#user-content-fn-14'], ['*', '#user-content-fn-15'], ['13', '#user-content-fn-16'],
+    ]);
+    expect(footnotes.items.map((item) => [item.id, item.value, item.noteLabel])).toEqual([
+      ['user-content-fn-11', '11', undefined],
+      ['user-content-fn-12', 'undefined', '*'],
+      ['user-content-fn-13', 'undefined', '**'],
+      ['user-content-fn-14', '12', undefined],
+      ['user-content-fn-15', 'undefined', '*'],
+      ['user-content-fn-16', '13', undefined],
+    ]);
+    // 星号注的标号是条目开头的文字，读屏与复制都能得到。
+    expect(footnotes.items.map((item) => item.text)).toEqual([
+      '第十一条。', '*第一条星号注。', '**双星号注。', '原刊第十二条。', '*另一页的星号注。', '原刊第十三条。',
+    ]);
+    expect(html).toContain('<li id="user-content-fn-12" data-note-label="*">');
+    expect(html).toContain('<p><span>*</span>第一条星号注。');
+    expect(html.match(/data-note-label=/gu)).toHaveLength(3);
+    expectConsistentLinks(footnotes);
+  });
+
+  it('labels a title note through a note-label marker', async () => {
+    const { html, titleHtml } = await renderSource('正文。[^3]\n\n<!-- note-label: * -->\n[^2]: 标题注。\n<!-- note-label: 1 -->\n[^3]: 正文注。\n', {
+      title: '题名',
+      titleNotes: ['2'],
+    });
+    const footnotes = footnotesOf(html, titleHtml);
+    expect(footnotes.references.map((reference) => [reference.label, reference.href])).toEqual([
+      ['*', '#user-content-fn-2'], ['1', '#user-content-fn-3'],
+    ]);
+    expect(footnotes.items.map((item) => [item.value, item.noteLabel, item.backrefs])).toEqual([
+      ['undefined', '*', ['#user-content-fnref-2']],
+      ['1', undefined, ['#user-content-fnref-3']],
+    ]);
+    expectConsistentLinks(footnotes);
+  });
+
+  it('rejects an unreferenced note that itself cites a note', async () => {
+    await expect(renderSource('正文。[^3]\n\n[^2]: 未引用，见注[^3]。\n[^3]: 第三条。\n'))
+      .rejects.toThrow(/Unreferenced footnote 2 contains a footnote reference/u);
+  });
+
+  it.each(['****', '†', '*1', '1*', '<b>', '第一'])('rejects the note-label value %s', async (value) => {
+    await expect(renderSource(`正文。[^6]\n\n<!-- note-label: ${value} -->\n[^6]: 注文。\n`))
+      .rejects.toThrow(/positive integer or \*, \*\*, \*\*\*/u);
+  });
+
+  it('keeps default numbering when footnote ids carry leading zeros', async () => {
+    const markdown = '甲。[^01] 乙。[^02]\n\n[^01]: 甲注。\n[^02]: 乙注。\n';
+    const { html } = await renderSource(markdown);
+    expect(html).toBe((await renderPublicMarkdown(markdown)).html);
+    await expect(renderSource('甲。[^01]\n\n<!-- note-label: 1 -->\n[^01]: 甲注。\n')).rejects.toThrow(/numeric footnote ids/u);
   });
 
   it('keeps default numbering for documents with non-numeric footnote ids', async () => {

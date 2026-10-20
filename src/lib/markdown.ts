@@ -9,7 +9,7 @@ import { defaultHandlers, toHast, type State } from 'mdast-util-to-hast';
 import rehypeSanitize, { defaultSchema } from 'rehype-sanitize';
 import rehypeStringify from 'rehype-stringify';
 import type { Element, ElementContent, Root as HastRoot, RootContent as HastContent } from 'hast';
-import type { FootnoteDefinition, FootnoteReference, Heading, Image, Parents, Root } from 'mdast';
+import type { FootnoteDefinition, FootnoteReference, Heading, Image, Nodes, Parents, Root } from 'mdast';
 
 interface MarkdownOptions {
   imageBaseUrl?: string;
@@ -136,8 +136,10 @@ interface SourceFootnotes {
 const NOTES_LABEL = '注释';
 const FOOTNOTE_PREFIX = 'user-content-';
 const noteLabelMarker = /^<!--\s*note-label:\s*(.*?)\s*-->$/su;
-const positiveInteger = /^[1-9]\d*$/u;
-const numericId = /^\d+$/u;
+/** 显示注码：正整数，或原刊星号注的 *、**、***。 */
+const noteLabelValue = /^(?:[1-9]\d*|\*{1,3})$/u;
+const integerLabel = /^[1-9]\d*$/u;
+const numericId = /^[1-9]\d*$/u;
 /** GFM 只把有定义的 `[^id]` 解析为注释引用，其余留作正文文字。 */
 const unresolvedReference = /\[\^[^\]\s]+\]/u;
 
@@ -152,7 +154,7 @@ function displayLabel(footnotes: SourceFootnotes, identifier: string): string {
 
 /**
  * 读取并移除紧接在注释定义前的 note-label 标记，校验注释定义与引用。
- * 全部注释使用纯数字技术 ID 时按原刊注码显示；否则沿用默认渲染，且不得使用标记。
+ * 全部注释使用不带前导零的纯数字技术 ID 时按原刊注码显示；否则沿用默认渲染，且不得使用标记。
  */
 function readSourceFootnotes(footnotes: SourceFootnotes, enabled: boolean) {
   return (tree: Root): void => {
@@ -168,7 +170,7 @@ function readSourceFootnotes(footnotes: SourceFootnotes, enabled: boolean) {
           const match = marker.match(noteLabelMarker);
           if (!match) throw new Error(`Malformed note-label marker: ${marker}`);
           const label = match[1];
-          if (!positiveInteger.test(label)) throw new Error(`note-label must be a positive integer: ${marker}`);
+          if (!noteLabelValue.test(label)) throw new Error(`note-label must be a positive integer or *, **, ***: ${marker}`);
           const next = parent.children[index + 1];
           if (next?.type !== 'footnoteDefinition' || next.position?.start.line !== (node.position?.end.line ?? 0) + 1) {
             throw new Error(`note-label is not immediately followed by a footnote definition: ${marker}`);
@@ -213,6 +215,26 @@ function sourceFootnoteReference(footnotes: SourceFootnotes) {
   };
 }
 
+function containsFootnoteReference(node: Nodes): boolean {
+  return node.type === 'footnoteReference' || ('children' in node && (node.children as Nodes[]).some(containsFootnoteReference));
+}
+
+/**
+ * 整数显示注码写入列表号；星号注不占列表号，标号作为条目开头的文字写出，
+ * 免得与浏览器生成的列表号重复显示。
+ */
+function labelItem(item: Element, label: string): void {
+  if (integerLabel.test(label)) {
+    item.properties.value = label;
+    return;
+  }
+  item.properties.dataNoteLabel = label;
+  const mark: Element = { type: 'element', tagName: 'span', properties: {}, children: [{ type: 'text', value: label }] };
+  const first = item.children.find((child): child is Element => child.type === 'element');
+  if (first?.tagName === 'p') first.children.unshift(mark);
+  else item.children.unshift(mark);
+}
+
 function lines(children: ElementContent[]): ElementContent[] {
   return [{ type: 'text', value: '\n' }, ...children.flatMap((child): ElementContent[] => [child, { type: 'text', value: '\n' }])];
 }
@@ -251,13 +273,20 @@ function completeSourceFootnotes(footnotes: SourceFootnotes) {
 
     list.children = lines(footnotes.definitions.map((definition) => {
       const id = `${FOOTNOTE_PREFIX}fn-${definition.identifier}`;
-      const item: Element = rendered.get(id) ?? {
-        type: 'element',
-        tagName: 'li',
-        properties: { id },
-        children: lines((toHast({ type: 'root', children: definition.children }) as HastRoot).children as ElementContent[]),
-      };
-      item.properties.value = displayLabel(footnotes, definition.identifier);
+      let item = rendered.get(id);
+      if (!item) {
+        // 未引用的注文单独转换，其中的注释号无从与正文共用编号与锚点，只能拒绝。
+        if (definition.children.some(containsFootnoteReference)) {
+          throw new Error(`Unreferenced footnote ${definition.identifier} contains a footnote reference`);
+        }
+        item = {
+          type: 'element',
+          tagName: 'li',
+          properties: { id },
+          children: lines((toHast({ type: 'root', children: definition.children }) as HastRoot).children as ElementContent[]),
+        };
+      }
+      labelItem(item, displayLabel(footnotes, definition.identifier));
       return item;
     }));
   };
@@ -332,7 +361,12 @@ export async function renderPublicMarkdown(
     .use(completeSourceFootnotes, footnotes)
     // remark-rehype has already added the defensive `user-content-` prefix.
     // Avoid adding the same prefix a second time while sanitizing the tree.
-    .use(rehypeSanitize, { ...defaultSchema, clobberPrefix: '' })
+    .use(rehypeSanitize, {
+      ...defaultSchema,
+      clobberPrefix: '',
+      // 星号注的注释条目以 data-note-label 取消列表号。
+      attributes: { ...defaultSchema.attributes, li: [...(defaultSchema.attributes?.li ?? []), 'dataNoteLabel'] },
+    })
     .use(reserveLocalImageSpace, imageBaseUrl, imageFile)
     .use(rehypeStringify);
 
