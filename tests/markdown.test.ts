@@ -342,7 +342,7 @@ function footnotesOf(html: string, titleHtml = '') {
       backrefs: elementsOf(item)
         .filter((element) => element.tagName === 'a' && element.properties.dataFootnoteBackref !== undefined)
         .map((link) => String(link.properties.href)),
-      text: textOf(item).replace(/↩\d*/gu, '').trim(),
+      text: textOf(item).replace(/↩\d*/gu, '').replace(/\s+/gu, ' ').trim(),
     })),
     notesHeadings: elements.filter((element) => element.tagName === 'h2' && textOf(element) === '注释').length,
   };
@@ -555,12 +555,40 @@ describe('source footnote labels in translated articles', () => {
     ]);
     // 星号注的标号是条目开头的文字，读屏与复制都能得到。
     expect(footnotes.items.map((item) => item.text)).toEqual([
-      '第十一条。', '*第一条星号注。', '**双星号注。', '原刊第十二条。', '*另一页的星号注。', '原刊第十三条。',
+      '第十一条。', '* 第一条星号注。', '** 双星号注。', '原刊第十二条。', '* 另一页的星号注。', '原刊第十三条。',
     ]);
     expect(html).toContain('<li id="user-content-fn-12" data-note-label="*">');
-    expect(html).toContain('<p><span>*</span>第一条星号注。');
+    expect(html).toContain('<li id="user-content-fn-12" data-note-label="*"><span>*</span>\n<p>第一条星号注。');
     expect(html.match(/data-note-label=/gu)).toHaveLength(3);
     expectConsistentLinks(footnotes);
+  });
+
+  it('keeps block content of asterisk notes intact after the mark', async () => {
+    const { html } = await renderSource(`正文。[^2] [^3] [^4]
+
+<!-- note-label: * -->
+[^2]:
+    > 引文开头的星号注。
+
+<!-- note-label: ** -->
+[^3]:
+    - 列表开头的星号注
+
+<!-- note-label: *** -->
+[^4]:
+    \`\`\`
+    代码开头的星号注
+    \`\`\`
+`);
+    const items = elementsOf(fromHtml(html, { fragment: true })).filter((element) => element.tagName === 'li' && element.properties.id);
+    expect(items.map((item) => {
+      const children = item.children.filter((child): child is Element => child.type === 'element');
+      return [String(item.properties.dataNoteLabel), children[0].tagName, textOf(children[0]), children[1].tagName];
+    })).toEqual([
+      ['*', 'span', '*', 'blockquote'],
+      ['**', 'span', '**', 'ul'],
+      ['***', 'span', '***', 'pre'],
+    ]);
   });
 
   it('labels a title note through a note-label marker', async () => {

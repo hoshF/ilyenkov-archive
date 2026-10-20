@@ -220,8 +220,8 @@ function containsFootnoteReference(node: Nodes): boolean {
 }
 
 /**
- * 整数显示注码写入列表号；星号注不占列表号，标号作为条目开头的文字写出，
- * 免得与浏览器生成的列表号重复显示。
+ * 整数显示注码写入列表号；星号注不占列表号，标号作为条目的第一个子元素写出，
+ * 由样式放到列表号的位置，不进入注文的段落、引文或列表。
  */
 function labelItem(item: Element, label: string): void {
   if (integerLabel.test(label)) {
@@ -229,10 +229,7 @@ function labelItem(item: Element, label: string): void {
     return;
   }
   item.properties.dataNoteLabel = label;
-  const mark: Element = { type: 'element', tagName: 'span', properties: {}, children: [{ type: 'text', value: label }] };
-  const first = item.children.find((child): child is Element => child.type === 'element');
-  if (first?.tagName === 'p') first.children.unshift(mark);
-  else item.children.unshift(mark);
+  item.children.unshift({ type: 'element', tagName: 'span', properties: {}, children: [{ type: 'text', value: label }] });
 }
 
 function lines(children: ElementContent[]): ElementContent[] {
