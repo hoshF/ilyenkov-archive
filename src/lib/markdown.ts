@@ -76,6 +76,7 @@ function resolveRelativeImages(imageBaseUrl: string | undefined) {
 /**
  * 本地插图写入文件的固有宽高：浏览器在图片下载前就按比例留出位置，
  * 慢速网络下按锚点直接打开文章时，后到的图片不再把目标标题推离视口。
+ * 同时按宽高归入横图或竖图两种版面规格；方图按竖图处理，不铺满行宽。
  */
 function reserveLocalImageSpace(
   imageBaseUrl: string | undefined,
@@ -98,6 +99,7 @@ function reserveLocalImageSpace(
       const { width, height } = await imageMetadata(readFileSync(imageFile(asset)), src);
       image.properties.width = width;
       image.properties.height = height;
+      image.properties.className = [width > height ? 'prose-image--landscape' : 'prose-image--portrait'];
     }));
   };
 }

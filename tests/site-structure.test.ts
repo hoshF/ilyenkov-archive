@@ -475,12 +475,19 @@ describe('website-approved data adapter', () => {
       const { width, height } = await imageMetadata(readFileSync(resolveGeneratedArticleAssetPath(id, asset)));
       expect(tag, src).toContain(` width="${width}"`);
       expect(tag, src).toContain(` height="${height}"`);
+      expect(tag, src).toContain(width > height ? 'class="prose-image--landscape"' : 'class="prose-image--portrait"');
     }
-    // 宽度来自 width 属性，高度由属性比例推出；样式只限制最大尺寸。
+    // 高度由属性比例推出；横图铺满行宽，竖图统一宽度，两者都不被最大高度截出留白。
     const image = declarationsFor('.prose img');
     expect(image.width).toBeUndefined();
     expect(image.height).toBe('auto');
     expect(image['max-width']).toBe('100%');
+    const landscape = declarationsFor('.prose img.prose-image--landscape');
+    const portrait = declarationsFor('.prose img.prose-image--portrait');
+    expect(landscape.width).toBe('100%');
+    expect(portrait.width).toBe('min(24rem, 80%)');
+    expect(landscape['max-height']).toBe('none');
+    expect(portrait['max-height']).toBe('none');
   });
 
   it('marks block quotations with a thin left rule instead of a card or narrower measure', () => {

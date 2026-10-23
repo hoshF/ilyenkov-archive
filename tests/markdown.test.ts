@@ -179,16 +179,29 @@ describe('Markdown safety and semantics', () => {
   it('reserves intrinsic dimensions for article-local images only', async () => {
     const directory = mkdtempSync(path.join(tmpdir(), 'markdown-images-'));
     writeFileSync(path.join(directory, 'scan.png'), pngHeader(939, 1617));
+    writeFileSync(path.join(directory, 'group.png'), pngHeader(1298, 838));
+    writeFileSync(path.join(directory, 'square.png'), pngHeader(800, 800));
     const { html } = await renderPublicMarkdown(`
 ![档案扫描](scan.png)
+
+![合照](group.png)
+
+![方图](square.png)
 
 ![外部照片](https://example.com/photo.webp)
 `, {
       imageBaseUrl: '/archive/an-article/media/',
       imageFile: (asset) => path.join(directory, asset),
     });
+    // 宽大于高为横图，其余（含方图）为竖图；外部图片尺寸未知，不分规格。
     expect(html).toContain(
-      '<img src="/archive/an-article/media/scan.png" alt="档案扫描" width="939" height="1617">',
+      '<img src="/archive/an-article/media/scan.png" alt="档案扫描" width="939" height="1617" class="prose-image--portrait">',
+    );
+    expect(html).toContain(
+      '<img src="/archive/an-article/media/group.png" alt="合照" width="1298" height="838" class="prose-image--landscape">',
+    );
+    expect(html).toContain(
+      '<img src="/archive/an-article/media/square.png" alt="方图" width="800" height="800" class="prose-image--portrait">',
     );
     expect(html).toContain('<img src="https://example.com/photo.webp" alt="外部照片">');
   });

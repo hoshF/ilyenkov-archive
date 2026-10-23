@@ -51,7 +51,8 @@ private/web/publication.json → records + timeline + works_catalog + life + cir
 或 `avif`，不允许 `../` 跨目录引用，不扫描或整目录复制附件。站点根路径与 `http(s)` 图片地址
 保留原样。图片公开权限由 private 发布决定控制，替代文字应描述图片内容。构建时从生成的图片文件
 读出固有宽高写入 `<img>` 的 `width`、`height`，图片下载前即按比例占位；文件缺失或无法读出尺寸时
-构建失败。
+构建失败。同一步按宽高写入版面规格：宽大于高为横图（`prose-image--landscape`，铺满正文行宽），
+否则为竖图（`prose-image--portrait`，统一宽度居中）；外部图片不分规格。
 
 单篇译文的注释按原刊注码显示：注释定义全部使用不带前导零的纯数字技术 ID 时，注释号与注释列表的 `<li value>`
 显示该 ID；定义前一行的 `<!-- note-label: N -->` 改为显示 `N`，可以重复、缺号或不从 1 起。`N` 也可以是原刊

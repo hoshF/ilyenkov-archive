@@ -596,12 +596,16 @@ h2, h3, h4 { text-wrap: balance; line-height: 1.3; }
   color: inherit; margin: 1.5em 0; padding: 0 0 0 1.1em; border: 0; border-left: 2px solid var(--line-strong);
 }
 .prose blockquote p, .reading-page .prose blockquote p { margin: .6em 0; }
-/* 宽度取 img 的 width 属性（文件固有宽度），高度按 width/height 属性的比例推出：
-   图片下载前已占好位置。过高时由 max-height 截住，object-fit 保持比例居中。 */
+/* 高度按 width/height 属性的比例推出，图片下载前已占好位置。未知尺寸的外部图片
+   取 width 属性或文件宽度，过高时由 max-height 截住，object-fit 保持比例居中。 */
 .prose img {
   object-fit: contain; max-width: 100%; height: auto; max-height: 36rem; margin: 2.5rem auto .7rem;
   display: block;
 }
+/* 本地插图只有两种规格：横图铺满正文行宽；竖图（含方图）统一宽度、居中，
+   高度随原图比例，不再被 max-height 截出留白。窄屏竖图收到行宽的八成。 */
+.prose img.prose-image--landscape { width: 100%; max-height: none; }
+.prose img.prose-image--portrait { width: min(24rem, 80%); max-height: none; }
 .prose figure { margin: 2.5rem 0; }
 .prose figcaption {
   color: var(--muted); font-family: var(--sans); font-size: var(--text-meta); text-align: center;
