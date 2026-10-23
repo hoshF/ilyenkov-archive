@@ -55,9 +55,14 @@ function byIssueDescending(left: GroupIssue, right: GroupIssue): number {
   return right.issue - left.issue || left.id.localeCompare(right.id);
 }
 
-export const getGroupAnnouncement = buildCache(() => renderPublicMarkdown(
-  readFileSync(path.join(process.cwd(), 'editorial', 'group-announcement.md'), 'utf8'),
-));
+/** 公告只记公开日期；正文第一个二级标题是公告标题，首页按它的 id 链到小组页。 */
+const GroupAnnouncementSchema = z.object({ published: IsoDateSchema }).strict();
+
+export const getGroupAnnouncement = buildCache(async () => {
+  const record = matter(readFileSync(path.join(process.cwd(), 'editorial', 'group-announcement.md'), 'utf8'));
+  const { published } = GroupAnnouncementSchema.parse(record.data);
+  return { published, ...await renderPublicMarkdown(record.content.trim()) };
+});
 
 export const getGroupIssues = buildCache((): Promise<GroupIssue[]> => (
   Promise.all(recordIds().map(async (id) => {

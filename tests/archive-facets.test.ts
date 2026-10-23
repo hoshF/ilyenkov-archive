@@ -27,7 +27,7 @@ describe('archive facets', () => {
         .map(([, value]) => value.split(/\s+/))
         .find((classes) => classes.includes('section-layout'));
       expect(layout, file).toBeDefined();
-      for (const modifier of ['archive-index-page', 'section-layout--rail', 'section-layout--pinned']) {
+      for (const modifier of ['archive-index-page', 'centered-rail', 'section-layout--rail', 'section-layout--pinned']) {
         expect(layout, `${file} ${modifier}`).toContain(modifier);
       }
       // 只借文章页的水平几何，不启用阅读页的字体、背景或手机隐藏规则。
@@ -39,16 +39,16 @@ describe('archive facets', () => {
 
   it('centers the desktop content on the article axis with facets in its left index rail', () => {
     const desktop = '@media (min-width: 801px)';
-    // 分类是辅助入口，采用页面局部的窄索引；正文仍沿用相同的居中几何。
-    expect(declaration('.archive-index-page', '--index', desktop)).toBe('160px');
-    expect(declaration('.archive-index-page', '--index-gap', desktop)).toBe('32px');
+    // 分类是辅助入口，采用栏目页共用的窄索引（centered-rail）；正文仍沿用相同的居中几何。
+    expect(declaration('.centered-rail', '--index', desktop)).toBe('160px');
+    expect(declaration('.centered-rail', '--index-gap', desktop)).toBe('32px');
     for (const property of ['width', 'grid-template-columns']) {
-      expect(declaration('.archive-index-page', property, desktop), property)
+      expect(declaration('.centered-rail', property, desktop), property)
         .toBe(declaration('.section-layout--reading', property));
     }
-    expect(declaration('.archive-index-page', 'column-gap', desktop)).toBe('var(--index-gap)');
-    expect(declaration('.archive-index-page .section-layout__content', 'grid-column', desktop)).toBe('2');
-    for (const selector of ['.archive-index-page .section-layout__aside', '.archive-index-page .archive-facets']) {
+    expect(declaration('.centered-rail', 'column-gap', desktop)).toBe('var(--index-gap)');
+    expect(declaration('.centered-rail .section-layout__content', 'grid-column', desktop)).toBe('2');
+    for (const selector of ['.centered-rail .section-layout__aside', '.archive-index-page .archive-facets']) {
       expect(declaration(selector, 'margin-top', desktop), selector).toBe('0');
     }
     for (const selector of [
@@ -67,8 +67,9 @@ describe('archive facets', () => {
 
   it('keeps narrow archive views in the existing single-column flow', () => {
     const layoutProperties = ['display', 'width', 'grid-template-columns', 'grid-column', 'column-gap'];
+    // 档案页的双栏几何来自共用的 centered-rail，与档案自己的规则一样只在双栏宽度下生效。
     const archiveRules = rules.filter(({ selector, declarations }) => (
-      selector.includes('.archive-index-page')
+      (selector.includes('.archive-index-page') || selector.includes('.centered-rail'))
       && layoutProperties.some((property) => property in declarations)
     ));
     expect(archiveRules.length).toBeGreaterThan(0);

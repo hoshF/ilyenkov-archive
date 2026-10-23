@@ -41,7 +41,7 @@ const description = current === null ? archiveDescription
 ---
 
 <BaseLayout title={title} description={description}>
-  <SectionLayout pinned modifier="section-index archive-index-page compact-intro">
+  <SectionLayout pinned modifier="section-index centered-rail archive-index-page compact-intro">
     <header class="page-header archive-heading" slot="intro">
       <h1 class="archive-heading__title">{current?.label ?? '全部文章'}</h1>
       {current && <p class="archive-heading__count">{current.count} 篇</p>}

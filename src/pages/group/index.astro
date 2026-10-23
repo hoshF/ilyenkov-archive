@@ -2,6 +2,7 @@
 import { site } from '../../lib/editorial';
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import SectionLayout from '../../components/SectionLayout.astro';
+import ResourceLinks from '../../components/ResourceLinks.astro';
 import { getGroupIssues, getGroupAnnouncement } from '../../lib/group';
 
 const [issues, announcement] = await Promise.all([getGroupIssues(), getGroupAnnouncement()]);
@@ -10,25 +11,20 @@ if (!announcementHeading) throw new Error('Group announcement requires a section
 ---
 
 <BaseLayout title={site.group.name} description={`${site.group.name}的公共工作档案，按期记录已公开的研究、讨论、资料整理与阶段性成果。`}>
-  <SectionLayout pinned modifier="section-index group-index">
-    <header class="page-header" slot="intro">
-      <h1 class="page-title">{site.group.name}</h1>
-      <p class="record__original">
-        {site.group.originalName}<br />
-        {site.group.englishName}
-      </p>
+  <SectionLayout pinned modifier="section-index centered-rail group-index">
+    {/* 关于小组本身的固定入口放在左栏；正文栏只放公告与工作记录。 */}
+    <ResourceLinks slot="aside" id="group-about-heading" label="关于小组" links={[
+      { label: '小组介绍', href: '/group/0/' },
+      { label: '关注与联系', href: '/contact/' },
+    ]} />
+    {/* 栏目名沿用首页定位句的字形，与档案目录名一致；外文名并作一行。 */}
+    <header class="page-header group-heading" slot="intro">
+      <h1 class="group-heading__title">{site.group.name}</h1>
+      <p class="group-heading__names"><span>{site.group.originalName}</span> · <span>{site.group.englishName}</span></p>
     </header>
 
-    <div class="person-intro">
-      <div class="prose prose--section">
-        <nav aria-label="小组相关入口">
-          <a href="/group/0/">小组介绍</a> · <a href="/contact/">关注与联系</a>
-        </nav>
-      </div>
-    </div>
-
     <section class="group-announcement" aria-labelledby={announcementHeading.id}>
-      <p class="group-announcement__label">公告</p>
+      <p class="group-announcement__meta"><span class="group-announcement__label">公告</span> · <time datetime={announcement.published}>{announcement.published}</time></p>
       <div class="prose prose--section" set:html={announcement.html} />
     </section>
 

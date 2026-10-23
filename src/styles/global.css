@@ -264,7 +264,7 @@ h2, h3, h4 { text-wrap: balance; line-height: 1.3; }
 .section-index { --section-top: var(--masthead-gap); }
 
 .home-page > .home-opening + section, .home-page > section + section { margin-top: 72px; }
-.home-positioning, .home-page h2, .archive-heading__title, .ilyenkov-entrances__label {
+.home-positioning, .home-page h2, .archive-heading__title, .ilyenkov-entrances__label, .group-heading__title {
   color: var(--muted); font-size: var(--text-home-section); letter-spacing: .03em;
   font-weight: 500; line-height: 1.3;
 }
@@ -391,17 +391,17 @@ h2, h3, h4 { text-wrap: balance; line-height: 1.3; }
   .book-page .section-layout__aside { margin-top: 0; }
 }
 
-/* 档案列表沿用译文页的居中内容列；分类只是左侧索引，不把列表推向右边。
-   仅在双栏宽度下修正几何，窄屏仍沿用普通栏目页的单列顺序与间距。 */
+/* 栏目页的左栏只是窄索引（档案分类、关于小组）时，内容沿用译文页的居中内容列，
+   左栏不把列表推向右边。仅在双栏宽度下修正几何，窄屏仍沿用普通栏目页的单列顺序与间距。 */
 @media (min-width: 801px) {
-  .archive-index-page {
+  .centered-rail {
     --index: 160px; --index-gap: 32px;
     width: min(calc(100% - 40px), calc(var(--reading) + (var(--index) + var(--index-gap)) * 2));
     grid-template-columns: minmax(0, var(--index)) minmax(0, var(--reading)) minmax(0, 1fr);
     column-gap: var(--index-gap);
   }
-  .archive-index-page .section-layout__content { grid-column: 2; }
-  .archive-index-page .section-layout__aside, .archive-index-page .archive-facets { margin-top: 0; }
+  .centered-rail .section-layout__content { grid-column: 2; }
+  .centered-rail .section-layout__aside, .archive-index-page .archive-facets { margin-top: 0; }
   .archive-index-page .archive-facets__label,
   .archive-index-page .archive-facets__all a,
   .archive-index-page .archive-facets__term { font-size: var(--text-meta); }
@@ -782,7 +782,7 @@ h2, h3, h4 { text-wrap: balance; line-height: 1.3; }
   .updates-list__item { grid-template-columns: minmax(0, 1fr); gap: 6px 0; }
   .home-page { margin-bottom: 56px; }
   .home-page > .home-opening + section, .home-page > section + section { margin-top: 52px; }
-  .home-positioning, .home-page h2, .archive-heading__title, .ilyenkov-entrances__label { font-size: var(--text-item); }
+  .home-positioning, .home-page h2, .archive-heading__title, .ilyenkov-entrances__label, .group-heading__title { font-size: var(--text-item); }
   .entrance-grid { grid-template-columns: 1fr; gap: 32px; }
   .page-title { font-size: var(--text-page-mobile); }
   .lead { font-size: var(--text-body); }
@@ -815,11 +815,14 @@ h2, h3, h4 { text-wrap: balance; line-height: 1.3; }
 
 /* 栏目列表的垂直节奏；实体详情与连续阅读保留各自规则。 */
 .group-index .section-layout__intro { margin-bottom: 24px; }
-.group-announcement {
-  margin: 0 0 48px; padding: 20px clamp(16px, 3vw, 24px); border-left: 3px solid var(--accent);
-  background: color-mix(in srgb, var(--accent) 5%, var(--paper));
-}
-.group-announcement__label { margin: 0 0 12px; color: var(--accent); font-size: var(--text-meta); font-weight: 600; }
+/* 小组页首：栏目名与档案目录名同一字形，外文名一行小字。 */
+.group-heading__names { margin: 6px 0 0; color: var(--muted); font-size: var(--text-meta); line-height: 1.5; }
+/* 每个外文名不在中间折行，窄屏只在两个名字之间换行。 */
+.group-heading__names span { white-space: nowrap; }
+/* 公告不加底色和色条，上下细线框出范围；标题上方一行注明“公告”与公开日期。 */
+.group-announcement { margin: 0 0 48px; padding: 20px 0; border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); }
+.group-announcement__meta { margin: 0 0 6px; color: var(--muted); font-size: var(--text-meta); line-height: 1.5; }
+.group-announcement__label { color: var(--accent); font-weight: 600; }
 .group-announcement .prose > h2:first-child { scroll-margin-top: 76px; }
 .group-announcement .prose > :last-child { margin-bottom: 0; }
 .group-issues > h2 { font-size: var(--text-section); font-weight: 700; margin: 0 0 16px; }
@@ -842,8 +845,8 @@ h2, h3, h4 { text-wrap: balance; line-height: 1.3; }
 .research-profile .section-layout__content { order: 0; width: 100%; }
 .research-profile .section-layout__sidebar { order: 1; position: static; }
 .research-profile .section-layout__aside { margin-top: 0; }
-.research-profile .section-layout__structured a { color: var(--ink-soft); }
-.research-profile .section-layout__structured a:hover { color: var(--accent); }
+.research-profile .section-layout__structured a, .group-index .section-layout__structured a { color: var(--ink-soft); }
+.research-profile .section-layout__structured a:hover, .group-index .section-layout__structured a:hover { color: var(--accent); }
 @media (min-width: 1101px) {
   .container.research-profile {
     --index: 160px;
