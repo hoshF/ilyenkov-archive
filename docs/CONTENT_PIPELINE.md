@@ -1,46 +1,37 @@
 # 公开内容同步与静态构建
 
-本文件说明输入输出、转换、关系解析和派生数据。可发布的字段、权限与日期含义以
-[发布说明](PUBLICATION.md)为准；栏目和编辑文件职责见[架构说明](ARCHITECTURE.md)。
+本文件说明数据从选定来源到生成输入、再到页面的处理过程。权限、字段及输入失败条件以
+[发布说明](PUBLICATION.md)为准；栏目和内容所有权见[架构](ARCHITECTURE.md)，环境与上线见[部署](DEPLOYMENT.md)。
+私有研究仓库下称 private，本站公共仓库下称 public。
 
 ## 统一 private 入口与生成通道
 
-private 根目录的 `web/publication.json` 是唯一发布选择入口；`works` 由译文同步器消费，
-`records` 与必选的 `timeline`、`works_catalog`、`life`、`circle` 根对象由研究同步器消费。
-`work_json_path`、`record_path`、`source_path` 相对 private 仓库根目录解析，不以 `web/` 为基准。
-接口引用已有事实、原文、译文与来源文件，不复制其 canonical 内容；IFI、Readings、生平、年表、
-作品目录、交往页面的公开文字在 `web/editorial/` 中维护，经对应选择中的 `editorial_path` 明确选择。
+同步器从 private `web/publication.json` 读取选定来源，写入 `.website-input/`；
+页面从生成输入读取数据。各通道如下：
+
+| 选择 | 同步入口（`scripts/`） | 生成输入（`.website-input/`） | 读取端（`src/lib/`） |
+| --- | --- | --- | --- |
+| `works` | `sync-translations.mjs` | `articles/`、`article-assets/` | `site-data.ts`、`markdown.ts` |
+| `records` 及研究页面根选择 | `sync-research-records.mjs` | `research-records.json`、`portraits/` | `research-records.ts` |
+| `books` | `sync-books.mjs` | `books.json` | `books.ts` |
+| `archive_taxonomy` | `sync-archive-taxonomy.mjs` | `archive-taxonomy.json` | `archive-taxonomy.ts` |
+| `glossary` | `sync-glossary.mjs` | `glossary.json` | `glossary.ts` |
+
+研究规划与来源解析由 `scripts/lib/research-sync/` 负责，共享路径、校验及写入逻辑位于
+`scripts/lib/`。同步更新变化文件并清理撤回内容；不要手工修改生成输入。
+选择范围、路径基准和必选性见[private 公开接口](PUBLICATION.md#private-公开接口)。
+
+## 命令顺序
+
+`publication:sync` 依次运行译文、研究、书籍、Archive 分类与术语同步器，
+`publication:prepare` 复用该命令。`check`、`test`、`build` 均先同步；`verify` 顺序为：
 
 ```text
-private/web/publication.json → works
-  │  只选择 publication_scope = website_public
-  ▼
-条目指定的 work.json + 同目录 <work_id>.md
-  │  scripts/sync-translations.mjs
-  ├─▶ .website-input/articles/<work_id>.md
-  └─▶ .website-input/article-assets/<work_id>/<image>
-  │  src/lib/site-data.ts 校验 frontmatter，src/lib/markdown.ts 编译正文
-  ▼
-dist/archive/<slug>/index.html + media/<image>
+publication sync → astro check → astro build → search:index → vitest run
 ```
 
-```text
-private/web/publication.json → records + timeline + works_catalog + life + circle
-  │  records 只选择 publication_scope = website_public
-  ▼
-条目指定的结构化记录 + 明确选择的公开来源与成稿
-  │  scripts/sync-research-records.mjs
-  ▼
-.website-input/research-records.json + portraits/<public_id>.<ext>
-  │  src/lib/research-records.ts 校验并适配
-  ▼
-人物、年表、作品目录与研究栏目静态页面
-```
-
-同步器只处理同一清单中逐项指定的 `website_public` 条目，不扫描其他研究目录，也不处理
-`internal_public`。
-字段必须同时由发布契约允许、同步器显式序列化、public schema 显式接受，private 新字段不会自动透传。
-生成输入不进入 Git，不手工修改；再次同步更新变化文件并清理不再获准公开的条目。
+`publication:check` 只比较生成输入，不改写；退出码 1 表示输入过期，2 表示同步失败。
+修改 private 来源或发布选择后，执行 `npm run publication:sync`，再用 `npm run verify` 验证。
 
 ## 译文转换
 
@@ -51,12 +42,11 @@ private/web/publication.json → records + timeline + works_catalog + life + cir
 或 `avif`，不允许 `../` 跨目录引用，不扫描或整目录复制附件。站点根路径与 `http(s)` 图片地址
 保留原样。图片公开权限由 private 发布决定控制，替代文字应描述图片内容。构建时从生成的图片文件
 读出固有宽高写入 `<img>` 的 `width`、`height`，图片下载前即按比例占位；文件缺失或无法读出尺寸时
-构建失败。同一步按宽高写入版面规格：宽大于高为横图（`prose-image--landscape`，铺满正文行宽），
-否则为竖图（`prose-image--portrait`，统一宽度居中）；外部图片不分规格。
+构建失败。同一步按宽高标记横图或竖图，外部图片不分规格；图片布局见[架构](ARCHITECTURE.md#布局原则)。
 
 图注由 private 译文在图注段落前写 `<!-- figure-caption -->` 显式标出（写法见 private
 `translation/TRANSLATION_STYLE.md`）。同步器在去掉 block-id 前确认标记介于图片段落与图注段落之间；
-渲染时图片与图注合成 `<figure>`，图注为 `<figcaption>`，浅色小字居中，竖图的图注不宽于图片。
+渲染时图片与图注合成 `<figure>`，图注为 `<figcaption>`，布局见[架构](ARCHITECTURE.md#布局原则)。
 整段加粗或斜体的图注去掉这层外包装，文字不改；没有标记的段落一律按正文处理，标记位置不对时构建失败。
 
 单篇译文的注释按原刊注码显示：注释定义全部使用不带前导零的纯数字技术 ID 时，注释号与注释列表的 `<li value>`
@@ -73,250 +63,102 @@ Markdown 正文里。完整字段见发布说明的[译文的公开字段](PUBLI
 
 ### 作者身份
 
-被选中的 work 的 `authors[]` 在 `people/persons.json` 中逐项解析 canonical `person_id`；
-registry 身份须唯一，未知 ID 使同步失败。保持原始作者顺序，从同一对象数组生成：
-
-```text
-private work.authors[]             public generated article
-  ├── person_id  ────────────────▶ author_ids[]
-  └── name_zh    ────────────────▶ author[]
-```
-
-两数组等长、逐项对应，不分别维护；`ReadableDocument.authorIds` 用于身份关联，`author` 与
-`authorLabel` 用于显示完整署名。作者不从目录名、别名或 Archive 分类推断，身份验证不复制完整人物
-记录，也不要求已有 researcher publication。输入拒绝规则见
-[译文作者输入与身份边界](PUBLICATION.md#译文作者输入与身份边界)。
+同步器在 `people/persons.json` 中解析选定 work 的 `authors[].person_id`，按原顺序从同一数组
+生成 `author_ids[]` 与 `author[]`。读取端以 `ReadableDocument.authorIds` 关联身份，以 `author`
+和 `authorLabel` 显示署名；输入与身份限制见[译文作者输入与身份边界](PUBLICATION.md#译文作者输入与身份边界)。
 
 ## 研究者同步与本站译文
 
-`researcher_profile` 按 `record_path: people/persons.json`、`record_id = person_id` 唯一定位人物。
-中文姓名和 summary 来自 publication，其他允许字段取自该 person；资源 URL 按 `resource_kinds`
-明确选择。未知、重复、缺失或非法资源使同步失败，不用 works master、source index 或精选作品定位。
-可选 `portrait_path` 明选 `people/` 下的一张照片，同步器复制到 `portraits/`，页面经
-`/research/researchers/<slug>/portrait.<ext>` 输出。允许字段及拒绝规则见[研究者身份与公开字段](PUBLICATION.md#研究者身份与公开字段)。
+同步器按发布条目的定位读取 person，将中文姓名、摘要与选定人物字段组合成研究者记录。
+选定照片复制到 `portraits/`，经 `/research/researchers/<slug>/portrait.<ext>` 输出。
+允许字段见[研究者身份与公开字段](PUBLICATION.md#研究者身份与公开字段)。
 
-```text
-private person.person_id
-  ├─ researcher publication ─▶ researcher.personId
-  └─ work.authors[] + translation publication ─▶ document.authorIds
-                                                  │
-公开 Archive documents ── 按 personId 筛选 ─────────┘
-                         ▼
-                  研究者页的本站译文列表
-```
-
-详情页仅对公开 `getSiteData()` 集合执行 `authorIds.includes(personId)`，保留档案规范顺序及完整
-合著署名，不生成 `works[]` 副本或读取 private 作品目录。研究者与译文的公开选择独立；新增或撤下
-profile 不改变文章集合，没有译文的 profile 也可成立。
+研究者页对 `getSiteData()` 的公开文章集合执行 `authorIds.includes(personId)`，保留档案规范
+顺序及完整合著署名。列表在读取时派生，不另存 `works[]` 或读取 private 作品目录。
 
 ## Readings 活动定位与系列同步
 
-`ilyenkov_readings` 通过非空 `record_directory` 唯一匹配 private event 的 `local_directory`。
-目标必须是正式 Readings edition，所选 `source_path` 属于同一活动目录；独立纪念会不是 edition。
-公开题名直接取所选 event 的 `title_zh`；publication 不保存题名副本。
-不接受 `record_id`，包括同时提供正确 directory 的双 locator 输入，也不按年份查找。目录只用于
-同步定位，generated identity 使用 `public_id`。输入契约见[Readings 活动定位](PUBLICATION.md#readings-活动定位)。
+活动以 `record_directory` 匹配 event 的 `local_directory`，公开题名取所选 event 的 `title_zh`，
+公开身份取 publication 的 `public_id`。定位与日期条件见[Readings 活动定位](PUBLICATION.md#readings-活动定位)。
 
-可选 `ilyenkov_readings_series` 从 `research/readings/series.json` 按 `record_id = series_id`
-选择唯一记录，并校验名称、类型、两条历史关系与所选资源。字段见
+系列从 `research/readings/series.json` 读取，并分别解析两条历史关系：
+
+1. 在 `research/readings/events.json` 中按 `earliest_archived_event_directory` 和
+   `first_international_event_directory` 各自定位唯一 edition。
+2. 最早归档关系采用 series 的选择，不限定固定年份或编号状态；第一届国际会议要求 `edition_roman === "I"`。
+3. 找到该活动唯一获准的 `ilyenkov_readings` 发布条目，将其 `public_id` 写入
+   `history.earliestArchivedEventId` 或 `history.firstInternationalEventId`。
+4. 读取端 schema 再确认两条关系各自在公开 `readings` 集合中唯一解析。
+
+引用校验按唯一匹配执行；完整契约见
 [Readings series 的公开字段](PUBLICATION.md#readings-series-的公开字段)。
 
-两条历史关系在同步阶段独立完成映射：
-
-1. 在 `research/readings/events.json` 中用 `earliest_archived_event_directory` 与
-   `first_international_event_directory` 各自定位唯一 edition。
-2. 最早归档关系由 canonical series 指定，不校验固定年份或编号状态；第一届国际会议须有
-   `edition_roman === "I"`。
-3. 对相同 event 找到唯一 `website_public`、`ilyenkov_readings` publication。
-4. 输出对应 `public_id` 到 `history.earliestArchivedEventId`、`history.firstInternationalEventId`。
-
-选中的记录和来源引用须恰好匹配一项，缺失或多项匹配均失败，不通过首项或 Map 覆盖消解歧义。
-未公开、重复匹配、错误活动身份都使同步失败；public schema 再确认每条关系在公开 `readings`
-集合中唯一解析。选择 series 不替代其关联活动的发布选择，也不复制活动列表和日期。
-
-Readings 来源 URL 按 `current → original → archive → 既有 flat url` 选择首个非空值，再校验为合法
-`http(s)` 地址；优先值无效时失败，不通过 fallback 掩盖错误。数组形式取第一项，不输出抓取时间或
-其他 archive metadata。单个 event 记录表示一届会议，不另建 session 集合。
-日期投影保持已有精度；两端明确为空时只用有来源支持的 canonical 年份，不补月日。
+来源 URL 按结构读取：`source.urls` 为数组时取首项；否则依次从 `source.urls.current`、
+`source.urls.original`、`source.urls.archive`、`source.url` 取首个非空值，再校验为合法 `http(s)` 地址。
+选中值无效时失败，不跳过无效值。输出仅保留公开来源字段。
+单个 event 表示一届会议，不另建 session 集合；日期投影保留来源精度，不补月日。
 
 ## IFI 网络同步
 
-所选 `research/friends/organization.json` 记录提供官网 URL、身份和获准字段；中文题名与 summary
-来自 publication。官网 URL 不由 publication 覆盖，资源按 `resource_kinds` 逐项读取，不自动扩大
-选择。完整契约见[IFI 网络的公开字段](PUBLICATION.md#ifi-网络的公开字段)。
+同步器读取 `research/friends/organization.json`，组合 publication 的中文题名、摘要与所选资源。
+形成关系按以下顺序映射：
 
-形成关系在同步阶段完成映射：
+1. 用 `formation_event_id` 在 `research/friends/events.json` 中定位唯一活动。
+2. 校验其属于 `org-ifi`，类型为 `symposium`，状态为 `confirmed`。
+3. 按活动定位找到唯一获准的 `ifi_symposium` 发布条目。
+4. 将其 `public_id` 写入 `formation.symposiumId`；读取端 schema 再确认公开引用及状态。
 
-1. 用 `formation_event_id` 在 `research/friends/events.json` 中找到唯一活动。
-2. 确认活动属于 `org-ifi`、类型为 `symposium`、状态为 `confirmed`。
-3. 按活动 `record_path` 与 `record_id` 找到唯一 `website_public`、`ifi_symposium` publication。
-4. 输出其 `public_id` 到 `formation.symposiumId`，不透传 private event ID。
-
-归属、类型、状态错误，活动不存在、未公开或重复发布，都使同步失败；public schema 再确认关系在
-`ifiSymposiums` 中唯一解析并为 `confirmed`。即使 private 与 public ID 字面相同，也须经过映射。
-
-`activity_modes` 按原顺序映射为 `activityModes`，资源输出为选定的 `{ kind, url }`。network 不复制
-形成活动的日期、地点或题名，也不嵌入 symposium 列表；独立 symposium 继续按各自 publication
-与来源契约输出。专题研讨会投影显式保留 `confirmed` / `planned` 状态及活动形式，
-页面标明计划状态，不根据当前日期自动推断举行。公开资源链接不意味着复制对应页面全文。
+`activity_modes` 按原顺序映射为
+`activityModes`；形成活动与独立研讨会继续保存在共享集合。字段和引用限制见
+[IFI 网络的公开字段](PUBLICATION.md#ifi-网络的公开字段)。
 
 ## 年表与作品目录
 
-研究同步器先生成 `records` 选择的获准记录，再按 `timeline.record_kinds` 从这些结果生成
-`timeline.recordIds`。每个 public ID 只引用一条获准活动记录，不重复保存事实；类型选择不扩大
-`website_public` 范围。`record_kinds` 可为空，空选择只生成空年表；未知或重复类型使同步失败。
-`getPublicTimelineRecords()` 解析这些引用后按日期排序，添加界面分类标签。
+研究同步器先生成获准记录，再按 `timeline.record_kinds` 写入 `timeline.recordIds`。
+`getPublicTimelineRecords()` 解析引用、按日期排序并添加分类标签。
 
-`timeline.editorial` 读取根选择指定的年表成稿，`worksCatalog.editorial` 读取作品目录成稿。
-`getPublicTimelineEditorial()` 与 `getPublicWorksEditorial()` 只返回对应生成文字。作品仍由
-`getPublicWorks()` 从共享 `works` 集合读取，页面按类型分组；成稿的 `typeNotes` 只提供各类型的
-内容说明，可以为空对象；键必须匹配获准作品类型。分组、排序和格式由 public 维护，不将页面
-事实另存到成稿中。
-
-两项根选择和成稿均必需，缺失或无效时失败，没有 public fallback。成稿路径与字段限制见
-[发布说明](PUBLICATION.md#年表与作品目录)。
+年表与作品目录的成稿分别写入 `timeline.editorial`、`worksCatalog.editorial`，由
+`getPublicTimelineEditorial()`、`getPublicWorksEditorial()` 返回。作品由 `getPublicWorks()`
+从共享 `works` 集合读取，public 按类型分组、排序和格式化。成稿输入及空集合规则见
+[年表与作品目录](PUBLICATION.md#年表与作品目录)。
 
 ## 生平与交往
 
-研究同步器从必选的 `life`、`circle` 根选择读取成稿，只解析已有 `website_public` 结果中的引用。
-成稿中的 `record_ids` 是 publication 的 `public_id`，不按 private 原始 ID 读取未公开记录。
-`record_kind` 采用对应类型的获准集合；明确给出的 ID 列表限定子集，不改变其他页面的事实集合。
+研究同步器读取选定成稿，按作者顺序生成阶段和主题分区，并从共享公开记录解析引用。
+生平阶段输出 `recordIds` 及期间或去重年份，空引用不生成期间或年份；明确摘要直接保存，
+缺省活动摘要由 `getPublicLife()` 按引用顺序连接，不保存副本。
 
-生平阶段按成稿顺序生成 `recordIds` 与期间或去重年份；空引用不生成 metadata，活动与作品引用
-不能混合。明确填写的摘要进入生成 stage；省略时不保存摘要副本，`getPublicLife()` 按所引活动
-顺序连接共享摘要，作品阶段不能省略摘要。public 页面只格式化生成期间和年份，不用集合首末项
-或页面 ID 白名单推断分期。
-
-交往分区按成稿顺序生成 `recordKind`、题名、导语与 `recordIds`。`getPublicCircle()` 从共享集合
-解析每区记录并按期间、题名排序，将地点与状态统一为真实值或空值；`records` 只在读取时提供，
-不保存到生成分区中。页面映射 HTML 标识并渲染真实的地点与状态。
-
-空 stages、sections 与引用数组均合法，未知、未公开、重复或错误类型的引用使同步或 schema 校验
-失败，不扫描成稿目录、不复制事实、不自动发布引用对象。字段与路径限制见
-[发布说明](PUBLICATION.md#生平与交往)。
+交往分区输出类型、题名、导语与 `recordIds`。`getPublicCircle()` 读取共享集合、按期间与题名
+排序，并将地点、状态统一为真实值或空值；解析后的 `records` 不写回生成分区。
+页面映射 HTML 标识、专题路由并格式化日期，不推断分期。
+输入类型、引用、空数组及摘要要求见[生平与交往](PUBLICATION.md#生平与交往)。
 
 ## 公开成稿同步
 
-所选 `ifi_network`、`ilyenkov_readings_series` 或 `researcher_profile` publication 的 `editorial_path` 指向 private
-`web/editorial/` 中的成稿。研究同步器读取并校验类型允许的字段，分别写入生成 network、series 或 researcher
-的可选 `editorial`。IFI 允许 `introduction` 与 `symposiumsLead`，Readings 只允许 `introduction`；研究者只允许 `introduction` 与非空单行 `workDescription`；
-额外字段使同步失败。路径限制与字段契约见[公开编辑文字](PUBLICATION.md#公开编辑文字)。
-不输出 locator、不扫描成稿目录、不复制 canonical 记录。
-
-未选择成稿时不生成 `editorial`；选定文件缺失或字段无效时同步失败。页面只读取
-`.website-input/research-records.json` 中的成稿，`introduction` 经 `renderPublicMarkdown()` 渲染；
-不存在时省略简介、IFI 导语及研究者工作说明，不读取 private 文件或 public 文字副本。
-
-## public 编辑输入与缓存
-
-`editorial/` 的站点配置、小组通讯与动态直接由 public 读取，不经过
-private 同步通道，也不进入 `.website-input/`。站点配置由 `src/lib/editorial.ts` 校验。`summary` 与 `introduction` 的使用分工见架构说明；
-公开编辑叙述的权限边界见发布说明的[公开编辑文字](PUBLICATION.md#公开编辑文字)。
-
-使用 `buildCache` 的数据 getter 在生产构建中只加载一次，在开发中每次调用重新读取。
-`src/lib/editorial.ts` 的站点 JSON 则在模块加载时解析；外部 JSON 更改可能需要重启开发
-服务器，不应把页面刷新当作所有配置均会重新加载。private 更改须先重新同步生成输入。
-
-## 文章集合与首页派生
-
-`getSiteData()` 提供唯一规范顺序：
-
-```text
-year DESC → title_zh ASC（zh-Hans-CN）→ id ASC
-```
-
-`id` 决定同年份、同题名的稳定次序。Archive 列表、上一篇／下一篇、研究者译文筛选与首页文本均
-保留该顺序；`year` 表示原文文献年份，不是本站公开日期。
-
-首页各区块分别读取既有集合，不另建聚合事实源：
-
-- **文本**：截取 Archive 前四项，显示题名、完整作者、原文年份与链接。
-- **研究**：读取 Maidansky、IFI、Readings 的公开 summary 与详情入口，不维护首页专属摘要。
-- **最近小组通讯**：按 `published` 倒序，同日按期号倒序，截取最多三项。
-- **近期动态**：读取同一 updates 集合的最近四项；`/updates/` 展示完整列表。
-
-这些数量是当前页面的展示限制，不是数据 schema 要求。日期不得由原文年份、历史事件、Git 提交或
-构建时间推断；接入译文本站首次公开日期的条件见[RSS 的公开边界](PUBLICATION.md#rss-的公开边界)。
-
-## 公开动态
-
-`getUpdates()` 校验 `editorial/updates.json`，按真实 ISO 日期倒序，同一天保留编辑顺序。首页和
-完整动态流复用同一组件，不生成动态详情页。字段及维护规则见[近期动态](PUBLICATION.md#近期动态)。
-
-## RSS 订阅
-
-`src/pages/rss.xml.ts` 使用 `@astrojs/rss` 静态 GET 生成 `/rss.xml`；`src/lib/rss.ts` 读取小组记录
-的 `published`、`summary` 与动态的 `date`、`summary`，只输出摘要和链接。没有 `website_published`
-的译文不作为内容项纳入。日期按 UTC 零点编码为 `pubDate`，不表示已知具体公开时刻。
-
-同一站内页面的比较忽略尾斜线、查询和锚点。动态指向同页、同日的内容时保留内容项，其他日期的
-后续变化保留。动态有站内链接时指向该页面，外部或缺失链接时回到 `/updates/`。
-
-内容 GUID 来自稳定页面路径，动态 GUID 来自日期、摘要和原链接的 SHA-256 指纹；完全相同的动态
-只输出一次。更改日期、摘要或原链接会改变 GUID，仅改链接文字不会。条目按日期倒序，再按中文
-标题、GUID 保持确定顺序，不依赖文件读取或构建时间。
-
-Feed 与 HTML 订阅发现使用 `astro.config.mjs` 的同一个 `site` 基址，见[部署说明](DEPLOYMENT.md)。
-RSS 不读取文章正文或 private-only 元数据，权限与日期约束见发布说明。
-
-## 命令顺序
-
-`publication:sync` 依次执行译文、研究、书籍、Archive 分类与术语同步器；`publication:prepare` 复用该命令。`check`、`test`
-与 `build` 均先同步。`verify` 的实际顺序为：
-
-```text
-publication sync → astro check → astro build → search:index → vitest run
-```
-
-`publication:check` 仅比较生成输入，退出码 1 表示输入过期，2 表示同步失败；不改写文件。
-
+研究同步器读取选定的 IFI、Readings 和研究者成稿，写入对应记录的可选 `editorial`。
+页面仅渲染生成字段，`introduction` 通过 `renderPublicMarkdown()` 编译。
+各类型字段、路径和未选择行为见[公开编辑文字](PUBLICATION.md#公开编辑文字)。
 
 ## Ilyenkov 人物总页
 
-`ilyenkov_profile` 发布条目显式选择 `people/persons.json` 中唯一的人物身份、中文姓名、
-已获准的 biography 出生记录与 `web/editorial/ilyenkov.json` 成稿。原名取自 person，
-生年取自所选出生记录的开始日期，死亡年份取自 person 的 `death_year`。
-成稿只维护 `summary`、`description`、`introduction` 与有序 `entrances`；入口只含
-`target`、`label`、`summary`，target 为 life、timeline、works、circle。public 映射路由。
-介绍只允许 `{{identity}}`、`{{originalName}}`、`{{lifespan}}` 三种显式引用，
-同步时以获准人物事实投影替换，未知引用失败；不读取或发布任意被提及的研究记录。
-首页消费短摘要与入口名称，总页消费完整介绍与入口导语；子页继续消费原有共享集合。
-可选 `resource_kinds` 明选 person 的外部资料入口（目前为 `wikipedia_zh`），总页以第一段右侧的卡片链接；
-可选 `portrait_path` 与 `portrait_credit_zh` 成对选择照片及署名，照片显示在卡片顶部，经 `/ilyenkov/portrait.<ext>` 输出。
-撤回发布条目后删除生成 `ilyenkov`，不回退到 public 文字；需要该资料的页面缺少输入时构建失败。
-
-## 文章搜索
-
-`npm run build`、`test`、`verify` 在 Astro 静态构建后执行 `search:index`。Pagefind 只读取
-`dist/archive/*/index.html` 中标记的文章题名、作者、原题名和正文区域，分类过滤复用现有
-文章分类；搜索元数据直接使用公开文章题名。导航、其他栏目和 private 文件不进入索引。
-
-索引输出到 `dist/pagefind/`，每次生成前清空这一生成目录，撤回的文章不会保留旧片段。
-索引随静态产物部署，不独立维护文章清单或搜索正文。浏览器仅在搜索时加载索引，分类页
-搜索限定当前分类；清空关键词恢复普通列表，加载失败时保留分类与文章列表。
-
-`npm run dev` 先构建搜索索引，开发服务器从 `dist/pagefind/` 提供搜索资源。修改公开正文
-或分类后，执行 `npm run build` 并刷新浏览器，以更新开发搜索索引。
-
+同步器组合选定人物、已公开出生记录与人物成稿，将三个显式占位引用替换为获准人物事实，
+输出 `ilyenkov`。输入、占位引用和撤回规则见[Ilyenkov 总页发布](PUBLICATION.md#ilyenkov-总页发布)。
+首页使用短摘要与入口名称，总页使用完整介绍与入口导语，子页使用原有共享集合；
+入口 target 在 public 映射为路由。选定照片经 `/ilyenkov/portrait.<ext>` 输出。
+需要该资料的页面缺少生成输入时构建失败。
 
 ## 网站书籍成稿
 
-`web/publication.json` 的 `books` 逐项选择 `website_public` 的网站书籍记录。
-`editorial_path` 指向 private `web/editorial/books/<book_id>.md`，目录内其他成稿不扫描。
-`scripts/sync-books.mjs` 通过 `src/lib/book-record.mjs` 校验 front matter，保留 Markdown 介绍，
-输出 `.website-input/books.json`。`src/lib/books.ts` 只读取生成输入，按 ID 与版次日期排序，
-编译介绍并派生路由和最新显示版次；分组与展示继续由 public 实现。
-空选择生成空数组，撤回记录后整份输入重写清理；缺少生成输入时失败，不提供旧路径 fallback。
-书籍记录选择不改变 works 正文范围；同步器读取所选手稿的 front matter 与介绍，输出书目字段与封面路径。
+`scripts/sync-books.mjs` 使用 `src/lib/book-record.mjs` 校验所选成稿的 front matter，
+保留 Markdown 译者引言，写入 `books.json`。`src/lib/books.ts` 编译引言，派生路由与最新版次，
+书籍按 ID 字典序、版次按日期升序排列，最后一条为最新显示版次；文集内保留书籍顺序。
+输入字段、选择范围及撤回规则见[记录位置与格式](PUBLICATION.md#记录位置与格式)。
 
 ## Archive 分类投影
 
-`archive_taxonomy` 选择 private `web/editorial/archive-taxonomy.json`。
-`scripts/sync-archive-taxonomy.mjs` 在译文同步后校验指派与 website_public selection 及生成文章 ID，
-只输出词表 label 和文章的分类 ID 到 `.website-input/archive-taxonomy.json`。
-未选择时移除该生成文件；无效引用在正常同步时清除旧输入并失败，--check 不改写。
-`src/lib/archive-taxonomy.ts` 只读取生成输入，派生词条、命中数与筛选路由。
-分类人物不参与 authorIds；文章事实仍来自既有 articles 输入。
+分类同步器在译文同步后校验文章指派，写入词表标签与分类 ID。
+`src/lib/archive-taxonomy.ts` 派生词条、命中数和筛选路由；文章事实仍读取 articles 输入。
+分类人物与作者身份互不推导，选择及失败规则见[Archive 分类](PUBLICATION.md#archive-分类)。
 
 ## 术语库同步与查询
 
@@ -344,9 +186,67 @@ private glossary 源表 + web/publication.json 的 glossary 选择
 `notes` 不参与搜索，其原文不纳入列表页的浏览器查询数据，只在详情页按普通文字渲染，
 不自动解析参见或建立词条关系。查询与筛选保存在列表 URL 中；从列表打开详情后，返回链接保留查询条件。
 
-未选择、非 `website_public` 或空路径选择生成空数组；撤回表或 `approved` 条目后重写输入清理旧词条。
-正常同步遇到无效输入时删除旧生成文件并失败，`publication:check` 不改写文件；读取端遇到缺失或
-无效输入时失败，不读取 private 源表或旧内容副本。
+空选择、撤回及失败清理规则见[术语库的公开字段](PUBLICATION.md#术语库的公开字段)。
+维护时修改 private 原表与发布选择，再执行本文的同步及验证命令。
 
-维护时只修改 private 术语源表与 `web/publication.json` 的选择，再在 public 执行
-`npm run publication:sync` 更新生成输入，执行 `npm run verify` 验证网站。不手工修改生成数据或静态产物。
+## public 编辑输入与缓存
+
+站点配置、小组通讯与动态直接读取 public `editorial/`，不经过 private 同步。
+`src/lib/editorial.ts` 校验站点配置，在模块加载时解析 JSON；外部 JSON 更改可能需要重启开发服务器。
+
+使用 `buildCache` 的 getter 在生产构建中只加载一次，在开发中每次调用重新读取。
+开发服务器自动处理源码与样式更新；private 更改须先同步，搜索索引刷新见[文章搜索](#文章搜索)。
+
+## 文章集合与首页派生
+
+`getSiteData()` 提供统一顺序：
+
+```text
+year DESC → title_zh ASC（zh-Hans-CN）→ id ASC
+```
+
+`id` 保证同年同题名的稳定次序。档案列表、上一篇／下一篇、研究者译文和首页文本均保留此顺序。
+首页各区直接派生已有集合：
+
+| 区块 | 来源与顺序 |
+| --- | --- |
+| 文本 | Archive 规范顺序，展示完整作者署名 |
+| 研究 | 已公开研究记录的摘要与详情入口 |
+| 最近小组通讯 | `published` 倒序，同日按期号倒序 |
+| 近期动态 | updates 规范顺序；完整列表由 `/updates/` 展示 |
+
+首页截取数量由页面实现维护。日期含义见[发布说明](PUBLICATION.md#rss-的公开边界)。
+
+## 公开动态
+
+`getUpdates()` 校验 `editorial/updates.json`，按日期倒序，同一天保留编辑顺序。
+首页和完整动态流复用同一组件；字段及收录规则见[近期动态](PUBLICATION.md#近期动态)。
+
+## RSS 订阅
+
+`src/pages/rss.xml.ts` 使用 `@astrojs/rss` 静态 GET 生成 `/rss.xml`；`src/lib/rss.ts` 读取小组记录
+的 `published`、`summary` 与动态的 `date`、`summary`，只输出摘要和链接。没有 `website_published`
+的译文不作为内容项纳入。日期按 UTC 零点编码为 `pubDate`，不表示已知具体公开时刻。
+
+同一站内页面的比较忽略尾斜线、查询和锚点。动态指向同页、同日的内容时保留内容项，其他日期的
+后续变化保留。动态有站内链接时指向该页面，外部或缺失链接时回到 `/updates/`。
+
+内容 GUID 来自稳定页面路径，动态 GUID 来自日期、摘要和原链接的 SHA-256 指纹；完全相同的动态
+只输出一次。更改日期、摘要或原链接会改变 GUID，仅改链接文字不会。条目按日期倒序，再按中文
+标题、GUID 保持确定顺序，不依赖文件读取或构建时间。
+
+Feed 与 HTML 订阅发现使用 `astro.config.mjs` 的同一个 `site` 基址，见[部署说明](DEPLOYMENT.md)。
+权限与日期约束见[RSS 的公开边界](PUBLICATION.md#rss-的公开边界)。
+
+## 文章搜索
+
+`npm run build`、`test`、`verify` 在 Astro 静态构建后执行 `search:index`。Pagefind 只读取
+`dist/archive/*/index.html` 中标记的文章题名、作者、原题名和正文区域，分类过滤复用现有
+文章分类；搜索元数据直接使用公开文章题名。导航、其他栏目和 private 文件不进入索引。
+
+索引输出到 `dist/pagefind/`，每次生成前清空这一生成目录，撤回的文章不会保留旧片段。
+索引随静态产物部署，不独立维护文章清单或搜索正文。浏览器仅在搜索时加载索引，分类页
+搜索限定当前分类；清空关键词恢复普通列表，加载失败时保留分类与文章列表。
+
+`npm run dev` 先构建搜索索引，开发服务器从 `dist/pagefind/` 提供搜索资源。修改公开正文
+或分类后，执行 `npm run build` 并刷新浏览器，以更新开发搜索索引。

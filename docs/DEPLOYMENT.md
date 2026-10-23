@@ -5,8 +5,7 @@
 
 ## 构建与托管边界
 
-网站保持 Astro 纯静态输出，不配置 adapter、SSR 或 Workers 运行时。生产结果为 `dist/` 下的
-静态文件，站点运行时不依赖 Node.js、数据库或 private 研究仓库。
+网站由 Astro 生成 `dist/` 静态文件，Cloudflare Pages 直接托管这些文件。
 
 构建环境需要 Node 22.12 以上，并能读取 public 与获准的 private 输入：
 
@@ -15,10 +14,9 @@ npm ci
 npm run verify
 ```
 
-private 默认位于相邻 `Ilyenkov/`，其他布局用 `ILYENKOV_ROOT=/path/to/Ilyenkov` 指定。构建准备
-阶段从 private `web/publication.json` 读取发布选择并解析获准事实、文本与选定成稿；年表、作品
-目录、生平与交往根选择及成稿必须可用。同步生成 `.website-input/`，页面不直接读取 private 文件。绝对路径
-仅用于构建，不进入页面。verify 依次完成公开内容同步与类型检查、静态构建、文章搜索索引生成、测试。
+private 默认位于相邻 `Ilyenkov/`，其他位置用 `ILYENKOV_ROOT=/path/to/Ilyenkov` 指定。
+所需发布选择与成稿见[发布接口](PUBLICATION.md#private-公开接口)，同步及验证顺序见
+[命令顺序](CONTENT_PIPELINE.md#命令顺序)。本地绝对路径仅用于构建，不进入页面。
 
 Cloudflare Pages 项目为 `ilyenkov-archive`，生产分支为 `main`，
 [正式站点](https://ilyenkov.cn/)由 Direct Upload 更新。
@@ -50,17 +48,16 @@ npm run deploy
 预览上传应显式指定非 `main` 分支；省略 `--branch` 时 Wrangler 会读取当前 Git 分支。
 分支行为见 [Cloudflare Direct Upload 说明](https://developers.cloudflare.com/pages/get-started/direct-upload/)。
 
-已有项目不重新运行 `wrangler pages project create` 或其他初始化流程，不引入 adapter、SSR 或
-运行时配置。新增部署配置不得越过“Cloudflare 仅接收静态产物”的边界。
+发布使用已有 Cloudflare Pages 项目；初始化不属于日常上传流程。
 
 ## 上线验收
 
 - 确认部署环境为 `Production`、分支为 `main`、状态成功。可在控制台查看，或运行
   `npm exec wrangler -- pages deployment list --project-name=ilyenkov-archive`。
-- 打开正式站点，确认涉及页面的实际内容更新，不能只依据本地构建或上传命令完成判断。
+- 用上传返回的部署 URL 核对本次产物，并在正式站点确认涉及页面已更新。
 - 检查本次涉及的页面、链接及桌面与手机布局；涉及 RSS 时确认 XML 与订阅链接正常。
 
-上传命令返回的部署专用 URL 用于核对该次产物，仍需确认正式地址更新。验收完成后才记为已上线。
+以上检查完成后记为已上线；本地构建成功或上传命令完成均不替代正式站点验收。
 
 ## 响应头与兼容入口
 
@@ -72,7 +69,7 @@ npm run deploy
 两份配置随构建进入 `dist/`，由 Cloudflare Pages 应用；上线验收须检查正式域名的响应头、
 兼容入口的跳转状态及目标网站地图。重定向先于响应头规则，安全头以目标页面响应为准。
 
-## 订阅基址与受限内容
+## 站点基址与抓取声明
 
 `astro.config.mjs` 的 `site` 使用生产地址 `https://ilyenkov.cn/`；RSS、canonical、分享元数据和 sitemap
 共用这一项。`/llms.txt` 复用站点简介与导航，提供公开阅读入口及政策链接；页面 head 通过 `rel="describedby"` 指向它。
@@ -81,5 +78,4 @@ sitemap 在静态构建时生成，入口为 `/sitemap-index.xml`；`/robots.txt
 声明不替代作品授权或访问控制，部署后须检查 Cloudflare 返回的实际 robots 是否与本站政策一致。预览部署不改变订阅的生产基址。迁移域名时更新 `site`，并验证 feed
 与订阅发现的绝对 URL。
 
-受限研读正文不进入公开构建。若另设研读站点，应使用独立受保护部署，并在访问静态资源前进行
-身份验证；公开网站中的隐藏界面不构成访问控制。
+抓取声明不代替发布权限；受限内容的渠道与访问要求见[三种网站状态](PUBLICATION.md#三种网站状态)。
