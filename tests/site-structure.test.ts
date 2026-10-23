@@ -1736,6 +1736,8 @@ describe('Ilyenkov opening', () => {
     // 宽到能并排时，卡片 160px 宽浮在段首右侧；窄屏单列时排到第一段之后。
     const wide = '@container (min-width: 37rem)';
     expect(declaration('.wiki-card', 'float', wide)).toBe('right');
+    // 开篇不包住浮动：卡片比第一段高时，后续段落接着绕排，不在第一段下留白。
+    expect(declaration('.ilyenkov-opening', 'display', wide)).toBe('block');
     expect(declaration('.wiki-card', 'width', wide)).toBe('160px');
     expect(declaration('.wiki-card', 'box-sizing')).toBe('content-box');
     expect(declaration('.ilyenkov-opening', 'flex-direction')).toBe('column');
