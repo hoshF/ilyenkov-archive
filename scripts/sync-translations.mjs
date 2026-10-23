@@ -183,13 +183,15 @@ function plannedArticles() {
 
 runSync('Translation', ({ checkOnly }) => {
   const planned = plannedArticles();
-  mkdirSync(articlesRoot, { recursive: true });
-  mkdirSync(articleAssetsRoot, { recursive: true });
+  if (!checkOnly) {
+    mkdirSync(articlesRoot, { recursive: true });
+    mkdirSync(articleAssetsRoot, { recursive: true });
+  }
   const stale = [];
   let writtenArticles = 0;
   let writtenImages = 0;
 
-  for (const entry of readdirSync(articlesRoot, { withFileTypes: true })) {
+  for (const entry of existsSync(articlesRoot) ? readdirSync(articlesRoot, { withFileTypes: true }) : []) {
     if (!entry.isFile() || !entry.name.endsWith('.md') || planned.has(entry.name)) continue;
     if (checkOnly) stale.push(`${entry.name}: no longer listed as ${websiteScope}`);
     else unlinkSync(path.join(articlesRoot, entry.name));
@@ -218,7 +220,7 @@ runSync('Translation', ({ checkOnly }) => {
       else writtenImages += 1;
     }
   }
-  for (const entry of readdirSync(articleAssetsRoot, { withFileTypes: true })) {
+  for (const entry of existsSync(articleAssetsRoot) ? readdirSync(articleAssetsRoot, { withFileTypes: true }) : []) {
     if (!entry.isDirectory() || planned.has(`${entry.name}.md`)) continue;
     if (checkOnly) stale.push(`${entry.name}/: no longer listed as ${websiteScope}`);
     else rmSync(path.join(articleAssetsRoot, entry.name), { recursive: true, force: true });
