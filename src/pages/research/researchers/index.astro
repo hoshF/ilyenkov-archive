@@ -7,7 +7,7 @@ import { getPublicResearchers } from '../../../lib/research-records';
 const researchers = getPublicResearchers();
 ---
 <BaseLayout title="研究者" description="伊里因科夫研究者的人物介绍、学术入口与本站译文。">
-  <SectionLayout modifier="compact-intro research-hub" pinned>
+  <SectionLayout modifier="section-index compact-intro research-hub" pinned>
     <Breadcrumbs slot="breadcrumb" items={[{ label: '研究', href: '/research/' }, { label: '研究者' }]} />
     <header class="page-header" slot="intro">
       <ResearchNav current="researchers" />

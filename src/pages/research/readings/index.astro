@@ -35,7 +35,7 @@ const resourceLabels: Record<PublicReadingsSeries['resources'][number]['kind'], 
 ---
 
 <BaseLayout title={series.title} description={series.summary}>
-  <SectionLayout modifier="research-meetings">
+  <SectionLayout modifier="section-index research-meetings">
     <Breadcrumbs slot="breadcrumb" items={[
       { label: '研究', href: '/research/' },
       { label: series.title },

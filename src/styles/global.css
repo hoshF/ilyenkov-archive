@@ -260,7 +260,8 @@ h2, h3, h4 { text-wrap: balance; line-height: 1.3; }
 /* 首页直接组织内容入口；定位句与内容共用同一条阅读列。 */
 .home-positioning { margin: 0 0 24px; }
 .home-page { width: min(calc(100% - 40px), var(--reading)); margin: 0 auto 96px; padding-top: var(--masthead-gap); }
-/* 导航里的栏目首页与首页同样贴近刊头；吸顶索引随 --section-top 一起对齐。 */
+/* 导航里的栏目首页及其二级页面（伊里因科夫、研究下的各页），以及页脚的近期动态、项目与权利、
+   关注与联系，与首页同样贴近刊头；吸顶索引随 --section-top 一起对齐。 */
 .section-index { --section-top: var(--masthead-gap); }
 
 .home-page > .home-opening + section, .home-page > section + section { margin-top: 72px; }

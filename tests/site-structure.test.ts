@@ -1696,7 +1696,7 @@ describe('compact directory introductions', () => {
       const intro = source.match(/<header class="page-header" slot="intro">([\s\S]*?)<\/header>/)![1];
       expect(intro, route).toContain('<h1');
       expect(intro, route).not.toContain('class="lead"');
-      expect(source, route).toMatch(/modifier="compact-intro(?: [^"]+)?"/);
+      expect(source, route).toMatch(/modifier="[^"]*\bcompact-intro\b[^"]*"/);
     }
     expect(declaration('.compact-intro .section-layout__intro', 'margin-bottom')).toBe('24px');
     expect(declaration('.section-layout__intro', 'margin-bottom')).toBe('44px');
@@ -1763,14 +1763,20 @@ describe('directory spacing', () => {
     expect(pageSource('group/index.astro')).toMatch(/modifier="[^"]*\bgroup-index\b[^"]*"/);
   });
 
-  it('starts every primary section page as close to the masthead as the homepage', () => {
-    // 首页定位句与六个栏目首页的第一行共用同一刊头间距，窄屏一起收紧。
+  it('starts every primary section page and its second-level pages as close to the masthead as the homepage', () => {
+    // 首页定位句、六个栏目首页、伊里因科夫与研究下的二级页面及页脚三页，第一行共用同一刊头间距，窄屏一起收紧。
     expect(declaration('.home-page', 'padding-top')).toBe('var(--masthead-gap)');
     expect(declaration('.section-index', '--section-top')).toBe('var(--masthead-gap)');
     expect(declaration(':root', '--masthead-gap')).toBe('30px');
     expect(declaration(':root', '--masthead-gap', '@media (max-width: 600px)')).toBe('21px');
     expect(declaration('.home-page', 'padding-top', '@media (max-width: 600px)')).toBeUndefined();
-    for (const route of ['ilyenkov', 'archive', 'glossary', 'research', 'group', 'books']) {
+    const researchers = getPublicResearchers().map((researcher) => `research/researchers/${researcher.id.replace(/^researcher-/, '')}`);
+    for (const route of [
+      'ilyenkov', 'archive', 'glossary', 'research', 'group', 'books',
+      'ilyenkov/life', 'ilyenkov/timeline', 'ilyenkov/works', 'ilyenkov/circle',
+      'research/ifi', 'research/readings', 'research/researchers', ...researchers,
+      'updates', 'about', 'contact',
+    ]) {
       const main = readFileSync(builtRoutePath(`/${route}`), 'utf8').match(/<main>([\s\S]*?)<\/main>/)![1];
       expect(main, route).toMatch(/class="container section-layout[^"]*\bsection-index\b/);
     }

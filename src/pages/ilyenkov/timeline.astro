@@ -13,7 +13,7 @@ const decades = [...Map.groupBy(records, (record) => Math.floor(Number(record.pe
 ---
 
 <BaseLayout title="年表" description={editorial.description}>
-  <SectionLayout pinned modifier="compact-intro ilyenkov-topic">
+  <SectionLayout pinned modifier="section-index compact-intro ilyenkov-topic">
     <Breadcrumbs slot="breadcrumb" items={[
       { label: '伊里因科夫', href: '/ilyenkov/' },
       { label: '年表' },

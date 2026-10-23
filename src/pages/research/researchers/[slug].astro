@@ -33,7 +33,7 @@ const resourceLabels: Record<PublicResearcher['resources'][number]['kind'], stri
 ---
 
 <BaseLayout title={researcher.name} description={researcher.summary}>
-  <SectionLayout modifier={`entity-detail research-profile${portrait ? ' research-profile--portrait' : ''}`} pinned={researcher.resources.length > 0}>
+  <SectionLayout modifier={`section-index entity-detail research-profile${portrait ? ' research-profile--portrait' : ''}`} pinned={researcher.resources.length > 0}>
     {researcher.resources.length > 0 && <ResourceLinks slot="aside" id="researcher-resources-heading" label="学术入口"
       links={researcher.resources.map((resource) => ({ label: resourceLabels[resource.kind], href: resource.url }))} />}
     <Breadcrumbs slot="breadcrumb" items={[
