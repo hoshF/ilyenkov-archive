@@ -45,13 +45,16 @@ const CardLink = wikipedia ? 'a' : 'div';
       {paragraphs.map((paragraph) => <p>{paragraph}</p>)}
     </div>
 
-    <nav class="entrance-grid" aria-label="伊里因科夫栏目入口">
-      {entrances.map((entrance) => (
-        <div class="entrance-card">
-          <a class="entrance-card__label" href={entrance.href}>{entrance.label}</a>
-          <span class="entrance-card__summary">{entrance.summary}</span>
-        </div>
-      ))}
-    </nav>
+    <div class="ilyenkov-entrances">
+      <h2 class="ilyenkov-entrances__label">了解伊里因科夫</h2>
+      <nav class="entrance-grid" aria-label="伊里因科夫栏目入口">
+        {entrances.map((entrance) => (
+          <div class="entrance-card">
+            <a class="entrance-card__label" href={entrance.href}>{entrance.label}</a>
+            <span class="entrance-card__summary">{entrance.summary}</span>
+          </div>
+        ))}
+      </nav>
+    </div>
   </SectionLayout>
 </BaseLayout>

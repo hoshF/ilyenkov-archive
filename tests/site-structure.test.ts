@@ -819,10 +819,23 @@ describe('website-approved data adapter', () => {
     expect(fallback.width).toBe('min(calc(100% - 40px), var(--reading))');
   });
 
-  it('presents Ilyenkov section entrances as whole-card links', () => {
+  it('separates the Ilyenkov introduction from its section entrances with a rule, a label and two columns', () => {
     expect(declaration('.entrance-card', 'text-decoration')).toBe('none');
-    expect(declaration('.entrance-grid', 'grid-template-columns')).toBe('1fr');
+    expect(declaration('.entrance-grid', 'grid-template-columns')).toBe('repeat(2, minmax(0, 1fr))');
     expect(declaration('.entrance-grid', 'grid-template-columns', '@media (max-width: 600px)')).toBe('1fr');
+    expect(declaration('.ilyenkov-entrances', 'border-top')).toBe('1px solid var(--line)');
+    expect(declaration('.entrance-card__label:after', 'content')).toBe('" →"');
+    // 标签沿用首页定位句的字形，窄屏一起收小。
+    for (const property of ['color', 'font-size', 'font-weight', 'letter-spacing', 'line-height']) {
+      expect(declaration('.ilyenkov-entrances__label', property)).toBe(declaration('.home-positioning', property));
+    }
+    expect(declaration('.ilyenkov-entrances__label', 'font-size', '@media (max-width: 600px)'))
+      .toBe(declaration('.home-positioning', 'font-size', '@media (max-width: 600px)'));
+    // 标签是入口区的 h2，排在简介之后、入口导航之前。
+    const main = readFileSync(builtRoutePath('/ilyenkov'), 'utf8').match(/<main>([\s\S]*?)<\/main>/)![1];
+    const labelAt = main.indexOf('<h2 class="ilyenkov-entrances__label">了解伊里因科夫</h2>');
+    expect(labelAt).toBeGreaterThan(main.indexOf('class="prose prose--section person-intro ilyenkov-intro"'));
+    expect(labelAt).toBeLessThan(main.indexOf('aria-label="伊里因科夫栏目入口"'));
   });
 
   it('publishes only readable documents selected by the upstream website channel', async () => {

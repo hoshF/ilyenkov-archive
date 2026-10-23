@@ -264,7 +264,7 @@ h2, h3, h4 { text-wrap: balance; line-height: 1.3; }
 .section-index { --section-top: var(--masthead-gap); }
 
 .home-page > .home-opening + section, .home-page > section + section { margin-top: 72px; }
-.home-positioning, .home-page h2, .archive-heading__title {
+.home-positioning, .home-page h2, .archive-heading__title, .ilyenkov-entrances__label {
   color: var(--muted); font-size: var(--text-home-section); letter-spacing: .03em;
   font-weight: 500; line-height: 1.3;
 }
@@ -551,11 +551,16 @@ h2, h3, h4 { text-wrap: balance; line-height: 1.3; }
   .wiki-card { float: right; width: 160px; margin: 4px 0 12px 24px; }
 }
 
-.entrance-grid { display: grid; grid-template-columns: 1fr; gap: 32px; }
+/* 简介与栏目入口之间：细线收束简介，“了解伊里因科夫”沿用首页定位句的字形引出入口；
+   入口宽屏两列，标题后加箭头，与首页“了解伊里因科夫：”的链接写法一致。窄屏回到单列。 */
+.ilyenkov-entrances { margin-top: 56px; padding-top: 24px; border-top: 1px solid var(--line); }
+.ilyenkov-entrances__label { margin: 0 0 24px; }
+.entrance-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 28px 40px; }
 .entrance-card { display: block; color: var(--ink); text-decoration: none; }
 .entrance-card__label { display: block; width: fit-content; color: var(--accent); font-size: var(--text-item); font-weight: 400; line-height: 1.4; }
 .entrance-card__summary { display: block; margin-top: 0; color: var(--muted); font-size: var(--text-body); line-height: 1.65; }
 .entrance-card__label:hover { color: var(--accent-hover); }
+.entrance-card__label:after { content: " →"; }
 
 /* 左栏条目列表的通用骨架。页内目录另有一套更紧的排版（见 .section-layout__toc）；
    Archive 的 facet 词表也用这里的骨架，再由 .archive-facets__terms 调间距。 */
@@ -777,7 +782,7 @@ h2, h3, h4 { text-wrap: balance; line-height: 1.3; }
   .updates-list__item { grid-template-columns: minmax(0, 1fr); gap: 6px 0; }
   .home-page { margin-bottom: 56px; }
   .home-page > .home-opening + section, .home-page > section + section { margin-top: 52px; }
-  .home-positioning, .home-page h2, .archive-heading__title { font-size: var(--text-item); }
+  .home-positioning, .home-page h2, .archive-heading__title, .ilyenkov-entrances__label { font-size: var(--text-item); }
   .entrance-grid { grid-template-columns: 1fr; gap: 32px; }
   .page-title { font-size: var(--text-page-mobile); }
   .lead { font-size: var(--text-body); }
