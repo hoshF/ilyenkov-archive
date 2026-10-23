@@ -654,11 +654,15 @@ h2, h3, h4 { text-wrap: balance; line-height: 1.3; }
    高度随原图比例，不再被 max-height 截出留白。窄屏竖图收到行宽的八成。 */
 .prose img.prose-image--landscape { width: 100%; max-height: none; }
 .prose img.prose-image--portrait { width: min(24rem, 80%); max-height: none; }
+/* 译文以 figure-caption 标出的图注与图片合成 figure：图注浅色小字居中，紧贴图片下方；
+   竖图的图注不比图片宽。 */
 .prose figure { margin: 2.5rem 0; }
+.prose figure img { margin: 0 auto; }
 .prose figcaption {
   color: var(--muted); font-family: var(--sans); font-size: var(--text-meta); text-align: center;
-  margin-top: .65rem;
+  margin-top: .65rem; line-height: 1.6;
 }
+.prose figure.prose-figure--portrait figcaption { max-width: min(24rem, 80%); margin-inline: auto; }
 .prose hr { border: 0; border-top: 1px solid var(--line); margin: 3rem 0; }
 .prose table { border-collapse: collapse; width: 100%; margin: 1.2rem 0; }
 .prose th, .prose td {

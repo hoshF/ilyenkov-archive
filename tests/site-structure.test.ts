@@ -490,6 +490,29 @@ describe('website-approved data adapter', () => {
     expect(portrait['max-height']).toBe('none');
   });
 
+  it('shows marked image captions as light, small, centred figure captions', () => {
+    // 每篇译文的图注都随图片放在 figure 里；标记本身不出现在页面上。
+    const ids = [...new Set(generatedArticleAssets().map(({ id }) => id))];
+    let captions = 0;
+    for (const id of ids) {
+      const page = readFileSync(builtRoutePath(`/archive/${id}/`), 'utf8');
+      expect(page, id).not.toContain('figure-caption');
+      for (const [, body] of page.matchAll(/<figure\b[^>]*>([\s\S]*?)<\/figure>/g)) {
+        expect(body, id).toMatch(/^<img [^>]*class="prose-image--(?:landscape|portrait)"[^>]*><figcaption>[^<\s][\s\S]*<\/figcaption>$/);
+        captions += 1;
+      }
+    }
+    expect(captions).toBeGreaterThan(0);
+    const caption = declarationsFor('.prose figcaption');
+    expect(caption.color).toBe('var(--muted)');
+    expect(caption['font-size']).toBe('var(--text-meta)');
+    expect(caption['text-align']).toBe('center');
+    expect(declaration('.prose figure img', 'margin')).toBe('0 auto');
+    // 竖图的图注不比图片宽。
+    expect(declaration('.prose figure.prose-figure--portrait figcaption', 'max-width'))
+      .toBe(declaration('.prose img.prose-image--portrait', 'width'));
+  });
+
   it('marks block quotations with a thin left rule instead of a card or narrower measure', () => {
     const quote = declarationsFor('.prose blockquote');
     expect(quote['border-left']).toBe('2px solid var(--line-strong)');

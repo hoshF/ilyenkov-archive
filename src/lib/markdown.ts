@@ -73,6 +73,45 @@ function resolveRelativeImages(imageBaseUrl: string | undefined) {
   };
 }
 
+const figureCaptionMarker = /^<!--\s*figure-caption\s*-->$/u;
+
+/**
+ * 译文以 <!-- figure-caption --> 标出照录的原文图注：标记介于图片段落与图注段落之间，
+ * 三者合成 figure。整段加粗或斜体的图注去掉这层外包装，图注样式由网站统一；文字不改。
+ * 标记位置不对时构建失败，不猜测哪一段是图注。
+ */
+function renderFigureCaptions() {
+  return (tree: Root): void => {
+    const visit = (parent: Parents): void => {
+      for (let index = 0; index < parent.children.length; index += 1) {
+        const node = parent.children[index];
+        if (node.type === 'html' && node.value.includes('figure-caption')) {
+          if (!figureCaptionMarker.test(node.value.trim())) throw new Error(`Malformed figure-caption marker: ${node.value.trim()}`);
+          const image = parent.children[index - 1];
+          const caption = parent.children[index + 1];
+          if (image?.type !== 'paragraph' || image.children.length !== 1 || image.children[0].type !== 'image'
+            || caption?.type !== 'paragraph') {
+            throw new Error('figure-caption must sit between an image paragraph and its caption paragraph');
+          }
+          const [only] = caption.children;
+          const inline = caption.children.length === 1 && (only.type === 'strong' || only.type === 'emphasis')
+            ? only.children : caption.children;
+          const figure = {
+            type: 'figure',
+            data: { hName: 'figure' },
+            children: [image.children[0], { type: 'figureCaption', data: { hName: 'figcaption' }, children: inline }],
+          };
+          parent.children.splice(index - 1, 3, figure as unknown as Parents['children'][number]);
+          index -= 1;
+        } else if ('children' in node) {
+          visit(node);
+        }
+      }
+    };
+    visit(tree);
+  };
+}
+
 /**
  * 本地插图写入文件的固有宽高：浏览器在图片下载前就按比例留出位置，
  * 慢速网络下按锚点直接打开文章时，后到的图片不再把目标标题推离视口。
@@ -85,14 +124,14 @@ function reserveLocalImageSpace(
   return async (tree: HastRoot): Promise<void> => {
     if (!imageBaseUrl || !imageFile) return;
 
-    const images: Element[] = [];
-    const visit = (node: HastRoot | HastContent): void => {
-      if (node.type === 'element' && node.tagName === 'img') images.push(node);
-      if ('children' in node) node.children.forEach(visit);
+    const images: { image: Element; parent: HastRoot | Element }[] = [];
+    const visit = (node: HastRoot | HastContent, parent: HastRoot | Element): void => {
+      if (node.type === 'element' && node.tagName === 'img') images.push({ image: node, parent });
+      if ('children' in node) node.children.forEach((child) => visit(child, node as HastRoot | Element));
     };
-    visit(tree);
+    visit(tree, tree);
 
-    await Promise.all(images.map(async (image) => {
+    await Promise.all(images.map(async ({ image, parent }) => {
       const src = String(image.properties.src ?? '');
       if (!src.startsWith(imageBaseUrl)) return;
       const asset = decodeURIComponent(src.slice(imageBaseUrl.length));
@@ -100,6 +139,10 @@ function reserveLocalImageSpace(
       image.properties.width = width;
       image.properties.height = height;
       image.properties.className = [width > height ? 'prose-image--landscape' : 'prose-image--portrait'];
+      // 竖图的图注宽度跟随图片，长图注不伸出图片两侧。
+      if (parent.type === 'element' && parent.tagName === 'figure' && width <= height) {
+        parent.properties.className = ['prose-figure--portrait'];
+      }
     }));
   };
 }
@@ -345,6 +388,7 @@ export async function renderPublicMarkdown(
     .use(remarkGfm)
     .use(remarkCjkFriendly)
     .use(resolveRelativeImages, imageBaseUrl)
+    .use(renderFigureCaptions)
     // 标记必须先于“注释”稿件标题的判断移除，否则标题后不再紧接注释定义。
     .use(readSourceFootnotes, footnotes, sourceFootnoteLabels)
     .use(removeRedundantNotesHeading)
@@ -363,6 +407,7 @@ export async function renderPublicMarkdown(
     .use(rehypeSanitize, {
       ...defaultSchema,
       clobberPrefix: '',
+      tagNames: [...(defaultSchema.tagNames ?? []), 'figure', 'figcaption'],
       // 星号注的注释条目以 data-note-label 取消列表号。
       attributes: { ...defaultSchema.attributes, li: [...(defaultSchema.attributes?.li ?? []), 'dataNoteLabel'] },
     })

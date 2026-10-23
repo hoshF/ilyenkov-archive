@@ -22,6 +22,25 @@ title: "完整的出版题名"
     expect(body).toBe('正文。[^2]\n\n## 引言\n\n[^Note]: 标题注释。\n[^2]: 正文注释。');
   });
 
+  it('keeps a figure-caption marker placed after the caption block-id and drops the block-ids', () => {
+    const { body } = prepareTranslationMarkdown(`<!-- block-id: b000016 -->
+![漫画](img-2.png)
+
+<!-- block-id: b000017 -->
+<!-- figure-caption -->
+**照录的原文图注**
+`);
+    expect(body).toBe('![漫画](img-2.png)\n\n<!-- figure-caption -->\n**照录的原文图注**');
+  });
+
+  it.each([
+    ['before the caption block-id', '![漫画](img-2.png)\n\n<!-- figure-caption -->\n<!-- block-id: b000017 -->\n**图注**'],
+    ['after a text paragraph', '正文。\n\n<!-- figure-caption -->\n**图注**'],
+    ['without a caption paragraph', '![漫画](img-2.png)\n\n<!-- figure-caption -->\n\n## 标题'],
+  ])('rejects a figure-caption marker %s', (_case, text) => {
+    expect(() => prepareTranslationMarkdown(text)).toThrow(/figure-caption must sit between/);
+  });
+
   it('preserves code examples, inline comments, and an article without a leading H1', () => {
     const text = `## 正文开头
 

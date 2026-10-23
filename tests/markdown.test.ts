@@ -176,6 +176,56 @@ describe('Markdown safety and semantics', () => {
     expect(html).toContain('<img src="https://example.com/photo.webp" alt="外部照片">');
   });
 
+  it('joins a marked caption to its image as a figure with the caption text unchanged', async () => {
+    const directory = mkdtempSync(path.join(tmpdir(), 'markdown-figures-'));
+    writeFileSync(path.join(directory, 'scan.png'), pngHeader(939, 1617));
+    writeFileSync(path.join(directory, 'group.png'), pngHeader(1298, 838));
+    writeFileSync(path.join(directory, 'plain.png'), pngHeader(1298, 838));
+    const { html } = await renderPublicMarkdown(`
+![档案扫描](scan.png)
+
+<!-- figure-caption -->
+**档案卷宗（1958）（档案全宗2501）**
+
+![合照](group.png)
+
+<!-- figure-caption -->
+*图：仍是朋友。左起：埃·伊里因科夫*
+
+![无图注](plain.png)
+
+**这是正文里的加粗段落，不是图注。**
+`, {
+      imageBaseUrl: '/archive/an-article/media/',
+      imageFile: (asset) => path.join(directory, asset),
+    });
+    // 整段加粗或斜体只是原文写法，去掉外包装后由网站统一样式；竖图的 figure 另标规格。
+    expect(html).toContain('<figure class="prose-figure--portrait"><img src="/archive/an-article/media/scan.png" alt="档案扫描" width="939" height="1617" class="prose-image--portrait"><figcaption>档案卷宗（1958）（档案全宗2501）</figcaption></figure>');
+    expect(html).toContain('<figure><img src="/archive/an-article/media/group.png" alt="合照" width="1298" height="838" class="prose-image--landscape"><figcaption>图：仍是朋友。左起：埃·伊里因科夫</figcaption></figure>');
+    // 没有标记的段落不猜测为图注。
+    expect(html).toContain('<p><img src="/archive/an-article/media/plain.png"');
+    expect(html).toContain('<p><strong>这是正文里的加粗段落，不是图注。</strong></p>');
+    expect(html).not.toContain('figure-caption');
+  });
+
+  it('keeps inline markup inside a caption that is not wholly emphasized', async () => {
+    const { html } = await renderPublicMarkdown(`
+![照片](https://example.com/photo.webp)
+
+<!-- figure-caption -->
+*《重访》*封面，摄于莫斯科
+`);
+    expect(html).toContain('<figcaption><em>《重访》</em>封面，摄于莫斯科</figcaption>');
+  });
+
+  it.each([
+    ['after a text paragraph', '正文。\n\n<!-- figure-caption -->\n图注'],
+    ['without a caption paragraph', '![照片](https://example.com/photo.webp)\n\n<!-- figure-caption -->\n\n## 标题'],
+    ['at the end of the document', '![照片](https://example.com/photo.webp)\n\n<!-- figure-caption -->'],
+  ])('fails on a figure-caption marker %s', async (_case, markdown) => {
+    await expect(renderPublicMarkdown(markdown)).rejects.toThrow(/figure-caption must sit between/);
+  });
+
   it('reserves intrinsic dimensions for article-local images only', async () => {
     const directory = mkdtempSync(path.join(tmpdir(), 'markdown-images-'));
     writeFileSync(path.join(directory, 'scan.png'), pngHeader(939, 1617));

@@ -54,6 +54,11 @@ private/web/publication.json → records + timeline + works_catalog + life + cir
 构建失败。同一步按宽高写入版面规格：宽大于高为横图（`prose-image--landscape`，铺满正文行宽），
 否则为竖图（`prose-image--portrait`，统一宽度居中）；外部图片不分规格。
 
+图注由 private 译文在图注段落前写 `<!-- figure-caption -->` 显式标出（写法见 private
+`translation/TRANSLATION_STYLE.md`）。同步器在去掉 block-id 前确认标记介于图片段落与图注段落之间；
+渲染时图片与图注合成 `<figure>`，图注为 `<figcaption>`，浅色小字居中，竖图的图注不宽于图片。
+整段加粗或斜体的图注去掉这层外包装，文字不改；没有标记的段落一律按正文处理，标记位置不对时构建失败。
+
 单篇译文的注释按原刊注码显示：注释定义全部使用不带前导零的纯数字技术 ID 时，注释号与注释列表的 `<li value>`
 显示该 ID；定义前一行的 `<!-- note-label: N -->` 改为显示 `N`，可以重复、缺号或不从 1 起。`N` 也可以是原刊
 星号注的 `*`、`**`、`***`：这类条目带 `data-note-label`，不占列表号，标号作为条目开头的文字写出。

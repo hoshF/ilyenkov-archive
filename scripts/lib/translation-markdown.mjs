@@ -4,24 +4,33 @@ import remarkParse from 'remark-parse';
 
 const parser = unified().use(remarkParse).use(remarkGfm);
 const blockMarker = /^\s*<!--\s*block-id:.*?-->\s*$/u;
+const isBlockMarker = (node) => node?.type === 'html' && blockMarker.test(node.value);
+const isImageParagraph = (node) => node?.type === 'paragraph' && node.children.length === 1 && node.children[0].type === 'image';
 
 /**
- * 去掉整行 block-id 前先确认 note-label 紧接注释定义：
+ * 去掉整行 block-id 前先确认 note-label 紧接注释定义、figure-caption 介于图片段落与图注段落之间：
  * 标记写在 block-id 之前时，去掉 block-id 后二者才相邻，渲染阶段已无从分辨。
  */
 function stripBlockMarkers(body) {
   const lines = body.split(/\r?\n/);
   const removed = new Set();
-  const visit = (node, next) => {
+  const visit = (node, next, siblings = [], index = 0) => {
     if (node.type === 'html' && node.value.includes('note-label') && next?.type !== 'footnoteDefinition') {
       throw new Error(`note-label is not immediately followed by a footnote definition: ${node.value.trim()}`);
     }
-    if (node.type === 'html' && node.position) {
-      for (let index = node.position.start.line - 1; index < node.position.end.line; index += 1) {
-        if (blockMarker.test(lines[index])) removed.add(index);
+    if (node.type === 'html' && node.value.includes('figure-caption')) {
+      let previous = index - 1;
+      while (isBlockMarker(siblings[previous])) previous -= 1;
+      if (!isImageParagraph(siblings[previous]) || next?.type !== 'paragraph') {
+        throw new Error(`figure-caption must sit between an image and its caption paragraph: ${node.value.trim()}`);
       }
     }
-    node.children?.forEach((child, index) => visit(child, node.children[index + 1]));
+    if (node.type === 'html' && node.position) {
+      for (let line = node.position.start.line - 1; line < node.position.end.line; line += 1) {
+        if (blockMarker.test(lines[line])) removed.add(line);
+      }
+    }
+    node.children?.forEach((child, childIndex) => visit(child, node.children[childIndex + 1], node.children, childIndex));
   };
   visit(parser.parse(body));
   return lines.filter((_, index) => !removed.has(index)).join('\n').trim();
