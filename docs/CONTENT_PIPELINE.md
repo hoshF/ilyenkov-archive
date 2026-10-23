@@ -98,6 +98,16 @@ Markdown 正文里。完整字段见发布说明的[译文的公开字段](PUBLI
 选中值无效时失败，不跳过无效值。输出仅保留公开来源字段。
 单个 event 表示一届会议，不另建 session 集合；日期投影保留来源精度，不补月日。
 
+### Readings 页面依赖
+
+研究入口、Readings 详情页与共享研究导航通过 `src/lib/readings-page.ts`，从公开系列集合中
+按稳定公开 ID `ilyenkov-readings-series` 选择当前栏目。选择不依赖集合长度或顺序；目标缺失时
+按页面依赖错误终止构建。首页同样按该公开 ID 读取目标。
+
+系列集合继续采用[可选集合契约](PUBLICATION.md#readings-series-的公开字段)，不为当前栏目限制总数。
+Readings 详情页仍通过 `getPublicReadings()` 读取全部获准活动，没有按系列隔离活动；
+此身份选择仅确定当前页面的题名、摘要、成稿与资源，不改变活动归属或历史关系的唯一性校验。
+
 ## IFI 网络同步
 
 同步器读取 `research/friends/organization.json`，组合 publication 的中文题名、摘要与所选资源。

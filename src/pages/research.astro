@@ -1,14 +1,10 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
 import SectionLayout from '../components/SectionLayout.astro';
-import {
-  getPublicIfiNetwork,
-  getPublicReadingsSeries,
-} from '../lib/research-records';
+import { getPublicIfiNetwork } from '../lib/research-records';
+import { getReadingsPageSeries } from '../lib/readings-page';
 
-const readingsSeriesRecords = getPublicReadingsSeries();
-if (readingsSeriesRecords.length !== 1) throw new Error('Expected exactly one public Readings series');
-const readingsSeries = readingsSeriesRecords[0];
+const readingsSeries = getReadingsPageSeries();
 const ifiNetwork = getPublicIfiNetwork();
 ---
 

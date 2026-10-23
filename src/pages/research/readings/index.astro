@@ -10,13 +10,11 @@ import SectionLayout from '../../../components/SectionLayout.astro';
 import {
   formatHistoricalPeriod,
   getPublicReadings,
-  getPublicReadingsSeries,
   type PublicReadingsSeries,
 } from '../../../lib/research-records';
+import { getReadingsPageSeries } from '../../../lib/readings-page';
 
-const seriesRecords = getPublicReadingsSeries();
-if (seriesRecords.length !== 1) throw new Error('Expected exactly one public Readings series');
-const series = seriesRecords[0];
+const series = getReadingsPageSeries();
 const introduction = series.editorial
   ? await renderPublicMarkdown(series.editorial.introduction.join('\n\n'))
   : null;

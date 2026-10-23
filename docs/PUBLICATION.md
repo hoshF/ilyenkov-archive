@@ -208,7 +208,8 @@ public schema 还要求两条关系各自在 `readings` 中恰好解析到一条
 活动日期、题名与地点；directory 只用于 private publication 定位，不是公开身份。
 
 未启用 series publication 时，生成输入不包含 `readingsSeries`，getter 返回空数组；启用时该数组必须
-非空。集合规模由 publication 选择决定，不是固定 schema 要求。
+非空。集合规模由 publication 选择决定，不是固定 schema 要求。当前网站栏目的目标身份及
+缺失行为见[Readings 页面依赖](CONTENT_PIPELINE.md#readings-页面依赖)。
 
 ### IFI 网络的公开字段
 
