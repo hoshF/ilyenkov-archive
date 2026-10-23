@@ -8,7 +8,7 @@ const entrances = ilyenkov.entrances.map((entrance) => ({ ...entrance, href: `/i
 ---
 
 <BaseLayout title={ilyenkov.identity} description={ilyenkov.description}>
-  <SectionLayout pinned>
+  <SectionLayout pinned modifier="section-index">
     <header class="page-header" slot="intro">
       <h1 class="page-title">{ilyenkov.identity}</h1>
       <p class="record__original">{ilyenkov.originalName} · {ilyenkov.lifespan}</p>

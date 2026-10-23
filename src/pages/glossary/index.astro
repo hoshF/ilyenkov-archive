@@ -15,11 +15,8 @@ const searchData = JSON.stringify(searchEntries)
 ---
 
 <BaseLayout title="术语库" description="查询中文译名、外文原词、词形与用法说明，可按类别、作者和名称类型筛选。">
-  <SectionLayout modifier="glossary-index-page">
-    <header class="page-header" slot="intro">
-      <h1 class="page-title">术语库</h1>
-      <p class="lead">查译名、原词与用法。</p>
-    </header>
+  <SectionLayout modifier="section-index glossary-index-page">
+    <h1 class="visually-hidden">术语库</h1>
 
     <section class="glossary-index" data-glossary-index aria-label="术语查询">
       <form class="glossary-search" role="search" hidden>

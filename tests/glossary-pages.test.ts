@@ -83,7 +83,9 @@ describe('static glossary index and entry pages', () => {
 
   it('makes every public entry accessible through the initial index without JavaScript', () => {
     const main = indexMain();
-    expect(textContent(main.match(/<h1\b[^>]*>([\s\S]*?)<\/h1>/)![1])).toBe('术语库');
+    // 栏目名只供读屏与文档大纲，页面直接从查询表单开始。
+    expect(main).toMatch(/<h1\b[^>]*class="visually-hidden"[^>]*>术语库<\/h1>/);
+    expect(main).not.toContain('section-layout__intro');
     const articles = [...main.matchAll(/<article\b[^>]*>([\s\S]*?)<\/article>/g)]
       .map(([, content]) => content);
     expect(articles).toHaveLength(glossary.length);

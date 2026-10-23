@@ -257,12 +257,12 @@ describe('website-approved data adapter', () => {
   it('keeps the research page a plain section page with stable section targets', () => {
     const source = pageSource('research.astro');
 
-    // 栏目标题在 intro 槽里，页面不进入 indexed 形态；无导语时使用紧凑页首。
+    // 页面不进入 indexed 形态；栏目名只作为读屏 h1，不占可见页首。
     expect(source).toMatch(/<SectionLayout\s+pinned(?:\s+modifier="[^"]+")?>/);
     expect(source).not.toContain('toc={toc}');
     expect(source).not.toContain('const toc =');
-    expect(source).toContain('<header class="page-header" slot="intro">');
-    expect(source).toContain('class="page-title">研究</h1>');
+    expect(source).not.toContain('slot="intro"');
+    expect(source).toContain('<h1 class="visually-hidden">研究</h1>');
 
     // 实际输出依次呈现网络、研究者与学术活动三个站内入口。
     const html = readFileSync(builtRoutePath('/research'), 'utf8');
@@ -951,9 +951,7 @@ describe('public navigation', () => {
     for (const route of [
       'archive/index.html',
       'ilyenkov/index.html',
-      'research/index.html',
       'group/index.html',
-      'books/index.html',
       'about/index.html',
     ]) {
       const main = readFileSync(path.join(process.cwd(), 'dist', route), 'utf8')
@@ -964,6 +962,15 @@ describe('public navigation', () => {
       expect(h1At, `${route} 的 h1 应在内容栏内`).toBeGreaterThan(contentAt);
       expect(main.indexOf('section-layout__intro'), `${route} 的页首应在内容栏内`)
         .toBeGreaterThan(contentAt);
+    }
+
+    // 不显示页首的栏目仍在内容栏里保留读屏 h1。
+    for (const route of ['research/index.html', 'books/index.html', 'glossary/index.html']) {
+      const main = readFileSync(path.join(process.cwd(), 'dist', route), 'utf8')
+        .match(/<main>([\s\S]*?)<\/main>/)![1];
+      expect(main.indexOf('<h1 class="visually-hidden"'), `${route} 的 h1 应在内容栏内`)
+        .toBeGreaterThan(main.indexOf('section-layout__content'));
+      expect(main, route).not.toContain('section-layout__intro');
     }
   });
 
@@ -1417,7 +1424,7 @@ describe('book channel', () => {
     const detail = pageSource('books/[id].astro');
 
     expect(page).toContain('<SectionLayout');
-    expect(page).toContain('<header class="page-header" slot="intro">');
+    expect(page).toContain('<h1 class="visually-hidden">书籍</h1>');
     expect(page).toContain('<div class="books-shelf">');
     expect(page).toContain('group.category !== \'translation\'');
     expect(page).toContain('<h2 id={`category-${group.category}`}>{group.label}</h2>');
@@ -1593,7 +1600,7 @@ describe('centered reader-facing section layouts', () => {
 
 describe('compact directory introductions', () => {
   it('removes redundant leads only from the selected directories', () => {
-    for (const route of ['books/index.astro', 'research.astro', 'ilyenkov/timeline.astro', 'ilyenkov/circle.astro']) {
+    for (const route of ['ilyenkov/timeline.astro', 'ilyenkov/circle.astro']) {
       const source = pageSource(route);
       const intro = source.match(/<header class="page-header" slot="intro">([\s\S]*?)<\/header>/)![1];
       expect(intro, route).toContain('<h1');
@@ -1604,23 +1611,30 @@ describe('compact directory introductions', () => {
     expect(declaration('.section-layout__intro', 'margin-bottom')).toBe('44px');
   });
 
-  it('identifies the books directory with a compact title and no introductory lead', () => {
+  it('identifies the books directory with a screen-reader title and no visible page header', () => {
     const html = readFileSync(builtRoutePath('/books'), 'utf8');
-    expect(html).toMatch(/<h1\b[^>]*>书籍<\/h1>/);
-    expect(html).toContain('section-layout__intro');
+    expect(html).toMatch(/<h1\b[^>]*class="visually-hidden"[^>]*>书籍<\/h1>/);
+    expect(html).not.toContain('section-layout__intro');
     expect(pageSource('books/index.astro')).not.toContain('class="lead"');
     expect(html).toContain('books-shelf');
   });
 
-  it('keeps archive filter identity beside the page title instead of below the list heading', () => {
+  it('shows the archive directory name in the home positioning style with its count to the right', () => {
     const source = componentSource('ArchiveIndexView');
-    const intro = source.match(/<header class="page-header" slot="intro">([\s\S]*?)<\/header>/)![1];
-    expect(intro).toContain('<h1');
+    const intro = source.match(/<header class="page-header archive-heading" slot="intro">([\s\S]*?)<\/header>/)![1];
+    expect(intro).toContain('<h1 class="archive-heading__title">');
     expect(intro).not.toContain('class="lead"');
     expect(intro).toContain("{current?.label ?? '全部文章'}");
     expect(intro).toContain('{current.count} 篇');
-    expect(source.match(/class="archive-facets__context"/g)).toHaveLength(1);
-    expect(declaration('.archive-facets__context', 'margin')).toBe('12px 0 0');
+    // 目录名与首页定位句共用字号、颜色与字形；篇数在同一基线右侧。
+    for (const property of ['color', 'font-size', 'font-weight', 'letter-spacing', 'line-height']) {
+      expect(declaration('.archive-heading__title', property)).toBe(declaration('.home-positioning', property));
+    }
+    expect(declaration('.archive-heading__title', 'font-size', '@media (max-width: 600px)'))
+      .toBe(declaration('.home-positioning', 'font-size', '@media (max-width: 600px)'));
+    expect(declaration('.archive-heading', 'display')).toBe('flex');
+    expect(declaration('.archive-heading', 'align-items')).toBe('baseline');
+    expect(declaration('.archive-heading__count', 'margin')).toBe('0');
   });
 });
 
@@ -1654,7 +1668,20 @@ describe('directory spacing', () => {
     expect(declaration(selector, 'border-top')).toBe('0');
     expect(declaration('.research-series + .research-series', 'margin-top')).toBe('60px');
     expect(declaration('.research-series + .research-series', 'padding-top')).toBe('60px');
-    expect(pageSource('research.astro')).toContain('compact-intro research-hub');
-    expect(pageSource('group/index.astro')).toContain('modifier="group-index"');
+    expect(pageSource('research.astro')).toMatch(/modifier="[^"]*\bresearch-hub\b[^"]*"/);
+    expect(pageSource('group/index.astro')).toMatch(/modifier="[^"]*\bgroup-index\b[^"]*"/);
+  });
+
+  it('starts every primary section page as close to the masthead as the homepage', () => {
+    // 首页定位句与六个栏目首页的第一行共用同一刊头间距，窄屏一起收紧。
+    expect(declaration('.home-page', 'padding-top')).toBe('var(--masthead-gap)');
+    expect(declaration('.section-index', '--section-top')).toBe('var(--masthead-gap)');
+    expect(declaration(':root', '--masthead-gap')).toBe('30px');
+    expect(declaration(':root', '--masthead-gap', '@media (max-width: 600px)')).toBe('21px');
+    expect(declaration('.home-page', 'padding-top', '@media (max-width: 600px)')).toBeUndefined();
+    for (const route of ['ilyenkov', 'archive', 'glossary', 'research', 'group', 'books']) {
+      const main = readFileSync(builtRoutePath(`/${route}`), 'utf8').match(/<main>([\s\S]*?)<\/main>/)![1];
+      expect(main, route).toMatch(/class="container section-layout[^"]*\bsection-index\b/);
+    }
   });
 });

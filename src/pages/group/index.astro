@@ -10,7 +10,7 @@ if (!announcementHeading) throw new Error('Group announcement requires a section
 ---
 
 <BaseLayout title={site.group.name} description={`${site.group.name}的公共工作档案，按期记录已公开的研究、讨论、资料整理与阶段性成果。`}>
-  <SectionLayout pinned modifier="group-index">
+  <SectionLayout pinned modifier="section-index group-index">
     <header class="page-header" slot="intro">
       <h1 class="page-title">{site.group.name}</h1>
       <p class="record__original">

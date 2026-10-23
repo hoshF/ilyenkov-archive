@@ -10,10 +10,8 @@ const groups = groupBooks(books);
 ---
 
 <BaseLayout title="书籍" description={`由${site.group.name}制作并公开维护的成书记录。`}>
-  <SectionLayout pinned modifier="compact-intro">
-    <header class="page-header" slot="intro">
-      <h1 class="page-title">书籍</h1>
-    </header>
+  <SectionLayout pinned modifier="section-index">
+    <h1 class="visually-hidden">书籍</h1>
 
     {groups.length > 0 ? (
       <div class="books-shelf">
