@@ -55,13 +55,26 @@ function byIssueDescending(left: GroupIssue, right: GroupIssue): number {
   return right.issue - left.issue || left.id.localeCompare(right.id);
 }
 
-/** 公告只记公开日期；正文第一个二级标题是公告标题，首页按它的 id 链到小组页。 */
+/** 公告只记公开日期；正文以二级标题开头，标题与正文分开交给页面。 */
 const GroupAnnouncementSchema = z.object({ published: IsoDateSchema }).strict();
 
-export const getGroupAnnouncement = buildCache(async () => {
+export interface GroupAnnouncement {
+  published: string;
+  /** 公告标题；小组页的折叠行以它的 id 为锚点，首页按这个锚点链到小组页。 */
+  title: ArticleHeading;
+  /** 标题之后的公告正文。 */
+  html: string;
+}
+
+export const getGroupAnnouncement = buildCache(async (): Promise<GroupAnnouncement> => {
   const record = matter(readFileSync(path.join(process.cwd(), 'editorial', 'group-announcement.md'), 'utf8'));
   const { published } = GroupAnnouncementSchema.parse(record.data);
-  return { published, ...await renderPublicMarkdown(record.content.trim()) };
+  const [heading, ...body] = record.content.trim().split('\n');
+  if (!/^## \S/.test(heading)) throw new Error('Group announcement must open with a level-two title');
+  const [title] = (await renderPublicMarkdown(heading)).headings;
+  const { html } = await renderPublicMarkdown(body.join('\n').trim());
+  if (!html.trim()) throw new Error('Group announcement has no body');
+  return { published, title, html };
 });
 
 export const getGroupIssues = buildCache((): Promise<GroupIssue[]> => (

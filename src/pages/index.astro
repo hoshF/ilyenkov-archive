@@ -15,8 +15,7 @@ import { getUpdates, HOME_UPDATES_LIMIT } from '../lib/updates';
 
 const ilyenkov = getPublicIlyenkov();
 const [{ articles }, issues, announcement] = await Promise.all([getSiteData(), getGroupIssues(), getGroupAnnouncement()]);
-const announcementHeading = announcement.headings[0];
-if (!announcementHeading) throw new Error('Group announcement requires a section heading');
+const announcementHeading = announcement.title;
 const texts = articles.slice(0, 4);
 const recentWork = [...issues].sort((left, right) => (
   right.published.localeCompare(left.published) || right.issue - left.issue

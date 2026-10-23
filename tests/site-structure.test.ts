@@ -1291,20 +1291,32 @@ describe('public navigation', () => {
     expect(main).not.toContain('本页按期记录');
   });
 
-  it('marks the dated group announcement with rules instead of a tinted box', async () => {
+  it('folds the dated group announcement into one line that opens in place', async () => {
     const announcement = declarationsFor('.group-announcement');
     expect(announcement.background).toBeUndefined();
     expect(announcement['background-color']).toBeUndefined();
     expect(announcement['border-left']).toBeUndefined();
     expect(announcement['border-top']).toBe('1px solid var(--line)');
     expect(announcement['border-bottom']).toBe('1px solid var(--line)');
-    // 标题上方一行注明“公告”与公开日期；首页按标题 id 链到这里。
-    const { published } = await getGroupAnnouncement();
+    // 折叠行只有“公告”、日期、标题与展开提示；正文不重复标题。
+    const { published, title, html } = await getGroupAnnouncement();
+    expect(html).not.toContain(`>${title.text}</h2>`);
     const main = readFileSync(builtRoutePath('/group'), 'utf8').match(/<main>([\s\S]*?)<\/main>/)![1];
-    const section = main.match(/<section class="group-announcement" aria-labelledby="([^"]+)">([\s\S]*?)<\/section>/)!;
-    expect(section[2]).toContain(`<h2 id="${section[1]}">`);
-    expect(section[2]).toContain(`<span class="group-announcement__label">公告</span> · <time datetime="${published}">${published}</time>`);
-    expect(section[2].indexOf('group-announcement__meta')).toBeLessThan(section[2].indexOf('<h2'));
+    const details = main.match(/<details class="group-announcement" id="([^"]+)" data-group-announcement>([\s\S]*?)<\/details>/)!;
+    expect(details, 'announcement is a closed details element').not.toBeNull();
+    expect(details[0]).not.toMatch(/<details[^>]*\bopen\b/);
+    expect(details[1]).toBe(title.id);
+    const summary = details[2].match(/<summary>([\s\S]*?)<\/summary>/)![1];
+    expect(summary).toContain(`<span class="group-announcement__label">公告</span>`);
+    expect(summary).toContain(`<time datetime="${published}">${published}</time>`);
+    expect(summary).toContain(`<span class="group-announcement__title">${title.text}</span>`);
+    expect(declaration('.group-announcement__toggle:after', 'content')).toBe('"展开 ▾"');
+    expect(declaration('.group-announcement[open] .group-announcement__toggle:after', 'content')).toBe('"收起 ▴"');
+    expect(declaration('.group-announcement summary', 'min-height')).toBe('44px');
+    // 首页的公告链接指向折叠块本身；带这个锚点进入时由页面脚本展开。
+    const home = readFileSync(builtRoutePath('/'), 'utf8');
+    expect(home).toContain(`href="/group/#${encodeURIComponent(title.id)}"`);
+    expect(pageSource('group/index.astro')).toMatch(/window\.location\.hash[\s\S]*announcement\.open = true/);
     // 公告置顶：排在小组名称与小组通讯之前。
     expect(main.indexOf('class="group-announcement"')).toBeLessThan(main.indexOf('<h1 class="group-heading__title"'));
     expect(main.indexOf('<h1 class="group-heading__title"')).toBeLessThan(main.indexOf('class="group-issues"'));
@@ -1426,21 +1438,19 @@ describe('group work channel', () => {
     expect(template).not.toContain('<ol class="record-list"');
     expect(declaration('.record-list', 'list-style')).toBe('none');
 
-    // 每条三层：期号、类型与日期，题名，一句摘要。
+    // 每条两层：期号、类型与日期，然后题名。
     expect(template).toMatch(
       /<p class="record__meta">第 \{issue\.issue\} 期 · \{issue\.kind\} · <time datetime=\{issue\.published\}>\{issue\.published\}<\/time><\/p>/,
     );
     // 题名是唯一入口：它就是那条路由。
     expect(template).toContain('<p class="record__title"><a href={issue.route}>{issue.title}</a></p>');
-    expect(template).toContain('<p class="record__summary">{issue.summary}</p>');
     const list = readFileSync(builtRoutePath('/group'), 'utf8');
     for (const issue of issues) {
       expect(list).toContain(`第 ${issue.issue} 期 · ${issue.kind} · `);
-      expect(list).toContain(`<p class="record__summary">${issue.summary}</p>`);
     }
 
-    // 列表页不重复入口。
-    for (const dropped of ['record__links', '阅读全文']) {
+    // 列表页不展示摘要和重复入口。
+    for (const dropped of ['record__summary', 'record__links', '阅读全文', 'issue.summary']) {
       expect(template, `group list should not render ${dropped}`).not.toContain(dropped);
     }
 
@@ -1453,8 +1463,10 @@ describe('group work channel', () => {
     expect(detail).toContain('{issue.kind}');
     expect(detail).toContain('issue.summary');
 
-    // 列表不加载阅读交互；详情复用统一的目录组件。
-    expect(source).not.toContain('<script');
+    // 列表不加载阅读交互；唯一的脚本只在带公告锚点进入时展开公告。详情复用统一的目录组件。
+    expect(source).not.toContain('ReadingTocBehavior');
+    expect([...source.matchAll(/<script\b/g)]).toHaveLength(1);
+    expect(source).toMatch(/<script>[\s\S]*data-group-announcement[\s\S]*<\/script>/);
     expect(detail).toContain('<ReadingTocBehavior />');
   });
 

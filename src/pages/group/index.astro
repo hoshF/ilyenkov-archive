@@ -6,8 +6,6 @@ import ResourceLinks from '../../components/ResourceLinks.astro';
 import { getGroupIssues, getGroupAnnouncement } from '../../lib/group';
 
 const [issues, announcement] = await Promise.all([getGroupIssues(), getGroupAnnouncement()]);
-const announcementHeading = announcement.headings[0];
-if (!announcementHeading) throw new Error('Group announcement requires a section heading');
 ---
 
 <BaseLayout title={site.group.name} description={`${site.group.name}的公共工作档案，按期记录已公开的研究、讨论、资料整理与阶段性成果。`}>
@@ -17,11 +15,16 @@ if (!announcementHeading) throw new Error('Group announcement requires a section
       { label: '小组介绍', href: '/group/0/' },
       { label: '关注与联系', href: '/contact/' },
     ]} />
-    {/* 公告置顶，排在小组名称之前；首页按公告标题的 id 链到这里。 */}
-    <section class="group-announcement" slot="intro" aria-labelledby={announcementHeading.id}>
-      <p class="group-announcement__meta"><span class="group-announcement__label">公告</span> · <time datetime={announcement.published}>{announcement.published}</time></p>
-      <div class="prose prose--section" set:html={announcement.html} />
-    </section>
+    {/* 公告置顶，默认折叠成一行，不把小组名称压到下方；首页按公告标题的 id 链到这里，届时自动展开。 */}
+    <details class="group-announcement" slot="intro" id={announcement.title.id} data-group-announcement>
+      <summary>
+        <span class="group-announcement__label">公告</span>
+        <time datetime={announcement.published}>{announcement.published}</time>
+        <span class="group-announcement__title">{announcement.title.text}</span>
+        <span class="group-announcement__toggle" aria-hidden="true"></span>
+      </summary>
+      <div class="prose prose--section group-announcement__body" set:html={announcement.html} />
+    </details>
     {/* 小组名称沿用首页定位句的字号，用正文黑色：这一页介绍的就是小组本身。外文名并作一行。 */}
     <header class="page-header group-heading" slot="intro">
       <h1 class="group-heading__title">{site.group.name}</h1>
@@ -32,14 +35,13 @@ if (!announcementHeading) throw new Error('Group announcement requires a section
       <h2 id="group-issues-heading">小组通讯</h2>
 
       {issues.length > 0 ? (
-        /* 按期排列的通讯目录：期号、类型与日期，题名，一句摘要。题名是唯一入口，
-           没有视觉编号和“阅读全文”。 */
+        /* 按期排列的通讯目录：期号、类型与日期，然后题名。题名是唯一入口，
+           没有视觉编号、摘要和“阅读全文”。 */
         <ul class="record-list" role="list">
           {issues.map((issue) => (
             <li>
               <p class="record__meta">第 {issue.issue} 期 · {issue.kind} · <time datetime={issue.published}>{issue.published}</time></p>
               <p class="record__title"><a href={issue.route}>{issue.title}</a></p>
-              <p class="record__summary">{issue.summary}</p>
             </li>
           ))}
         </ul>
@@ -52,3 +54,13 @@ if (!announcementHeading) throw new Error('Group announcement requires a section
 
   </SectionLayout>
 </BaseLayout>
+
+<script>
+  // 从首页的公告链接（或任何指向公告锚点的地址）进入时展开公告。
+  const announcement = document.querySelector<HTMLDetailsElement>('[data-group-announcement]');
+  const openForHash = () => {
+    if (announcement && decodeURIComponent(window.location.hash.slice(1)) === announcement.id) announcement.open = true;
+  };
+  openForHash();
+  window.addEventListener('hashchange', openForHash);
+</script>
