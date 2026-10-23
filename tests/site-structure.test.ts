@@ -950,7 +950,6 @@ describe('public navigation', () => {
 
     for (const route of [
       'archive/index.html',
-      'ilyenkov/index.html',
       'group/index.html',
       'about/index.html',
     ]) {
@@ -972,6 +971,13 @@ describe('public navigation', () => {
         .toBeGreaterThan(main.indexOf('section-layout__content'));
       expect(main, route).not.toContain('section-layout__intro');
     }
+
+    // 伊里因科夫页的姓名直接作第一段段首，h1 在内容栏的开篇里，不另设页首。
+    const ilyenkovMain = readFileSync(path.join(process.cwd(), 'dist', 'ilyenkov/index.html'), 'utf8')
+      .match(/<main>([\s\S]*?)<\/main>/)![1];
+    expect(ilyenkovMain.indexOf('<h1 class="ilyenkov-opening__name"'))
+      .toBeGreaterThan(ilyenkovMain.indexOf('section-layout__content'));
+    expect(ilyenkovMain).not.toContain('section-layout__intro');
   });
 
   it('uses a visible publication name above the primary directory', () => {
@@ -1110,8 +1116,12 @@ describe('public navigation', () => {
     expect(person).toContain(ilyenkov.summary);
     expect(personPage).toContain(ilyenkov.identity);
     expect(person.match(/<p class="home-summary">/g)).toHaveLength(1);
+    // 维基卡片浮在姓名与第一段正文之间，比较正文时先去掉它。
+    const personText = personPage
+      .replace(/<div class="wiki-card">[\s\S]*?(?=<p class="ilyenkov-opening__text">)/, '')
+      .replace(/<[^>]*>/g, '').replace(/\s*(?=（)/, '');
     for (const paragraph of ilyenkov.introduction) {
-      expect(personPage.replace(/<[^>]*>/g, '')).toContain(paragraph);
+      expect(personText).toContain(paragraph);
       expect(person).not.toContain(paragraph);
     }
     const links = person.match(/<p class="home-more">[\s\S]*?<\/p>/)![0];
@@ -1683,5 +1693,57 @@ describe('directory spacing', () => {
       const main = readFileSync(builtRoutePath(`/${route}`), 'utf8').match(/<main>([\s\S]*?)<\/main>/)![1];
       expect(main, route).toMatch(/class="container section-layout[^"]*\bsection-index\b/);
     }
+  });
+});
+
+describe('Ilyenkov opening', () => {
+  const main = () => readFileSync(builtRoutePath('/ilyenkov'), 'utf8').match(/<main>([\s\S]*?)<\/main>/)![1];
+  const text = (html: string) => html.replace(/<[^>]*>/g, '');
+
+  it('opens the first paragraph with the name as the only h1, followed by the original name and lifespan', () => {
+    const html = main();
+    const headings = [...html.matchAll(/<h1\b[^>]*>([\s\S]*?)<\/h1>/g)];
+    expect(headings).toHaveLength(1);
+    expect(text(headings[0][1])).toBe(ilyenkov.identity);
+    // 姓名不再在页首和第一段里各出现一次。
+    expect(text(html).split(ilyenkov.identity)).toHaveLength(2);
+    // 姓名与紧随的段落连起来就是成稿第一段，中间只隔着浮动的维基卡片。
+    const paragraph = html.match(/<p class="ilyenkov-opening__text">([\s\S]*?)<\/p>/)![1];
+    expect(text(headings[0][1]) + text(paragraph).trim()).toBe(ilyenkov.introduction[0]);
+  });
+
+  it('keeps the name on one line by sizing it from its character count', () => {
+    const html = main();
+    expect(html).toContain(`style="--name-length: ${[...ilyenkov.identity].length}"`);
+    expect(declaration('.ilyenkov-opening__name', 'white-space')).toBe('nowrap');
+    expect(declaration('.ilyenkov-opening__name', 'font-size')).toBe('min(var(--text-page), 100cqi / var(--name-length))');
+    expect(declaration('.ilyenkov-intro', 'container-type')).toBe('inline-size');
+  });
+
+  it('links the selected Wikipedia entry from a card that follows the name like an infobox', () => {
+    const wikipedia = ilyenkov.resources!.find((resource) => resource.kind === 'wikipedia_zh')!;
+    const html = main();
+    const card = html.match(/<a class="wiki-card__link" href="([^"]+)">([\s\S]*?)<\/a>/)!;
+    expect(card[1]).toBe(wikipedia.url);
+    expect(text(card[2])).toContain('中文维基百科');
+    const nameAt = html.indexOf('<h1 class="ilyenkov-opening__name"');
+    const cardAt = html.indexOf('<div class="wiki-card">');
+    expect(cardAt).toBeGreaterThan(nameAt);
+    expect(cardAt).toBeLessThan(html.indexOf('class="ilyenkov-opening__text"'));
+    // 照片只在总页选择时出现，且必须带署名。
+    expect(html.includes('class="wiki-card__photo"')).toBe(Boolean(ilyenkov.portrait));
+    expect(html.includes('class="wiki-card__credit')).toBe(Boolean(ilyenkov.portrait));
+    // 宽到能并排时，卡片 160px 宽浮在段首右侧；窄屏单列时排到第一段之后。
+    const wide = '@container (min-width: 37rem)';
+    expect(declaration('.wiki-card', 'float', wide)).toBe('right');
+    expect(declaration('.wiki-card', 'width', wide)).toBe('160px');
+    expect(declaration('.wiki-card', 'box-sizing')).toBe('content-box');
+    expect(declaration('.ilyenkov-opening', 'flex-direction')).toBe('column');
+    expect(declaration('.wiki-card', 'order')).toBe('1');
+    // 照片沿用人物照片的 3:4 自上而下裁切，宽屏即 160×213。
+    expect(declaration('.wiki-card .wiki-card__photo', 'width')).toBe('100%');
+    expect(declaration('.wiki-card .wiki-card__photo', 'aspect-ratio')).toBe('3 / 4');
+    expect(declaration('.wiki-card .wiki-card__photo', 'object-position')).toBe('center top');
+    expect(declaration('.wiki-card .wiki-card__photo', 'max-height')).toBe('none');
   });
 });

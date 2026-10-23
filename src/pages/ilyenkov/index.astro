@@ -2,22 +2,47 @@
 import { getPublicIlyenkov } from '../../lib/research-records';
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import SectionLayout from '../../components/SectionLayout.astro';
+import { ilyenkovPortrait } from '../../lib/portrait';
 
 const ilyenkov = getPublicIlyenkov();
 const entrances = ilyenkov.entrances.map((entrance) => ({ ...entrance, href: `/ilyenkov/${entrance.target}/` }));
+
+// 第一段以“姓名（原文名，生卒年）”起首：姓名排成 h1 作段首，原文名与生卒年随后，正文接着往下走。
+const lead = `${ilyenkov.identity}（${ilyenkov.originalName}，${ilyenkov.lifespan}）`;
+const [opening, ...paragraphs] = ilyenkov.introduction;
+if (!opening.startsWith(lead)) throw new Error('Ilyenkov introduction must open with identity, original name and lifespan');
+const wikipedia = ilyenkov.resources?.find((resource) => resource.kind === 'wikipedia_zh');
+const portrait = await ilyenkovPortrait(ilyenkov);
+// 有维基条目时照片与标题一起链到条目；署名在链接之外，单独说明照片来源。
+const CardLink = wikipedia ? 'a' : 'div';
 ---
 
 <BaseLayout title={ilyenkov.identity} description={ilyenkov.description}>
   <SectionLayout pinned modifier="section-index">
-    <header class="page-header" slot="intro">
-      <h1 class="page-title">{ilyenkov.identity}</h1>
-      <p class="record__original">{ilyenkov.originalName} · {ilyenkov.lifespan}</p>
-    </header>
-
-    <div class="prose prose--section person-intro">
-      {ilyenkov.introduction.map((paragraph, index) => <p>{index === 0
-        ? <><strong>{paragraph.slice(0, paragraph.indexOf('。') + 1)}</strong>{paragraph.slice(paragraph.indexOf('。') + 1)}</>
-        : paragraph}</p>)}
+    <div class="prose prose--section person-intro ilyenkov-intro">
+      <div class="ilyenkov-opening">
+        {/* 字号按字数收缩，姓名始终排在一行。 */}
+        <h1 class="ilyenkov-opening__name" style={`--name-length: ${[...ilyenkov.identity].length}`}>{ilyenkov.identity}</h1>
+        {/* 卡片像维基的信息框一样紧随姓名：宽屏浮在段首右侧，窄屏排到第一段之后。 */}
+        {(wikipedia || portrait) && (
+          <div class="wiki-card">
+            <CardLink class="wiki-card__link" href={wikipedia?.url}>
+              {portrait && <img class="wiki-card__photo" src={portrait.src} alt={`${ilyenkov.identity}照片`} width="160" height="213" />}
+              {wikipedia && (
+                <span class="wiki-card__text">
+                  <span class="wiki-card__label">人物条目</span>
+                  <span class="wiki-card__title">中文维基百科<span aria-hidden="true"> ↗</span></span>
+                </span>
+              )}
+            </CardLink>
+            {portrait && <p class:list={['wiki-card__credit', !wikipedia && 'wiki-card__credit--after-photo']}>照片：{portrait.credit}</p>}
+          </div>
+        )}
+        <p class="ilyenkov-opening__text">
+          <span class="ilyenkov-opening__original">（{ilyenkov.originalName}，{ilyenkov.lifespan}）</span>{opening.slice(lead.length)}
+        </p>
+      </div>
+      {paragraphs.map((paragraph) => <p>{paragraph}</p>)}
     </div>
 
     <nav class="entrance-grid" aria-label="伊里因科夫栏目入口">

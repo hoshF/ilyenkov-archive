@@ -47,14 +47,14 @@ function fixture() {
     relativePaths.add(selection.editorial_path);
   }
   selectedEntries.forEach((entry) => {
-    for (const field of ['record_path', 'source_path', 'editorial_path']) {
+    for (const field of ['record_path', 'source_path', 'editorial_path', 'portrait_path']) {
       if (entry[field]) relativePaths.add(entry[field]);
     }
   });
   for (const relative of relativePaths) {
     const target = path.join(sourceRoot, relative);
     mkdirSync(path.dirname(target), { recursive: true });
-    writeFileSync(target, readFileSync(path.join(researchRoot, relative), 'utf8'));
+    writeFileSync(target, readFileSync(path.join(researchRoot, relative)));
   }
   return {
     remove: (relative) => rmSync(path.join(sourceRoot, relative)),

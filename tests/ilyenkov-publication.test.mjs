@@ -3,7 +3,7 @@ import { cpSync, mkdirSync, mkdtempSync, readFileSync, rmSync, symlinkSync, writ
 import { tmpdir } from 'node:os';
 import path from 'node:path';
 import { afterEach, describe, expect, it, vi } from 'vitest';
-import { plannedResearchRecords } from '../scripts/lib/research-sync/planner.mjs';
+import { plannedResearchOutputs, plannedResearchRecords } from '../scripts/lib/research-sync/planner.mjs';
 import {
   CircleSchema,
   formatHistoricalPeriod,
@@ -58,7 +58,7 @@ function fixture() {
     ...['timeline', 'works_catalog', 'life', 'circle'].map((key) => publication[key].editorial_path),
   ]);
   for (const entry of selectedEntries) {
-    for (const field of ['record_path', 'source_path', 'editorial_path']) {
+    for (const field of ['record_path', 'source_path', 'editorial_path', 'portrait_path']) {
       if (entry[field]) files.add(entry[field]);
     }
   }
@@ -864,5 +864,89 @@ describe('strict overview manuscript contract', () => {
     expect(after.ilyenkov.summary).toBe('Synthetic homepage summary.');
     expect(after.ilyenkov.introduction).toEqual(before.ilyenkov.introduction);
     for (const key of Object.keys(before).filter((key) => key !== 'ilyenkov')) expect(after[key]).toEqual(before[key]);
+  });
+});
+
+describe('explicit Ilyenkov resource selection', () => {
+  const wikipedia = 'https://zh.wikipedia.org/zh-hans/Synthetic';
+  const configure = (input, { kinds, resources }) => {
+    const entry = overviewEntry(input.read(publicationPath));
+    input.mutate(publicationPath, (manifest) => {
+      if (kinds === undefined) delete overviewEntry(manifest).resource_kinds;
+      else overviewEntry(manifest).resource_kinds = kinds;
+    });
+    input.mutate(entry.record_path, (registry) => {
+      const person = registry.records.find((record) => record.person_id === entry.record_id);
+      if (resources === undefined) delete person.resources;
+      else person.resources = resources;
+    });
+  };
+
+  it('exports only the selected Wikipedia URL from the canonical person', () => {
+    const input = fixture();
+    configure(input, { kinds: ['wikipedia_zh'], resources: { wikipedia_zh: wikipedia, personal: 'https://example.com/PRIVATE' } });
+    const output = input.plan();
+    expect(output.ilyenkov.resources).toEqual([{ kind: 'wikipedia_zh', url: wikipedia }]);
+    expect(JSON.stringify(output.ilyenkov)).not.toContain('PRIVATE');
+    expect(ResearchRecordsSchema.safeParse(output).success).toBe(true);
+  });
+
+  it('omits resources when the profile selects none, even if the person has them', () => {
+    const input = fixture();
+    configure(input, { kinds: undefined, resources: { wikipedia_zh: wikipedia } });
+    expect(input.plan().ilyenkov).not.toHaveProperty('resources');
+  });
+
+  it.each([
+    ['an unsupported kind', ['orcid'], { orcid: 'https://orcid.org/0000-0000-0000-0000' }, /unsupported value/],
+    ['a duplicate kind', ['wikipedia_zh', 'wikipedia_zh'], { wikipedia_zh: wikipedia }, /duplicate kind/],
+    ['a missing selected resource', ['wikipedia_zh'], {}, /missing selected resource wikipedia_zh/],
+    ['a non-https URL', ['wikipedia_zh'], { wikipedia_zh: 'http://zh.wikipedia.org/wiki/Synthetic' }, /must use https/],
+  ])('rejects %s', (_case, kinds, resources, message) => {
+    const input = fixture();
+    configure(input, { kinds, resources });
+    expect(() => input.plan()).toThrow(message);
+  });
+});
+
+describe('explicit Ilyenkov portrait selection', () => {
+  const portraitPath = 'people/ilyenkov/portrait.jpg';
+  // 先清掉 profile 已有的照片选择，每个用例只保留它给出的字段。
+  const select = (input, fields) => {
+    input.mutate(publicationPath, (manifest) => {
+      const entry = overviewEntry(manifest);
+      delete entry.portrait_path;
+      delete entry.portrait_credit_zh;
+      Object.assign(entry, fields);
+    });
+  };
+  const writePortrait = (input) => {
+    const target = path.join(input.sourceRoot, portraitPath);
+    mkdirSync(path.dirname(target), { recursive: true });
+    writeFileSync(target, 'PORTRAIT_FIXTURE_BYTES');
+  };
+
+  it('publishes the selected photo with its single-line credit and keeps the private path out', () => {
+    const input = fixture();
+    writePortrait(input);
+    select(input, { portrait_path: portraitPath, portrait_credit_zh: '伊里因科夫家属提供' });
+    const { records, portraits } = plannedResearchOutputs({ projectRoot, researchRoot: input.sourceRoot });
+    const id = overviewEntry(input.read(publicationPath)).public_id;
+    expect(records.ilyenkov.portrait).toBe(`${id}.jpg`);
+    expect(records.ilyenkov.portraitCredit).toBe('伊里因科夫家属提供');
+    expect([...portraits.keys()]).toContain(`${id}.jpg`);
+    expect(JSON.stringify(records)).not.toContain(portraitPath);
+    expect(ResearchRecordsSchema.safeParse(records).success).toBe(true);
+  });
+
+  it.each([
+    ['a photo without a credit', { portrait_path: portraitPath }, /must be selected together/],
+    ['a credit without a photo', { portrait_credit_zh: '伊里因科夫家属提供' }, /must be selected together/],
+    ['a multi-line credit', { portrait_path: portraitPath, portrait_credit_zh: '伊里因科夫\n家属提供' }, /must be one line/],
+  ])('rejects %s', (_case, fields, message) => {
+    const input = fixture();
+    writePortrait(input);
+    select(input, fields);
+    expect(() => input.plan()).toThrow(message);
   });
 });

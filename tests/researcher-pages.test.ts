@@ -1,4 +1,5 @@
-import { existsSync, readFileSync } from 'node:fs';
+import { existsSync, mkdirSync, readFileSync, rmSync, writeFileSync } from 'node:fs';
+import path from 'node:path';
 import { describe, expect, it } from 'vitest';
 import { site } from '../src/lib/editorial';
 import {
@@ -8,7 +9,9 @@ import {
   type PublicResearcher,
 } from '../src/lib/research-records';
 import { getSiteData } from '../src/lib/site-data';
+import { researcherPortrait } from '../src/lib/portrait';
 import { builtRoutePath, routeExists } from './helpers/pages';
+import { declaration } from './helpers/styles';
 
 const route = '/research/researchers/andrey-maidansky/';
 const builtPage = (href: string): string => readFileSync(builtRoutePath(href), 'utf8');
@@ -183,6 +186,69 @@ describe('canonical researcher detail and research hub entry', () => {
         'record_id', 'source_path', 'author_zh', 'author_original', 'include_roles',
         'include_research_fields', '/Users/', 'ILYENKOV_ROOT', 'А. Д. Майданский', 'Andrey Maidansky',
       ]) expect(html, `${href}: ${field}`).not.toContain(field);
+    }
+  });
+});
+
+describe('researcher portrait standard', () => {
+  function pngHeader(width: number, height: number): Buffer {
+    const header = Buffer.alloc(33);
+    Buffer.from([0x89, 0x50, 0x4e, 0x47, 0x0d, 0x0a, 0x1a, 0x0a]).copy(header, 0);
+    header.writeUInt32BE(13, 8);
+    header.write('IHDR', 12, 'ascii');
+    header.writeUInt32BE(width, 16);
+    header.writeUInt32BE(height, 20);
+    header.writeUInt8(8, 24);
+    return header;
+  }
+
+  it('shows no portrait or placeholder for researchers without a selected photo', () => {
+    for (const researcher of getPublicResearchers().filter((record) => !record.portrait)) {
+      const href = `/research/researchers/${researcher.id.replace(/^researcher-/, '')}/`;
+      const main = mainContent(builtPage(href));
+      expect(main, href).not.toMatch(/<img\b/);
+      expect(builtPage(href), href).not.toContain('research-profile--portrait');
+    }
+  });
+
+  it('aligns a 3:4 portrait with the first section heading, inset from the line edge, and below the name on narrow screens', () => {
+    // 宽屏与中屏：照片 160×213 挂在第一节标题上，底边与标题底边对齐，距正文右边线 24px。
+    expect(declaration('.researcher-heading', 'position')).toBe('relative');
+    expect(declaration('.researcher-portrait', 'position')).toBe('absolute');
+    expect(declaration('.researcher-portrait', 'bottom')).toBe('0');
+    expect(declaration('.researcher-portrait', 'right')).toBe('24px');
+    expect(declaration('.researcher-portrait', 'width')).toBe('160px');
+    expect(declaration('.researcher-portrait', 'height')).toBe('213px');
+    expect(declaration('.researcher-portrait', 'object-fit')).toBe('cover');
+    expect(declaration('.researcher-portrait', 'object-position')).toBe('center top');
+    // 照片向上伸到页首右侧时，面包屑与页首让出照片宽度加两侧间距。
+    for (const selector of ['.research-profile--portrait .section-layout__breadcrumb', '.research-profile--portrait .section-layout__intro']) {
+      expect(declaration(selector, 'padding-right'), selector).toBe('calc(160px + 24px * 2)');
+    }
+    // 窄屏：照片回到文档流，在姓名之下、第一节标题之上，宽度等于行宽，高度按 3:4 推出。
+    const narrow = '@media (max-width: 600px)';
+    expect(declaration('.researcher-portrait', 'position', narrow)).toBe('static');
+    expect(declaration('.researcher-portrait', 'width', narrow)).toBe('100%');
+    expect(declaration('.researcher-portrait', 'height', narrow)).toBe('auto');
+    expect(declaration('.researcher-portrait', 'aspect-ratio', narrow)).toBe('3 / 4');
+    expect(declaration('.research-profile--portrait .section-layout__intro', 'padding-right', narrow)).toBe('0');
+  });
+
+  it('requires each portrait file to be at least the largest display size', async () => {
+    const researcher = { ...profile(), id: 'researcher-portrait-size-fixture', portrait: 'researcher-portrait-size-fixture.png' };
+    const file = path.join(process.cwd(), '.website-input', 'portraits', researcher.portrait);
+    mkdirSync(path.dirname(file), { recursive: true });
+    try {
+      writeFileSync(file, pngHeader(559, 1000));
+      await expect(researcherPortrait(researcher)).rejects.toThrow(/at least 560×747/);
+      writeFileSync(file, pngHeader(900, 746));
+      await expect(researcherPortrait(researcher)).rejects.toThrow(/at least 560×747/);
+      writeFileSync(file, pngHeader(560, 747));
+      await expect(researcherPortrait(researcher)).resolves.toEqual({
+        src: '/research/researchers/portrait-size-fixture/portrait.png',
+      });
+    } finally {
+      rmSync(file, { force: true });
     }
   });
 });

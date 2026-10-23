@@ -57,7 +57,8 @@ canonical 事实、原文、译文、来源与权利证据保持各自的维护�
   Readings series 是另行选择的可选类型，不因 private 存在 series record 就自动输出，也不属于必备集合。
 - 同步器只输出该条目获准的最小公开字段：稳定 ID、中文与原文题名、摘要或简短定位、历史日期或
   日期范围、地点或状态、明确选定的外部来源链接，以及类型契约允许的选定成稿。每项事实都必须由所选来源支持。
-- 以下一律不经研究同步通道进入生成输入与 `dist/`：原始正文、自传原文、扫描件、附件、照片、视频、
+- 以下一律不经研究同步通道进入生成输入与 `dist/`：原始正文、自传原文、扫描件、附件、照片（研究者条目
+  以 `portrait_path` 明选的照片除外，见[研究者身份与公开字段](#研究者身份与公开字段)）、视频、
   统计、成员名单与联系方式、机构与履历、内部置信度、冲突分析、研究备注、来源 ID、日志、问题记录、本地路径。
 - 来源之间存在冲突时，公开数据只保留能够共同支持的最小事实，不在网站上代替研究系统作出裁决。
 - 研究记录中的日期是历史事实，不是网站的发布或更新时间。
@@ -135,7 +136,7 @@ publication 只选择哪个 person 成为公开研究者，并提供中文姓名
 `name_original`、`title_zh` 和 `summary_zh`。不读取 works master、internet source index 或 researcher 精选作品。
 
 publication 严格只接受 `public_id`、`publication_scope`、`kind`、`record_path`、`record_id`、
-`title_zh`、`summary_zh`、`resource_kinds` 与可选 `editorial_path`。`source_path`、`author_zh`、`author_original`、`works`
+`title_zh`、`summary_zh`、`resource_kinds` 与可选 `editorial_path`、`portrait_path`。`source_path`、`author_zh`、`author_original`、`works`
 及 `include_roles`、`include_research_fields`、`include_latin_name` 等额外字段均拒绝，不提供兼容路径。
 
 | 公开字段 | 来源与范围 |
@@ -147,6 +148,14 @@ publication 严格只接受 `public_id`、`publication_scope`、`kind`、`record
 | 可选 `latinName` | person 的 `name_latin` |
 | 可选 `roles`、`researchFields` | person 的 `roles`、`research_fields`；属于固定允许字段，不由 `include_*` 开关选择 |
 | `resources[].kind`、`resources[].url` | publication 的 `resource_kinds` 明选，URL 只来自 person 的对应资源 |
+| 可选 `portrait` | `portrait_path` 选定的照片，生成文件名为 `<public_id>.<jpg\|png\|webp>` |
+
+`portrait_path` 相对 private 根目录，只能选择 `people/` 下的单个 `jpg`、`jpeg`、`png` 或 `webp`
+文件，不扫描目录，不读取其他照片。选择即公开决定：private 须在写入该字段前确认照片的公开授权，
+权利证据留在 private。同步器把照片复制到 `.website-input/portraits/`（伊里因科夫总页照片共用该目录），撤回选择时一并删除；
+源路径不输出。构建时照片小于 560×747 即失败。页面按 3:4 自上而下裁切显示：宽屏与中屏为 160×213，
+距正文右边线 24px，下边界与第一节标题（通常是“简介”，没有简介时是“本站译文”）对齐，向上伸到页首右侧；
+面包屑与页首为照片让出右侧空间。窄屏（≤600px）位于姓名下方、第一节标题之上，宽度等于行宽，最宽 560px。未选择照片的研究者不显示照片位置，也不使用占位图。
 
 资源种类只允许 `personal`、`orcid`、`institution`，选择不得重复；未知种类、所选资源缺失或无效
 `http(s)` URL 均使同步失败。未选择的资源不输出，中文显示标签仅由页面层提供，不把资源统一称为官网。
@@ -532,16 +541,26 @@ RSS 只复用已有小组公开记录与动态的日期、摘要和链接，不�
 ## Ilyenkov 总页发布
 
 `records` 中的 `ilyenkov_profile` 只接受 `public_id`、`publication_scope`、`kind`、
-`record_path`、`record_id`、`title_zh`、`birth_record_id`、`editorial_path`。
+`record_path`、`record_id`、`title_zh`、`birth_record_id`、`editorial_path` 与可选 `resource_kinds`、
+`portrait_path`、`portrait_credit_zh`。
 `record_path` 必须为 `people/persons.json`；`record_id` 必须唯一解析为 person_id。
 `birth_record_id` 必须唯一解析为已获准生成的 biography 记录，不能指向其他类型或未公开记录。
 人物原名取 canonical `name_original`；生年取所选出生记录日期，死亡年份取 canonical `death_year`。
 只允许一个获准的总页 profile。成稿路径沿用 `web/editorial/<slug>.json` 及实际文件边界。
+`resource_kinds` 明选外部资料入口，目前只允许 `wikipedia_zh`；URL 只取 canonical person 的
+`resources` 中对应项，必须为 `https`。未知、重复或缺失的资源使同步失败；未选择时不输出 `resources`，
+页面也不显示入口。外部链接只用于资料定位，网站不摘录维基百科文字。
+`portrait_path` 与 `portrait_credit_zh` 必须同时出现：照片沿用研究者照片的选择规则、`portraits/` 生成目录与
+560×747 最小尺寸，生成文件名为 `<public_id>.<ext>`；单行署名随照片显示为“照片：<署名>”。授权证据
+（例如家属授权）留在 private，署名只说明公开时须注明的来源。照片显示在维基百科卡片顶部，3:4 自上而下裁切：
+宽屏 160×213，窄屏铺满行宽；有维基条目时照片与卡片标题一起链到条目。
 
 成稿只接受非空短摘要 `summary`、非空单行 `description`、非空段落数组 `introduction` 与
 有序 `entrances` 数组。入口只接受 `target`、`label`、`summary`；target 为 life、timeline、
 works、circle，不得重复。入口数组可以为空，不保存路由、事件或作品清单。
 介绍中的 `{{identity}}`、`{{originalName}}`、`{{lifespan}}` 只引用当前获准身份投影；未知引用失败。
+第一段必须以 `{{identity}}（{{originalName}}，{{lifespan}}）` 起首：总页把姓名排成第一段段首的 h1，
+原文名与生卒年随后，不再另设页首；起首不符时构建失败。
 成稿不另存姓名、生卒年或 canonical 记录副本，不扩大发布范围。
 未选择或非 website_public 条目不读取成稿；撤回后清除生成 profile，不保留 fallback。
 

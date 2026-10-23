@@ -31,7 +31,7 @@ private/web/publication.json → records + timeline + works_catalog + life + cir
 条目指定的结构化记录 + 明确选择的公开来源与成稿
   │  scripts/sync-research-records.mjs
   ▼
-.website-input/research-records.json
+.website-input/research-records.json + portraits/<public_id>.<ext>
   │  src/lib/research-records.ts 校验并适配
   ▼
 人物、年表、作品目录与研究栏目静态页面
@@ -87,7 +87,8 @@ private work.authors[]             public generated article
 `researcher_profile` 按 `record_path: people/persons.json`、`record_id = person_id` 唯一定位人物。
 中文姓名和 summary 来自 publication，其他允许字段取自该 person；资源 URL 按 `resource_kinds`
 明确选择。未知、重复、缺失或非法资源使同步失败，不用 works master、source index 或精选作品定位。
-允许字段及拒绝规则见[研究者身份与公开字段](PUBLICATION.md#研究者身份与公开字段)。
+可选 `portrait_path` 明选 `people/` 下的一张照片，同步器复制到 `portraits/`，页面经
+`/research/researchers/<slug>/portrait.<ext>` 输出。允许字段及拒绝规则见[研究者身份与公开字段](PUBLICATION.md#研究者身份与公开字段)。
 
 ```text
 private person.person_id
@@ -275,6 +276,8 @@ publication sync → astro check → astro build → search:index → vitest run
 介绍只允许 `{{identity}}`、`{{originalName}}`、`{{lifespan}}` 三种显式引用，
 同步时以获准人物事实投影替换，未知引用失败；不读取或发布任意被提及的研究记录。
 首页消费短摘要与入口名称，总页消费完整介绍与入口导语；子页继续消费原有共享集合。
+可选 `resource_kinds` 明选 person 的外部资料入口（目前为 `wikipedia_zh`），总页以第一段右侧的卡片链接；
+可选 `portrait_path` 与 `portrait_credit_zh` 成对选择照片及署名，照片显示在卡片顶部，经 `/ilyenkov/portrait.<ext>` 输出。
 撤回发布条目后删除生成 `ilyenkov`，不回退到 public 文字；需要该资料的页面缺少输入时构建失败。
 
 ## 文章搜索

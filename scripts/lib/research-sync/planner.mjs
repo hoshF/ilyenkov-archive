@@ -1,4 +1,4 @@
-import { existsSync, realpathSync } from 'node:fs';
+import { existsSync, realpathSync, statSync } from 'node:fs';
 import path from 'node:path';
 import { publicationRelative } from '../paths.mjs';
 import {
@@ -41,10 +41,13 @@ const readingsSeriesPublicationFields = new Set([
 ]);
 const personsRelative = 'people/persons.json';
 const researcherResourceKinds = new Set(['personal', 'orcid', 'institution']);
+const ilyenkovResourceKinds = new Set(['wikipedia_zh']);
 const researcherPublicationFields = new Set([
   'public_id', 'publication_scope', 'kind', 'record_path', 'record_id',
-  'title_zh', 'summary_zh', 'resource_kinds', 'editorial_path',
+  'title_zh', 'summary_zh', 'resource_kinds', 'editorial_path', 'portrait_path',
 ]);
+// 研究者照片只能由 researcher 条目逐一选择 people/ 下的单个图片文件；选择本身即 private 的公开决定。
+const portraitPathPattern = /^people\/(?:[a-z0-9]+(?:-[a-z0-9]+)*\/)+[a-z0-9]+(?:[-_][a-z0-9]+)*\.(jpe?g|png|webp)$/i;
 const supportedKinds = new Set([
   'biography_event',
   'military_service',
@@ -497,7 +500,12 @@ function adaptCongress({ entry, label, publicId, recordData, recordId, title, so
   };
 }
 
-export function plannedResearchRecords({ projectRoot, researchRoot }) {
+export function plannedResearchRecords(options) {
+  return plannedResearchOutputs(options).records;
+}
+
+/** 研究记录与随之公开的研究者照片：照片以生成文件名为键，值为 private 中的源文件路径。 */
+export function plannedResearchOutputs({ projectRoot, researchRoot }) {
   if (researchRoot === projectRoot) fail('Ilyenkov source cannot be the public repository');
   const readJson = (relative, label) => readResearchJson(researchRoot, relative, label);
   const readEditorial = (relative, label) => {
@@ -529,6 +537,21 @@ export function plannedResearchRecords({ projectRoot, researchRoot }) {
         } : {}),
       },
     };
+  };
+  const portraits = new Map();
+  const selectedPortrait = (entry, label, publicId) => {
+    if (!Object.hasOwn(entry, 'portrait_path')) return {};
+    const relative = requiredString(entry, 'portrait_path', label);
+    const match = portraitPathPattern.exec(relative);
+    if (!match) fail(`${label}: portrait_path must select a jpg, png or webp file under people/`);
+    const file = resolveResearchPath(researchRoot, relative, `${label} portrait_path`);
+    if (!existsSync(file) || !statSync(file).isFile()) fail(`missing ${relative}`);
+    const peopleRoot = `${path.join(realpathSync(researchRoot), 'people')}${path.sep}`;
+    if (!realpathSync(file).startsWith(peopleRoot)) fail(`${label}: portrait_path escapes people`);
+    const extension = match[1].toLowerCase() === 'jpeg' ? 'jpg' : match[1].toLowerCase();
+    const filename = `${publicId}.${extension}`;
+    portraits.set(filename, file);
+    return { portrait: filename };
   };
   const publication = readJson(publicationRelative, publicationRelative);
   if (!Array.isArray(publication.records)) {
@@ -577,6 +600,7 @@ export function plannedResearchRecords({ projectRoot, researchRoot }) {
           recordData: readJson(personsRelative, `${label} record_path`),
         }),
         ...selectedEditorial(entry, label, kind),
+        ...selectedPortrait(entry, label, publicId),
       });
       continue;
     }
@@ -793,7 +817,7 @@ export function plannedResearchRecords({ projectRoot, researchRoot }) {
   if (profileSelection) {
     const { entry, label, publicId } = profileSelection;
     allowedFields(entry, ['public_id', 'publication_scope', 'kind', 'record_path', 'record_id',
-      'title_zh', 'birth_record_id', 'editorial_path'], label);
+      'title_zh', 'birth_record_id', 'editorial_path', 'resource_kinds', 'portrait_path', 'portrait_credit_zh'], label);
     if (entry.record_path !== personsRelative) fail(`${label}: profile record_path must use ${personsRelative}`);
     const registry = object(readJson(personsRelative, label), label);
     if (!Array.isArray(registry.records)) fail(`${label}: person records must be an array`);
@@ -818,8 +842,33 @@ export function plannedResearchRecords({ projectRoot, researchRoot }) {
     ));
     if (!Array.isArray(manuscript.entrances)) fail(`${label}: entrances must be an array`);
     const targets = new Set();
+    // 外部资料入口只取 publication 明选的种类，URL 只来自 canonical person 的对应资源。
+    let resources;
+    if (Object.hasOwn(entry, 'resource_kinds')) {
+      if (!Array.isArray(entry.resource_kinds)) fail(`${label}: resource_kinds must be an array`);
+      const selectedResources = new Set();
+      const resourceUrls = entry.resource_kinds.length ? object(person.resources, `${label} person resources`) : {};
+      resources = entry.resource_kinds.map((kind) => {
+        if (!ilyenkovResourceKinds.has(kind)) fail(`${label}: resource_kinds: unsupported value`);
+        if (selectedResources.has(kind)) fail(`${label}: resource_kinds: duplicate kind`);
+        selectedResources.add(kind);
+        if (!Object.hasOwn(resourceUrls, kind)) fail(`${label}: missing selected resource ${kind}`);
+        const url = publicUrl(resourceUrls[kind], `${label} person resources.${kind}`);
+        if (new URL(url).protocol !== 'https:') fail(`${label}: resource ${kind} must use https`);
+        return { kind, url };
+      });
+    }
+    // 照片与署名成对出现：选择照片即公开决定，署名是页面上必须随照片显示的权利说明。
+    if (Object.hasOwn(entry, 'portrait_path') !== Object.hasOwn(entry, 'portrait_credit_zh')) {
+      fail(`${label}: portrait_path and portrait_credit_zh must be selected together`);
+    }
+    const portrait = selectedPortrait(entry, label, publicId);
+    const portraitCredit = portrait.portrait ? requiredString(entry, 'portrait_credit_zh', label) : undefined;
     records.ilyenkov = {
       id: publicId, personId, identity, originalName, lifespan,
+      ...(resources ? { resources } : {}),
+      ...portrait,
+      ...(portraitCredit ? { portraitCredit } : {}),
       summary: requiredString(manuscript, 'summary', label),
       description: requiredString(manuscript, 'description', label),
       introduction,
@@ -837,5 +886,5 @@ export function plannedResearchRecords({ projectRoot, researchRoot }) {
       }),
     };
   }
-  return records;
+  return { records, portraits };
 }

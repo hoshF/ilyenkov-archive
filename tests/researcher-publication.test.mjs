@@ -1,10 +1,10 @@
 import { spawnSync } from 'node:child_process';
-import { cpSync, existsSync, mkdirSync, mkdtempSync, readFileSync, rmSync, writeFileSync } from 'node:fs';
+import { cpSync, existsSync, mkdirSync, mkdtempSync, readFileSync, rmSync, symlinkSync, writeFileSync } from 'node:fs';
 import { tmpdir } from 'node:os';
 import path from 'node:path';
 import { afterEach, describe, expect, it } from 'vitest';
 import { writeGenerated } from '../scripts/lib/sync.mjs';
-import { plannedResearchRecords } from '../scripts/lib/research-sync/planner.mjs';
+import { plannedResearchOutputs, plannedResearchRecords } from '../scripts/lib/research-sync/planner.mjs';
 import { ResearcherSchema, ResearchRecordsSchema } from '../src/lib/research-records';
 import { researchRoot } from './helpers/publication';
 
@@ -30,14 +30,14 @@ function fixture() {
     relativePaths.add(selection.editorial_path);
   }
   selectedEntries.forEach((entry) => {
-    for (const field of ['record_path', 'source_path', 'editorial_path']) {
+    for (const field of ['record_path', 'source_path', 'editorial_path', 'portrait_path']) {
       if (entry[field]) relativePaths.add(entry[field]);
     }
   });
   for (const relative of relativePaths) {
     const target = path.join(sourceRoot, relative);
     mkdirSync(path.dirname(target), { recursive: true });
-    writeFileSync(target, readFileSync(path.join(researchRoot, relative), 'utf8'));
+    writeFileSync(target, readFileSync(path.join(researchRoot, relative)));
   }
   return {
     root,
@@ -51,6 +51,12 @@ function fixture() {
       });
     },
     generated: () => readJson(path.join(root, 'public'), '.website-input/research-records.json'),
+    generatedPortrait: (filename) => path.join(root, 'public', '.website-input', 'portraits', filename),
+    writeBytes(relative, content) {
+      const target = path.join(sourceRoot, relative);
+      mkdirSync(path.dirname(target), { recursive: true });
+      writeFileSync(target, content);
+    },
     remove: (relative) => rmSync(path.join(sourceRoot, relative)),
     read: (relative) => readJson(sourceRoot, relative),
     write(relative, data) {
@@ -64,6 +70,7 @@ function fixture() {
       this.write(relative, data);
     },
     plan: () => plannedResearchRecords({ projectRoot, researchRoot: sourceRoot }),
+    outputs: () => plannedResearchOutputs({ projectRoot, researchRoot: sourceRoot }),
   };
 }
 
@@ -414,4 +421,79 @@ it('cleans withdrawn researcher editorial through the actual sync CLI without ch
   const check = input.run(true);
   expect(check.status, check.stderr).toBe(0);
   expect(check.stdout).toContain('written=0 stale=0');
+});
+
+describe('explicit researcher portrait selection', () => {
+  const portraitPath = 'people/maidansky/portrait.jpeg';
+  const portraitBytes = Buffer.from('PORTRAIT_FIXTURE_BYTES');
+  const selectPortrait = (input, relative = portraitPath) => {
+    input.mutate(publicationPath, (manifest) => { researcherEntry(manifest).portrait_path = relative; });
+  };
+
+  const researcherPortraits = (portraits) => [...portraits.keys()].filter((name) => name.startsWith('researcher-'));
+
+  it('publishes no researcher portrait unless the researcher entry selects one', () => {
+    const { records, portraits } = fixture().outputs();
+    const unselected = new Set(publication.records
+      .filter((entry) => entry.kind === 'researcher_profile' && !entry.portrait_path)
+      .map((entry) => entry.public_id));
+    const researchers = records.researchers.filter((researcher) => unselected.has(researcher.id));
+    expect(researchers.every((researcher) => !Object.hasOwn(researcher, 'portrait'))).toBe(true);
+    expect(researcherPortraits(portraits).filter((name) => unselected.has(name.replace(/\.[a-z]+$/, '')))).toEqual([]);
+  });
+
+  it('names the selected portrait by public ID and keeps the private path out of generated data', () => {
+    const input = fixture();
+    input.writeBytes(portraitPath, portraitBytes);
+    selectPortrait(input);
+    const { records, portraits } = input.outputs();
+    const researcher = records.researchers.find((record) => record.id === researcherId);
+    expect(researcher.portrait).toBe(`${researcherId}.jpg`);
+    expect(researcherPortraits(portraits)).toContain(`${researcherId}.jpg`);
+    expect(readFileSync(portraits.get(`${researcherId}.jpg`))).toEqual(portraitBytes);
+    expect(JSON.stringify(records)).not.toContain(portraitPath);
+    expect(ResearcherSchema.safeParse(researcher).success).toBe(true);
+  });
+
+  it.each([
+    ['research/maidansky/portrait.jpg', /under people\//],
+    ['people/maidansky/portrait.gif', /under people\//],
+    ['people/portrait.jpg', /under people\//],
+    ['people/maidansky/../../web/portrait.jpg', /under people\//],
+    ['people/maidansky/missing.jpg', /missing people\/maidansky\/missing.jpg/],
+  ])('rejects portrait_path %s', (relative, message) => {
+    const input = fixture();
+    selectPortrait(input, relative);
+    expect(() => input.plan()).toThrow(message);
+  });
+
+  it('rejects a selected portrait that links outside people', () => {
+    const input = fixture();
+    input.writeBytes('web/outside.jpg', portraitBytes);
+    const link = path.join(input.root, 'research-source', 'people', 'maidansky', 'linked.jpg');
+    mkdirSync(path.dirname(link), { recursive: true });
+    symlinkSync(path.join(input.root, 'research-source', 'web', 'outside.jpg'), link);
+    selectPortrait(input, 'people/maidansky/linked.jpg');
+    expect(() => input.plan()).toThrow(/portrait_path escapes people/);
+  });
+
+  it('copies the selected portrait through the sync CLI and removes it when the selection is withdrawn', () => {
+    const input = fixture();
+    input.writeBytes(portraitPath, portraitBytes);
+    selectPortrait(input);
+    const first = input.run();
+    expect(first.status, first.stderr).toBe(0);
+    const generated = input.generatedPortrait(`${researcherId}.jpg`);
+    expect(readFileSync(generated)).toEqual(portraitBytes);
+    expect(input.run(true).stdout).toContain('written=0 stale=0');
+
+    input.mutate(publicationPath, (manifest) => { delete researcherEntry(manifest).portrait_path; });
+    expect(input.run(true).status).toBe(1);
+    expect(existsSync(generated)).toBe(true);
+    const second = input.run();
+    expect(second.status, second.stderr).toBe(0);
+    expect(existsSync(generated)).toBe(false);
+    expect(input.generated().researchers.some((researcher) => Object.hasOwn(researcher, 'portrait'))).toBe(false);
+    expect(input.run(true).stdout).toContain('written=0 stale=0');
+  });
 });

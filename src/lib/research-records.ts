@@ -5,6 +5,8 @@ import { buildCache } from './cache';
 
 const projectRoot = process.cwd();
 const recordsPath = path.join(projectRoot, '.website-input', 'research-records.json');
+const portraitsRoot = path.join(projectRoot, '.website-input', 'portraits');
+const portraitFilePattern = /^[a-z0-9]+(?:-[a-z0-9]+)*\.(?:jpg|png|webp)$/;
 
 const PublicUrlSchema = z.string().refine((value) => {
   try {
@@ -148,6 +150,7 @@ export const ResearcherSchema = z.object({
   summary: z.string().trim().min(1),
   roles: z.array(z.string().trim().min(1)).min(1).optional(),
   researchFields: z.array(z.string().trim().min(1)).min(1).optional(),
+  portrait: z.string().regex(portraitFilePattern).optional(),
   resources: z.array(z.object({
     kind: z.enum(['personal', 'orcid', 'institution']),
     url: PublicUrlSchema,
@@ -232,6 +235,14 @@ export const IlyenkovProfileSchema = z.object({
   identity: EditorialLineSchema,
   originalName: EditorialLineSchema,
   lifespan: z.string().regex(/^\d{4}—\d{4}$/),
+  resources: z.array(z.object({
+    kind: z.enum(['wikipedia_zh']),
+    url: PublicUrlSchema,
+  }).strict()).refine((resources) => (
+    new Set(resources.map((resource) => resource.kind)).size === resources.length
+  ), { message: 'Ilyenkov resources must have unique kinds' }).optional(),
+  portrait: z.string().regex(portraitFilePattern).optional(),
+  portraitCredit: EditorialLineSchema.optional(),
   summary: EditorialLineSchema,
   description: EditorialLineSchema,
   introduction: z.array(z.string().trim().min(1)).min(1),
@@ -241,7 +252,9 @@ export const IlyenkovProfileSchema = z.object({
     summary: EditorialLineSchema,
   }).strict()).refine((entrances) => new Set(entrances.map((entrance) => entrance.target)).size === entrances.length,
     { message: 'Ilyenkov entrance targets must be unique' }),
-}).strict();
+}).strict().refine((profile) => (profile.portrait === undefined) === (profile.portraitCredit === undefined), {
+  message: 'Ilyenkov portrait and its credit must be published together',
+});
 
 export const ResearchRecordsSchema = z.object({
   ilyenkov: IlyenkovProfileSchema.optional(),
@@ -361,6 +374,7 @@ export type PublicReadingsSeries = z.infer<typeof ReadingsSeriesSchema>;
 export type PublicIfiNetwork = z.infer<typeof IfiNetworkSchema>;
 export type PublicIfiSymposium = z.infer<typeof IfiSymposiumSchema>;
 export type PublicResearcher = z.infer<typeof ResearcherSchema>;
+export type PublicIlyenkovProfile = z.infer<typeof IlyenkovProfileSchema>;
 export type PublicResearchSite = z.infer<typeof ResearchSiteSchema>;
 export type PublicTimelineRecord = PublicActivity & {
   category: 'biography' | 'military' | 'congress';
@@ -488,6 +502,12 @@ export function getPublicIfiSymposiums(): PublicIfiSymposium[] {
 
 export function getPublicResearchers(): PublicResearcher[] {
   return [...getPublicResearchRecords().researchers];
+}
+
+/** 人物照片在生成输入中的文件；文件名来自已校验的 researcher 或伊里因科夫记录。 */
+export function resolvePortraitPath(portrait: string): string {
+  if (!portraitFilePattern.test(portrait)) throw new Error(`Invalid portrait: ${portrait}`);
+  return path.join(portraitsRoot, portrait);
 }
 
 export function getPublicResearchSites(): PublicResearchSite[] {
