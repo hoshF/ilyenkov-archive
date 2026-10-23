@@ -46,8 +46,8 @@ const toc = readingToc(issue.headings, issue.html);
       <div class="prose" set:html={issue.html} />
     </article>
 
-    <nav class="document-nav" aria-label="小组工作导航">
-      <p class="document-nav__back"><a href="/group/">« 返回小组工作</a></p>
+    <nav class="document-nav" aria-label="小组通讯导航">
+      <p class="document-nav__back"><a href="/group/">« 返回小组通讯</a></p>
       {(previous || next) && (
         <div class="document-nav__siblings">
           <span class="document-nav__prev">{previous && <a href={previous.route}>« 第 {previous.issue} 期</a>}</span>

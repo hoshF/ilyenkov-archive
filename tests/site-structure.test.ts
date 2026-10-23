@@ -623,7 +623,7 @@ describe('website-approved data adapter', () => {
     expect(h1At).toBeLessThan(proseAt);
 
     // 篇末保留返回小组与相邻期导航。
-    expect(main.match(/返回小组工作/g)).toHaveLength(1);
+    expect(main.match(/返回小组通讯/g)).toHaveLength(1);
     expect(content).not.toContain('class="breadcrumbs"');
     expect(main).toContain('href="/group/"');
   });
@@ -1266,7 +1266,7 @@ describe('public navigation', () => {
   it('opens Group with its names in the shared section style and keeps one entrance per destination', () => {
     const main = readFileSync(builtRoutePath('/group'), 'utf8').match(/<main>([\s\S]*?)<\/main>/)![1];
     expect([...main.matchAll(/<h1\b/g)]).toHaveLength(1);
-    expect(main).toContain('<h2 id="group-issues-heading">小组工作</h2>');
+    expect(main).toContain('<h2 id="group-issues-heading">小组通讯</h2>');
     expect(main).toContain('<h1 class="group-heading__title">中文伊里因科夫小组');
     expect(main).not.toContain(site.group.summary);
     expect(main).toContain('<span>Китайская группа по изучению Ильенкова</span> · <span>Chinese Ilyenkov Group</span>');
@@ -1274,10 +1274,11 @@ describe('public navigation', () => {
     expect(main).not.toContain('entrance-card');
     const intro = main.match(/<header\b[^>]*class="page-header group-heading"[^>]*>([\s\S]*?)<\/header>/)![1];
     expect(intro).not.toContain('class="lead"');
-    // 栏目名与档案目录名、首页定位句同一字形。
-    for (const property of ['color', 'font-size', 'font-weight', 'letter-spacing', 'line-height']) {
+    // 小组名称与档案目录名、首页定位句同一字号和字形，但用正文黑色。
+    for (const property of ['font-size', 'font-weight', 'letter-spacing', 'line-height']) {
       expect(declaration('.group-heading__title', property)).toBe(declaration('.home-positioning', property));
     }
+    expect(declaration('.group-heading__title', 'color')).toBe('var(--ink)');
     // 关于小组本身的入口只在左栏：小组介绍与关注与联系；正文栏不再另设入口行。
     const about = main.match(/<aside aria-labelledby="group-about-heading">([\s\S]*?)<\/aside>/)![1];
     expect(about).toContain('>关于小组</p>');
@@ -1304,6 +1305,9 @@ describe('public navigation', () => {
     expect(section[2]).toContain(`<h2 id="${section[1]}">`);
     expect(section[2]).toContain(`<span class="group-announcement__label">公告</span> · <time datetime="${published}">${published}</time>`);
     expect(section[2].indexOf('group-announcement__meta')).toBeLessThan(section[2].indexOf('<h2'));
+    // 公告置顶：排在小组名称与小组通讯之前。
+    expect(main.indexOf('class="group-announcement"')).toBeLessThan(main.indexOf('<h1 class="group-heading__title"'));
+    expect(main.indexOf('<h1 class="group-heading__title"')).toBeLessThan(main.indexOf('class="group-issues"'));
   });
 
   it('keeps the group page self-contained and the homepage free of site-scope copy', () => {
@@ -1422,19 +1426,25 @@ describe('group work channel', () => {
     expect(template).not.toContain('<ol class="record-list"');
     expect(declaration('.record-list', 'list-style')).toBe('none');
 
-    // 每条只有两层：期号 + 日期，然后题名。
+    // 每条三层：期号、类型与日期，题名，一句摘要。
     expect(template).toMatch(
-      /<p class="record__meta">第 \{issue\.issue\} 期 · <time datetime=\{issue\.published\}>\{issue\.published\}<\/time><\/p>/,
+      /<p class="record__meta">第 \{issue\.issue\} 期 · \{issue\.kind\} · <time datetime=\{issue\.published\}>\{issue\.published\}<\/time><\/p>/,
     );
     // 题名是唯一入口：它就是那条路由。
     expect(template).toContain('<p class="record__title"><a href={issue.route}>{issue.title}</a></p>');
+    expect(template).toContain('<p class="record__summary">{issue.summary}</p>');
+    const list = readFileSync(builtRoutePath('/group'), 'utf8');
+    for (const issue of issues) {
+      expect(list).toContain(`第 ${issue.issue} 期 · ${issue.kind} · `);
+      expect(list).toContain(`<p class="record__summary">${issue.summary}</p>`);
+    }
 
-    // 列表页不展示摘要、类型和重复入口。
-    for (const dropped of ['record__summary', 'record__links', '阅读全文', 'issue.kind', 'issue.summary']) {
+    // 列表页不重复入口。
+    for (const dropped of ['record__links', '阅读全文']) {
       expect(template, `group list should not render ${dropped}`).not.toContain(dropped);
     }
 
-    // kind 与 summary 仍在记录里；详情页照旧展示，本轮只改列表。
+    // kind 与 summary 是每期的必填字段；详情页同样展示。
     for (const issue of issues) {
       expect(issue.kind.length).toBeGreaterThan(0);
       expect(issue.summary.length).toBeGreaterThan(0);
@@ -1726,7 +1736,7 @@ describe('directory spacing', () => {
   it('uses the section tier for group records and keeps directory headings close to entries', () => {
     expect(declaration('.group-issues > h2', 'font-size')).toBe('var(--text-section)');
     expect(declaration('.group-issues > h2', 'margin')).toBe('0 0 16px');
-    expect(declaration('.group-index .section-layout__intro', 'margin-bottom')).toBe('24px');
+    expect(declaration('.group-index .section-layout__intro', 'margin-bottom')).toBe('40px');
     expect(declaration('.books-shelf .book-category > h2', 'margin-bottom')).toBe('16px');
     expect(declaration('.record-list', 'gap')).toBe('32px');
   });

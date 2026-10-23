@@ -12,39 +12,40 @@ if (!announcementHeading) throw new Error('Group announcement requires a section
 
 <BaseLayout title={site.group.name} description={`${site.group.name}的公共工作档案，按期记录已公开的研究、讨论、资料整理与阶段性成果。`}>
   <SectionLayout pinned modifier="section-index centered-rail group-index">
-    {/* 关于小组本身的固定入口放在左栏；正文栏只放公告与工作记录。 */}
+    {/* 关于小组本身的固定入口放在左栏；正文栏依次是公告、小组名称与小组通讯。 */}
     <ResourceLinks slot="aside" id="group-about-heading" label="关于小组" links={[
       { label: '小组介绍', href: '/group/0/' },
       { label: '关注与联系', href: '/contact/' },
     ]} />
-    {/* 栏目名沿用首页定位句的字形，与档案目录名一致；外文名并作一行。 */}
+    {/* 公告置顶，排在小组名称之前；首页按公告标题的 id 链到这里。 */}
+    <section class="group-announcement" slot="intro" aria-labelledby={announcementHeading.id}>
+      <p class="group-announcement__meta"><span class="group-announcement__label">公告</span> · <time datetime={announcement.published}>{announcement.published}</time></p>
+      <div class="prose prose--section" set:html={announcement.html} />
+    </section>
+    {/* 小组名称沿用首页定位句的字号，用正文黑色：这一页介绍的就是小组本身。外文名并作一行。 */}
     <header class="page-header group-heading" slot="intro">
       <h1 class="group-heading__title">{site.group.name}</h1>
       <p class="group-heading__names"><span>{site.group.originalName}</span> · <span>{site.group.englishName}</span></p>
     </header>
 
-    <section class="group-announcement" aria-labelledby={announcementHeading.id}>
-      <p class="group-announcement__meta"><span class="group-announcement__label">公告</span> · <time datetime={announcement.published}>{announcement.published}</time></p>
-      <div class="prose prose--section" set:html={announcement.html} />
-    </section>
-
     <section class="group-issues" aria-labelledby="group-issues-heading">
-      <h2 id="group-issues-heading">小组工作</h2>
+      <h2 id="group-issues-heading">小组通讯</h2>
 
       {issues.length > 0 ? (
-        /* 按期排列的工作目录：每条只留“期号 + 日期”和题名，题名是唯一入口。
-           没有视觉编号、摘要和“阅读全文”——列表只显示帮助辨认期目的信息。 */
+        /* 按期排列的通讯目录：期号、类型与日期，题名，一句摘要。题名是唯一入口，
+           没有视觉编号和“阅读全文”。 */
         <ul class="record-list" role="list">
           {issues.map((issue) => (
             <li>
-              <p class="record__meta">第 {issue.issue} 期 · <time datetime={issue.published}>{issue.published}</time></p>
+              <p class="record__meta">第 {issue.issue} 期 · {issue.kind} · <time datetime={issue.published}>{issue.published}</time></p>
               <p class="record__title"><a href={issue.route}>{issue.title}</a></p>
+              <p class="record__summary">{issue.summary}</p>
             </li>
           ))}
         </ul>
       ) : (
         <div class="prose prose--section">
-          <p>暂无公开的小组工作记录。</p>
+          <p>暂无公开的小组通讯。</p>
         </div>
       )}
     </section>

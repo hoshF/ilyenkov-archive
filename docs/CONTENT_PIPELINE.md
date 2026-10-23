@@ -209,7 +209,7 @@ Readings 来源 URL 按 `current → original → archive → 既有 flat url` �
 
 ## public 编辑输入与缓存
 
-`editorial/` 的站点配置、小组工作与动态直接由 public 读取，不经过
+`editorial/` 的站点配置、小组通讯与动态直接由 public 读取，不经过
 private 同步通道，也不进入 `.website-input/`。站点配置由 `src/lib/editorial.ts` 校验。`summary` 与 `introduction` 的使用分工见架构说明；
 公开编辑叙述的权限边界见发布说明的[公开编辑文字](PUBLICATION.md#公开编辑文字)。
 
@@ -232,7 +232,7 @@ year DESC → title_zh ASC（zh-Hans-CN）→ id ASC
 
 - **文本**：截取 Archive 前四项，显示题名、完整作者、原文年份与链接。
 - **研究**：读取 Maidansky、IFI、Readings 的公开 summary 与详情入口，不维护首页专属摘要。
-- **最近小组工作**：按 `published` 倒序，同日按期号倒序，截取最多三项。
+- **最近小组通讯**：按 `published` 倒序，同日按期号倒序，截取最多三项。
 - **近期动态**：读取同一 updates 集合的最近四项；`/updates/` 展示完整列表。
 
 这些数量是当前页面的展示限制，不是数据 schema 要求。日期不得由原文年份、历史事件、Git 提交或

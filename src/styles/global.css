@@ -264,13 +264,13 @@ h2, h3, h4 { text-wrap: balance; line-height: 1.3; }
 .section-index { --section-top: var(--masthead-gap); }
 
 .home-page > .home-opening + section, .home-page > section + section { margin-top: 72px; }
-.home-positioning, .home-page h2, .archive-heading__title, .ilyenkov-entrances__label, .group-heading__title {
+.home-positioning, .home-page h2, .archive-heading__title, .ilyenkov-entrances__label {
   color: var(--muted); font-size: var(--text-home-section); letter-spacing: .03em;
   font-weight: 500; line-height: 1.3;
 }
 .home-page h2 { margin: 0; padding: 0 0 20px; }
 
-/* 首页文本、研究与小组工作沿用同一轻量记录节奏。 */
+/* 首页文本、研究与小组通讯沿用同一轻量记录节奏。 */
 .home-summary { margin: 0 0 22px; font-size: var(--text-body); line-height: 1.65; }
 .home-announcement {
   display: flex; align-items: baseline; gap: 12px; margin: 0 0 22px;
@@ -818,13 +818,16 @@ h2, h3, h4 { text-wrap: balance; line-height: 1.3; }
 }
 
 /* 栏目列表的垂直节奏；实体详情与连续阅读保留各自规则。 */
-.group-index .section-layout__intro { margin-bottom: 24px; }
-/* 小组页首：栏目名与档案目录名同一字形，外文名一行小字。 */
+/* 页首（公告与小组名称）和小组通讯之间多留一段，身份与列表分成两部分。 */
+.group-index .section-layout__intro { margin-bottom: 40px; }
+/* 小组页首：与档案目录名同一字形，但用正文黑色——这一页介绍的就是小组本身；外文名一行小字。 */
+.group-heading__title { color: var(--ink); font-size: var(--text-home-section); letter-spacing: .03em; font-weight: 500; line-height: 1.3; }
 .group-heading__names { margin: 6px 0 0; color: var(--muted); font-size: var(--text-meta); line-height: 1.5; }
 /* 每个外文名不在中间折行，窄屏只在两个名字之间换行。 */
 .group-heading__names span { white-space: nowrap; }
 /* 公告不加底色和色条，上下细线框出范围；标题上方一行注明“公告”与公开日期。 */
-.group-announcement { margin: 0 0 48px; padding: 20px 0; border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); }
+/* 公告置顶，与下方小组名称隔开一段。 */
+.group-announcement { margin: 0 0 32px; padding: 20px 0; border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); }
 .group-announcement__meta { margin: 0 0 6px; color: var(--muted); font-size: var(--text-meta); line-height: 1.5; }
 .group-announcement__label { color: var(--accent); font-weight: 600; }
 .group-announcement .prose > h2:first-child { scroll-margin-top: 76px; }
