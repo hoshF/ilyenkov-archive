@@ -412,7 +412,7 @@ describe('website-approved data adapter', () => {
     // 内容链接不取消下划线：档案与首页题名、首页入口、书目来源、人物入口、研究条目、学术入口与资料入口。
     for (const selector of [
       '.record__title a', '.home-more a', '.record__links a', '.entrance-card__label',
-      '.research-hub .research-series h2 a', '.research-profile .section-layout__structured a',
+      '.research-hub .research-series h2 a', '.intro-links a',
       '.research-meetings__resources a',
     ]) {
       expect(declaration(selector, 'text-decoration'), selector).toBeUndefined();
@@ -912,15 +912,15 @@ describe('public navigation', () => {
     const read = (route: string) => readFileSync(path.join(process.cwd(), 'dist', route), 'utf8')
       .match(/<main>([\s\S]*?)<\/main>/)![1];
 
-    // 有功能左栏：Archive 的 facet rail、小组页的“关于小组”，译文页的页内目录。
+    // 有功能左栏：Archive 的 facet rail 与译文页的页内目录。
     const archive = read('archive/index.html');
     expect(archive).toContain('section-layout--rail');
     expect(archive).toContain('archive-facets');
     expect(archive).toContain('section-layout__aside');
     expect(archive).toContain('section-layout--pinned');
     const group = read('group/index.html');
-    expect(group).toContain('section-layout--rail');
-    expect(group).toContain('aria-labelledby="group-about-heading"');
+    expect(group).not.toContain('section-layout--rail');
+    expect(group).toContain('aria-label="关于小组"');
 
     // 没有功能左栏的页面不留空栏，也不留 --rail 网格：整页就是一条内容流。
     for (const route of [
@@ -931,6 +931,7 @@ describe('public navigation', () => {
       'ilyenkov/circle/index.html',
       'research/index.html',
       'books/index.html',
+      'group/index.html',
       'about/index.html',
     ]) {
       const main = read(route);
@@ -1336,15 +1337,14 @@ describe('public navigation', () => {
       expect(declaration('.group-heading__title', property)).toBe(declaration('.home-positioning', property));
     }
     expect(declaration('.group-heading__title', 'color')).toBe('var(--ink)');
-    // 关于小组本身的入口只在左栏：小组介绍、讨论社区与关注与联系；正文栏不再另设入口行。
-    const about = main.match(/<aside aria-labelledby="group-about-heading">([\s\S]*?)<\/aside>/)![1];
-    expect(about).toContain('>关于小组</p>');
+    // 关于小组的入口归入页首，小组介绍、讨论社区与联系方式各出现一次。
+    const about = main.match(/<nav class="intro-links" aria-label="关于小组">([\s\S]*?)<\/nav>/)![1];
     expect([...about.matchAll(/<a href="([^"]+)">([^<]*)<\/a>/g)].map(([, href, label]) => ({ href, label })))
       .toEqual([{ href: '/group/0/', label: '小组介绍' }, { href: site.forumUrl, label: '讨论社区' }, { href: '/contact/', label: '关注与联系' }]);
-    const content = main.slice(0, main.indexOf('class="section-layout__sidebar"'));
-    expect(content).not.toContain('href="/contact/"');
-    expect(main).toMatch(/class="container section-layout[^"]*\bcentered-rail\b/);
-    expect(declaration('.group-index .section-layout__structured a', 'color')).toBe('var(--ink-soft)');
+    expect(main).not.toContain('section-layout__sidebar');
+    expect(main.indexOf('class="intro-links"')).toBeGreaterThan(main.indexOf('group-heading__names'));
+    expect(main.indexOf('class="intro-links"')).toBeLessThan(main.indexOf('<section class="group-issues"'));
+    expect(declaration('.intro-links a', 'color')).toBe('var(--ink-soft)');
     expect(main).not.toContain('本页按期记录');
   });
 
@@ -1383,7 +1383,7 @@ describe('public navigation', () => {
     expect(pageSource('index.astro')).not.toContain('/about');
     const groupPage = pageSource('group/index.astro');
     expect(groupPage).toContain('<SectionLayout');
-    expect(groupPage).toContain("href: '/contact/'");
+    expect(readFileSync(builtRoutePath('/group/'), 'utf8')).toContain('href="/contact/"');
   });
 
   it('keeps the group pages on their own public editorial channel', () => {
@@ -1893,12 +1893,12 @@ describe('forum entrances', () => {
     expect(SiteSchema.safeParse({ ...source, forumUrl: 'https://example.org/forum/' }).success).toBe(true);
   });
 
-  it('links the forum from the homepage group area and the group page rail', () => {
+  it('links the forum from the homepage group area and the group page introduction', () => {
     const home = readFileSync(builtRoutePath('/'), 'utf8').match(/<main>([\s\S]*?)<\/main>/)![1];
     const group = home.match(/<section class="home-group"[\s\S]*?<\/section>/)![0];
     expect(group).toContain(`<a href="/group/">小组通讯</a> · <a href="${site.forumUrl}">讨论社区</a> · <a href="/contact/">关注与联系</a>`);
     const page = readFileSync(builtRoutePath('/group'), 'utf8');
-    const rail = page.match(/<aside aria-labelledby="group-about-heading">([\s\S]*?)<\/aside>/)![1];
+    const rail = page.match(/<nav class="intro-links" aria-label="关于小组">([\s\S]*?)<\/nav>/)![1];
     expect([...rail.matchAll(/<a href="([^"]+)">([^<]*)<\/a>/g)].map(([, href, label]) => ({ href, label }))).toEqual([
       { href: '/group/0/', label: '小组介绍' },
       { href: site.forumUrl, label: '讨论社区' },

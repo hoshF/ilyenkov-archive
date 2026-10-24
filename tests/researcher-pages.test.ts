@@ -57,7 +57,7 @@ describe('canonical researcher detail and research hub entry', () => {
     expect([...main.matchAll(/<h2\b[^>]*>([\s\S]*?)<\/h2>/g)]
       .map(([, content]) => textContent(content)))
       .toEqual(['简介', '本站译文']);
-    expect(html).toContain('section-layout__sidebar');
+    expect(html).not.toContain('section-layout__sidebar');
     expect(html).not.toMatch(/section-layout--indexed|class="section-layout__toc"/);
   });
 
@@ -94,6 +94,9 @@ describe('canonical researcher detail and research hub entry', () => {
       href: resource.url, label: resourceLabels[resource.kind],
     })));
     expect(textContent(resources)).toContain('学术入口');
+    const header = main.match(/<header class="page-header">([\s\S]*?)<\/header>/)![1];
+    expect(header).toContain(resources);
+    expect(header.indexOf('researcher-resources-heading')).toBeGreaterThan(header.indexOf('record__original'));
     for (const resource of researcher.resources) expect(links(main).filter((link) => link.href === resource.url)).toHaveLength(1);
     expect(textContent(resources)).not.toMatch(/官方网站|文章来源/);
     expect(resources).not.toMatch(/<img\b|<svg\b|<button\b/);

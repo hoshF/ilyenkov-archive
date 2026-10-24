@@ -4,7 +4,6 @@ import BaseLayout from '../../../layouts/BaseLayout.astro';
 import Breadcrumbs from '../../../components/Breadcrumbs.astro';
 import ResearchNav from '../../../components/ResearchNav.astro';
 import TextRecord from '../../../components/TextRecord.astro';
-import ResourceLinks from '../../../components/ResourceLinks.astro';
 import SectionLayout from '../../../components/SectionLayout.astro';
 import { getPublicResearchers, type PublicResearcher } from '../../../lib/research-records';
 import { getSiteData } from '../../../lib/site-data';
@@ -33,9 +32,7 @@ const resourceLabels: Record<PublicResearcher['resources'][number]['kind'], stri
 ---
 
 <BaseLayout title={researcher.name} description={researcher.summary}>
-  <SectionLayout modifier={`section-index entity-detail research-profile${portrait ? ' research-profile--portrait' : ''}`} pinned={researcher.resources.length > 0}>
-    {researcher.resources.length > 0 && <ResourceLinks slot="aside" id="researcher-resources-heading" label="学术入口"
-      links={researcher.resources.map((resource) => ({ label: resourceLabels[resource.kind], href: resource.url }))} />}
+  <SectionLayout modifier={`section-index entity-detail research-profile${portrait ? ' research-profile--portrait' : ''}`}>
     <Breadcrumbs slot="breadcrumb" items={[
       { label: '研究', href: '/research/' },
       { label: '研究者', href: '/research/researchers/' },
@@ -48,6 +45,16 @@ const resourceLabels: Record<PublicResearcher['resources'][number]['kind'], stri
         {researcher.originalName}
         {researcher.latinName && <><br />{researcher.latinName}</>}
       </p>
+      {researcher.resources.length > 0 && (
+        <aside class="intro-links" aria-labelledby="researcher-resources-heading">
+          <p class="intro-links__label" id="researcher-resources-heading">学术入口</p>
+          <ul>
+            {researcher.resources.map((resource) => (
+              <li><a href={resource.url}>{resourceLabels[resource.kind]}</a></li>
+            ))}
+          </ul>
+        </aside>
+      )}
     </header>
 
     {/* 照片挂在第一节标题上：下边界与该标题对齐，通常是“简介”，没有简介时是“本站译文”。 */}

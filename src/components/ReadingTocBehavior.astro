@@ -4,6 +4,19 @@
   const links = toc ? Array.from(toc.querySelectorAll('a[href^="#"]')) : [];
   const sections: Array<{ link: Element; heading: HTMLElement }> = [];
 
+  // 用实际页首尺寸对齐题名；作者换行、字体加载与窗口变化时仍保持对齐。
+  const content = document.querySelector('.section-layout--reading .section-layout__content');
+  const header = content?.querySelector('.document-header');
+  const title = header?.querySelector('h1');
+  if (toc instanceof HTMLElement && content && header && title) {
+    const align = () => {
+      const offset = Math.max(0, title.getBoundingClientRect().top - content.getBoundingClientRect().top);
+      toc.style.setProperty('--reading-title-offset', `${offset}px`);
+    };
+    align();
+    new ResizeObserver(align).observe(header);
+  }
+
   for (const link of links) {
     /* 标题的锚点就是中文标题本身，浏览器可能把 href 交回成百分号转义的形式。 */
     const heading = document.getElementById(decodeURIComponent((link.getAttribute('href') ?? '').slice(1)));

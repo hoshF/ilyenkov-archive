@@ -2,20 +2,13 @@
 import { site } from '../../lib/editorial';
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import SectionLayout from '../../components/SectionLayout.astro';
-import ResourceLinks from '../../components/ResourceLinks.astro';
 import { getGroupIssues, getGroupAnnouncement } from '../../lib/group';
 
 const [issues, announcement] = await Promise.all([getGroupIssues(), getGroupAnnouncement()]);
 ---
 
 <BaseLayout title={site.group.name} description={`${site.group.name}的公共工作档案，按期记录已公开的研究、讨论、资料整理与阶段性成果。`}>
-  <SectionLayout pinned modifier="section-index centered-rail group-index">
-    {/* 关于小组本身的固定入口放在左栏；正文栏依次是公告、小组名称与小组通讯。 */}
-    <ResourceLinks slot="aside" id="group-about-heading" label="关于小组" links={[
-      { label: '小组介绍', href: '/group/0/' },
-      { label: '讨论社区', href: site.forumUrl },
-      { label: '关注与联系', href: '/contact/' },
-    ]} />
+  <SectionLayout modifier="section-index group-index">
     {/* 公告置顶，默认折叠成一行，不把小组名称压到下方；首页按公告标题的 id 链到这里，届时自动展开。 */}
     <details class="group-announcement" slot="intro" id={announcement.title.id} data-group-announcement>
       <summary>
@@ -30,6 +23,13 @@ const [issues, announcement] = await Promise.all([getGroupIssues(), getGroupAnno
     <header class="page-header group-heading" slot="intro">
       <h1 class="group-heading__title">{site.group.name}</h1>
       <p class="group-heading__names"><span>{site.group.originalName}</span> · <span>{site.group.englishName}</span></p>
+      <nav class="intro-links" aria-label="关于小组">
+        <ul>
+          <li><a href="/group/0/">小组介绍</a></li>
+          <li><a href={site.forumUrl}>讨论社区</a></li>
+          <li><a href="/contact/">关注与联系</a></li>
+        </ul>
+      </nav>
     </header>
 
     <section class="group-issues" aria-labelledby="group-issues-heading">
