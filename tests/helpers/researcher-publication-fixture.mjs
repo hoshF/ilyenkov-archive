@@ -1,5 +1,5 @@
 import { spawnSync } from 'node:child_process';
-import { cpSync, mkdirSync, mkdtempSync, readFileSync, rmSync, writeFileSync } from 'node:fs';
+import { cpSync, existsSync, mkdirSync, mkdtempSync, readFileSync, rmSync, symlinkSync, writeFileSync } from 'node:fs';
 import { tmpdir } from 'node:os';
 import path from 'node:path';
 import { plannedResearchOutputs, plannedResearchRecords } from '../../scripts/lib/research-sync/planner.mjs';
@@ -110,11 +110,14 @@ export function researcherFixture() {
   return {
     root, sourceRoot, publicRoot,
     cleanup: () => rmSync(root, { recursive: true, force: true }),
-    run(checkOnly = false) {
+    run(checkOnly = false, nodeArgs = []) {
       mkdirSync(path.join(publicRoot, 'scripts'), { recursive: true });
       cpSync(path.join(projectRoot, 'scripts/lib'), path.join(publicRoot, 'scripts/lib'), { recursive: true });
       cpSync(path.join(projectRoot, 'scripts/sync-research-records.mjs'), path.join(publicRoot, 'scripts/sync-research-records.mjs'));
-      return spawnSync(process.execPath, ['scripts/sync-research-records.mjs', ...(checkOnly ? ['--check'] : [])], {
+      mkdirSync(path.join(publicRoot, 'src/lib'), { recursive: true });
+      cpSync(path.join(projectRoot, 'src/lib/research-record.mjs'), path.join(publicRoot, 'src/lib/research-record.mjs'));
+      if (!existsSync(path.join(publicRoot, 'node_modules'))) symlinkSync(path.join(projectRoot, 'node_modules'), path.join(publicRoot, 'node_modules'), 'dir');
+      return spawnSync(process.execPath, [...nodeArgs, 'scripts/sync-research-records.mjs', ...(checkOnly ? ['--check'] : [])], {
         cwd: publicRoot, env: { ...process.env, ILYENKOV_ROOT: sourceRoot }, encoding: 'utf8', timeout: 10_000,
       });
     },

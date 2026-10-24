@@ -21,6 +21,12 @@
 `scripts/lib/`。同步更新变化文件并清理撤回内容；不要手工修改生成输入。
 选择范围、路径基准和必选性见[private 公开接口](PUBLICATION.md#private-公开接口)。
 
+研究公开输出的共享 Schema 位于 `src/lib/research-record.mjs`，只依赖 Zod，校验字段结构与
+公开记录之间的引用关系。规划器完成记录及页面引用后，在返回结果前执行完整校验；校验失败
+时尚未写入 JSON、复制照片或清理撤回照片。同步器按原规划对象序列化，保留字段顺序。
+网站读取端 `src/lib/research-records.ts` 在读取生成 JSON 时使用同一 Schema 再次校验，随后
+执行缓存、排序和页面数据派生。私有来源、发布选择与授权检查仍属于同步阶段。
+
 ## 命令顺序
 
 `publication:sync` 依次运行译文、研究、书籍、Archive 分类与术语同步器，
@@ -88,7 +94,7 @@ Markdown 正文里。完整字段见发布说明的[译文的公开字段](PUBLI
 2. 最早归档关系采用 series 的选择，不限定固定年份或编号状态；第一届国际会议要求 `edition_roman === "I"`。
 3. 找到该活动唯一获准的 `ilyenkov_readings` 发布条目，将其 `public_id` 写入
    `history.earliestArchivedEventId` 或 `history.firstInternationalEventId`。
-4. 读取端 schema 再确认两条关系各自在公开 `readings` 集合中唯一解析。
+4. 共享输出 Schema 确认两条关系各自在公开 `readings` 集合中唯一解析。
 
 引用校验按唯一匹配执行；完整契约见
 [Readings series 的公开字段](PUBLICATION.md#readings-series-的公开字段)。
@@ -116,7 +122,7 @@ Readings 详情页仍通过 `getPublicReadings()` 读取全部获准活动，没
 1. 用 `formation_event_id` 在 `research/friends/events.json` 中定位唯一活动。
 2. 校验其属于 `org-ifi`，类型为 `symposium`，状态为 `confirmed`。
 3. 按活动定位找到唯一获准的 `ifi_symposium` 发布条目。
-4. 将其 `public_id` 写入 `formation.symposiumId`；读取端 schema 再确认公开引用及状态。
+4. 将其 `public_id` 写入 `formation.symposiumId`；共享输出 Schema 确认公开引用及状态。
 
 `activity_modes` 按原顺序映射为
 `activityModes`；形成活动与独立研讨会继续保存在共享集合。字段和引用限制见

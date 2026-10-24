@@ -77,8 +77,10 @@ canonical 事实、原文、译文、来源与权利证据保持各自的维护�
 选中的 canonical 记录身份、作品身份及来源身份须恰好匹配一项；缺失或重复匹配使同步失败。
 source ID、选中的来源 URL、站点页面 URL 与文件路径作为引用键时均须唯一解析；唯一性要求限于选中的引用目标；歧义匹配使同步失败。
 
-字段级的准确定义以 `scripts/sync-research-records.mjs` 的输出和 `src/lib/research-records.ts` 的
-schema 为准；两者不一致时以 schema 为准，并修正同步器。
+公开输出的字段、结构及跨记录引用契约统一定义在 `src/lib/research-record.mjs`。
+研究规划器在完整规划结束、任何生成输入写入之前校验公开记录；网站读取端在读取
+`research-records.json` 时再次使用同一 Schema。私有输入、发布选择、来源支持能力及身份映射
+仍由同步器单独校验，共享输出 Schema 不授予发布权限。
 
 ### 年表与作品目录
 
@@ -204,7 +206,7 @@ publication 只允许 `public_id`、`publication_scope`、`kind`、`record_path`
 
 历史关系必须经过“private directory → 唯一 Readings edition → 唯一 `website_public`
 `ilyenkov_readings` publication → public ID”。缺失、错误活动类型、未公开或重复发布匹配都使同步失败；
-public schema 还要求两条关系各自在 `readings` 中恰好解析到一条记录。series 不嵌入活动列表或复制
+共享输出 Schema 还要求两条关系各自在 `readings` 中恰好解析到一条记录。series 不嵌入活动列表或复制
 活动日期、题名与地点；directory 只用于 private publication 定位，不是公开身份。
 
 未启用 series publication 时，生成输入不包含 `readingsSeries`，getter 返回空数组；启用时该数组必须

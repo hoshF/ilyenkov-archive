@@ -1,5 +1,6 @@
 import { existsSync, realpathSync, statSync } from 'node:fs';
 import path from 'node:path';
+import { ResearchRecordsSchema } from '../../../src/lib/research-record.mjs';
 import { publicationRelative } from '../paths.mjs';
 import {
   datePattern,
@@ -886,5 +887,8 @@ export function plannedResearchOutputs({ projectRoot, researchRoot }) {
       }),
     };
   }
+  // Validate the complete public payload before any output is written. Preserve
+  // the planned object's property order rather than serializing Zod's clone.
+  ResearchRecordsSchema.parse(records);
   return { records, portraits };
 }
