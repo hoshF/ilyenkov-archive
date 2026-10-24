@@ -103,7 +103,7 @@ h2, h3, h4 { text-wrap: balance; line-height: 1.3; }
 
 .site-header__nav {
   justify-content: flex-start; align-items: center; display: flex; flex-wrap: wrap;
-  margin-left: -12px; gap: 8px clamp(16px, 3vw, 32px);
+  margin-left: -12px; gap: 8px clamp(16px, 3vw, 24px);
 }
 
 .site-header__nav a {
@@ -819,9 +819,10 @@ h2, h3, h4 { text-wrap: balance; line-height: 1.3; }
 }
 
 /* 七项排不进一行时按四列两行排（4 + 3），末项不会单独落到下一行；四列平分行宽、不窄于各自文字，
-   两行上下对齐。首行文字约 244px，320px 也放得下。
-   断点留出余量，不同平台字体略宽时也不会退回自然折行。字号与点击区域不变。 */
-@media (max-width: 440px) {
+   两行上下对齐。首行文字约 244px，320px 也放得下。断点定在 680px：再宽时单行至少留出约 11% 余量，
+   不同平台字体略宽时也不会退回自然折行；宽屏的列间距封顶 24px，版心封顶后同样保有余量。
+   字号与点击区域不变。 */
+@media (max-width: 680px) {
   .site-header__nav { display: grid; grid-template-columns: repeat(4, minmax(max-content, 1fr)); }
 }
 

@@ -1078,8 +1078,9 @@ describe('public navigation', () => {
     expect(gridRules.length).toBeGreaterThan(0);
     for (const rule of gridRules) {
       const maxWidth = Number.parseFloat(rule.media.match(/max-width:\s*(\d+)px/)![1]);
+      // 覆盖各种手机宽度与略宽于手机的窄窗口；768px 的平板竖屏仍排成一行。
       expect(maxWidth).toBeGreaterThanOrEqual(430);
-      expect(maxWidth).toBeLessThan(600);
+      expect(maxWidth).toBeLessThan(768);
       const columns = Number.parseInt(rule.declarations['grid-template-columns'].match(/repeat\((\d+),/)![1], 10);
       expect(items % columns, 'last row is not a single item').not.toBe(1);
       expect(Math.ceil(items / columns)).toBe(2);
@@ -1854,8 +1855,12 @@ describe('forum entrances', () => {
 
   it('lays the seven navigation items out as four plus three on narrow screens, never leaving one alone', () => {
     // 四列两行：七项排成 4 + 3；字号与点击区域沿用手机导航，不为塞进一行而缩小。
-    expect(declaration('.site-header__nav', 'display', '@media (max-width: 440px)')).toBe('grid');
-    expect(declaration('.site-header__nav', 'grid-template-columns', '@media (max-width: 440px)')).toBe('repeat(4, minmax(max-content, 1fr))');
+    expect(declaration('.site-header__nav', 'display', '@media (max-width: 680px)')).toBe('grid');
+    expect(declaration('.site-header__nav', 'grid-template-columns', '@media (max-width: 680px)')).toBe('repeat(4, minmax(max-content, 1fr))');
+    // 单行时列间距封顶，版心封顶后仍留出余量；字号与内边距不为此收小。
+    expect(declaration('.site-header__nav', 'gap')).toBe('8px clamp(16px, 3vw, 24px)');
+    expect(declaration('.site-header__nav a', 'font-size')).toBe('var(--text-body)');
+    expect(declaration('.site-header__nav a', 'padding')).toBe('10px 12px');
     expect(hasRule('.site-header__nav', '@media (max-width: 365px)')).toBe(false);
     expect(site.navigation.length + 1).toBe(7);
     const mobile = '@media (max-width: 600px)';
