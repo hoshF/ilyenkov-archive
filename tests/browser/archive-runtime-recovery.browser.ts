@@ -1,10 +1,5 @@
 import { test, expect, query, status, list, more, catalogue, search, expectResults, expectInitial, expectFailure, observeReal } from './helpers/archive-browser';
 
-// UI recovery is separate from the strict dependency test, which still requires zero page errors.
-const metadataUI: typeof test = test.extend<{ expectedPageErrors: string[] }>({
-  expectedPageErrors: async ({}, use) => { await use(['Failed to load Pagefind metadata']); },
-});
-
 for (const stage of ['search', 'data'] as const) {
   test(`recovers on the same page after a ${stage} failure`, async ({ page, control }) => {
     control.results('alpha', 1);
@@ -47,8 +42,7 @@ test('clears a failed query and can search again on the same page', async ({ pag
 });
 
 for (const stage of ['metadata', 'fragment'] as const) {
-  const run = stage === 'metadata' ? metadataUI : test;
-  run(`recovers the UI and paginates after a real ${stage} failure with one destroy`, async ({ page }) => {
+  test(`recovers the UI and paginates after a real ${stage} failure with one destroy`, async ({ page }) => {
     const engine = await observeReal(page);
     let available = false;
     await page.route('**/pagefind/**', async route => {

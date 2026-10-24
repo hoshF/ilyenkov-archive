@@ -3,6 +3,7 @@ import { cp, mkdir, mkdtemp, rm, symlink, writeFile } from 'node:fs/promises';
 import { tmpdir } from 'node:os';
 import path from 'node:path';
 import { promisify } from 'node:util';
+import { patchPagefindRuntime } from '../../../scripts/patch-pagefind-runtime.mjs';
 
 const exec = promisify(execFile);
 
@@ -27,7 +28,7 @@ import ArchiveSearch from '../../components/ArchiveSearch.astro';
 `);
     for (const [query, count] of [['alpha', 12], ['beta', 2]] as const) {
       for (let i = 1; i <= count; i++) {
-        await write(`public/archive/${query}-${i}/index.html`, `<!doctype html><html lang="en"><head><title>Fictional ${query} ${i}</title></head><body><main data-pagefind-body><h1 data-pagefind-meta="title">Fictional ${query} ${i}</h1><p>${query} synthetic archive content ${i}.</p></main></body></html>`);
+        await write(`public/archive/${query}-${i}/index.html`, `<!doctype html><html lang="en"><head><title>Fictional ${query} ${i}</title></head><body><main data-pagefind-body><h1 data-pagefind-meta="title">Fictional ${query} ${i}</h1><p>${query} synthetic archive content ${i}.</p><span data-pagefind-filter="topic">fictional</span></main></body></html>`);
       }
     }
     await symlink(path.join(project, 'node_modules'), path.join(root, 'node_modules'), 'dir');
@@ -39,6 +40,7 @@ import ArchiveSearch from '../../components/ArchiveSearch.astro';
     };
     await exec(process.execPath, [path.join(project, 'node_modules/astro/bin/astro.mjs'), 'build'], options);
     await exec(process.execPath, [path.join(project, 'node_modules/pagefind/lib/runner/bin.cjs'), '--site', 'dist', '--glob', 'archive/*/index.html'], options);
+    await patchPagefindRuntime(path.join(root, 'dist/pagefind'));
     return { directory: path.join(root, 'dist'), cleanup };
   } catch (error) {
     await cleanup();

@@ -268,5 +268,21 @@ Feed 与 HTML 订阅发现使用 `astro.config.mjs` 的同一个 `site` 基址�
 索引随静态产物部署，不独立维护文章清单或搜索正文。浏览器仅在搜索时加载索引，分类页
 搜索限定当前分类；清空关键词恢复普通列表，加载失败时保留分类与文章列表。
 
+`search:index` 生成后执行 `scripts/patch-pagefind-runtime.mjs`，修复 Pagefind 1.5.2 的后台初始化、
+内部预取拒绝及分块错误传播。补丁只修改 `pagefind.js` 和 `pagefind-worker.js`，通过原始／目标
+SHA-256、版本和修改点次数校验；未知产物、部分修补及写入失败会阻止构建。失败后重新运行
+`npm run search:index`，不沿用未完成的产物。验证最终文件可运行：
+
+```sh
+node scripts/patch-pagefind-runtime.mjs --check
+```
+
+当前已验证 macOS ARM64 的 1.5.2 二进制产物。其他构建环境须通过相同哈希守卫及主线程／Worker
+浏览器测试，不接受未知哈希回退。升级 Pagefind 时重新审查源码、原始和目标哈希及故障回归；
+上游修复覆盖后移除补丁步骤。该补丁面向本站自定义搜索，不覆盖默认 `pagefind-ui.js` 的异常交互。
+部署保持两个运行时与同次生成的索引资源一起发布；两个非哈希命名的入口沿用
+[Pages 默认的 ETag 重新验证](https://developers.cloudflare.com/pages/configuration/serving-pages/#caching-and-performance)，
+不设置长期 immutable 缓存，自定义缓存规则也须保留重新验证。上线验收使用新浏览器上下文。
+
 `npm run dev` 先构建搜索索引，开发服务器从 `dist/pagefind/` 提供搜索资源。修改公开正文
 或分类后，执行 `npm run build` 并刷新浏览器，以更新开发搜索索引。

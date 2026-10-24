@@ -1,4 +1,4 @@
-import { readFileSync, readdirSync, mkdtempSync, mkdirSync, writeFileSync, rmSync } from 'node:fs';
+import { copyFileSync, readFileSync, readdirSync, mkdtempSync, mkdirSync, writeFileSync, rmSync, symlinkSync } from 'node:fs';
 import { join } from 'node:path';
 import { tmpdir } from 'node:os';
 import { gunzipSync } from 'node:zlib';
@@ -52,6 +52,9 @@ describe('public article search index', () => {
     });
     try {
       writeFileSync(join(temporary, 'package.json'), JSON.stringify({ scripts: { 'search:index': packageJson.scripts['search:index'] } }));
+      mkdirSync(join(temporary, 'scripts'));
+      copyFileSync('scripts/patch-pagefind-runtime.mjs', join(temporary, 'scripts/patch-pagefind-runtime.mjs'));
+      symlinkSync(join(process.cwd(), 'node_modules'), join(temporary, 'node_modules'), 'dir');
       write('archive/retained', '<main data-pagefind-body><h1>测试题名</h1><p>认识活动中的具体概念</p></main><nav>NAVIGATION_SENTINEL</nav>');
       write('archive/withdrawn', '<main data-pagefind-body><h1>撤回测试</h1><p>WITHDRAWAL_SENTINEL</p></main>');
       write('books/restricted', '<main>INTERNAL_PUBLIC_SENTINEL</main>');

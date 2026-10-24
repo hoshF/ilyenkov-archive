@@ -22,7 +22,7 @@
     "verify": "npm run check && astro build && npm run search:index && vitest run",
     "test": "npm run build && vitest run",
     "test:browser": "vitest run --config vitest.browser.config.ts",
-    "search:index": "node -e \"require('node:fs').rmSync('dist/pagefind', { recursive: true, force: true })\" && pagefind --site dist --glob \"archive/*/index.html\""
+    "search:index": "node -e \"require('node:fs').rmSync('dist/pagefind', { recursive: true, force: true })\" && pagefind --site dist --glob \"archive/*/index.html\" && node scripts/patch-pagefind-runtime.mjs"
   },
   "dependencies": {
     "@astrojs/rss": "^4.0.19",
