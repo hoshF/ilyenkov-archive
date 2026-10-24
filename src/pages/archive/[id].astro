@@ -5,9 +5,11 @@ import ReadingTocBehavior from '../../components/ReadingTocBehavior.astro';
 import PageOutline from '../../components/PageOutline.astro';
 import { READING_OUTLINE_MINIMUM, readingToc } from '../../lib/reading-toc';
 import { getSiteData, type ReadableDocument } from '../../lib/site-data';
+import { articleDiscussions, type ArticleDiscussion } from '../../lib/discussions';
 
 export async function getStaticPaths() {
   const { articles } = await getSiteData();
+  const discussions = articleDiscussions(articles.map((document) => document.id));
   const sibling = (candidate: ReadableDocument | undefined) => (
     candidate ? { title: candidate.title, route: candidate.route } : null
   );
@@ -17,6 +19,7 @@ export async function getStaticPaths() {
       document,
       previous: sibling(articles[index - 1]),
       next: sibling(articles[index + 1]),
+      discussion: discussions.get(document.id) ?? null,
     },
   }));
 }
@@ -26,8 +29,9 @@ interface Props {
   document: ReadableDocument;
   previous: Sibling | null;
   next: Sibling | null;
+  discussion: ArticleDiscussion | null;
 }
-const { document, previous, next } = Astro.props;
+const { document, previous, next, discussion } = Astro.props;
 const description = `《${document.title}》的中文译文。`;
 
 function finalUrlSegment(value: string): string {
@@ -73,6 +77,11 @@ const toc = readingToc(document.headings, document.html, {
         {document.doiUrl && <p>DOI号：<a href={document.doiUrl}>{doiLabel}</a></p>}
       </section>
     </article>
+
+    {/* 论坛讨论入口：完整文章与原文信息之后、篇末导航之前；在搜索正文与页内目录之外，没有关联时不输出。 */}
+    {discussion && (
+      <p class="document-discussion"><a href={discussion.href}>{discussion.label}<span aria-hidden="true"> ↗</span></a></p>
+    )}
 
     <nav class="document-nav" aria-label="档案导航">
       <p class="document-nav__back"><a href="/archive/">« 返回文本档案</a></p>

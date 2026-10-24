@@ -211,7 +211,7 @@ private glossary 源表 + web/publication.json 的 glossary 选择
 
 ## public 编辑输入与缓存
 
-站点配置、小组通讯与动态直接读取 public `editorial/`，不经过 private 同步。
+站点配置、小组通讯、动态与文章讨论关联（`discussions.json`）直接读取 public `editorial/`，不经过 private 同步。
 `src/lib/editorial.ts` 校验站点配置，在模块加载时解析 JSON；外部 JSON 更改可能需要重启开发服务器。
 
 使用 `buildCache` 的 getter 在生产构建中只加载一次，在开发中每次调用重新读取。
