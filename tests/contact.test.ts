@@ -45,7 +45,7 @@ describe('following and contacting the group', () => {
     expect([...main.matchAll(/<h1\b/g)]).toHaveLength(1);
     expect(main).toContain('关注与联系</h1>');
     expect([...main.matchAll(/<h2\b[^>]*>([^<]*)<\/h2>/g)].map(([, heading]) => heading))
-      .toEqual(['获取更新', '联系', '参与研究与整理']);
+      .toEqual(['获取更新', '联系', '参与讨论', '参与研究与整理']);
     expect(links(main).some(({ href }) => href === '/updates/')).toBe(true);
     expect(links(main)).toContainEqual({ href: `mailto:${site.contact.email}`, label: site.contact.email });
 
@@ -118,9 +118,8 @@ describe('following and contacting the group', () => {
 
   it('offers the forum as a channel for open discussion on the contact page', () => {
     const main = builtPage('/contact/').match(/<main>([\s\S]*?)<\/main>/)![1];
-    const contact = main.slice(main.indexOf('<h2>联系</h2>'), main.indexOf('<h2>参与研究与整理</h2>'));
-    expect(contact).toContain(`<a href="${site.forumUrl}">讨论社区</a>`);
-    // 不为论坛另设宣传板块。
-    expect([...main.matchAll(/<h2>/g)]).toHaveLength(3);
+    const discussion = main.slice(main.indexOf('<h2>参与讨论</h2>'), main.indexOf('<h2>参与研究与整理</h2>'));
+    expect(discussion).toContain(`<a href="${site.forumUrl}"><strong>进入讨论社区</strong></a>`);
+    expect(discussion).toContain('论坛中的讨论不必形成成熟的研究成果。');
   });
 });
