@@ -2,13 +2,18 @@ import { chromium, type Browser, type Page } from 'playwright';
 import { test as base, expect } from 'vitest';
 import { startStaticSite } from './static-site';
 
-export const test = base.extend<{ site: Awaited<ReturnType<typeof startStaticSite>>; page: Page }>({
+export const test = base.extend<{
+  site: Awaited<ReturnType<typeof startStaticSite>>;
+  page: Page;
+  expectedPageErrors: string[];
+}>({
+  expectedPageErrors: async ({}, use) => { await use([]); },
   site: async ({}, use) => {
     const site = await startStaticSite();
     try { await use(site); }
     finally { await site.close(); }
   },
-  page: async ({ site }, use) => {
+  page: async ({ site, expectedPageErrors }, use) => {
     const started = performance.now();
     let browser: Browser | undefined;
     try {
@@ -32,7 +37,7 @@ export const test = base.extend<{ site: Awaited<ReturnType<typeof startStaticSit
       console.info(`Chromium ${browser.version()}; setup ${Math.round(performance.now() - started)} ms`);
       await use(page);
       expect(externalRequests, 'Browser smoke tests must stay on the local static site').toEqual([]);
-      expect(errors, 'Uncaught page errors').toEqual([]);
+      expect(errors, 'Uncaught page errors (empty unless a test explicitly records a known dependency fault)').toEqual(expectedPageErrors);
     } finally {
       await browser?.close();
     }
