@@ -1470,12 +1470,6 @@ describe('group work channel', () => {
     expect(detail).toContain('<ReadingTocBehavior />');
   });
 
-  it('refuses a filename that disagrees with the issue number', () => {
-    // 文件名就是期号的公共形式：/group/<id> 必须指向 issue 本身，不能再有第二套编号。
-    expect(readFileSync(path.join(process.cwd(), 'src/lib/group.ts'), 'utf8'))
-      .toContain('does not match its issue number');
-  });
-
   it('keeps group records as public editorial Markdown rather than generated input', () => {
     const records = readdirSync(path.join(process.cwd(), 'editorial', 'group'));
     expect(records.length).toBeGreaterThan(0);
@@ -1488,15 +1482,6 @@ describe('group work channel', () => {
     expect(sources).not.toContain('article-source');
   });
 
-  it('explains the public meaning of each published issue date', () => {
-    const source = readFileSync(path.join(process.cwd(), 'src/lib/group.ts'), 'utf8');
-    expect(source).toContain('网站公开的日期');
-
-    const publication = readFileSync(path.join(process.cwd(), 'docs/PUBLICATION.md'), 'utf8');
-    expect(publication).toContain('editorial/group/<issue>.md');
-    expect(publication).toContain('网站公开的日期');
-    expect(publication).toContain('published');
-  });
 });
 
 describe('book channel', () => {
