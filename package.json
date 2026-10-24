@@ -21,6 +21,7 @@
     "check": "npm run publication:prepare && astro check",
     "verify": "npm run check && astro build && npm run search:index && vitest run",
     "test": "npm run build && vitest run",
+    "test:browser": "vitest run --config vitest.browser.config.ts",
     "search:index": "node -e \"require('node:fs').rmSync('dist/pagefind', { recursive: true, force: true })\" && pagefind --site dist --glob \"archive/*/index.html\""
   },
   "dependencies": {
@@ -45,6 +46,7 @@
     "fast-xml-parser": "^5.11.2",
     "hast-util-from-html": "^2.0.3",
     "pagefind": "^1.5.2",
+    "playwright": "^1.64.1",
     "typescript": "^6.0.3",
     "vitest": "^4.1.10",
     "wrangler": "4.135.0"
