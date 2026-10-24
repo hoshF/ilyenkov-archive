@@ -25,11 +25,14 @@ const contentTypes: Record<string, string> = {
 };
 
 /** Serve an existing build only; never sync or build publication inputs. */
-export async function startStaticSite(directory = path.resolve('dist')) {
+export async function startStaticSite(
+  directory = path.resolve('dist'),
+  requiredFiles = ['glossary/index.html', 'archive/index.html', 'pagefind/pagefind.js'],
+) {
   let root: string;
   try {
     root = await realpath(directory);
-    for (const file of ['glossary/index.html', 'archive/index.html', 'pagefind/pagefind.js']) {
+    for (const file of requiredFiles) {
       await access(path.join(root, file));
     }
   } catch {

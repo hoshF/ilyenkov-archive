@@ -2,10 +2,14 @@ import { chromium, type Browser, type Page } from 'playwright';
 import { test as base, expect } from 'vitest';
 import { startStaticSite } from './static-site';
 
-export const test = base.extend<{ page: Page }>({
-  page: async ({}, use) => {
-    const started = performance.now();
+export const test = base.extend<{ site: Awaited<ReturnType<typeof startStaticSite>>; page: Page }>({
+  site: async ({}, use) => {
     const site = await startStaticSite();
+    try { await use(site); }
+    finally { await site.close(); }
+  },
+  page: async ({ site }, use) => {
+    const started = performance.now();
     let browser: Browser | undefined;
     try {
       try {
@@ -30,8 +34,7 @@ export const test = base.extend<{ page: Page }>({
       expect(externalRequests, 'Browser smoke tests must stay on the local static site').toEqual([]);
       expect(errors, 'Uncaught page errors').toEqual([]);
     } finally {
-      try { await browser?.close(); }
-      finally { await site.close(); }
+      await browser?.close();
     }
   },
 });
