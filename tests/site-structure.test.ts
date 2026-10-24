@@ -1038,7 +1038,11 @@ describe('public navigation', () => {
     expect(header).not.toContain('evi-wordmark.svg');
     // 字标仍是站点品牌资源：favicon 与分享图照旧引用，源文件保留。
     expect(existsSync(path.join(process.cwd(), 'public', 'brand', 'evi-wordmark.svg'))).toBe(true);
-    expect(homepage).toMatch(/<link rel="icon" href="\/favicon\.svg/);
+    const icons = [...homepage.matchAll(/<link rel="icon"[^>]*>/g)].map(([link]) => link);
+    expect(icons).toHaveLength(1);
+    expect(icons[0]).toContain('href="/favicon.svg');
+    expect(icons[0]).toContain('type="image/svg+xml"');
+    expect(icons[0]).toContain('sizes="any"');
     expect(homepage).toContain('/brand/share.png');
 
     // 刊名可见，就是首页链接的全部内容。
