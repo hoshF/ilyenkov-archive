@@ -1806,12 +1806,16 @@ describe('Ilyenkov opening', () => {
     expect(html.includes('class="wiki-card__photo"')).toBe(Boolean(ilyenkov.portrait));
     expect(html.includes('class="wiki-card__credit')).toBe(Boolean(ilyenkov.portrait));
     // 宽到能并排时，卡片 160px 宽浮在段首右侧；窄屏单列时排到第一段之后。
-    const wide = '@container (min-width: 37rem)';
+    const wide = '@container (min-width: 39rem)';
     expect(declaration('.wiki-card', 'float', wide)).toBe('right');
     // 开篇不包住浮动：卡片比第一段高时，后续段落接着绕排，不在第一段下留白。
     expect(declaration('.ilyenkov-opening', 'display', wide)).toBe('block');
     expect(declaration('.wiki-card', 'width', wide)).toBe('160px');
     expect(declaration('.wiki-card', 'box-sizing')).toBe('content-box');
+    // 四边同一内边距，照片、标签与署名共用一条内边线；内边距在 160px 之外，照片仍是 160×213。
+    expect(declaration('.wiki-card', 'padding')).toBe('12px');
+    expect(declaration('.wiki-card__text', 'padding')).toBeUndefined();
+    expect(declaration('.wiki-card .wiki-card__credit', 'padding')).toBeUndefined();
     expect(declaration('.ilyenkov-opening', 'flex-direction')).toBe('column');
     expect(declaration('.wiki-card', 'order')).toBe('1');
     // 照片沿用人物照片的 3:4 自上而下裁切，宽屏即 160×213。

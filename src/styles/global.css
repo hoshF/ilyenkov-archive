@@ -531,20 +531,24 @@ h2, h3, h4 { text-wrap: balance; line-height: 1.3; }
 }
 .ilyenkov-opening__text { margin: .4em 0 0; }
 .ilyenkov-opening__original { color: var(--muted); font-size: var(--text-secondary); }
-/* 边框画在 160px 内容宽度之外，照片正好 160×213。 */
-.wiki-card { order: 1; box-sizing: content-box; margin: 20px 0 0; border: 1px solid var(--line-strong); line-height: 1.5; }
+/* 卡片四边同一内边距：照片、标签与署名共用一条内边线。内边距和边框都在 160px 内容宽度之外，
+   照片正好 160×213。 */
+.wiki-card {
+  order: 1; box-sizing: content-box; margin: 20px 0 0; padding: 12px; border: 1px solid var(--line-strong); line-height: 1.5;
+}
 .wiki-card__link { display: block; text-decoration: none; }
 .wiki-card .wiki-card__photo {
   display: block; width: 100%; height: auto; max-height: none; aspect-ratio: 3 / 4; margin: 0;
   object-fit: cover; object-position: center top;
 }
-.wiki-card__text { display: block; padding: 12px 14px; }
+.wiki-card__text { display: block; }
+.wiki-card__photo + .wiki-card__text { margin-top: 12px; }
 .wiki-card__label { display: block; color: var(--muted); font-size: var(--text-meta); }
 .wiki-card__title { display: block; margin-top: 4px; color: var(--accent); font-size: var(--text-item); font-weight: 700; }
 .wiki-card__link:hover .wiki-card__title { color: var(--accent-hover); text-decoration: underline; text-underline-offset: .18em; }
-.wiki-card .wiki-card__credit { margin: 0; padding: 0 14px 10px; color: var(--muted); font-size: var(--text-meta); line-height: 1.5; }
-.wiki-card .wiki-card__credit--after-photo { padding-top: 8px; }
-@container (min-width: 37rem) {
+.wiki-card .wiki-card__credit { margin: 8px 0 0; color: var(--muted); font-size: var(--text-meta); line-height: 1.5; }
+/* 并排所需宽度：17 字人名按 24px 计 408px，加卡片外宽 186px 与 24px 间距。 */
+@container (min-width: 39rem) {
   .ilyenkov-opening { display: block; }
   .ilyenkov-opening__name, .ilyenkov-opening__text { display: inline; }
   .wiki-card { float: right; width: 160px; margin: 4px 0 12px 24px; }
