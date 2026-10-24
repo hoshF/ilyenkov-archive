@@ -647,8 +647,8 @@ export function plannedResearchOutputs({ projectRoot, researchRoot }) {
     else records.congresses.push(adaptCongress(sourced));
   }
 
-  if (Object.values(records).some((selected) => selected.length === 0)) {
-    fail('website_public selection must include biography, military, congress, works, readings, IFI network, IFI symposium, researcher, and research site records');
+  if (Object.entries(records).some(([collection, selected]) => collection !== 'researchSites' && selected.length === 0)) {
+    fail('website_public selection must include biography, military, congress, works, readings, IFI network, IFI symposium, and researcher records');
   }
   const timelineLabel = `${publicationRelative} timeline`;
   const timeline = object(publication.timeline, timelineLabel);

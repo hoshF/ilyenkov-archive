@@ -4,7 +4,7 @@ import { ResearchRecordsSchema } from '../src/lib/research-record.mjs';
 import { ResearchRecordsSchema as readerSchema } from '../src/lib/research-records';
 import { researchRecordFixture } from './helpers/research-record-fixture.mjs';
 
-const requiredCollections = ['biography', 'military', 'congresses', 'works', 'readings', 'ifiNetworks', 'ifiSymposiums', 'researchers', 'researchSites'];
+const requiredCollections = ['biography', 'military', 'congresses', 'works', 'readings', 'ifiNetworks', 'ifiSymposiums', 'researchers'];
 
 describe('shared public research output schema', () => {
   it('loads in ordinary Node without the website runtime', () => {
@@ -51,6 +51,17 @@ describe('shared public research output schema', () => {
   it.each(['timeline', 'worksCatalog', 'life', 'circle'])('requires page root %s', (key) => {
     const input = researchRecordFixture(); delete input[key];
     expect(ResearchRecordsSchema.safeParse(input).success).toBe(false);
+  });
+
+  it('requires the researchSites field while permitting an empty array', () => {
+    const input = researchRecordFixture();
+    input.researchSites = [];
+    expect(ResearchRecordsSchema.parse(input)).toEqual(input);
+    delete input.researchSites;
+    expect(ResearchRecordsSchema.safeParse(input)).toMatchObject({
+      success: false,
+      error: { issues: expect.arrayContaining([expect.objectContaining({ path: ['researchSites'] })]) },
+    });
   });
 
   it('allows omitted optional records and editorial, but not an empty selected series', () => {
@@ -115,6 +126,7 @@ describe('shared public research output schema', () => {
     ['empty introduction', r => { r.researchers[0].editorial.introduction = []; }],
     ['multiline work description', r => { r.researchers[0].editorial.workDescription = 'Synthetic\ntext'; }],
     ['invalid public URL', r => { r.researchSites[0].url = 'file:///synthetic'; }],
+    ['research site without sections', r => { r.researchSites[0].sections = []; }],
   ];
   it.each(invalid)('rejects %s', (_label, mutate) => {
     const input = researchRecordFixture(); mutate(input);

@@ -261,7 +261,7 @@ export const ResearchRecordsSchema = z.object({
   ifiNetworks: z.array(IfiNetworkSchema).min(1),
   ifiSymposiums: z.array(IfiSymposiumSchema).min(1),
   researchers: z.array(ResearcherSchema).min(1),
-  researchSites: z.array(ResearchSiteSchema).min(1),
+  researchSites: z.array(ResearchSiteSchema),
   timeline: TimelineSchema,
   worksCatalog: WorksCatalogSchema,
   life: LifeSchema,
