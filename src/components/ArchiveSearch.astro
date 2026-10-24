@@ -56,7 +56,7 @@ const { current = null } = Astro.props;
     const search = async () => {
       const request = ++version;
       const query = input.value.trim();
-      list.replaceChildren(); more.hidden = true;
+      list.replaceChildren(); more.hidden = true; more.disabled = false;
       if (!query) {
         status.textContent = ''; list.hidden = true; archive.hidden = false;
         return;
@@ -91,10 +91,11 @@ const { current = null } = Astro.props;
     input.addEventListener('compositionend', () => { clearTimeout(timer); void search(); });
     form.addEventListener('submit', (event) => { event.preventDefault(); clearTimeout(timer); void search(); });
     more.addEventListener('click', async () => {
+      const request = version;
       more.disabled = true;
-      try { await append(version); }
-      catch { status.textContent = '结果加载失败，请重试。'; }
-      finally { more.disabled = false; }
+      try { await append(request); }
+      catch { if (request === version) status.textContent = '结果加载失败，请重试。'; }
+      finally { if (request === version) more.disabled = false; }
     });
     // 首屏不加载搜索模块；空闲时预热模块与索引，省掉第一次输入时的等待。
     // 失败时清掉缓存，让真正输入时重新加载并走 search() 的错误分支。
