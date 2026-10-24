@@ -1,0 +1,359 @@
+import { z } from 'zod';
+
+export const portraitFilePattern = /^[a-z0-9]+(?:-[a-z0-9]+)*\.(?:jpg|png|webp)$/;
+
+const PublicUrlSchema = z.string().refine((value) => {
+  try {
+    const protocol = new URL(value).protocol;
+    return protocol === 'http:' || protocol === 'https:';
+  } catch {
+    return false;
+  }
+}, 'Invalid public URL');
+
+const SourceSchema = z.object({
+  title: z.string().trim().min(1),
+  creator: z.string().trim().min(1).nullable(),
+  url: PublicUrlSchema,
+}).strict();
+
+const PeriodSchema = z.object({
+  start: z.string().regex(/^\d{4}(?:-\d{2}(?:-\d{2})?)?$/),
+  end: z.string().regex(/^\d{4}(?:-\d{2}(?:-\d{2})?)?$/),
+}).strict();
+
+export const ActivitySchema = z.object({
+  id: z.string().regex(/^[a-z0-9]+(?:-[a-z0-9]+)*$/),
+  title: z.string().trim().min(1),
+  summary: z.string().trim().min(1),
+  period: PeriodSchema,
+  sources: z.array(SourceSchema).min(1),
+}).strict();
+
+export const BiographySchema = ActivitySchema.extend({
+  location: z.string().trim().min(1).nullable(),
+}).strict();
+
+export const CongressSchema = ActivitySchema.extend({
+  status: z.string().trim().min(1),
+  location: z.string().trim().min(1),
+}).strict();
+
+const WorkSourceSchema = z.object({
+  label: z.string().trim().min(1),
+  title: z.string().trim().min(1),
+  url: PublicUrlSchema,
+}).strict();
+
+export const WorkSchema = z.object({
+  id: z.string().regex(/^[a-z0-9]+(?:-[a-z0-9]+)*$/),
+  title: z.string().trim().min(1),
+  originalTitle: z.string().trim().min(1),
+  year: z.string().regex(/^\d{4}$/),
+  type: z.string().trim().min(1),
+  sources: z.array(WorkSourceSchema).min(1),
+}).strict();
+
+export const ReadingsSchema = z.object({
+  id: z.string().regex(/^[a-z0-9]+(?:-[a-z0-9]+)*$/),
+  edition: z.string().trim().min(1),
+  title: z.string().trim().min(1),
+  location: z.string().trim().min(1).nullable(),
+  format: z.string().trim().min(1).nullable(),
+  period: PeriodSchema,
+  sources: z.array(SourceSchema).min(1),
+}).strict().refine((record) => Boolean(record.location) !== Boolean(record.format), {
+  message: 'A reading must have either a location or an activity format',
+});
+
+export const IfiEditorialSchema = z.object({
+  introduction: z.array(z.string().trim().min(1)).min(1),
+  symposiumsLead: z.string().trim().min(1).refine((value) => !/[\r\n]/.test(value), {
+    message: 'Editorial lead must be one line',
+  }),
+}).strict();
+
+export const ReadingsEditorialSchema = z.object({
+  introduction: z.array(z.string().trim().min(1)).min(1),
+}).strict();
+
+export const ReadingsSeriesSchema = z.object({
+  id: z.string().regex(/^[a-z0-9]+(?:-[a-z0-9]+)*$/),
+  title: z.string().trim().min(1),
+  name: z.string().trim().min(1),
+  summary: z.string().trim().min(1),
+  type: z.literal('academic_conference_series'),
+  editorial: ReadingsEditorialSchema.optional(),
+  history: z.object({
+    earliestArchivedEventId: z.string().regex(/^[a-z0-9]+(?:-[a-z0-9]+)*$/),
+    firstInternationalEventId: z.string().regex(/^[a-z0-9]+(?:-[a-z0-9]+)*$/),
+  }).strict(),
+  resources: z.array(z.object({
+    kind: z.enum(['archive', 'society', 'historical_archive']),
+    url: PublicUrlSchema,
+  }).strict()).refine((resources) => (
+    new Set(resources.map((resource) => resource.kind)).size === resources.length
+  ), { message: 'Readings series resources must have unique kinds' }),
+}).strict();
+
+export const IfiNetworkSchema = z.object({
+  id: z.string().regex(/^[a-z0-9]+(?:-[a-z0-9]+)*$/),
+  title: z.string().trim().min(1),
+  name: z.string().trim().min(1),
+  abbreviation: z.string().trim().min(1),
+  editorial: IfiEditorialSchema.optional(),
+  formation: z.object({
+    symposiumId: z.string().regex(/^[a-z0-9]+(?:-[a-z0-9]+)*$/),
+  }).strict(),
+  activityModes: z.array(z.enum([
+    'symposium', 'webinar', 'collective_reading', 'discussion',
+  ])),
+  resources: z.array(z.object({
+    kind: z.enum(['about', 'history', 'texts', 'symposiums', 'youtube', 'facebook']),
+    url: PublicUrlSchema,
+  }).strict()).refine((resources) => (
+    new Set(resources.map((resource) => resource.kind)).size === resources.length
+  ), { message: 'IFI resources must have unique kinds' }),
+  summary: z.string().trim().min(1),
+  url: PublicUrlSchema,
+}).strict();
+
+export const IfiSymposiumSchema = z.object({
+  id: z.string().regex(/^[a-z0-9]+(?:-[a-z0-9]+)*$/),
+  title: z.string().trim().min(1),
+  context: z.string().trim().min(1),
+  status: z.enum(['confirmed', 'planned']),
+  format: z.enum(['in_person', 'online', 'hybrid']),
+  location: z.string().trim().min(1),
+  period: PeriodSchema,
+  sources: z.array(SourceSchema).min(1),
+}).strict();
+
+const ResearcherEditorialSchema = z.object({
+  introduction: z.array(z.string().trim().min(1)).min(1),
+  workDescription: z.string().trim().min(1).regex(/^[^\r\n]+$/),
+}).strict();
+
+export const ResearcherSchema = z.object({
+  editorial: ResearcherEditorialSchema.optional(),
+  id: z.string().regex(/^[a-z0-9]+(?:-[a-z0-9]+)*$/),
+  personId: z.string().regex(/^[a-z0-9]+(?:-[a-z0-9]+)*$/),
+  name: z.string().trim().min(1),
+  originalName: z.string().trim().min(1),
+  latinName: z.string().trim().min(1).optional(),
+  summary: z.string().trim().min(1),
+  roles: z.array(z.string().trim().min(1)).min(1).optional(),
+  researchFields: z.array(z.string().trim().min(1)).min(1).optional(),
+  portrait: z.string().regex(portraitFilePattern).optional(),
+  resources: z.array(z.object({
+    kind: z.enum(['personal', 'orcid', 'institution']),
+    url: PublicUrlSchema,
+  }).strict()).refine((resources) => (
+    new Set(resources.map((resource) => resource.kind)).size === resources.length
+  ), { message: 'Researcher resources must have unique kinds' }),
+}).strict();
+
+const ResearchSiteSectionSchema = z.object({
+  label: z.string().trim().min(1),
+  url: PublicUrlSchema,
+}).strict();
+
+export const ResearchSiteSchema = z.object({
+  id: z.string().regex(/^[a-z0-9]+(?:-[a-z0-9]+)*$/),
+  title: z.string().trim().min(1),
+  originalTitle: z.string().trim().min(1),
+  summary: z.string().trim().min(1),
+  url: PublicUrlSchema,
+  sections: z.array(ResearchSiteSectionSchema).min(1),
+}).strict();
+
+const EditorialLineSchema = z.string().trim().min(1).refine((value) => !/[\r\n]/.test(value), {
+  message: 'Editorial text must be one line',
+});
+
+export const TimelineSchema = z.object({
+  recordIds: z.array(z.string().regex(/^[a-z0-9]+(?:-[a-z0-9]+)*$/)).refine((ids) => (
+    new Set(ids).size === ids.length
+  ), { message: 'Timeline references must be unique' }),
+  editorial: z.object({ description: EditorialLineSchema }).strict(),
+}).strict();
+
+export const WorksCatalogSchema = z.object({
+  editorial: z.object({
+    description: EditorialLineSchema,
+    lead: EditorialLineSchema,
+    note: EditorialLineSchema,
+    typeNotes: z.record(z.string().trim().min(1), EditorialLineSchema),
+  }).strict(),
+}).strict();
+
+const PageReferencesSchema = z.array(z.string().regex(/^[a-z0-9]+(?:-[a-z0-9]+)*$/)).refine((ids) => (
+  new Set(ids).size === ids.length
+), { message: 'Page references must be unique' });
+
+export const LifeSchema = z.object({
+  description: EditorialLineSchema,
+  lead: EditorialLineSchema,
+  note: EditorialLineSchema,
+  stages: z.array(z.object({
+    title: EditorialLineSchema,
+    recordIds: PageReferencesSchema,
+    summary: EditorialLineSchema.optional(),
+    period: PeriodSchema.optional(),
+    years: z.array(z.string().regex(/^\d{4}$/)).optional(),
+    links: z.array(z.object({
+      target: z.enum(['timeline', 'circle', 'works']),
+      label: EditorialLineSchema,
+    }).strict()),
+  }).strict()),
+}).strict();
+
+export const CircleSchema = z.object({
+  description: EditorialLineSchema,
+  sections: z.array(z.object({
+    recordKind: z.enum(['biography_event', 'military_service', 'hegel_congress']),
+    title: EditorialLineSchema,
+    lead: EditorialLineSchema,
+    recordIds: PageReferencesSchema,
+  }).strict()).refine((sections) => (
+    new Set(sections.map((section) => section.title)).size === sections.length
+  ), { message: 'Circle sections must have unique titles' }).refine((sections) => {
+    const ids = sections.flatMap((section) => section.recordIds);
+    return new Set(ids).size === ids.length;
+  }, { message: 'Circle references cannot repeat across sections' }),
+}).strict();
+
+export const IlyenkovProfileSchema = z.object({
+  id: z.string().regex(/^[a-z0-9]+(?:-[a-z0-9]+)*$/),
+  personId: z.string().regex(/^[a-z0-9]+(?:-[a-z0-9]+)*$/),
+  identity: EditorialLineSchema,
+  originalName: EditorialLineSchema,
+  lifespan: z.string().regex(/^\d{4}—\d{4}$/),
+  resources: z.array(z.object({
+    kind: z.enum(['wikipedia_zh']),
+    url: PublicUrlSchema,
+  }).strict()).refine((resources) => (
+    new Set(resources.map((resource) => resource.kind)).size === resources.length
+  ), { message: 'Ilyenkov resources must have unique kinds' }).optional(),
+  portrait: z.string().regex(portraitFilePattern).optional(),
+  portraitCredit: EditorialLineSchema.optional(),
+  summary: EditorialLineSchema,
+  description: EditorialLineSchema,
+  introduction: z.array(z.string().trim().min(1)).min(1),
+  entrances: z.array(z.object({
+    target: z.enum(['life', 'timeline', 'works', 'circle']),
+    label: EditorialLineSchema,
+    summary: EditorialLineSchema,
+  }).strict()).refine((entrances) => new Set(entrances.map((entrance) => entrance.target)).size === entrances.length,
+    { message: 'Ilyenkov entrance targets must be unique' }),
+}).strict().refine((profile) => (profile.portrait === undefined) === (profile.portraitCredit === undefined), {
+  message: 'Ilyenkov portrait and its credit must be published together',
+});
+
+export const ResearchRecordsSchema = z.object({
+  ilyenkov: IlyenkovProfileSchema.optional(),
+  biography: z.array(BiographySchema).min(1),
+  military: z.array(ActivitySchema).min(1),
+  congresses: z.array(CongressSchema).min(1),
+  works: z.array(WorkSchema).min(1),
+  readings: z.array(ReadingsSchema).min(1),
+  readingsSeries: z.array(ReadingsSeriesSchema).min(1).optional(),
+  ifiNetworks: z.array(IfiNetworkSchema).min(1),
+  ifiSymposiums: z.array(IfiSymposiumSchema).min(1),
+  researchers: z.array(ResearcherSchema).min(1),
+  researchSites: z.array(ResearchSiteSchema).min(1),
+  timeline: TimelineSchema,
+  worksCatalog: WorksCatalogSchema,
+  life: LifeSchema,
+  circle: CircleSchema,
+}).strict().superRefine((records, context) => {
+  const activityRecords = [...records.biography, ...records.military, ...records.congresses];
+  records.timeline.recordIds.forEach((id, index) => {
+    if (activityRecords.filter((record) => record.id === id).length !== 1) {
+      context.addIssue({
+        code: 'custom',
+        path: ['timeline', 'recordIds', index],
+        message: 'Timeline must reference exactly one public activity record',
+      });
+    }
+  });
+  records.life.stages.forEach((stage, index) => {
+    const issue = (message) => context.addIssue({
+      code: 'custom', path: ['life', 'stages', index], message,
+    });
+    const selectedActivities = activityRecords.filter((record) => stage.recordIds.includes(record.id));
+    const selectedWorks = records.works.filter((work) => stage.recordIds.includes(work.id));
+    for (const id of stage.recordIds) {
+      if ([...selectedActivities, ...selectedWorks].filter((record) => record.id === id).length !== 1) {
+        issue('Life must reference exactly one public activity or work record');
+      }
+    }
+    if (selectedWorks.length && selectedActivities.length) issue('Life work and activity references cannot be mixed');
+    if (selectedWorks.length && !stage.summary) issue('Life work references require an editorial summary');
+    if (stage.recordIds.length === 0) {
+      if (stage.period || stage.years) issue('Empty life references cannot have derived coordinates');
+    } else if (selectedWorks.length) {
+      const years = [...new Set(selectedWorks.map((work) => work.year))].sort();
+      if (stage.period || JSON.stringify(stage.years) !== JSON.stringify(years)) {
+        issue('Life years must derive from the selected public works');
+      }
+    } else if (selectedActivities.length) {
+      const start = selectedActivities.map((record) => record.period.start).sort()[0];
+      const end = selectedActivities.map((record) => record.period.end).sort().at(-1);
+      if (stage.years || stage.period?.start !== start || stage.period?.end !== end) {
+        issue('Life period must derive from the selected public activities');
+      }
+    }
+  });
+  records.circle.sections.forEach((section, index) => {
+    const available = {
+      biography_event: records.biography,
+      military_service: records.military,
+      hegel_congress: records.congresses,
+    }[section.recordKind];
+    section.recordIds.forEach((id, referenceIndex) => {
+      if (available.filter((record) => record.id === id).length !== 1) {
+        context.addIssue({
+          code: 'custom', path: ['circle', 'sections', index, 'recordIds', referenceIndex],
+          message: 'Circle must reference exactly one public record of its section kind',
+        });
+      }
+    });
+  });
+  const workTypes = new Set(records.works.map((work) => work.type));
+  for (const type of Object.keys(records.worksCatalog.editorial.typeNotes)) {
+    if (!workTypes.has(type)) {
+      context.addIssue({
+        code: 'custom',
+        path: ['worksCatalog', 'editorial', 'typeNotes', type],
+        message: 'Catalog note must reference a public work type',
+      });
+    }
+  }
+  records.readingsSeries?.forEach((series, index) => {
+    for (const relation of /** @type {const} */ (['earliestArchivedEventId', 'firstInternationalEventId'])) {
+      const matchingReadings = records.readings.filter((record) => (
+        record.id === series.history[relation]
+      ));
+      if (matchingReadings.length !== 1) {
+        context.addIssue({
+          code: 'custom',
+          path: ['readingsSeries', index, 'history', relation],
+          message: 'Readings series history must reference exactly one public reading',
+        });
+      }
+    }
+  });
+  records.ifiNetworks.forEach((network, index) => {
+    const matchingSymposiums = records.ifiSymposiums.filter((symposium) => (
+      symposium.id === network.formation.symposiumId
+    ));
+    if (matchingSymposiums.length !== 1 || matchingSymposiums[0].status !== 'confirmed') {
+      context.addIssue({
+        code: 'custom',
+        path: ['ifiNetworks', index, 'formation', 'symposiumId'],
+        message: 'IFI formation must reference exactly one confirmed public symposium',
+      });
+    }
+  });
+});
