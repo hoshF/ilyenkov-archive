@@ -3,6 +3,7 @@ import type { RSSFeedItem } from '@astrojs/rss';
 import XMLBuilder from 'fast-xml-builder';
 import { getGroupIssues, type GroupIssue } from './group';
 import { getUpdates, type Update } from './updates';
+import { isCalendarDate } from './calendar-date.mjs';
 
 type PublishedContent = Pick<GroupIssue, 'title' | 'kind' | 'route' | 'published' | 'summary'>;
 
@@ -20,13 +21,11 @@ const guidData = (guid: string): string => guidBuilder.build({
 });
 
 function publicDate(date: string): Date {
-  const value = new Date(`${date}T00:00:00Z`);
-  if (!/^\d{4}-\d{2}-\d{2}$/.test(date)
-    || Number.isNaN(value.getTime()) || value.toISOString().slice(0, 10) !== date) {
+  if (!isCalendarDate(date)) {
     throw new Error(`RSS requires a real website publication date: ${date}`);
   }
   // RSS 使用 Date 表达日期；UTC 零点是统一编码，不表示已知的公开时刻。
-  return value;
+  return new Date(`${date}T00:00:00Z`);
 }
 
 /** 同一站内页面忽略尾斜线、查询与锚点；外部来源不冒充本站内容。 */

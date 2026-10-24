@@ -1,11 +1,9 @@
 import { z } from 'zod';
 import { buildCache } from './cache';
 import { readEditorialJson } from './editorial';
+import { isCalendarDate } from './calendar-date.mjs';
 
-const DateSchema = z.string().regex(/^\d{4}-\d{2}-\d{2}$/).refine((value) => {
-  const parsed = new Date(`${value}T00:00:00Z`);
-  return !Number.isNaN(parsed.getTime()) && parsed.toISOString().slice(0, 10) === value;
-}, 'Update date must be a real calendar date');
+const DateSchema = z.string().refine(isCalendarDate, 'Update date must be a real calendar date');
 
 const PublicLinkSchema = z.string().trim().min(1).refine((value) => {
   // 只接受站内绝对路由与 http(s)，避免协议相对地址、控制字符与反斜线。

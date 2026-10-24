@@ -50,6 +50,7 @@ function fixture() {
       cpSync(path.join(projectRoot, 'scripts/sync-books.mjs'), path.join(publicRoot, 'scripts/sync-books.mjs'));
       mkdirSync(path.join(publicRoot, 'src/lib'), { recursive: true });
       cpSync(path.join(projectRoot, 'src/lib/book-record.mjs'), path.join(publicRoot, 'src/lib/book-record.mjs'));
+      cpSync(path.join(projectRoot, 'src/lib/calendar-date.mjs'), path.join(publicRoot, 'src/lib/calendar-date.mjs'));
       if (!existsSync(path.join(publicRoot, 'node_modules'))) symlinkSync(path.join(projectRoot, 'node_modules'), path.join(publicRoot, 'node_modules'), 'dir');
       return spawnSync(process.execPath, ['scripts/sync-books.mjs', ...(checkOnly ? ['--check'] : [])], {
         cwd: publicRoot, env: { ...process.env, ILYENKOV_ROOT: sourceRoot }, encoding: 'utf8', timeout: 10_000,

@@ -1,9 +1,10 @@
 import { z } from 'zod';
+import { isCalendarDate } from './calendar-date.mjs';
 
 /** YAML 会把不带引号的 2026-01-15 解析成 Date，两种写法都归一化为 YYYY-MM-DD。 */
 const IsoDateSchema = z.preprocess(
   (value) => (value instanceof Date ? value.toISOString().slice(0, 10) : value),
-  z.string().regex(/^\d{4}-\d{2}-\d{2}$/),
+  z.string().refine(isCalendarDate, 'Edition date must be a real calendar date'),
 );
 
 const EditionSchema = z.object({
