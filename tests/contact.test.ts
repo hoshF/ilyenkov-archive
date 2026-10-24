@@ -104,13 +104,23 @@ describe('following and contacting the group', () => {
     }
   });
 
-  it('keeps the content sections as the only primary navigation destinations', () => {
+  it('keeps the content sections as the site destinations and ends the primary navigation with the forum', () => {
+    // 站内栏目仍只来自 site.navigation 并受站内路径校验；论坛入口由 forumUrl 派生，排在最后。
     expect(site.navigation.map(({ href }) => href))
       .toEqual(['/ilyenkov/', '/archive/', '/glossary/', '/research/', '/group/', '/books/']);
     for (const route of ['/', '/contact/', '/group/', '/updates/']) {
       const html = builtPage(route);
       const nav = html.match(/<nav\b[^>]*aria-label="主要导航"[^>]*>([\s\S]*?)<\/nav>/)![1];
-      expect(links(nav), route).toEqual(site.navigation);
+      expect(links(nav), route).toEqual([...site.navigation, { href: site.forumUrl, label: '讨论' }]);
+      expect(nav, route).not.toMatch(new RegExp(`href="${site.forumUrl}"[^>]*aria-current`));
     }
+  });
+
+  it('offers the forum as a channel for open discussion on the contact page', () => {
+    const main = builtPage('/contact/').match(/<main>([\s\S]*?)<\/main>/)![1];
+    const contact = main.slice(main.indexOf('<h2>联系</h2>'), main.indexOf('<h2>参与研究与整理</h2>'));
+    expect(contact).toContain(`<a href="${site.forumUrl}">讨论社区</a>`);
+    // 不为论坛另设宣传板块。
+    expect([...main.matchAll(/<h2>/g)]).toHaveLength(3);
   });
 });

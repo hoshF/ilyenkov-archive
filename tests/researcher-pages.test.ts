@@ -178,7 +178,8 @@ describe('canonical researcher detail and research hub entry', () => {
     for (const href of ['/research/', route]) {
       const html = builtPage(href);
       const nav = html.match(/<nav\b[^>]*aria-label="主要导航"[^>]*>([\s\S]*?)<\/nav>/)![1];
-      expect(links(nav)).toEqual(expected);
+      // 站内栏目之后是论坛入口“讨论”；它不参与当前栏目标记。
+      expect(links(nav)).toEqual([...expected, { href: site.forumUrl, label: '讨论' }]);
       expect(nav).toContain('href="/research/" aria-current="page"');
       expect(html).not.toMatch(/<script\b|<astro-island\b|<style\b|\sstyle="|<form\b|<input\b/);
       for (const field of [

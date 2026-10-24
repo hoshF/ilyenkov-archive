@@ -215,7 +215,8 @@ describe('IFI public detail and research entry', () => {
     for (const route of ['/research', '/research/ifi']) {
       const html = builtPage(route);
       const nav = html.match(/<nav\b[^>]*aria-label="主要导航"[^>]*>([\s\S]*?)<\/nav>/)![1];
-      expect(links(nav)).toEqual(expected);
+      // 站内栏目之后是论坛入口“讨论”；它不参与当前栏目标记。
+      expect(links(nav)).toEqual([...expected, { href: site.forumUrl, label: '讨论' }]);
       expect(nav).toContain('href="/research/" aria-current="page"');
       expect(html).not.toMatch(/<script\b|<astro-island\b|<style\b|\sstyle="/);
       for (const restricted of ['positioning_en', 'founded', 'formation_event_id', 'org-ifi', 'internal_notes', 'source_files', '/Users/', 'ILYENKOV_ROOT']) {

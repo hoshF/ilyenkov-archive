@@ -11,13 +11,13 @@ import {
 } from '../src/lib/article-source';
 import { getBooks } from '../src/lib/books';
 import { getGlossary } from '../src/lib/glossary';
-import { site, readEditorialJson } from '../src/lib/editorial';
+import { site, readEditorialJson, SiteSchema } from '../src/lib/editorial';
 import { adjacentIssues, getGroupAnnouncement, getGroupIssues, GroupIssueSchema } from '../src/lib/group';
 import { getPublicIlyenkov, getPublicResearchers, getPublicIfiNetwork, getPublicReadingsSeries } from '../src/lib/research-records';
 import { getSiteData } from '../src/lib/site-data';
 import { builtRoutePath, componentSource, layoutSource, pageFileExists, pageSource, routeExists } from './helpers/pages';
 import { researchRoot, websiteWorks } from './helpers/publication';
-import { coversCodePoint, declaration, declarationsFor, fontFaces, rules } from './helpers/styles';
+import { coversCodePoint, declaration, declarationsFor, fontFaces, hasRule, rules } from './helpers/styles';
 
 const ilyenkov = getPublicIlyenkov();
 
@@ -182,7 +182,7 @@ describe('website-approved data adapter', () => {
     const nav = notFound.match(/<nav[^>]*aria-label="主要导航"[^>]*>([\s\S]*?)<\/nav>/)![1];
     expect(nav).not.toContain('aria-current');
     expect([...nav.matchAll(/<a[^>]*>([^<]*)<\/a>/g)].map(([, label]) => label))
-      .toEqual(['伊里因科夫', '档案', '术语库', '研究', '小组', '书籍']);
+      .toEqual(['伊里因科夫', '档案', '术语库', '研究', '小组', '书籍', '讨论']);
 
     // 纯静态：没有脚本，也不在本轮引入 canonical / OG / robots meta。
     expect(notFound).not.toContain('<script');
@@ -1042,10 +1042,10 @@ describe('public navigation', () => {
     expect(homepage.match(/<footer class="site-footer">([\s\S]*?)<\/footer>/)![1]).toContain(site.name);
     expect(layout).toContain('site-name__text');
 
-    // 一级栏目仍是页眉的主体，且顺序与 site.navigation 一致。
+    // 一级栏目仍是页眉的主体，且顺序与 site.navigation 一致；论坛入口“讨论”排在最后。
     const nav = header.match(/<nav[^>]*aria-label="主要导航"[^>]*>([\s\S]*?)<\/nav>/)![1];
     expect([...nav.matchAll(/<a[^>]*>([^<]*)<\/a>/g)].map(([, label]) => label))
-      .toEqual(site.navigation.map((item) => item.label));
+      .toEqual([...site.navigation.map((item) => item.label), '讨论']);
 
     // 刊名与导航分为两行，目录允许自然换行。
     const navRule = declarationsFor('.site-header__nav');
@@ -1068,18 +1068,21 @@ describe('public navigation', () => {
     expect(mobileNav['font-size']).toBeUndefined();
     const mobileLink = declarationsFor('.site-header__nav a', '@media (max-width: 600px)');
     expect(mobileLink['font-size']).toBe('var(--text-meta)');
-    // 链接左右内边距与导航负外边距相等，首项文字对齐正文左边线；内边距收紧到 8px 以内，
-    // 375–393px 的常见手机仍排成一行。
+    // 链接左右内边距与导航负外边距相等，首项文字对齐正文左边线；内边距收紧到 8px 以内。
     const [, horizontal] = mobileLink.padding.split(/\s+/).map(Number.parseFloat);
     expect(horizontal).toBeLessThanOrEqual(8);
     expect(Number.parseFloat(mobileNav['margin-left'])).toBe(-horizontal);
-    // 只有更窄的屏幕排不下六项：改为三列两行，不让最后一项单独换行。
+    // 七项（六个栏目加“讨论”）在常见手机宽度排不进一行：改为四列两行（4 + 3），不让最后一项单独换行。
+    const items = site.navigation.length + 1;
     const gridRules = rules.filter((rule) => rule.selector === '.site-header__nav' && rule.declarations.display === 'grid');
     expect(gridRules.length).toBeGreaterThan(0);
     for (const rule of gridRules) {
       const maxWidth = Number.parseFloat(rule.media.match(/max-width:\s*(\d+)px/)![1]);
-      expect(maxWidth).toBeLessThan(375);
-      expect(rule.declarations['grid-template-columns']).toBe(`repeat(${site.navigation.length / 2}, max-content)`);
+      expect(maxWidth).toBeGreaterThanOrEqual(430);
+      expect(maxWidth).toBeLessThan(600);
+      const columns = Number.parseInt(rule.declarations['grid-template-columns'].match(/repeat\((\d+),/)![1], 10);
+      expect(items % columns, 'last row is not a single item').not.toBe(1);
+      expect(Math.ceil(items / columns)).toBe(2);
     }
     expect(Number.parseFloat(link['min-height'])).toBeGreaterThanOrEqual(44);
     expect(declarationsFor('a:focus-visible').outline).toBeTruthy();
@@ -1199,7 +1202,7 @@ describe('public navigation', () => {
     expect(site.navigation.map(({ href }) => href))
       .toEqual(['/ilyenkov/', '/archive/', '/glossary/', '/research/', '/group/', '/books/']);
     expect([...nav.matchAll(/href="([^"]+)"/g)].map(([, href]) => href))
-      .toEqual(site.navigation.map(({ href }) => href));
+      .toEqual([...site.navigation.map(({ href }) => href), site.forumUrl]);
     expect(nav).not.toContain('href="/updates/"');
     const updates = homepage.match(/<section class="home-updates"[\s\S]*?<\/section>/)![0];
     expect(updates).toContain('<a href="/updates/">查看全部动态</a>');
@@ -1279,11 +1282,11 @@ describe('public navigation', () => {
       expect(declaration('.group-heading__title', property)).toBe(declaration('.home-positioning', property));
     }
     expect(declaration('.group-heading__title', 'color')).toBe('var(--ink)');
-    // 关于小组本身的入口只在左栏：小组介绍与关注与联系；正文栏不再另设入口行。
+    // 关于小组本身的入口只在左栏：小组介绍、讨论社区与关注与联系；正文栏不再另设入口行。
     const about = main.match(/<aside aria-labelledby="group-about-heading">([\s\S]*?)<\/aside>/)![1];
     expect(about).toContain('>关于小组</p>');
     expect([...about.matchAll(/<a href="([^"]+)">([^<]*)<\/a>/g)].map(([, href, label]) => ({ href, label })))
-      .toEqual([{ href: '/group/0/', label: '小组介绍' }, { href: '/contact/', label: '关注与联系' }]);
+      .toEqual([{ href: '/group/0/', label: '小组介绍' }, { href: site.forumUrl, label: '讨论社区' }, { href: '/contact/', label: '关注与联系' }]);
     const content = main.slice(0, main.indexOf('class="section-layout__sidebar"'));
     expect(content).not.toContain('href="/contact/"');
     expect(main).toMatch(/class="container section-layout[^"]*\bcentered-rail\b/);
@@ -1823,5 +1826,40 @@ describe('Ilyenkov opening', () => {
     expect(declaration('.wiki-card .wiki-card__photo', 'aspect-ratio')).toBe('3 / 4');
     expect(declaration('.wiki-card .wiki-card__photo', 'object-position')).toBe('center top');
     expect(declaration('.wiki-card .wiki-card__photo', 'max-height')).toBe('none');
+  });
+});
+
+describe('forum entrances', () => {
+  it('derives every forum entrance from one https base address that ends with a slash', () => {
+    const source = readEditorialJson('site.json') as Record<string, unknown>;
+    expect(SiteSchema.safeParse(source).success).toBe(true);
+    for (const forumUrl of ['http://forum.example/', 'https://forum.example', 'forum.example/', '/forum/']) {
+      expect(SiteSchema.safeParse({ ...source, forumUrl }).success, forumUrl).toBe(false);
+    }
+    expect(SiteSchema.safeParse({ ...source, forumUrl: 'https://example.org/forum/' }).success).toBe(true);
+  });
+
+  it('links the forum from the homepage group area and the group page rail', () => {
+    const home = readFileSync(builtRoutePath('/'), 'utf8').match(/<main>([\s\S]*?)<\/main>/)![1];
+    const group = home.match(/<section class="home-group"[\s\S]*?<\/section>/)![0];
+    expect(group).toContain(`<a href="/group/">小组通讯</a> · <a href="${site.forumUrl}">讨论社区</a> · <a href="/contact/">关注与联系</a>`);
+    const page = readFileSync(builtRoutePath('/group'), 'utf8');
+    const rail = page.match(/<aside aria-labelledby="group-about-heading">([\s\S]*?)<\/aside>/)![1];
+    expect([...rail.matchAll(/<a href="([^"]+)">([^<]*)<\/a>/g)].map(([, href, label]) => ({ href, label }))).toEqual([
+      { href: '/group/0/', label: '小组介绍' },
+      { href: site.forumUrl, label: '讨论社区' },
+      { href: '/contact/', label: '关注与联系' },
+    ]);
+  });
+
+  it('lays the seven navigation items out as four plus three on narrow screens, never leaving one alone', () => {
+    // 四列两行：七项排成 4 + 3；字号与点击区域沿用手机导航，不为塞进一行而缩小。
+    expect(declaration('.site-header__nav', 'display', '@media (max-width: 440px)')).toBe('grid');
+    expect(declaration('.site-header__nav', 'grid-template-columns', '@media (max-width: 440px)')).toBe('repeat(4, minmax(max-content, 1fr))');
+    expect(hasRule('.site-header__nav', '@media (max-width: 365px)')).toBe(false);
+    expect(site.navigation.length + 1).toBe(7);
+    const mobile = '@media (max-width: 600px)';
+    expect(declaration('.site-header__nav a', 'font-size', mobile)).toBe('var(--text-meta)');
+    expect(declaration('.site-header__nav a', 'padding', mobile)).toBe('10px 8px');
   });
 });

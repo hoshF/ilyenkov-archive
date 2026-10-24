@@ -13,6 +13,7 @@ const [issues, announcement] = await Promise.all([getGroupIssues(), getGroupAnno
     {/* 关于小组本身的固定入口放在左栏；正文栏依次是公告、小组名称与小组通讯。 */}
     <ResourceLinks slot="aside" id="group-about-heading" label="关于小组" links={[
       { label: '小组介绍', href: '/group/0/' },
+      { label: '讨论社区', href: site.forumUrl },
       { label: '关注与联系', href: '/contact/' },
     ]} />
     {/* 公告置顶，默认折叠成一行，不把小组名称压到下方；首页按公告标题的 id 链到这里，届时自动展开。 */}

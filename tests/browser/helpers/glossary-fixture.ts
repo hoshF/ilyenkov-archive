@@ -45,7 +45,7 @@ export async function buildGlossaryFixture() {
     await json('editorial/site.json', {
       name: 'Synthetic glossary site', description: 'Synthetic description.',
       group: { name: 'Synthetic group', originalName: 'Synthetic original', englishName: 'Synthetic English', summary: 'Synthetic summary.' },
-      contact: { email: 'fixture@example.test' },
+      contact: { email: 'fixture@example.test' }, forumUrl: 'https://forum.example.test/',
       navigation: [{ label: '术语库', href: '/glossary/' }], footer: [{ label: '术语库', href: '/glossary/' }],
     });
     await json('package.json', { type: 'module' });

@@ -9,7 +9,7 @@ const LinkSchema = z.object({
   href: z.string().regex(/^\/[a-z0-9/-]*(?:\.xml)?$/),
 }).strict();
 
-const SiteSchema = z.object({
+export const SiteSchema = z.object({
   name: z.string().trim().min(1),
   description: z.string().trim().min(1),
   group: z.object({
@@ -21,6 +21,8 @@ const SiteSchema = z.object({
   contact: z.object({
     email: z.email(),
   }).strict(),
+  /** 论坛基址：主导航“讨论”、各处“讨论社区”与文章讨论话题的地址都由它派生，迁移域名只改这一处。 */
+  forumUrl: z.url({ protocol: /^https$/ }).regex(/\/$/, { message: 'forumUrl must end with /' }),
   navigation: z.array(LinkSchema).min(1),
   footer: z.array(LinkSchema).min(1),
 }).strict();

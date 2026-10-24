@@ -782,7 +782,7 @@ h2, h3, h4 { text-wrap: balance; line-height: 1.3; }
   .site-header__masthead { align-items: flex-start; gap: 8px; padding: 16px 0 8px; }
   .site-name { width: auto; }
   /* 手机导航保持小字号与紧凑间距，点击区域仍至少高 44px；左右内边距收到 8px，
-     375px 起六个栏目排得进一行，负外边距与内边距相等，首项文字仍对齐正文左边线。 */
+     负外边距与内边距相等，首项文字仍对齐正文左边线。七项（六个栏目加“讨论”）约需 413px 才排得进一行。 */
   .site-header__nav { justify-content: flex-start; margin-left: -8px; gap: 4px; padding: 0; }
   .site-header__nav a { font-size: var(--text-meta); padding: 10px 8px; }
   /* 动态在窄屏把日期放到说明上方，让长文本保有完整行宽。 */
@@ -815,9 +815,11 @@ h2, h3, h4 { text-wrap: balance; line-height: 1.3; }
   .book-page .fact-list dt { margin-bottom: 7px; }
 }
 
-/* 更窄时六个栏目排不进一行；按三列两行排，最后一项不会单独落到第二行。 */
-@media (max-width: 365px) {
-  .site-header__nav { display: grid; grid-template-columns: repeat(3, max-content); }
+/* 七项排不进一行时按四列两行排（4 + 3），末项不会单独落到下一行；四列平分行宽、不窄于各自文字，
+   两行上下对齐。首行文字约 244px，320px 也放得下。
+   断点留出余量，不同平台字体略宽时也不会退回自然折行。字号与点击区域不变。 */
+@media (max-width: 440px) {
+  .site-header__nav { display: grid; grid-template-columns: repeat(4, minmax(max-content, 1fr)); }
 }
 
 /* 栏目列表的垂直节奏；实体详情与连续阅读保留各自规则。 */

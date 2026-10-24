@@ -76,6 +76,8 @@ const current = (href: string) => (
           {site.navigation.map((item) => (
             <a href={item.href} aria-current={current(item.href) ? 'page' : undefined}>{item.label}</a>
           ))}
+          {/* 论坛是站外入口：排在站内栏目之后，不参与当前栏目标记，也不进站内路径校验。 */}
+          <a href={site.forumUrl}>讨论</a>
         </nav>
       </div>
     </header>
