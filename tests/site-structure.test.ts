@@ -15,7 +15,7 @@ import { site, readEditorialJson, SiteSchema } from '../src/lib/editorial';
 import { adjacentIssues, getGroupAnnouncement, getGroupIssues, GroupIssueSchema } from '../src/lib/group';
 import { getPublicIlyenkov, getPublicResearchers, getPublicIfiNetwork, getPublicReadingsSeries } from '../src/lib/research-records';
 import { getSiteData } from '../src/lib/site-data';
-import { builtRoutePath, componentSource, layoutSource, pageFileExists, pageSource, routeExists } from './helpers/pages';
+import { builtRoutePath, componentSource, layoutSource, pageFileExists, pageSource, routeExists, withoutHiddenDecoration } from './helpers/pages';
 import { researchRoot, websiteWorks } from './helpers/publication';
 import { coversCodePoint, declaration, declarationsFor, fontFaces, hasRule, rules } from './helpers/styles';
 
@@ -181,7 +181,7 @@ describe('website-approved data adapter', () => {
     expect(notFound).not.toContain('breadcrumbs');
     const nav = notFound.match(/<nav[^>]*aria-label="主要导航"[^>]*>([\s\S]*?)<\/nav>/)![1];
     expect(nav).not.toContain('aria-current');
-    expect([...nav.matchAll(/<a[^>]*>([^<]*)<\/a>/g)].map(([, label]) => label))
+    expect([...withoutHiddenDecoration(nav).matchAll(/<a[^>]*>([^<]*)<\/a>/g)].map(([, label]) => label))
       .toEqual(['伊里因科夫', '档案', '术语库', '研究', '小组', '书籍', '讨论']);
 
     // 纯静态：没有脚本，也不在本轮引入 canonical / OG / robots meta。
@@ -889,6 +889,11 @@ describe('public navigation', () => {
     expect(active['text-decoration-color']).toBeUndefined();
     // 底线是文字自己的下划线：导航项不因为当前状态而变高。
     expect(active['border-bottom']).toBeUndefined();
+    // 当前项以字重与细下划线标示，不用底色或按钮样式。
+    expect(Number.parseInt(active['font-weight'], 10)).toBeGreaterThanOrEqual(500);
+    expect(Number.parseInt(active['font-weight'], 10)).toBeLessThanOrEqual(600);
+    expect(active.background).toBeUndefined();
+    expect(active['background-color']).toBeUndefined();
   });
 
   it('marks the glossary as the current section on its index and entry pages', () => {
@@ -1042,10 +1047,26 @@ describe('public navigation', () => {
     expect(homepage.match(/<footer class="site-footer">([\s\S]*?)<\/footer>/)![1]).toContain(site.name);
     expect(layout).toContain('site-name__text');
 
+    // 刊名下是俄文全名：标 lang="ru"，在首页链接之外，不进链接的可访问名称。
+    expect(site.subtitleRu).toMatch(/^[\p{Script=Cyrillic}][\p{Script=Cyrillic} .-]*$/u);
+    const subtitle = `<p class="site-header__subtitle" lang="ru">${site.subtitleRu}</p>`;
+    expect(header).toContain(subtitle);
+    expect(mark).not.toContain(site.subtitleRu);
+    expect(header.indexOf(subtitle)).toBeGreaterThan(header.indexOf(homeLinks[0][0]));
+    expect(header.indexOf(subtitle)).toBeLessThan(header.indexOf('<nav'));
+    for (const route of ['/research/', '/archive/']) {
+      expect(readFileSync(builtRoutePath(route), 'utf8'), route).toContain(subtitle);
+    }
+
     // 一级栏目仍是页眉的主体，且顺序与 site.navigation 一致；论坛入口“讨论”排在最后。
     const nav = header.match(/<nav[^>]*aria-label="主要导航"[^>]*>([\s\S]*?)<\/nav>/)![1];
-    expect([...nav.matchAll(/<a[^>]*>([^<]*)<\/a>/g)].map(([, label]) => label))
+    expect([...withoutHiddenDecoration(nav).matchAll(/<a[^>]*>([^<]*)<\/a>/g)].map(([, label]) => label))
       .toEqual([...site.navigation.map((item) => item.label), '讨论']);
+    // 只有站外的“讨论”带右上箭头；箭头是装饰，不进链接的可访问名称。
+    // 箭头前是窄不换行空格而非外边距，悬停下划线从文字连续画到箭头。
+    const arrows = [...nav.matchAll(/<a\b[^>]*href="([^"]+)"[^>]*>[^<]*<span aria-hidden="true">\u202f↗<\/span><\/a>/g)];
+    expect(arrows.map(([, href]) => href)).toEqual([site.forumUrl]);
+    expect(nav.match(/↗/g)).toHaveLength(1);
 
     // 刊名与导航分为两行，目录允许自然换行。
     const navRule = declarationsFor('.site-header__nav');
@@ -1054,43 +1075,75 @@ describe('public navigation', () => {
     expect(navRule['flex-wrap']).toBe('wrap');
     expect(navRule['justify-content']).not.toBe('flex-end');
     expect(navRule['margin-left']).toBeDefined();
+    // 刊名区与导航之间一条 1px 细线，用较深的现有线色，深浅两色方案都可见。
+    expect(declaration('.site-header__identity', 'border-bottom')).toBe('1px solid var(--line-strong)');
+    expect(declaration('.site-header__identity', 'padding-bottom')).toBe('16px');
+  });
+
+  it('sets the masthead title in bold interface type and scales it by width without touching body type', () => {
+    // 中文刊名 28px 黑色粗体、俄文行 13px 灰色，都用界面无衬线字体，不另设字体栈。
+    expect(declaration(':root', '--text-masthead')).toBe('1.75rem');
+    expect(declaration(':root', '--text-masthead-sub')).toBe('.8125rem');
+    const title = declarationsFor('.site-name__text');
+    expect(title['font-family']).toBeUndefined();
+    expect(title['font-size']).toBe('var(--text-masthead)');
+    expect(title['font-weight']).toBe('700');
+    expect(title.color).toBe('var(--ink-strong)');
+    expect(title['letter-spacing']).toBe('0');
+    const subtitle = declarationsFor('.site-header__subtitle');
+    expect(subtitle['font-family']).toBeUndefined();
+    expect(subtitle['font-size']).toBe('var(--text-masthead-sub)');
+    expect(subtitle.color).toBe('var(--muted)');
+    // 刊名比正文更深：浅色方案更黑，深色方案更亮。
+    const darkness = (hex: string) => Number.parseInt(hex.slice(1, 3), 16);
+    expect(darkness(declaration(':root', '--ink-strong')!)).toBeLessThan(darkness(declaration(':root', '--ink')!));
+    const dark = '@media (prefers-color-scheme: dark)';
+    expect(darkness(declaration(':root', '--ink-strong', dark)!)).toBeGreaterThan(darkness(declaration(':root', '--ink', dark)!));
+    // 中等宽度刊名 26px，窄屏 23px；俄文行收到 12px 为止。
+    expect(declaration(':root', '--text-masthead', '@media (max-width: 1023px)')).toBe('1.625rem');
+    expect(declaration(':root', '--text-masthead-sub', '@media (max-width: 1023px)')).toBe('.75rem');
+    expect(declaration(':root', '--text-masthead', '@media (max-width: 680px)')).toBe('1.4375rem');
+    // 上边距 24 / 20 / 16。
+    expect(declaration('.site-header__masthead', 'padding')).toMatch(/^24px /);
+    expect(declaration('.site-header__masthead', 'padding-top', '@media (max-width: 1023px)')).toBe('20px');
+    expect(declaration('.site-header__masthead', 'padding', '@media (max-width: 600px)')).toMatch(/^16px /);
+    // 刊头下沿不另留白：导航点击区的下半截与页面自己的首行距离已足够把刊头与正文分开。
+    for (const media of [undefined, '@media (max-width: 600px)']) {
+      expect(declaration('.site-header__masthead', 'padding', media)!.split(/\s+/)[2], media).toBe('0');
+    }
+    // 全站字体不因刊头改变。
+    expect(declaration(':root', 'font-family')).toBe('var(--sans)');
   });
 
   it('keeps navigation typography unchanged and the mobile directory compact', () => {
-    // 导航仍为 16px，不额外加粗；刊名单独承担第一层身份。
+    // 导航在各宽度都是纯文字，字号与首页“了解伊里因科夫”一行相同，不额外加粗；刊名单独承担第一层身份。
     const link = declarationsFor('.site-header__nav a');
-    expect(link['font-size']).toBe('var(--text-body)');
+    expect(link['font-size']).toBe(declaration('.home-more', 'font-size'));
+    expect(rules.some((rule) => rule.selector === '.home-more' && rule.media && rule.declarations['font-size'])).toBe(false);
     expect(link.color).toBe('var(--ink-soft)');
     expect(link['font-weight']).toBeUndefined();
+    expect(rules.some((rule) => rule.selector === '.site-header__nav a' && rule.media && rule.declarations['font-size'])).toBe(false);
 
-    // 手机宽度下导航另起一行、退回 14px 并收紧间距，栏目可自然换行。
-    const mobileNav = declarationsFor('.site-header__nav', '@media (max-width: 600px)');
-    expect(mobileNav['font-size']).toBeUndefined();
-    const mobileLink = declarationsFor('.site-header__nav a', '@media (max-width: 600px)');
-    expect(mobileLink['font-size']).toBe('var(--text-meta)');
-    // 链接左右内边距与导航负外边距相等，首项文字对齐正文左边线；内边距收紧到 8px 以内。
-    const [, horizontal] = mobileLink.padding.split(/\s+/).map(Number.parseFloat);
+    // 链接左右内边距与导航负外边距相等，首项文字对齐正文左边线；内边距在 8px 以内，项间不再另加列距。
+    const navRule = declarationsFor('.site-header__nav');
+    const [, horizontal] = link.padding.split(/\s+/).map(Number.parseFloat);
     expect(horizontal).toBeLessThanOrEqual(8);
-    expect(Number.parseFloat(mobileNav['margin-left'])).toBe(-horizontal);
-    // 七项（六个栏目加“讨论”）在常见手机宽度排不进一行：改为四列两行（4 + 3），不让最后一项单独换行。
-    const items = site.navigation.length + 1;
-    const gridRules = rules.filter((rule) => rule.selector === '.site-header__nav' && rule.declarations.display === 'grid');
-    expect(gridRules.length).toBeGreaterThan(0);
-    for (const rule of gridRules) {
-      const maxWidth = Number.parseFloat(rule.media.match(/max-width:\s*(\d+)px/)![1]);
-      // 覆盖各种手机宽度与略宽于手机的窄窗口；768px 的平板竖屏仍排成一行。
-      expect(maxWidth).toBeGreaterThanOrEqual(430);
-      expect(maxWidth).toBeLessThan(768);
-      const columns = Number.parseInt(rule.declarations['grid-template-columns'].match(/repeat\((\d+),/)![1], 10);
-      expect(items % columns, 'last row is not a single item').not.toBe(1);
-      expect(Math.ceil(items / columns)).toBe(2);
-    }
+    expect(Number.parseFloat(navRule['margin-left'])).toBe(-horizontal);
+    expect(navRule.gap).toBeUndefined();
     expect(Number.parseFloat(link['min-height'])).toBeGreaterThanOrEqual(44);
     expect(declarationsFor('a:focus-visible').outline).toBeTruthy();
 
     // 普通项与当前项同属深色系，当前位置用细下划线标记，hover 使用 accent。
     const hover = declarationsFor('.site-header__nav a:hover');
     expect(hover.color).toBe('var(--accent-hover)');
+    // 纯文字链接：悬停只换色并加下划线，没有底色或边框（圆角只用于焦点框的形状）。
+    expect(hover['text-decoration']).toBe('underline');
+    for (const selector of ['.site-header__nav a', '.site-header__nav a:hover', '.site-header__nav a[aria-current=page]']) {
+      const rule = declarationsFor(selector);
+      expect(rule.background, selector).toBeUndefined();
+      expect(rule['background-color'], selector).toBeUndefined();
+      expect(rule.border, selector).toBeUndefined();
+    }
   });
 
   it('gives the rights page a permanent entrance from every page', () => {
@@ -1853,18 +1906,27 @@ describe('forum entrances', () => {
     ]);
   });
 
-  it('lays the seven navigation items out as four plus three on narrow screens, never leaving one alone', () => {
-    // 四列两行：七项排成 4 + 3；字号与点击区域沿用手机导航，不为塞进一行而缩小。
-    expect(declaration('.site-header__nav', 'display', '@media (max-width: 680px)')).toBe('grid');
-    expect(declaration('.site-header__nav', 'grid-template-columns', '@media (max-width: 680px)')).toBe('repeat(4, minmax(max-content, 1fr))');
-    // 单行时列间距封顶，版心封顶后仍留出余量；字号与内边距不为此收小。
-    expect(declaration('.site-header__nav', 'gap')).toBe('8px clamp(16px, 3vw, 24px)');
-    expect(declaration('.site-header__nav a', 'font-size')).toBe('var(--text-body)');
-    expect(declaration('.site-header__nav a', 'padding')).toBe('10px 12px');
-    expect(hasRule('.site-header__nav', '@media (max-width: 365px)')).toBe(false);
+  it('wraps the narrow-screen directory like a line of text, centring the items that move down', () => {
+    // 窄屏不按等宽列排：各项字距与宽屏相同，链接的字号、内边距和导航负外边距都不另设窄屏值。
+    const narrow = '@media (max-width: 680px)';
+    expect(rules.some((rule) => rule.selector === '.site-header__nav' && rule.declarations.display === 'grid')).toBe(false);
+    expect(rules.some((rule) => rule.selector === '.site-header__nav a' && rule.media)).toBe(false);
+    expect(declaration('.site-header__nav a', 'font-size')).toBe('var(--text-secondary)');
+    expect(declaration('.site-header__nav a', 'padding')).toBe('10px 8px');
+    expect(declaration('.site-header__nav a', 'display')).toBe('inline-flex');
+    // 行内排列：首行从正文左边线起，换到下一行的项居中；左右负外边距相等，末行对准正文中线。
+    const nav = declarationsFor('.site-header__nav', narrow);
+    expect(nav.display).toBe('block');
+    expect(nav['text-align']).toBe('left');
+    expect(nav['text-align-last']).toBe('center');
+    expect(nav['margin-right']).toBe(declaration('.site-header__nav', 'margin-left'));
+    // 导航只按内容取宽（刊头纵向排列、不拉伸子项），排得下一行时居中不会挪动它。
+    expect(declaration('.site-header__masthead', 'align-items')).toBe('flex-start');
+    expect(declaration('.site-header__masthead', 'align-items', '@media (max-width: 600px)')).toBe('flex-start');
+    // 链接之间没有空白文本，字距只来自内边距。
+    const html = readFileSync(builtRoutePath('/research'), 'utf8');
+    const markup = html.match(/<nav class="site-header__nav"[^>]*>([\s\S]*?)<\/nav>/)![1];
+    expect(markup).not.toMatch(/<\/a>\s+<a/);
     expect(site.navigation.length + 1).toBe(7);
-    const mobile = '@media (max-width: 600px)';
-    expect(declaration('.site-header__nav a', 'font-size', mobile)).toBe('var(--text-meta)');
-    expect(declaration('.site-header__nav a', 'padding', mobile)).toBe('10px 8px');
   });
 });

@@ -33,7 +33,7 @@
 | 项目与权利 | `/about` | 项目介绍、来源与编辑、权利、引用与纠错说明 |
 | RSS | `/rss.xml` | 有可靠公开日期的内容与动态的摘要订阅 |
 
-顶部目录依次为伊里因科夫、档案、术语库、研究、小组、书籍。刊头处于普通文档流，只用文字站名；图形字标
+顶部目录依次为伊里因科夫、档案、术语库、研究、小组、书籍。刊头处于普通文档流，只用文字站名，下附灰色俄文全名；图形字标
 保留在 favicon 与分享图中，不进入页眉。首页可见站名承担
 `h1`，其他页面在正文中提供内容或栏目 `h1`。子页面使用面包屑表达所属关系。
 
@@ -128,7 +128,7 @@ RSS 的静态生成与订阅发现见[RSS 订阅](CONTENT_PIPELINE.md#rss-订阅
 | private 研究仓库 | canonical 人物、作品、事件、原文、译文、研究笔记、来源和权利证据 |
 | private `web/publication.json` | 译文、研究、网站书籍、术语与分类的唯一发布选择入口；引用事实、文本、来源文件及选定的公开成稿 |
 | private `web/editorial/` | IFI、Readings 的介绍与导语，研究者中文介绍与研究工作说明，年表与作品目录说明，生平分期与导引、交往主题与记录范围；不替代 canonical 事实记录 |
-| `editorial/site.json` | 站点身份、顶部导航、页脚、小组三语名称、summary、正式联系邮箱与论坛基址 `forumUrl` 的单一配置源 |
+| `editorial/site.json` | 站点身份（含刊头俄文全名 `subtitleRu`）、顶部导航、页脚、小组三语名称、summary、正式联系邮箱与论坛基址 `forumUrl` 的单一配置源 |
 | private `web/editorial/ilyenkov.json` | 人物总页短摘要、完整介绍、页面说明与子页入口名称和导语；人物事实引用 canonical records |
 | private `web/editorial/books/` | 网站书籍元数据、版次与介绍；由 books 显式选择，经生成输入消费 |
 | `editorial/group/` | 小组按期公共工作记录及其摘要、公开日期 |

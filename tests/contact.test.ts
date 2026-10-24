@@ -2,7 +2,7 @@ import { readFileSync, readdirSync } from 'node:fs';
 import path from 'node:path';
 import { describe, expect, it } from 'vitest';
 import { readEditorialJson, site } from '../src/lib/editorial';
-import { builtRoutePath, pageFileExists, routeExists } from './helpers/pages';
+import { builtRoutePath, pageFileExists, routeExists, withoutHiddenDecoration } from './helpers/pages';
 
 const builtPage = (route: string): string => readFileSync(
   builtRoutePath(route),
@@ -111,7 +111,7 @@ describe('following and contacting the group', () => {
     for (const route of ['/', '/contact/', '/group/', '/updates/']) {
       const html = builtPage(route);
       const nav = html.match(/<nav\b[^>]*aria-label="主要导航"[^>]*>([\s\S]*?)<\/nav>/)![1];
-      expect(links(nav), route).toEqual([...site.navigation, { href: site.forumUrl, label: '讨论' }]);
+      expect(links(withoutHiddenDecoration(nav)), route).toEqual([...site.navigation, { href: site.forumUrl, label: '讨论' }]);
       expect(nav, route).not.toMatch(new RegExp(`href="${site.forumUrl}"[^>]*aria-current`));
     }
   });

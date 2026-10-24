@@ -69,15 +69,20 @@ const current = (href: string) => (
   <body class:list={[reading && 'reading-page']}>
     <header class="site-header">
       <div class="site-header__masthead">
-        <a class="site-name" href="/" aria-label={`${site.name}首页`}>
-          <SiteNameElement class="site-name__text">{site.name}</SiteNameElement>
-        </a>
+        {/* 第一层：中文刊名（首页链接）与其下的俄文全名；第二层是导航。 */}
+        <div class="site-header__identity">
+          <a class="site-name" href="/" aria-label={`${site.name}首页`}>
+            <SiteNameElement class="site-name__text">{site.name}</SiteNameElement>
+          </a>
+          <p class="site-header__subtitle" lang="ru">{site.subtitleRu}</p>
+        </div>
         <nav class="site-header__nav" aria-label="主要导航">
           {site.navigation.map((item) => (
             <a href={item.href} aria-current={current(item.href) ? 'page' : undefined}>{item.label}</a>
           ))}
-          {/* 论坛是站外入口：排在站内栏目之后，不参与当前栏目标记，也不进站内路径校验。 */}
-          <a href={site.forumUrl}>讨论</a>
+          {/* 论坛是站外入口：排在站内栏目之后，不参与当前栏目标记，也不进站内路径校验。
+              箭头前用窄不换行空格而不是外边距，悬停下划线才能从“讨论”连到箭头。 */}
+          <a href={site.forumUrl}>讨论<span aria-hidden="true">{'\u202f↗'}</span></a>
         </nav>
       </div>
     </header>

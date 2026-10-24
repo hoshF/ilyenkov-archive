@@ -9,7 +9,7 @@ import {
   getPublicReadingsSeries,
   type PublicIfiNetwork,
 } from '../src/lib/research-records';
-import { builtRoutePath, routeExists } from './helpers/pages';
+import { builtRoutePath, routeExists, withoutHiddenDecoration } from './helpers/pages';
 import { declaration } from './helpers/styles';
 
 const builtPage = (route: string): string => readFileSync(builtRoutePath(route), 'utf8');
@@ -216,7 +216,7 @@ describe('IFI public detail and research entry', () => {
       const html = builtPage(route);
       const nav = html.match(/<nav\b[^>]*aria-label="主要导航"[^>]*>([\s\S]*?)<\/nav>/)![1];
       // 站内栏目之后是论坛入口“讨论”；它不参与当前栏目标记。
-      expect(links(nav)).toEqual([...expected, { href: site.forumUrl, label: '讨论' }]);
+      expect(links(withoutHiddenDecoration(nav))).toEqual([...expected, { href: site.forumUrl, label: '讨论' }]);
       expect(nav).toContain('href="/research/" aria-current="page"');
       expect(html).not.toMatch(/<script\b|<astro-island\b|<style\b|\sstyle="/);
       for (const restricted of ['positioning_en', 'founded', 'formation_event_id', 'org-ifi', 'internal_notes', 'source_files', '/Users/', 'ILYENKOV_ROOT']) {

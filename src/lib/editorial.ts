@@ -11,6 +11,8 @@ const LinkSchema = z.object({
 
 export const SiteSchema = z.object({
   name: z.string().trim().min(1),
+  /** 刊头第二行的俄文全名，单行西里尔字母，页面以 lang="ru" 输出。 */
+  subtitleRu: z.string().trim().regex(/^[\p{Script=Cyrillic}][\p{Script=Cyrillic} .-]*$/u),
   description: z.string().trim().min(1),
   group: z.object({
     name: z.string().trim().min(1),

@@ -38,3 +38,8 @@ export function builtRoutePath(href: string): string {
   const relative = href.replace(/^\//, '').replace(/\/$/, '');
   return path.join(process.cwd(), 'dist', path.extname(relative) ? relative : path.join(relative, 'index.html'));
 }
+
+/** 去掉只给视觉读者的装饰（aria-hidden），留下链接的可访问名称，如外链箭头“↗”。 */
+export function withoutHiddenDecoration(html: string): string {
+  return html.replace(/<span\b[^>]*aria-hidden="true"[^>]*>[\s\S]*?<\/span>/g, '');
+}
