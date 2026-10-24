@@ -79,7 +79,7 @@ const current = (href: string) => (
             <a href={item.href} aria-current={current(item.href) ? 'page' : undefined}>{item.label}</a>
           ))}
           {/* 论坛是站外入口：排在站内栏目之后，不参与当前栏目标记，也不进站内路径校验。
-              箭头前用窄不换行空格而不是外边距，悬停下划线才能从“讨论”连到箭头。 */}
+              文字与箭头按同一行内文本排版，窄不换行空格让二者相连。 */}
           <a href={site.forumUrl}>讨论<span aria-hidden="true">{'\u202f↗'}</span></a>
         </nav>
       </div>

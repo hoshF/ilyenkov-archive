@@ -1911,13 +1911,14 @@ describe('forum entrances', () => {
   });
 
   it('wraps the narrow-screen directory like a line of text, centring the items that move down', () => {
-    // 窄屏不按等宽列排：各项字距与宽屏相同，链接的字号、内边距和导航负外边距都不另设窄屏值。
+    // 窄屏保留字号与横向间距，减少上下留白；末行仍居中。
     const narrow = '@media (max-width: 680px)';
     expect(rules.some((rule) => rule.selector === '.site-header__nav' && rule.declarations.display === 'grid')).toBe(false);
-    expect(rules.some((rule) => rule.selector === '.site-header__nav a' && rule.media)).toBe(false);
+    expect(declaration('.site-header__nav a', 'padding', narrow)).toBe('6px 8px');
+    expect(declaration('.site-header__nav a', 'min-height', narrow)).toBe('36px');
     expect(declaration('.site-header__nav a', 'font-size')).toBe('var(--text-secondary)');
     expect(declaration('.site-header__nav a', 'padding')).toBe('10px 8px');
-    expect(declaration('.site-header__nav a', 'display')).toBe('inline-flex');
+    expect(declaration('.site-header__nav a', 'display')).toBe('inline-block');
     // 行内排列：首行从正文左边线起，换到下一行的项居中；左右负外边距相等，末行对准正文中线。
     const nav = declarationsFor('.site-header__nav', narrow);
     expect(nav.display).toBe('block');
