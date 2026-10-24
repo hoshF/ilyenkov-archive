@@ -1,77 +1,18 @@
-import { spawnSync } from 'node:child_process';
-import { cpSync, existsSync, mkdirSync, mkdtempSync, readFileSync, rmSync, symlinkSync, writeFileSync } from 'node:fs';
-import { tmpdir } from 'node:os';
+import { existsSync, mkdirSync, readFileSync, symlinkSync, writeFileSync } from 'node:fs';
 import path from 'node:path';
 import { afterEach, describe, expect, it } from 'vitest';
 import { writeGenerated } from '../scripts/lib/sync.mjs';
-import { plannedResearchOutputs, plannedResearchRecords } from '../scripts/lib/research-sync/planner.mjs';
 import { ResearcherSchema, ResearchRecordsSchema } from '../src/lib/research-records';
-import { researchRoot } from './helpers/publication';
+import {
+  researcherFixture, publicationPath, personsPath, personId, researcherId, readJson,
+} from './helpers/researcher-publication-fixture.mjs';
 
-const projectRoot = process.cwd();
-const publicationPath = 'web/publication.json';
-const personsPath = 'people/persons.json';
-const personId = 'person-andrey-maidansky';
-const researcherId = 'researcher-andrey-maidansky';
-const readJson = (root, relative) => JSON.parse(readFileSync(path.join(root, relative), 'utf8'));
-const publication = readJson(researchRoot, publicationPath);
-const selectedEntries = publication.records.filter((entry) => entry.publication_scope === 'website_public');
-const roots = [];
-
-afterEach(() => roots.splice(0).forEach((root) => rmSync(root, { recursive: true, force: true })));
-
-/** Selected JSON facts are sufficient; this fixture has no Archive files or private text bodies. */
+const fixtures = [];
+afterEach(() => fixtures.splice(0).forEach((input) => input.cleanup()));
 function fixture() {
-  const root = mkdtempSync(path.join(tmpdir(), 'ilyenkov-researcher-contract-'));
-  roots.push(root);
-  const sourceRoot = path.join(root, 'research-source');
-  const relativePaths = new Set([publicationPath, personsPath]);
-  for (const selection of [publication.timeline, publication.works_catalog, publication.life, publication.circle]) {
-    relativePaths.add(selection.editorial_path);
-  }
-  selectedEntries.forEach((entry) => {
-    for (const field of ['record_path', 'source_path', 'editorial_path', 'portrait_path']) {
-      if (entry[field]) relativePaths.add(entry[field]);
-    }
-  });
-  for (const relative of relativePaths) {
-    const target = path.join(sourceRoot, relative);
-    mkdirSync(path.dirname(target), { recursive: true });
-    writeFileSync(target, readFileSync(path.join(researchRoot, relative)));
-  }
-  return {
-    root,
-    run(checkOnly = false) {
-      const publicRoot = path.join(root, 'public');
-      mkdirSync(path.join(publicRoot, 'scripts'), { recursive: true });
-      cpSync(path.join(projectRoot, 'scripts/lib'), path.join(publicRoot, 'scripts/lib'), { recursive: true });
-      cpSync(path.join(projectRoot, 'scripts/sync-research-records.mjs'), path.join(publicRoot, 'scripts/sync-research-records.mjs'));
-      return spawnSync(process.execPath, ['scripts/sync-research-records.mjs', ...(checkOnly ? ['--check'] : [])], {
-        cwd: publicRoot, env: { ...process.env, ILYENKOV_ROOT: sourceRoot }, encoding: 'utf8', timeout: 10_000,
-      });
-    },
-    generated: () => readJson(path.join(root, 'public'), '.website-input/research-records.json'),
-    generatedPortrait: (filename) => path.join(root, 'public', '.website-input', 'portraits', filename),
-    writeBytes(relative, content) {
-      const target = path.join(sourceRoot, relative);
-      mkdirSync(path.dirname(target), { recursive: true });
-      writeFileSync(target, content);
-    },
-    remove: (relative) => rmSync(path.join(sourceRoot, relative)),
-    read: (relative) => readJson(sourceRoot, relative),
-    write(relative, data) {
-      const target = path.join(sourceRoot, relative);
-      mkdirSync(path.dirname(target), { recursive: true });
-      writeFileSync(target, `${JSON.stringify(data, null, 2)}\n`);
-    },
-    mutate(relative, callback) {
-      const data = this.read(relative);
-      callback(data);
-      this.write(relative, data);
-    },
-    plan: () => plannedResearchRecords({ projectRoot, researchRoot: sourceRoot }),
-    outputs: () => plannedResearchOutputs({ projectRoot, researchRoot: sourceRoot }),
-  };
+  const input = researcherFixture();
+  fixtures.push(input);
+  return input;
 }
 
 const researcherEntry = (manifest) => manifest.records.find((entry) => entry.public_id === researcherId);
@@ -125,7 +66,7 @@ describe('canonical researcher publication', () => {
     const input = fixture();
     input.mutate(personsPath, (registry) => {
       Object.assign(canonicalPerson(registry), {
-        aliases: ['А. Д. Майданский', 'Andrey Maidansky', 'PRIVATE_ALIAS_SENTINEL'],
+        aliases: ['Synthetic Alias', 'Synthetic Latin Alias', 'PRIVATE_ALIAS_SENTINEL'],
         positioning_ru: 'PRIVATE_POSITIONING_SENTINEL',
         affiliation: 'PRIVATE_AFFILIATION_SENTINEL',
         local_directory: 'PRIVATE_DIRECTORY_SENTINEL',
@@ -142,8 +83,8 @@ describe('canonical researcher publication', () => {
     ]);
     const serialized = JSON.stringify(researcher);
     expect(serialized).not.toContain('PRIVATE_');
-    expect(serialized).not.toContain('А. Д. Майданский');
-    expect(serialized).not.toContain('Andrey Maidansky');
+    expect(serialized).not.toContain('Synthetic Alias');
+    expect(serialized).not.toContain('Synthetic Latin Alias');
     expect(serialized).not.toContain(personsPath);
     expect(researcher).not.toHaveProperty('record_path');
     expect(researcher).not.toHaveProperty('record_id');
@@ -164,7 +105,7 @@ describe('canonical researcher publication', () => {
         resource_kinds: [],
       });
     });
-    expect(existsSync(path.join(input.root, 'generated', 'articles'))).toBe(false);
+    expect(existsSync(path.join(input.publicRoot, '.website-input', 'articles'))).toBe(false);
     const researcher = input.plan().researchers[0];
     expect(researcher).toEqual({
       id: researcherId,
@@ -232,7 +173,7 @@ describe('canonical researcher publication', () => {
   it('rejects an old or missing catalog path before trying to read it', () => {
     const input = fixture();
     input.mutate(publicationPath, (manifest) => {
-      researcherEntry(manifest).record_path = 'research/maidansky/works_master.json';
+      researcherEntry(manifest).record_path = 'research/fixture/works_master.json';
     });
     expect(() => input.plan()).toThrow(/researcher record_path must use people\/persons.json/);
   });
@@ -280,7 +221,7 @@ describe('explicit researcher resources', () => {
     const researcher = input.plan().researchers[0];
     expect(researcher.resources).toEqual([
       { kind: 'institution', url: 'https://example.org/academic-profile/' },
-      { kind: 'orcid', url: 'https://orcid.org/0000-0003-2061-3878' },
+      { kind: 'orcid', url: 'https://example.test/orcid' },
     ]);
     expect(JSON.stringify(researcher)).not.toContain('PRIVATE_');
   });
@@ -307,8 +248,8 @@ describe('strict public researcher schema', () => {
     expect(ResearcherSchema.safeParse({
       id: researcherId,
       personId,
-      name: '安德烈·迈丹斯基',
-      originalName: 'Андрей Дмитриевич Майданский',
+      name: '虚构研究者',
+      originalName: 'Synthetic Researcher',
       summary: '人物介绍。',
       resources: [],
     }).success).toBe(true);
@@ -409,6 +350,9 @@ describe('explicit researcher editorial selection', () => {
 
 it('cleans withdrawn researcher editorial through the actual sync CLI without changing articles or other records', () => {
   const input = fixture();
+  const article = path.join(input.publicRoot, '.website-input/articles/fixture-article.md');
+  mkdirSync(path.dirname(article), { recursive: true });
+  writeFileSync(article, 'Synthetic article preserved by research sync.');
   const first = input.run();
   expect(first.status, first.stderr).toBe(0);
   const before = input.generated();
@@ -421,10 +365,34 @@ it('cleans withdrawn researcher editorial through the actual sync CLI without ch
   const check = input.run(true);
   expect(check.status, check.stderr).toBe(0);
   expect(check.stdout).toContain('written=0 stale=0');
+  expect(readFileSync(article, 'utf8')).toBe('Synthetic article preserved by research sync.');
+});
+
+it('withdraws a researcher through the real CLI without reading its former person or manuscript', () => {
+  const input = fixture();
+  const first = input.run();
+  expect(first.status, first.stderr).toBe(0);
+  const before = input.generated();
+  input.mutate(publicationPath, (manifest) => {
+    manifest.records = manifest.records.filter((entry) => entry.public_id !== researcherId);
+  });
+  input.mutate(personsPath, (registry) => {
+    registry.records = registry.records.filter((person) => person.person_id !== personId);
+  });
+  input.write('web/editorial/fixture-researcher.json', { invalid: 'Withdrawn manuscript must not be read.' });
+  expect(input.run(true).status).toBe(1);
+  expect(input.generated()).toEqual(before);
+  const written = input.run();
+  expect(written.status, written.stderr).toBe(0);
+  expect(input.generated()).toEqual({ ...before,
+    researchers: before.researchers.filter((researcher) => researcher.id !== researcherId),
+  });
+  expect(ResearchRecordsSchema.safeParse(input.generated()).success).toBe(true);
+  expect(input.run(true).status).toBe(0);
 });
 
 describe('explicit researcher portrait selection', () => {
-  const portraitPath = 'people/maidansky/portrait.jpeg';
+  const portraitPath = 'people/fixture/portrait.jpeg';
   const portraitBytes = Buffer.from('PORTRAIT_FIXTURE_BYTES');
   const selectPortrait = (input, relative = portraitPath) => {
     input.mutate(publicationPath, (manifest) => { researcherEntry(manifest).portrait_path = relative; });
@@ -433,11 +401,14 @@ describe('explicit researcher portrait selection', () => {
   const researcherPortraits = (portraits) => [...portraits.keys()].filter((name) => name.startsWith('researcher-'));
 
   it('publishes no researcher portrait unless the researcher entry selects one', () => {
-    const { records, portraits } = fixture().outputs();
-    const unselected = new Set(publication.records
+    const input = fixture();
+    const { records, portraits } = input.outputs();
+    const unselected = new Set(input.read(publicationPath).records
       .filter((entry) => entry.kind === 'researcher_profile' && !entry.portrait_path)
       .map((entry) => entry.public_id));
     const researchers = records.researchers.filter((researcher) => unselected.has(researcher.id));
+    expect(unselected.size).toBeGreaterThan(0);
+    expect(researchers).toHaveLength(unselected.size);
     expect(researchers.every((researcher) => !Object.hasOwn(researcher, 'portrait'))).toBe(true);
     expect(researcherPortraits(portraits).filter((name) => unselected.has(name.replace(/\.[a-z]+$/, '')))).toEqual([]);
   });
@@ -456,11 +427,11 @@ describe('explicit researcher portrait selection', () => {
   });
 
   it.each([
-    ['research/maidansky/portrait.jpg', /under people\//],
-    ['people/maidansky/portrait.gif', /under people\//],
+    ['research/fixture/portrait.jpg', /under people\//],
+    ['people/fixture/portrait.gif', /under people\//],
     ['people/portrait.jpg', /under people\//],
-    ['people/maidansky/../../web/portrait.jpg', /under people\//],
-    ['people/maidansky/missing.jpg', /missing people\/maidansky\/missing.jpg/],
+    ['people/fixture/../../web/portrait.jpg', /under people\//],
+    ['people/fixture/missing.jpg', /missing people\/fixture\/missing.jpg/],
   ])('rejects portrait_path %s', (relative, message) => {
     const input = fixture();
     selectPortrait(input, relative);
@@ -470,10 +441,10 @@ describe('explicit researcher portrait selection', () => {
   it('rejects a selected portrait that links outside people', () => {
     const input = fixture();
     input.writeBytes('web/outside.jpg', portraitBytes);
-    const link = path.join(input.root, 'research-source', 'people', 'maidansky', 'linked.jpg');
+    const link = path.join(input.root, 'research-source', 'people', 'fixture', 'linked.jpg');
     mkdirSync(path.dirname(link), { recursive: true });
     symlinkSync(path.join(input.root, 'research-source', 'web', 'outside.jpg'), link);
-    selectPortrait(input, 'people/maidansky/linked.jpg');
+    selectPortrait(input, 'people/fixture/linked.jpg');
     expect(() => input.plan()).toThrow(/portrait_path escapes people/);
   });
 
