@@ -2,6 +2,7 @@
 import { defineConfig } from 'astro/config';
 import sitemap from '@astrojs/sitemap';
 import { readFile } from 'node:fs/promises';
+import { isGeneratedImagePath } from './src/lib/generated-image-paths.mjs';
 
 // https://astro.build/config
 export default defineConfig({
@@ -11,6 +12,16 @@ export default defineConfig({
   trailingSlash: 'always',
   vite: {
     plugins: [{
+      // 端点生成的图片在开发服务器里也要求尾斜杠；在内部补上，地址栏与构建产物不变。
+      name: 'serve-generated-images-in-development',
+      configureServer(server) {
+        server.middlewares.use((req, _res, next) => {
+          const [path, query] = (req.url ?? '').split('?');
+          if (isGeneratedImagePath(path)) req.url = `${path}/${query === undefined ? '' : `?${query}`}`;
+          next();
+        });
+      },
+    }, {
       name: 'serve-built-search-in-development',
       configureServer(server) {
         server.middlewares.use(async (req, res, next) => {
