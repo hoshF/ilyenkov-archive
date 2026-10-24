@@ -41,8 +41,8 @@ const hasRail = indexed || Astro.slots.has('aside');
     {/*
       页首排在内容栏里，跟正文共用同一条左边线——它说明"这是什么"，不属于旁侧的
       阅读工具。面包屑同理：它说明"我从哪里来"。
-      --indexed 的网格把面包屑、页首、正文排成三行（都在索引右边那一列），所以这里
-      按网格顺序输出；其余版式没有命名区域，三块自然堆叠成一条流。
+      面包屑、页首与正文在这个包装层内按文档流排列；有索引时，外层网格定位整个
+      内容包装层，侧栏通过 display: contents 让目录参与同一网格。
     */}
     {Astro.slots.has('breadcrumb') && (
       <div class="section-layout__breadcrumb">

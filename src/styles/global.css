@@ -345,9 +345,8 @@ h2, h3, h4 { text-wrap: balance; line-height: 1.3; }
 }
 .section-layout--indexed .section-layout__sidebar { display: contents; }
 .section-layout--indexed .section-layout__toc { grid-area: toc; }
-.section-layout--indexed .section-layout__breadcrumb { grid-area: breadcrumb; }
 .section-layout--indexed .section-layout__content { grid-area: content; }
-.section-layout--indexed .section-layout__intro { grid-area: intro; max-width: var(--reading); margin-bottom: 44px; }
+.section-layout--indexed .section-layout__intro { max-width: var(--reading); margin-bottom: 44px; }
 
 /* 正文是连续文本（译文）时，内容栏收到行宽本身：标题、正文和篇末导航
    对齐同一条左边线，版式总宽由索引栏、间距和行宽推出来。 */
@@ -365,8 +364,7 @@ h2, h3, h4 { text-wrap: balance; line-height: 1.3; }
 .section-layout--reading .section-layout__toc { grid-area: toc; }
 /* 面包屑与页首都在正文那一列：它们说明"我从哪里来"和"这是什么"，
    与正文共用同一条左边线，不占正文旁的阅读工具位。 */
-.section-layout--reading .section-layout__breadcrumb { grid-area: breadcrumb; }
-.section-layout--reading .section-layout__intro { grid-area: intro; margin-bottom: 0; }
+.section-layout--reading .section-layout__intro { margin-bottom: 0; }
 .section-layout--reading .section-layout__content { grid-area: content; max-width: var(--reading); }
 
 /* 没有小标题就没有索引可放（--indexed 由正文是否产出标题决定，与视口宽度无关），
