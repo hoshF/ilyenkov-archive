@@ -1,76 +1,50 @@
+# Agent guide
+
+## Boundaries
+
+This repository owns the website, public editorial content, group records, and static deployment.
+The private research repository owns canonical facts, texts, source and rights evidence, and
+publication decisions. Its `web/publication.json` is the only selection interface for private content.
+
+Consume only approved `website_public` selections. Public prose and references must not expand
+publication scope. Generated inputs belong in ignored `.website-input/`; never stage them or
+replace them with tracked content. Restricted texts must never enter public `dist/`.
+
+## Read by task
+
+Read the relevant contract before changing its implementation:
+
+| Task | Document |
+| --- | --- |
+| Routes, layouts, components, content ownership | [Architecture](docs/ARCHITECTURE.md) |
+| Publication selections, fields, identities, permissions | [Publication](docs/PUBLICATION.md) |
+| Syncers, rendering, relationships, sorting, caching | [Content pipeline](docs/CONTENT_PIPELINE.md) |
+| Build environment, hosting, uploads, launch checks | [Deployment](docs/DEPLOYMENT.md) |
+
 ## Development
 
-This public repository owns the website, reader-facing editorial framing, group records,
-and static deployment. Canonical research facts, source and rights
-evidence, and publication decisions belong to the private research repository.
+Use npm scripts as the canonical interface:
 
-The private repository exposes publication selections through `web/publication.json` only.
-The translation syncer reads its `works`; the research syncer reads its `records` and required
-`timeline`, `works_catalog`, `life` and `circle` selections. Input file paths resolve from the
-private repository root. Syncers consume only `website_public` work and record entries. Page selections refer
-to those approved records; they never expand publication scope or copy their facts.
-Canonical research and translation files remain in their existing locations. IFI and Readings
-editorial texts belong to private `web/editorial/` and require `editorial_path` on their selected
-network or series record. Pages read the generated `editorial` payload only; when unselected,
-omit the introduction and IFI lead without fallback. Timeline and works-catalogue descriptions,
-leads, notes and type notes belong to private `web/editorial/` and require the root selections.
-Life stages, their references and links, and Circle sections and their references also belong
-to private manuscripts selected by the required roots. `record_ids` refers to existing
-publication `public_id` values, never private record IDs. Preserve authored stage and section
-order; resolve missing stage summaries from the referenced public activity summaries without
-saving copies. Pages render generated data with no fallback; route mappings, record sorting,
-work-type grouping and formatting stay in public. Researcher introductions and work descriptions
-belong to private `web/editorial/`, selected by the researcher publication `editorial_path`.
-Home summaries reuse publication metadata; translations derive from public article author identities.
-Ilyenkov overview summary, introduction and entrance wording belong to a manuscript selected
-by `ilyenkov_profile`. Resolve its canonical person and approved biography birth reference only.
-Public maps entrance targets to routes. Website book metadata and Markdown belong to private
-`web/editorial/books/`, explicitly selected by `books` in the same manifest. The book syncer writes
-`.website-input/books.json`; pages never load the former public editorial or fall back to it.
-Book selections do not authorize translation bodies or copy PDFs, EPUBs or scans.
-Archive vocabulary and article classifications belong to private `web/editorial/archive-taxonomy.json`,
-selected by `archive_taxonomy` and projected into `.website-input/archive-taxonomy.json`. References
-must match approved generated articles and cannot authorize them. Public only implements filtering and display.
-The glossary syncer reads the optional `glossary` selection and projects only `approved` entries
-from explicitly selected `website_public` tables into `.website-input/glossary.json`. Private
-`glossary/` tables remain the only manually maintained term source. Entries use collection and
-ID together as identity; public derives category, author labels, ordering and routes. Pages read
-only the generated input and fail when it is missing or invalid. Notes remain literal usage
-text on detail pages; search covers the preferred translation, canonical term and other forms.
-Other public editorial inputs remain here.
-
-[docs/PUBLICATION.md](docs/PUBLICATION.md) defines publication permissions and field contracts.
-Public editorial prose must not bypass those boundaries to expose unpublished private data or
-restricted source texts. Generated website inputs live in ignored `.website-input/`; never stage
-them or replace them with a tracked content directory. Restricted texts never enter public `dist/`.
-Set `ILYENKOV_ROOT` when the private repository is not the sibling `Ilyenkov` directory.
-
-Commit messages default to English, with an imperative subject line.
-
-Use the npm scripts as the canonical development interface:
-
-```
-npm run dev        # background server; dev:status, dev:logs, dev:stop manage it
-npm run verify     # publication sync and type check → static build → tests
+```sh
+npm run dev               # background server; dev:status / dev:logs / dev:stop manage it
+npm run publication:sync  # refresh generated inputs after private changes
+npm run verify            # sync and type check → static build and search index → tests
 ```
 
-The dev server handles source and stylesheet updates. Data loaders using `buildCache` reread
-records in development; `src/lib/editorial.ts` parses site JSON at module load,
-so external JSON changes may require a dev-server restart. Private changes need
-`npm run publication:sync`. Data flow and caching are documented in
-[docs/CONTENT_PIPELINE.md](docs/CONTENT_PIPELINE.md).
+The private repository defaults to sibling `Ilyenkov/`; set `ILYENKOV_ROOT` for another location.
+Development reload and cache behaviour are documented in
+[Content pipeline](docs/CONTENT_PIPELINE.md#public-编辑输入与缓存).
+Keep Astro output static and compatible with Cloudflare Pages. Framework reference:
+https://docs.astro.build.
 
-Shared entry points:
+Shared implementation entry points:
 
-- `scripts/lib/` — paths, validation, and the write/`--check` shell syncers use;
-  `research-sync/` holds the research planner and source resolution.
-- `src/lib/cache.ts` — production-build data caching.
-- `tests/helpers/` — page sources (`pages.ts`), parsed stylesheet (`styles.ts`), and private
-  publication manifest (`publication.ts`).
+- `scripts/lib/`: paths, validation, shared write/`--check` handling; `research-sync/` contains
+  the research planner and source resolution.
+- `src/lib/cache.ts`: production-build data caching.
+- `tests/helpers/`: page sources (`pages.ts`), stylesheet declarations (`styles.ts`), and
+  private publication manifest (`publication.ts`).
 
-Tests assert behaviour, not source text: read style declarations through `helpers/styles.ts`,
-and state the field contract rather than the current record count.
-
-Keep Astro static output compatible with Cloudflare Pages. Route and layout responsibilities
-are in [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md); deployment procedures and boundaries are in
-[docs/DEPLOYMENT.md](docs/DEPLOYMENT.md). Framework reference: https://docs.astro.build.
+Tests assert behaviour, not source text. Use `tests/helpers/styles.ts` for style declarations;
+assert field contracts rather than current record counts. Run `npm run verify` before handing off changes.
+Commit messages default to English with an imperative subject.

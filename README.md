@@ -1,49 +1,26 @@
 # 中文伊里因科夫 · 网站项目
 
-本项目是中文伊里因科夫小组的公共网站与出版锚点，面向中文读者整理伊里因科夫及相关苏联哲学的
-译文、文献信息、书籍记录与研究资料，并保存小组的公开工作记录。
+中文伊里因科夫小组的公共网站，面向中文读者整理伊里因科夫及相关苏联哲学的译文、
+文献信息、书籍与研究资料，并保存小组的公开工作记录。
 
-GitHub 仓库为 `hoshF/ilyenkov-archive`；本地目录 `Ilyenkov-public` 与相邻的 private 研究仓库
-`Ilyenkov` 分开维护。
+正式站点：[中文伊里因科夫](https://ilyenkov.cn/)。项目、来源与权利说明见网站
+[项目与权利](https://ilyenkov.cn/about/)页面。
 
-## 仓库边界
+## 仓库范围
 
-- **public**：网站页面、组件、样式、其余公开编辑介绍、小组记录，以及静态构建和部署。
-- **private**：canonical 研究事实、原文、翻译、审校、来源与权利证据；统一公开接口为根目录的
-  `web/publication.json`，其中 `works` 选择译文，`records` 选择研究记录，`books` 选择网站书籍成稿，
-  `glossary` 选择术语源表；根对象 `timeline` 指定
-  年表采用的获准记录类型与成稿；`works_catalog`、`life`、`circle` 分别指定作品目录、生平、
-  交往与活动成稿。canonical 事实与原文、译文保持各自的维护位置；这些页面及 IFI、Readings、研究者及 Ilyenkov 总页的
-  公开文字由 `web/editorial/` 维护，经 `editorial_path` 明确选择后同步。生平分期、主题范围与
-  导引由 private 维护，记录排序、版式与格式由 public 维护。
-- **生成输入**：`web/publication.json` 中 `website_public` 条目同步到 `.website-input/`；该目录与构建产物
-  `dist/` 均不进入 Git。网页公开许可不等于公共 Git 仓库收录许可。
+本仓库维护网站页面、样式、公开编辑内容、小组记录，以及构建与部署工具。
+研究事实、原文、译文、来源与权利证据由独立的私有研究仓库维护，按明确的发布选择生成网站输入。
+生成输入与构建产物不提交到本仓库；网页公开许可不等于公共 Git 仓库收录许可。
 
-术语内容只在 private `glossary/` 的原表维护；公开投影与更新步骤见
-[术语库同步与查询](docs/CONTENT_PIPELINE.md#术语库同步与查询)。
+## 维护入口
 
-## 常用命令
+开发前阅读 [AGENTS.md](AGENTS.md)，按任务查阅：
 
-```sh
-npm ci
-npm run dev                # 后台开发服务器；dev:status / dev:logs / dev:stop 管理它
-npm run publication:sync   # 按 private 发布选择更新生成输入
-npm run verify             # 同步与类型检查 → 静态构建与搜索索引 → 测试
-npm run publication:check  # 比较生成输入，不改写
-npm run deploy             # 完整验证通过后，Direct Upload 到 Production
-```
-
-private 默认位于相邻 `Ilyenkov/`，其他位置通过 `ILYENKOV_ROOT` 指定。部署环境必须能读取获准的
-private 输入，并具有 Cloudflare 项目的发布权限。提交与推送代码不会更新正式站点，生产上传后才会更新。
-
-## 项目文档
-
-| 文档 | 职责 |
+| 文档 | 内容 |
 | --- | --- |
-| [AGENTS](AGENTS.md) | 开发约束、命令和测试规范 |
-| [架构](docs/ARCHITECTURE.md) | 栏目职责、布局原则与文件所有权 |
-| [发布](docs/PUBLICATION.md) | 权限、公开字段、身份与日期契约 |
-| [内容管线](docs/CONTENT_PIPELINE.md) | 输入输出、转换、关系解析与派生数据 |
-| [部署](docs/DEPLOYMENT.md) | 环境、生产上传与上线验收 |
+| [架构](docs/ARCHITECTURE.md) | 栏目、布局和文件职责 |
+| [发布](docs/PUBLICATION.md) | 公开权限、字段和身份契约 |
+| [内容管线](docs/CONTENT_PIPELINE.md) | 数据同步、转换、缓存和派生 |
+| [部署](docs/DEPLOYMENT.md) | 环境准备、生产上传和上线验收 |
 
-面向读者的项目说明见网站 `/about`；正式站点为[中文伊里因科夫](https://ilyenkov-archive.pages.dev/)。
+本地构建需要独立研究仓库中的获准输入，环境要求见部署文档。
