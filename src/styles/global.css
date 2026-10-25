@@ -29,8 +29,8 @@
   --section-top: 60px;
   /* 刊头到页面第一行的距离：首页与六个栏目首页共用。 */
   --masthead-gap: 30px;
-  /* 刊头刊名与俄文全名的字号；中屏与手机逐级收小。 */
-  --text-masthead: 1.75rem; --text-masthead-sub: .8125rem;
+  /* 刊头刊名的字号；中屏与手机逐级收小。 */
+  --text-masthead: 1.5rem;
   /* 界面字体。无衬线承担全站：导航、标题、列表、元信息、来源。 */
   --sans: "CJK Punctuation", -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", "Helvetica Neue", Helvetica, Arial, sans-serif;
   color: var(--ink); font-family: var(--sans); font-synthesis: none;
@@ -86,7 +86,7 @@ h1 { text-wrap: pretty; word-break: auto-phrase; line-height: 1.3; }
 h2, h3, h4 { text-wrap: balance; line-height: 1.3; }
 
 .site-header {
-  /* 页眉不画整宽底线：刊名区与导航之间的细线是页眉里唯一的分隔，页眉与正文之间靠留白分开。 */
+  /* 刊名、导航与正文之间靠留白分隔。 */
   background: var(--paper);
 }
 
@@ -94,18 +94,17 @@ h2, h3, h4 { text-wrap: balance; line-height: 1.3; }
   width: min(calc(100% - 40px), var(--reading)); align-items: flex-start; margin: 0 auto; padding: 24px 0 0; display: flex; flex-direction: column;
 }
 
-/* 第一层：黑色粗体中文刊名与其下的灰色俄文全名，左对齐；下沿一条细线与导航分开。
+/* 第一层：中文刊名左对齐；用留白与导航分开。
    刊名不配图形字标，字标只保留在 favicon 与分享图中。 */
-.site-header__identity { align-self: stretch; padding-bottom: 16px; border-bottom: 1px solid var(--line-strong); }
+.site-header__identity { align-self: stretch; padding-bottom: 12px; border-bottom: 0; }
 .site-name {
   color: var(--ink); white-space: nowrap; text-decoration: none;
   display: inline-flex; align-items: center; flex-shrink: 0;
 }
 
 .site-name__text {
-  margin: 0; color: var(--ink-strong); font-size: var(--text-masthead); font-weight: 700; line-height: 1.3; letter-spacing: 0;
+  margin: 0; color: var(--ink-strong); font-size: var(--text-masthead); font-weight: 600; line-height: 1.3; letter-spacing: 0;
 }
-.site-header__subtitle { margin: 4px 0 0; color: var(--muted); font-size: var(--text-masthead-sub); line-height: 1.35; }
 
 .site-header__nav {
   justify-content: flex-start; align-items: center; display: flex; flex-wrap: wrap;
@@ -129,9 +128,9 @@ h2, h3, h4 { text-wrap: balance; line-height: 1.3; }
 }
 .site-header__nav a[aria-current=page]:hover { color: var(--accent-hover); }
 
-/* 中屏：刊名与俄文全名收小一级，顶部留白收到 20px。 */
+/* 中屏：刊名收小一级，顶部留白收到 20px。 */
 @media (max-width: 1023px) {
-  :root { --text-masthead: 1.625rem; --text-masthead-sub: .75rem; }
+  :root { --text-masthead: 1.4375rem; }
   .site-header__masthead { padding-top: 20px; }
 }
 
@@ -836,11 +835,10 @@ h2, h3, h4 { text-wrap: balance; line-height: 1.3; }
   .book-page .fact-list dt { margin-bottom: 7px; }
 }
 
-/* 窄屏目录像一行文字那样排：各项字距与宽屏相同，排不下的项换到下一行并居中，首行仍从正文左边线起。
-   导航只按内容取宽，排得下一行时末行就是整行，居中不会移动它。左右负外边距相等，末行居中对准正文中线。 */
+/* 窄屏导航自然换行，每行均沿正文左边线排列；字号与横向间距保持不变。 */
 @media (max-width: 680px) {
-  :root { --text-masthead: 1.4375rem; }
-  .site-header__nav { display: block; margin-right: -8px; text-align: left; text-align-last: center; }
+  :root { --text-masthead: 1.375rem; }
+  .site-header__nav { display: block; margin-right: -8px; text-align: left; text-align-last: left; }
   .site-header__nav a { padding: 6px 8px; min-height: 36px; }
 }
 
@@ -883,12 +881,11 @@ h2, h3, h4 { text-wrap: balance; line-height: 1.3; }
 .research-hub .research-series h2 a { color: var(--accent); }
 .research-hub .research-series h2 a:hover { color: var(--accent-hover); }
 
-/* 人物资料与学术入口共用正文列。 */
+/* 人物资料与学术链接共用正文列。 */
 .container.research-profile {
   width: min(calc(100% - 40px), var(--reading));
 }
 .intro-links { display: flex; flex-wrap: wrap; align-items: baseline; gap: 8px 18px; margin-top: 18px; font-size: var(--text-meta); }
-.intro-links__label { margin: 0; color: var(--muted); }
 .intro-links ul { display: flex; flex-wrap: wrap; gap: 8px 20px; list-style: none; margin: 0; padding: 0; }
 .intro-links a { color: var(--ink-soft); }
 .intro-links a:hover { color: var(--accent); }
@@ -896,7 +893,15 @@ h2, h3, h4 { text-wrap: balance; line-height: 1.3; }
 /* 研究者照片统一 3:4，自上而下裁切，保住面部。宽屏与中屏：照片下边界与第一节标题（通常是“简介”）
    下边界对齐，向上伸到页首右侧，距正文右边线 24px；面包屑与页首为它让出右侧，长姓名先换行。
    窄屏：照片在姓名之下、第一节标题之上，宽度等于行宽。 */
-.researcher-heading { position: relative; }
+.research-profile .page-title { font-size: var(--text-page); }
+.research-profile .section-layout__breadcrumb { margin-bottom: 12px; }
+.researcher-parent { font-size: var(--text-meta); }
+.researcher-parent a { text-decoration: none; }
+.researcher-parent a:hover { text-decoration: underline; }
+.researcher-heading { position: relative; display: flex; flex-wrap: wrap; align-items: baseline; justify-content: space-between; gap: 12px 20px; }
+.researcher-resources { margin: 0 0 0 auto; min-width: 0; }
+.research-profile--portrait .researcher-heading { padding-right: calc(160px + 24px * 2); }
+.research-profile--portrait .section-layout__intro { min-height: 180px; }
 .researcher-portrait {
   position: absolute; right: 24px; bottom: 0; display: block; width: 160px; height: 213px;
   object-fit: cover; object-position: center top;
@@ -904,6 +909,8 @@ h2, h3, h4 { text-wrap: balance; line-height: 1.3; }
 .research-profile--portrait .section-layout__breadcrumb,
 .research-profile--portrait .section-layout__intro { padding-right: calc(160px + 24px * 2); }
 @media (max-width: 600px) {
+  .research-profile--portrait .researcher-heading { padding-right: 0; }
+  .research-profile--portrait .section-layout__intro { min-height: 0; }
   .researcher-portrait { position: static; width: 100%; height: auto; aspect-ratio: 3 / 4; margin-bottom: 32px; }
   .research-profile--portrait .section-layout__breadcrumb,
   .research-profile--portrait .section-layout__intro { padding-right: 0; }

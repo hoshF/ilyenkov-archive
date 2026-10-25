@@ -3,8 +3,6 @@ import path from 'node:path';
 import { describe, expect, it } from 'vitest';
 import { site } from '../src/lib/editorial';
 import {
-  getPublicIfiNetwork,
-  getPublicReadingsSeries,
   getPublicResearchers,
   type PublicResearcher,
 } from '../src/lib/research-records';
@@ -61,22 +59,14 @@ describe('canonical researcher detail and research hub entry', () => {
     expect(html).not.toMatch(/section-layout--indexed|class="section-layout__toc"/);
   });
 
-  it.each(getPublicResearchers())('keeps shared research navigation and breadcrumb on $name', (researcher) => {
+  it.each(getPublicResearchers())('offers a compact parent link without duplicate navigation on $name', (researcher) => {
     const href = `/research/researchers/${researcher.id.replace(/^researcher-/, '')}/`;
     const main = mainContent(builtPage(href));
-    const nav = main.match(/<nav\b[^>]*aria-label="研究专题"[^>]*>([\s\S]*?)<\/nav>/)![1];
-    const expected = [
-      { href: '/research/ifi/', label: getPublicIfiNetwork().title },
-      { href: '/research/researchers/', label: '研究者' },
-      { href: '/research/readings/', label: getPublicReadingsSeries()[0].title },
-    ];
-    expect(links(nav)).toEqual(expected);
-    expect([...nav.matchAll(/aria-current="page"/g)]).toHaveLength(1);
-    expect(nav).toContain('href="/research/researchers/" aria-current="page"');
-    for (const link of links(nav)) expect(routeExists(link.href)).toBe(true);
-    const breadcrumb = main.match(/<nav\b[^>]*aria-label="当前位置"[^>]*>([\s\S]*?)<\/nav>/)![1];
-    expect(links(breadcrumb)).toEqual([{ href: '/', label: '首页' }, { href: '/research/', label: '研究' }, { href: '/research/researchers/', label: '研究者' }]);
-    expect(textContent(breadcrumb)).toContain(researcher.name);
+    expect(main).not.toContain('aria-label="研究专题"');
+    const parent = main.match(/<nav\b[^>]*aria-label="当前位置"[^>]*>([\s\S]*?)<\/nav>/)![1];
+    expect(links(parent)).toEqual([{ href: '/research/researchers/', label: '← 研究者' }]);
+    expect(textContent(parent)).not.toContain(researcher.name);
+    expect(routeExists('/research/researchers/')).toBe(true);
   });
 
   it('keeps the introduction and translations without redundant fields or work sections', () => {
@@ -89,14 +79,15 @@ describe('canonical researcher detail and research hub entry', () => {
   it('offers only the selected public academic resources with distinct navigation labels', () => {
     const researcher = profile();
     const main = mainContent(builtPage(route));
-    const resources = main.match(/<aside\b[^>]*aria-labelledby="researcher-resources-heading"[^>]*>([\s\S]*?)<\/aside>/)![1];
+    const intro = sectionById(main, 'researcher-intro-heading');
+    const resources = intro.match(/<nav\b[^>]*aria-label="学术资料"[^>]*>([\s\S]*?)<\/nav>/)![1];
     expect(links(resources)).toEqual(researcher.resources.map((resource) => ({
       href: resource.url, label: resourceLabels[resource.kind],
     })));
-    expect(textContent(resources)).toContain('学术入口');
+    expect(textContent(main)).not.toContain('学术入口');
     const header = main.match(/<header class="page-header">([\s\S]*?)<\/header>/)![1];
-    expect(header).toContain(resources);
-    expect(header.indexOf('researcher-resources-heading')).toBeGreaterThan(header.indexOf('record__original'));
+    expect(header).not.toContain('aria-label="学术资料"');
+    expect(intro.indexOf('researcher-intro-heading')).toBeLessThan(intro.indexOf('aria-label="学术资料"'));
     for (const resource of researcher.resources) expect(links(main).filter((link) => link.href === resource.url)).toHaveLength(1);
     expect(textContent(resources)).not.toMatch(/官方网站|文章来源/);
     expect(resources).not.toMatch(/<img\b|<svg\b|<button\b/);

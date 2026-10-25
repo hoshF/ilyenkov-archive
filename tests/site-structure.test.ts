@@ -1052,17 +1052,6 @@ describe('public navigation', () => {
     expect(homepage.match(/<footer class="site-footer">([\s\S]*?)<\/footer>/)![1]).toContain(site.name);
     expect(layout).toContain('site-name__text');
 
-    // 刊名下是俄文全名：标 lang="ru"，在首页链接之外，不进链接的可访问名称。
-    expect(site.subtitleRu).toMatch(/^[\p{Script=Cyrillic}][\p{Script=Cyrillic} .-]*$/u);
-    const subtitle = `<p class="site-header__subtitle" lang="ru">${site.subtitleRu}</p>`;
-    expect(header).toContain(subtitle);
-    expect(mark).not.toContain(site.subtitleRu);
-    expect(header.indexOf(subtitle)).toBeGreaterThan(header.indexOf(homeLinks[0][0]));
-    expect(header.indexOf(subtitle)).toBeLessThan(header.indexOf('<nav'));
-    for (const route of ['/research/', '/archive/']) {
-      expect(readFileSync(builtRoutePath(route), 'utf8'), route).toContain(subtitle);
-    }
-
     // 一级栏目仍是页眉的主体，且顺序与 site.navigation 一致；论坛入口“讨论”排在最后。
     const nav = header.match(/<nav[^>]*aria-label="主要导航"[^>]*>([\s\S]*?)<\/nav>/)![1];
     expect([...withoutHiddenDecoration(nav).matchAll(/<a[^>]*>([^<]*)<\/a>/g)].map(([, label]) => label))
@@ -1080,34 +1069,28 @@ describe('public navigation', () => {
     expect(navRule['flex-wrap']).toBe('wrap');
     expect(navRule['justify-content']).not.toBe('flex-end');
     expect(navRule['margin-left']).toBeDefined();
-    // 刊名区与导航之间一条 1px 细线，用较深的现有线色，深浅两色方案都可见。
-    expect(declaration('.site-header__identity', 'border-bottom')).toBe('1px solid var(--line-strong)');
-    expect(declaration('.site-header__identity', 'padding-bottom')).toBe('16px');
+    // 刊名与导航仅用留白分隔。
+    expect(declaration('.site-header__identity', 'border-bottom')).toBe('0');
+    expect(declaration('.site-header__identity', 'padding-bottom')).toBe('12px');
   });
 
-  it('sets the masthead title in bold interface type and scales it by width without touching body type', () => {
-    // 中文刊名 28px 黑色粗体、俄文行 13px 灰色，都用界面无衬线字体，不另设字体栈。
-    expect(declaration(':root', '--text-masthead')).toBe('1.75rem');
-    expect(declaration(':root', '--text-masthead-sub')).toBe('.8125rem');
+  it('sets the masthead title in restrained interface type and scales it without touching body type', () => {
+    // 中文刊名 24px 半粗体，沿用界面字体。
+    expect(declaration(':root', '--text-masthead')).toBe('1.5rem');
     const title = declarationsFor('.site-name__text');
     expect(title['font-family']).toBeUndefined();
     expect(title['font-size']).toBe('var(--text-masthead)');
-    expect(title['font-weight']).toBe('700');
+    expect(title['font-weight']).toBe('600');
     expect(title.color).toBe('var(--ink-strong)');
     expect(title['letter-spacing']).toBe('0');
-    const subtitle = declarationsFor('.site-header__subtitle');
-    expect(subtitle['font-family']).toBeUndefined();
-    expect(subtitle['font-size']).toBe('var(--text-masthead-sub)');
-    expect(subtitle.color).toBe('var(--muted)');
     // 刊名比正文更深：浅色方案更黑，深色方案更亮。
     const darkness = (hex: string) => Number.parseInt(hex.slice(1, 3), 16);
     expect(darkness(declaration(':root', '--ink-strong')!)).toBeLessThan(darkness(declaration(':root', '--ink')!));
     const dark = '@media (prefers-color-scheme: dark)';
     expect(darkness(declaration(':root', '--ink-strong', dark)!)).toBeGreaterThan(darkness(declaration(':root', '--ink', dark)!));
-    // 中等宽度刊名 26px，窄屏 23px；俄文行收到 12px 为止。
-    expect(declaration(':root', '--text-masthead', '@media (max-width: 1023px)')).toBe('1.625rem');
-    expect(declaration(':root', '--text-masthead-sub', '@media (max-width: 1023px)')).toBe('.75rem');
-    expect(declaration(':root', '--text-masthead', '@media (max-width: 680px)')).toBe('1.4375rem');
+    // 中等宽度刊名 23px，窄屏 22px。
+    expect(declaration(':root', '--text-masthead', '@media (max-width: 1023px)')).toBe('1.4375rem');
+    expect(declaration(':root', '--text-masthead', '@media (max-width: 680px)')).toBe('1.375rem');
     // 上边距 24 / 20 / 16。
     expect(declaration('.site-header__masthead', 'padding')).toMatch(/^24px /);
     expect(declaration('.site-header__masthead', 'padding-top', '@media (max-width: 1023px)')).toBe('20px');
@@ -1910,8 +1893,8 @@ describe('forum entrances', () => {
     ]);
   });
 
-  it('wraps the narrow-screen directory like a line of text, centring the items that move down', () => {
-    // 窄屏保留字号与横向间距，减少上下留白；末行仍居中。
+  it('wraps the narrow-screen directory with every row aligned to the left', () => {
+    // 窄屏保留字号与横向间距，减少上下留白；每行均左对齐。
     const narrow = '@media (max-width: 680px)';
     expect(rules.some((rule) => rule.selector === '.site-header__nav' && rule.declarations.display === 'grid')).toBe(false);
     expect(declaration('.site-header__nav a', 'padding', narrow)).toBe('6px 8px');
@@ -1919,13 +1902,13 @@ describe('forum entrances', () => {
     expect(declaration('.site-header__nav a', 'font-size')).toBe('var(--text-secondary)');
     expect(declaration('.site-header__nav a', 'padding')).toBe('10px 8px');
     expect(declaration('.site-header__nav a', 'display')).toBe('inline-block');
-    // 行内排列：首行从正文左边线起，换到下一行的项居中；左右负外边距相等，末行对准正文中线。
+    // 行内排列：首行及续行均左对齐，左右负外边距相等。
     const nav = declarationsFor('.site-header__nav', narrow);
     expect(nav.display).toBe('block');
     expect(nav['text-align']).toBe('left');
-    expect(nav['text-align-last']).toBe('center');
+    expect(nav['text-align-last']).toBe('left');
     expect(nav['margin-right']).toBe(declaration('.site-header__nav', 'margin-left'));
-    // 导航只按内容取宽（刊头纵向排列、不拉伸子项），排得下一行时居中不会挪动它。
+    // 刊头纵向排列，刊名与导航均左对齐。
     expect(declaration('.site-header__masthead', 'align-items')).toBe('flex-start');
     expect(declaration('.site-header__masthead', 'align-items', '@media (max-width: 600px)')).toBe('flex-start');
     // 链接之间没有空白文本，字距只来自内边距。

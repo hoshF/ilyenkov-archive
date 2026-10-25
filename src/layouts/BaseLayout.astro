@@ -67,12 +67,11 @@ const current = (href: string) => (
   <body class:list={[reading && 'reading-page']}>
     <header class="site-header">
       <div class="site-header__masthead">
-        {/* 第一层：中文刊名（首页链接）与其下的俄文全名；第二层是导航。 */}
+        {/* 第一层：中文刊名（首页链接）；第二层是导航。 */}
         <div class="site-header__identity">
           <a class="site-name" href="/" aria-label={`${site.name}首页`}>
             <SiteNameElement class="site-name__text">{site.name}</SiteNameElement>
           </a>
-          <p class="site-header__subtitle" lang="ru">{site.subtitleRu}</p>
         </div>
         <nav class="site-header__nav" aria-label="主要导航">
           {site.navigation.map((item) => (

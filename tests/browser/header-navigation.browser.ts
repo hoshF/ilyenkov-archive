@@ -45,7 +45,7 @@ test('underlines the discussion text, spacing and external arrow as one continuo
   }
 });
 
-test('keeps wrapped navigation rows compact, separate and centred without shrinking the type', async ({ page }) => {
+test('keeps wrapped navigation rows compact, separate and left-aligned without shrinking the type', async ({ page }) => {
   let desktopFont: string | undefined;
   for (const width of [1280, 390, 375, 320]) {
     await page.setViewportSize({ width, height: 800 });
@@ -54,7 +54,7 @@ test('keeps wrapped navigation rows compact, separate and centred without shrink
     const layout = await page.locator('.site-header__nav').evaluate(nav => {
       const bounds = nav.getBoundingClientRect();
       return {
-        centre: bounds.x + bounds.width / 2,
+        left: bounds.left,
         overflow: document.documentElement.scrollWidth - innerWidth,
         items: [...nav.querySelectorAll('a')].map(link => {
           const r = link.getBoundingClientRect();
@@ -74,8 +74,9 @@ test('keeps wrapped navigation rows compact, separate and centred without shrink
       expect(pitch).toBeGreaterThanOrEqual(rowHeight - 1);
       expect(pitch).toBeLessThanOrEqual(rowHeight + 1);
     }
-    const last = layout.items.filter(item => item.y === tops.at(-1));
-    const centre = (Math.min(...last.map(item => item.x)) + Math.max(...last.map(item => item.right))) / 2;
-    expect(Math.abs(centre - layout.centre)).toBeLessThanOrEqual(1);
+    for (const top of tops) {
+      const row = layout.items.filter(item => item.y === top);
+      expect(Math.abs(Math.min(...row.map(item => item.x)) - layout.left)).toBeLessThanOrEqual(1);
+    }
   }
 });

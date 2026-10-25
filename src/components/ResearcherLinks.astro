@@ -1,0 +1,11 @@
+---
+import type { PublicResearcher } from '../lib/research-records';
+interface Props { resources: PublicResearcher['resources']; }
+const { resources } = Astro.props;
+const labels: Record<PublicResearcher['resources'][number]['kind'], string> = {
+  personal: '个人学术页', orcid: 'ORCID', institution: '机构学术页',
+};
+---
+{resources.length > 0 && <nav class="intro-links researcher-resources" aria-label="学术资料">
+  <ul>{resources.map((resource) => <li><a href={resource.url}>{labels[resource.kind]}</a></li>)}</ul>
+</nav>}

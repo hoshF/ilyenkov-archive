@@ -99,7 +99,6 @@ test('keeps a reading page without a directory in a centered single column', asy
 
 for (const entry of [
   { route: '/group/', label: '关于小组', names: '.group-heading__names' },
-  { route: '/research/researchers/andrey-maidansky/', label: '学术入口', names: '.record__original' },
 ]) {
   test(`keeps ${entry.label} beside the identity in the page introduction`, async ({ page }) => {
     for (const width of [1440, 1024, 390]) {
@@ -107,8 +106,7 @@ for (const entry of [
       await page.goto(entry.route);
       const intro = page.locator('.section-layout__intro');
       const resources = intro.locator('.intro-links');
-      expect(await resources.getAttribute(entry.label === '关于小组' ? 'aria-label' : 'aria-labelledby'))
-        .toBe(entry.label === '关于小组' ? entry.label : 'researcher-resources-heading');
+      expect(await resources.getAttribute('aria-label')).toBe(entry.label);
       expect(await page.locator('.section-layout__sidebar').count()).toBe(0);
       const names = await box(intro.locator(entry.names));
       const links = await box(resources);
@@ -123,6 +121,24 @@ for (const entry of [
     }
   });
 }
+
+test('places academic links alongside the introduction heading without duplicate page navigation', async ({ page }) => {
+  for (const width of [1440, 1024, 390, 320]) {
+    await page.setViewportSize({ width, height: 900 });
+    await page.goto('/research/researchers/andrey-maidansky/');
+    const heading = page.getByRole('heading', { name: '简介', exact: true });
+    const resources = page.getByRole('navigation', { name: '学术资料', exact: true });
+    const headingBox = await box(heading);
+    const linksBox = await box(resources);
+    expect(linksBox.x).toBeGreaterThanOrEqual(headingBox.x + headingBox.width);
+    expect(Math.abs(linksBox.y + linksBox.height - headingBox.y - headingBox.height)).toBeLessThanOrEqual(6);
+    expect(await page.getByRole('navigation', { name: '研究专题', exact: true }).count()).toBe(0);
+    expect(await page.getByRole('navigation', { name: '当前位置', exact: true }).getByRole('link').count()).toBe(1);
+    await resources.getByRole('link').first().focus();
+    expect(await resources.getByRole('link').first().evaluate(element => element === document.activeElement)).toBe(true);
+    await expectNoHorizontalOverflow(page);
+  }
+});
 
 test('aligns a wrapping directory with a multiline title and follows metadata resizing', async ({ page }) => {
   await page.emulateMedia({ reducedMotion: 'reduce' });
