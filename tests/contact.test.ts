@@ -107,7 +107,7 @@ describe('following and contacting the group', () => {
   it('keeps the content sections as the site destinations and ends the primary navigation with the forum', () => {
     // 站内栏目仍只来自 site.navigation 并受站内路径校验；论坛入口由 forumUrl 派生，排在最后。
     expect(site.navigation.map(({ href }) => href))
-      .toEqual(['/ilyenkov/', '/archive/', '/glossary/', '/research/', '/group/', '/books/']);
+      .toEqual(['/archive/', '/glossary/', '/research/', '/group/', '/books/']);
     for (const route of ['/', '/contact/', '/group/', '/updates/']) {
       const html = builtPage(route);
       const nav = html.match(/<nav\b[^>]*aria-label="主要导航"[^>]*>([\s\S]*?)<\/nav>/)![1];

@@ -7,10 +7,6 @@
   "forumUrl": "https://ilyenkov.discourse.group/",
   "navigation": [
     {
-      "label": "伊里因科夫",
-      "href": "/ilyenkov/"
-    },
-    {
       "label": "档案",
       "href": "/archive/"
     },

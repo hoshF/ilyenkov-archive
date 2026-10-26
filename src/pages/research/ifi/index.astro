@@ -4,7 +4,6 @@ import BaseLayout from '../../../layouts/BaseLayout.astro';
 import Breadcrumbs from '../../../components/Breadcrumbs.astro';
 import PageOutline from '../../../components/PageOutline.astro';
 import RecordSources from '../../../components/RecordSources.astro';
-import ResearchNav from '../../../components/ResearchNav.astro';
 import ResourceLinks from '../../../components/ResourceLinks.astro';
 import SectionLayout from '../../../components/SectionLayout.astro';
 import {
@@ -47,7 +46,6 @@ const formatLabels = { in_person: '现场会议', online: '线上会议', hybrid
       { label: network.title },
     ]} />
     <header class="page-header" slot="intro">
-      <ResearchNav current="ifi" />
       <h1 class="page-title">{network.title}</h1>
       <p class="record__original">{network.name}（{network.abbreviation}）</p>
     </header>

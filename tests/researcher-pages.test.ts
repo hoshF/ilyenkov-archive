@@ -36,6 +36,15 @@ const resourceLabels: Record<PublicResearcher['resources'][number]['kind'], stri
 };
 
 describe('canonical researcher detail and research hub entry', () => {
+  it('redirects the former directory to the research hub with a static fallback', () => {
+    const redirect = builtPage('/research/researchers/');
+    expect(redirect).toContain('http-equiv="refresh" content="0;url=/research/#researchers"');
+    expect(redirect).toContain('name="robots" content="noindex"');
+    expect(readFileSync(path.join(process.cwd(), 'dist/_redirects'), 'utf8'))
+      .toContain('/research/researchers/ /research/#researchers 301');
+    expect(mainContent(builtPage('/research/'))).toContain('id="researchers"');
+  });
+
   it('statically builds the public identity, editorial introduction in a single reading flow', () => {
     expect(routeExists(route)).toBe(true);
     const researcher = profile();
@@ -59,14 +68,29 @@ describe('canonical researcher detail and research hub entry', () => {
     expect(html).not.toMatch(/section-layout--indexed|class="section-layout__toc"/);
   });
 
-  it.each(getPublicResearchers())('offers a compact parent link without duplicate navigation on $name', (researcher) => {
+  it.each(getPublicResearchers())('uses the shared research breadcrumb without duplicate navigation on $name', (researcher) => {
     const href = `/research/researchers/${researcher.id.replace(/^researcher-/, '')}/`;
     const main = mainContent(builtPage(href));
     expect(main).not.toContain('aria-label="研究专题"');
     const parent = main.match(/<nav\b[^>]*aria-label="当前位置"[^>]*>([\s\S]*?)<\/nav>/)![1];
-    expect(links(parent)).toEqual([{ href: '/research/researchers/', label: '← 研究者' }]);
-    expect(textContent(parent)).not.toContain(researcher.name);
+    expect(links(parent)).toEqual([{ href: '/', label: '首页' }, { href: '/research/', label: '研究' }]);
+    expect(textContent(parent)).toContain(researcher.name);
+    expect(parent).toContain(`aria-current="page">${researcher.name}</span>`);
     expect(routeExists('/research/researchers/')).toBe(true);
+  });
+
+  it.each(getPublicResearchers())('offers a native outline with only existing sections for $name', (researcher) => {
+    const main = mainContent(builtPage(`/research/researchers/${researcher.id.replace(/^researcher-/, '')}/`));
+    const outline = main.match(/<details class="page-outline">([\s\S]*?)<\/details>/)![1];
+    expect(outline).toContain('<summary>浏览简介与本站译文</summary>');
+    const expected = [
+      ...(researcher.editorial ? [{ href: '#researcher-intro-heading', label: '简介' }] : []),
+      { href: '#researcher-translations-heading', label: '本站译文' },
+    ];
+    expect(links(outline)).toEqual(expected);
+    for (const { href } of expected) expect(main).toContain(`id="${href.slice(1)}"`);
+    expect(main.indexOf('</header>')).toBeLessThan(main.indexOf('<details class="page-outline">'));
+    expect(main.indexOf('<details class="page-outline">')).toBeLessThan(main.indexOf('<section'));
   });
 
   it('keeps the introduction and translations without redundant fields or work sections', () => {
@@ -80,14 +104,14 @@ describe('canonical researcher detail and research hub entry', () => {
     const researcher = profile();
     const main = mainContent(builtPage(route));
     const intro = sectionById(main, 'researcher-intro-heading');
-    const resources = intro.match(/<nav\b[^>]*aria-label="学术资料"[^>]*>([\s\S]*?)<\/nav>/)![1];
+    const resources = main.match(/<nav\b[^>]*aria-label="学术资料"[^>]*>([\s\S]*?)<\/nav>/)![1];
     expect(links(resources)).toEqual(researcher.resources.map((resource) => ({
       href: resource.url, label: resourceLabels[resource.kind],
     })));
     expect(textContent(main)).not.toContain('学术入口');
     const header = main.match(/<header class="page-header">([\s\S]*?)<\/header>/)![1];
-    expect(header).not.toContain('aria-label="学术资料"');
-    expect(intro.indexOf('researcher-intro-heading')).toBeLessThan(intro.indexOf('aria-label="学术资料"'));
+    expect(header).toContain('aria-label="学术资料"');
+    expect(intro).not.toContain('aria-label="学术资料"');
     for (const resource of researcher.resources) expect(links(main).filter((link) => link.href === resource.url)).toHaveLength(1);
     expect(textContent(resources)).not.toMatch(/官方网站|文章来源/);
     expect(resources).not.toMatch(/<img\b|<svg\b|<button\b/);
@@ -150,8 +174,8 @@ describe('canonical researcher detail and research hub entry', () => {
   });
 
   it.each(getPublicResearchers())('lists every selected researcher and builds its detail: $name', (researcher) => {
-    const main = mainContent(builtPage('/research/researchers/'));
-    const entry = sectionById(main, `${researcher.id}-heading`);
+    const main = mainContent(builtPage('/research/'));
+    const entry = [...main.matchAll(/<article\b([^>]*)>([\s\S]*?)<\/article>/g)].find(([, attributes]) => attributes.includes(`aria-labelledby="${researcher.id}-heading"`))![2];
     const href = `/research/researchers/${researcher.id.replace(/^researcher-/, '')}/`;
     expect(links(entry)).toEqual([{ href, label: researcher.name }]);
     expect(textContent(entry)).toContain(researcher.originalName);
@@ -159,12 +183,12 @@ describe('canonical researcher detail and research hub entry', () => {
     expect(routeExists(href)).toBe(true);
     expect(textContent(mainContent(builtPage(href)))).toContain(researcher.name);
     expect(links(sectionById(mainContent(builtPage('/research/')), 'researchers-heading')))
-      .toEqual([{ href: '/research/researchers/', label: '研究者' }]);
+      .toEqual(getPublicResearchers().map((person) => ({ href: `/research/researchers/${person.id.replace(/^researcher-/, '')}/`, label: person.name })));
   });
 
   it('preserves primary navigation, static rendering and the private publication boundary', () => {
     const expected = [
-      { href: '/ilyenkov/', label: '伊里因科夫' }, { href: '/archive/', label: '档案' },
+      { href: '/archive/', label: '档案' },
       { href: '/glossary/', label: '术语库' },
       { href: '/research/', label: '研究' }, { href: '/group/', label: '小组' }, { href: '/books/', label: '书籍' },
     ];
@@ -206,27 +230,24 @@ describe('researcher portrait standard', () => {
     }
   });
 
-  it('aligns a 3:4 portrait with the first section heading, inset from the line edge, and below the name on narrow screens', () => {
-    // 宽屏与中屏：照片 160×213 挂在第一节标题上，底边与标题底边对齐，距正文右边线 24px。
-    expect(declaration('.researcher-heading', 'position')).toBe('relative');
+  it('keeps a 3:4 portrait within the identity header and in document flow on narrow screens', () => {
+    // 宽屏照片由身份页首容纳，不覆盖后面的折叠目录。
+    expect(declaration('.research-profile .page-header', 'position')).toBe('relative');
     expect(declaration('.researcher-portrait', 'position')).toBe('absolute');
-    expect(declaration('.researcher-portrait', 'bottom')).toBe('0');
+    expect(declaration('.researcher-portrait', 'top')).toBe('0');
     expect(declaration('.researcher-portrait', 'right')).toBe('24px');
     expect(declaration('.researcher-portrait', 'width')).toBe('160px');
     expect(declaration('.researcher-portrait', 'height')).toBe('213px');
     expect(declaration('.researcher-portrait', 'object-fit')).toBe('cover');
     expect(declaration('.researcher-portrait', 'object-position')).toBe('center top');
-    // 照片向上伸到页首右侧时，面包屑与页首让出照片宽度加两侧间距。
-    for (const selector of ['.research-profile--portrait .section-layout__breadcrumb', '.research-profile--portrait .section-layout__intro']) {
-      expect(declaration(selector, 'padding-right'), selector).toBe('calc(160px + 24px * 2)');
-    }
+    expect(declaration('.research-profile--portrait .page-header', 'padding-right')).toBe('calc(160px + 24px * 2)');
     // 窄屏：照片回到文档流，在姓名之下、第一节标题之上，宽度等于行宽，高度按 3:4 推出。
     const narrow = '@media (max-width: 600px)';
     expect(declaration('.researcher-portrait', 'position', narrow)).toBe('static');
     expect(declaration('.researcher-portrait', 'width', narrow)).toBe('100%');
     expect(declaration('.researcher-portrait', 'height', narrow)).toBe('auto');
     expect(declaration('.researcher-portrait', 'aspect-ratio', narrow)).toBe('3 / 4');
-    expect(declaration('.research-profile--portrait .section-layout__intro', 'padding-right', narrow)).toBe('0');
+    expect(declaration('.research-profile--portrait .page-header', 'padding-right', narrow)).toBe('0');
   });
 
   it('requires each portrait file to be at least the largest display size', async () => {

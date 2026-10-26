@@ -37,7 +37,7 @@ const updates = getUpdates().slice(0, HOME_UPDATES_LIMIT);
 <BaseLayout title={site.name}>
   <div class="home-page">
     <div class="home-opening">
-      <p class="home-positioning">伊里因科夫的中文译文与研究资料</p>
+      <p class="home-positioning"><a href="/ilyenkov/">伊里因科夫</a>的中文译文与研究资料</p>
       <p class="home-summary">{ilyenkov.summary}</p>
       <p class="home-more">了解伊里因科夫：{ilyenkov.entrances.map((entrance, index) => <>{index > 0 && ' · '}<a href={`/ilyenkov/${entrance.target}/`}>{entrance.label}</a></>)}</p>
     </div>

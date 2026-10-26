@@ -18,7 +18,7 @@ const attributes = (tag: string) => Object.fromEntries(
 describe('static discoverability', () => {
   it('uses the production domain across all page metadata and RSS', () => {
     expect(config.site).toBe('https://ilyenkov.cn/');
-    for (const path of pages()) {
+    for (const path of pages().filter((path) => path !== 'research/researchers/index.html')) {
       const head = read(path).match(/<head>([\s\S]*?)<\/head>/)![1];
       const tags = [...head.matchAll(/<(?:meta|link)\b[^>]*>/g)].map(([tag]) => attributes(tag));
       const meta = (key: string) => tags.find((tag) => tag.property === key || tag.name === key)?.content;
@@ -59,7 +59,7 @@ describe('static discoverability', () => {
       const file = url.pathname.includes('.') ? url.pathname : `${url.pathname}/index.html`;
       expect(existsSync(join(root, file)), url.href).toBe(true);
     }
-    for (const path of pages().filter((path) => path !== '404.html')) {
+    for (const path of pages().filter((path) => !['404.html', 'research/researchers/index.html'].includes(path))) {
       const head = read(path).match(/<head>([\s\S]*?)<\/head>/)![1];
       const links = [...head.matchAll(/<link\b[^>]*>/g)].map(([tag]) => attributes(tag));
       expect(links.find((link) => link.rel === 'describedby')?.href).toBe(new URL('/llms.txt', config.site).href);
@@ -78,7 +78,7 @@ describe('static discoverability', () => {
       expect(url.origin).toBe(indexUrl.origin);
       return array(parser.parse(read(url.pathname)).urlset.url).map((entry: { loc: string }) => entry.loc);
     });
-    const expected = pages().filter((path) => path !== '404.html').map((path) => {
+    const expected = pages().filter((path) => !['404.html', 'research/researchers/index.html'].includes(path)).map((path) => {
       // trailingSlash: 'always' —— 目录页在 sitemap 中同样带尾斜杠。
       const pathname = path === 'index.html' ? '/'
         : path.endsWith('/index.html') ? `/${path.slice(0, -'/index.html'.length)}/`

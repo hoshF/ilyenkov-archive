@@ -120,17 +120,9 @@ describe('Readings public series detail and research entry', () => {
     }
   });
 
-  it('provides neighboring research links and an expandable outline covering every decade', () => {
+  it('provides a single breadcrumb and an expandable outline covering every decade', () => {
     const main = mainContent(builtPage('/research/readings'));
-    const nav = main.match(/<nav\b[^>]*aria-label="研究专题"[^>]*>([\s\S]*?)<\/nav>/)![1];
-    expect(links(nav)).toEqual([
-      { href: '/research/ifi/', label: getPublicIfiNetwork().title },
-      { href: '/research/researchers/', label: '研究者' },
-      { href: '/research/readings/', label: pageSeries().title },
-    ]);
-    expect(nav).toContain('href="/research/readings/" aria-current="page"');
-    expect([...nav.matchAll(/aria-current="page"/g)]).toHaveLength(1);
-    for (const link of links(nav)) expect(routeExists(link.href)).toBe(true);
+    expect(main).not.toContain('aria-label="研究专题"');
     const outline = main.match(/<details class="page-outline">([\s\S]*?)<\/details>/)![1];
     const decades = [...new Set(getPublicReadings().map((record) => Math.floor(Number(record.period.start.slice(0, 4)) / 10) * 10))];
     expect(links(outline).map((link) => link.href)).toEqual([
@@ -146,13 +138,13 @@ describe('Readings public series detail and research entry', () => {
     expect(textContent(entry)).toContain(series.title);
     expect(textContent(entry)).toContain(series.name);
     expect(textContent(entry)).toContain(series.summary);
-    const heading = entry.match(/<h2\b[^>]*>([\s\S]*?)<\/h2>/)![1];
+    const heading = entry.match(/<h3\b[^>]*>([\s\S]*?)<\/h3>/)![1];
     expect(links(heading)).toEqual([{ href: '/research/readings/', label: series.title }]);
     const paragraphs = [...entry.matchAll(/<p\b[^>]*>([\s\S]*?)<\/p>/g)]
       .map(([, content]) => textContent(content));
     expect(paragraphs).toEqual([series.name, series.summary]);
     expect(links(entry)).toEqual([{ href: '/research/readings/', label: series.title }]);
-    expect(entry).not.toMatch(/<ol\b|<ul\b|<li\b|<article\b|<h3\b/);
+    expect(entry).not.toMatch(/<ol\b|<ul\b|<li\b|<article\b/);
     for (const event of getPublicReadings()) expect(textContent(entry)).not.toContain(event.title);
     const ifi = getPublicIfiNetwork();
     const ifiEntry = sectionById(main, 'ifi-heading');
@@ -165,7 +157,6 @@ describe('Readings public series detail and research entry', () => {
 
   it('preserves the primary navigation entries and a static, single-flow public boundary', () => {
     const expected = [
-      { href: '/ilyenkov/', label: '伊里因科夫' },
       { href: '/archive/', label: '档案' },
       { href: '/glossary/', label: '术语库' },
       { href: '/research/', label: '研究' },

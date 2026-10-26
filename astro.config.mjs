@@ -41,5 +41,5 @@ export default defineConfig({
       },
     }],
   },
-  integrations: [sitemap({ filter: (url) => new URL(url).pathname !== '/404' })],
+  integrations: [sitemap({ filter: (url) => !['/404', '/research/researchers/'].includes(new URL(url).pathname) })],
 });

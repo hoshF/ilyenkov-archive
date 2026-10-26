@@ -39,7 +39,7 @@ function sectionById(html: string, id: string): string {
 }
 
 function sectionFor(html: string, heading: string): string {
-  const section = sections(html).find((section) => section.heading.includes(heading));
+  const section = sections(html).find((section) => textContent(section.html).includes(heading));
   expect(section, `section for ${heading}`).toBeDefined();
   return section!.html;
 }
@@ -139,18 +139,9 @@ describe('IFI public detail and research entry', () => {
     }
   });
 
-  it('provides neighboring research links and a native expandable outline with valid targets', () => {
+  it('provides a single breadcrumb and a native expandable outline with valid targets', () => {
     const main = mainContent(builtPage('/research/ifi'));
-    const nav = main.match(/<nav\b[^>]*aria-label="研究专题"[^>]*>([\s\S]*?)<\/nav>/)![1];
-    const network = getPublicIfiNetwork();
-    expect(links(nav)).toEqual([
-      { href: '/research/ifi/', label: network.title },
-      { href: '/research/researchers/', label: '研究者' },
-      { href: '/research/readings/', label: getPublicReadingsSeries()[0].title },
-    ]);
-    expect(nav).toContain('href="/research/ifi/" aria-current="page"');
-    expect([...nav.matchAll(/aria-current="page"/g)]).toHaveLength(1);
-    for (const link of links(nav)) expect(routeExists(link.href)).toBe(true);
+    expect(main).not.toContain('aria-label="研究专题"');
     const outline = main.match(/<details class="page-outline">([\s\S]*?)<\/details>/)![1];
     const expected = [...sections(main).map((section) => `#${section.id}`), '#ifi-resources-heading'];
     expect(links(outline).map((link) => link.href)).toEqual(expected);
@@ -175,13 +166,13 @@ describe('IFI public detail and research entry', () => {
     expect([...main.matchAll(/<h1\b/g)]).toHaveLength(1);
     expect(textContent(main.match(/<h1\b[^>]*>([\s\S]*?)<\/h1>/)![1])).toBe('研究');
     const entry = sectionFor(main, network.title);
-    const heading = entry.match(/<h2\b[^>]*>([\s\S]*?)<\/h2>/)![1];
+    const heading = entry.match(/<h3\b[^>]*>([\s\S]*?)<\/h3>/)![1];
     expect(links(heading)).toEqual([{ href: '/research/ifi/', label: network.title }]);
     const paragraphs = [...entry.matchAll(/<p\b[^>]*>([\s\S]*?)<\/p>/g)]
       .map(([, content]) => textContent(content));
     expect(paragraphs).toEqual([`${network.name}（${network.abbreviation}）`, network.summary]);
     expect(links(entry)).toEqual([{ href: '/research/ifi/', label: network.title }]);
-    expect(entry).not.toMatch(/<ol\b|<ul\b|<li\b|<article\b|<h3\b/);
+    expect(entry).not.toMatch(/<ol\b|<ul\b|<li\b|<article\b/);
     for (const symposium of symposiums) expect(textContent(entry)).not.toContain(symposium.title);
     expect(sections(main)).toHaveLength(3);
   });
@@ -189,22 +180,25 @@ describe('IFI public detail and research entry', () => {
   it('retains the researcher and Readings series entries', () => {
     const main = mainContent(builtPage('/research'));
     const researchers = sectionById(main, 'researchers-heading');
-    expect(links(researchers)).toEqual([{ href: '/research/researchers/', label: '研究者' }]);
+    expect(links(researchers).length).toBeGreaterThan(0);
+    for (const link of links(researchers)) {
+      expect(link.href).toMatch(/^\/research\/researchers\/[^/]+\/$/);
+      expect(routeExists(link.href)).toBe(true);
+    }
     expect(main).not.toContain('research-sites-heading');
     const series = getPublicReadingsSeries()[0];
     const readings = sectionFor(main, series.title);
     expect(textContent(readings)).toContain(series.name);
     expect(textContent(readings)).toContain(series.summary);
     expect(links(readings)).toEqual([{ href: '/research/readings/', label: series.title }]);
-    expect(readings).not.toMatch(/<ol\b|<ul\b|<li\b|<article\b|<h3\b/);
+    expect(readings).not.toMatch(/<ol\b|<ul\b|<li\b|<article\b/);
     expect(sections(main).map((section) => section.heading)).toEqual([
-      getPublicIfiNetwork().title, '研究者', series.title,
+      '研究者', '学术网络', '学术会议',
     ]);
   });
 
   it('keeps both pages static and preserves the primary navigation entries', () => {
     const expected = [
-      { href: '/ilyenkov/', label: '伊里因科夫' },
       { href: '/archive/', label: '档案' },
       { href: '/glossary/', label: '术语库' },
       { href: '/research/', label: '研究' },

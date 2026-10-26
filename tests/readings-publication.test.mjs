@@ -709,7 +709,7 @@ describe('Readings publication regression', () => {
     expect(html).toContain('readings-heading');
     expect(html).toContain('href="/research/readings/"');
     const entry = html.match(/<section\b[^>]*aria-labelledby="readings-heading"[^>]*>([\s\S]*?)<\/section>/)[1];
-    expect(entry).not.toMatch(/<ol\b|<article\b|<h3\b/);
+    expect(entry).not.toMatch(/<ol\b|<article\b/);
     expect(entry).toContain(records.readingsSeries[0].summary);
     expect(routeExists('/research')).toBe(true);
     expect(routeExists('/research/ifi')).toBe(true);

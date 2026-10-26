@@ -182,7 +182,7 @@ describe('website-approved data adapter', () => {
     const nav = notFound.match(/<nav[^>]*aria-label="主要导航"[^>]*>([\s\S]*?)<\/nav>/)![1];
     expect(nav).not.toContain('aria-current');
     expect([...withoutHiddenDecoration(nav).matchAll(/<a[^>]*>([^<]*)<\/a>/g)].map(([, label]) => label))
-      .toEqual(['伊里因科夫', '档案', '术语库', '研究', '小组', '书籍', '讨论']);
+      .toEqual(['档案', '术语库', '研究', '小组', '书籍', '讨论']);
 
     // 纯静态：没有脚本，也不在本轮引入 canonical / OG / robots meta。
     expect(notFound).not.toContain('<script');
@@ -270,8 +270,8 @@ describe('website-approved data adapter', () => {
     const ids = [...main.matchAll(/<section\b[^>]*aria-labelledby="([^"]+)"[^>]*>/g)]
       .map((match) => match[1]);
     expect(ids).toEqual([
-      'ifi-heading',
       'researchers-heading',
+      'ifi-heading',
       'readings-heading',
     ]);
     for (const id of ids) {
@@ -284,14 +284,14 @@ describe('website-approved data adapter', () => {
     expect(text).not.toMatch(/了解 IFI|了解研究者|了解学术报告会|其国际网络形成于|现存会程资料中最早的会议/);
     expect(main).not.toContain('research-sites-heading');
     expect(main).not.toContain('https://filorus.ru/');
-    const entityTitles = [...main.matchAll(/<h2\b[^>]*><a href="([^"]+)">([^<]+)<\/a><\/h2>/g)]
+    const entityTitles = [...main.matchAll(/<h3\b[^>]*><a href="([^"]+)">([^<]+)<\/a><\/h3>/g)]
       .map(([, href, title]) => ({ href, title }));
     expect(entityTitles).toEqual([
+      ...getPublicResearchers().map((person) => ({ href: `/research/researchers/${person.id.replace(/^researcher-/, '')}/`, title: person.name })),
       { href: '/research/ifi/', title: '国际伊里因科夫之友' },
-      { href: '/research/researchers/', title: '研究者' },
       { href: '/research/readings/', title: '伊里因科夫学术报告会' },
     ]);
-    expect(main.match(/class="record__summary"/g)).toHaveLength(3);
+    expect(main.match(/class="record__summary"/g)).toHaveLength(getPublicResearchers().length + 2);
     expect(declaration('.research-hub .record__original', 'margin')).toBe('4px 0 0');
     expect(declaration('.research-hub .record__summary', 'margin')).toBe('9px 0 0');
 
@@ -420,7 +420,7 @@ describe('website-approved data adapter', () => {
     // 导航性质的链接保持无下划线：刊名、主导航、面包屑、页内目录与提纲、档案分类、栏目子导航。
     for (const selector of [
       '.site-name', '.site-header__nav a', '.breadcrumbs a', '.section-layout__toc a', '.page-outline a',
-      '.archive-facets__all a', '.archive-facets__term', '.ilyenkov-nav a', '.research-nav a',
+      '.archive-facets__all a', '.archive-facets__term', '.ilyenkov-nav a',
     ]) {
       expect(declaration(selector, 'text-decoration'), selector).toBe('none');
     }
@@ -1159,7 +1159,7 @@ describe('public navigation', () => {
     expect([...homepage.matchAll(/<h1\b/g)]).toHaveLength(1);
     expect(main).not.toMatch(/<h1\b|home-masthead|sr-only/);
     expect(homepage).toContain(`<h1 class="site-name__text">${site.name}</h1>`);
-    expect(main).toContain('<p class="home-positioning">伊里因科夫的中文译文与研究资料</p>');
+    expect(main).toContain('<p class="home-positioning"><a href="/ilyenkov/">伊里因科夫</a>的中文译文与研究资料</p>');
     // 定位句保持段落语义，共用栏目标题的字形参数，保留自己的段间留白。
     expect(declaration('.home-positioning', 'font-size')).toBe('var(--text-home-section)');
     expect(declaration('.home-positioning', 'font-size', '@media (max-width: 600px)')).toBe('var(--text-item)');
@@ -1226,9 +1226,9 @@ describe('public navigation', () => {
     ];
     const researchHub = readFileSync(builtRoutePath('/research'), 'utf8').match(/<main>([\s\S]*?)<\/main>/)![1];
     const homeLinks = [...research.matchAll(/<h3\b[^>]*>\s*<a href="([^"]+)"/g)].map(([, href]) => href);
-    const hubLinks = [...researchHub.matchAll(/<h2\b[^>]*>\s*<a href="([^"]+)"/g)].map(([, href]) => href);
+    const hubLinks = [...researchHub.matchAll(/<h3\b[^>]*>\s*<a href="([^"]+)"/g)].map(([, href]) => href);
     expect(homeLinks.sort()).toEqual(records.map((record) => record.href).sort());
-    expect(hubLinks.sort()).toEqual(['/research/ifi/', '/research/researchers/', '/research/readings/'].sort());
+    expect(hubLinks.sort()).toEqual([...getPublicResearchers().map((person) => `/research/researchers/${person.id.replace(/^researcher-/, '')}/`), '/research/ifi/', '/research/readings/'].sort());
     expect([...research.matchAll(/<h3\b/g)].length).toBe(records.length);
     for (const record of records) {
       expect(research).toContain(record.summary);
@@ -1242,7 +1242,7 @@ describe('public navigation', () => {
     const homepage = readFileSync(path.join(process.cwd(), 'dist', 'index.html'), 'utf8');
     const nav = homepage.match(/<nav class="site-header__nav"[\s\S]*?<\/nav>/)![0];
     expect(site.navigation.map(({ href }) => href))
-      .toEqual(['/ilyenkov/', '/archive/', '/glossary/', '/research/', '/group/', '/books/']);
+      .toEqual(['/archive/', '/glossary/', '/research/', '/group/', '/books/']);
     expect([...nav.matchAll(/href="([^"]+)"/g)].map(([, href]) => href))
       .toEqual([...site.navigation.map(({ href }) => href), site.forumUrl]);
     expect(nav).not.toContain('href="/updates/"');
@@ -1803,7 +1803,7 @@ describe('directory spacing', () => {
     for (const route of [
       'ilyenkov', 'archive', 'glossary', 'research', 'group', 'books',
       'ilyenkov/life', 'ilyenkov/timeline', 'ilyenkov/works', 'ilyenkov/circle',
-      'research/ifi', 'research/readings', 'research/researchers', ...researchers,
+      'research/ifi', 'research/readings', ...researchers,
       'updates', 'about', 'contact',
     ]) {
       const main = readFileSync(builtRoutePath(`/${route}`), 'utf8').match(/<main>([\s\S]*?)<\/main>/)![1];
@@ -1915,6 +1915,6 @@ describe('forum entrances', () => {
     const html = readFileSync(builtRoutePath('/research'), 'utf8');
     const markup = html.match(/<nav class="site-header__nav"[^>]*>([\s\S]*?)<\/nav>/)![1];
     expect(markup).not.toMatch(/<\/a>\s+<a/);
-    expect(site.navigation.length + 1).toBe(7);
+    expect(site.navigation.length + 1).toBe(6);
   });
 });

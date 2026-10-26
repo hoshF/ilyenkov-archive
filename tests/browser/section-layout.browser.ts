@@ -122,18 +122,24 @@ for (const entry of [
   });
 }
 
-test('places academic links alongside the introduction heading without duplicate page navigation', async ({ page }) => {
+test('places academic links in the identity header and supports the expandable researcher outline', async ({ page }) => {
   for (const width of [1440, 1024, 390, 320]) {
     await page.setViewportSize({ width, height: 900 });
     await page.goto('/research/researchers/andrey-maidansky/');
-    const heading = page.getByRole('heading', { name: '简介', exact: true });
     const resources = page.getByRole('navigation', { name: '学术资料', exact: true });
-    const headingBox = await box(heading);
+    const headerBox = await box(page.locator('.research-profile .page-header'));
     const linksBox = await box(resources);
-    expect(linksBox.x).toBeGreaterThanOrEqual(headingBox.x + headingBox.width);
-    expect(Math.abs(linksBox.y + linksBox.height - headingBox.y - headingBox.height)).toBeLessThanOrEqual(6);
+    expect(linksBox.y).toBeGreaterThan(headerBox.y);
+    expect(linksBox.y + linksBox.height).toBeLessThanOrEqual(headerBox.y + headerBox.height + 1);
+    const outline = page.locator('.page-outline');
+    expect(await outline.getAttribute('open')).toBeNull();
+    await outline.locator('summary').focus();
+    await outline.locator('summary').press('Enter');
+    expect(await outline.getAttribute('open')).not.toBeNull();
+    await outline.getByRole('link', { name: '本站译文', exact: true }).click();
+    expect(new URL(page.url()).hash).toBe('#researcher-translations-heading');
     expect(await page.getByRole('navigation', { name: '研究专题', exact: true }).count()).toBe(0);
-    expect(await page.getByRole('navigation', { name: '当前位置', exact: true }).getByRole('link').count()).toBe(1);
+    expect(await page.getByRole('navigation', { name: '当前位置', exact: true }).getByRole('link').count()).toBe(2);
     await resources.getByRole('link').first().focus();
     expect(await resources.getByRole('link').first().evaluate(element => element === document.activeElement)).toBe(true);
     await expectNoHorizontalOverflow(page);
@@ -187,7 +193,7 @@ test('keeps inline academic links clear of an optional portrait and a long name'
       portrait.className = 'researcher-portrait';
       portrait.width = 160; portrait.height = 213; portrait.alt = '虚构测试人物照片';
       portrait.src = 'data:image/svg+xml,' + encodeURIComponent('<svg xmlns="http://www.w3.org/2000/svg" width="160" height="213"/>');
-      document.querySelector('.researcher-heading')!.prepend(portrait);
+      document.querySelector('.research-profile .page-header')!.append(portrait);
     });
     const portrait = await box(page.getByRole('img', { name: '虚构测试人物照片' }));
     const links = await box(page.locator('.intro-links'));

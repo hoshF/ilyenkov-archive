@@ -1,9 +1,11 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
 import SectionLayout from '../components/SectionLayout.astro';
-import { getPublicIfiNetwork } from '../lib/research-records';
+import { researcherSlug } from '../lib/portrait';
+import { getPublicResearchers, getPublicIfiNetwork } from '../lib/research-records';
 import { getReadingsPageSeries } from '../lib/readings-page';
 
+const researchers = getPublicResearchers();
 const readingsSeries = getReadingsPageSeries();
 const ifiNetwork = getPublicIfiNetwork();
 ---
@@ -12,24 +14,37 @@ const ifiNetwork = getPublicIfiNetwork();
   <SectionLayout pinned modifier="section-index research-hub">
     <h1 class="visually-hidden">研究</h1>
 
-    <section class="research-series" aria-labelledby="ifi-heading">
-        <h2 id="ifi-heading"><a href="/research/ifi/">{ifiNetwork.title}</a></h2>
-        <p class="record__original">{ifiNetwork.name}（{ifiNetwork.abbreviation}）</p>
-        <p class="record__summary">{ifiNetwork.summary}</p>
+    <section class="research-series" id="researchers" aria-labelledby="researchers-heading">
+      <h2 id="researchers-heading">研究者</h2>
+      <ul class="record-list research-hub__entries" role="list">
+        {researchers.map((researcher) => (
+          <li>
+            <article aria-labelledby={`${researcher.id}-heading`}>
+              <h3 class="record__title" id={`${researcher.id}-heading`}><a href={`/research/researchers/${researcherSlug(researcher)}/`}>{researcher.name}</a></h3>
+              <p class="record__original">{researcher.originalName}</p>
+              <p class="record__summary">{researcher.editorial?.workDescription ?? researcher.summary}</p>
+            </article>
+          </li>
+        ))}
+      </ul>
     </section>
 
-    <section class="research-series" aria-labelledby="researchers-heading">
-        <h2 id="researchers-heading"><a href="/research/researchers/">研究者</a></h2>
-        <p class="record__summary">人物介绍、学术入口与本站译文。</p>
+    <section class="research-series" aria-labelledby="ifi-heading">
+      <h2 id="ifi-heading">学术网络</h2>
+      <div class="research-hub__entries">
+        <h3 class="record__title"><a href="/research/ifi/">{ifiNetwork.title}</a></h3>
+        <p class="record__original">{ifiNetwork.name}（{ifiNetwork.abbreviation}）</p>
+        <p class="record__summary">{ifiNetwork.summary}</p>
+      </div>
     </section>
 
     <section class="research-series" aria-labelledby="readings-heading">
-        <h2 id="readings-heading"><a href="/research/readings/">{readingsSeries.title}</a></h2>
+      <h2 id="readings-heading">学术会议</h2>
+      <div class="research-hub__entries">
+        <h3 class="record__title"><a href="/research/readings/">{readingsSeries.title}</a></h3>
         <p class="record__original">{readingsSeries.name}</p>
         <p class="record__summary">{readingsSeries.summary}</p>
+      </div>
     </section>
-
-
-
   </SectionLayout>
 </BaseLayout>
