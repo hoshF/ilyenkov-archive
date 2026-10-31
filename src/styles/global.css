@@ -17,7 +17,7 @@
 :root {
   /* 灰白文档配色：近白纸面、柔和深灰正文、克制的蓝色链接；灰阶一律中性，不带冷暖偏色。 */
   color-scheme: light; --ink: #383838; --ink-soft: #383838; --ink-strong: #222222; --muted: #666666; --line: #dedede;
-  --line-strong: #b0b0b0; --paper: #fdfdfd; --accent: #34507f;
+  --line-strong: #b0b0b0; --paper: #ffffff; --surround: #efefef; --page-shadow: #0000000a; --accent: #34507f;
   --label: #555555;
   --control-bg: #ffffff; --control-border: var(--line);
   --highlight-bg: #fff0ba; --highlight-ink: var(--ink-soft);
@@ -41,7 +41,7 @@
 
 @media (prefers-color-scheme: dark) {
   :root {
-    color-scheme: dark; --paper: #202123; --ink: #d2d2d2; --ink-soft: #d2d2d2; --ink-strong: #ececec;
+    color-scheme: dark; --paper: #202123; --surround: #18191b; --page-shadow: #00000033; --ink: #d2d2d2; --ink-soft: #d2d2d2; --ink-strong: #ececec;
     --label: #bdbdbd; --muted: #aaaaaa; --accent: #a3b8ec; --accent-hover: #d3defa;
     --line: #48494c; --line-strong: #77797d;
     --control-bg: #2a2b2e; --control-border: #77797d;
@@ -50,13 +50,25 @@
   .archive-search input::placeholder, .glossary-search input::placeholder { color: var(--muted); opacity: 1; }
 }
 
-html { scroll-behavior: smooth; }
+html { scroll-behavior: smooth; background: var(--surround); }
 /* 选择减少动画的读者不被带着平滑滚过整篇长文：从正文到文末注释可能相隔数万像素。 */
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto; }
 }
 
-body { background: var(--paper); color: var(--ink); margin: 0; line-height: 1.4; }
+body {
+  position: relative; isolation: isolate; min-height: 100vh; margin: 0;
+  color: var(--ink); line-height: 1.4;
+}
+body::before {
+  content: ""; position: fixed; z-index: -1; inset: 0 auto 0 50%;
+  width: min(100%, calc(var(--reading) + 96px)); transform: translateX(-50%); background: var(--paper);
+  box-shadow: 0 0 18px var(--page-shadow);
+}
+
+@media (max-width: 768px) {
+  body::before { width: 100%; box-shadow: none; }
+}
 
 /* 链接色克制，靠细下划线辨认：线取链接色的四成，离开汉字底部一段距离，悬停时变实。
    导航、页内目录、档案分类与栏目子导航各自取消下划线，靠位置说明可点。 */
@@ -87,7 +99,7 @@ h2, h3, h4 { text-wrap: balance; line-height: 1.3; }
 
 .site-header {
   /* 刊名、导航与正文之间靠留白分隔。 */
-  background: var(--paper);
+  background: transparent;
 }
 
 .site-header__masthead {
@@ -371,11 +383,10 @@ h2, h3, h4 { text-wrap: balance; line-height: 1.3; }
 .section-layout--reading {
   /* 译文比分区页更早开始：容器的上内边距和索引的吸顶位置都从这里取，两者仍然对齐。 */
   --section-top: 27px;
-  /* 右边留一列与索引等宽的空白，正文就落在屏幕正中；索引待在左边距里，不把正文推离
-     中线。左栏有下限，窄下来时先让右边那列空白收掉、再让正文收，索引始终读得出来。 */
+  /* 左边保留对应余白，目录位于正文右侧；空间不足时先收缩左侧余白。 */
   width: min(calc(100% - 40px), calc(var(--reading) + (var(--index) + var(--index-gap)) * 2));
-  grid-template-columns: minmax(0, var(--index)) minmax(0, var(--reading)) minmax(0, 1fr);
-  grid-template-areas: "toc breadcrumb ." "toc intro ." "toc content .";
+  grid-template-columns: minmax(0, 1fr) minmax(0, var(--reading)) minmax(0, var(--index));
+  grid-template-areas: ". breadcrumb toc" ". intro toc" ". content toc";
   grid-template-rows: min-content min-content auto; display: grid;
 }
 .section-layout--reading .section-layout__sidebar { display: contents; }
@@ -394,17 +405,20 @@ h2, h3, h4 { text-wrap: balance; line-height: 1.3; }
   width: min(calc(100% - 40px), var(--reading)); display: block;
 }
 
-/* 版次只占正文两侧的余白；余白不足时隐藏辅助栏，不挤压书籍内容。 */
+/* 版次占正文右侧余白；余白不足时隐藏辅助栏，不挤压书籍内容。 */
 @media (min-width: 1101px) {
   .container.book-page {
-    --index: 160px; --index-gap: 32px;
+    --index: 160px; --index-gap: 56px;
     width: min(calc(100% - 40px), calc(var(--reading) + (var(--index) + var(--index-gap)) * 2));
     max-width: none; display: grid;
     grid-template-columns: minmax(0, 1fr) minmax(0, var(--reading)) minmax(0, 1fr);
     column-gap: var(--index-gap);
   }
-  .book-page .section-layout__sidebar { display: block; }
-  .book-page .section-layout__content { grid-column: 2; }
+  .book-page .section-layout__sidebar { display: block; grid-column: 3; grid-row: 2; }
+  .book-page .section-layout__content {
+    grid-column: 2; grid-row: 1 / span 2; align-self: stretch;
+    display: grid; grid-template-rows: subgrid;
+  }
   .book-page .section-layout__aside { margin-top: 0; }
 }
 
@@ -418,6 +432,8 @@ h2, h3, h4 { text-wrap: balance; line-height: 1.3; }
     column-gap: var(--index-gap);
   }
   .centered-rail .section-layout__content { grid-column: 2; }
+  .archive-index-page { --index-gap: 56px; }
+  .archive-index-page .section-layout__sidebar { width: fit-content; max-width: 100%; justify-self: end; }
   .centered-rail .section-layout__aside, .archive-index-page .archive-facets { margin-top: 0; }
   .archive-index-page .archive-facets__label,
   .archive-index-page .archive-facets__all a,
@@ -470,7 +486,7 @@ h2, h3, h4 { text-wrap: balance; line-height: 1.3; }
 .section-layout--reading .section-layout__toc a[aria-current=location] { color: var(--accent); }
 @media (min-width: 861px) {
   .section-layout--reading .section-layout__toc {
-    width: fit-content; max-width: 100%; justify-self: end;
+    width: fit-content; max-width: 100%; justify-self: start;
     margin-top: var(--reading-title-offset, 0px);
   }
 }
@@ -519,7 +535,7 @@ h2, h3, h4 { text-wrap: balance; line-height: 1.3; }
   border: 2px solid var(--accent); border-radius: 50%; background: var(--paper);
 }
 
-/* 档案分类是辅助目录；仅显示分类名称，当前项使用深色与细下划线。 */
+/* 档案分类是辅助目录；仅显示分类名称，当前项使用链接色与细下划线。 */
 .archive-facets { margin-top: 24px; }
 .archive-facets__label {
   color: var(--muted); font-size: var(--text-meta); letter-spacing: .04em; margin: 0 0 15px;
@@ -535,7 +551,7 @@ h2, h3, h4 { text-wrap: balance; line-height: 1.3; }
 }
 .archive-facets__term:hover { color: var(--accent); }
 .archive-facets__all a[aria-current=page], .archive-facets__term[aria-current=page] {
-  color: var(--ink-soft); text-decoration: underline; text-underline-offset: .18em;
+  color: var(--accent); text-decoration: underline; text-underline-offset: .18em;
 }
 .archive-facets__all a[aria-current=page]:hover, .archive-facets__term[aria-current=page]:hover { color: var(--accent); }
 /* 档案目录名沿用首页定位句的字号与颜色，篇数跟在名称右侧。 */

@@ -11,6 +11,10 @@
       "href": "/archive/"
     },
     {
+      "label": "书籍",
+      "href": "/books/"
+    },
+    {
       "label": "术语库",
       "href": "/glossary/"
     },
@@ -21,10 +25,6 @@
     {
       "label": "小组",
       "href": "/group/"
-    },
-    {
-      "label": "书籍",
-      "href": "/books/"
     }
   ],
   "footer": [

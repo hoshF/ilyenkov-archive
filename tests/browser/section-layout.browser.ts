@@ -26,7 +26,11 @@ for (const route of [readingRoute, '/archive/']) {
     // The indexed wrapper has no box; its directory is the actual grid item.
     const rail = await box(page.locator(route === readingRoute
       ? '.section-layout__toc' : '.section-layout__sidebar'));
-    expect(rail.x + rail.width).toBeLessThanOrEqual(content.x);
+    if (route === readingRoute) {
+      expect(rail.x).toBeGreaterThanOrEqual(content.x + content.width);
+    } else {
+      expect(rail.x + rail.width).toBeLessThanOrEqual(content.x);
+    }
     expect(Math.min(rail.y + rail.height, content.y + content.height))
       .toBeGreaterThan(Math.max(rail.y, content.y));
     await expectNoHorizontalOverflow(page);
@@ -44,6 +48,22 @@ for (const route of [readingRoute, '/archive/']) {
     }
   });
 }
+
+test('aligns archive classification with the page title on desktop', async ({ page }) => {
+  for (const route of ['/archive/', '/archive/topic/dialectics/']) {
+    for (const width of [1100, 1280]) {
+      await page.setViewportSize({ width, height: 900 });
+      await page.goto(route);
+      await page.evaluate(() => document.fonts.ready);
+      const all = await box(page.locator('.archive-facets__all'));
+      const title = await box(page.locator('.archive-heading__title'));
+      expect(Math.abs(all.y - title.y)).toBeLessThanOrEqual(1);
+      const label = await box(page.locator('.archive-facets__label').first());
+      expect(Math.abs(label.x - all.x)).toBeLessThanOrEqual(1);
+      await expectNoHorizontalOverflow(page);
+    }
+  }
+});
 
 test('switches reading directories at the breakpoint and supports the folded directory by keyboard', async ({ page }) => {
   await page.emulateMedia({ reducedMotion: 'reduce' });
@@ -95,6 +115,21 @@ test('keeps a reading page without a directory in a centered single column', asy
     expect(title.y + title.height).toBeLessThanOrEqual(article.y);
     await expectNoHorizontalOverflow(page);
   }
+});
+
+test('places the book edition rail to the right without shifting the content', async ({ page }) => {
+  await page.setViewportSize({ width: 1280, height: 900 });
+  await page.goto('/books/dialektika-abstraktnogo-i-konkretnogo/');
+  const content = await box(page.locator('.book-page .section-layout__content'));
+  const rail = await box(page.locator('.book-page .section-layout__sidebar'));
+  expect(rail.x).toBeGreaterThan(content.x + content.width + 48);
+  const title = await box(page.locator('.book-header'));
+  expect(Math.abs(rail.y - title.y)).toBeLessThanOrEqual(1);
+  expect(Math.abs(content.x + content.width / 2 - 640)).toBeLessThanOrEqual(1);
+  await expectNoHorizontalOverflow(page);
+  await page.setViewportSize({ width: 1100, height: 900 });
+  expect(await page.locator('.book-page .section-layout__sidebar').isVisible()).toBe(false);
+  expect(await page.locator('.book-editions').isVisible()).toBe(true);
 });
 
 for (const entry of [
@@ -165,7 +200,7 @@ test('aligns a wrapping directory with a multiline title and follows metadata re
     await expect.poll(async () => Math.abs((await box(toc)).y - (await box(title)).y)).toBeLessThanOrEqual(1);
     const content = await box(page.locator('.section-layout__content'));
     const directory = await box(toc);
-    expect(directory.x + directory.width).toBeLessThan(content.x);
+    expect(directory.x).toBeGreaterThanOrEqual(content.x + content.width);
     expect(await toc.locator('a').first().evaluate(element => element.getBoundingClientRect().height
       > parseFloat(getComputedStyle(element).lineHeight))).toBe(true);
     expect(await title.evaluate(element => element.getBoundingClientRect().height

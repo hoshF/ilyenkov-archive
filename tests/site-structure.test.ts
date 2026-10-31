@@ -182,7 +182,7 @@ describe('website-approved data adapter', () => {
     const nav = notFound.match(/<nav[^>]*aria-label="主要导航"[^>]*>([\s\S]*?)<\/nav>/)![1];
     expect(nav).not.toContain('aria-current');
     expect([...withoutHiddenDecoration(nav).matchAll(/<a[^>]*>([^<]*)<\/a>/g)].map(([, label]) => label))
-      .toEqual(['档案', '术语库', '研究', '小组', '书籍', '讨论']);
+      .toEqual(['档案', '书籍', '术语库', '研究', '小组', '讨论']);
 
     // 纯静态：没有脚本，也不在本轮引入 canonical / OG / robots meta。
     expect(notFound).not.toContain('<script');
@@ -725,10 +725,10 @@ describe('website-approved data adapter', () => {
     // 译文版式：正文是行宽本身，两边各让出一个索引栏的宽度，正文因此落在正中。
     expect(declaration('.section-layout--reading', 'width'))
       .toContain('var(--reading) + (var(--index) + var(--index-gap)) * 2');
-    // 索引列固定成 --index 宽，右侧留一列等宽空白，正文因此落在视觉中心。
-    // 不能写成 minmax(var(--index), 1fr)：那样右栏会被撑开，正文随之右偏。
+    // 右侧索引列固定为 --index，左侧余白随可用宽度收缩。
     expect(declaration('.section-layout--reading', 'grid-template-columns'))
-      .toBe('minmax(0, var(--index)) minmax(0, var(--reading)) minmax(0, 1fr)');
+      .toBe('minmax(0, 1fr) minmax(0, var(--reading)) minmax(0, var(--index))');
+    expect(declaration('.section-layout--reading', 'grid-template-areas')).toContain('". content toc"');
     expect(declaration('.section-layout--indexed', 'grid-template-areas', '@media (max-width: 860px)')).toContain('"intro"');
     expect(declaration('.section-layout--indexed', 'display', '@media (max-width: 600px)')).toBe('block');
     expect(declaration('.section-layout--indexed .section-layout__toc', 'position', '@media (max-width: 600px)')).toBe('sticky');
@@ -1242,7 +1242,7 @@ describe('public navigation', () => {
     const homepage = readFileSync(path.join(process.cwd(), 'dist', 'index.html'), 'utf8');
     const nav = homepage.match(/<nav class="site-header__nav"[\s\S]*?<\/nav>/)![0];
     expect(site.navigation.map(({ href }) => href))
-      .toEqual(['/archive/', '/glossary/', '/research/', '/group/', '/books/']);
+      .toEqual(['/archive/', '/books/', '/glossary/', '/research/', '/group/']);
     expect([...nav.matchAll(/href="([^"]+)"/g)].map(([, href]) => href))
       .toEqual([...site.navigation.map(({ href }) => href), site.forumUrl]);
     expect(nav).not.toContain('href="/updates/"');
@@ -1630,10 +1630,11 @@ describe('book channel', () => {
     expect(declaration('.container.book-page', 'max-width', desktop)).toBe('none');
     expect(declaration('.container.book-page', 'display', desktop)).toBe('grid');
     expect(declaration('.container.book-page', '--index', desktop)).toBe('160px');
-    expect(declaration('.container.book-page', '--index-gap', desktop)).toBe('32px');
+    expect(declaration('.container.book-page', '--index-gap', desktop)).toBe('56px');
     expect(declaration('.container.book-page', 'grid-template-columns', desktop)).toBe('minmax(0, 1fr) minmax(0, var(--reading)) minmax(0, 1fr)');
     expect(declaration('.container.book-page', 'max-width')).toBe('var(--reading)');
     expect(declaration('.book-page .section-layout__sidebar', 'display', desktop)).toBe('block');
+    expect(declaration('.book-page .section-layout__sidebar', 'grid-column', desktop)).toBe('3');
     expect(declaration('.section-layout--pinned .section-layout__sidebar', 'position')).toBe('sticky');
     expect(declaration('.book-page .section-layout__content', 'grid-column', desktop)).toBe('2');
     expect(declaration('.book-edition-index', 'font-size')).toBe('.75rem');

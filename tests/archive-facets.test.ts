@@ -42,10 +42,10 @@ describe('archive facets', () => {
     // 分类是辅助入口，采用栏目页共用的窄索引（centered-rail）；正文仍沿用相同的居中几何。
     expect(declaration('.centered-rail', '--index', desktop)).toBe('160px');
     expect(declaration('.centered-rail', '--index-gap', desktop)).toBe('32px');
-    for (const property of ['width', 'grid-template-columns']) {
-      expect(declaration('.centered-rail', property, desktop), property)
-        .toBe(declaration('.section-layout--reading', property));
-    }
+    expect(declaration('.centered-rail', 'width', desktop))
+      .toBe(declaration('.section-layout--reading', 'width'));
+    expect(declaration('.centered-rail', 'grid-template-columns', desktop))
+      .toBe('minmax(0, var(--index)) minmax(0, var(--reading)) minmax(0, 1fr)');
     expect(declaration('.centered-rail', 'column-gap', desktop)).toBe('var(--index-gap)');
     expect(declaration('.centered-rail .section-layout__content', 'grid-column', desktop)).toBe('2');
     for (const selector of ['.centered-rail .section-layout__aside', '.archive-index-page .archive-facets']) {
@@ -150,7 +150,7 @@ describe('archive facets', () => {
     expect(rail).toContain('aria-label="相关人物"');
     expect(rail).not.toContain('按分类浏览');
     expect(declaration('.archive-facets__term', 'display')).toBe('block');
-    expect(declaration('.archive-facets__term[aria-current=page]', 'color')).toBe('var(--ink-soft)');
+    expect(declaration('.archive-facets__term[aria-current=page]', 'color')).toBe('var(--accent)');
   });
 
   it('shows classification names without counts in the auxiliary rail', async () => {

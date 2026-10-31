@@ -200,10 +200,10 @@ describe('IFI public detail and research entry', () => {
   it('keeps both pages static and preserves the primary navigation entries', () => {
     const expected = [
       { href: '/archive/', label: '档案' },
+      { href: '/books/', label: '书籍' },
       { href: '/glossary/', label: '术语库' },
       { href: '/research/', label: '研究' },
       { href: '/group/', label: '小组' },
-      { href: '/books/', label: '书籍' },
     ];
     expect(site.navigation).toEqual(expected);
     for (const route of ['/research', '/research/ifi']) {

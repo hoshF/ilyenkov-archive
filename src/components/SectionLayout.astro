@@ -35,7 +35,7 @@ const hasRail = indexed || Astro.slots.has('aside');
 ]}>
   {/*
     源码顺序是内容在前、索引栏在后：窄屏堆叠时正文（含搜索与列表）先出现，键盘与读屏的
-    顺序也和视觉一致。桌面不靠源码顺序，由 .section-layout--rail 的显式列位把索引栏放回左侧。
+    顺序也和视觉一致。桌面由布局变体决定侧栏位置：阅读目录和书籍版次在右，档案分类在左。
   */}
   <div class="section-layout__content">
     {/*

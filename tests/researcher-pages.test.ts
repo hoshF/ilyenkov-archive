@@ -189,8 +189,9 @@ describe('canonical researcher detail and research hub entry', () => {
   it('preserves primary navigation, static rendering and the private publication boundary', () => {
     const expected = [
       { href: '/archive/', label: '档案' },
+      { href: '/books/', label: '书籍' },
       { href: '/glossary/', label: '术语库' },
-      { href: '/research/', label: '研究' }, { href: '/group/', label: '小组' }, { href: '/books/', label: '书籍' },
+      { href: '/research/', label: '研究' }, { href: '/group/', label: '小组' },
     ];
     expect(site.navigation).toEqual(expected);
     for (const href of ['/research/', route]) {
