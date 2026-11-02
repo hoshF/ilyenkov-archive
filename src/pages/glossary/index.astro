@@ -54,8 +54,10 @@ const searchData = JSON.stringify(searchEntries)
         </div>
       </form>
       <noscript><p>搜索与筛选需要启用 JavaScript；仍可浏览下方全部词条。</p></noscript>
-      <p><a href="/glossary.json" download>下载公开术语 JSON</a></p>
-      <p class="glossary-status" role="status" aria-live="polite">共 {entries.length} 个词条</p>
+      <div class="glossary-toolbar">
+        <p class="glossary-status" role="status" aria-live="polite">共 {entries.length} 个词条</p>
+        <a href="/glossary.json" download>下载公开术语 JSON</a>
+      </div>
       <p data-glossary-empty hidden={entries.length > 0}>
         {entries.length > 0 ? '没有找到匹配的术语，请调整关键词或筛选条件。' : '暂无公开的术语。'}
       </p>
@@ -64,7 +66,7 @@ const searchData = JSON.stringify(searchEntries)
           <li id={entry.route.split('#')[1]} data-glossary-entry={entry.route}>
             <article class="glossary-row">
               <div>
-                <h2><a href={entry.route}>{entry.zh_preferred}</a></h2>
+                <h2>{entry.zh_preferred}</h2>
                 {entry.zh_alternatives.length > 0 && <p class="glossary-row__secondary">异译：{entry.zh_alternatives.join('；')}</p>}
                 <p class="glossary-list__context"><span>{entry.categoryLabel}</span>{entry.category === 'concepts' && <span>{entry.collectionLabel}</span>}{entry.category === 'names' && entry.type && <span>{NAME_TYPE_LABELS[entry.type]}</span>}</p>
               </div>
@@ -180,11 +182,11 @@ const searchData = JSON.stringify(searchEntries)
   .glossary-row > div { min-width: 0; overflow-wrap: anywhere; }
   .glossary-row p { margin: 0; }
   .glossary-row .glossary-row__secondary, .glossary-row .glossary-list__context { margin-top: 8px; }
-  .glossary-row__secondary { color: var(--ink-soft); font-size: var(--text-meta); }
-  .glossary-row__notes { white-space: pre-wrap; }
+  .glossary-row__secondary { color: var(--muted); font-size: var(--text-meta); }
+  .glossary-row__notes { color: var(--ink-soft); font-size: var(--text-body); white-space: pre-wrap; }
   @media (max-width: 700px) { .glossary-row { grid-template-columns: minmax(0, 1fr); gap: 10px; } }
   .glossary-index [hidden] { display: none; }
-  .glossary-search { margin-bottom: 24px; }
+  .glossary-search { margin-bottom: 16px; }
   .glossary-search label { display: block; margin-bottom: 8px; font-size: var(--text-meta); color: var(--ink-soft); }
   .glossary-search__query { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 8px; }
   .glossary-search input, .glossary-search select, .glossary-search button {
@@ -197,17 +199,16 @@ const searchData = JSON.stringify(searchEntries)
   .glossary-search input:focus-visible, .glossary-search select:focus-visible, .glossary-search button:focus-visible {
     outline: 2px solid var(--accent); outline-offset: 2px;
   }
-  .glossary-search__filter-panel { margin-top: 12px; }
+  .glossary-search__filter-panel { margin-top: 8px; }
   .glossary-search__filter-panel summary { min-height: 44px; padding: 12px 0; color: var(--accent); font-size: var(--text-meta); cursor: pointer; overflow-wrap: anywhere; }
   .glossary-search__filter-panel summary:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
   .glossary-search__filters { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)) auto; align-items: end; gap: 12px; margin-top: 8px; }
-  .glossary-status { margin: 0 0 12px; color: var(--muted); font-size: var(--text-meta); }
+  .glossary-toolbar { display: flex; flex-wrap: wrap; align-items: baseline; gap: 4px 20px; margin-bottom: 8px; font-size: var(--text-meta); }
+  .glossary-status { margin: 0; color: var(--muted); }
   .glossary-list { margin: 0; padding: 0; list-style: none; }
   .glossary-list li { padding: 20px 0; border-bottom: 1px solid var(--line); overflow-wrap: anywhere; }
-  .glossary-list h2 { margin: 0; font-size: var(--text-item); line-height: 1.5; }
-  .glossary-list h2 a { text-decoration: none; }
-  .glossary-list h2 a:hover { text-decoration: underline; }
-  .glossary-list__original { margin: 6px 0 0; color: var(--ink-soft); font-size: var(--text-body); line-height: 1.6; }
+  .glossary-list h2 { margin: 0; color: var(--accent); font-size: var(--text-item); line-height: 1.5; }
+  .glossary-list__original { margin: 6px 0 0; color: var(--ink-strong); font-size: var(--text-body); line-height: 1.6; }
   .glossary-list__context { display: flex; flex-wrap: wrap; gap: 4px 16px; margin: 10px 0 0; color: var(--muted); font-size: var(--text-meta); line-height: 1.6; }
   @media (max-width: 600px) {
     .glossary-search__filters { grid-template-columns: minmax(0, 1fr); }
