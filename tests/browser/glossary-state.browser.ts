@@ -18,7 +18,7 @@ const test = browserTest.extend({
 
 const query = (page: Page) => page.getByRole('searchbox', { name: '搜索术语', exact: true });
 const select = (page: Page, name: string) => page.getByRole('combobox', { name, exact: true });
-const route = (collection: string, id: string) => `/glossary/${collection}/${id}/`;
+const route = (collection: string, id: string) => `/glossary/#term/${collection}/${id}/`;
 const shared = ['fixture-alpha', 'fixture-beta', 'terms'].map(collection => route(collection, 'shared'));
 
 async function open(page: Page, search = '') {
@@ -162,5 +162,4 @@ test('shows no-results feedback, clears only the keyword and fully resets filter
   await expectState(page, {}, [...shared, route('fixture-alpha', 'action'), route('glossary', 'person'), route('glossary', 'work')], false);
   expect(await select(page, '作者').isEnabled()).toBe(true);
   expect(await select(page, '名称类型').isEnabled()).toBe(true);
-  expect(await page.locator('[data-glossary-filter-summary]').textContent()).toBe('筛选类别、作者与名称类型');
 });

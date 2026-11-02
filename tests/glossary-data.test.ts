@@ -177,7 +177,7 @@ describe('public glossary data reader', () => {
     for (const source of [term, concept, name]) {
       const entry = entries.find((candidate) => candidate.collection === source.collection);
       expect(entry).toMatchObject(source);
-      expect(entry?.route).toBe(`/glossary/${source.collection}/${source.id}/`);
+      expect(entry?.route).toBe(`/glossary/#term/${source.collection}/${source.id}/`);
       expect(entry?.collectionLabel.trim().length).toBeGreaterThan(0);
     }
     expect(entries.find((entry) => entry.collection === 'terms')).toMatchObject({

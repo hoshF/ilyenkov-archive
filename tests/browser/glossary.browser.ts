@@ -49,3 +49,19 @@ test('restores the glossary query, category and results after refresh', async ({
   expect(await page.getByRole('combobox', { name: '类别', exact: true }).inputValue()).toBe(category);
   await expect.poll(() => visibleRoutes(page)).toEqual(expected);
 });
+
+
+test('renders complete entries without horizontal overflow on mobile', async ({ page }) => {
+  await page.setViewportSize({ width: 375, height: 812 });
+  await page.goto('/glossary/');
+  await page.getByRole('searchbox', { name: '搜索术语' }).waitFor();
+  expect(await page.evaluate(() => document.documentElement.scrollWidth <= window.innerWidth)).toBe(true);
+  const rows = page.locator('.glossary-row');
+  expect(await rows.count()).toBeGreaterThan(0);
+  const columns = await rows.first().evaluate(el => getComputedStyle(el).gridTemplateColumns.split(' ').length);
+  expect(columns).toBe(1);
+  const entries = await readEntries(page);
+  const withNotes = entries.find(e => e.notes.length > 15)!;
+  await page.getByRole('searchbox', { name: '搜索术语' }).fill(withNotes.notes.slice(0, 12));
+  await expect.poll(() => visibleRoutes(page)).toContain(withNotes.route);
+});

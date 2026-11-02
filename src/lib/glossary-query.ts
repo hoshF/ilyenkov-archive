@@ -40,7 +40,7 @@ export type GlossaryEntry = GeneratedGlossaryEntry & {
 
 export type GlossarySearchEntry = Pick<GlossaryEntry,
   'collection' | 'id' | 'canonical' | 'forms' | 'zh_preferred' | 'zh_alternatives'
-  | 'category' | 'type' | 'route'
+  | 'category' | 'type' | 'route' | 'notes'
 >;
 
 export function toGlossaryEntry(record: GeneratedGlossaryEntry): GlossaryEntry {
@@ -57,7 +57,7 @@ export function toGlossaryEntry(record: GeneratedGlossaryEntry): GlossaryEntry {
         ? GLOSSARY_AUTHOR_LABELS[record.collection]!
         : record.collection)
       : GLOSSARY_CATEGORY_LABELS[category],
-    route: `/glossary/${record.collection}/${record.id}/`,
+    route: `/glossary/#term/${record.collection}/${record.id}/`,
   };
 }
 
@@ -98,7 +98,9 @@ function entryMatchRank(entry: GlossarySearchEntry, query: string): number {
     ...entry.zh_alternatives.map((value) => fieldMatchRank(value, query)),
     ...entry.forms.map((value) => fieldMatchRank(value, query)),
   );
-  return otherRank + 3;
+  if (Number.isFinite(otherRank)) return otherRank + 3;
+  const notesRank = fieldMatchRank(entry.notes, query);
+  return notesRank + 6;
 }
 
 export function searchGlossary<Entry extends GlossarySearchEntry>(

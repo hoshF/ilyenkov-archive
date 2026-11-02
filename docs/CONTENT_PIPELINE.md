@@ -194,17 +194,17 @@ private glossary 源表 + web/publication.json 的 glossary 选择
 .website-input/glossary.json
   │  glossary-record.mjs 校验 → glossary.ts 读取 → glossary-query.ts 派生
   ▼
-/glossary/ 列表与浏览器查询 + /glossary/<collection>/<id>/ 静态详情
+/glossary/ 完整词条与浏览器查询 + /glossary.json 公开数据
 ```
 
 `getGlossary()` 只读取生成输入，按中文主译、原词、表标识、词条 ID 保持稳定次序。
 `collection = glossary` 派生为专名与体制词，`terms` 为通用学科术语，其他表为作者理论概念。
-分类与作者标签、名称类型标签、详情路由和筛选项由 public 派生，不保存到 private 词条或生成输入。
+分类与作者标签、名称类型标签、词条锚点和筛选项由 public 派生，不保存到 private 词条或生成输入。
 
 浏览器按类别、作者与名称类型筛选；搜索先匹配 `zh_preferred` 与 `canonical`，再匹配
-`zh_alternatives` 与 `forms`。同一层内按完整匹配、前缀匹配、包含匹配排列，同等级沿用规范次序。
-`notes` 不参与搜索，其原文不纳入列表页的浏览器查询数据，只在详情页按普通文字渲染，
-不自动解析参见或建立词条关系。查询与筛选保存在列表 URL 中；从列表打开详情后，返回链接保留查询条件。
+`zh_alternatives` 与 `forms`，最后匹配 `notes`。同一层内按完整匹配、前缀匹配、包含匹配排列，同等级沿用规范次序。
+`notes` 按普通文字渲染，不自动解析参见或建立词条关系。查询与筛选保存在 URL 中；
+词条锚点由表标识和 ID 构成。公开 JSON 使用同一份已校验的生成输入。
 
 空选择、撤回及失败清理规则见[术语库的公开字段](PUBLICATION.md#术语库的公开字段)。
 维护时修改 private 原表与发布选择，再执行本文的同步及验证命令。

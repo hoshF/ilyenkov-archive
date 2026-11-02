@@ -46,7 +46,7 @@ describe('public glossary presentation', () => {
       category,
       categoryLabel,
       collectionLabel,
-      route: `/glossary/${collection}/ideal/`,
+      route: `/glossary/#term/${collection}/ideal/`,
     });
   });
 
@@ -59,7 +59,7 @@ describe('public glossary presentation', () => {
     expect(searchGlossary(concepts, { query: 'идеальное' })).toHaveLength(2);
     expect(new Set(concepts.map(({ route }) => route)).size).toBe(2);
     expect(concepts.map(({ route }) => route)).toEqual([
-      '/glossary/hegel/ideal/', '/glossary/spinoza/ideal/',
+      '/glossary/#term/hegel/ideal/', '/glossary/#term/spinoza/ideal/',
     ]);
   });
 });
@@ -148,7 +148,7 @@ describe('public glossary search', () => {
     expect(searchGlossary(input, { query }).map(({ id }) => id)).toEqual(['first', 'second']);
   });
 
-  it('does not search explanations, identities, collection labels, categories or type labels', () => {
+  it('searches notes but not identities, collection labels, categories or type labels', () => {
     const input = [entry({
       id: 'hidden-id',
       notes: 'explanation-only-sentinel',
@@ -157,7 +157,8 @@ describe('public glossary search', () => {
       collection: 'glossary',
       type: 'person',
     })];
-    for (const query of ['hidden-id', 'explanation-only-sentinel', 'glossary', '专名与体制词', '人名']) {
+    expect(searchGlossary(input, { query: 'explanation-only-sentinel' })).toHaveLength(1);
+    for (const query of ['hidden-id', 'glossary', '专名与体制词', '人名']) {
       expect(searchGlossary(input, { query })).toEqual([]);
     }
     expect(searchGlossary([entry()], { query: '伊里因科夫' })).toEqual([]);

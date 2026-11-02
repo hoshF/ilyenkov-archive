@@ -2,19 +2,20 @@
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import SectionLayout from '../../components/SectionLayout.astro';
 import { getGlossary } from '../../lib/glossary';
+import { glossaryTermNode } from '../../lib/glossary-structured';
 import { getGlossaryFacets, NAME_TYPE_LABELS, type GlossarySearchEntry } from '../../lib/glossary-query';
 
 const entries = getGlossary();
 const facets = getGlossaryFacets(entries);
 // 浏览器只接收搜索、排序与筛选所需字段。
 const searchEntries: GlossarySearchEntry[] = entries.map(({
-  collection, id, canonical, forms, zh_preferred, zh_alternatives, category, type, route,
-}) => ({ collection, id, canonical, forms, zh_preferred, zh_alternatives, category, type, route }));
+  collection, id, canonical, forms, zh_preferred, zh_alternatives, category, type, route, notes,
+}) => ({ collection, id, canonical, forms, zh_preferred, zh_alternatives, category, type, route, notes }));
 const searchData = JSON.stringify(searchEntries)
   .replaceAll('<', '\\u003c');
 ---
 
-<BaseLayout title="术语库" description="查询中文译名、外文原词、词形与用法说明，可按类别、作者和名称类型筛选。">
+<BaseLayout jsonLd={entries.map((entry) => glossaryTermNode(new URL('/glossary/', Astro.site), entry))} title="术语库" description="查询中文译名、外文原词、词形与用法说明，可按类别、作者和名称类型筛选。">
   <SectionLayout modifier="section-index glossary-index-page">
     <h1 class="visually-hidden">术语库</h1>
 
@@ -22,11 +23,10 @@ const searchData = JSON.stringify(searchEntries)
       <form class="glossary-search" role="search" hidden>
         <label for="glossary-query">搜索术语</label>
         <div class="glossary-search__query">
-          <input id="glossary-query" name="q" type="search" placeholder="中文译名、外文原词或词形" autocomplete="off" />
+          <input id="glossary-query" name="q" type="search" placeholder="译名、原词、词形或说明" autocomplete="off" />
           <button type="submit">搜索</button>
         </div>
-        <details class="glossary-search__filter-panel">
-          <summary><span data-glossary-filter-summary>筛选类别、作者与名称类型</span></summary>
+        <div class="glossary-search__filter-panel">
           <div class="glossary-search__filters">
           <div>
             <label for="glossary-category">类别</label>
@@ -51,24 +51,25 @@ const searchData = JSON.stringify(searchEntries)
           </div>
           <button type="reset">重置</button>
           </div>
-        </details>
+        </div>
       </form>
-      <noscript><p>搜索与筛选需要启用 JavaScript；仍可浏览下方词条并打开详情。</p></noscript>
+      <noscript><p>搜索与筛选需要启用 JavaScript；仍可浏览下方全部词条。</p></noscript>
+      <p><a href="/glossary.json" download>下载公开术语 JSON</a></p>
       <p class="glossary-status" role="status" aria-live="polite">共 {entries.length} 个词条</p>
       <p data-glossary-empty hidden={entries.length > 0}>
         {entries.length > 0 ? '没有找到匹配的术语，请调整关键词或筛选条件。' : '暂无公开的术语。'}
       </p>
       <ul class="glossary-list" role="list" data-glossary-list>
         {entries.map((entry) => (
-          <li data-glossary-entry={entry.route}>
-            <article>
-              <h2><a href={entry.route}>{entry.zh_preferred}</a></h2>
-              <p class="glossary-list__original"><bdi dir="auto">{entry.canonical}</bdi></p>
-              <p class="glossary-list__context">
-                <span>{entry.categoryLabel}</span>
-                {entry.category === 'concepts' && <span>{entry.collectionLabel}</span>}
-                {entry.category === 'names' && entry.type && <span>{NAME_TYPE_LABELS[entry.type]}</span>}
-              </p>
+          <li id={entry.route.split('#')[1]} data-glossary-entry={entry.route}>
+            <article class="glossary-row">
+              <div>
+                <h2><a href={entry.route}>{entry.zh_preferred}</a></h2>
+                {entry.zh_alternatives.length > 0 && <p class="glossary-row__secondary">异译：{entry.zh_alternatives.join('；')}</p>}
+                <p class="glossary-list__context"><span>{entry.categoryLabel}</span>{entry.category === 'concepts' && <span>{entry.collectionLabel}</span>}{entry.category === 'names' && entry.type && <span>{NAME_TYPE_LABELS[entry.type]}</span>}</p>
+              </div>
+              <div><p class="glossary-list__original"><bdi dir="auto">{entry.canonical}</bdi></p>{entry.forms.length > 0 && <p class="glossary-row__secondary">词形：{entry.forms.map((form, index) => <><bdi dir="auto">{form}</bdi>{index < entry.forms.length - 1 && '；'}</>)}</p>}</div>
+              <div>{entry.notes && <p class="glossary-row__notes">{entry.notes}</p>}</div>
             </article>
           </li>
         ))}
@@ -88,8 +89,6 @@ const searchData = JSON.stringify(searchEntries)
     const category = form.querySelector<HTMLSelectElement>('[name="category"]')!;
     const collection = form.querySelector<HTMLSelectElement>('[name="collection"]')!;
     const type = form.querySelector<HTMLSelectElement>('[name="type"]')!;
-    const filterPanel = form.querySelector<HTMLDetailsElement>('details')!;
-    const filterSummary = form.querySelector<HTMLElement>('[data-glossary-filter-summary]')!;
     const status = root.querySelector<HTMLElement>('[role="status"]')!;
     const empty = root.querySelector<HTMLElement>('[data-glossary-empty]')!;
     const list = root.querySelector<HTMLUListElement>('[data-glossary-list]')!;
@@ -112,6 +111,9 @@ const searchData = JSON.stringify(searchEntries)
         collection: collection.value || undefined,
         type: (type.value || undefined) as GlossaryNameType | undefined,
       });
+      const hashRoute = `/glossary/${window.location.hash}`;
+      const anchored = entries.find((entry) => entry.route === hashRoute);
+      if (!saveLocation && anchored && !results.includes(anchored)) results.push(anchored);
       const visible = new Set(results.map((entry) => entry.route));
       for (const [route, item] of items) item.hidden = !visible.has(route);
       const fragment = document.createDocumentFragment();
@@ -120,11 +122,6 @@ const searchData = JSON.stringify(searchEntries)
       empty.hidden = results.length > 0;
       const active = query.value.trim() || category.value || collection.value || type.value;
       status.textContent = `${active ? '找到' : '共'} ${results.length} 个词条`;
-      const selected = [category, collection, type]
-        .filter((control) => control.value)
-        .map((control) => control.selectedOptions[0]!.textContent);
-      filterSummary.textContent = selected.length > 0
-        ? `筛选：${selected.join(' · ')}` : '筛选类别、作者与名称类型';
       if (saveLocation) {
         const url = new URL(window.location.href);
         for (const control of [query, category, collection, type]) {
@@ -172,12 +169,20 @@ const searchData = JSON.stringify(searchEntries)
     });
     window.addEventListener('popstate', readLocation);
     readLocation();
-    filterPanel.open = window.matchMedia('(min-width: 601px)').matches;
+    window.addEventListener('hashchange', () => update(false));
+    if (window.location.hash) document.getElementById(decodeURIComponent(window.location.hash.slice(1)))?.scrollIntoView();
     form.hidden = false;
   }
 </script>
 
 <style>
+  .glossary-row { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.15fr) minmax(0, 1.45fr); gap: 24px; }
+  .glossary-row > div { min-width: 0; overflow-wrap: anywhere; }
+  .glossary-row p { margin: 0; }
+  .glossary-row .glossary-row__secondary, .glossary-row .glossary-list__context { margin-top: 8px; }
+  .glossary-row__secondary { color: var(--ink-soft); font-size: var(--text-meta); }
+  .glossary-row__notes { white-space: pre-wrap; }
+  @media (max-width: 700px) { .glossary-row { grid-template-columns: minmax(0, 1fr); gap: 10px; } }
   .glossary-index [hidden] { display: none; }
   .glossary-search { margin-bottom: 24px; }
   .glossary-search label { display: block; margin-bottom: 8px; font-size: var(--text-meta); color: var(--ink-soft); }
