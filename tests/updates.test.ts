@@ -10,6 +10,7 @@ import {
   UpdatesSchema,
   type Update,
 } from '../src/lib/updates';
+import { withoutStructuredData } from './helpers/pages';
 
 const builtPage = (route: string): string => readFileSync(
   path.join(process.cwd(), 'dist', route.replace(/^\//, ''), 'index.html'),
@@ -115,7 +116,7 @@ describe('public updates', () => {
     expect(complete).toContain('<h1 class="page-title">近期动态</h1>');
     expect(home).toContain('href="/updates/">查看全部动态</a>');
     for (const html of [home, complete]) {
-      expect(html).not.toContain('<script');
+      expect(withoutStructuredData(html)).not.toContain('<script');
     }
   });
 

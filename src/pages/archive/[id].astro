@@ -5,6 +5,7 @@ import ReadingTocBehavior from '../../components/ReadingTocBehavior.astro';
 import PageOutline from '../../components/PageOutline.astro';
 import { READING_OUTLINE_MINIMUM, readingToc } from '../../lib/reading-toc';
 import { getSiteData, type ReadableDocument } from '../../lib/site-data';
+import { articleNode } from '../../lib/structured-data';
 import { articleDiscussions, type ArticleDiscussion } from '../../lib/discussions';
 
 export async function getStaticPaths() {
@@ -52,10 +53,16 @@ const toc = readingToc(document.headings, document.html, {
 });
 ---
 
-<BaseLayout title={document.title} description={description} socialType="article" reading>
+<BaseLayout
+  title={document.title}
+  description={description}
+  socialType="article"
+  reading
+  jsonLd={articleNode(Astro.url, document)}
+>
   <SectionLayout toc={toc} reading>
     <header data-pagefind-body class="document-header" slot="intro">
-      <p class="record__meta">{document.year} · {document.authorLabel}</p>
+      <p class="record__meta"><time datetime={document.year}>{document.year}</time> · {document.authorLabel}</p>
       <h1 data-pagefind-meta={`title:${document.title}`} data-pagefind-weight="5" id="document-title" set:html={document.titleHtml} />
       <p class="document-header__original">{document.originalTitle}</p>
     </header>

@@ -9,7 +9,7 @@ import {
   getPublicReadingsSeries,
   type PublicReadingsSeries,
 } from '../src/lib/research-records';
-import { builtRoutePath, routeExists, withoutHiddenDecoration } from './helpers/pages';
+import { builtRoutePath, routeExists, withoutHiddenDecoration, withoutStructuredData } from './helpers/pages';
 
 const builtPage = (route: string): string => readFileSync(builtRoutePath(route), 'utf8');
 const mainContent = (html: string): string => html.match(/<main>([\s\S]*?)<\/main>/)![1];
@@ -170,7 +170,7 @@ describe('Readings public series detail and research entry', () => {
       // 站内栏目之后是论坛入口“讨论”；它不参与当前栏目标记。
       expect(links(withoutHiddenDecoration(nav))).toEqual([...expected, { href: site.forumUrl, label: '讨论' }]);
       expect(nav).toContain('href="/research/" aria-current="page"');
-      expect(html).not.toMatch(/<script\b|<astro-island\b|<style\b|\sstyle="/);
+      expect(withoutStructuredData(html)).not.toMatch(/<script\b|<astro-island\b|<style\b|\sstyle="/);
       for (const restricted of [
         'positioning_ru', 'memorial_background_ru', 'continuity_summary_ru',
         'record_directory', 'local_directory', 'source_files', 'internal_notes',

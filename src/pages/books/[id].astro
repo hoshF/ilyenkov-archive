@@ -3,6 +3,7 @@ import BaseLayout from '../../layouts/BaseLayout.astro';
 import Breadcrumbs from '../../components/Breadcrumbs.astro';
 import SectionLayout from '../../components/SectionLayout.astro';
 import { getBooks, type Book } from '../../lib/books';
+import { bookNode } from '../../lib/structured-data';
 
 export async function getStaticPaths() {
   const books = await getBooks();
@@ -17,7 +18,11 @@ const { book } = Astro.props;
 const editions = [...book.editions].reverse();
 ---
 
-<BaseLayout title={book.title} description={`《${book.title}》的出版身份、版次记录与译者引言。`}>
+<BaseLayout
+  title={book.title}
+  description={`《${book.title}》的出版身份、版次记录与译者引言。`}
+  jsonLd={bookNode(Astro.url, book)}
+>
   <SectionLayout pinned modifier="book-page">
     <aside class="book-edition-index" slot="aside" aria-labelledby="book-edition-index-heading">
       <p class="book-edition-index__heading" id="book-edition-index-heading">版次记录</p>

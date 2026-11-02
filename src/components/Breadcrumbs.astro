@@ -1,4 +1,6 @@
 ---
+import { serializeJsonLd } from '../lib/structured-data';
+
 export interface BreadcrumbItem {
   label: string;
   href?: string;
@@ -9,6 +11,25 @@ interface Props {
 }
 
 const { items } = Astro.props;
+if (!Astro.site) throw new Error('A production site URL is required');
+const currentUrl = new URL(Astro.url.pathname, Astro.site);
+// 末项是当前页，没有 href 时用当前地址补全：面包屑结构化数据要求每个条目都有 item。
+const structuredItems = [
+  { label: '首页', href: '/' as string | undefined },
+  ...items.map((item, index) => ({
+    label: item.label,
+    href: item.href ?? (index === items.length - 1 ? currentUrl.href : undefined),
+  })),
+];
+const breadcrumbJsonLd = serializeJsonLd([{
+  '@type': 'BreadcrumbList',
+  itemListElement: structuredItems.map((item, index) => ({
+    '@type': 'ListItem',
+    position: index + 1,
+    name: item.label,
+    item: item.href ? new URL(item.href, Astro.site).href : undefined,
+  })),
+}]);
 ---
 
 <nav class="breadcrumbs" aria-label="当前位置">
@@ -23,3 +44,4 @@ const { items } = Astro.props;
     ))}
   </ol>
 </nav>
+<script is:inline type="application/ld+json" set:html={breadcrumbJsonLd}></script>

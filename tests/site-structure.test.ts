@@ -15,7 +15,7 @@ import { site, readEditorialJson, SiteSchema } from '../src/lib/editorial';
 import { adjacentIssues, getGroupAnnouncement, getGroupIssues, GroupIssueSchema } from '../src/lib/group';
 import { getPublicIlyenkov, getPublicResearchers, getPublicIfiNetwork, getPublicReadingsSeries } from '../src/lib/research-records';
 import { getSiteData } from '../src/lib/site-data';
-import { builtRoutePath, componentSource, layoutSource, pageFileExists, pageSource, routeExists, withoutHiddenDecoration } from './helpers/pages';
+import { builtRoutePath, componentSource, layoutSource, pageFileExists, pageSource, routeExists, withoutHiddenDecoration, withoutStructuredData } from './helpers/pages';
 import { researchRoot, websiteWorks } from './helpers/publication';
 import { coversCodePoint, declaration, declarationsFor, fontFaces, hasRule, rules } from './helpers/styles';
 
@@ -103,7 +103,7 @@ describe('website-approved data adapter', () => {
     // 保留记录列表与分组容器，不引入卡片或脚本。
     expect(list).toContain('<ul class="record-list"');
     expect(list).toContain('class="archive-year"');
-    expect(list).not.toContain('<script');
+    expect(withoutStructuredData(list)).not.toContain('<script');
     expect(list).not.toContain('record__links');
     // 列表页只消费公开的文章身份，不认识 private 侧的字段。
     for (const forbidden of ['rights_status', 'source_text_status', 'source_path', 'orcid', 'udc']) {
@@ -112,7 +112,7 @@ describe('website-approved data adapter', () => {
 
     // 详情页只加同一行身份信息，不动 existing 阅读结构。
     const detail = pageSource('archive/[id].astro');
-    expect(detail).toContain('<p class="record__meta">{document.year} · {document.authorLabel}</p>');
+    expect(detail).toContain('<time datetime={document.year}>{document.year}</time> · {document.authorLabel}');
     expect(detail).toMatch(/<h1\b[^>]*id="document-title"[^>]*set:html=\{document.titleHtml\}/);
     expect(detail).toContain('class="document-header__original"');
     expect(detail).toMatch(/class="prose(?: [a-z-]+)*" set:html=\{document.html\}/);
@@ -1270,7 +1270,7 @@ describe('public navigation', () => {
   it('derives recent group work from public issues and shares its scope with Group', async () => {
     const section = readFileSync(builtRoutePath('/'), 'utf8').match(/<section class="home-group"[\s\S]*?<\/section>/)![0];
     expect(section).toContain(site.group.summary);
-    expect(readFileSync(builtRoutePath('/group'), 'utf8')).not.toContain(site.group.summary);
+    expect(withoutStructuredData(readFileSync(builtRoutePath('/group'), 'utf8'))).not.toContain(site.group.summary);
     const issues = [...await getGroupIssues()].sort((left, right) => (
       right.published.localeCompare(left.published) || right.issue - left.issue
     )).slice(0, 3);
@@ -1302,7 +1302,7 @@ describe('public navigation', () => {
     const group = readFileSync(builtRoutePath('/group'), 'utf8');
     expect(group).toContain(`<h1 class="group-heading__title">${site.group.name}</h1>`);
     expect(group).toContain(`<span>${site.group.originalName}</span> · <span>${site.group.englishName}</span>`);
-    const home = readFileSync(builtRoutePath('/'), 'utf8');
+    const home = withoutStructuredData(readFileSync(builtRoutePath('/'), 'utf8'));
     expect(home).toContain(`<h2 id="group-heading">${site.group.name}</h2>`);
     expect(home).not.toContain(site.group.originalName);
     expect(home).not.toContain(site.group.englishName);
@@ -1619,7 +1619,7 @@ describe('book channel', () => {
         expect(main, book.id).toContain(book.download.label);
       } else expect(main, book.id).toContain('本站不提供下载。');
       expect(main, book.id).not.toMatch(/<details\b|edition-popover/);
-      expect(html, book.id).not.toMatch(/<script\b/);
+      expect(withoutStructuredData(html), book.id).not.toMatch(/<script\b/);
     }
   });
 

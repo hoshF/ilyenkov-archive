@@ -1,6 +1,13 @@
 ---
 import '../styles/global.css';
 import { site } from '../lib/editorial';
+import {
+  organizationNode,
+  serializeJsonLd,
+  webPageNode,
+  websiteNode,
+  type JsonLdNode,
+} from '../lib/structured-data';
 
 interface Props {
   title: string;
@@ -9,24 +16,31 @@ interface Props {
   noindex?: boolean;
   /** 连续阅读的页面：手机上只留正文，站点标题栏让开。 */
   reading?: boolean;
-  jsonLd?: Record<string, unknown>[];
+  /** 页面实体（文章、术语、书籍、人物）；站点实体由布局统一补上。 */
+  jsonLd?: JsonLdNode | JsonLdNode[];
 }
 
 const {
   title,
   description = site.description,
   reading = false,
-  jsonLd,
   socialType = 'website',
   noindex = false,
+  jsonLd,
 } = Astro.props;
 const pageTitle = title === site.name ? title : `${title}｜${site.name}`;
 const currentPath = Astro.url.pathname;
 if (!Astro.site) throw new Error('A production site URL is required');
-const canonicalUrl = new URL(currentPath, Astro.site);
-const shareImage = new URL('/brand/share.png', Astro.site);
-const structuredData = jsonLd === undefined ? undefined : JSON.stringify({ '@context': 'https://schema.org', '@graph': jsonLd })
-  .replaceAll('<', '\\u003c').replaceAll('>', '\\u003e').replaceAll('&', '\\u0026');
+const siteUrl = Astro.site;
+const canonicalUrl = new URL(currentPath, siteUrl);
+const shareImage = new URL('/brand/share.png', siteUrl);
+const pageNodes = jsonLd === undefined ? [] : Array.isArray(jsonLd) ? jsonLd : [jsonLd];
+const structuredData = serializeJsonLd([
+  organizationNode(canonicalUrl),
+  websiteNode(canonicalUrl),
+  webPageNode(canonicalUrl, pageTitle, description),
+  ...pageNodes,
+]);
 const SiteNameElement = currentPath === '/' ? 'h1' : 'span';
 // 路由 href 一律带尾斜杠，因此栏目命中用前缀判断；文件类 href（如 /rss.xml）仍要求完全相等。
 const current = (href: string) => (
@@ -64,9 +78,9 @@ const current = (href: string) => (
     <meta name="theme-color" content="#202123" media="(prefers-color-scheme: dark)" />
     <link rel="icon" href="/favicon.svg?v=evi-2" type="image/svg+xml" sizes="any" />
     {!noindex && <link rel="describedby" type="text/plain" href={new URL('/llms.txt', Astro.site)} />}
+    {!noindex && <script is:inline type="application/ld+json" set:html={structuredData}></script>}
     <meta name="generator" content={Astro.generator} />
     <link rel="alternate" type="application/rss+xml" title={`${site.name} RSS`} href={new URL('/rss.xml', Astro.site)} />
-    {structuredData && <script is:inline type="application/ld+json" set:html={structuredData}></script>}
     <title>{pageTitle}</title>
   </head>
   <body class:list={[reading && 'reading-page']}>

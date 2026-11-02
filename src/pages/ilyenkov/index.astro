@@ -3,6 +3,7 @@ import { getPublicIlyenkov } from '../../lib/research-records';
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import SectionLayout from '../../components/SectionLayout.astro';
 import { ilyenkovPortrait } from '../../lib/portrait';
+import { personNode } from '../../lib/structured-data';
 
 const ilyenkov = getPublicIlyenkov();
 const entrances = ilyenkov.entrances.map((entrance) => ({ ...entrance, href: `/ilyenkov/${entrance.target}/` }));
@@ -17,7 +18,11 @@ const portrait = await ilyenkovPortrait(ilyenkov);
 const CardLink = wikipedia ? 'a' : 'div';
 ---
 
-<BaseLayout title={ilyenkov.identity} description={ilyenkov.description}>
+<BaseLayout
+  title={ilyenkov.identity}
+  description={ilyenkov.description}
+  jsonLd={personNode(Astro.url, ilyenkov, portrait)}
+>
   <SectionLayout pinned modifier="section-index">
     <div class="prose prose--section person-intro ilyenkov-intro">
       <div class="ilyenkov-opening">

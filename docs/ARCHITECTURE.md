@@ -122,6 +122,18 @@ RSS 的静态生成与订阅发现见[RSS 订阅](CONTENT_PIPELINE.md#rss-订阅
 （`prose-image--portrait`），统一宽度居中。图注用浅色小字居中，竖图图注不宽于图片；
 图片与注释的标记和转换规则见[译文转换](CONTENT_PIPELINE.md#译文转换)。
 
+## 结构化数据
+
+每个可索引页面在 `<head>` 输出一份 schema.org JSON-LD。站点实体由布局统一给出：`Organization` 为
+中文伊里因科夫小组，`WebSite` 为站点本身，页面实体 `WebPage` 指向 canonical 地址；页面再按内容类型
+补充译文（`ScholarlyArticle`，含原文题名、作者、原文发表年份与 `translationOfWork`）、术语
+（`DefinedTerm`）、书籍（`Book`）或人物（`Person`）。实体的 `@id` 一律用绝对地址，`publisher` 与
+`isPartOf` 以 `@id` 引用站点实体，单页被单独抓取时也能解析出发布者。
+
+结构化数据只读发布输入和页面既有字段，不新增编辑判断：原文年份归入原作，书籍不推定出版日期或责任者，
+术语说明取词条的“用法与译名说明”。有面包屑的页面在正文 `<nav>` 之后输出同序的 `BreadcrumbList`。
+`noindex` 页面不输出结构化数据。实现见 `src/lib/structured-data.ts`。
+
 ## 文件所有权
 
 | 位置 | 所有权与用途 |

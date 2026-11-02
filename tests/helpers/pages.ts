@@ -43,3 +43,11 @@ export function builtRoutePath(href: string): string {
 export function withoutHiddenDecoration(html: string): string {
   return html.replace(/<span\b[^>]*aria-hidden="true"[^>]*>[\s\S]*?<\/span>/g, '');
 }
+
+/**
+ * 去掉 schema.org JSON-LD：它是给搜索引擎和 AI 读的惰性数据，不是页面脚本。
+ * 断言“页面不含可执行脚本”的测试先经过这里，避免把结构化数据误判为行为。
+ */
+export function withoutStructuredData(html: string): string {
+  return html.replace(/<script\b[^>]*type="application\/ld\+json"[^>]*>[\s\S]*?<\/script>/g, '');
+}

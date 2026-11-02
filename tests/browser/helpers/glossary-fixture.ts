@@ -16,7 +16,7 @@ export async function buildGlossaryFixture() {
       'src/pages/glossary/index.astro', 'src/layouts/BaseLayout.astro',
       'src/components/SectionLayout.astro', 'src/styles/global.css',
       'src/lib/glossary.ts', 'src/lib/glossary-query.ts', 'src/lib/glossary-record.mjs',
-      'src/lib/cache.ts', 'src/lib/editorial.ts', 'src/lib/glossary-structured.ts',
+      'src/lib/cache.ts', 'src/lib/editorial.ts', 'src/lib/structured-data.ts', 'src/lib/glossary-structured.ts',
       'public/favicon.svg', 'public/favicon.ico', 'public/brand',
     ];
     for (const file of files) {

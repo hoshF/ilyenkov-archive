@@ -8,7 +8,7 @@ import {
 } from '../src/lib/research-records';
 import { getSiteData } from '../src/lib/site-data';
 import { researcherPortrait } from '../src/lib/portrait';
-import { builtRoutePath, routeExists, withoutHiddenDecoration } from './helpers/pages';
+import { builtRoutePath, routeExists, withoutHiddenDecoration, withoutStructuredData } from './helpers/pages';
 import { declaration } from './helpers/styles';
 
 const route = '/research/researchers/andrey-maidansky/';
@@ -200,7 +200,7 @@ describe('canonical researcher detail and research hub entry', () => {
       // 站内栏目之后是论坛入口“讨论”；它不参与当前栏目标记。
       expect(links(withoutHiddenDecoration(nav))).toEqual([...expected, { href: site.forumUrl, label: '讨论' }]);
       expect(nav).toContain('href="/research/" aria-current="page"');
-      expect(html).not.toMatch(/<script\b|<astro-island\b|<style\b|\sstyle="|<form\b|<input\b/);
+      expect(withoutStructuredData(html)).not.toMatch(/<script\b|<astro-island\b|<style\b|\sstyle="|<form\b|<input\b/);
       for (const field of [
         'aliases', 'positioning_ru', 'affiliation', 'works_master', 'record_path',
         'record_id', 'source_path', 'author_zh', 'author_original', 'include_roles',

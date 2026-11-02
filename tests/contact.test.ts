@@ -2,7 +2,7 @@ import { readFileSync, readdirSync } from 'node:fs';
 import path from 'node:path';
 import { describe, expect, it } from 'vitest';
 import { readEditorialJson, site } from '../src/lib/editorial';
-import { builtRoutePath, pageFileExists, routeExists, withoutHiddenDecoration } from './helpers/pages';
+import { builtRoutePath, pageFileExists, routeExists, withoutHiddenDecoration, withoutStructuredData } from './helpers/pages';
 
 const builtPage = (route: string): string => readFileSync(
   builtRoutePath(route),
@@ -56,7 +56,7 @@ describe('following and contacting the group', () => {
     for (const phrase of ['苏联哲学', '介绍', '兴趣', '正在进行的工作']) {
       expect(main, phrase).toContain(phrase);
     }
-    expect(html).not.toMatch(/<script\b|<form\b|<input\b|<astro-island\b/);
+    expect(withoutStructuredData(html)).not.toMatch(/<script\b|<form\b|<input\b|<astro-island\b/);
     expect(main).not.toMatch(/招募成员|加入我们|成为志愿者/);
   });
 
