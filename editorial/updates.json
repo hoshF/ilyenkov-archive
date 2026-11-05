@@ -1,5 +1,11 @@
 [
   {
+    "date": "2026-11-02",
+    "summary": "术语库支持按用法说明检索，并提供公开术语 JSON 下载。",
+    "link": "/glossary/",
+    "link_label": "浏览术语库"
+  },
+  {
     "date": "2026-10-24",
     "summary": "新增中文伊里因科夫论坛入口，可从主导航“讨论”及首页、小组页和联系页进入，参与阅读与研究讨论。",
     "link": "https://ilyenkov.discourse.group/",

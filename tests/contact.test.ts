@@ -45,17 +45,15 @@ describe('following and contacting the group', () => {
     expect([...main.matchAll(/<h1\b/g)]).toHaveLength(1);
     expect(main).toContain('关注与联系</h1>');
     expect([...main.matchAll(/<h2\b[^>]*>([^<]*)<\/h2>/g)].map(([, heading]) => heading))
-      .toEqual(['获取更新', '联系', '参与讨论', '参与研究与整理']);
+      .toEqual(['参与讨论', '联系与合作', '获取更新']);
     expect(links(main).some(({ href }) => href === '/updates/')).toBe(true);
     expect(links(main)).toContainEqual({ href: `mailto:${site.contact.email}`, label: site.contact.email });
 
     // 联系范围与长期参与意愿通过文字表达，不引入站内收集或订阅功能。
-    for (const topic of ['译文', '资料', '研究', '工作记录', '校订', '网站问题']) {
+    for (const topic of ['译文', '资料', '研究', '工作记录', '校订', '网站相关问题']) {
       expect(main, topic).toContain(topic);
     }
-    for (const phrase of ['苏联哲学', '介绍', '兴趣', '正在进行的工作']) {
-      expect(main, phrase).toContain(phrase);
-    }
+    expect(links(main)).toContainEqual({ href: '/rss.xml', label: 'RSS 订阅' });
     expect(withoutStructuredData(html)).not.toMatch(/<script\b|<form\b|<input\b|<astro-island\b/);
     expect(main).not.toMatch(/招募成员|加入我们|成为志愿者/);
   });
@@ -118,8 +116,8 @@ describe('following and contacting the group', () => {
 
   it('offers the forum as a channel for open discussion on the contact page', () => {
     const main = builtPage('/contact/').match(/<main>([\s\S]*?)<\/main>/)![1];
-    const discussion = main.slice(main.indexOf('<h2>参与讨论</h2>'), main.indexOf('<h2>参与研究与整理</h2>'));
-    expect(discussion).toContain(`<a href="${site.forumUrl}"><strong>进入讨论社区</strong></a>`);
-    expect(discussion).toContain('论坛中的讨论不必形成成熟的研究成果。');
+    const discussion = main.slice(main.indexOf('<h2>参与讨论</h2>'), main.indexOf('<h2>联系与合作</h2>'));
+    expect(discussion).toContain(`<a href="${site.forumUrl}">进入讨论区</a>`);
+    expect(discussion).toContain('欢迎所有感兴趣的读者参与讨论、提出问题和开展合作。');
   });
 });
